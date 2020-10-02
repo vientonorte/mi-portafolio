@@ -4,7 +4,7 @@ body {
 
 .jumbotron {
     color: white;
-    background-image: url("file:///Users/ro/Documents/GitHub/Portafolio/mi-portafolio/assets/img/hb.png");
+    background-image: url("../img/hb.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
