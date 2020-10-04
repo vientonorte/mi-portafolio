@@ -26,16 +26,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link text-warning" href="#">Inicio <span class="sr-only">(current)</span></a>
+                        <a class="nav-link text-warning" href="#Inicio">Inicio <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="#perfil">Perfil</a>
+                        <a class="nav-link text-warning" href="#Perfil">Perfil</a>
                     </li>
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Experiencias </a>
                         <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item text-warning" href="#">Diseño</a>
-                            <a class="dropdown-item text-warning" href="#">Investigación</a>
+                            <a class="dropdown-item text-warning" href="#Digitales">Digitales</a>
+                            <a class="dropdown-item text-warning" href="#">Sociales</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-warning" href="#">Publicaciones</a>
                         </div>
@@ -50,12 +50,16 @@
     <!-- fin del Nav -->
 
     <!--Hero Section-->
-    <section>
+    <section id="Inicio">
         <div class="jumbotron jumbotron-fluid mt-5">
             <div class="container bienvenida">
                 <p class="text-center text-warning">Benvenid@s y Gracias por venir.</p>
             </div>
         </div>
+    </section>
+    <!--fin Hero Section-->
+    <!--Mi perfil, no visible en Móvil, sacar opción después del desafío -->
+    <section>
         <div class="container-fluid p-5 d-none d-lg-block">
             <h3 class="text-center text-dark">Mi Perfil</h3>
             <div class="container text-dark">
@@ -73,15 +77,13 @@
             </div>
         </div>
     </section>
-
     <!--fin Hero Section-->
 
-    <!--Experiencias-->
-
-    <section>
+    <!--Perfil-->
+    <section id="Perfil">
         <div class="container-fluid p-5">
             <div class="container-fluid p-5  center">
-                <h2 class="text-center text-dark h1">Mi experiencia</h2>
+                <h2 class="text-center text-dark h1">Mis Experiencias</h2>
             </div>
             <div class="container text-dark">
                 <div class="row">
@@ -96,9 +98,12 @@
                 </div>
             </div>
         </div>
+    </section>
+    <!--  fin  Perfil-->
+    <section id="Digitales">
         <div class="container-fluid p-5 bg-dark">
             <div>
-                <h2 class="text-center p-5 text-warning h1">Recientes</h2>
+                <h2 class="text-center p-5 text-warning h1">Recientes Digitales</h2>
             </div>
             <div class="card-deck bg-transparent p-5">
                 <div class="card bg-dark">
@@ -128,7 +133,7 @@
             </div>
         </div>
     </section>
-    <!--fin Experiencias-->
+    <!--fin Digitales-->
     <!--Contacto-->
     <section>
 
