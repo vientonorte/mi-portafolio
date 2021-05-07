@@ -1,20 +1,29 @@
-body {
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.jumbotron {
-    color: white;
-    background-image: url("../img/hb.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-}
-
-.bienvenida {
-    margin-top: 40%;
-}
-
-.card {
-    border: none;
-}
+            body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .jumbotron {
+            color: white;
+            background-image: url("../img/fondo.mp4");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+        }
+        
+        .bienvenida {
+            margin-top: 40%;
+            .partner {
+                color: white;
+                background-color: blanchedalmond);
+                background-position: left;
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 100%;
+            }
+            .card {
+                border: none;
+            }
+            .card {
+                border: none;
+            }
