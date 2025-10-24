@@ -1,220 +1,523 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <!-- Google Fonts-->
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet" <!--Aweasome Fonts-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <!-- Mi estilo css-->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <!-- META -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rodrigo Gaete · UX Estratégico · CV + Portafolio</title>
+  <meta name="description" content="Lead UX en SURA Investments. Casos, CV y métodos con foco en gobernanza, capa visual normativa, seguridad y decisiones basadas en datos.">
+  <meta name="theme-color" content="#0c0f13">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="canonical" href="https://tu-dominio-o-github-pages">
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Rodrigo Gaete · UX Estratégico · CV + Portafolio">
+  <meta property="og:description" content="Estrategia digital, cumplimiento y métricas para Wealth Management.">
+  <meta property="og:image" content="assets/img/og-cover.jpg">
 
-    <title>Rodrigo Gaete · Portafolio</title>
+  <!-- CSS externos (mantener) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/sura-bundle.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Ajustes de homogeneidad: fondos, patrones y glass (añade sin romper tus estilos) -->
+  <style>
+    :root{
+      --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13; --night-2:#15181b; --mist:#e9ecef;
+    }
+    html{scroll-behavior:smooth}
+    body{padding-top:72px;font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 10% -10%, rgba(255,193,7,.06), transparent), radial-gradient(900px 500px at 120% 10%, rgba(108,117,125,.05), transparent), linear-gradient(#0c0f13,#0c0f13)}
+    [id]{scroll-margin-top:80px}
+
+    /* Patrones y fondos */
+    .section{padding:4rem 0}
+    .bg-gradient-dark{background:linear-gradient(180deg,#101418 0%, #0c0f13 100%)}
+    .bg-gradient-paper{background:linear-gradient(180deg,#ffffff 0%, #f6f7f9 100%)}
+    .pattern-dots{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px), radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size:24px 24px, 12px 12px; background-position:0 0, 6px 6px}
+    .pattern-grid{background-image:linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px); background-size:28px 28px}
+
+    /* Hero + glass + chip (coherente en todo el sitio) */
+    .hero{position:relative;min-height:88vh;display:flex;align-items:center;color:#fff}
+    .hero.has-img{background:url('assets/img/hero-sura.jpg') center/cover no-repeat}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25))}
+    .hero .wrap{position:relative;z-index:1}
+    .glass, .glass-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
+    .chip{display:inline-block;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.85rem}
+    .btn-brand{background:var(--brand);color:#212529;border-color:var(--brand)} .btn-brand:hover{filter:brightness(.95)}
+
+    /* Tarjetas y contenedores homogéneos */
+    .card-hero{background:#111315;border:1px solid #2a2d31;border-radius:.75rem;color:#e9ecef}
+    .shadow-quiet{box-shadow:0 12px 32px rgba(0,0,0,.12)}
+    .border-soft{border:1px solid #e9ecef}
+    .sticky-offset{top:92px}
+
+    /* Tabs coherentes en dark */
+    .tabs-dark .nav-link{color:#adb5bd}
+    .tabs-dark .nav-link.active{color:#fff;background:rgba(255,255,255,.08);border-color:transparent}
+  </style>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"Person","name":"Rodrigo Gaete Gaona","jobTitle":"Lead UX / Senior Analyst","email":"mailto:gaete.gaona@gmail.com","worksFor":{"@type":"Organization","name":"SURA Investments"},"knowsLanguage":["es","en"],"sameAs":["https://github.com/vientonorte","https://www.linkedin.com/in/rodrigoscrummaster"]},
+    {"@type":"ItemList","name":"Casos destacados","itemListElement":[
+      {"@type":"CreativeWork","name":"Estrategia “Gaona” · Separación AFP–SURA","url":"assets/docs/Dossier_Separacion_AFP_SURA.pdf"},
+      {"@type":"CreativeWork","name":"Estrategia Digital UX 2025 · Wealth Management","url":"assets/docs/Estrategia_Digital_UX_SURA_2025.pdf"},
+      {"@type":"CreativeWork","name":"CDF FFMM · SURA Pass","url":"assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf"}]}]}
+  </script>
 </head>
-
 <body>
-    <!-- Nav -->
-    <section>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 fixed-top">
-            <a class="navbar-brand text-warning text font-weight-bolder " href="#">· RODRIGO <span class="font-weight-lighter"> GAETE</span>  </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link text-warning" href="#Inicio">Inicio <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="#Perfil">Experiencias</a>
-                    </li>
-                    <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recientes </a>
-                        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item text-warning" href="#Digitales">Digitales</a>
-                            <a class="dropdown-item text-warning" href="#Sociales">Sociales</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-warning" target="blank" href="https://www.inkitt.com/entrecorchetes">Publicaciones</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="#Contacto" tabindex="-1" aria-disabled="true">Contacto</a>
-                    </li>
+<a class="sr-only sr-only-focusable" href="#contenido">Saltar al contenido</a>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="Principal">
+  <a class="navbar-brand text-warning font-weight-bolder" href="#Inicio">· RODRIGO <span class="font-weight-lighter">GAETE</span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div id="nav" class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item"><a class="nav-link text-warning" href="#Casos">Casos</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#CV">CV</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#Metodos">Métodos</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#KPIs">KPIs</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#Contacto">Contacto</a></li>
+      <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO unificado -->
+<header id="Inicio" class="hero has-img pattern-dots" role="banner" aria-label="Propuesta de valor">
+  <div class="container wrap">
+    <div class="col-xl-7 p-4 glass">
+      <span class="chip mb-2">UX estratégico · negocios regulados</span>
+      <h1 class="h2 font-weight-bolder mb-3">Experiencias seguras, trazables y medibles</h1>
+      <p class="lead mb-4">Gobernanza, capa visual normativa y datos para decisiones verificables en Wealth Management.</p>
+      <div class="d-flex flex-wrap">
+        <a class="btn btn-brand mr-2 mb-2" href="#Casos">Ver casos</a>
+        <a class="btn btn-outline-light mr-2 mb-2" href="landing-sura.html">Estrategia SURA</a>
+        <a class="btn btn-outline-light mb-2" href="#CV">Ver CV</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+  <!-- BLOQUE 1 · Casos (dark + glass) -->
+  <section id="Casos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Casos destacados">
+    <div class="container">
+      <div class="d-flex align-items-center mb-3">
+        <span class="chip mr-2">Casos</span>
+        <h2 class="h3 font-weight-bolder mb-0">Destacados</h2>
+      </div>
+
+      <article class="glass-card shadow-quiet p-4 mb-4" itemscope itemtype="https://schema.org/CreativeWork">
+        <div class="d-flex align-items-center mb-2">
+          <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
+          <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
+        </div>
+        <p class="small mb-2" itemprop="abstract">Desacople y réplica diferida con reglas de consentimiento. Capa visual normativa y gate pre-producción.</p>
+        <ul class="pl-3 mb-3">
+          <li>AS-IS/TO-BE y tableros de control</li>
+          <li>Evidencia auditable y menor riesgo normativo</li>
+        </ul>
+        <a class="btn btn-light btn-sm mr-2" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url">Ver dossier</a>
+        <a class="btn btn-outline-light btn-sm" href="landing-sura.html">Ver landing</a>
+      </article>
+
+      <div class="row">
+        <article class="col-md-6 mb-4">
+          <div class="glass-card shadow-quiet h-100 p-3">
+            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
+            <h3 class="h5">Estrategia Digital UX 2025</h3>
+            <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
+            <a class="btn btn-light btn-sm" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener">Ver documento</a>
+          </div>
+        </article>
+        <article class="col-md-6 mb-4">
+          <div class="glass-card shadow-quiet h-100 p-3">
+            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="CDF FFMM SURA Pass">
+            <h3 class="h5">CDF FFMM · SURA Pass</h3>
+            <p class="small mb-3">Aprobación cliente, logs y notificaciones. Menos errores y mayor seguridad.</p>
+            <a class="btn btn-light btn-sm" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">Ver DEI</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 2 · CV (paper + grid) -->
+  <section id="CV" class="section bg-gradient-paper pattern-grid" aria-label="CV">
+    <div class="container">
+      <div class="d-flex align-items-center mb-3">
+        <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">CV</span>
+        <h2 class="h3 font-weight-bolder mb-0">Experiencia</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <ul class="list-group mb-3 shadow-quiet">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong>SURA Investments · Lead UX / Senior Analyst</strong>
+                <span class="text-muted small">2023–actual</span>
+              </div>
+              <ul class="small mb-0 pl-3">
+                <li>Gobernanza UX y verificación pre-producción</li>
+                <li>Capa visual normativa y trazabilidad de consentimiento</li>
+                <li>Flujos críticos: Hazte Cliente, Mandato, Dashboard</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong>Transvip / KARRI · Senior Product Designer</strong>
+                <span class="text-muted small">2022–2023</span>
+              </div>
+              <ul class="small mb-0 pl-3">
+                <li>App nueva y mejoras web orientadas a métricas</li>
+                <li>Prioridad por research y datos</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong>Desafío Latam · Docente UX/UI</strong>
+                <span class="text-muted small">2022–2023</span>
+              </div>
+              <ul class="small mb-0 pl-3">
+                <li>Design Thinking aplicado a producto</li>
+                <li>Acompañamiento en proyectos</li>
+              </ul>
+            </li>
+          </ul>
+          <a class="btn btn-dark btn-sm" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV completo</a>
+        </div>
+
+        <aside class="col-lg-4 mt-4 mt-lg-0">
+          <div class="card border-soft shadow-quiet">
+            <div class="card-body">
+              <h3 class="h6 mb-2">Contacto rápido</h3>
+              <p class="mb-1"><i class="far fa-envelope"></i> <a href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
+              <p class="mb-1"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
+              <p class="mb-0"><i class="fab fa-github"></i> <a href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 3 · Métodos (dark + tabs + glass) -->
+  <section id="Metodos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Métodos y artefactos">
+    <div class="container">
+      <div class="d-flex align-items-center mb-3">
+        <span class="chip mr-2">Playbook</span>
+        <h2 class="h3 font-weight-bolder mb-0">Métodos</h2>
+      </div>
+
+      <ul class="nav nav-tabs tabs-dark" id="metodosTabs" role="tablist" aria-label="Selector de métodos">
+        <li class="nav-item"><a class="nav-link active" id="tab-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">Design Thinking</a></li>
+        <li class="nav-item"><a class="nav-link" id="tab-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">Design Sprint</a></li>
+        <li class="nav-item"><a class="nav-link" id="tab-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">Agile</a></li>
+        <li class="nav-item"><a class="nav-link" id="tab-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">Security by Design</a></li>
+        <li class="nav-item"><a class="nav-link" id="tab-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">Data-Driven</a></li>
+        <li class="nav-item"><a class="nav-link" id="tab-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">Gobernanza & A11y</a></li>
+      </ul>
+
+      <div class="tab-content pt-3" id="metodosContent">
+        <!-- Cada pane usa glass-card para homogeneidad -->
+        <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Prácticas</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Entrevistas y mapeo de actores</li>
+                  <li>Journey + puntos de control</li>
+                  <li>How Might We + priorización riesgo/valor</li>
                 </ul>
+              </div>
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Artefactos</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Problem Statement</li>
+                  <li>Mapa de Riesgos Normativos</li>
+                  <li>Storyboards y bocetos</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-0">
+                <h3 class="h6">Resultados</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>↓ supuestos no validados</li>
+                  <li>↑ claridad de alcance</li>
+                  <li>Top 5 riesgos identificados</li>
+                </ul>
+              </div>
             </div>
-        </nav>
-    </section>
-    <!-- fin del Nav -->
-
-    <!--Hero Section-->
-    <section id="Inicio">
-
-
-        <div class="jumbotron jumbotron-fluid vw-100 vh-100"></div>
-
-        <div class="container-fluid p-5">
-            <h3 class="text-center text-dark font-weight-bolder h1">Perfil</h3>
-            <div class="container text-dark">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <p>Busco ser un unicornio, y unir etnografia con diseño. Lo demás es música.</p>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos perferendis corrupti pariatur tenetur nemo numquam officia aut nam earum iure laudantium odio, vero ipsa officiis voluptas eum culpa illum!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam ad reprehenderit laboriosam sint quia omnis atque sunt a commodi, repellat voluptates quo facere veniam, similique cumque! Laborum totam blanditiis quibusdam.</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos perferendis corrupti pariatur tenetur nemo numquam officia aut nam earum iure laudantium odio, vero ipsa officiis voluptas eum culpa illum!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam ad reprehenderit laboriosam sint quia omnis atque sunt a commodi, repellat voluptates quo facere veniam, similique cumque! Laborum totam blanditiis quibusdam.</p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
-    <!--fin Hero Section-->
 
-    <!--Peril-->
-    <section id="Perfil">
-        <div class="container-fluid p-5">
-            <div class="container-fluid p-5  center">
-                <h2 class="text-center text-dark h1 font-weight-bolder">Experiencias</h2>
+        <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Prácticas</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Map → Sketch → Decide → Prototype → Test</li>
+                  <li>Hipótesis y criterios de éxito</li>
+                  <li>Reclutamiento segmentado</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Artefactos</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Prototipo alta fidelidad</li>
+                  <li>Guion + checklist de test</li>
+                  <li>Informe por severidad</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-0">
+                <h3 class="h6">Resultados</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Tiempo a decisión ↓</li>
+                  <li>Task-success y SUS/NPS</li>
+                  <li>Backlog priorizado</li>
+                </ul>
+              </div>
             </div>
-            <div class="container text-dark">
-                <div class="row">
-                    <div class="col-sm-6 ce text-center">
-                        <i><img class="img-fluid center" src="assets/img/cec.jpg" alt="CEC VALDIVIA LOGO"></i>
-                        <h3 class="text-center">Co-fundador e investigador <br> 2015 - 2018</h3>
-                        <a href="#" class="btn btn-dark  stretched-link">Ver más</a>
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <i><img class="img-fluid center" src="assets/img/logo-agencia.png" alt="Maraña Logo"></i>
-                        <h3 class="text-center">Socio Fundador y COO Proyectos <br> 2018 - Actualidad</h3>
-                        <a href="#" class="btn btn-dark  stretched-link">Ver más</a>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
-    <!--fin Peril-->
 
-    <!--Experiencicas Digitales-->
-    <section id="Digitales">
-        <div class="container-fluid p-5 bg-dark">
-            <div>
-                <h2 class="text-center p-5 text-warning h1 font-weight-bolder">Recientes Digitales</h2>
+        <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Prácticas</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Backlog por outcomes</li>
+                  <li>DoR/DoD + A11y</li>
+                  <li>Revisiones Legal y Seguridad</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Artefactos</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Roadmap trimestral</li>
+                  <li>Historias + aceptación</li>
+                  <li>Design tokens + librería UI</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-0">
+                <h3 class="h6">Resultados</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Lead time ↓, throughput ↑</li>
+                  <li>Defectos post release ↓</li>
+                  <li>Adopción por release ↑</li>
+                </ul>
+              </div>
             </div>
-            <div class="card-deck bg-transparent p-5">
-                <div class="card bg-dark">
-                    <img src="assets/img/plan-empresas.png" class="card-img-top" alt="...">
-                    <div class="card-body bg-transparent">
-                        <h5 class="card-title bg-dark text-white">Diseño de Productos Digitales</h5>
-                        <p class="card-text bg-dark text-light">Definir Productos para área de Marketing Digital de la Agencia.</p>
-                        <p class="card-text bg-dark"> <a href="#" class="text-warning stretched-link">Scrum Master y Diseñador UX</a></p>
-                    </div>
-                </div>
-                <div class="card  bg-transparent">
-                    <img src="assets/img/pareti-web.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-white  bg-transparent">Re Diseño Web</h5>
-                        <p class="card-text  bg-transparent text-white">Re Diseño Web Holding Grupo Pareti</p>
-                        <p class="card-text bg-transparent"><a href="#" class="text-warning stretched-link">Community Manager</a></p>
-                    </div>
-                </div>
-                <div class="card  bg-transparent">
-                    <img src="assets/img/oslo-mock-up-note.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-white  bg-transparent">Diseño Web </h5>
-                        <p class="card-text  bg-transparent text-white">Diseño UX de OSLO</p>
-                        <p class="card-text bg-transparent"><small class="text-muted">Digital Manager</small></p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
-    <!--fin Experiencicas Digitales-->
 
-    <!--Experiencicas Sociales-->
-    <section id="Sociales">
-        <div class="container-fluid p-5 bg-warning">
-            <div>
-                <h2 class="text-center p-5 text-light h1 font-weight-bolder">Recientes Sociales</h2>
-            </div>
-            <div class="card-deck bg-transparent p-5">
-                <div class="card bg-transparent">
-                    <img src="assets/img/Nuestro-Kunza.png" class="card-img-top" alt="...">
-                    <div class="card-body bg-transparent">
+        <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
 
-                        <h5 class="card-title bg-transparent text-white">Nuestro Kunza, Fotolibro Digital</h5>
-                        <p class="card-text bg-transparent text-light">Foto libro que busca reivindicar la lengua kunza a traés de la intertextualidad poética</p>
-                        <p class="card-text bg-transparent  " -><small class="text-info">Autor</small></p>
-                    </div>
+            <div class="accordion" id="sbdAccordion">
+              <div class="card bg-transparent border-0">
+                <div class="card-header p-0 bg-transparent border-0" id="sbd-front-h">
+                  <h3 class="h6 mb-2"><a class="btn btn-outline-light btn-sm" data-toggle="collapse" href="#sbd-front" aria-expanded="true" aria-controls="sbd-front">Controles en Front</a></h3>
                 </div>
-                <div class="card  bg-transparent">
-                    <img src="assets/img/etnografia-audiovisual.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-white  bg-transparent">Etnografía Audiovisual</h5>
-                        <p class="card-text  bg-transparent text-white">Serie Docuemental que explora diversas acciones interculturales llevadas a cabo por organizaciones mapuche de Aynil Levfv en el territorio</p>
-                        <p class="card-text bg-transparent"><small class="text-info">Documentalista</small></p>
-                    </div>
+                <div id="sbd-front" class="collapse show" aria-labelledby="sbd-front-h" data-parent="#sbdAccordion">
+                  <ul class="small mb-3 pl-3">
+                    <li>Capa visual normativa: estados, bloqueos y mensajes trazables</li>
+                    <li>MFA por segmento y contexto de riesgo</li>
+                    <li>Gestión de consentimiento visible y revocable</li>
+                  </ul>
                 </div>
-                <div class="card bg-transparent">
-                    <img src="assets/img/iccddhh.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-white  bg-transparent">Diseño Web </h5>
-                        <p class="card-text  bg-transparent text-white">Proyecto Itinerancia Colaborativa Por los DD.HH, Valparaíso. En postulacion FONDART 2020</p>
-                        <p class="card-text bg-transparent"><small class="text-info">Director</small></p>
-                    </div>
+              </div>
+
+              <div class="card bg-transparent border-0">
+                <div class="card-header p-0 bg-transparent border-0" id="sbd-back-h">
+                  <h3 class="h6 mb-2"><a class="btn btn-outline-light btn-sm collapsed" data-toggle="collapse" href="#sbd-back" aria-expanded="false" aria-controls="sbd-back">Controles en Back/Infra</a></h3>
                 </div>
+                <div id="sbd-back" class="collapse" aria-labelledby="sbd-back-h" data-parent="#sbdAccordion">
+                  <ul class="small mb-0 pl-3">
+                    <li>Muro de datos y réplica diferida</li>
+                    <li>Logs inmutables, alertas y auditoría</li>
+                    <li>Data minimization y “least privilege”</li>
+                  </ul>
+                </div>
+              </div>
             </div>
+
+          </div>
         </div>
-    </section>
-    <!--fin Experiencias sociales-->
 
-    <!--Contacto-->
+        <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde el día uno.</p>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Prácticas</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Event naming y trazas por flujo</li>
+                  <li>Dashboards por objetivo</li>
+                  <li>A/B tests y feature flags</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Artefactos</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Taxonomía de eventos</li>
+                  <li>KPIs/OKR definidos</li>
+                  <li>Plan de experimentos</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-0">
+                <h3 class="h6">Resultados</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Adopción por etapa ↑</li>
+                  <li>NPS por flujo ↑</li>
+                  <li>Tiempo de onboarding ↓</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <div class="typeform-widget container-fluid p-0 m-0 bg-dark" id="Contacto" data-url="https://form.typeform.com/to/LT9m0BRY" style="width: 100%; height: 920px;"></div>
-    <script>
-        (function() {
-            var qs, js, q, s, d = document,
-                gi = d.getElementById,
-                ce = d.createElement,
-                gt = d.getElementsByTagName,
-                id = "typef_orm",
-                b = "https://embed.typeform.com/";
-            if (!gi.call(d, id)) {
-                js = ce.call(d, "script");
-                js.id = id;
-                js.src = b + "embed.js";
-                q = gt.call(d, "script")[0];
-                q.parentNode.insertBefore(js, q)
-            }
-        })()
-    </script>
-    <div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5;">
-        <a href="https://admin.typeform.com/signup?utm_campaign=LT9m0BRY&utm_source=typeform.com-01EKTS9PJ58RBNGR22237TK7HM-free&utm_medium=typeform&utm_content=typeform-embedded-poweredbytypeform&utm_term=ES" style="color: #999" target="_blank">
-        </a>
+        <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
+          <div class="glass-card p-4 shadow-quiet">
+            <p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Prácticas</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Gate pre-producción multiárea</li>
+                  <li>WCAG y accesibilidad por defecto</li>
+                  <li>Revisión legal continua</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-3">
+                <h3 class="h6">Artefactos</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Checklist de liberación</li>
+                  <li>Guía UI normativa</li>
+                  <li>Registro de evidencias</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-0">
+                <h3 class="h6">Resultados</h3>
+                <ul class="small mb-0 pl-3">
+                  <li>Errores normativos ↓</li>
+                  <li>Velocidad de revisión ↑</li>
+                  <li>Hallazgos de accesibilidad ↓</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-center mt-4">
+        <a class="btn btn-outline-light" href="landing-sura.html">Ver playbook aplicado</a>
+      </div>
     </div>
-    <!--fin Contacto-->
+  </section>
 
-    <!--footer-->
-    <div class="container-fluid bg-dark text-warning text-center fondo p-5">
-        <a href="https://github.com/vientonorte"><i class="fab fa-github-square fa-5x p-2"></i></a>
-        <a href="https://www.linkedin.com/in/rodrigoscrummaster"><i class="fab fa-linkedin fa-5x p-2"></i></a>
-        <a href="http://instagram.com/khuromutups"><i class="fab fa-instagram fa-5x p-2"></i></a>
-        <p>Rodrigo Gaete todos los derchos reservados.</p>
+  <!-- BLOQUE 4 · KPIs (paper + grid) -->
+  <section id="KPIs" class="section bg-gradient-paper pattern-grid" aria-label="Indicadores">
+    <div class="container">
+      <div class="d-flex align-items-center mb-3">
+        <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">KPIs</span>
+        <h2 class="h3 font-weight-bolder mb-0">Indicadores</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3 mb-3">
+          <div class="card border-soft shadow-quiet h-100">
+            <div class="card-body">
+              <span class="badge badge-dark">Cumplimiento</span>
+              <p class="mb-1 mt-2">↓ errores normativos</p>
+              <small>Gate pre-producción</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-3">
+          <div class="card border-soft shadow-quiet h-100">
+            <div class="card-body">
+              <span class="badge badge-dark">Adopción</span>
+              <p class="mb-1 mt-2">↑ uso de flujos</p>
+              <small>Hazte Cliente · Mandato</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-3">
+          <div class="card border-soft shadow-quiet h-100">
+            <div class="card-body">
+              <span class="badge badge-dark">Satisfacción</span>
+              <p class="mb-1 mt-2">NPS por flujo</p>
+              <small>Segmento WM</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-3">
+          <div class="card border-soft shadow-quiet h-100">
+            <div class="card-body">
+              <span class="badge badge-dark">Eficiencia</span>
+              <p class="mb-1 mt-2">↓ tiempo onboarding</p>
+              <small>↓ reprocesos</small>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <!-- BLOQUE 5 · Contacto (dark + glass) -->
+  <section id="Contacto" class="section bg-gradient-dark pattern-dots text-white" aria-label="Contacto">
+    <div class="container">
+      <div class="glass-card p-4 text-center shadow-quiet">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+          <span class="chip mr-2">Contacto</span>
+          <h2 class="h4 mb-0">Hablemos</h2>
+        </div>
+        <p class="mb-4">
+          <a class="btn btn-brand mr-2" href="mailto:gaete.gaona@gmail.com" data-metric="contact-email">
+            <i class="far fa-envelope" aria-hidden="true"></i> gaete.gaona@gmail.com
+          </a>
+          <a class="btn btn-outline-light mr-2" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-metric="contact-linkedin">
+            <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
+          </a>
+          <a class="btn btn-outline-light" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-metric="contact-github">
+            <i class="fab fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </p>
+        <address class="sr-only">
+          Correo: gaete.gaona@gmail.com. LinkedIn: rodrigoscrummaster. GitHub: vientonorte.
+        </address>
+      </div>
+    </div>
+  </section>
+</main>
 
+<!-- FOOTER mínimo -->
+<footer class="bg-dark text-center py-3" role="contentinfo" aria-label="Pie de página">
+  <small class="text-muted">
+    © Rodrigo Gaete · <a href="#Inicio" class="text-warning">Volver arriba</a>
+  </small>
+</footer>
 
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
-
 </html>
