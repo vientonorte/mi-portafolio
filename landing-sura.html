@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SURA · Casos y Estrategia UX en Wealth Management</title>
+  <meta name="description" content="Casos SURA como hero y estrategia UX para Wealth Management: gobernanza, capa visual normativa, datos y KPIs.">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <!-- Fuentes + Bootstrap 4.5 (mantiene compatibilidad) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+  <style>
+    :root{
+      --brand:#ffc107;
+      --ink:#212529;
+      --paper:#f8f9fa;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-top:72px;color:var(--ink)}
+    [id]{scroll-margin-top:72px}
+
+    /* HERO reimaginado con Casos SURA */
+    .hero{
+      position:relative; min-height:88vh; display:flex; align-items:center;
+      background: url('assets/img/hero-sura.jpg') center/cover no-repeat;
+    }
+    .hero::before{
+      content:""; position:absolute; inset:0;
+      background: linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25));
+    }
+    .hero .wrap{position:relative; z-index:2}
+    .chip{display:inline-block; padding:.35rem .6rem; font-size:.8rem; border-radius:999px; background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25)}
+    .glass{
+      background:rgba(255,255,255,.08); backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,.18); border-radius:.75rem;
+    }
+    .hero h1{color:#fff}
+    .hero p{color:#e9ecef}
+    .btn-hero{border-width:2px}
+
+    /* Tarjeta destacada en hero */
+    .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem}
+    .card-hero .list{font-size:.95rem}
+    .card-hero .list li{margin-bottom:.35rem}
+
+    /* Bloques de estrategia */
+    .pillar{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
+    .kpi{border:1px dashed #ced4da;border-radius:.75rem;background:#fff}
+    .road-step{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
+
+    /* Evidencias */
+    .evidence-card{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
+    .evidence-card img{object-fit:cover;height:160px}
+
+    /* Utilidades */
+    .text-brand{color:var(--brand)!important}
+    .bg-paper{background:var(--paper)}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand text-warning font-weight-bolder" href="index.html">← Portafolio</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Menú">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div id="nav" class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item"><a class="nav-link text-warning" href="#inicio" aria-current="page">Casos SURA</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#estrategia">Estrategia WM</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#kpis">KPIs</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#roadmap">Roadmap</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#evidencias">Evidencias</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO = CASOS SURA -->
+<header id="inicio" class="hero" role="banner" aria-label="Casos SURA · Estrategia UX en Wealth Management">
+  <div class="container wrap">
+    <div class="row align-items-center">
+      <!-- Texto + CTAs -->
+      <div class="col-lg-7 mb-4 mb-lg-0">
+        <span class="chip mb-2">Casos SURA</span>
+        <h1 class="display-5 font-weight-bolder mb-3">Estrategia Digital UX para <span class="text-brand">Wealth Management</span></h1>
+        <p class="lead mb-4">Separación AFP–SURA, capa visual normativa, gobernanza UX y métricas de adopción para operaciones seguras y auditables.</p>
+        <div class="d-flex flex-wrap">
+          <a class="btn btn-warning btn-hero mr-2 mb-2" href="#estrategia">Ver estrategia</a>
+          <a class="btn btn-outline-light btn-hero mb-2" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener">Ver dossier</a>
+        </div>
+      </div>
+      <!-- Tarjeta destacada: Gaona -->
+      <div class="col-lg-5">
+        <div class="card-hero p-4">
+          <div class="d-flex align-items-center mb-2">
+            <img src="assets/img/sura-logo.svg" alt="SURA Investments" style="height:26px" class="mr-2">
+            <strong>Estrategia “Gaona” · Separación AFP–SURA</strong>
+          </div>
+          <ul class="list pl-3 mb-3">
+            <li>Desacople y réplica diferida con reglas de consentimiento.</li>
+            <li>Capa visual normativa y verificación pre-producción.</li>
+            <li>AS-IS/TO-BE y tableros de control.</li>
+          </ul>
+          <a class="btn btn-light btn-block" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener">Ver dossier Gaona</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ESTRATEGIA WEALTH MANAGEMENT -->
+<section id="estrategia" class="py-5 bg-paper">
+  <div class="container">
+    <h2 class="h3 font-weight-bolder mb-4">Estrategia para Wealth Management</h2>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="pillar p-4 h-100">
+          <h5 class="mb-2">Gobernanza UX</h5>
+          <p class="mb-3 small">Gate de verificación pre-producción y checklist regulatorio. Registro de decisiones y actores.</p>
+          <ul class="small mb-0 pl-3">
+            <li>Co-diseño UX-Legal-TI</li>
+            <li>Definiciones “stop-ship”</li>
+            <li>Traza auditable</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="pillar p-4 h-100">
+          <h5 class="mb-2">Capa visual normativa</h5>
+          <p class="mb-3 small">Guía UI con reglas de perfil, riesgo y consentimiento visible en front.</p>
+          <ul class="small mb-0 pl-3">
+            <li>Componentes normativos</li>
+            <li>Estados y bloqueos</li>
+            <li>Mensajería trazable</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="pillar p-4 h-100">
+          <h5 class="mb-2">Datos y consentimiento</h5>
+          <p class="mb-3 small">Muro de datos, réplica diferida y logs de uso. Prevención de fraude.</p>
+          <ul class="small mb-0 pl-3">
+            <li>Reglas por segmento</li>
+            <li>MFA + actualización</li>
+            <li>Alertas y eventos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section id="kpis" class="py-5">
+  <div class="container">
+    <h2 class="h3 font-weight-bolder mb-4">KPIs</h2>
+    <div class="row">
+      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Cumplimiento</span><p class="mb-1 mt-2">↓ errores normativos visuales</p><small>Gate pre-producción</small></div></div>
+      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Adopción</span><p class="mb-1 mt-2">↑ uso de flujos clave</p><small>Hazte Cliente y Mandato</small></div></div>
+      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Satisfacción</span><p class="mb-1 mt-2">NPS por flujo</p><small>Segmento WM</small></div></div>
+      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Eficiencia</span><p class="mb-1 mt-2">↓ tiempo de onboarding</p><small>↓ reprocesos legales</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap" class="py-5 bg-paper">
+  <div class="container">
+    <h2 class="h3 font-weight-bolder mb-4">Roadmap</h2>
+    <div class="row">
+      <div class="col-md-3 mb-3"><div class="road-step p-3 h-100"><strong>Q1</strong><br>Discovery y riesgos · AS-IS</div></div>
+      <div class="col-md-3 mb-3"><div class="road-step p-3 h-100"><strong>Q2</strong><br>TO-BE · Capa visual normativa · DEI</div></div>
+      <div class="col-md-3 mb-3"><div class="road-step p-3 h-100"><strong>Q3</strong><br>Pilotos · Gate pre-producción · KPIs</div></div>
+      <div class="col-md-3 mb-3"><div class="road-step p-3 h-100"><strong>Q4</strong><br>Escalado regional · Optimización</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVIDENCIAS -->
+<section id="evidencias" class="py-5">
+  <div class="container">
+    <h2 class="h3 font-weight-bolder mb-4">Evidencias</h2>
+    <div class="card-deck">
+      <div class="evidence-card card shadow-sm">
+        <img loading="lazy" class="card-img-top" src="assets/img/caso-gaona.png" alt="Estrategia Gaona: Separación AFP–SURA">
+        <div class="card-body">
+          <h5 class="card-title">Estrategia “Gaona”</h5>
+          <p class="card-text small">Desacople de datos y trazabilidad de consentimiento.</p>
+          <a class="stretched-link" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener">PDF</a>
+        </div>
+      </div>
+      <div class="evidence-card card shadow-sm">
+        <img loading="lazy" class="card-img-top" src="assets/img/cdf-sura-pass.png" alt="Cambio de fondos: CDF en SURA Pass">
+        <div class="card-body">
+          <h5 class="card-title">CDF FFMM · SURA Pass</h5>
+          <p class="card-text small">Aprobación cliente, logs y notificaciones.</p>
+          <a class="stretched-link" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">DEI</a>
+        </div>
+      </div>
+      <div class="evidence-card card shadow-sm">
+        <img loading="lazy" class="card-img-top" src="assets/img/mfa-actualizacion.png" alt="Doble factor y actualización de datos">
+        <div class="card-body">
+          <h5 class="card-title">MFA + Actualización de Datos</h5>
+          <p class="card-text small">Reglas por segmento y bloqueos.</p>
+          <a class="stretched-link" href="assets/docs/DEI_Doble_Factor_Web.pdf" target="_blank" rel="noopener">DEI</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 text-center bg-paper">
+  <div class="container">
+    <h2 class="h4 font-weight-bolder mb-3">¿Quieres la demo o el dossier completo?</h2>
+    <a class="btn btn-dark" href="index.html#Contacto">Contactar</a>
+  </div>
+</section>
+
+<footer class="container-fluid bg-dark text-warning text-center p-4">
+  <small>Estrategia Digital UX · SURA Investments</small>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+</body>
+</html>

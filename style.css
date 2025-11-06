@@ -1,0 +1,216 @@
+/* =========================
+   SURA UX BUNDLE (Bootstrap 4 compatible)
+   Archivo: assets/css/style.css
+   ========================= */
+
+/* 1) Tokens */
+:root{
+  --brand:#ffc107;             /* amarillo SURA (match btn-warning) */
+  --ink:#212529;               /* texto base */
+  --paper:#f8f9fa;             /* fondo claro */
+  --ink-2:#495057;
+  --border:#e9ecef;
+  --border-2:#ced4da;
+  --nav-h:72px;                /* alto de navbar fija */
+}
+
+/* 2) Base */
+html{scroll-behavior:smooth}
+body{
+  font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:#fff;
+  padding-top:var(--nav-h); /* compensa navbar fixed-top */
+}
+[id]{scroll-margin-top:var(--nav-h)}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* 3) Tipografía */
+h1,h2,h3,h4{font-weight:700}
+.lead{color:var(--ink-2)}
+
+/* 4) Utilidades */
+.text-brand{color:var(--brand)!important}
+.bg-paper{background:var(--paper)!important}
+.border-soft{border:1px solid var(--border)}
+.rounded-xl{border-radius:.75rem}
+.shadow-quiet{box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.container-narrow{max-width:960px}
+
+/* 5) Navbar */
+.navbar.fixed-top{backdrop-filter:saturate(1.2) blur(4px)}
+.navbar .nav-link{line-height:1.2}
+.navbar .nav-link[aria-current="page"]{text-decoration:underline}
+
+/* 6) Botones */
+.btn-brand{
+  background:var(--brand);border-color:var(--brand);color:#212529;font-weight:700
+}
+.btn-brand:hover{filter:brightness(.95);color:#212529}
+.btn-outline-light{border-width:2px}
+
+/* 7) Hero genérico */
+.hero{
+  position:relative;min-height:70vh;display:flex;align-items:center;
+  background:#111 url("../img/hero-sura.jpg") center/cover no-repeat;
+  color:#fff;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(120deg,rgba(0,0,0,.55),rgba(0,0,0,.25));
+}
+.hero .wrap{position:relative;z-index:1}
+.hero h1,.hero p{color:#fff}
+.logo-sura{height:28px;vertical-align:middle}
+
+/* 8) Chips, glass */
+.chip{
+  display:inline-block;padding:.35rem .6rem;font-size:.8rem;border-radius:999px;
+  background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)
+}
+.glass{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(6px);
+  border-radius:.75rem;
+}
+
+/* 9) Tarjeta destacada en hero */
+.card-hero{
+  background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem
+}
+.card-hero .list{font-size:.95rem}
+.card-hero .list li{margin-bottom:.35rem}
+
+/* 10) Bloques de estrategia */
+.pillar{border:1px solid var(--border);border-radius:.75rem;background:#fff}
+.kpi{border:1px dashed var(--border-2);border-radius:.75rem;background:#fff}
+.road-step{border:1px solid var(--border);border-radius:.75rem;background:#fff}
+
+/* 11) Evidencias */
+.evidence-card{border:1px solid var(--border);border-radius:.75rem;background:#fff}
+.evidence-card img{object-fit:cover;height:160px}
+
+/* 12) Secciones comunes */
+section{scroll-margin-top:var(--nav-h)}
+#CasosSura .card-title{font-weight:700}
+#kpis .badge{font-size:.85rem}
+
+/* 13) Accesibilidad */
+:focus{outline:2px solid var(--brand);outline-offset:2px}
+:focus:not(:focus-visible){outline:none}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* 14) Tablas/figuras fallback */
+.table-compact td,.table-compact th{padding:.5rem}
+.figure{margin:0}
+.figure figcaption{font-size:.875rem;color:var(--ink-2)}
+
+/* 15) Imágenes responsive dentro de tarjetas Bootstrap 4 */
+.card-img-top{height:auto}
+@media (min-width:992px){
+  .hero{min-height:88vh}
+}
+
+/* 16) Dark mode (opcional) */
+@media (prefers-color-scheme: dark){
+  body{background:#0f1113;color:#e9ecef}
+  .lead{color:#cfd4da}
+  .bg-paper{background:#15181b!important}
+  .border-soft,.pillar,.road-step,.evidence-card{border-color:#2a2d31;background:#121417}
+  .kpi{border-color:#3a3f45;background:#121417}
+  .navbar-dark{background:#0d0f11!important}
+  a{color:#ffd666}
+  a:hover{color:#ffe08a}
+}
+
+/* 17) Print básico */
+@media print{
+  .navbar,.btn{display:none!important}
+  body{padding:0}
+  a[href]:after{content:" (" attr(href) ")";font-size:80%}
+}
+
+/* 18) Helpers de espaciado fino */
+.mt-n1{margin-top:-.25rem!important}
+.mt-n2{margin-top:-.5rem!important}
+.pb-6{padding-bottom:4rem!important}
+.pt-6{padding-top:4rem!important}
+
+
+/* =========================================================
+   19) OVERRIDES 60/20/20 + componentes homogéneos (claro)
+   ========================================================= */
+
+/* Paleta 60/20/20 */
+:root{
+  /* 60% base */
+  --base:#ffffff;
+  --base-2:#f6f7f9;
+  /* 20% acento1: usa --brand existente */
+  /* 20% acento2 */
+  --accent2:#1565c0;
+  --accent2-ink:#ffffff;
+}
+
+/* Fondo base más claro */
+body{background:linear-gradient(180deg,var(--base) 0%, var(--base-2) 100%)}
+
+/* Navbar clara adicional (úsala en HTML como .navbar-white) */
+.navbar-white{background:#fff;border-bottom:1px solid var(--border)}
+.navbar-white .nav-link{color:#4a4f55}
+.navbar-white .nav-link:hover,.navbar-white .nav-link:focus{color:var(--accent2)}
+
+/* Hero más luminoso con overlay azul (acento2) */
+.hero{background:#fff url("../img/hero-sura.jpg") center/cover no-repeat}
+.hero::before{background:linear-gradient(120deg, rgba(21,101,192,.55), rgba(255,255,255,.55))}
+.hero .wrap{position:relative;z-index:1}
+
+/* Glass uniforme */
+.glass{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:.8rem;
+}
+
+/* Chip clara (amarillo suave) */
+.chip{
+  background:rgba(255,193,7,.12);
+  border:1px solid rgba(255,193,7,.4);
+  color:#5a4a00;
+  font-size:.85rem;
+}
+
+/* Botones de acento */
+.btn-brand{background:var(--brand);border-color:var(--brand);color:#1d1d1d}
+.btn-brand:hover{filter:brightness(.97)}
+.btn-alt{border-color:var(--accent2);color:var(--accent2)}
+.btn-alt:hover{background:rgba(21,101,192,.08)}
+.btn-alt-solid{background:var(--accent2);border-color:var(--accent2);color:var(--accent2-ink)}
+
+/* Enlaces acento azul */
+.link-accent{color:var(--accent2)}
+.link-accent:hover{text-decoration:underline}
+
+/* Tarjetas + patrones claros */
+.card-soft{border:1px solid var(--border);border-radius:.8rem;background:#fff}
+.shadow-quiet{box-shadow:0 10px 28px rgba(33,37,41,.07)}
+.pattern-dots{background-image:radial-gradient(rgba(0,0,0,.05) 1px, transparent 1px);background-size:20px 20px}
+.pattern-grid{background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:26px 26px}
+.surface-base{background:#fff}
+.surface-accent2-soft{background:linear-gradient(180deg,#eaf2fb 0%, #f3f8fe 100%)}
+.surface-accent1-soft{background:linear-gradient(180deg,#fff6d7 0%, #fffaf0 100%)}
+
+/* Tabs claras */
+.tabs-light .nav-link{color:#6c757d}
+.tabs-light .nav-link.active{color:#111;background:#fff;border:1px solid var(--border);border-bottom-color:transparent}
+.tab-content{border:1px solid var(--border);border-top:0;border-radius:0 0 .6rem .6rem;background:#fff;padding:1rem}
+
+/* Sidebar sticky */
+.sticky{position:sticky;top:calc(var(--nav-h) + 20px)}
+
+/* Footer claro mínimo */
+.footer{border-top:1px solid var(--border);background:#fff}
