@@ -214,3 +214,13 @@ body{background:linear-gradient(180deg,var(--base) 0%, var(--base-2) 100%)}
 
 /* Footer claro mínimo */
 .footer{border-top:1px solid var(--border);background:#fff}
+
+
+/* Material Symbols Outlined */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
