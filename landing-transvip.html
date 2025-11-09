@@ -210,6 +210,124 @@
     </div>
   </div>
 </section>
+<!-- ===== EVIDENCIAS + MICROINTERACCIONES ===== -->
+<!-- Barra de progreso de scroll (opcional, coherente con todo el sitio) -->
+<div class="scroll-progress" aria-hidden="true">
+  <div class="scroll-progress__bar" style="width:0%"></div>
+</div>
+
+<section id="evidencias" class="py-5 bg-paper fade" aria-label="Evidencias y assets">
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2">Evidencias</span>
+      <h2 class="h3 font-weight-bolder mb-0">Diseño y procesos</h2>
+    </div>
+    <p class="small mb-4">
+      Del insight al prototipo: research con usuarios, iteraciones en Figma y validaciones con Maze.
+    </p>
+
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-md-6 col-lg-3 mb-3">
+        <figure class="evidence-card card shadow-sm h-100 hover-rise">
+          <img src="assets/img/mi-perfil-macbook.png" alt="Pantalla Mi perfil en Transvip Web" class="card-img-top" loading="lazy">
+          <figcaption class="card-body">
+            <h5 class="card-title mb-1">Web · Perfil</h5>
+            <p class="small mb-2">Gestión de datos y métodos de pago.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-6 col-lg-3 mb-3">
+        <figure class="evidence-card card shadow-sm h-100 hover-rise">
+          <img src="assets/img/app-oneplus.png" alt="App Transvip: selector de servicio en móvil" class="card-img-top" loading="lazy">
+          <figcaption class="card-body">
+            <h5 class="card-title mb-1">App · Selector</h5>
+            <p class="small mb-2">Elección de vehículo y tiempos de viaje.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-6 col-lg-3 mb-3">
+        <figure class="evidence-card card shadow-sm h-100 hover-rise">
+          <img src="assets/img/sprint-diseno-transvip.png" alt="Proceso UX: analytics, research, diseño y testing" class="card-img-top" loading="lazy">
+          <figcaption class="card-body">
+            <h5 class="card-title mb-1">Proceso UX</h5>
+            <p class="small mb-2">Analytics → Research → UI → Testing.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 4 (opcional) -->
+      <div class="col-md-6 col-lg-3 mb-3">
+        <figure class="evidence-card card shadow-sm h-100 hover-rise">
+          <img src="assets/img/ipad-mini-mock.png" alt="Mock de App Transvip en iPad" class="card-img-top" loading="lazy">
+          <figcaption class="card-body">
+            <h5 class="card-title mb-1">Mock iPad</h5>
+            <p class="small mb-2">Exploración para puntos de autoatención.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a class="btn btn-dark mr-2 btn-press" href="assets/docs/Maze-Resumen.pdf" target="_blank" rel="noopener" data-metric="txp-cta-maze">
+        Ver resumen Maze
+      </a>
+      <a class="btn btn-outline-secondary btn-press" href="https://www.figma.com/proto/dwWBfPbMKk4zgs1sQLko3y/Informes-Trasnvip?page-id=0%3A1&type=design&node-id=50-28000&viewport=-6860%2C619%2C0.18&scaling=min-zoom&starting-point-node-id=50%3A28000&show-proto-sidebar=1&mode=design"
+         target="_blank" rel="noopener" data-metric="txp-cta-figma">
+        Ver prototipo en Figma
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== estilos locales (puedes moverlos a tu CSS) ===== -->
+<style>
+  /* Barra de progreso */
+  .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:1030}
+  .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#ffc107,#ffda6a)}
+
+  /* Aparición al hacer scroll */
+  .fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
+  .fade.visible{opacity:1;transform:none}
+
+  /* Microinteracciones de cards y botones */
+  .hover-rise{transition:transform .2s ease, box-shadow .2s ease}
+  .hover-rise:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.15)}
+  .btn-press{transition:box-shadow .15s ease, transform .03s ease}
+  .btn-press:active{transform:translateY(1px);box-shadow:0 0 0 4px rgba(255,193,7,.25)}
+</style>
+
+<!-- ===== JS nativo para microinteracciones ===== -->
+<script>
+  // IntersectionObserver: revela secciones con clase .fade
+  (function(){
+    var els = document.querySelectorAll('.fade');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('visible'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach(function(e){ io.observe(e); });
+  })();
+
+  // Barra de progreso de scroll
+  (function(){
+    var bar = document.querySelector('.scroll-progress__bar');
+    if(!bar) return;
+    function onScroll(){
+      var h = document.documentElement;
+      var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      bar.style.width = (Math.max(0, Math.min(1, scrolled)) * 100).toFixed(2) + '%';
+    }
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
 
 <!-- LOGROS COLECTIVOS · UI KPI -->
 <section id="resultados" class="py-5" aria-label="Resultados y logros">
