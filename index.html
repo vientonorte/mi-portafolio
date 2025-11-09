@@ -1,56 +1,79 @@
 <!doctype html>
-<html lang="es"><head>
+<html lang="es">
+<head>
   <!-- META -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rodrigo Gaete · UX Estratégico</title>
   <meta name="description" content="Lead UX en SURA Investments. Casos, CV y métodos con foco en gobernanza, capa visual normativa, seguridad y decisiones basadas en datos.">
   <meta name="theme-color" content="#0c0f13">
+  <meta name="color-scheme" content="dark light">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
-  <link rel="canonical" href="https://tu-dominio-o-github-pages">
+  <link rel="canonical" href="https://tudominio.com/">
 
-  <!-- Open Graph -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Rodrigo Gaete · UX Estratégico · CV + Portafolio">
   <meta property="og:description" content="Estrategia digital, cumplimiento y métricas para Wealth Management.">
   <meta property="og:image" content="assets/img/og-cover.jpg">
+  <meta property="og:url" content="https://tudominio.com/">
+  <meta name="twitter:card" content="summary_large_image">
 
-  <!-- CSS externos (mantener) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&amp;display=swap" rel="stylesheet">
+  <!-- CSS externos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/sura-bundle.css">
   <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Ajustes de homogeneidad: fondos, patrones y glass (añade sin romper tus estilos) -->
+  <!-- Ajustes de homogeneidad -->
   <style>
     :root{
-      --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13; --night-2:#15181b; --mist:#e9ecef;
+      --brand:#ffc107; --ink:#e9ecef; --paper:#0c0f13; --night:#0c0f13; --night-2:#15181b; --mist:#e9ecef;
+      --radius:.75rem;
     }
     html{scroll-behavior:smooth}
-    body{padding-top:72px;font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 10% -10%, rgba(255,193,7,.06), transparent), radial-gradient(900px 500px at 120% 10%, rgba(108,117,125,.05), transparent), linear-gradient(#0c0f13,#0c0f13)}
+    body{
+      padding-top:72px;
+      font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(255,193,7,.06), transparent),
+        radial-gradient(900px 500px at 120% 10%, rgba(108,117,125,.05), transparent),
+        linear-gradient(#0c0f13,#0c0f13);
+    }
     [id]{scroll-margin-top:80px}
 
     /* Patrones y fondos */
     .section{padding:4rem 0}
     .bg-gradient-dark{background:linear-gradient(180deg,#101418 0%, #0c0f13 100%)}
-    .bg-gradient-paper{background:linear-gradient(180deg,#ffffff 0%, #f6f7f9 100%)}
-    .pattern-dots{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px), radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size:24px 24px, 12px 12px; background-position:0 0, 6px 6px}
-    .pattern-grid{background-image:linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px); background-size:28px 28px}
+    .bg-gradient-paper{background:linear-gradient(180deg,#ffffff 0%, #f6f7f9 100%); color:#212529}
+    .pattern-dots{
+      background-image:
+        radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:24px 24px, 12px 12px; background-position:0 0, 6px 6px;
+    }
+    .pattern-grid{
+      background-image:
+        linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+    }
 
-    /* Hero + glass + chip (coherente en todo el sitio) */
+    /* Hero + glass + chip */
     .hero{position:relative;min-height:88vh;display:flex;align-items:center;color:#fff}
     .hero.has-img{background:url('assets/img/hero-sura.jpg') center/cover no-repeat}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25))}
     .hero .wrap{position:relative;z-index:1}
-    .glass, .glass-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
+    .glass,.glass-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius)}
     .chip{display:inline-block;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.85rem}
     .btn-brand{background:var(--brand);color:#212529;border-color:var(--brand)} .btn-brand:hover{filter:brightness(.95)}
 
-    /* Tarjetas y contenedores homogéneos */
-    .card-hero{background:#111315;border:1px solid #2a2d31;border-radius:.75rem;color:#e9ecef}
+    /* Tarjetas y contenedores */
+    .card-hero{background:#111315;border:1px solid #2a2d31;border-radius:var(--radius);color:#e9ecef}
     .shadow-quiet{box-shadow:0 12px 32px rgba(0,0,0,.12)}
     .border-soft{border:1px solid #e9ecef}
     .sticky-offset{top:92px}
@@ -58,6 +81,11 @@
     /* Tabs coherentes en dark */
     .tabs-dark .nav-link{color:#adb5bd}
     .tabs-dark .nav-link.active{color:#fff;background:rgba(255,255,255,.08);border-color:transparent}
+
+    /* Navbar mejor contraste */
+    .navbar-dark .navbar-toggler{border-color:rgba(255,255,255,.25)}
+    .navbar-dark .navbar-brand,.navbar-dark .nav-link{color:#ffc107}
+    .navbar-dark .nav-link:hover{color:#ffd24d}
   </style>
 
   <!-- JSON-LD -->
@@ -69,29 +97,29 @@
       {"@type":"CreativeWork","name":"Estrategia Digital UX 2025 · Wealth Management","url":"assets/docs/Estrategia_Digital_UX_SURA_2025.pdf"},
       {"@type":"CreativeWork","name":"CDF FFMM · SURA Pass","url":"assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf"}]}]}
   </script>
-<style type="text/css"></style></head>
+</head>
 <body>
 <a class="sr-only sr-only-focusable" href="#contenido">Saltar al contenido</a>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar fixed-top" role="navigation" aria-label="Principal">
-  <a class="navbar-brand text-warning font-weight-bolder" href="#Inicio">· RODRIGO <span class="font-weight-lighter">GAETE</span></a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="Principal">
+  <a class="navbar-brand font-weight-bolder" href="#Inicio">· RODRIGO <span class="font-weight-lighter">GAETE</span></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div id="nav" class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><a class="nav-link text-warning" href="#Casos">Casos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#CV">CV</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#Metodos">Métodos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#KPIs">KPIs</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#Contacto">Contacto</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Casos">Casos</a></li>
+      <li class="nav-item"><a class="nav-link" href="#CV">CV</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Metodos">Métodos</a></li>
+      <li class="nav-item"><a class="nav-link" href="#KPIs">KPIs</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Contacto">Contacto</a></li>
       <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- HERO unificado -->
+<!-- HERO -->
 <header id="Inicio" class="hero has-img pattern-dots" role="banner" aria-label="Propuesta de valor">
   <div class="container wrap">
     <div class="col-xl-7 p-4 glass">
@@ -100,14 +128,14 @@
       <p class="lead mb-4">Gobernanza, capa visual normativa y datos para decisiones verificables en Wealth Management.</p>
       <div class="d-flex flex-wrap">
         <a class="btn btn-brand mr-2 mb-2" href="#Casos">Ver casos</a>
-        <a class="btn btn-outline-light mb-2" href="#linkedin">Conversar</a>
+        <a class="btn btn-outline-light mb-2" href="#Contacto">Conversar</a>
       </div>
     </div>
   </div>
 </header>
 
 <main id="contenido">
-  <!-- BLOQUE 1 · Casos (dark + glass) -->
+  <!-- CASOS -->
   <section id="Casos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Casos destacados">
     <div class="container">
       <div class="d-flex align-items-center mb-3">
@@ -115,7 +143,7 @@
         <h2 class="h3 font-weight-bolder mb-0">Destacados</h2>
       </div>
 
-      <article class="glass-card shadow-quiet p-4 mb-4" itemscope="" itemtype="https://schema.org/CreativeWork">
+      <article class="glass-card shadow-quiet p-4 mb-4" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="d-flex align-items-center mb-2">
           <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
           <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
@@ -132,17 +160,18 @@
       <div class="row">
         <article class="col-md-6 mb-4">
           <div class="glass-card shadow-quiet h-100 p-3">
-            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
+            <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
             <h3 class="h5">Estrategia Digital Wealth Management 2025</h3>
             <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
             <a class="btn btn-light btn-sm" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener">Ver documento</a>
           </div>
         </article>
+
         <article class="col-md-6 mb-4">
           <div class="glass-card shadow-quiet h-100 p-3">
-            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="CDF FFMM SURA Pass">
+            <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Transvip · Experiencia digital">
             <h3 class="h5">Experiencia digital Transvip</h3>
-            <p class="small mb-3">Movilidad y experiencia digital en aeropuertos, coporativos y personas</p>
+            <p class="small mb-3">Movilidad y experiencia digital en aeropuertos, corporativos y personas.</p>
             <a class="btn btn-light btn-sm" href="landing-transvip.html" target="_blank" rel="noopener">Ver landing</a>
           </div>
         </article>
@@ -150,8 +179,7 @@
     </div>
   </section>
 
-
-  <!-- BLOQUE 2 · Métodos (dark + tabs + glass) -->
+  <!-- MÉTODOS -->
   <section id="Metodos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Métodos y artefactos">
     <div class="container">
       <div class="d-flex align-items-center mb-3">
@@ -169,7 +197,7 @@
       </ul>
 
       <div class="tab-content pt-3" id="metodosContent">
-        <!-- Cada pane usa glass-card para homogeneidad -->
+        <!-- DT -->
         <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
@@ -202,6 +230,7 @@
           </div>
         </div>
 
+        <!-- DS -->
         <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
@@ -234,6 +263,7 @@
           </div>
         </div>
 
+        <!-- Agile -->
         <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
@@ -266,6 +296,7 @@
           </div>
         </div>
 
+        <!-- SBD -->
         <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
@@ -301,6 +332,7 @@
           </div>
         </div>
 
+        <!-- DDD -->
         <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde el día uno.</p>
@@ -333,6 +365,7 @@
           </div>
         </div>
 
+        <!-- Gobernanza & A11y -->
         <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
           <div class="glass-card p-4 shadow-quiet">
             <p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
@@ -373,8 +406,7 @@
     </div>
   </section>
 
-
-  <!-- BLOQUE 3 · CV (paper + grid) -->
+  <!-- CV -->
   <section id="CV" class="section bg-gradient-paper pattern-grid" aria-label="CV">
     <div class="container">
       <div class="d-flex align-items-center mb-3">
@@ -434,8 +466,7 @@
     </div>
   </section>
 
-
-   <!-- BLOQUE 4· KPIs (paper + grid) -->
+  <!-- KPIs -->
   <section id="KPIs" class="section bg-gradient-paper pattern-grid" aria-label="Indicadores">
     <div class="container">
       <div class="d-flex align-items-center mb-3">
@@ -483,7 +514,7 @@
     </div>
   </section>
 
-  <!-- BLOQUE 5 · Contacto (dark + glass) -->
+  <!-- CONTACTO -->
   <section id="Contacto" class="section bg-gradient-dark pattern-dots text-white" aria-label="Contacto">
     <div class="container">
       <div class="glass-card p-4 text-center shadow-quiet">
@@ -510,92 +541,15 @@
   </section>
 </main>
 
-<!-- FOOTER mínimo -->
+<!-- FOOTER -->
 <footer class="bg-dark text-center py-3" role="contentinfo" aria-label="Pie de página">
   <small class="text-muted">
     © Rodrigo Gaete · <a href="#Inicio" class="text-warning">Volver arriba</a>
   </small>
 </footer>
 
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
-
-
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
-</body></html>
+<!-- JS: carga diferida -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+</body>
+</html>
