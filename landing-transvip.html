@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Transvip · Experiencia Digital</title>
-  <meta name="description" content="Experiencia digital Transvip: aeropuertos, corporativo y personas. App, geofencing, TMS, analítica y soporte 24/7.">
+  <title>Transvip · Grandes Proyectos y Experiencia Digital</title>
+  <meta name="description" content="Grandes proyectos Transvip: nueva App, nueva Web, Sistema de Diseño y Tótems. Accesibilidad, usabilidad y agilidad con resultados medibles.">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
   <!-- Fuentes + Bootstrap 4.5 -->
@@ -19,26 +19,41 @@
     body{font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-top:72px;color:var(--ink)}
     [id]{scroll-margin-top:72px}
 
+    /* Hero coherente con tu estética */
     .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:url('assets/img/hero-transvip.jpg') center/cover no-repeat}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25))}
     .hero .wrap{position:relative;z-index:2}
     .chip{display:inline-block;padding:.35rem .6rem;font-size:.8rem;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
     .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
     .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem}
+
+    /* Tarjetas y bloques */
     .pillar,.kpi,.evidence-card,.road-step{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
     .evidence-card img{object-fit:cover;height:160px}
     .bg-paper{background:var(--paper)}
     .text-brand{color:var(--brand)!important}
+
+    /* Utilidad de foco visible */
+    a:focus, button:focus{outline:3px solid var(--brand);outline-offset:2px}
   </style>
 
-  <!-- JSON-LD básico -->
+  <!-- JSON-LD: Página + lista de proyectos -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"WebPage",
-    "name":"Transvip · Experiencia Digital",
-    "description":"Movilidad para aeropuertos, corporativo y personas. App, geofencing, TMS, analítica y soporte 24/7.",
-    "about":{"@type":"Organization","name":"Transvip"}
+    "name":"Transvip · Grandes Proyectos y Experiencia Digital",
+    "description":"Nueva App, Nueva Web, Sistema de Diseño y Tótems de autoatención.",
+    "about":{"@type":"Organization","name":"Transvip"},
+    "mainEntity":{
+      "@type":"ItemList",
+      "itemListElement":[
+        {"@type":"CreativeWork","position":1,"name":"Nueva App Transvip","description":"Rediseño centrado en accesibilidad, usabilidad y agilidad."},
+        {"@type":"CreativeWork","position":2,"name":"Nueva Web Transvip","description":"Nueva lógica de cotización y checkout alineada a objetivos de negocio."},
+        {"@type":"CreativeWork","position":3,"name":"Sistema de Diseño Transvip","description":"Atomic Design para cliente, web, conductor y sistemas satélite."},
+        {"@type":"CreativeWork","position":4,"name":"Tótems de Autoatención","description":"Autoatención en aeropuertos con nuevos flujos y research."}
+      ]
+    }
   }
   </script>
 </head>
@@ -53,37 +68,35 @@
   <div id="nav" class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item"><a class="nav-link text-warning" href="#inicio" aria-current="page">Transvip</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#aeropuerto">Aeropuertos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#corporativo">Corporativo</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#personas">Personas</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#tecnologia">Tecnología</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#futuro">Innovación</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#proyectos">Grandes proyectos</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#rol">Mi rol</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#resultados">Resultados</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#contacto">Contacto</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- HERO -->
-<header id="inicio" class="hero" role="banner" aria-label="Transvip · Experiencia Digital">
+<header id="inicio" class="hero" role="banner" aria-label="Transvip · Grandes Proyectos">
   <div class="container wrap">
     <div class="row align-items-center">
       <div class="col-lg-7 mb-4 mb-lg-0">
-        <span class="chip mb-2">Movilidad</span>
-        <h1 class="display-5 font-weight-bolder mb-3 text-white">Transvip · <span class="text-brand">Experiencia Digital</span></h1>
-        <p class="lead mb-4 text-light">Aeropuertos, corporativos y personas. App, geofencing, TMS, analítica y soporte 24/7 para traslados confiables.</p>
+        <span class="chip mb-2">Movilidad · Producto</span>
+        <h1 class="display-5 font-weight-bolder mb-3 text-white">Transvip · <span class="text-brand">Grandes Proyectos</span></h1>
+        <p class="lead mb-4 text-light">App, Web, Sistema de Diseño y Tótems. Enfoque en accesibilidad, usabilidad y agilidad para mejorar autoatención y eficiencia.</p>
         <div class="d-flex flex-wrap">
-          <a class="btn btn-warning mr-2 mb-2" href="#aeropuerto">Ver aeropuertos</a>
-          <a class="btn btn-outline-light mb-2" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">Ver DEI</a>
+          <a class="btn btn-warning mr-2 mb-2" href="#proyectos" data-metric="txp-cta-hero-proyectos">Ver proyectos</a>
+          <a class="btn btn-outline-light mb-2" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-hero-dei">Ver DEI</a>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="card-hero p-4">
-          <strong class="d-block mb-2">Lo clave</strong>
+          <strong class="d-block mb-2">En síntesis</strong>
           <ul class="pl-3 mb-0">
-            <li>Reserva online con confirmación inmediata.</li>
-            <li>Tracking de vuelo y despacho automático.</li>
-            <li>App móvil: seguimiento, mensajería y pagos.</li>
-            <li>Políticas corporativas y reportes de gasto.</li>
-            <li>Soporte 24/7 y calificación de conductores.</li>
+            <li>Autoatención y reducción de fricciones.</li>
+            <li>Accesibilidad y usabilidad como criterios de salida.</li>
+            <li>Atomic Design para acelerar sprints.</li>
+            <li>Research con usuarios reales.</li>
           </ul>
         </div>
       </div>
@@ -91,105 +104,163 @@
   </div>
 </header>
 
-<!-- AEROPUERTOS -->
-<section id="aeropuerto" class="py-5 bg-paper" aria-label="Aeropuertos">
+<!-- PROYECTOS -->
+<section id="proyectos" class="py-5 bg-paper" aria-label="Grandes proyectos">
   <div class="container">
-    <h2 class="h3 font-weight-bolder mb-4">Airport Mobility</h2>
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">Proyectos</span>
+      <h2 class="h3 font-weight-bolder mb-0">Grandes proyectos</h2>
+    </div>
+
     <div class="row">
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Reserva online</h5>
-        <p class="small mb-2">Sitio y app con confirmación, vehículo y ETA. Evita filas y negociación en terminales.</p>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Tracking de vuelos</h5>
-        <p class="small mb-2">Integración a flight status para ajustar recogidas y notificar cambios automáticamente.</p>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>App móvil</h5>
-        <p class="small mb-2">Seguimiento en tiempo real, chat con conductor y pagos seguros. Historial de viajes y favoritos.</p>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Check-in y geofencing</h5>
-        <p class="small mb-2">Boarding pass opcional y geocercas que disparan despacho al aterrizar en zona definida.</p>
-      </div></div>
+      <!-- 01 App -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">01. Nueva App Transvip</h3>
+          <p class="small mb-3">Rediseño orientado a <strong>accesibilidad, usabilidad y agilidad</strong> para mejorar la autoatención.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Handoff claro para desarrollo.</li>
+            <li>Patrones de accesibilidad por defecto.</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2" href="#" aria-disabled="true" data-metric="txp-app-ver-proyecto">Ver proyecto</a>
+            <a class="btn btn-outline-secondary btn-sm mb-2" href="#" aria-disabled="true" data-metric="txp-app-maqueta">Ver maqueta alta fidelidad</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 Web -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">02. Nueva Web Transvip</h3>
+          <p class="small mb-3">Renovación de interfaz y <strong>nueva lógica</strong> de adquirir servicios: cotización → checkout, alineado a negocio.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Proceso colaborativo y ágil.</li>
+            <li>Testeo con usuarios reales.</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2" href="#" aria-disabled="true" data-metric="txp-web-revisa">Revisa el proyecto aquí</a>
+            <span class="badge badge-warning align-self-center">Sprint en progreso</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 Sistema de Diseño -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">03. Creación de Sistemas de Diseño</h3>
+          <p class="small mb-3">Liderazgo del sistema para acelerar sprints y estandarizar experiencias.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Aplicación Cliente</li>
+            <li>Web mobile y Desktop</li>
+            <li>Aplicación Conductor</li>
+            <li>Sistemas enlace y satélites</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2" href="#" aria-disabled="true" data-metric="txp-ds-ver-proyecto">Ver proyecto</a>
+            <a class="btn btn-outline-secondary btn-sm mb-2" href="#" aria-disabled="true" data-metric="txp-ds-maqueta">Ver componentes</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04 Tótems -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">04. Nuevos Tótems Transvip</h3>
+          <p class="small mb-3">Autoatención en aeropuertos. Proyecto reactivado para mejorar tiempos y autonomía.</p>
+          <ul class="small pl-3 mb-3">
+            <li>UX Research y validación en terreno.</li>
+            <li>Flujos optimizados para pico de demanda.</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2" href="#" aria-disabled="true" data-metric="txp-totem-ver-proyecto">Ver proyecto</a>
+            <span class="badge badge-info align-self-center">Sprint en progreso</span>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- CORPORATIVO -->
-<section id="corporativo" class="py-5" aria-label="Corporativo">
+<!-- MI ROL -->
+<section id="rol" class="py-5" aria-label="Mi rol">
   <div class="container">
-    <h2 class="h3 font-weight-bolder mb-4">Corporate Solutions</h2>
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">Rol</span>
+      <h2 class="h3 font-weight-bolder mb-0">Mi rol</h2>
+    </div>
+
     <div class="row">
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Plataforma centralizada</h5>
-        <p class="small mb-2">Booking para autorizados, trazabilidad de gastos y reportes descargables con branding.</p>
-        <ul class="small pl-3 mb-0"><li>Usuarios, centros de costo, políticas.</li></ul>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Políticas y TMS</h5>
-        <p class="small mb-2">Tipos de vehículo, límites y rutas preferidas. Integración con TMS para reserva desde la herramienta corporativa.</p>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Reporte automático</h5>
-        <p class="small mb-2">Informe por viaje: fecha, trayecto, costo e impuestos. Exportable a finanzas.</p>
-      </div></div>
-      <div class="col-md-6 mb-3"><div class="pillar p-4 h-100">
-        <h5>Cuenta dedicada</h5>
-        <p class="small mb-0">Account management para onboarding, SLA y resolución de incidentes.</p>
-      </div></div>
+      <div class="col-lg-8 mb-3">
+        <div class="pillar p-4 h-100">
+          <p class="mb-3">
+            Como Product Designer lideré las definiciones UX/UI junto a desarrollo, QA, stakeholders y Product Owner
+            para ofrecer experiencias accesibles, eficientes y eficaces.
+          </p>
+          <p class="mb-0 small">
+            Además, implementé nuevos procesos dentro de los sprints de desarrollo con foco en criterios de salida,
+            handoff claro y medición por flujo.
+          </p>
+        </div>
+      </div>
+      <aside class="col-lg-4">
+        <div class="kpi p-4 h-100">
+          <h3 class="h6 mb-2">Prácticas clave</h3>
+          <ul class="small pl-3 mb-0">
+            <li>Accesibilidad y usabilidad como DoD</li>
+            <li>Design reviews y handoff ágil</li>
+            <li>Testeo con usuarios reales</li>
+          </ul>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
-<!-- PERSONAS -->
-<section id="personas" class="py-5 bg-paper" aria-label="Personas">
+<!-- RESULTADOS -->
+<section id="resultados" class="py-5 bg-paper" aria-label="Resultados y logros">
   <div class="container">
-    <h2 class="h3 font-weight-bolder mb-4">Individual User Experience</h2>
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">Resultados</span>
+      <h2 class="h3 font-weight-bolder mb-0">Logros colectivos</h2>
+    </div>
+
     <div class="row">
-      <div class="col-md-4 mb-3"><div class="pillar p-4 h-100">
-        <h5>App simple</h5><p class="small mb-0">Reserva en pocos pasos, seguimiento y gestión de cuenta en iOS/Android.</p>
-      </div></div>
-      <div class="col-md-4 mb-3"><div class="pillar p-4 h-100">
-        <h5>Pagos</h5><p class="small mb-0">Tarjetas y wallets. Tokenización y guardado seguro de medios de pago.</p>
-      </div></div>
-      <div class="col-md-4 mb-3"><div class="pillar p-4 h-100">
-        <h5>Preferencias y rating</h5><p class="small mb-0">Vehículo, temperatura, música. Evaluación de conductor tras el viaje.</p>
-      </div></div>
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Research</span>
+          <p class="mb-1 mt-2">Testeos con usuarios reales</p>
+          <small>Programa de testers activo · cobertura ↑</small>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Velocidad</span>
+          <p class="mb-1 mt-2">−25% tiempo de sprint</p>
+          <small>Atomic Design implementado</small>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Documentación</span>
+          <p class="mb-1 mt-2">Sistema de diseño vivo</p>
+          <small>Mejor traza y reutilización</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a class="btn btn-dark" href="#contacto" data-metric="txp-cta-contacto">Conversemos</a>
     </div>
   </div>
 </section>
 
-<!-- TECNOLOGÍA -->
-<section id="tecnologia" class="py-5" aria-label="Tecnología">
+<!-- CONTACTO -->
+<section id="contacto" class="py-5 text-center" aria-label="Contacto">
   <div class="container">
-    <h2 class="h3 font-weight-bolder mb-4">Technology Infrastructure</h2>
-    <div class="row">
-      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Cloud</span><p class="mb-1 mt-2">Plataforma escalable y segura.</p><small>Alta concurrencia</small></div></div>
-      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">GPS</span><p class="mb-1 mt-2">Tracking y geofencing.</p><small>Despacho automático</small></div></div>
-      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">Datos</span><p class="mb-1 mt-2">Analítica y reporting.</p><small>KPIs y tendencias</small></div></div>
-      <div class="col-md-3 mb-3"><div class="kpi p-3 h-100"><span class="badge badge-dark">APIs</span><p class="mb-1 mt-2">Integraciones TMS y aerolíneas.</p><small>Check-in y rutas</small></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- INNOVACIÓN -->
-<section id="futuro" class="py-5 bg-paper" aria-label="Innovación">
-  <div class="container">
-    <h2 class="h3 font-weight-bolder mb-4">Future Innovations</h2>
-    <div class="row">
-      <div class="col-md-4 mb-3"><div class="road-step p-3 h-100"><strong>Chatbots IA</strong><br>Atención instantánea y FAQ.</div></div>
-      <div class="col-md-4 mb-3"><div class="road-step p-3 h-100"><strong>Predicción</strong><br>Forecast de demanda y asignación.</div></div>
-      <div class="col-md-4 mb-3"><div class="road-step p-3 h-100"><strong>Personalización</strong><br>Ofertas y recomendaciones por uso.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="py-5 text-center bg-paper">
-  <div class="container">
-    <h2 class="h4 font-weight-bolder mb-3">¿Quieres demo o el dossier?</h2>
-    <a class="btn btn-dark" href="index.html#Contacto">Contactar</a>
+    <h2 class="h4 font-weight-bolder mb-3">¿Quieres ver la demo o el dossier?</h2>
+    <a class="btn btn-dark mr-2" href="index.html#Contacto" data-metric="txp-cta-home-contacto">Contactar</a>
+    <a class="btn btn-outline-secondary" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-dossier">Ver dossier</a>
   </div>
 </section>
 
