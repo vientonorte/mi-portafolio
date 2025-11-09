@@ -7,399 +7,269 @@
   <meta name="description" content="Transvip: App, Web, Sistema de Diseño y Tótems. Accesibilidad, usabilidad y agilidad para autoatención y eficiencia.">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
-  <!-- Fuentes + Bootstrap 4.5 -->
+  <!-- Fuentes + Bootstrap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
 
   <style>
-    :root{ --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13; }
+    /* === TOKENS GLOBALES === */
+    :root {
+      --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13;
+      --font-main:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      --fs-body:1rem; --fs-small:.9rem; --fs-h2:1.75rem; --fs-h3:1.25rem; --lh-tight:1.2;
+    }
     html{scroll-behavior:smooth}
-    body{font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-top:72px;color:var(--ink)}
+    body{
+      font-family:var(--font-main);
+      color:var(--ink);
+      font-size:var(--fs-body);
+      line-height:1.5;
+      padding-top:72px;
+      background:var(--paper);
+    }
     [id]{scroll-margin-top:72px}
-    a:focus, button:focus{outline:3px solid var(--brand);outline-offset:2px}
+    a:focus,button:focus{outline:3px solid var(--brand);outline-offset:2px}
 
+    /* === BASE TIPOGRÁFICA === */
+    h1,h2,h3{font-weight:700;line-height:var(--lh-tight);margin-bottom:.75rem}
+    h2{font-size:var(--fs-h2)} h3{font-size:var(--fs-h3)}
+    p,ul,small{margin-bottom:1rem}
+    section{padding:4rem 0}
+
+    /* === CABECERA DE SECCIÓN === */
+    .section-header{display:flex;align-items:center;gap:.5rem;margin-bottom:2rem}
+    .section-header .chip{flex-shrink:0;font-size:.8rem}
+    .section-header h2{margin:0;font-weight:700}
+
+    /* === COMPONENTES === */
+    .chip{display:inline-block;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
+    .pillar,.kpi,.evidence-card{border:1px solid #e9ecef;border-radius:.75rem;background:#fff;padding:1.5rem}
+    .kpi .display-4{font-weight:700;line-height:1;font-size:2rem;color:var(--ink)}
+    .bg-paper{background:var(--paper)} .text-brand{color:var(--brand)!important}
+    .hover-rise{transition:transform .2s ease,box-shadow .2s ease}
+    .hover-rise:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.15)}
+    .btn-press{transition:box-shadow .15s ease,transform .03s ease}
+    .btn-press:active{transform:translateY(1px);box-shadow:0 0 0 4px rgba(255,193,7,.25)}
+
+    /* === HERO === */
     .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:url('assets/img/hero-transvip.jpg') center/cover no-repeat}
-    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25))}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,0,0,.55),rgba(0,0,0,.25))}
     .hero .wrap{position:relative;z-index:2}
-    .chip{display:inline-block;padding:.35rem .6rem;font-size:.8rem;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
-    .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
+    .hero h1{font-size:2.25rem} .hero p.lead{font-size:1.1rem}
     .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem}
 
-    .pillar,.kpi,.evidence-card,.road-step{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
-    .evidence-card img{object-fit:cover;height:160px}
-    .bg-paper{background:var(--paper)}
-    .text-brand{color:var(--brand)!important}
+    /* === EFECTOS Y MICROINTERACCIONES === */
+    .fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .fade.visible{opacity:1;transform:none}
+    .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:1030}
+    .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#ffc107,#ffda6a)}
   </style>
-
-  <!-- JSON-LD: Página + lista de proyectos -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebPage",
-    "name":"Transvip · Grandes Proyectos y Experiencia Digital",
-    "description":"Nueva App, Nueva Web, Sistema de Diseño y Tótems de autoatención.",
-    "about":{"@type":"Organization","name":"Transvip"},
-    "mainEntity":{
-      "@type":"ItemList",
-      "itemListElement":[
-        {"@type":"CreativeWork","position":1,"name":"Nueva App Transvip","description":"Rediseño centrado en accesibilidad, usabilidad y agilidad."},
-        {"@type":"CreativeWork","position":2,"name":"Nueva Web Transvip","description":"Nueva lógica de cotización y checkout alineada al negocio."},
-        {"@type":"CreativeWork","position":3,"name":"Sistema de Diseño Transvip","description":"Atomic Design para cliente, web, conductor y satélites."},
-        {"@type":"CreativeWork","position":4,"name":"Tótems de Autoatención","description":"Autoatención en aeropuertos con nuevos flujos y research."}
-      ]
-    }
-  }
-  </script>
 </head>
+
 <body>
-
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="Principal">
-  <a class="navbar-brand text-warning font-weight-bolder" href="index.html">← Portafolio</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Menú">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div id="nav" class="collapse navbar-collapse">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><a class="nav-link text-warning" href="#inicio" aria-current="page">Transvip</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#proyectos">Proyectos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#rol">Mi rol</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#resultados">Resultados</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#contacto">Contacto</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header id="inicio" class="hero" role="banner" aria-label="Transvip · Grandes Proyectos">
-  <div class="container wrap">
-    <div class="row align-items-center">
-      <div class="col-lg-7 mb-4 mb-lg-0">
-        <span class="chip mb-2">Movilidad · Producto</span>
-        <h1 class="display-5 font-weight-bolder mb-3 text-white">Transvip · <span class="text-brand">Grandes Proyectos</span></h1>
-        <p class="lead mb-4 text-light">App, Web, Sistema de Diseño y Tótems. Enfoque en accesibilidad, usabilidad y agilidad para mejorar autoatención y eficiencia.</p>
-        <div class="d-flex flex-wrap">
-          <a class="btn btn-warning mr-2 mb-2" href="#proyectos" data-metric="txp-cta-hero-proyectos">Ver proyectos</a>
-          <a class="btn btn-outline-light mb-2" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-hero-dei">Ver DEI</a>
-        </div>
-      </div>
-      <div class="col-lg-5">
-        <div class="card-hero p-4">
-          <strong class="d-block mb-2">En síntesis</strong>
-          <ul class="pl-3 mb-0">
-            <li>Autoatención y reducción de fricciones.</li>
-            <li>Accesibilidad y usabilidad como criterios de salida.</li>
-            <li>Atomic Design para acelerar sprints.</li>
-            <li>Research con usuarios reales.</li>
-          </ul>
-        </div>
-      </div>
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Principal">
+    <a class="navbar-brand text-warning font-weight-bolder" href="index.html">← Portafolio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link text-warning" href="#inicio">Transvip</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#proyectos">Proyectos</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#rol">Rol</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#resultados">Resultados</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#contacto">Contacto</a></li>
+      </ul>
     </div>
-  </div>
-</header>
-<!-- PROYECTOS -->
-<section id="proyectos" class="py-5" aria-label="Grandes proyectos">
-  <div class="container">
-    <div class="d-flex align-items-center mb-3">
-      <span class="chip mr-2">Proyectos</span>
-      <h2 class="h3 font-weight-bolder mb-0">Grandes proyectos</h2>
-    </div>
+  </nav>
 
-    <div class="row">
-      <!-- 01 App -->
-      <article class="col-md-6 mb-4">
-        <div class="pillar p-4 h-100">
-          <h3 class="h5 mb-2">01. Nueva App Transvip</h3>
-          <p class="small mb-3">Rediseño orientado a <strong>accesibilidad, usabilidad y agilidad</strong> para mejorar la autoatención.</p>
-          <ul class="small pl-3 mb-3">
-            <li>Handoff claro para desarrollo.</li>
-            <li>Patrones A11y por defecto.</li>
-          </ul>
+  <!-- HERO -->
+  <header id="inicio" class="hero" role="banner">
+    <div class="container wrap">
+      <div class="row align-items-center">
+        <div class="col-lg-7 mb-4 mb-lg-0">
+          <span class="chip mb-2">Movilidad · Producto</span>
+          <h1 class="text-white mb-3">Transvip · <span class="text-brand">Grandes Proyectos</span></h1>
+          <p class="lead text-light mb-4">App, Web, Sistema de Diseño y Tótems. Enfoque en accesibilidad, usabilidad y agilidad para mejorar autoatención y eficiencia.</p>
           <div class="d-flex flex-wrap">
-            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-ver-proyecto">Ver proyecto</a>
-            <a class="btn btn-outline-secondary btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-maqueta">Ver maqueta alta fidelidad</a>
+            <a class="btn btn-warning mr-2 mb-2 btn-press" href="#proyectos">Ver proyectos</a>
+            <a class="btn btn-outline-light mb-2 btn-press" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">Ver DEI</a>
           </div>
         </div>
-      </article>
-
-      <!-- 02 Web -->
-      <article class="col-md-6 mb-4">
-        <div class="pillar p-4 h-100">
-          <h3 class="h5 mb-2">02. Nueva Web Transvip</h3>
-        <p class="small mb-3">Renovación de interfaz y <strong>nueva lógica</strong> de adquirir servicios: cotización → checkout, alineado a objetivos de negocio.</p>
-          <ul class="small pl-3 mb-3">
-            <li>Proceso colaborativo y ágil.</li>
-            <li>Testeo con usuarios reales.</li>
-          </ul>
-          <div class="d-flex flex-wrap">
-            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-web-revisa">Revisa el proyecto aquí</a>
-            <span class="badge badge-warning align-self-center">Sprint en progreso</span>
+        <div class="col-lg-5">
+          <div class="card-hero p-4">
+            <strong class="d-block mb-2">En síntesis</strong>
+            <ul class="pl-3 mb-0">
+              <li>Autoatención y reducción de fricciones</li>
+              <li>Accesibilidad y usabilidad como criterios de salida</li>
+              <li>Atomic Design para acelerar sprints</li>
+              <li>Research con usuarios reales</li>
+            </ul>
           </div>
         </div>
-      </article>
+      </div>
+    </div>
+  </header>
 
-      <!-- 03 Sistema de Diseño -->
-      <article class="col-md-6 mb-4">
-        <div class="pillar p-4 h-100">
-          <h3 class="h5 mb-2">03. Sistemas de Diseño Transvip</h3>
-          <p class="small mb-3">Lideré la construcción del sistema para acelerar sprints y estandarizar experiencias.</p>
-          <ul class="small pl-3 mb-3">
-            <li>Aplicación Cliente</li>
-            <li>Web mobile y Desktop</li>
-            <li>Aplicación Conductor</li>
-            <li>Sistemas enlace y satélites</li>
-          </ul>
-          <div class="d-flex flex-wrap">
-            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-ver-proyecto">Ver proyecto</a>
-            <a class="btn btn-outline-secondary btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-maqueta">Ver componentes</a>
+  <!-- PROYECTOS -->
+  <section id="proyectos" class="fade bg-paper">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Proyectos</span>
+        <h2>Grandes proyectos</h2>
+      </div>
+      <p class="lead mb-4">Casos priorizados centrados en accesibilidad, eficiencia y experiencia continua.</p>
+
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="pillar hover-rise h-100">
+            <h3>01. Nueva App Transvip</h3>
+            <p class="small">Rediseño orientado a accesibilidad, usabilidad y agilidad para mejorar la autoatención.</p>
+            <ul class="small pl-3"><li>Handoff claro para desarrollo</li><li>Patrones A11y por defecto</li></ul>
           </div>
         </div>
-      </article>
 
-      <!-- 04 Tótems -->
-      <article class="col-md-6 mb-4">
-        <div class="pillar p-4 h-100">
-          <h3 class="h5 mb-2">04. Nuevos Tótems Transvip</h3>
-          <p class="small mb-3">Autoatención en aeropuertos. Proyecto reactivado para mejorar tiempos y autonomía.</p>
-          <ul class="small pl-3 mb-3">
-            <li>UX Research y validación en terreno.</li>
-            <li>Flujos optimizados para pico de demanda.</li>
-          </ul>
-          <div class="d-flex flex-wrap">
-            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-totem-ver-proyecto">Ver proyecto</a>
-            <span class="badge badge-info align-self-center">Sprint en progreso</span>
+        <div class="col-md-6 mb-4">
+          <div class="pillar hover-rise h-100">
+            <h3>02. Nueva Web Transvip</h3>
+            <p class="small">Nueva lógica de cotización y checkout alineada a objetivos de negocio.</p>
+            <ul class="small pl-3"><li>Proceso colaborativo y ágil</li><li>Testeo con usuarios reales</li></ul>
           </div>
         </div>
-      </article>
-    </div>
-  </div>
-</section>
 
-<!-- MI ROL -->
-<section id="rol" class="py-5 bg-paper" aria-label="Mi rol">
-  <div class="container">
-    <div class="d-flex align-items-center mb-3">
-      <span class="chip mr-2">Rol</span>
-      <h2 class="h3 font-weight-bolder mb-0">Mi rol</h2>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-8 mb-3">
-        <div class="pillar p-4 h-100">
-          <p class="mb-3">
-            Como Product Designer lideré definiciones UX/UI junto a desarrollo, QA, stakeholders y Product Owner para
-            ofrecer experiencias accesibles, eficientes y eficaces.
-          </p>
-          <p class="mb-0 small">
-            Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo.
-          </p>
+        <div class="col-md-6 mb-4">
+          <div class="pillar hover-rise h-100">
+            <h3>03. Sistema de Diseño Transvip</h3>
+            <p class="small">Lideré la construcción del sistema para acelerar sprints y estandarizar experiencias.</p>
+            <ul class="small pl-3"><li>App Cliente y Conductor</li><li>Web Mobile/Desktop</li><li>Sistemas enlace y satélites</li></ul>
+          </div>
         </div>
-      </div>
-      <aside class="col-lg-4">
-        <div class="kpi p-4 h-100">
-          <h3 class="h6 mb-2">Prácticas clave</h3>
-          <ul class="small pl-3 mb-0">
-            <li>Accesibilidad y usabilidad como DoD</li>
-            <li>Design reviews y handoff ágil</li>
-            <li>Testeo con usuarios reales</li>
-          </ul>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-<!-- ===== EVIDENCIAS + MICROINTERACCIONES ===== -->
-<!-- Barra de progreso de scroll (opcional, coherente con todo el sitio) -->
-<div class="scroll-progress" aria-hidden="true">
-  <div class="scroll-progress__bar" style="width:0%"></div>
-</div>
 
-<section id="evidencias" class="py-5 bg-paper fade" aria-label="Evidencias y assets">
-  <div class="container">
-    <div class="d-flex align-items-center mb-3">
-      <span class="chip mr-2">Evidencias</span>
-      <h2 class="h3 font-weight-bolder mb-0">Diseño y procesos</h2>
-    </div>
-    <p class="small mb-4">
-      Del insight al prototipo: research con usuarios, iteraciones en Figma y validaciones con Maze.
-    </p>
-
-    <div class="row">
-      <!-- Card 1 -->
-      <div class="col-md-6 col-lg-3 mb-3">
-        <figure class="evidence-card card shadow-sm h-100 hover-rise">
-          <img src="assets/img/mi-perfil-macbook.png" alt="Pantalla Mi perfil en Transvip Web" class="card-img-top" loading="lazy">
-          <figcaption class="card-body">
-            <h5 class="card-title mb-1">Web · Perfil</h5>
-            <p class="small mb-2">Gestión de datos y métodos de pago.</p>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="col-md-6 col-lg-3 mb-3">
-        <figure class="evidence-card card shadow-sm h-100 hover-rise">
-          <img src="assets/img/app-oneplus.png" alt="App Transvip: selector de servicio en móvil" class="card-img-top" loading="lazy">
-          <figcaption class="card-body">
-            <h5 class="card-title mb-1">App · Selector</h5>
-            <p class="small mb-2">Elección de vehículo y tiempos de viaje.</p>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="col-md-6 col-lg-3 mb-3">
-        <figure class="evidence-card card shadow-sm h-100 hover-rise">
-          <img src="assets/img/sprint-diseno-transvip.png" alt="Proceso UX: analytics, research, diseño y testing" class="card-img-top" loading="lazy">
-          <figcaption class="card-body">
-            <h5 class="card-title mb-1">Proceso UX</h5>
-            <p class="small mb-2">Analytics → Research → UI → Testing.</p>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- Card 4 (opcional) -->
-      <div class="col-md-6 col-lg-3 mb-3">
-        <figure class="evidence-card card shadow-sm h-100 hover-rise">
-          <img src="assets/img/ipad-mini-mock.png" alt="Mock de App Transvip en iPad" class="card-img-top" loading="lazy">
-          <figcaption class="card-body">
-            <h5 class="card-title mb-1">Mock iPad</h5>
-            <p class="small mb-2">Exploración para puntos de autoatención.</p>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <div class="text-center mt-3">
-      <a class="btn btn-dark mr-2 btn-press" href="assets/docs/Maze-Resumen.pdf" target="_blank" rel="noopener" data-metric="txp-cta-maze">
-        Ver resumen Maze
-      </a>
-      <a class="btn btn-outline-secondary btn-press" href="https://www.figma.com/proto/dwWBfPbMKk4zgs1sQLko3y/Informes-Trasnvip?page-id=0%3A1&type=design&node-id=50-28000&viewport=-6860%2C619%2C0.18&scaling=min-zoom&starting-point-node-id=50%3A28000&show-proto-sidebar=1&mode=design"
-         target="_blank" rel="noopener" data-metric="txp-cta-figma">
-        Ver prototipo en Figma
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== estilos locales (puedes moverlos a tu CSS) ===== -->
-<style>
-  /* Barra de progreso */
-  .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:1030}
-  .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#ffc107,#ffda6a)}
-
-  /* Aparición al hacer scroll */
-  .fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
-  .fade.visible{opacity:1;transform:none}
-
-  /* Microinteracciones de cards y botones */
-  .hover-rise{transition:transform .2s ease, box-shadow .2s ease}
-  .hover-rise:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.15)}
-  .btn-press{transition:box-shadow .15s ease, transform .03s ease}
-  .btn-press:active{transform:translateY(1px);box-shadow:0 0 0 4px rgba(255,193,7,.25)}
-</style>
-
-<!-- ===== JS nativo para microinteracciones ===== -->
-<script>
-  // IntersectionObserver: revela secciones con clase .fade
-  (function(){
-    var els = document.querySelectorAll('.fade');
-    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('visible'); }); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){ entry.target.classList.add('visible'); io.unobserve(entry.target); }
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-    els.forEach(function(e){ io.observe(e); });
-  })();
-
-  // Barra de progreso de scroll
-  (function(){
-    var bar = document.querySelector('.scroll-progress__bar');
-    if(!bar) return;
-    function onScroll(){
-      var h = document.documentElement;
-      var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
-      bar.style.width = (Math.max(0, Math.min(1, scrolled)) * 100).toFixed(2) + '%';
-    }
-    document.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  })();
-</script>
-
-<!-- LOGROS COLECTIVOS · UI KPI -->
-<section id="resultados" class="py-5" aria-label="Resultados y logros">
-  <div class="container">
-    <div class="d-flex align-items-center mb-3">
-      <span class="chip mr-2">Resultados</span>
-      <h2 class="h3 font-weight-bolder mb-0">Logros colectivos</h2>
-    </div>
-
-    <div class="row">
-      <!-- Testers -->
-      <div class="col-sm-6 col-lg-4 mb-3">
-        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Testers">
-          <span class="badge badge-dark">Testers</span>
-          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-label="Porcentaje">80<span class="h5">%</span></p>
-          <small class="d-block text-muted mt-1">
-            Ahora contamos con testeos de usabilidad con usuarios reales
-          </small>
-        </div>
-      </div>
-
-      <!-- Atomic Design / Velocidad -->
-      <div class="col-sm-6 col-lg-4 mb-3">
-        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Velocidad de sprint">
-          <span class="badge badge-dark">Velocidad</span>
-          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-label="Reducción de tiempo de sprint">25<span class="h5">%</span></p>
-          <small class="d-block text-muted mt-1">
-            Implementando Atomic Design logramos reducir el tiempo de los sprint considerablemente.
-          </small>
-        </div>
-      </div>
-
-      <!-- Documentación -->
-      <div class="col-sm-6 col-lg-4 mb-3">
-        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Documentación">
-          <span class="badge badge-dark">Documentación</span>
-          <!-- Sin métrica numérica definida; mantenemos coherencia visual con un check -->
-          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-hidden="true">✓</p>
-          <small class="d-block text-muted mt-1">
-            Hemos avanzado en la documentación efectiva a través de sistemas de diseños que dan valor al negocio.
-          </small>
+        <div class="col-md-6 mb-4">
+          <div class="pillar hover-rise h-100">
+            <h3>04. Nuevos Tótems Transvip</h3>
+            <p class="small">Autoatención en aeropuertos. Proyecto reactivado para mejorar tiempos y autonomía.</p>
+            <ul class="small pl-3"><li>UX Research y validación en terreno</li><li>Flujos optimizados para picos de demanda</li></ul>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="text-center mt-3">
-      <a class="btn btn-dark" href="#contacto" data-metric="txp-cta-contacto">Conversemos</a>
+  <!-- ROL -->
+  <section id="rol" class="fade">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Rol</span>
+        <h2>Mi rol</h2>
+      </div>
+      <p class="lead mb-4">Como Product Designer lideré definiciones UX/UI junto a desarrollo, QA, stakeholders y Product Owner para ofrecer experiencias accesibles, eficientes y eficaces.</p>
+
+      <div class="row">
+        <div class="col-lg-8 mb-3">
+          <div class="pillar h-100">
+            <p>Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo.</p>
+          </div>
+        </div>
+        <aside class="col-lg-4">
+          <div class="kpi h-100">
+            <h3 class="h6 mb-2">Prácticas clave</h3>
+            <ul class="small pl-3 mb-0"><li>Accesibilidad y usabilidad como DoD</li><li>Design reviews y handoff ágil</li><li>Testeo con usuarios reales</li></ul>
+          </div>
+        </aside>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Estilos finos para KPIs (opcional, mantiene tu estética) -->
-<style>
-  #resultados .kpi { border:1px solid #e9ecef; border-radius:.75rem; background:#fff; color:#212529; }
-  #resultados .display-4 { line-height:1; font-size:2.25rem; }
-</style>
+  <!-- RESULTADOS -->
+  <section id="resultados" class="fade bg-paper">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Resultados</span>
+        <h2>Logros colectivos</h2>
+      </div>
 
-<!-- CONTACTO -->
-<section id="contacto" class="py-5 text-center bg-paper" aria-label="Contacto">
-  <div class="container">
-    <h2 class="h4 font-weight-bolder mb-3">¿Quieres ver la demo o el dossier?</h2>
-    <a class="btn btn-dark mr-2" href="index.html#Contacto" data-metric="txp-cta-home-contacto">Contactar</a>
-    <a class="btn btn-outline-secondary" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-dossier">Ver dossier</a>
-  </div>
-</section>
+      <div class="row">
+        <div class="col-sm-6 col-lg-4 mb-3">
+          <div class="kpi hover-rise h-100 text-center">
+            <span class="badge badge-dark">Testers</span>
+            <p class="display-4 mb-0 mt-2">80%</p>
+            <small>Testeos con usuarios reales</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 mb-3">
+          <div class="kpi hover-rise h-100 text-center">
+            <span class="badge badge-dark">Velocidad</span>
+            <p class="display-4 mb-0 mt-2">25%</p>
+            <small>Reducción de tiempo de sprint</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 mb-3">
+          <div class="kpi hover-rise h-100 text-center">
+            <span class="badge badge-dark">Documentación</span>
+            <p class="display-4 mb-0 mt-2">✓</p>
+            <small>Sistemas de diseño que dan valor al negocio</small>
+          </div>
+        </div>
+      </div>
 
-<footer class="container-fluid bg-dark text-warning text-center p-4" role="contentinfo">
-  <small>Transvip · Experiencia Digital</small>
-</footer>
+      <div class="text-center mt-3">
+        <a class="btn btn-dark btn-press" href="#contacto">Conversemos</a>
+      </div>
+    </div>
+  </section>
 
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
-</body>
-</html>
+  <!-- EVIDENCIAS -->
+  <section id="evidencias" class="fade">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Evidencias</span>
+        <h2>Diseño y procesos</h2>
+      </div>
+      <p class="lead mb-4">Del insight al prototipo: research con usuarios, iteraciones en Figma y validaciones con Maze.</p>
+
+      <div class="row">
+        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/mi-perfil-macbook.png" alt="Web · Perfil" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Web · Perfil</h5><p class="small mb-0">Gestión de datos y métodos de pago.</p></figcaption></figure></div>
+        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/app-oneplus.png" alt="App Transvip móvil" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">App · Selector</h5><p class="small mb-0">Selección de servicio y tiempos de viaje.</p></figcaption></figure></div>
+        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/sprint-diseno-transvip.png" alt="Proceso UX" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Proceso UX</h5><p class="small mb-0">Analytics → Research → UI → Testing.</p></figcaption></figure></div>
+        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/ipad-mini-mock.png" alt="Mock iPad" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Mock iPad</h5><p class="small mb-0">Exploración para puntos de autoatención.</p></figcaption></figure></div>
+      </div>
+
+      <div class="text-center mt-3">
+        <a class="btn btn-dark mr-2 btn-press" href="assets/docs/Maze-Resumen.pdf" target="_blank" rel="noopener">Ver resumen Maze</a>
+        <a class="btn btn-outline-secondary btn-press" href="https://www.figma.com/proto/dwWBfPbMKk4zgs1sQLko3y/Informes-Trasnvip?page-id=0%3A1&type=design&node-id=50-28000" target="_blank" rel="noopener">Ver prototipo Figma</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="fade bg-paper text-center">
+    <div class="container">
+      <h2 class="h4 font-weight-bolder mb-3">¿Quieres ver la demo o el dossier?</h2>
+      <a class="btn btn-dark mr-2 btn-press" href="index.html#Contacto">Contactar</a>
+      <a class="btn btn-outline-secondary btn-press" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">Ver dossier</a>
+    </div>
+  </section>
+
+  <footer class="container-fluid bg-dark text-warning text-center p-4" role="contentinfo">
+    <small>Transvip · Experiencia Digital</small>
+  </footer>
+
+  <!-- MICROINTERACCIONES -->
+  <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar"></div></div>
+  <script>
+    // Fade-in
+    const fades=document.querySelectorAll('.fade');
+    if('IntersectionObserver'in window){
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+      },{rootMargin:"0px 0px -10% 0px",threshold:0.1});
+      fades.forEach(el=>io.observe(el));
+    }else fades.forEach(el=>el.classList.add('visible'));
+
+    // Scroll progress
+    const bar=document.querySelector('.scroll-progress__bar');
+    if(bar){document.addEventListener('scroll',()=>{const
