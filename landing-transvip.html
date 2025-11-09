@@ -211,7 +211,7 @@
   </div>
 </section>
 
-<!-- RESULTADOS -->
+<!-- LOGROS COLECTIVOS · UI KPI -->
 <section id="resultados" class="py-5" aria-label="Resultados y logros">
   <div class="container">
     <div class="d-flex align-items-center mb-3">
@@ -220,25 +220,37 @@
     </div>
 
     <div class="row">
-      <div class="col-md-4 mb-3">
-        <div class="kpi p-3 h-100">
-          <span class="badge badge-dark">Research</span>
-          <p class="mb-1 mt-2">Testeos con usuarios reales</p>
-          <small>Programa de testers activo · cobertura ↑</small>
+      <!-- Testers -->
+      <div class="col-sm-6 col-lg-4 mb-3">
+        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Testers">
+          <span class="badge badge-dark">Testers</span>
+          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-label="Porcentaje">80<span class="h5">%</span></p>
+          <small class="d-block text-muted mt-1">
+            Ahora contamos con testeos de usabilidad con usuarios reales
+          </small>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="kpi p-3 h-100">
+
+      <!-- Atomic Design / Velocidad -->
+      <div class="col-sm-6 col-lg-4 mb-3">
+        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Velocidad de sprint">
           <span class="badge badge-dark">Velocidad</span>
-          <p class="mb-1 mt-2">−25% tiempo de sprint</p>
-          <small>Atomic Design implementado</small>
+          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-label="Reducción de tiempo de sprint">25<span class="h5">%</span></p>
+          <small class="d-block text-muted mt-1">
+            Implementando Atomic Design logramos reducir el tiempo de los sprint considerablemente.
+          </small>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="kpi p-3 h-100">
+
+      <!-- Documentación -->
+      <div class="col-sm-6 col-lg-4 mb-3">
+        <div class="kpi p-3 h-100 shadow-quiet" role="group" aria-label="Documentación">
           <span class="badge badge-dark">Documentación</span>
-          <p class="mb-1 mt-2">Sistema de diseño vivo</p>
-          <small>Mejor traza y reutilización</small>
+          <!-- Sin métrica numérica definida; mantenemos coherencia visual con un check -->
+          <p class="display-4 mb-0 mt-2 font-weight-bolder" aria-hidden="true">✓</p>
+          <small class="d-block text-muted mt-1">
+            Hemos avanzado en la documentación efectiva a través de sistemas de diseños que dan valor al negocio.
+          </small>
         </div>
       </div>
     </div>
@@ -248,6 +260,12 @@
     </div>
   </div>
 </section>
+
+<!-- Estilos finos para KPIs (opcional, mantiene tu estética) -->
+<style>
+  #resultados .kpi { border:1px solid #e9ecef; border-radius:.75rem; background:#fff; color:#212529; }
+  #resultados .display-4 { line-height:1; font-size:2.25rem; }
+</style>
 
 <!-- CONTACTO -->
 <section id="contacto" class="py-5 text-center bg-paper" aria-label="Contacto">
