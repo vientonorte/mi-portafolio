@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Transvip · Grandes Proyectos y Experiencia Digital</title>
-  <meta name="description" content="Transvip: App, Web, Sistema de Diseño y Tótems. Accesibilidad, usabilidad y agilidad para autoatención y eficiencia.">
+  <meta name="description" content="App, Web, Sistema de Diseño y Tótems. Accesibilidad, usabilidad y agilidad para autoatención y eficiencia.">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
   <!-- Fuentes + Bootstrap -->
@@ -19,6 +19,7 @@
       --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13;
       --font-main:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       --fs-body:1rem; --fs-small:.9rem; --fs-h2:1.75rem; --fs-h3:1.25rem; --lh-tight:1.2;
+      --radius:.75rem;
     }
     html{scroll-behavior:smooth}
     body{
@@ -45,30 +46,41 @@
 
     /* === COMPONENTES === */
     .chip{display:inline-block;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
-    .pillar,.kpi,.evidence-card{border:1px solid #e9ecef;border-radius:.75rem;background:#fff;padding:1.5rem}
+    .pillar,.kpi,.evidence-card,.card-base{border:1px solid #e9ecef;border-radius:var(--radius);background:#fff;padding:1.5rem}
     .kpi .display-4{font-weight:700;line-height:1;font-size:2rem;color:var(--ink)}
     .bg-paper{background:var(--paper)} .text-brand{color:var(--brand)!important}
     .hover-rise{transition:transform .2s ease,box-shadow .2s ease}
     .hover-rise:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.15)}
     .btn-press{transition:box-shadow .15s ease,transform .03s ease}
     .btn-press:active{transform:translateY(1px);box-shadow:0 0 0 4px rgba(255,193,7,.25)}
+    .shadow-quiet{box-shadow:0 2px 8px rgba(0,0,0,.05)}
 
     /* === HERO === */
     .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:url('assets/img/hero-transvip.jpg') center/cover no-repeat}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,0,0,.55),rgba(0,0,0,.25))}
     .hero .wrap{position:relative;z-index:2}
     .hero h1{font-size:2.25rem} .hero p.lead{font-size:1.1rem}
-    .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem}
+    .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:var(--radius)}
 
     /* === EFECTOS Y MICROINTERACCIONES === */
     .fade{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .fade.visible{opacity:1;transform:none}
     .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:1030}
     .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#ffc107,#ffda6a)}
+
+    /* === MEDIA === */
+    .evidence-card img{object-fit:cover;height:160px;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
   </style>
+
+  <!-- JSON-LD mínimo -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"Transvip · Grandes Proyectos y Experiencia Digital","about":{"@type":"Organization","name":"Transvip"}}
+  </script>
 </head>
 
 <body>
+  <a class="sr-only sr-only-focusable" href="#proyectos">Saltar al contenido</a>
+
   <!-- NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Principal">
     <a class="navbar-brand text-warning font-weight-bolder" href="index.html">← Portafolio</a>
@@ -78,16 +90,19 @@
     <div id="nav" class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link text-warning" href="#inicio">Transvip</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#contexto">Contexto</a></li>
         <li class="nav-item"><a class="nav-link text-warning" href="#proyectos">Proyectos</a></li>
         <li class="nav-item"><a class="nav-link text-warning" href="#rol">Rol</a></li>
         <li class="nav-item"><a class="nav-link text-warning" href="#resultados">Resultados</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#evidencias">Evidencias</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#karri">Karri App</a></li>
         <li class="nav-item"><a class="nav-link text-warning" href="#contacto">Contacto</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header id="inicio" class="hero" role="banner">
+  <header id="inicio" class="hero" role="banner" aria-label="Transvip · Grandes Proyectos">
     <div class="container wrap">
       <div class="row align-items-center">
         <div class="col-lg-7 mb-4 mb-lg-0">
@@ -114,8 +129,37 @@
     </div>
   </header>
 
+  <!-- CONTEXTO -->
+  <section id="contexto" class="fade bg-paper" aria-label="Contexto profesional">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Contexto</span>
+        <h2>Evolución del rol</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mb-3">
+          <div class="card-base shadow-quiet h-100">
+            <p class="mb-2">Transvip priorizó autoatención y consistencia omnicanal para aeropuertos, corporativos y personas. Se establecieron criterios de salida basados en accesibilidad, handoff y medición por flujo.</p>
+            <p class="mb-0 small text-muted">Resultado: menos fricción, mayor adopción y mejor traza para decisiones de producto.</p>
+          </div>
+        </div>
+        <aside class="col-lg-4">
+          <div class="card-base shadow-quiet h-100">
+            <h3 class="h6 mb-2">Stack y prácticas</h3>
+            <ul class="small pl-3 mb-0">
+              <li>Design tokens, Atomic Design</li>
+              <li>WCAG 2.2 por defecto</li>
+              <li>Figma + prototipos Maze</li>
+              <li>KPIs por flujo</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
   <!-- PROYECTOS -->
-  <section id="proyectos" class="fade bg-paper">
+  <section id="proyectos" class="fade" aria-label="Grandes proyectos">
     <div class="container">
       <div class="section-header">
         <span class="chip bg-warning text-dark">Proyectos</span>
@@ -143,7 +187,7 @@
         <div class="col-md-6 mb-4">
           <div class="pillar hover-rise h-100">
             <h3>03. Sistema de Diseño Transvip</h3>
-            <p class="small">Lideré la construcción del sistema para acelerar sprints y estandarizar experiencias.</p>
+            <p class="small">Sistema para acelerar sprints y estandarizar experiencias.</p>
             <ul class="small pl-3"><li>App Cliente y Conductor</li><li>Web Mobile/Desktop</li><li>Sistemas enlace y satélites</li></ul>
           </div>
         </div>
@@ -160,7 +204,7 @@
   </section>
 
   <!-- ROL -->
-  <section id="rol" class="fade">
+  <section id="rol" class="fade" aria-label="Mi rol">
     <div class="container">
       <div class="section-header">
         <span class="chip bg-warning text-dark">Rol</span>
@@ -170,8 +214,8 @@
 
       <div class="row">
         <div class="col-lg-8 mb-3">
-          <div class="pillar h-100">
-            <p>Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo.</p>
+          <div class="card-base h-100">
+            <p>Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo. Aseguré accesibilidad y consistencia visual en componentes críticos.</p>
           </div>
         </div>
         <aside class="col-lg-4">
@@ -185,7 +229,7 @@
   </section>
 
   <!-- RESULTADOS -->
-  <section id="resultados" class="fade bg-paper">
+  <section id="resultados" class="fade bg-paper" aria-label="Resultados y logros">
     <div class="container">
       <div class="section-header">
         <span class="chip bg-warning text-dark">Resultados</span>
@@ -194,21 +238,21 @@
 
       <div class="row">
         <div class="col-sm-6 col-lg-4 mb-3">
-          <div class="kpi hover-rise h-100 text-center">
+          <div class="kpi hover-rise h-100 text-center shadow-quiet" role="group" aria-label="Testers">
             <span class="badge badge-dark">Testers</span>
             <p class="display-4 mb-0 mt-2">80%</p>
             <small>Testeos con usuarios reales</small>
           </div>
         </div>
         <div class="col-sm-6 col-lg-4 mb-3">
-          <div class="kpi hover-rise h-100 text-center">
+          <div class="kpi hover-rise h-100 text-center shadow-quiet" role="group" aria-label="Velocidad">
             <span class="badge badge-dark">Velocidad</span>
             <p class="display-4 mb-0 mt-2">25%</p>
             <small>Reducción de tiempo de sprint</small>
           </div>
         </div>
         <div class="col-sm-6 col-lg-4 mb-3">
-          <div class="kpi hover-rise h-100 text-center">
+          <div class="kpi hover-rise h-100 text-center shadow-quiet" role="group" aria-label="Documentación">
             <span class="badge badge-dark">Documentación</span>
             <p class="display-4 mb-0 mt-2">✓</p>
             <small>Sistemas de diseño que dan valor al negocio</small>
@@ -223,7 +267,7 @@
   </section>
 
   <!-- EVIDENCIAS -->
-  <section id="evidencias" class="fade">
+  <section id="evidencias" class="fade" aria-label="Evidencias y assets">
     <div class="container">
       <div class="section-header">
         <span class="chip bg-warning text-dark">Evidencias</span>
@@ -232,10 +276,42 @@
       <p class="lead mb-4">Del insight al prototipo: research con usuarios, iteraciones en Figma y validaciones con Maze.</p>
 
       <div class="row">
-        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/mi-perfil-macbook.png" alt="Web · Perfil" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Web · Perfil</h5><p class="small mb-0">Gestión de datos y métodos de pago.</p></figcaption></figure></div>
-        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/app-oneplus.png" alt="App Transvip móvil" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">App · Selector</h5><p class="small mb-0">Selección de servicio y tiempos de viaje.</p></figcaption></figure></div>
-        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/sprint-diseno-transvip.png" alt="Proceso UX" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Proceso UX</h5><p class="small mb-0">Analytics → Research → UI → Testing.</p></figcaption></figure></div>
-        <div class="col-md-6 col-lg-3 mb-3"><figure class="evidence-card hover-rise h-100"><img src="assets/img/ipad-mini-mock.png" alt="Mock iPad" class="card-img-top" loading="lazy"><figcaption class="card-body"><h5 class="card-title mb-1">Mock iPad</h5><p class="small mb-0">Exploración para puntos de autoatención.</p></figcaption></figure></div>
+        <div class="col-md-6 col-lg-3 mb-3">
+          <figure class="evidence-card hover-rise h-100">
+            <img src="assets/img/mi-perfil-macbook.png" alt="Web · Perfil: gestión de datos y métodos de pago" class="card-img-top" loading="lazy" decoding="async">
+            <figcaption class="card-body">
+              <h5 class="card-title mb-1">Web · Perfil</h5>
+              <p class="small mb-0">Gestión de datos y métodos de pago.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+          <figure class="evidence-card hover-rise h-100">
+            <img src="assets/img/app-oneplus.png" alt="App Transvip móvil: selección de servicio" class="card-img-top" loading="lazy" decoding="async">
+            <figcaption class="card-body">
+              <h5 class="card-title mb-1">App · Selector</h5>
+              <p class="small mb-0">Selección de servicio y tiempos de viaje.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+          <figure class="evidence-card hover-rise h-100">
+            <img src="assets/img/sprint-diseno-transvip.png" alt="Proceso UX: Analytics, Research, UI y Testing" class="card-img-top" loading="lazy" decoding="async">
+            <figcaption class="card-body">
+              <h5 class="card-title mb-1">Proceso UX</h5>
+              <p class="small mb-0">Analytics → Research → UI → Testing.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+          <figure class="evidence-card hover-rise h-100">
+            <img src="assets/img/ipad-mini-mock.png" alt="Mock iPad para puntos de autoatención" class="card-img-top" loading="lazy" decoding="async">
+            <figcaption class="card-body">
+              <h5 class="card-title mb-1">Mock iPad</h5>
+              <p class="small mb-0">Exploración para puntos de autoatención.</p>
+            </figcaption>
+          </figure>
+        </div>
       </div>
 
       <div class="text-center mt-3">
@@ -245,8 +321,46 @@
     </div>
   </section>
 
+  <!-- KARRI APP SHOPPER (México) -->
+  <section id="karri" class="fade bg-paper" aria-label="Karri App Shopper México">
+    <div class="container">
+      <div class="section-header">
+        <span class="chip bg-warning text-dark">Karri</span>
+        <h2>Product Designer · Karri App Shopper (MX)</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-7 mb-3">
+          <div class="card-base h-100">
+            <p class="mb-2">Diseño de experiencia para shoppers en última milla. Foco en onboarding, asignación de pedidos, navegación y pagos.</p>
+            <ul class="small pl-3 mb-0">
+              <li>Onboarding guiado, validación de identidad y checklist de equipo</li>
+              <li>Flujos de asignación con prioridad y ventanas de tiempo</li>
+              <li>Navegación con estados de bloqueo y confirmaciones seguras</li>
+              <li>Pagos y liquidaciones con trazabilidad y recibos</li>
+              <li>Accesibilidad: tamaños táctiles, contraste y lectura en voz</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="col-lg-5">
+          <div class="card-base h-100">
+            <h3 class="h6 mb-2">Entregables</h3>
+            <ul class="small pl-3">
+              <li>Mapa de flujos y reglas por estado</li>
+              <li>Componentes reutilizables + tokens</li>
+              <li>Prototipo alta fidelidad y pruebas</li>
+            </ul>
+            <div class="d-flex flex-wrap">
+              <a class="btn btn-dark mr-2 mb-2 btn-press" href="#" aria-disabled="true">Ver prototipo (próx.)</a>
+              <a class="btn btn-outline-secondary mb-2 btn-press" href="#" aria-disabled="true">Caso completo (próx.)</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACTO -->
-  <section id="contacto" class="fade bg-paper text-center">
+  <section id="contacto" class="fade text-center" aria-label="Contacto">
     <div class="container">
       <h2 class="h4 font-weight-bolder mb-3">¿Quieres ver la demo o el dossier?</h2>
       <a class="btn btn-dark mr-2 btn-press" href="index.html#Contacto">Contactar</a>
@@ -255,21 +369,44 @@
   </section>
 
   <footer class="container-fluid bg-dark text-warning text-center p-4" role="contentinfo">
-    <small>Transvip · Experiencia Digital</small>
+    <small>Transvip · Experiencia Digital · <a class="text-warning" href="#inicio">Volver arriba</a></small>
+    <div class="mt-2">
+      <a class="text-warning mr-2" href="mailto:gaete.gaona@gmail.com">Email</a> ·
+      <a class="text-warning mx-2" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a class="text-warning ml-2" href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a>
+    </div>
   </footer>
 
   <!-- MICROINTERACCIONES -->
   <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar"></div></div>
   <script>
     // Fade-in
-    const fades=document.querySelectorAll('.fade');
-    if('IntersectionObserver'in window){
-      const io=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
-      },{rootMargin:"0px 0px -10% 0px",threshold:0.1});
-      fades.forEach(el=>io.observe(el));
-    }else fades.forEach(el=>el.classList.add('visible'));
+    (function(){
+      const fades=document.querySelectorAll('.fade');
+      if('IntersectionObserver'in window){
+        const io=new IntersectionObserver(es=>{
+          es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+        },{rootMargin:"0px 0px -10% 0px",threshold:0.1});
+        fades.forEach(el=>io.observe(el));
+      }else{fades.forEach(el=>el.classList.add('visible'));}
+    })();
 
     // Scroll progress
-    const bar=document.querySelector('.scroll-progress__bar');
-    if(bar){document.addEventListener('scroll',()=>{const
+    (function(){
+      const bar=document.querySelector('.scroll-progress__bar');
+      if(!bar) return;
+      function onScroll(){
+        const d=document.documentElement;
+        const p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
+        bar.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(2)+'%';
+      }
+      document.addEventListener('scroll',onScroll,{passive:true});
+      onScroll();
+    })();
+  </script>
+
+  <!-- JS Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+</body>
+</html>
