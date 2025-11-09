@@ -119,7 +119,6 @@
 
   <!-- A/B assignment early -->
   <script>
-    // Variante 50/50 persistida por sesión
     (function(){
       try{
         var key='ab_variant_v1';
@@ -135,8 +134,8 @@
 
   <!-- NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-blur fixed-top" role="navigation" aria-label="Principal">
-    <a class="navbar-brand font-weight-bold" href="#Inicio">· RODRIGO <span class="font-weight-normal">GAETE</span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
+    <a class="navbar-brand font-weight-bold" href="#Inicio" aria-label="Ir al inicio">· RODRIGO <span class="font-weight-normal">GAETE</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú de navegación">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div id="nav" class="collapse navbar-collapse">
@@ -146,7 +145,7 @@
         <li class="nav-item"><a class="nav-link" href="#CV">CV</a></li>
         <li class="nav-item"><a class="nav-link" href="#KPIs">KPIs</a></li>
         <li class="nav-item"><a class="nav-link" href="#Contacto"><span data-variant-a>Contacto</span><span data-variant-b hidden>Conversemos</span></a></li>
-        <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
+        <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener" aria-label="Descargar CV en PDF">Descargar CV</a></li>
       </ul>
     </div>
   </nav>
@@ -167,10 +166,10 @@
               <span data-variant-b hidden>Transformo complejidad normativa en experiencias claras, seguras y medibles.</span>
             </p>
             <div class="d-flex flex-wrap">
-              <a class="btn btn-brand mr-2 mb-2 btn-press" href="#Casos" data-cta="hero-primary">
+              <a class="btn btn-brand mr-2 mb-2 btn-press" href="#Casos" data-cta="hero-primary" aria-label="Ir a casos destacados">
                 <span data-variant-a>Ver casos</span><span data-variant-b hidden>Explorar portafolio</span>
               </a>
-              <a class="btn btn-ghost mb-2 btn-press" href="#Metodos" data-cta="hero-secondary">
+              <a class="btn btn-ghost mb-2 btn-press" href="#Metodos" data-cta="hero-secondary" aria-label="Ir al playbook o métodos">
                 <span data-variant-a>Ver playbook</span><span data-variant-b hidden>Ver métodos</span>
               </a>
             </div>
@@ -189,127 +188,372 @@
           <h2><span data-variant-a>Destacados</span><span data-variant-b hidden>Proyectos clave</span></h2>
         </div>
 
-        <article class="glass-card p-4 mb-4 shadow-quiet" itemscope itemtype="https://schema.org/CreativeWork">
+        <article class="glass-card p-4 mb-4 shadow-quiet" itemscope itemtype="https://schema.org/CreativeWork" aria-label="Caso: Separación AFP–SURA">
           <div class="d-flex align-items-center mb-2">
-            <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
+            <img src="assets/img/sura-logo.svg" alt="Logotipo SURA Investments" class="mr-2" style="height:24px">
             <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
           </div>
           <p class="small mb-2" itemprop="abstract">Desacople y réplica diferida con reglas de consentimiento. Capa visual normativa y gate pre-producción.</p>
-          <ul class="pl-3 mb-3"><li>AS-IS/TO-BE y tableros de control</li><li>Evidencia auditable y menor riesgo normativo</li></ul>
-          <a class="btn btn-warning btn-sm mr-2 btn-press" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url" data-cta="sura-dossier">Ver dossier</a>
-          <a class="btn btn-outline-light btn-sm btn-press" href="landing-sura.html" data-cta="sura-landing">Ver landing</a>
+          <ul class="pl-3 mb-3">
+            <li>AS-IS/TO-BE y tableros de control</li>
+            <li>Evidencia auditable y menor riesgo normativo</li>
+          </ul>
+          <a class="btn btn-warning btn-sm mr-2 btn-press" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url" data-cta="sura-dossier" aria-label="Abrir dossier Estrategia Gaona en PDF">Ver dossier</a>
+          <a class="btn btn-outline-light btn-sm btn-press" href="landing-sura.html" data-cta="sura-landing" aria-label="Ir a la landing SURA">Ver landing</a>
         </article>
 
         <div class="row">
           <article class="col-md-6 mb-4">
             <div class="card-base h-100 hover-rise">
-              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
+              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Portada del documento Estrategia Digital UX 2025">
               <h3 class="h5">Estrategia Digital Wealth Management 2025</h3>
               <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
-              <a class="btn btn-warning btn-sm btn-press" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener" data-cta="wm2025-doc">Ver documento</a>
+              <a class="btn btn-warning btn-sm btn-press" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener" data-cta="wm2025-doc" aria-label="Abrir documento Estrategia Digital UX 2025">Ver documento</a>
             </div>
           </article>
           <article class="col-md-6 mb-4">
             <div class="card-base h-100 hover-rise">
-              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Transvip · Experiencia digital">
+              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Mockup de la experiencia digital de Transvip">
               <h3 class="h5">Experiencia digital Transvip</h3>
               <p class="small mb-3">Movilidad y experiencia digital en aeropuertos, corporativos y personas.</p>
-              <a class="btn btn-outline-light btn-sm btn-press" href="landing-transvip.html" target="_blank" rel="noopener" data-cta="transvip-landing">Ver landing</a>
+              <a class="btn btn-outline-light btn-sm btn-press" href="landing-transvip.html" target="_blank" rel="noopener" data-cta="transvip-landing" aria-label="Ir a la landing Transvip">Ver landing</a>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- MÉTODOS / PLAYBOOK -->
+    <!-- MÉTODOS / PLAYBOOK · V2 con A/B -->
     <section id="Metodos" class="fade bg-paper" aria-label="Métodos y artefactos">
       <div class="container">
         <div class="section-header">
-          <span class="chip"><span data-variant-a>Playbook</span><span data-variant-b hidden>Métodos</span></span>
-          <h2><span data-variant-a>Métodos aplicados</span><span data-variant-b hidden>Playbook en acción</span></h2>
+          <span class="chip">
+            <span data-variant-a>Playbook</span>
+            <span data-variant-b hidden>Métodos</span>
+          </span>
+          <h2 class="mb-0">
+            <span data-variant-a>Métodos aplicados</span>
+            <span data-variant-b hidden>Playbook en acción</span>
+          </h2>
         </div>
 
-        <ul class="nav nav-tabs" id="metodosTabs" role="tablist" aria-label="Selector de métodos">
-          <li class="nav-item"><a class="nav-link active" id="tab-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">Design Thinking</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">Design Sprint</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">Agile</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">Security by Design</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">Data-Driven</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">Gobernanza & A11y</a></li>
-        </ul>
+        <div class="row no-gutters">
+          <!-- NAV LATERAL -->
+          <nav class="col-lg-3 pr-lg-3 mb-3 mb-lg-0" aria-label="Selector de métodos">
+            <ul class="nav nav-pills flex-lg-column method-nav" id="playbookNav" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pill-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">
+                  <span class="badge badge-light mr-2">01</span> Design Thinking
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pill-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">
+                  <span class="badge badge-light mr-2">02</span> Design Sprint
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pill-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">
+                  <span class="badge badge-light mr-2">03</span> Agile Dual-Track
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pill-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">
+                  <span class="badge badge-light mr-2">04</span> Security by Design
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pill-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">
+                  <span class="badge badge-light mr-2">05</span> Data-Driven
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pill-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">
+                  <span class="badge badge-light mr-2">06</span> Gobernanza & A11y
+                </a>
+              </li>
+            </ul>
+          </nav>
 
-        <div class="tab-content pt-3" id="metodosContent">
-          <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
-            <div class="card-base">
-              <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Entrevistas y mapeo de actores</li><li>Journey + puntos de control</li><li>HMW + priorización riesgo/valor</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Problem Statement</li><li>Mapa de Riesgos Normativos</li><li>Storyboards y bocetos</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>↓ supuestos no validados</li><li>↑ claridad de alcance</li><li>Top 5 riesgos identificados</li></ul></div>
+          <!-- CONTENIDO -->
+          <div class="col-lg-9">
+            <div class="tab-content" id="playbookContent">
+              <!-- DT -->
+              <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="pill-dt">
+                <article class="method-card hover-rise" aria-label="Design Thinking">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Design Thinking</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Entender el problema real y riesgos antes de construir.</span><span data-variant-b hidden>Clarificar riesgos y valor antes de invertir desarrollo.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↓ supuestos</span>
+                      <span class="badge-kpi">↑ claridad</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Prácticas</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Entrevistas y mapeo de actores</li>
+                        <li>Journey + puntos de control</li>
+                        <li>HMW + priorización riesgo/valor</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Artefactos</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Problem Statement</li>
+                        <li>Mapa de Riesgos Normativos</li>
+                        <li>Storyboards y bocetos</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-0">
+                      <h4 class="h6">Resultados</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Top 5 riesgos identificados</li>
+                        <li>Scope sin ambigüedades</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- DS -->
+              <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="pill-ds">
+                <article class="method-card hover-rise" aria-label="Design Sprint">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Design Sprint</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Prototipar rápido, medir aprendizaje, decidir seguir o parar.</span><span data-variant-b hidden>Aprender en 5 días y decidir con evidencia.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↓ time-to-decision</span>
+                      <span class="badge-kpi">SUS/NPS</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Prácticas</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Map → Sketch → Decide → Prototype → Test</li>
+                        <li>Hipótesis y criterios de éxito</li>
+                        <li>Reclutamiento segmentado</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Artefactos</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Prototipo alta fidelidad</li>
+                        <li>Guion + checklist de test</li>
+                        <li>Informe por severidad</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-0">
+                      <h4 class="h6">Resultados</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Backlog priorizado</li>
+                        <li>Aprendizajes accionables</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- AGILE -->
+              <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="pill-agile">
+                <article class="method-card hover-rise" aria-label="Agile Dual-Track">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Agile Dual-Track</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Valor continuo con discovery y delivery en paralelo.</span><span data-variant-b hidden>Descubrimiento y entrega sincronizados para reducir riesgos.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↓ lead time</span>
+                      <span class="badge-kpi">↑ throughput</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Prácticas</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Backlog por outcomes</li>
+                        <li>DoR/DoD con A11y</li>
+                        <li>Revisiones Legal y Seguridad</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Artefactos</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Roadmap trimestral</li>
+                        <li>Historias + aceptación</li>
+                        <li>Design tokens + librería UI</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-0">
+                      <h4 class="h6">Resultados</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Defectos post release ↓</li>
+                        <li>Adopción por release ↑</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- SBD -->
+              <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="pill-sbd">
+                <article class="method-card hover-rise" aria-label="Security by Design">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Security by Design</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Prevenir incidentes desde el diseño. Evidencia y control por defecto.</span><span data-variant-b hidden>Seguridad y cumplimiento integrados en cada flujo.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↓ hallazgos</span>
+                      <span class="badge-kpi">↑ trazabilidad</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <h4 class="h6">Front</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Capa visual normativa</li>
+                        <li>MFA por segmento</li>
+                        <li>Consentimiento visible y revocable</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6 mb-0">
+                      <h4 class="h6">Back/Infra</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Muro de datos y réplica diferida</li>
+                        <li>Logs inmutables y auditoría</li>
+                        <li>Least privilege y minimización</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- DDD -->
+              <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="pill-ddd">
+                <article class="method-card hover-rise" aria-label="Data-Driven">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Data-Driven</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Decisiones basadas en evidencia. Telemetría desde día uno.</span><span data-variant-b hidden>Instrumentación desde el inicio para aprender y optimizar.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↑ adopción</span>
+                      <span class="badge-kpi">A/B tests</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Prácticas</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Naming de eventos</li>
+                        <li>Dashboards por objetivo</li>
+                        <li>Feature flags y pruebas</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Artefactos</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Taxonomía</li>
+                        <li>KPIs/OKR</li>
+                        <li>Plan de experimentos</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-0">
+                      <h4 class="h6">Resultados</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>NPS por flujo ↑</li>
+                        <li>Onboarding ↓</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- GOBERNANZA -->
+              <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="pill-gov">
+                <article class="method-card hover-rise" aria-label="Gobernanza y Accesibilidad">
+                  <header class="method-head">
+                    <div>
+                      <h3 class="h5 mb-1">Gobernanza & A11y</h3>
+                      <p class="small mb-0 text-muted"><span data-variant-a>Calidad y cumplimiento antes de producción.</span><span data-variant-b hidden>Gate de liberación con evidencias y accesibilidad por defecto.</span></p>
+                    </div>
+                    <div class="method-metrics">
+                      <span class="badge-kpi">↓ errores normativos</span>
+                      <span class="badge-kpi">↑ velocidad revisión</span>
+                    </div>
+                  </header>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Prácticas</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Gate pre-producción</li>
+                        <li>WCAG por defecto</li>
+                        <li>Revisión legal continua</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <h4 class="h6">Artefactos</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Checklist de liberación</li>
+                        <li>Guía UI normativa</li>
+                        <li>Registro de evidencias</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-4 mb-0">
+                      <h4 class="h6">Resultados</h4>
+                      <ul class="small pl-3 mb-0">
+                        <li>Hallazgos A11y ↓</li>
+                        <li>Releases más predecibles</li>
+                      </ul>
+                    </div>
+                  </div>
+                </article>
               </div>
             </div>
-          </div>
 
-          <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Map → Sketch → Decide → Prototype → Test</li><li>Hipótesis y criterios de éxito</li><li>Reclutamiento segmentado</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Prototipo alta fidelidad</li><li>Guion + checklist de test</li><li>Informe por severidad</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Tiempo a decisión ↓</li><li>Task-success y SUS/NPS</li><li>Backlog priorizado</li></ul></div>
-              </div>
+            <!-- CTA unificado -->
+            <div class="text-center mt-4">
+              <a class="btn btn-outline-light btn-press" href="landing-sura.html" data-cta="playbook-aplicado" aria-label="Ver métodos aplicados en SURA">
+                <span data-variant-a>Ver playbook aplicado</span>
+                <span data-variant-b hidden>Ver métodos aplicados</span>
+              </a>
             </div>
           </div>
-
-          <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Backlog por outcomes</li><li>DoR/DoD + A11y</li><li>Revisiones Legal y Seguridad</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Roadmap trimestral</li><li>Historias + aceptación</li><li>Design tokens + librería UI</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Lead time ↓, throughput ↑</li><li>Defectos post release ↓</li><li>Adopción por release ↑</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
-              <div class="row">
-                <div class="col-md-6"><h3 class="h6">Front</h3><ul class="small pl-3 mb-0"><li>Capa visual normativa</li><li>MFA por segmento</li><li>Consentimiento visible y revocable</li></ul></div>
-                <div class="col-md-6"><h3 class="h6">Back/Infra</h3><ul class="small pl-3 mb-0"><li>Muro de datos y réplica diferida</li><li>Logs inmutables y auditoría</li><li>Least privilege y minimización</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde día uno.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Naming de eventos</li><li>Dashboards por objetivo</li><li>A/B tests y flags</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Taxonomía</li><li>KPIs/OKR</li><li>Plan de experimentos</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Adopción por etapa ↑</li><li>NPS por flujo ↑</li><li>Onboarding ↓</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Gate pre-producción</li><li>WCAG por defecto</li><li>Revisión legal continua</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Checklist de liberación</li><li>Guía UI normativa</li><li>Registro de evidencias</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Errores normativos ↓</li><li>Velocidad de revisión ↑</li><li>Hallazgos de accesibilidad ↓</li></ul></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center mt-4">
-          <a class="btn btn-outline-light btn-press" href="landing-sura.html" data-cta="playbook-aplicado">
-            <span data-variant-a>Ver playbook aplicado</span><span data-variant-b hidden>Ver métodos aplicados</span>
-          </a>
         </div>
       </div>
+
+      <!-- Estilos locales del Playbook -->
+      <style>
+        .method-nav .nav-link{
+          color:var(--ink);border:1px solid rgba(255,255,255,.12);margin-bottom:.5rem;border-radius:var(--radius);
+          background:#0f1318;
+        }
+        .method-nav .nav-link.active{
+          color:#212529;background:var(--brand);border-color:var(--brand);
+        }
+        .method-card{
+          border:1px solid #2a2d31;background:#111315;border-radius:var(--radius);padding:1.25rem;
+        }
+        .method-head{
+          display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;
+          border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:.75rem;
+        }
+        .badge-kpi{
+          display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+          border-radius:999px;padding:.25rem .6rem;font-size:.75rem;margin-left:.35rem;color:var(--ink);
+        }
+        .method-nav .nav-link:focus{outline:3px solid var(--brand-dark);outline-offset:2px}
+      </style>
     </section>
 
     <!-- CV -->
-    <section id="CV" class="fade" aria-label="CV">
+    <section id="CV" class="fade" aria-label="Currículum y experiencia">
       <div class="container">
         <div class="section-header">
           <span class="chip">CV</span>
@@ -350,14 +594,14 @@
                 </ul>
               </li>
             </ul>
-            <a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener" data-cta="cv-descarga">Descargar CV completo</a>
+            <a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener" data-cta="cv-descarga" aria-label="Descargar CV completo en PDF">Descargar CV completo</a>
           </div>
           <aside class="col-lg-4 mt-4 mt-lg-0">
             <div class="card-base h-100">
               <h3 class="h6 mb-2">Contacto rápido</h3>
-              <p class="mb-1"><i class="far fa-envelope"></i> <a class="text-brand" href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
-              <p class="mb-1"><i class="fab fa-linkedin"></i> <a class="text-brand" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
-              <p class="mb-0"><i class="fab fa-github"></i> <a class="text-brand" href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
+              <p class="mb-1"><i class="far fa-envelope" aria-hidden="true"></i> <a class="text-brand" href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
+              <p class="mb-1"><i class="fab fa-linkedin" aria-hidden="true"></i> <a class="text-brand" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
+              <p class="mb-0"><i class="fab fa-github" aria-hidden="true"></i> <a class="text-brand" href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
             </div>
           </aside>
         </div>
@@ -365,30 +609,54 @@
     </section>
 
     <!-- KPIs -->
-    <section id="KPIs" class="fade bg-paper" aria-label="Indicadores">
+    <section id="KPIs" class="fade bg-paper" aria-label="Indicadores clave">
       <div class="container">
         <div class="section-header">
           <span class="chip">KPIs</span>
           <h2>Indicadores</h2>
         </div>
         <div class="row">
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Cumplimiento</span><p class="display-4 mb-0 mt-2">↓</p><small>Errores normativos</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Adopción</span><p class="display-4 mb-0 mt-2">↑</p><small>Uso de flujos clave</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Satisfacción</span><p class="display-4 mb-0 mt-2">NPS</p><small>Por flujo</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Eficiencia</span><p class="display-4 mb-0 mt-2">↓</p><small>Tiempo de onboarding</small></div></div>
+          <div class="col-sm-6 col-md-3 mb-3">
+            <div class="kpi h-100 text-center hover-rise" role="group" aria-label="KPI de cumplimiento">
+              <span class="badge badge-dark">Cumplimiento</span>
+              <p class="display-4 mb-0 mt-2" aria-hidden="true">↓</p>
+              <small>Errores normativos</small>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3 mb-3">
+            <div class="kpi h-100 text-center hover-rise" role="group" aria-label="KPI de adopción">
+              <span class="badge badge-dark">Adopción</span>
+              <p class="display-4 mb-0 mt-2" aria-hidden="true">↑</p>
+              <small>Uso de flujos clave</small>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3 mb-3">
+            <div class="kpi h-100 text-center hover-rise" role="group" aria-label="KPI de satisfacción">
+              <span class="badge badge-dark">Satisfacción</span>
+              <p class="display-4 mb-0 mt-2">NPS</p>
+              <small>Por flujo</small>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3 mb-3">
+            <div class="kpi h-100 text-center hover-rise" role="group" aria-label="KPI de eficiencia">
+              <span class="badge badge-dark">Eficiencia</span>
+              <p class="display-4 mb-0 mt-2" aria-hidden="true">↓</p>
+              <small>Tiempo de onboarding</small>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACTO -->
-    <section id="Contacto" class="fade text-center" aria-label="Contacto">
+    <section id="Contacto" class="fade text-center" aria-label="Sección de contacto">
       <div class="container">
         <h2 class="h4 font-weight-bolder mb-3">
           <span data-variant-a>Hablemos</span><span data-variant-b hidden>Conversemos</span>
         </h2>
-        <a class="btn btn-brand mr-2 btn-press" href="mailto:gaete.gaona@gmail.com" data-cta="contact-email">Email</a>
-        <a class="btn btn-outline-light mr-2 btn-press" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-cta="contact-linkedin">LinkedIn</a>
-        <a class="btn btn-outline-light btn-press" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-cta="contact-github">GitHub</a>
+        <a class="btn btn-brand mr-2 btn-press" href="mailto:gaete.gaona@gmail.com" data-cta="contact-email" aria-label="Escríbeme por correo">Email</a>
+        <a class="btn btn-outline-light mr-2 btn-press" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-cta="contact-linkedin" aria-label="Abrir perfil de LinkedIn">LinkedIn</a>
+        <a class="btn btn-outline-light btn-press" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-cta="contact-github" aria-label="Abrir perfil de GitHub">GitHub</a>
       </div>
     </section>
   </main>
@@ -438,11 +706,8 @@
       var variant=document.documentElement.dataset.variant||'A';
       function track(name,params){
         params=params||{}; params.variant=variant;
-        // GA4
         try{ window.dataLayer.push({event:name, ...params}); }catch(e){}
-        // Plausible
         try{ if(window.plausible) plausible(name,{props:params}); }catch(e){}
-        // Fathom
         try{ if(window.fathom) fathom.trackGoal(name,0); }catch(e){}
         if(window.console){ console.log('[AB]',name,params); }
       }
