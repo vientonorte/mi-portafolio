@@ -1,564 +1,284 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <!-- META -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rodrigo Gaete · UX Estratégico · Portafolio unificado</title>
-  <meta name="description" content="Portafolio unificado: SURA, Transvip, Karri App Shopper. Casos, CV y métodos con foco en gobernanza, accesibilidad y métricas.">
-  <meta name="theme-color" content="#0c0f13">
+  <title>Transvip · Grandes Proyectos y Experiencia Digital</title>
+  <meta name="description" content="Transvip: App, Web, Sistema de Diseño y Tótems. Accesibilidad, usabilidad y agilidad para autoatención y eficiencia.">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
-  <link rel="canonical" href="https://tu-dominio-o-github-pages">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Rodrigo Gaete · UX Estratégico · Portafolio">
-  <meta property="og:description" content="Estrategia digital, cumplimiento y métricas para Wealth Management, movilidad y retail.">
-  <meta property="og:image" content="assets/img/og-cover.jpg">
-
-  <!-- Fuentes + CSS externos -->
+  <!-- Fuentes + Bootstrap 4.5 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/sura-bundle.css">
-  <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Estilos coherentes (hero, glass, chips, patterns) -->
   <style>
-    :root{
-      --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13; --night-2:#15181b; --mist:#e9ecef;
-    }
+    :root{ --brand:#ffc107; --ink:#212529; --paper:#f8f9fa; --night:#0c0f13; }
     html{scroll-behavior:smooth}
-    body{padding-top:72px;font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(#0c0f13,#0c0f13);color:#fff}
-    [id]{scroll-margin-top:80px}
+    body{font-family:"Source Sans Pro",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-top:72px;color:var(--ink)}
+    [id]{scroll-margin-top:72px}
     a:focus, button:focus{outline:3px solid var(--brand);outline-offset:2px}
 
-    .section{padding:4rem 0}
-    .bg-gradient-dark{background:linear-gradient(180deg,#101418 0%, #0c0f13 100%)}
-    .bg-gradient-paper{background:linear-gradient(180deg,#ffffff 0%, #f6f7f9 100%);color:#212529}
-    .pattern-dots{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px), radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size:24px 24px, 12px 12px; background-position:0 0, 6px 6px}
-    .pattern-grid{background-image:linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px); background-size:28px 28px}
-
-    .hero{position:relative;min-height:88vh;display:flex;align-items:center}
-    .hero.has-img-sura{background:url('assets/img/hero-sura.jpg') center/cover no-repeat}
-    .hero.has-img-transvip{background:url('assets/img/hero-transvip.jpg') center/cover no-repeat}
+    .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:url('assets/img/hero-transvip.jpg') center/cover no-repeat}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, rgba(0,0,0,.55), rgba(0,0,0,.25))}
-    .hero .wrap{position:relative;z-index:1}
+    .hero .wrap{position:relative;z-index:2}
+    .chip{display:inline-block;padding:.35rem .6rem;font-size:.8rem;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
+    .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
+    .card-hero{background:#111315;border:1px solid #2a2d31;color:#e9ecef;border-radius:.75rem}
 
-    .glass, .glass-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:.75rem}
-    .chip{display:inline-block;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.85rem}
-    .btn-brand{background:var(--brand);color:#212529;border-color:var(--brand)} .btn-brand:hover{filter:brightness(.95)}
-
-    .card-hero{background:#111315;border:1px solid #2a2d31;border-radius:.75rem;color:#e9ecef}
-    .shadow-quiet{box-shadow:0 12px 32px rgba(0,0,0,.12)}
-    .border-soft{border:1px solid #e9ecef}
-    .tabs-dark .nav-link{color:#adb5bd}
-    .tabs-dark .nav-link.active{color:#fff;background:rgba(255,255,255,.08);border-color:transparent}
-
-    .pillar,.kpi,.evidence-card,.road-step{border:1px solid #e9ecef;border-radius:.75rem;background:#fff;color:#212529}
+    .pillar,.kpi,.evidence-card,.road-step{border:1px solid #e9ecef;border-radius:.75rem;background:#fff}
     .evidence-card img{object-fit:cover;height:160px}
+    .bg-paper{background:var(--paper)}
     .text-brand{color:var(--brand)!important}
   </style>
 
-  <!-- JSON-LD unificado -->
+  <!-- JSON-LD: Página + lista de proyectos -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@graph":[
-    {"@type":"Person","name":"Rodrigo Gaete Gaona","jobTitle":"Lead UX / Senior Analyst","email":"mailto:gaete.gaona@gmail.com","worksFor":{"@type":"Organization","name":"SURA Investments"},"knowsLanguage":["es","en"],"sameAs":["https://github.com/vientonorte","https://www.linkedin.com/in/rodrigoscrummaster"]},
-    {"@type":"ItemList","name":"Casos destacados","itemListElement":[
-      {"@type":"CreativeWork","name":"Estrategia “Gaona” · Separación AFP–SURA","url":"#LandingSURA"},
-      {"@type":"CreativeWork","name":"Transvip · Grandes Proyectos","url":"#LandingTransvip"},
-      {"@type":"CreativeWork","name":"Karri App Shopper · México","url":"#Karri"}]}]}
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Transvip · Grandes Proyectos y Experiencia Digital",
+    "description":"Nueva App, Nueva Web, Sistema de Diseño y Tótems de autoatención.",
+    "about":{"@type":"Organization","name":"Transvip"},
+    "mainEntity":{
+      "@type":"ItemList",
+      "itemListElement":[
+        {"@type":"CreativeWork","position":1,"name":"Nueva App Transvip","description":"Rediseño centrado en accesibilidad, usabilidad y agilidad."},
+        {"@type":"CreativeWork","position":2,"name":"Nueva Web Transvip","description":"Nueva lógica de cotización y checkout alineada al negocio."},
+        {"@type":"CreativeWork","position":3,"name":"Sistema de Diseño Transvip","description":"Atomic Design para cliente, web, conductor y satélites."},
+        {"@type":"CreativeWork","position":4,"name":"Tótems de Autoatención","description":"Autoatención en aeropuertos con nuevos flujos y research."}
+      ]
+    }
+  }
   </script>
 </head>
 <body>
-<a class="sr-only sr-only-focusable" href="#contenido">Saltar al contenido</a>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar fixed-top" role="navigation" aria-label="Principal">
-  <a class="navbar-brand text-warning font-weight-bolder" href="#Inicio">· RODRIGO <span class="font-weight-lighter">GAETE</span></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="Principal">
+  <a class="navbar-brand text-warning font-weight-bolder" href="index.html">← Portafolio</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Menú">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div id="nav" class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><a class="nav-link text-warning" href="#Casos">Casos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#LandingSURA">SURA</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#LandingTransvip">Transvip</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#Karri">Karri</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#Metodos">Métodos</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#CV">CV</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#KPIs">KPIs</a></li>
-      <li class="nav-item"><a class="nav-link text-warning" href="#Contacto">Contacto</a></li>
-      <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#inicio" aria-current="page">Transvip</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#proyectos">Proyectos</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#rol">Mi rol</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#resultados">Resultados</a></li>
+      <li class="nav-item"><a class="nav-link text-warning" href="#contacto">Contacto</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- HERO -->
-<header id="Inicio" class="hero has-img-sura pattern-dots" role="banner" aria-label="Propuesta de valor">
+<header id="inicio" class="hero" role="banner" aria-label="Transvip · Grandes Proyectos">
   <div class="container wrap">
-    <div class="col-xl-7 p-4 glass">
-      <span class="chip mb-2">UX estratégico · negocios regulados y movilidad</span>
-      <h1 class="h2 font-weight-bolder mb-3">Experiencias seguras, trazables y medibles</h1>
-      <p class="lead mb-4">Gobernanza, capa visual normativa y datos para decisiones verificables. SURA, Transvip y Karri App.</p>
-      <div class="d-flex flex-wrap">
-        <a class="btn btn-brand mr-2 mb-2" href="#Casos">Ver casos</a>
-        <a class="btn btn-outline-light mb-2" href="#Contacto">Conversar</a>
+    <div class="row align-items-center">
+      <div class="col-lg-7 mb-4 mb-lg-0">
+        <span class="chip mb-2">Movilidad · Producto</span>
+        <h1 class="display-5 font-weight-bolder mb-3 text-white">Transvip · <span class="text-brand">Grandes Proyectos</span></h1>
+        <p class="lead mb-4 text-light">App, Web, Sistema de Diseño y Tótems. Enfoque en accesibilidad, usabilidad y agilidad para mejorar autoatención y eficiencia.</p>
+        <div class="d-flex flex-wrap">
+          <a class="btn btn-warning mr-2 mb-2" href="#proyectos" data-metric="txp-cta-hero-proyectos">Ver proyectos</a>
+          <a class="btn btn-outline-light mb-2" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-hero-dei">Ver DEI</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card-hero p-4">
+          <strong class="d-block mb-2">En síntesis</strong>
+          <ul class="pl-3 mb-0">
+            <li>Autoatención y reducción de fricciones.</li>
+            <li>Accesibilidad y usabilidad como criterios de salida.</li>
+            <li>Atomic Design para acelerar sprints.</li>
+            <li>Research con usuarios reales.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<main id="contenido">
-  <!-- CASOS -->
-  <section id="Casos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Casos destacados">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2">Casos</span>
-        <h2 class="h3 font-weight-bolder mb-0">Destacados</h2>
-      </div>
+<!-- CONTEXTO -->
+<section class="py-5 bg-paper" aria-label="Contexto Transvip">
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2">Contexto</span>
+      <h2 class="h3 font-weight-bolder mb-0">Evolución del rol</h2>
+    </div>
+    <p class="mb-0">
+      Proyectos priorizados para fortalecer autoatención en aeropuertos y canales digitales. Se integran patrones de accesibilidad,
+      handoff claro y medición por flujo desde el día uno.
+    </p>
+  </div>
+</section>
 
-      <article class="glass-card shadow-quiet p-4 mb-4" itemscope itemtype="https://schema.org/CreativeWork">
-        <div class="d-flex align-items-center mb-2">
-          <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
-          <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
+<!-- PROYECTOS -->
+<section id="proyectos" class="py-5" aria-label="Grandes proyectos">
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2">Proyectos</span>
+      <h2 class="h3 font-weight-bolder mb-0">Grandes proyectos</h2>
+    </div>
+
+    <div class="row">
+      <!-- 01 App -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">01. Nueva App Transvip</h3>
+          <p class="small mb-3">Rediseño orientado a <strong>accesibilidad, usabilidad y agilidad</strong> para mejorar la autoatención.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Handoff claro para desarrollo.</li>
+            <li>Patrones A11y por defecto.</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-ver-proyecto">Ver proyecto</a>
+            <a class="btn btn-outline-secondary btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-maqueta">Ver maqueta alta fidelidad</a>
+          </div>
         </div>
-        <p class="small mb-2" itemprop="abstract">Desacople y réplica diferida con reglas de consentimiento. Capa visual normativa y gate pre-producción.</p>
-        <ul class="pl-3 mb-3">
-          <li>AS-IS/TO-BE y tableros de control</li>
-          <li>Evidencia auditable y menor riesgo normativo</li>
-        </ul>
-        <a class="btn btn-light btn-sm mr-2" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url">Ver dossier</a>
-        <a class="btn btn-outline-light btn-sm" href="#LandingSURA">Ver landing</a>
       </article>
 
-      <div class="row">
-        <article class="col-md-6 mb-4">
-          <div class="glass-card shadow-quiet h-100 p-3">
-            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
-            <h3 class="h5">Estrategia Digital Wealth Management 2025</h3>
-            <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
-            <a class="btn btn-light btn-sm" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener">Ver documento</a>
-          </div>
-        </article>
-        <article class="col-md-6 mb-4">
-          <div class="glass-card shadow-quiet h-100 p-3">
-            <img loading="lazy" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Transvip · Experiencia digital">
-            <h3 class="h5">Experiencia digital Transvip</h3>
-            <p class="small mb-3">Movilidad para aeropuertos, corporativos y personas. App, geofencing, TMS y métricas.</p>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-light btn-sm mr-2" href="#LandingTransvip">Ver landing</a>
-              <a class="btn btn-outline-light btn-sm" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener">Ver DEI</a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- LANDING SURA (in-page) -->
-  <section id="LandingSURA" class="section bg-gradient-dark pattern-dots text-white" aria-label="SURA · Casos y Estrategia UX WM">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2">SURA</span>
-        <h2 class="h3 font-weight-bolder mb-0">Wealth Management · Estrategia UX</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-7 mb-4">
-          <div class="glass-card p-4">
-            <h3 class="h5">Estrategia Digital UX para <span class="text-brand">WM</span></h3>
-            <p class="small mb-3">Separación AFP–SURA, capa visual normativa, gobernanza UX y métricas de adopción para operaciones seguras y auditables.</p>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-brand mr-2 mb-2" href="#SURA-estrategia">Ver estrategia</a>
-              <a class="btn btn-outline-light mb-2" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener">Ver dossier</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5 mb-4">
-          <div class="card-hero p-4">
-            <div class="d-flex align-items-center mb-2">
-              <img src="assets/img/sura-logo.svg" alt="SURA Investments" style="height:26px" class="mr-2">
-              <strong>Estrategia “Gaona” · Separación AFP–SURA</strong>
-            </div>
-            <ul class="pl-3 mb-3">
-              <li>Desacople y réplica diferida con consentimiento.</li>
-              <li>Capa visual normativa y gate pre-producción.</li>
-              <li>AS-IS/TO-BE y tableros de control.</li>
-            </ul>
-            <a class="btn btn-light btn-block" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener">Ver dossier Gaona</a>
-          </div>
-        </div>
-      </div>
-
-      <div id="SURA-estrategia" class="row">
-        <div class="col-md-4 mb-3"><div class="pillar p-4 h-100"><h5>Gobernanza UX</h5><p class="small mb-0">Gate de verificación pre-producción. Registro de decisiones y actores.</p></div></div>
-        <div class="col-md-4 mb-3"><div class="pillar p-4 h-100"><h5>Capa visual normativa</h5><p class="small mb-0">Componentes normativos, estados y bloqueos por perfil y riesgo.</p></div></div>
-        <div class="col-md-4 mb-3"><div class="pillar p-4 h-100"><h5>Datos y consentimiento</h5><p class="small mb-0">Muro de datos, réplica diferida y logs de uso. Alertas y eventos.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LANDING TRANSVIP (in-page) -->
-  <section id="LandingTransvip" class="section bg-gradient-dark pattern-dots text-white" aria-label="Transvip · Grandes Proyectos y Experiencia Digital">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2">Transvip</span>
-        <h2 class="h3 font-weight-bolder mb-0">Grandes proyectos</h2>
-      </div>
-
-      <!-- Contexto breve -->
-      <div class="glass-card p-4 mb-4">
-        <p class="mb-0">Desde Transvip (Chile) lideré iniciativas de autoatención y eficiencia: App, Web, Sistema de Diseño y Tótems, con accesibilidad y usabilidad como criterios de salida.</p>
-      </div>
-
-      <div class="row">
-        <!-- 01 App -->
-        <article class="col-md-6 mb-4">
-          <div class="pillar p-4 h-100">
-            <h3 class="h5 mb-2">01. Nueva App Transvip</h3>
-            <p class="small mb-3">Rediseño orientado a <strong>accesibilidad, usabilidad y agilidad</strong> para mejorar la autoatención.</p>
-            <ul class="small pl-3 mb-3">
-              <li>Handoff claro a desarrollo.</li>
-              <li>Patrones A11y por defecto.</li>
-            </ul>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-light btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-ver-proyecto">Ver proyecto</a>
-              <a class="btn btn-outline-light btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-app-maqueta">Ver maqueta alta fidelidad</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 02 Web -->
-        <article class="col-md-6 mb-4">
-          <div class="pillar p-4 h-100">
-            <h3 class="h5 mb-2">02. Nueva Web Transvip</h3>
-            <p class="small mb-3">Renovación de interfaz y <strong>nueva lógica</strong> de adquirir servicios: cotización → checkout, alineado a objetivos de negocio.</p>
-            <ul class="small pl-3 mb-3">
-              <li>Proceso colaborativo y ágil.</li>
-              <li>Testeo con usuarios reales.</li>
-            </ul>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-light btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-web-revisa">Revisa el proyecto aquí</a>
-              <span class="badge badge-warning align-self-center">Sprint en progreso</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 03 Sistema de Diseño -->
-        <article class="col-md-6 mb-4">
-          <div class="pillar p-4 h-100">
-            <h3 class="h5 mb-2">03. Sistemas de Diseño Transvip</h3>
-            <p class="small mb-3">Lideré la construcción del sistema para acelerar sprints y estandarizar experiencias.</p>
-            <ul class="small pl-3 mb-3">
-              <li>Aplicación Cliente</li>
-              <li>Web mobile y Desktop</li>
-              <li>Aplicación Conductor</li>
-              <li>Sistemas enlace y satélites</li>
-            </ul>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-light btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-ver-proyecto">Ver proyecto</a>
-              <a class="btn btn-outline-light btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-maqueta">Ver componentes</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 04 Tótems -->
-        <article class="col-md-6 mb-4">
-          <div class="pillar p-4 h-100">
-            <h3 class="h5 mb-2">04. Nuevos Tótems Transvip</h3>
-            <p class="small mb-3">Autoatención en aeropuertos. Proyecto reactivado para mejorar tiempos y autonomía.</p>
-            <ul class="small pl-3 mb-3">
-              <li>UX Research y validación en terreno.</li>
-              <li>Flujos optimizados para pico de demanda.</li>
-            </ul>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-light btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-totem-ver-proyecto">Ver proyecto</a>
-              <span class="badge badge-info align-self-center">Sprint en progreso</span>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <!-- Mi rol y Resultados -->
-      <div class="row">
-        <div class="col-lg-8 mb-3">
-          <div class="glass-card p-4 h-100">
-            <h3 class="h5 mb-2">Mi rol</h3>
-            <p class="mb-3">Como Product Designer lideré definiciones UX/UI junto a desarrollo, QA, stakeholders y Product Owner para ofrecer experiencias accesibles, eficientes y eficaces. Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo.</p>
-          </div>
-        </div>
-        <aside class="col-lg-4">
-          <div class="kpi p-4 h-100">
-            <h3 class="h6 mb-2">Logros colectivos</h3>
-            <ul class="small pl-3 mb-3">
-              <li>Testeos con usuarios reales (programa activo).</li>
-              <li>−25% tiempo de sprint con Atomic Design.</li>
-              <li>Documentación efectiva y diseño reutilizable.</li>
-            </ul>
-            <a class="btn btn-dark btn-sm" href="#Contacto" data-metric="txp-cta-contacto">Conversemos</a>
-          </div>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <!-- KARRI APP SHOPPER (in-page) -->
-  <section id="Karri" class="section bg-gradient-dark pattern-dots text-white" aria-label="Karri App Shopper México">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2">Producto</span>
-        <h2 class="h3 font-weight-bolder mb-0">Karri App Shopper · México</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div class="glass-card p-4 h-100">
-            <h3 class="h6">Contexto</h3>
-            <p class="small mb-0">Proyecto para digitalizar compra y delivery urbano. Enfoque en movilidad, cashback y pagos rápidos. Métricas núcleo: retención, recompra y conversión.</p>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="glass-card p-4 h-100">
-            <h3 class="h6">Mi rol</h3>
-            <p class="small mb-3">Product Designer senior para el rediseño móvil, definición de design tokens y gobernanza visual. Coordinación con equipo de Ciudad de México y QA.</p>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-brand btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="karri-ver-proyecto">Ver proyecto</a>
-              <a class="btn btn-outline-light btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="karri-figma"><i class="fab fa-figma" aria-hidden="true"></i> Ver en Figma</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MÉTODOS (igual que tu versión) -->
-  <section id="Metodos" class="section bg-gradient-dark pattern-dots text-white" aria-label="Métodos y artefactos">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2">Playbook</span>
-        <h2 class="h3 font-weight-bolder mb-0">Métodos</h2>
-      </div>
-
-      <ul class="nav nav-tabs tabs-dark" id="metodosTabs" role="tablist" aria-label="Selector de métodos">
-        <li class="nav-item"><a class="nav-link active" id="tab-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">Design Thinking</a></li>
-        <li class="nav-item"><a class="nav-link" id="tab-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">Design Sprint</a></li>
-        <li class="nav-item"><a class="nav-link" id="tab-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">Agile</a></li>
-        <li class="nav-item"><a class="nav-link" id="tab-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">Security by Design</a></li>
-        <li class="nav-item"><a class="nav-link" id="tab-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">Data-Driven</a></li>
-        <li class="nav-item"><a class="nav-link" id="tab-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">Gobernanza &amp; A11y</a></li>
-      </ul>
-
-      <div class="tab-content pt-3" id="metodosContent">
-        <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
-            <div class="row">
-              <div class="col-md-4 mb-3"><h3 class="h6">Prácticas</h3><ul class="small mb-0 pl-3"><li>Entrevistas y mapeo de actores</li><li>Journey + puntos de control</li><li>How Might We + priorización riesgo/valor</li></ul></div>
-              <div class="col-md-4 mb-3"><h3 class="h6">Artefactos</h3><ul class="small mb-0 pl-3"><li>Problem Statement</li><li>Mapa de Riesgos Normativos</li><li>Storyboards y bocetos</li></ul></div>
-              <div class="col-md-4 mb-0"><h3 class="h6">Resultados</h3><ul class="small mb-0 pl-3"><li>↓ supuestos no validados</li><li>↑ claridad de alcance</li><li>Top 5 riesgos identificados</li></ul></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
-            <div class="row">
-              <div class="col-md-4 mb-3"><h3 class="h6">Prácticas</h3><ul class="small mb-0 pl-3"><li>Map → Sketch → Decide → Prototype → Test</li><li>Hipótesis y criterios de éxito</li><li>Reclutamiento segmentado</li></ul></div>
-              <div class="col-md-4 mb-3"><h3 class="h6">Artefactos</h3><ul class="small mb-0 pl-3"><li>Prototipo alta fidelidad</li><li>Guion + checklist de test</li><li>Informe por severidad</li></ul></div>
-              <div class="col-md-4 mb-0"><h3 class="h6">Resultados</h3><ul class="small mb-0 pl-3"><li>Tiempo a decisión ↓</li><li>Task-success y SUS/NPS</li><li>Backlog priorizado</li></ul></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
-            <div class="row">
-              <div class="col-md-4 mb-3"><h3 class="h6">Prácticas</h3><ul class="small mb-0 pl-3"><li>Backlog por outcomes</li><li>DoR/DoD + A11y</li><li>Revisiones Legal y Seguridad</li></ul></div>
-              <div class="col-md-4 mb-3"><h3 class="h6">Artefactos</h3><ul class="small mb-0 pl-3"><li>Roadmap trimestral</li><li>Historias + aceptación</li><li>Design tokens + librería UI</li></ul></div>
-              <div class="col-md-4 mb-0"><h3 class="h6">Resultados</h3><ul class="small mb-0 pl-3"><li>Lead time ↓, throughput ↑</li><li>Defectos post release ↓</li><li>Adopción por release ↑</li></ul></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
-            <div class="accordion" id="sbdAccordion">
-              <div class="card bg-transparent border-0">
-                <div class="card-header p-0 bg-transparent border-0" id="sbd-front-h">
-                  <h3 class="h6 mb-2"><a class="btn btn-outline-light btn-sm" data-toggle="collapse" href="#sbd-front" aria-expanded="true" aria-controls="sbd-front">Controles en Front</a></h3>
-                </div>
-                <div id="sbd-front" class="collapse show" aria-labelledby="sbd-front-h" data-parent="#sbdAccordion">
-                  <ul class="small mb-3 pl-3">
-                    <li>Capa visual normativa: estados, bloqueos y mensajes trazables</li>
-                    <li>MFA por segmento y contexto de riesgo</li>
-                    <li>Gestión de consentimiento visible y revocable</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card bg-transparent border-0">
-                <div class="card-header p-0 bg-transparent border-0" id="sbd-back-h">
-                  <h3 class="h6 mb-2"><a class="btn btn-outline-light btn-sm collapsed" data-toggle="collapse" href="#sbd-back" aria-expanded="false" aria-controls="sbd-back">Controles en Back/Infra</a></h3>
-                </div>
-                <div id="sbd-back" class="collapse" aria-labelledby="sbd-back-h" data-parent="#sbdAccordion">
-                  <ul class="small mb-0 pl-3">
-                    <li>Muro de datos y réplica diferida</li>
-                    <li>Logs inmutables, alertas y auditoría</li>
-                    <li>Data minimization y “least privilege”</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde el día uno.</p>
-            <div class="row">
-              <div class="col-md-4 mb-3"><h3 class="h6">Prácticas</h3><ul class="small mb-0 pl-3"><li>Event naming y trazas por flujo</li><li>Dashboards por objetivo</li><li>A/B tests y feature flags</li></ul></div>
-              <div class="col-md-4 mb-3"><h3 class="h6">Artefactos</h3><ul class="small mb-0 pl-3"><li>Taxonomía de eventos</li><li>KPIs/OKR definidos</li><li>Plan de experimentos</li></ul></div>
-              <div class="col-md-4 mb-0"><h3 class="h6">Resultados</h3><ul class="small mb-0 pl-3"><li>Adopción por etapa ↑</li><li>NPS por flujo ↑</li><li>Tiempo de onboarding ↓</li></ul></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
-          <div class="glass-card p-4 shadow-quiet">
-            <p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
-            <div class="row">
-              <div class="col-md-4 mb-3"><h3 class="h6">Prácticas</h3><ul class="small mb-0 pl-3"><li>Gate pre-producción multiárea</li><li>WCAG y accesibilidad por defecto</li><li>Revisión legal continua</li></ul></div>
-              <div class="col-md-4 mb-3"><h3 class="h6">Artefactos</h3><ul class="small mb-0 pl-3"><li>Checklist de liberación</li><li>Guía UI normativa</li><li>Registro de evidencias</li></ul></div>
-              <div class="col-md-4 mb-0"><h3 class="h6">Resultados</h3><ul class="small mb-0 pl-3"><li>Errores normativos ↓</li><li>Velocidad de revisión ↑</li><li>Hallazgos de accesibilidad ↓</li></ul></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="text-center mt-4">
-        <a class="btn btn-outline-light" href="#LandingSURA">Ver playbook aplicado</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CV -->
-  <section id="CV" class="section bg-gradient-paper pattern-grid" aria-label="CV">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">CV</span>
-        <h2 class="h3 font-weight-bolder mb-0">Experiencia</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-8">
-          <ul class="list-group mb-3 shadow-quiet">
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <strong>SURA Investments · Lead UX / Senior Analyst</strong>
-                <span class="text-muted small">2023–actual</span>
-              </div>
-              <ul class="small mb-0 pl-3">
-                <li>Gobernanza UX y verificación pre-producción</li>
-                <li>Capa visual normativa y trazabilidad de consentimiento</li>
-                <li>Flujos críticos: Hazte Cliente, Mandato, Dashboard</li>
-              </ul>
-            </li>
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <strong>Transvip / KARRI · Senior Product Designer</strong>
-                <span class="text-muted small">2022–2023</span>
-              </div>
-              <ul class="small mb-0 pl-3">
-                <li>Nueva App y Web Transvip, Sistema de Diseño y Tótems</li>
-                <li>Karri App Shopper (MX): onboarding, tokens y A/B testing</li>
-              </ul>
-            </li>
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <strong>Desafío Latam · Docente UX/UI</strong>
-                <span class="text-muted small">2022–2023</span>
-              </div>
-              <ul class="small mb-0 pl-3">
-                <li>Design Thinking aplicado a producto</li>
-                <li>Acompañamiento en proyectos</li>
-              </ul>
-            </li>
+      <!-- 02 Web -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">02. Nueva Web Transvip</h3>
+        <p class="small mb-3">Renovación de interfaz y <strong>nueva lógica</strong> de adquirir servicios: cotización → checkout, alineado a objetivos de negocio.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Proceso colaborativo y ágil.</li>
+            <li>Testeo con usuarios reales.</li>
           </ul>
-          <a class="btn btn-dark btn-sm" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV completo</a>
-        </div>
-
-        <aside class="col-lg-4 mt-4 mt-lg-0">
-          <div class="card border-soft shadow-quiet">
-            <div class="card-body">
-              <h3 class="h6 mb-2">Contacto rápido</h3>
-              <p class="mb-1"><i class="far fa-envelope"></i> <a href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
-              <p class="mb-1"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
-              <p class="mb-0"><i class="fab fa-github"></i> <a href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
-            </div>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-web-revisa">Revisa el proyecto aquí</a>
+            <span class="badge badge-warning align-self-center">Sprint en progreso</span>
           </div>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <!-- KPIs -->
-  <section id="KPIs" class="section bg-gradient-paper pattern-grid" aria-label="Indicadores">
-    <div class="container">
-      <div class="d-flex align-items-center mb-3">
-        <span class="chip mr-2" style="color:#212529;border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.05)">KPIs</span>
-        <h2 class="h3 font-weight-bolder mb-0">Indicadores</h2>
-      </div>
-      <div class="row">
-        <div class="col-sm-6 col-md-3 mb-3"><div class="card border-soft shadow-quiet h-100"><div class="card-body"><span class="badge badge-dark">Cumplimiento</span><p class="mb-1 mt-2">↓ errores normativos</p><small>Gate pre-producción</small></div></div></div>
-        <div class="col-sm-6 col-md-3 mb-3"><div class="card border-soft shadow-quiet h-100"><div class="card-body"><span class="badge badge-dark">Adopción</span><p class="mb-1 mt-2">↑ uso de flujos</p><small>Hazte Cliente · Mandato</small></div></div></div>
-        <div class="col-sm-6 col-md-3 mb-3"><div class="card border-soft shadow-quiet h-100"><div class="card-body"><span class="badge badge-dark">Satisfacción</span><p class="mb-1 mt-2">NPS por flujo</p><small>Segmento WM</small></div></div></div>
-        <div class="col-sm-6 col-md-3 mb-3"><div class="card border-soft shadow-quiet h-100"><div class="card-body"><span class="badge badge-dark">Eficiencia</span><p class="mb-1 mt-2">↓ tiempo onboarding</p><small>↓ reprocesos</small></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="Contacto" class="section bg-gradient-dark pattern-dots text-white" aria-label="Contacto">
-    <div class="container">
-      <div class="glass-card p-4 text-center shadow-quiet">
-        <div class="d-flex justify-content-center align-items-center mb-3">
-          <span class="chip mr-2">Contacto</span>
-          <h2 class="h4 mb-0">Hablemos</h2>
         </div>
-        <p class="mb-4">
-          <a class="btn btn-brand mr-2" href="mailto:gaete.gaona@gmail.com" data-metric="contact-email">
-            <i class="far fa-envelope" aria-hidden="true"></i> gaete.gaona@gmail.com
-          </a>
-          <a class="btn btn-outline-light mr-2" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-metric="contact-linkedin">
-            <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
-          </a>
-          <a class="btn btn-outline-light" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-metric="contact-github">
-            <i class="fab fa-github" aria-hidden="true"></i> GitHub
-          </a>
-        </p>
-        <address class="sr-only">
-          Correo: gaete.gaona@gmail.com. LinkedIn: rodrigoscrummaster. GitHub: vientonorte.
-        </address>
+      </article>
+
+      <!-- 03 Sistema de Diseño -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">03. Sistemas de Diseño Transvip</h3>
+          <p class="small mb-3">Lideré la construcción del sistema para acelerar sprints y estandarizar experiencias.</p>
+          <ul class="small pl-3 mb-3">
+            <li>Aplicación Cliente</li>
+            <li>Web mobile y Desktop</li>
+            <li>Aplicación Conductor</li>
+            <li>Sistemas enlace y satélites</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-ver-proyecto">Ver proyecto</a>
+            <a class="btn btn-outline-secondary btn-sm mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-ds-maqueta">Ver componentes</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04 Tótems -->
+      <article class="col-md-6 mb-4">
+        <div class="pillar p-4 h-100">
+          <h3 class="h5 mb-2">04. Nuevos Tótems Transvip</h3>
+          <p class="small mb-3">Autoatención en aeropuertos. Proyecto reactivado para mejorar tiempos y autonomía.</p>
+          <ul class="small pl-3 mb-3">
+            <li>UX Research y validación en terreno.</li>
+            <li>Flujos optimizados para pico de demanda.</li>
+          </ul>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-dark btn-sm mr-2 mb-2 disabled" href="#" aria-disabled="true" data-metric="txp-totem-ver-proyecto">Ver proyecto</a>
+            <span class="badge badge-info align-self-center">Sprint en progreso</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MI ROL -->
+<section id="rol" class="py-5 bg-paper" aria-label="Mi rol">
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2">Rol</span>
+      <h2 class="h3 font-weight-bolder mb-0">Mi rol</h2>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8 mb-3">
+        <div class="pillar p-4 h-100">
+          <p class="mb-3">
+            Como Product Designer lideré definiciones UX/UI junto a desarrollo, QA, stakeholders y Product Owner para
+            ofrecer experiencias accesibles, eficientes y eficaces.
+          </p>
+          <p class="mb-0 small">
+            Implementé procesos dentro de los sprints con criterios de salida, handoff claro y medición por flujo.
+          </p>
+        </div>
+      </div>
+      <aside class="col-lg-4">
+        <div class="kpi p-4 h-100">
+          <h3 class="h6 mb-2">Prácticas clave</h3>
+          <ul class="small pl-3 mb-0">
+            <li>Accesibilidad y usabilidad como DoD</li>
+            <li>Design reviews y handoff ágil</li>
+            <li>Testeo con usuarios reales</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section id="resultados" class="py-5" aria-label="Resultados y logros">
+  <div class="container">
+    <div class="d-flex align-items-center mb-3">
+      <span class="chip mr-2">Resultados</span>
+      <h2 class="h3 font-weight-bolder mb-0">Logros colectivos</h2>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Research</span>
+          <p class="mb-1 mt-2">Testeos con usuarios reales</p>
+          <small>Programa de testers activo · cobertura ↑</small>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Velocidad</span>
+          <p class="mb-1 mt-2">−25% tiempo de sprint</p>
+          <small>Atomic Design implementado</small>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="kpi p-3 h-100">
+          <span class="badge badge-dark">Documentación</span>
+          <p class="mb-1 mt-2">Sistema de diseño vivo</p>
+          <small>Mejor traza y reutilización</small>
+        </div>
       </div>
     </div>
-  </section>
-</main>
 
-<!-- FOOTER -->
-<footer class="bg-dark text-center py-3" role="contentinfo" aria-label="Pie de página">
-  <small class="text-muted">
-    © Rodrigo Gaete · <a href="#Inicio" class="text-warning">Volver arriba</a>
-  </small>
+    <div class="text-center mt-3">
+      <a class="btn btn-dark" href="#contacto" data-metric="txp-cta-contacto">Conversemos</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="py-5 text-center bg-paper" aria-label="Contacto">
+  <div class="container">
+    <h2 class="h4 font-weight-bolder mb-3">¿Quieres ver la demo o el dossier?</h2>
+    <a class="btn btn-dark mr-2" href="index.html#Contacto" data-metric="txp-cta-home-contacto">Contactar</a>
+    <a class="btn btn-outline-secondary" href="assets/docs/DEI_CDF_FFMM_SURA_Pass.pdf" target="_blank" rel="noopener" data-metric="txp-cta-dossier">Ver dossier</a>
+  </div>
+</section>
+
+<footer class="container-fluid bg-dark text-warning text-center p-4" role="contentinfo">
+  <small>Transvip · Experiencia Digital</small>
 </footer>
 
 <!-- JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
 </body>
 </html>
