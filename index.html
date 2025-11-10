@@ -1,275 +1,495 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <!-- ==== META & SEO ==== -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rodrigo Gaete Gaona · UX Estratégico</title>
-  <meta name="description" content="Portafolio de Rodrigo Gaete Gaona: UX estratégico, accesibilidad, compliance y decisiones basadas en datos.">
-  <meta name="theme-color" content="#0c0f13">
-  <meta property="og:title" content="Rodrigo Gaete Gaona · UX Estratégico">
-  <meta property="og:description" content="Casos destacados, métodos y métricas UX.">
+  <title>Rodrigo Gaete · UX Estratégico</title>
+  <meta name="description" content="UX estratégico para negocios regulados. Casos, métodos y métricas con foco en gobernanza, capa visual normativa y decisiones basadas en datos.">
+  <meta name="theme-color" content="#0C0F13">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="canonical" href="https://tudominio.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Rodrigo Gaete · UX Estratégico · Portafolio">
+  <meta property="og:description" content="Estrategia digital, cumplimiento y métricas para Wealth Management.">
   <meta property="og:image" content="assets/img/og-cover.jpg">
+  <meta property="og:url" content="https://tudominio.com/">
 
-  <!-- ==== FAVICON RG INLINE ==== -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-      <circle cx='50' cy='50' r='48' fill='%230C0F13' stroke='%23FFC107' stroke-width='4'/>
-      <text x='50' y='60' font-family='Inter, sans-serif' font-size='42' text-anchor='middle' fill='white'>RG</text>
-    </svg>">
-
-  <!-- ==== FONTS & CSS ==== -->
+  <!-- Fuentes + Bootstrap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
 
+  <!-- ===== TOKENS + TEMA (estética Transvip) ===== -->
   <style>
-    /* ==== ROOT PALETTE ==== */
-    :root {
-      --brand:#ffc107;
-      --ink:#212529;
-      --paper:#f8f9fa;
-      --night:#0c0f13;
-      --mist:#e9ecef;
-      --transition:.3s ease;
+    :root{
+      --brand:#FFC107; --brand-light:#FFD54F; --brand-dark:#B28704;
+      --night:#0C0F13; --night-2:#15181B; --paper:#F8F9FA;
+      --ink:#E9ECEF; --ink-soft:#ADB5BD; --graphite:#343A40;
+      --accent:#00BFA6; --danger:#FF6B6B; --success:#51CF66;
+      --glass:rgba(255,255,255,0.08); --radius:.75rem;
+      --gradient-hero:linear-gradient(180deg,#0C0F13 0%,#15181B 100%);
     }
     html{scroll-behavior:smooth}
     body{
       font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      padding-top:72px;
-      background-color:var(--night);
-      color:var(--paper);
-      transition:background-color var(--transition), color var(--transition);
+      color:var(--ink); background:var(--night); padding-top:72px;
     }
-    [data-theme="light"]{
-      background-color:var(--paper);
-      color:var(--ink);
-    }
-
-    /* ==== NAVBAR ==== */
-    .navbar{
-      backdrop-filter:blur(8px);
-      background-color:rgba(12,15,19,.85);
-      transition:background-color var(--transition);
-    }
-    [data-theme="light"] .navbar{
-      background-color:rgba(255,255,255,.8);
-    }
-    .nav-link,.navbar-brand{color:var(--brand)!important}
-    .theme-toggle{cursor:pointer;border:none;background:transparent;padding:.25rem .5rem}
-    .theme-toggle svg{width:20px;height:20px;fill:var(--brand);transition:opacity var(--transition)}
-    .theme-toggle .sun{display:none}
-    [data-theme="light"] .theme-toggle .moon{display:none}
-    [data-theme="light"] .theme-toggle .sun{display:inline}
-
-    /* ==== HERO ==== */
-    .hero{min-height:88vh;display:flex;align-items:center;text-align:left;padding:4rem 0}
-    .hero h1{font-weight:700;margin-bottom:1rem}
-    .btn-brand{background:var(--brand);color:#000;font-weight:600;border:none}
-    .btn-outline-light{border-color:var(--brand);color:var(--brand)}
-    .btn-outline-light:hover{background:var(--brand);color:#000}
-
-    /* ==== CARDS & GLASS ==== */
-    .glass-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border-radius:.75rem;padding:1.5rem;transition:transform .2s ease,box-shadow .2s ease}
-    .glass-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
-    [data-theme="light"] .glass-card{background:#fff;color:#212529;border:1px solid #dee2e6}
-
-    /* ==== SECTION GENERIC ==== */
+    [id]{scroll-margin-top:80px}
+    h1,h2,h3{font-weight:700;line-height:1.15;margin-bottom:.6rem}
+    p,ul,small{margin-bottom:1rem}
     section{padding:4rem 0}
-    .chip{display:inline-block;padding:.3rem .7rem;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-size:.85rem}
-    [data-theme="light"] .chip{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1)}
 
-    /* ==== KPIs ==== */
-    .kpi{border:1px solid #e9ecef;border-radius:.75rem;background:#fff;color:#212529;padding:1.25rem;transition:transform .2s ease}
-    .kpi:hover{transform:translateY(-3px)}
-    [data-theme="dark"] .kpi{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.1)}
+    /* Navbar Transvip blur */
+    .navbar-blur{
+      background:rgba(12,15,19,.6); backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .navbar-blur .navbar-brand,.navbar-blur .nav-link{color:var(--brand)}
+    .navbar-blur .nav-link:hover{color:var(--brand-light)}
+    .navbar-toggler{border-color:rgba(255,255,255,.25)}
 
-    /* ==== FADE IN ==== */
-    .fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-    .fade-in.visible{opacity:1;transform:none}
+    /* Hero minimal */
+    .hero{background:var(--gradient-hero)}
+    .chip{display:inline-block;padding:.32rem .6rem;border-radius:999px;
+      background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);
+      font-size:.85rem}
+    .btn-brand{background:var(--brand);color:#212529;border-color:var(--brand)}
+    .btn-brand:hover{filter:brightness(.95)}
+    .btn-ghost{border:2px solid rgba(255,255,255,.45);color:#fff}
+    .btn-ghost:hover{border-color:#fff}
 
-    footer{background:#0c0f13;color:#aaa;padding:1rem 0}
-    [data-theme="light"] footer{background:#f8f9fa;color:#555}
+    /* Secciones unificadas */
+    .section-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1.75rem}
+    .section-header .chip{background:rgba(255,255,255,.1)}
+    .glass-card{background:var(--glass);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.18); border-radius:var(--radius)}
+    .card-base,.pillar,.kpi,.evidence-card{border:1px solid #2a2d31;background:#111315;color:#E9ECEF;border-radius:var(--radius);padding:1.25rem}
+    .evidence-card img{object-fit:cover;height:160px;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
+    .kpi .display-4{font-size:2rem;line-height:1;font-weight:700}
+
+    /* Alternancia de fondos */
+    .bg-paper{background:linear-gradient(180deg,#0F1318 0%, #0C0F13 100%)}
+
+    /* Microinteracciones */
+    .fade{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+    .fade.visible{opacity:1;transform:none}
+    .hover-rise{transition:transform .2s ease, box-shadow .2s ease}
+    .hover-rise:hover{transform:translateY(-4px); box-shadow:0 16px 32px rgba(0,0,0,.25)}
+    .btn-press{transition:box-shadow .15s ease, transform .03s ease}
+    .btn-press:active{transform:translateY(1px); box-shadow:0 0 0 4px rgba(255,193,7,.25)}
+    .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:1030}
+    .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#FFC107,#FFDA6A)}
+
+    /* Utilidades */
+    .text-brand{color:var(--brand)!important}
+    .shadow-quiet{box-shadow:0 4px 16px rgba(0,0,0,.18)}
+    a:focus,button:focus{outline:3px solid var(--brand);outline-offset:2px}
   </style>
 
-  <!-- ==== JSON-LD ==== -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"Person",
-    "name":"Rodrigo Gaete Gaona",
-    "jobTitle":"Lead UX / Senior Analyst",
-    "url":"https://rodrigogaete.github.io",
-    "sameAs":["https://github.com/vientonorte","https://www.linkedin.com/in/rodrigoscrummaster"],
-    "worksFor":{"@type":"Organization","name":"SURA Investments"}
+    "@graph":[
+      {
+        "@type":"Person",
+        "name":"Rodrigo Gaete Gaona",
+        "jobTitle":"Lead UX / Senior Analyst",
+        "email":"mailto:gaete.gaona@gmail.com",
+        "worksFor":{"@type":"Organization","name":"SURA Investments"},
+        "knowsLanguage":["es","en"],
+        "sameAs":["https://github.com/vientonorte","https://www.linkedin.com/in/rodrigoscrummaster"]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Casos destacados",
+        "itemListElement":[
+          {"@type":"CreativeWork","name":"Estrategia “Gaona” · Separación AFP–SURA","url":"assets/docs/Dossier_Separacion_AFP_SURA.pdf"},
+          {"@type":"CreativeWork","name":"Estrategia Digital UX 2025 · Wealth Management","url":"assets/docs/Estrategia_Digital_UX_SURA_2025.pdf"},
+          {"@type":"CreativeWork","name":"Transvip · Experiencia Digital","url":"landing-transvip.html"}
+        ]
+      }
+    ]
   }
   </script>
+
+  <!-- A/B assignment early -->
+  <script>
+    // Variante 50/50 persistida por sesión
+    (function(){
+      try{
+        var key='ab_variant_v1';
+        var v=sessionStorage.getItem(key) || (Math.random()<0.5?'A':'B');
+        sessionStorage.setItem(key,v);
+        document.documentElement.dataset.variant=v;
+      }catch(e){ document.documentElement.dataset.variant=(Math.random()<0.5?'A':'B'); }
+    })();
+  </script>
 </head>
+<body>
+  <a class="sr-only sr-only-focusable" href="#contenido">Saltar al contenido</a>
 
-<body data-theme="dark">
-<!-- ==== NAVBAR START ==== -->
-<nav class="navbar navbar-expand-lg fixed-top">
-  <a class="navbar-brand font-weight-bold" href="#hero">RG · UX</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div id="nav" class="collapse navbar-collapse">
-    <ul class="navbar-nav ml-auto align-items-center">
-      <li class="nav-item"><a class="nav-link" href="#casos">Casos</a></li>
-      <li class="nav-item"><a class="nav-link" href="#playbook">Playbook</a></li>
-      <li class="nav-item"><a class="nav-link" href="#cv">CV</a></li>
-      <li class="nav-item"><a class="nav-link" href="#kpis">KPIs</a></li>
-      <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-      <li class="nav-item"><button class="theme-toggle ml-3" id="themeToggle" aria-label="Cambiar tema">
-        <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 12.79 3 7 7 0 0 0 12 17a7 7 0 0 0 9-4.21z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24"><path d="M12 4V2m0 20v-2m8-8h2M2 12H4m14.14 7.14l1.42 1.42M4.44 4.44L5.86 5.86m0 12.28L4.44 19.56M18.36 5.64l1.42-1.42M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
-      </button></li>
-    </ul>
-  </div>
-</nav>
-<!-- ==== NAVBAR END ==== -->
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-blur fixed-top" role="navigation" aria-label="Principal">
+    <a class="navbar-brand font-weight-bold" href="#Inicio">· RODRIGO <span class="font-weight-normal">GAETE</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="#Casos"><span data-variant-a>Casos</span><span data-variant-b hidden>Portafolio</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#Metodos"><span data-variant-a>Playbook</span><span data-variant-b hidden>Métodos</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#CV">CV</a></li>
+        <li class="nav-item"><a class="nav-link" href="#KPIs">KPIs</a></li>
+        <li class="nav-item"><a class="nav-link" href="#Contacto"><span data-variant-a>Contacto</span><span data-variant-b hidden>Conversemos</span></a></li>
+        <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
+      </ul>
+    </div>
+  </nav>
 
-<!-- ==== HERO SECTION START ==== -->
-<header id="hero" class="hero container fade-in">
-  <div class="col-lg-8">
-    <span class="chip mb-2">UX Estratégico · Negocios regulados</span>
-    <h1>Experiencias seguras, trazables y medibles</h1>
-    <p class="lead mb-4">Gobernanza, capa visual normativa y datos para decisiones verificables en Wealth Management.</p>
-    <a href="#casos" class="btn btn-brand mr-2">Ver casos</a>
-    <a href="#contacto" class="btn btn-outline-light">Contactar</a>
-  </div>
-</header>
-<!-- ==== HERO SECTION END ==== -->
-
-<!-- ==== CASOS SECTION START ==== -->
-<section id="casos" class="container fade-in">
-  <div class="d-flex align-items-center mb-3">
-    <span class="chip mr-2">Casos</span><h2 class="h3 font-weight-bolder mb-0">Destacados</h2>
-  </div>
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <div class="glass-card h-100">
-        <h3 class="h5">Separación AFP–SURA · “Estrategia Gaona”</h3>
-        <p class="small mb-3">Desacople con trazabilidad de consentimiento y menor riesgo normativo.</p>
-        <a href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" class="btn btn-brand btn-sm" target="_blank">Ver dossier</a>
-        <a href="landing-sura.html" class="btn btn-outline-light btn-sm">Ver landing</a>
+  <!-- HERO -->
+  <header id="Inicio" class="hero" role="banner" aria-label="Propuesta de valor">
+    <div class="container">
+      <div class="row align-items-center" style="min-height:70vh">
+        <div class="col-xl-7">
+          <div class="glass-card p-4 shadow-quiet">
+            <span class="chip mb-2"><span data-variant-a>UX estratégico · negocios regulados</span><span data-variant-b hidden>Diseño · cumplimiento · métricas</span></span>
+            <h1 class="mb-3">
+              <span data-variant-a>Experiencias seguras, trazables y medibles</span>
+              <span data-variant-b hidden>Diseño estratégico para negocios regulados</span>
+            </h1>
+            <p class="lead mb-4">
+              <span data-variant-a>Gobernanza, capa visual normativa y datos para decisiones verificables en Wealth Management.</span>
+              <span data-variant-b hidden>Transformo complejidad normativa en experiencias claras, seguras y medibles.</span>
+            </p>
+            <div class="d-flex flex-wrap">
+              <a class="btn btn-brand mr-2 mb-2 btn-press" href="#Casos" data-cta="hero-primary">
+                <span data-variant-a>Ver casos</span><span data-variant-b hidden>Explorar portafolio</span>
+              </a>
+              <a class="btn btn-ghost mb-2 btn-press" href="#Metodos" data-cta="hero-secondary">
+                <span data-variant-a>Ver playbook</span><span data-variant-b hidden>Ver métodos</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-6 mb-4">
-      <div class="glass-card h-100">
-        <h3 class="h5">Experiencia Digital Transvip</h3>
-        <p class="small mb-3">App, Web y Tótems. Accesibilidad, agilidad y eficiencia para movilidad corporativa.</p>
-        <a href="landing-transvip.html" class="btn btn-brand btn-sm" target="_blank">Ver landing</a>
+  </header>
+
+  <main id="contenido">
+    <!-- CASOS -->
+    <section id="Casos" class="fade" aria-label="Casos destacados">
+      <div class="container">
+        <div class="section-header">
+          <span class="chip">Casos</span>
+          <h2><span data-variant-a>Destacados</span><span data-variant-b hidden>Proyectos clave</span></h2>
+        </div>
+
+        <article class="glass-card p-4 mb-4 shadow-quiet" itemscope itemtype="https://schema.org/CreativeWork">
+          <div class="d-flex align-items-center mb-2">
+            <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
+            <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
+          </div>
+          <p class="small mb-2" itemprop="abstract">Desacople y réplica diferida con reglas de consentimiento. Capa visual normativa y gate pre-producción.</p>
+          <ul class="pl-3 mb-3"><li>AS-IS/TO-BE y tableros de control</li><li>Evidencia auditable y menor riesgo normativo</li></ul>
+          <a class="btn btn-warning btn-sm mr-2 btn-press" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url" data-cta="sura-dossier">Ver dossier</a>
+          <a class="btn btn-outline-light btn-sm btn-press" href="landing-sura.html" data-cta="sura-landing">Ver landing</a>
+        </article>
+
+        <div class="row">
+          <article class="col-md-6 mb-4">
+            <div class="card-base h-100 hover-rise">
+              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
+              <h3 class="h5">Estrategia Digital Wealth Management 2025</h3>
+              <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
+              <a class="btn btn-warning btn-sm btn-press" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener" data-cta="wm2025-doc">Ver documento</a>
+            </div>
+          </article>
+          <article class="col-md-6 mb-4">
+            <div class="card-base h-100 hover-rise">
+              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Transvip · Experiencia digital">
+              <h3 class="h5">Experiencia digital Transvip</h3>
+              <p class="small mb-3">Movilidad y experiencia digital en aeropuertos, corporativos y personas.</p>
+              <a class="btn btn-outline-light btn-sm btn-press" href="landing-transvip.html" target="_blank" rel="noopener" data-cta="transvip-landing">Ver landing</a>
+            </div>
+          </article>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-<!-- ==== CASOS SECTION END ==== -->
+    </section>
 
-<!-- ==== PLAYBOOK SECTION START ==== -->
-<section id="playbook" class="container fade-in">
-  <div class="d-flex align-items-center mb-3">
-    <span class="chip mr-2">Playbook</span><h2 class="h3 font-weight-bolder mb-0">Métodos</h2>
-  </div>
-  <div class="glass-card">
-    <p><strong>Objetivo:</strong> Controlar riesgos, mejorar decisiones y crear productos verificables.</p>
-    <ul class="small pl-3">
-      <li>Design Thinking · entender antes de construir</li>
-      <li>Design Sprint · validar en 5 días</li>
-      <li>Agile · dual-track discovery/delivery</li>
-      <li>Security by Design · evidencias y control</li>
-      <li>Data Driven · telemetría y KPIs</li>
-      <li>Governance · WCAG, gates y compliance</li>
-    </ul>
-  </div>
-</section>
-<!-- ==== PLAYBOOK SECTION END ==== -->
+    <!-- MÉTODOS / PLAYBOOK -->
+    <section id="Metodos" class="fade bg-paper" aria-label="Métodos y artefactos">
+      <div class="container">
+        <div class="section-header">
+          <span class="chip"><span data-variant-a>Playbook</span><span data-variant-b hidden>Métodos</span></span>
+          <h2><span data-variant-a>Métodos aplicados</span><span data-variant-b hidden>Playbook en acción</span></h2>
+        </div>
 
-<!-- ==== CV SECTION START ==== -->
-<section id="cv" class="container fade-in">
-  <div class="d-flex align-items-center mb-3">
-    <span class="chip mr-2">Perfil</span><h2 class="h3 font-weight-bolder mb-0">Sobre mí</h2>
-  </div>
-  <div class="row">
-    <div class="col-lg-8 mb-3">
-      <div class="glass-card">
-        <p><strong>Lead UX en SURA Investments.</strong> Experiencia en estrategia digital, cumplimiento normativo y diseño de productos medibles. Trabajo entre UX, datos y gobernanza.</p>
-        <a href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" class="btn btn-brand btn-sm">Ver CV</a>
+        <ul class="nav nav-tabs" id="metodosTabs" role="tablist" aria-label="Selector de métodos">
+          <li class="nav-item"><a class="nav-link active" id="tab-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">Design Thinking</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">Design Sprint</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">Agile</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">Security by Design</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">Data-Driven</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">Gobernanza & A11y</a></li>
+        </ul>
+
+        <div class="tab-content pt-3" id="metodosContent">
+          <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
+            <div class="card-base">
+              <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
+              <div class="row">
+                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Entrevistas y mapeo de actores</li><li>Journey + puntos de control</li><li>HMW + priorización riesgo/valor</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Problem Statement</li><li>Mapa de Riesgos Normativos</li><li>Storyboards y bocetos</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>↓ supuestos no validados</li><li>↑ claridad de alcance</li><li>Top 5 riesgos identificados</li></ul></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
+            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
+              <div class="row">
+                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Map → Sketch → Decide → Prototype → Test</li><li>Hipótesis y criterios de éxito</li><li>Reclutamiento segmentado</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Prototipo alta fidelidad</li><li>Guion + checklist de test</li><li>Informe por severidad</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Tiempo a decisión ↓</li><li>Task-success y SUS/NPS</li><li>Backlog priorizado</li></ul></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
+            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
+              <div class="row">
+                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Backlog por outcomes</li><li>DoR/DoD + A11y</li><li>Revisiones Legal y Seguridad</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Roadmap trimestral</li><li>Historias + aceptación</li><li>Design tokens + librería UI</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Lead time ↓, throughput ↑</li><li>Defectos post release ↓</li><li>Adopción por release ↑</li></ul></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
+            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
+              <div class="row">
+                <div class="col-md-6"><h3 class="h6">Front</h3><ul class="small pl-3 mb-0"><li>Capa visual normativa</li><li>MFA por segmento</li><li>Consentimiento visible y revocable</li></ul></div>
+                <div class="col-md-6"><h3 class="h6">Back/Infra</h3><ul class="small pl-3 mb-0"><li>Muro de datos y réplica diferida</li><li>Logs inmutables y auditoría</li><li>Least privilege y minimización</li></ul></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
+            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde día uno.</p>
+              <div class="row">
+                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Naming de eventos</li><li>Dashboards por objetivo</li><li>A/B tests y flags</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Taxonomía</li><li>KPIs/OKR</li><li>Plan de experimentos</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Adopción por etapa ↑</li><li>NPS por flujo ↑</li><li>Onboarding ↓</li></ul></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
+            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
+              <div class="row">
+                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Gate pre-producción</li><li>WCAG por defecto</li><li>Revisión legal continua</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Checklist de liberación</li><li>Guía UI normativa</li><li>Registro de evidencias</li></ul></div>
+                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Errores normativos ↓</li><li>Velocidad de revisión ↑</li><li>Hallazgos de accesibilidad ↓</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a class="btn btn-outline-light btn-press" href="landing-sura.html" data-cta="playbook-aplicado">
+            <span data-variant-a>Ver playbook aplicado</span><span data-variant-b hidden>Ver métodos aplicados</span>
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="glass-card">
-        <p class="small mb-1">📧 <a href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
-        <p class="small mb-1">🔗 <a href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank">LinkedIn</a></p>
-        <p class="small mb-0">💻 <a href="https://github.com/vientonorte" target="_blank">GitHub</a></p>
+    </section>
+
+    <!-- CV -->
+    <section id="CV" class="fade" aria-label="CV">
+      <div class="container">
+        <div class="section-header">
+          <span class="chip">CV</span>
+          <h2>Experiencia</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-8">
+            <ul class="list-group mb-3 shadow-quiet">
+              <li class="list-group-item bg-dark text-light">
+                <div class="d-flex justify-content-between">
+                  <strong>SURA Investments · Lead UX / Senior Analyst</strong>
+                  <span class="text-muted small">2023–actual</span>
+                </div>
+                <ul class="small mb-0 pl-3">
+                  <li>Gobernanza UX y verificación pre-producción</li>
+                  <li>Capa visual normativa y trazabilidad de consentimiento</li>
+                  <li>Flujos críticos: Hazte Cliente, Mandato, Dashboard</li>
+                </ul>
+              </li>
+              <li class="list-group-item bg-dark text-light">
+                <div class="d-flex justify-content-between">
+                  <strong>Transvip / KARRI · Senior Product Designer</strong>
+                  <span class="text-muted small">2022–2023</span>
+                </div>
+                <ul class="small mb-0 pl-3">
+                  <li>App nueva y mejoras web orientadas a métricas</li>
+                  <li>Research continuo y pruebas con usuarios</li>
+                </ul>
+              </li>
+              <li class="list-group-item bg-dark text-light">
+                <div class="d-flex justify-content-between">
+                  <strong>Desafío Latam · Docente UX/UI</strong>
+                  <span class="text-muted small">2022–2023</span>
+                </div>
+                <ul class="small mb-0 pl-3">
+                  <li>Design Thinking aplicado a producto</li>
+                  <li>Acompañamiento en proyectos</li>
+                </ul>
+              </li>
+            </ul>
+            <a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener" data-cta="cv-descarga">Descargar CV completo</a>
+          </div>
+          <aside class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card-base h-100">
+              <h3 class="h6 mb-2">Contacto rápido</h3>
+              <p class="mb-1"><i class="far fa-envelope"></i> <a class="text-brand" href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
+              <p class="mb-1"><i class="fab fa-linkedin"></i> <a class="text-brand" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
+              <p class="mb-0"><i class="fab fa-github"></i> <a class="text-brand" href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
+            </div>
+          </aside>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-<!-- ==== CV SECTION END ==== -->
+    </section>
 
-<!-- ==== KPIs SECTION START ==== -->
-<section id="kpis" class="container fade-in">
-  <div class="d-flex align-items-center mb-3">
-    <span class="chip mr-2">Indicadores</span><h2 class="h3 font-weight-bolder mb-0">KPIs</h2>
-  </div>
-  <div class="row">
-    <div class="col-md-3 mb-3"><div class="kpi text-center"><span class="badge badge-dark">Cumplimiento</span><p class="mt-2 mb-1">↓ errores normativos</p><small>Gate pre-producción</small></div></div>
-    <div class="col-md-3 mb-3"><div class="kpi text-center"><span class="badge badge-dark">Adopción</span><p class="mt-2 mb-1">↑ uso de flujos</p><small>Hazte Cliente · Mandato</small></div></div>
-    <div class="col-md-3 mb-3"><div class="kpi text-center"><span class="badge badge-dark">Satisfacción</span><p class="mt-2 mb-1">NPS por flujo</p><small>Segmento WM</small></div></div>
-    <div class="col-md-3 mb-3"><div class="kpi text-center"><span class="badge badge-dark">Eficiencia</span><p class="mt-2 mb-1">↓ tiempo onboarding</p><small>↓ reprocesos</small></div></div>
-  </div>
-</section>
-<!-- ==== KPIs SECTION END ==== -->
+    <!-- KPIs -->
+    <section id="KPIs" class="fade bg-paper" aria-label="Indicadores">
+      <div class="container">
+        <div class="section-header">
+          <span class="chip">KPIs</span>
+          <h2>Indicadores</h2>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Cumplimiento</span><p class="display-4 mb-0 mt-2">↓</p><small>Errores normativos</small></div></div>
+          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Adopción</span><p class="display-4 mb-0 mt-2">↑</p><small>Uso de flujos clave</small></div></div>
+          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Satisfacción</span><p class="display-4 mb-0 mt-2">NPS</p><small>Por flujo</small></div></div>
+          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Eficiencia</span><p class="display-4 mb-0 mt-2">↓</p><small>Tiempo de onboarding</small></div></div>
+        </div>
+      </div>
+    </section>
 
-<!-- ==== CONTACTO SECTION START ==== -->
-<section id="contacto" class="container fade-in text-center">
-  <span class="chip mb-2">Contacto</span>
-  <h2 class="h4 mb-3">¿Quieres ver la demo o el dossier?</h2>
-  <a href="mailto:gaete.gaona@gmail.com" class="btn btn-brand mr-2">Escribir correo</a>
-  <a href="https://www.linkedin.com/in/rodrigoscrummaster" class="btn btn-outline-light" target="_blank">LinkedIn</a>
-</section>
-<!-- ==== CONTACTO SECTION END ==== -->
+    <!-- CONTACTO -->
+    <section id="Contacto" class="fade text-center" aria-label="Contacto">
+      <div class="container">
+        <h2 class="h4 font-weight-bolder mb-3">
+          <span data-variant-a>Hablemos</span><span data-variant-b hidden>Conversemos</span>
+        </h2>
+        <a class="btn btn-brand mr-2 btn-press" href="mailto:gaete.gaona@gmail.com" data-cta="contact-email">Email</a>
+        <a class="btn btn-outline-light mr-2 btn-press" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-cta="contact-linkedin">LinkedIn</a>
+        <a class="btn btn-outline-light btn-press" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-cta="contact-github">GitHub</a>
+      </div>
+    </section>
+  </main>
 
-<footer class="text-center">
-  <small>© Rodrigo Gaete Gaona · 2025</small>
-</footer>
+  <!-- FOOTER -->
+  <footer class="text-center py-4" role="contentinfo" aria-label="Pie de página" style="border-top:1px solid rgba(255,255,255,.08)">
+    <small class="text-muted">© Rodrigo Gaete · <a href="#Inicio" class="text-brand">Volver arriba</a></small>
+  </footer>
 
-<!-- ==== JS INLINE ==== -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script>
-  /* ==== THEME TOGGLE ==== */
-  const toggle=document.getElementById('themeToggle');
-  const root=document.body;
-  const saved=localStorage.getItem('theme');
-  if(saved){root.dataset.theme=saved;}
-  else if(window.matchMedia('(prefers-color-scheme: light)').matches){root.dataset.theme='light';}
-  toggle.addEventListener('click',()=>{
-    const current=root.dataset.theme==='light'?'dark':'light';
-    root.dataset.theme=current;localStorage.setItem('theme',current);
-  });
+  <!-- Barra de progreso -->
+  <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" style="width:0%"></div></div>
 
-  /* ==== FADE-IN ON SCROLL ==== */
-  const fades=document.querySelectorAll('.fade-in');
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
-  },{threshold:.1});
-  fades.forEach(f=>io.observe(f));
+  <!-- ===== Interacciones + A/B + Tracking hooks ===== -->
+  <script>
+    // Revela .fade
+    (function(){
+      var els=document.querySelectorAll('.fade');
+      if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('visible')});return;}
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target);} });
+      },{rootMargin:"0px 0px -10% 0px",threshold:.1});
+      els.forEach(function(e){io.observe(e);});
+    })();
 
-  /* ==== A/B TESTING + TRACKING ==== */
-  window.dataLayer=window.dataLayer||[];
-  const variant=Math.random()<0.5?'A':'B';
-  window.dataLayer.push({event:'ab_test',variant});
-  console.log('A/B Test variant:',variant);
+    // Progreso scroll
+    (function(){
+      var bar=document.querySelector('.scroll-progress__bar');
+      function onScroll(){
+        var d=document.documentElement; var p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
+        bar.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(2)+'%';
+      }
+      document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+    })();
 
-  document.querySelectorAll('a.btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const label=btn.textContent.trim();
-      const ev={event:'click_interaction',label};
-      window.dataLayer.push(ev);
-      console.log('Event:',ev);
+    // A/B Rendering
+    (function(){
+      var v=document.documentElement.dataset.variant||'A';
+      var show='[data-variant-'+v.toLowerCase()+']';
+      var hide='[data-variant-'+(v==='A'?'b':'a').toLowerCase()+']';
+      document.querySelectorAll(show).forEach(function(n){n.hidden=false;});
+      document.querySelectorAll(hide).forEach(function(n){n.hidden=true;});
+    })();
+
+    // Tracking stack: GA4 (dataLayer), Plausible, Fathom
+    window.dataLayer=window.dataLayer||[];
+    window.AB=(function(){
+      var variant=document.documentElement.dataset.variant||'A';
+      function track(name,params){
+        params=params||{}; params.variant=variant;
+        // GA4
+        try{ window.dataLayer.push({event:name, ...params}); }catch(e){}
+        // Plausible
+        try{ if(window.plausible) plausible(name,{props:params}); }catch(e){}
+        // Fathom
+        try{ if(window.fathom) fathom.trackGoal(name,0); }catch(e){}
+        if(window.console){ console.log('[AB]',name,params); }
+      }
+      return {track:track, variant:variant};
+    })();
+
+    // Eventos CTA
+    document.querySelectorAll('[data-cta]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        window.AB.track('cta_click',{id:btn.getAttribute('data-cta')});
+      });
     });
-  });
-</script>
+
+    // Scroll depth simple (50% y 90%)
+    (function(){
+      var hit50=false, hit90=false;
+      function check(){
+        var d=document.documentElement; var p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
+        if(!hit50 && p>=.5){ hit50=true; window.AB.track('scroll_50'); }
+        if(!hit90 && p>=.9){ hit90=true; window.AB.track('scroll_90'); }
+        if(hit50&&hit90) document.removeEventListener('scroll',check);
+      }
+      document.addEventListener('scroll',check,{passive:true});
+    })();
+  </script>
+
+  <!-- JS Bootstrap (defer) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+
+  <!-- Integraciones opcionales (descomenta lo que uses)
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    // GA4
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config','G-XXXXXXX');
+  </script>
+
+  <script defer data-domain="tudominio.com" src="https://plausible.io/js/script.js"></script>
+
+  <script>
+    // Fathom
+    (function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+    o=f.createElement('script'), m=f.getElementsByTagName('script')[0]; o.async=1;o.src=t; m.parentNode.insertBefore(o,m);
+    })(document,window,'https://cdn.usefathom.com/script.js','fathom'); fathom('set','site','XXXXXX'); fathom('trackPageview');
+  </script>
+  -->
 </body>
 </html>
