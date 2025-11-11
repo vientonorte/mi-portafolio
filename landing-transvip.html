@@ -1,1042 +1,270 @@
 <!doctype html>
-<html lang="es" dir="ltr">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Transvip · Experiencia Digital · Rodrigo Gaete</title>
-<meta name="description" content="Caso Transvip: UX estratégico con foco en accesibilidad, autoservicio y medición. Proceso, flujos, design system y resultados.">
-<meta name="color-scheme" content="dark">
+<meta name="description" content="Caso Transvip: diseño estratégico, accesible y medible.">
 <meta name="theme-color" content="#0B0D10">
-<link rel="icon" href="assets/img/favicon.png" type="image/png">
 
 <style>
-/* ===================== TOKENS ===================== */
+/* ================== TOKENS ================== */
+@font-face{
+  font-family:"Inter";
+  src:url("https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTcviYw.ttf") format("truetype");
+  font-display:swap;
+}
 :root{
-  --brand:#FFC107;            /* dorado */
-  --brand-2:#FFDA6A;          /* dorado claro */
-  --ink:#E9ECEF;              /* texto principal */
-  --ink-2:#ADB5BD;            /* texto secundario */
-  --night:#0B0D10;            /* fondo base */
-  --night-2:#111318;          /* superficie 1 */
-  --night-3:#151922;          /* superficie 2 */
-  --line:#232833;             /* borde sutil */
-  --focus: #FFD54F;           /* focus visible */
+  --gold:#FFC107;
+  --gold-soft:#FFDD6A;
+  --graphite:#0B0D10;
+  --slate:#1A1C1E;
+  --paper:#F4F4F2;
+  --ink:#EAEAEA;
+  --ink-2:#9DA1A6;
   --radius:.8rem;
-  --shadow-soft:0 6px 22px rgba(0,0,0,.28);
-  --shadow-hard:0 16px 48px rgba(0,0,0,.45);
-  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --shadow:0 10px 40px rgba(0,0,0,.4);
+  --font:"Inter",system-ui,sans-serif;
 }
 
-/* ===================== BASE ===================== */
-*{box-sizing:border-box}
+/* ================== BASE ================== */
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
   font-family:var(--font);
-  margin:0;
+  background:radial-gradient(1200px 600px at 20% -10%,rgba(255,193,7,.06),transparent 60%),var(--graphite);
   color:var(--ink);
-  background:
-    radial-gradient(1200px 600px at 20% -10%, rgba(255,193,7,.08), transparent 60%),
-    radial-gradient(1400px 700px at 90% -10%, rgba(255,218,106,.08), transparent 60%),
-    var(--night);
+  line-height:1.55;
 }
-a{color:var(--brand);text-decoration:none}
-a:hover{filter:brightness(1.1)}
-a:focus,button:focus{outline:3px solid var(--focus);outline-offset:2px}
-h1,h2,h3{line-height:1.12;margin:0 0 .6rem}
-h1{font-size:clamp(1.9rem,2.6vw,2.6rem);font-weight:800;letter-spacing:-.01em}
-h2{font-size:clamp(1.4rem,2vw,1.9rem);font-weight:800;letter-spacing:-.01em}
-h3{font-size:clamp(1.05rem,1.4vw,1.2rem);font-weight:700}
-p{margin:.2rem 0 1rem}
-small{color:var(--ink-2)}
-.container{width:min(1120px,92vw);margin-inline:auto}
-section{padding:4.5rem 0}
-hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+a{color:var(--gold);text-decoration:none}
+a:hover{filter:brightness(1.2)}
+section{padding:5rem 0}
+.container{width:min(1100px,92vw);margin-inline:auto}
 
-/* ===================== NAV ===================== */
-.nav{
-  position:sticky; top:0; z-index:50;
-  background:rgba(11,13,16,.7); backdrop-filter:saturate(140%) blur(10px);
-  border-bottom:1px solid rgba(255,255,255,.06);
+/* ================== NAV ================== */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,13,16,.7);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-.nav__wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:.5rem;color:var(--ink);font-weight:800;letter-spacing:.02em}
-.brand i{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px rgba(255,193,7,.25)}
-.nav__links{display:flex;gap:.6rem;align-items:center}
-.nav__links a{
-  color:var(--ink); padding:.55rem .75rem; border-radius:.6rem; font-weight:600; font-size:.95rem;
-}
-.nav__links a:is(:hover,:focus){background:rgba(255,255,255,.06)}
-.cta{
-  background:var(--brand); color:#1a1c1e; border:none;
-  border-radius:.7rem; padding:.55rem .9rem; font-weight:800; cursor:pointer;
-}
-.cta:hover{filter:brightness(.97)}
-/* mobile */
-.nav__menu{display:none}
-@media (max-width: 880px){
-  .nav__menu{display:block;background:none;border:none;color:var(--ink);font-size:1.4rem}
-  .nav__links{display:none;position:fixed;inset:64px 0 auto 0;background:rgba(11,13,16,.98);border-top:1px solid var(--line);padding:1rem .8rem;flex-direction:column;align-items:flex-start}
-  .nav__links.show{display:flex}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:.02em;color:var(--ink)}
+.brand::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(255,193,7,.25)}
+.links{display:flex;gap:.8rem}
+.links a{padding:.6rem .9rem;border-radius:.6rem;font-weight:600;color:var(--ink)}
+.links a:hover{background:rgba(255,255,255,.08)}
+.menu{display:none}
+@media(max-width:880px){
+  .menu{display:block;background:none;border:none;color:var(--ink);font-size:1.5rem}
+  .links{display:none;position:fixed;inset:64px 0 auto 0;background:rgba(11,13,16,.95);flex-direction:column;padding:1rem}
+  .links.show{display:flex}
 }
 
-/* ===================== HERO ===================== */
+/* ================== HERO ================== */
 .hero{
-  padding:4.5rem 0 3rem;
-  background:linear-gradient(180deg, rgba(255,193,7,.08), transparent 40%);
+  background:linear-gradient(170deg,rgba(255,193,7,.08) 0%,var(--graphite) 80%);
+  padding:5rem 0 4rem;overflow:hidden;
 }
-.hero__grid{display:grid;grid-template-columns:1.3fr .9fr;gap:2rem;align-items:center}
-@media (max-width: 960px){ .hero__grid{grid-template-columns:1fr} }
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:2.5rem}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;text-align:center}}
 .badge{
-  display:inline-flex;align-items:center;gap:.45rem;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.06);
-  color:#fff; padding:.35rem .6rem; border-radius:999px; font-size:.86rem; font-weight:700;
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  padding:.35rem .7rem;border-radius:999px;font-size:.85rem;font-weight:700;color:var(--ink);
+  margin-bottom:1rem;
 }
-.badge svg{opacity:.9}
-.lead{font-size:clamp(1rem,1.1vw,1.1rem);color:var(--ink-2)}
+h1{font-size:clamp(2rem,3vw,2.8rem);color:var(--gold);margin-bottom:.8rem}
+.lead{color:var(--ink-2);max-width:60ch;margin-bottom:1.5rem}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:2rem}
 .btn{
-  display:inline-flex;align-items:center;gap:.5rem;
-  border:1px solid rgba(255,255,255,.16);
-  background:transparent;color:var(--ink);padding:.75rem 1rem;border-radius:.8rem;
-  font-weight:700;cursor:pointer
+  padding:.8rem 1.2rem;border-radius:.7rem;font-weight:700;cursor:pointer;text-decoration:none;
 }
-.btn--brand{background:var(--brand);border-color:var(--brand);color:#1a1c1e}
-.btn--ghost:hover{background:rgba(255,255,255,.06)}
-.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
-.hero__panel{
-  border:1px solid var(--line);border-radius:var(--radius);background:var(--night-2);
-  padding:1.25rem; box-shadow:var(--shadow-soft)
-}
-.hero__metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
-.metric{
-  text-align:center;border:1px solid var(--line);border-radius:.75rem;background:var(--night-3);padding:.8rem
-}
-.metric h3{color:var(--brand);font-size:1.6rem;margin-bottom:.25rem}
+.btn-brand{background:var(--gold);color:#000}
+.btn-ghost{border:1px solid rgba(255,255,255,.15);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.hero-metrics{display:flex;flex-wrap:wrap;gap:1rem}
+.hero-metrics div{flex:1;min-width:90px;text-align:center;background:rgba(255,255,255,.04);border-radius:.7rem;padding:.8rem}
+.hero-metrics strong{display:block;color:var(--gold);font-size:1.4rem}
 
-/* ===================== CONTEXTO ===================== */
-.section-hd{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem}
-.tag{background:rgba(255,193,7,.12);border:1px solid rgba(255,193,7,.4);color:var(--brand);padding:.22rem .55rem;border-radius:999px;font-size:.8rem;font-weight:800}
-.grid-2{display:grid;grid-template-columns:1.2fr .8fr;gap:1.2rem}
-@media (max-width: 960px){ .grid-2{grid-template-columns:1fr} }
+/* Ring visual */
+.hero-ring{width:180px;height:180px;margin:auto;position:relative}
+.hero-ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.hero-ring .ring{stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset 2s ease}
+.hero-ring .label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero-ring .label strong{color:var(--gold);font-size:2rem}
+
+/* ================== CONTEXTO ================== */
+#contexto .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem}
+@media(max-width:900px){#contexto .grid{grid-template-columns:1fr}}
+.tag{background:rgba(255,193,7,.12);color:var(--gold);border:1px solid rgba(255,193,7,.4);
+  padding:.22rem .55rem;border-radius:999px;font-size:.8rem;font-weight:800}
+h2{font-size:clamp(1.6rem,2vw,2rem);margin:.6rem 0 1rem;color:var(--gold)}
+.list{list-style:disc inside;color:var(--ink-2)}
 .card{
-  border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);padding:1.2rem
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius);
+  padding:1.2rem;
+  transition:transform .3s ease;
 }
-.list{margin:0;padding-left:1rem}
-.list li{margin:.35rem 0;color:var(--ink-2)}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 
-/* ===================== RESEARCH ===================== */
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-@media (max-width: 960px){ .grid-3{grid-template-columns:1fr} }
-.kpi{
-  border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);
-  padding:1rem;display:flex;gap:.9rem;align-items:center
-}
-.kpi svg{flex:0 0 36px}
-.kpi strong{font-size:1.1rem}
-.kpi small{display:block}
-.figure{
-  border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);
-  padding:.8rem;text-align:center
-}
-.figure img{max-width:100%;border-radius:.6rem}
+/* ================== IMPACTO ================== */
+#impacto{background:linear-gradient(180deg,rgba(255,193,7,.05),transparent 60%)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+.metric-card{background:rgba(255,255,255,.04);border-radius:.8rem;padding:1.2rem;text-align:center;transition:transform .3s}
+.metric-card:hover{transform:translateY(-4px)}
+.metric-card h3{color:var(--gold);font-size:2rem}
+.chart{width:150px;height:150px;margin:auto;position:relative}
+.chart svg{transform:rotate(-90deg)}
+.chart .ring{stroke-dasharray:327;stroke-dashoffset:327;transition:stroke-dashoffset 2s ease}
+.chart .label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
-/* ===================== FLUJOS ===================== */
-.grid-2-tall{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-@media (max-width: 960px){ .grid-2-tall{grid-template-columns:1fr} }
-.glass{
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  backdrop-filter:blur(10px); border-radius:var(--radius); padding:1rem;
-  box-shadow:var(--shadow-soft)
-}
-.decision{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:.8rem}
-.decision .card{background:var(--night-3)}
+/* ================== EVIDENCIAS ================== */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.evid{border:1px solid rgba(255,255,255,.08);border-radius:.8rem;overflow:hidden;background:rgba(255,255,255,.03)}
+.evid img{width:100%;height:160px;object-fit:cover}
+.evid figcaption{padding:.6rem;font-size:.9rem;color:var(--ink-2)}
+footer{text-align:center;padding:2rem 0;border-top:1px solid rgba(255,255,255,.1);margin-top:3rem;color:var(--ink-2)}
 
-/* ===================== DESIGN SYSTEM ===================== */
-.tokens{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-@media (max-width: 960px){ .tokens{grid-template-columns:1fr} }
-.token{
-  border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);padding:1rem
-}
-.swatch{height:44px;border-radius:.5rem;border:1px solid var(--line);margin:.4rem 0}
-.swatch.brand{background:var(--brand)}
-.swatch.paper{background:#0f1218}
-.swatch.ink{background:#e9ecef}
-
-/* ===================== PLAYBOOK ===================== */
-.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
-.tab{padding:.5rem .75rem;border:1px solid var(--line);border-radius:.6rem;background:var(--night-2);cursor:pointer;font-weight:700}
-.tab[aria-selected="true"]{border-color:var(--brand);box-shadow:0 0 0 2px rgba(255,193,7,.25) inset}
-.tabpanel{display:none;border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);padding:1rem}
-.tabpanel.active{display:block}
-
-/* ===================== KPIs + CHARTS ===================== */
-.kpi-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-@media (max-width: 1024px){ .kpi-cards{grid-template-columns:repeat(2,1fr)} }
-@media (max-width: 560px){ .kpi-cards{grid-template-columns:1fr} }
-.kpi-card{border:1px solid var(--line);background:var(--night-2);border-radius:var(--radius);padding:1rem}
-.ring{width:80px;height:80px}
-.spark{width:100%;height:46px}
-
-/* ===================== EVIDENCIAS ===================== */
-.evid-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
-@media (max-width: 960px){ .evid-grid{grid-template-columns:repeat(2,1fr)} }
-.evid{overflow:hidden;border:1px solid var(--line);background:var(--night-2);border-radius:.8rem}
-.evid img{width:100%;height:160px;object-fit:cover;display:block}
-.evid figcaption{padding:.6rem}
-
-/* ===================== UTILIDAD ===================== */
-.fade{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+/* ================== ANIM ================== */
+.fade{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
 .fade.show{opacity:1;transform:none}
-.center{text-align:center}
-.btn-row{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:1rem}
-footer{border-top:1px solid var(--line);padding:1.2rem 0;margin-top:2rem;text-align:center}
-.scrollbar{position:fixed;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-2));transform-origin:left;transform:scaleX(0);z-index:60}
 </style>
 </head>
-
 <body>
-<div class="scrollbar" aria-hidden="true"></div>
 
-<!-- ===================== NAV ===================== -->
-<nav class="nav" aria-label="Principal">
-  <div class="container nav__wrap">
-    <a class="brand" href="#inicio" aria-label="Ir al inicio">
-      <i aria-hidden="true"></i><span>RODRIGO GAETE</span>
-    </a>
-
-    <button class="nav__menu" aria-controls="links" aria-expanded="false" aria-label="Abrir menú">☰</button>
-
-    <div id="links" class="nav__links" role="menubar">
-      <a role="menuitem" href="#contexto">Contexto</a>
-      <a role="menuitem" href="#research">Research</a>
-      <a role="menuitem" href="#flujos">Flujos</a>
-      <a role="menuitem" href="#designsystem">Design System</a>
-      <a role="menuitem" href="#playbook">Playbook</a>
-      <a role="menuitem" href="#kpis">Impacto</a>
-      <a role="menuitem" href="#evidencias">Evidencias</a>
-      <a role="menuitem" class="cta" href="index.html#Casos">Portafolio</a>
+<!-- NAV -->
+<nav>
+  <div class="container nav-wrap">
+    <div class="brand">RODRIGO GAETE</div>
+    <button class="menu">☰</button>
+    <div class="links">
+      <a href="#contexto">Contexto</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#evidencias">Evidencias</a>
     </div>
   </div>
 </nav>
-<!-- ===================== HERO (versión final funcional) ===================== -->
-<header id="inicio" class="hero" role="banner" aria-label="Introducción caso Transvip">
-  <div class="container hero__layout">
-    <!-- Texto principal -->
-    <div class="hero__content">
-      <span class="badge">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v4M3 5h4M19 17v4M17 19h4M11 11l-8 8M13 13l8-8"/></svg>
-        Caso UX Estratégico · Transvip
-      </span>
 
+<!-- HERO -->
+<header class="hero fade" id="inicio">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge">Caso UX Estratégico · Transvip</span>
       <h1>Diseño con impacto medible</h1>
-      <p class="lead">
-        Como <strong>Senior Product Designer</strong> lideré la evolución App–Web–Tótem.  
-        Escalé la experiencia bajo un único sistema accesible y medible, demostrando  
-        que equipos pequeños pueden generar impacto nacional e internacional.
-      </p>
-
-      <div class="hero__actions">
-        <a href="#impacto" class="btn btn--brand">Ver impacto</a>
-        <a href="#playbook" class="btn btn--ghost">Ver procesos</a>
+      <p class="lead">Como <strong>Senior Product Designer</strong> lideré App, Web y Tótems, demostrando que equipos pequeños pueden generar impacto nacional e internacional.</p>
+      <div class="actions">
+        <a class="btn btn-brand" href="#impacto">Ver impacto</a>
+        <a class="btn btn-ghost" href="#contexto">Explorar contexto</a>
       </div>
-
-      <div class="hero__meta">
+      <div class="hero-metrics">
         <div><strong>+120%</strong><small>Adopción digital</small></div>
         <div><strong>+76</strong><small>NPS consolidado</small></div>
         <div><strong>3</strong><small>Canales integrados</small></div>
       </div>
     </div>
-
-    <!-- Visual lateral -->
-    <aside class="hero__visual">
-      <div class="hero__ring">
+    <div>
+      <div class="hero-ring">
         <svg viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="70" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="none"/>
-          <circle class="ring" cx="80" cy="80" r="70" stroke="#FFC107" stroke-width="10" fill="none"
-            stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round"/>
+          <circle cx="80" cy="80" r="70" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"/>
+          <circle class="ring" cx="80" cy="80" r="70" stroke="#FFC107" stroke-width="10" fill="none" stroke-linecap="round"/>
         </svg>
-        <div class="hero__label">
-          <strong>UX</strong><small>estratégico</small>
-        </div>
+        <div class="label"><strong>UX</strong><small>estratégico</small></div>
       </div>
-    </aside>
+    </div>
   </div>
 </header>
 
-<style>
-:root{
-  --brand:#FFC107;
-  --ink:#E9ECEF;
-  --ink-2:#ADB5BD;
-  --night:#0B0D10;
-  --night-2:#111318;
-  --radius:.8rem;
-}
-body{background:var(--night);color:var(--ink);font-family:"Inter",system-ui,sans-serif;margin:0}
-
-.hero{
-  background:linear-gradient(160deg, rgba(255,193,7,.08), var(--night) 70%);
-  padding:5rem 0 4rem;
-  overflow:hidden;
-  position:relative;
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 30% -10%, rgba(255,193,7,.15), transparent 60%);
-  pointer-events:none;
-}
-.container{width:min(1100px,92vw);margin-inline:auto}
-.hero__layout{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:2rem;
-  align-items:center;
-}
-@media(max-width:900px){.hero__layout{grid-template-columns:1fr;text-align:center}}
-
-.badge{
-  display:inline-flex;align-items:center;gap:.5rem;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:999px;
-  padding:.35rem .7rem;
-  font-weight:700;
-  font-size:.85rem;
-  color:#fff;
-  margin-bottom:1rem;
-}
-.hero__content h1{
-  font-size:clamp(2rem,3vw,2.8rem);
-  color:var(--brand);
-  margin-bottom:.6rem;
-}
-.hero__content .lead{
-  color:var(--ink-2);
-  line-height:1.6;
-  margin-bottom:1.5rem;
-  max-width:60ch;
-}
-.hero__actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:2rem}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:.8rem 1.2rem;border-radius:.7rem;font-weight:700;
-  cursor:pointer;text-decoration:none;
-}
-.btn--brand{background:var(--brand);color:#000}
-.btn--ghost{border:1px solid rgba(255,255,255,.2);color:var(--ink)}
-.btn--ghost:hover{background:rgba(255,255,255,.08)}
-@media(max-width:900px){.hero__actions{justify-content:center}}
-
-.hero__meta{
-  display:flex;gap:1rem;flex-wrap:wrap;
-}
-.hero__meta div{
-  flex:1;min-width:90px;text-align:center;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:.75rem;padding:.8rem .6rem;
-}
-.hero__meta strong{display:block;color:var(--brand);font-size:1.5rem}
-.hero__meta small{color:var(--ink-2);font-size:.85rem}
-
-.hero__visual{
-  display:flex;justify-content:center;align-items:center;
-}
-.hero__ring{position:relative;width:180px;height:180px}
-.hero__ring svg{transform:rotate(-90deg);width:100%;height:100%}
-.hero__ring .ring{transition:stroke-dashoffset 2s ease}
-.hero__label{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  color:var(--ink);
-}
-.hero__label strong{font-size:2rem;color:var(--brand)}
-.hero__label small{font-size:.9rem;color:var(--ink-2)}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const ring=document.querySelector(".hero__ring .ring");
-  const hero=document.querySelector(".hero");
-  const io=new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting){
-      ring.style.strokeDashoffset="80";
-      io.disconnect();
-    }
-  },{threshold:.3});
-  io.observe(hero);
-});
-</script>
-
-
-<style>
-.hero{
-  background:linear-gradient(160deg, rgba(255,193,7,.08) 0%, rgba(11,13,16,1) 60%);
-  padding:5rem 0 4rem;
-  overflow:hidden;
-  position:relative;
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 30% -10%, rgba(255,193,7,.1), transparent 60%);
-  pointer-events:none;
-}
-.hero__layout{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:2.5rem;
-  align-items:center;
-}
-@media(max-width:960px){.hero__layout{grid-template-columns:1fr;text-align:center}}
-
-.hero__content h1{
-  font-size:clamp(2rem,3vw,2.8rem);
-  color:var(--brand);
-  margin-bottom:.8rem;
-}
-.hero__content .lead{
-  color:var(--ink-2);
-  max-width:60ch;
-  line-height:1.6;
-  margin-bottom:1.5rem;
-}
-.hero__actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:2rem}
-@media(max-width:960px){.hero__actions{justify-content:center}}
-
-.hero__meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:1rem;
-}
-.hero__meta div{
-  flex:1;
-  min-width:90px;
-  text-align:center;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:.75rem;
-  padding:.8rem .6rem;
-}
-.hero__meta strong{
-  display:block;
-  color:var(--brand);
-  font-size:1.5rem;
-  line-height:1.2;
-}
-.hero__meta small{color:var(--ink-2);font-size:.85rem}
-
-.hero__visual{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
-.hero__ring{
-  position:relative;
-  width:180px;height:180px;
-}
-.hero__ring svg{
-  transform:rotate(-90deg);
-  width:100%;height:100%;
-}
-.hero__ring .ring{
-  transition:stroke-dashoffset 2s ease;
-}
-.hero__label{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:var(--ink);
-}
-.hero__label strong{font-size:2rem;color:var(--brand)}
-.hero__label small{font-size:.9rem;color:var(--ink-2)}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const ring=document.querySelector(".hero__ring .ring");
-  const hero=document.querySelector(".hero");
-  const io=new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting){
-      ring.style.strokeDashoffset="80";
-      io.disconnect();
-    }
-  },{threshold:.4});
-  io.observe(hero);
-});
-</script>
-
-
-<!-- ===================== CONTEXTO (versión mejorada) ===================== -->
-<section id="contexto" aria-label="Contexto y alcance" class="fade">
-  <div class="container">
-    <div class="section-hd">
+<!-- CONTEXTO -->
+<section id="contexto" class="fade">
+  <div class="container grid">
+    <div>
       <span class="tag">Contexto</span>
-      <h2>Transformación y alcance del proyecto</h2>
+      <h2>Transformación y alcance</h2>
+      <p>Transvip dependía del canal telefónico. Rediseñé el ecosistema digital unificando App, Web y Tótems con foco en accesibilidad, autoservicio y métricas tangibles.</p>
+      <ul class="list">
+        <li>+1.2M usuarios anuales</li>
+        <li>3 equipos con un único Design System</li>
+        <li>Escalado LATAM</li>
+      </ul>
     </div>
-
-    <div class="context-grid">
-      <!-- Lado A: narrativa -->
-      <article class="context-text">
-        <h3>De operación reactiva a experiencia medible</h3>
-        <p>
-          Transvip enfrentaba una alta dependencia del canal telefónico y baja trazabilidad digital.  
-          Lideré el proceso completo de unificación de experiencias —App, Web y Tótems— con foco en 
-          accesibilidad, autoservicio y evidencia cuantificable.
-        </p>
-        <ul class="context-highlights">
-          <li><strong>+1.2M</strong> usuarios anuales en flujos de reserva</li>
-          <li><strong>3</strong> equipos alineados en un único Design System</li>
-          <li><strong>LATAM</strong>: operación escalada a 3 países</li>
-        </ul>
-        <div class="actions">
-          <a href="#research" class="btn btn--brand">Ver hallazgos</a>
-          <a href="#flujos" class="btn btn--ghost">Explorar flujos</a>
-        </div>
-      </article>
-
-      <!-- Lado B: panel visual -->
-      <aside class="context-panel">
-        <div class="glass-card">
-          <h4 class="h6 text-brand mb-2">Stack & Prácticas</h4>
-          <ul class="list">
-            <li>Design tokens y Atomic Design</li>
-            <li>WCAG 2.2 y testing con lector de pantalla</li>
-            <li>Prototipos Figma validados con usuarios</li>
-            <li>KPIs de adopción y error rate</li>
-          </ul>
-        </div>
-
-        <div class="glass-card">
-          <h4 class="h6 text-brand mb-2">Roles Clave</h4>
-          <ul class="list">
-            <li>Product Manager · 1</li>
-            <li>UX Designer · 1 (Rol Principal)</li>
-            <li>UI Dev · 1</li>
-          </ul>
-          <small>Equipo ágil y multidisciplinario · Sprints bisemanales</small>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-
-<style>
-#contexto .context-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:2rem;
-  align-items:start;
-}
-@media(max-width:960px){#contexto .context-grid{grid-template-columns:1fr}}
-#contexto .context-text h3{
-  font-size:1.4rem;
-  color:var(--brand);
-  margin-bottom:.6rem;
-}
-#contexto .context-text p{
-  color:var(--ink-2);
-  line-height:1.6;
-  margin-bottom:1rem;
-}
-#contexto .context-highlights{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:.8rem;
-  text-align:center;
-  margin:1.4rem 0;
-}
-#contexto .context-highlights li{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:.8rem;
-  padding:.8rem .6rem;
-  font-size:.9rem;
-  color:var(--ink);
-}
-#contexto .context-highlights strong{
-  display:block;
-  font-size:1.4rem;
-  color:var(--brand);
-}
-#contexto .context-panel{
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
-#contexto .glass-card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:var(--radius);
-  padding:1.2rem;
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-#contexto .glass-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 18px rgba(0,0,0,.35);
-}
-</style>
-
-
-<!-- ===================== RESEARCH ===================== -->
-<section id="research" aria-label="Research y hallazgos">
-  <div class="container">
-    <div class="section-hd">
-      <span class="tag">Research</span><h2>Hallazgos clave</h2>
-    </div>
-    <div class="grid-3">
-      <div class="kpi">
-        <!-- users icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-3-3.8M8 21v-2a4 4 0 0 1 3-3.8"/><circle cx="12" cy="7" r="4"/></svg>
-        <div><strong>Perfil y pagos</strong><small>Fricciones en edición de datos y medios de pago.</small></div>
-      </div>
-      <div class="kpi">
-        <!-- route icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8"><path d="M3 5h4a4 4 0 0 1 4 4v6a4 4 0 0 0 4 4h6"/><circle cx="7" cy="5" r="2"/><circle cx="21" cy="19" r="2"/></svg>
-        <div><strong>Cotizador</strong><small>Mensajes de error no visibles y pasos redundantes.</small></div>
-      </div>
-      <div class="kpi">
-        <!-- kiosk icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8"><rect x="4" y="2" width="16" height="6" rx="1"/><rect x="6" y="8" width="12" height="10" rx="2"/><path d="M12 18v4"/></svg>
-        <div><strong>Tótems</strong><small>Oportunidad de autoservicio en peaks de aeropuerto.</small></div>
-      </div>
-    </div>
-
-    <div class="figure" style="margin-top:1rem">
-      <img src="assets/img/journey-map-transvip.webp" alt="Journey con puntos críticos (de WDI y CJM Transvip)">
-      <small>Journey con puntos de control derivados de WDI y CJM.</small>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== FLUJOS ===================== -->
-<section id="flujos" aria-label="Flujos UX">
-  <div class="container">
-    <div class="section-hd">
-      <span class="tag">Flujos</span><h2>De AS-IS a TO-BE</h2>
-    </div>
-
-    <div class="grid-2-tall">
-      <figure class="glass">
-        <img src="assets/img/flow-as-is.webp" alt="Flujo actual AS-IS" style="width:100%;border-radius:.6rem">
-        <figcaption style="margin-top:.5rem"><small>AS-IS · Pasos redundantes y errores poco visibles.</small></figcaption>
-      </figure>
-      <figure class="glass">
-        <img src="assets/img/flow-to-be.webp" alt="Flujo propuesto TO-BE" style="width:100%;border-radius:.6rem">
-        <figcaption style="margin-top:.5rem"><small>TO-BE · Validaciones preventivas y tareas simplificadas.</small></figcaption>
-      </figure>
-    </div>
-
-    <div class="decision">
+    <aside>
       <div class="card">
-        <h3>Mejoras clave</h3>
-        <ul class="list">
-          <li>9 → 5 pasos en cotizador</li>
-          <li>Estados y errores accesibles</li>
-          <li>Feedback inmediato</li>
-        </ul>
+        <h3>Stack y prácticas</h3>
+        <ul class="list"><li>Design tokens · Atomic Design</li><li>WCAG 2.2 · Testing con lector</li><li>Prototipos validados</li></ul>
       </div>
       <div class="card">
-        <h3>Decisiones UX</h3>
-        <ul class="list">
-          <li>Patrones WCAG 2.2</li>
-          <li>Validaciones progresivas</li>
-          <li>Atomic Design en UI</li>
-        </ul>
+        <h3>Equipo</h3>
+        <ul class="list"><li>Product Manager · 1</li><li>UX Designer · 1</li><li>UI Dev · 1</li></ul>
       </div>
-      <div class="card">
-        <h3>Impacto</h3>
-        <ul class="list">
-          <li>−25% tiempo de tarea</li>
-          <li>↑ claridad de rutas</li>
-          <li>Base para telemetría por flujo</li>
-        </ul>
-      </div>
-    </div>
+    </aside>
   </div>
 </section>
 
-<!-- ===================== DESIGN SYSTEM ===================== -->
-<section id="designsystem" aria-label="Design System">
+<!-- IMPACTO -->
+<section id="impacto" class="fade">
   <div class="container">
-    <div class="section-hd">
-      <span class="tag">Design System</span><h2>Tokens, componentes y guías</h2>
+    <span class="tag">Impacto Estratégico</span>
+    <h2>Decisiones que escalan valor</h2>
+    <div class="metrics">
+      <div class="metric-card"><h3>+120%</h3><p>Adopción</p></div>
+      <div class="metric-card"><h3>+76</h3><p>NPS</p></div>
+      <div class="metric-card"><h3>−25%</h3><p>Tiempo de sprint</p></div>
+      <div class="metric-card"><h3>92%</h3><p>Cumplimiento</p></div>
     </div>
-
-    <div class="tokens">
-      <div class="token">
-        <h3>Tokens</h3>
-        <div class="swatch brand" aria-hidden="true"></div>
-        <div class="swatch paper" aria-hidden="true"></div>
-        <div class="swatch ink" aria-hidden="true"></div>
-        <small>Estandarización cromática, tipográfica y de radios.</small>
-      </div>
-      <div class="token">
-        <h3>Componentes</h3>
-        <ul class="list">
-          <li>Botones, campos y selects AA</li>
-          <li>Alertas con foco visible</li>
-          <li>Cards y listas densas</li>
-        </ul>
-        <small>UI consistente en App, Web y Tótem.</small>
-      </div>
-      <div class="token">
-        <h3>Guías</h3>
-        <ul class="list">
-          <li>Mensajería de error accesible</li>
-          <li>Estados vacíos y loaders</li>
-          <li>Lectura en voz y tamaños táctiles</li>
-        </ul>
-        <small>Lineamientos para revisión continua.</small>
-      </div>
+    <div class="chart">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,.1)" stroke-width="10" fill="none"/>
+        <circle class="ring" cx="60" cy="60" r="52" stroke="#FFC107" stroke-width="10" fill="none"/>
+      </svg>
+      <div class="label"><strong>85%</strong><small>flujo optimizado</small></div>
     </div>
   </div>
 </section>
 
-<!-- ===================== PLAYBOOK ===================== -->
-<section id="playbook" aria-label="Playbook aplicado">
+<!-- EVIDENCIAS -->
+<section id="evidencias" class="fade">
   <div class="container">
-    <div class="section-hd">
-      <span class="tag">Playbook</span><h2>Métodos aplicados</h2>
-    </div>
-
-    <div class="tabs" role="tablist" aria-label="Playbook">
-      <button class="tab" role="tab" aria-selected="true" aria-controls="p1" id="t1">Design Thinking</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p2" id="t2">Design Sprint</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p3" id="t3">Agile</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p4" id="t4">Security by Design</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p5" id="t5">Data-Driven</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p6" id="t6">Gobernanza & A11y</button>
-    </div>
-
-    <div id="p1" class="tabpanel active" role="tabpanel" aria-labelledby="t1">
-      <p><strong>Objetivo:</strong> entender el problema real y riesgos antes de construir.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Prácticas</h3><ul class="list"><li>Entrevistas y actores</li><li>Journey + puntos de control</li><li>HMW + priorización</li></ul></div>
-        <div class="card"><h3>Artefactos</h3><ul class="list"><li>Problem Statement</li><li>Mapa de Riesgos</li><li>Storyboards</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↓ supuestos</li><li>↑ claridad de alcance</li><li>Top 5 riesgos</li></ul></div>
-      </div>
-    </div>
-
-    <div id="p2" class="tabpanel" role="tabpanel" aria-labelledby="t2">
-      <p><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Prácticas</h3><ul class="list"><li>Map → Sketch → Decide</li><li>Prototype → Test</li><li>Hipótesis y éxito</li></ul></div>
-        <div class="card"><h3>Artefactos</h3><ul class="list"><li>Prototipo alta fidelidad</li><li>Guion + checklist</li><li>Informe por severidad</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↓ tiempo a decisión</li><li>SUS/NPS por tarea</li><li>Backlog priorizado</li></ul></div>
-      </div>
-    </div>
-
-    <div id="p3" class="tabpanel" role="tabpanel" aria-labelledby="t3">
-      <p><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Prácticas</h3><ul class="list"><li>Backlog por outcomes</li><li>DoR/DoD + A11y</li><li>Revisiones Legal y Seguridad</li></ul></div>
-        <div class="card"><h3>Artefactos</h3><ul class="list"><li>Roadmap trimestral</li><li>Historias + aceptación</li><li>Tokens + librería UI</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↓ lead time, ↑ throughput</li><li>↓ defectos post release</li><li>↑ adopción por release</li></ul></div>
-      </div>
-    </div>
-
-    <div id="p4" class="tabpanel" role="tabpanel" aria-labelledby="t4">
-      <p><strong>Objetivo:</strong> prevenir incidentes desde el diseño; evidencia y control por defecto.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Front</h3><ul class="list"><li>Capa visual normativa</li><li>MFA por segmento</li><li>Consentimiento revocable</li></ul></div>
-        <div class="card"><h3>Back/Infra</h3><ul class="list"><li>Muro de datos</li><li>Logs inmutables</li><li>Least privilege</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↓ riesgo normativo</li><li>↑ trazabilidad</li><li>↓ retrabajo</li></ul></div>
-      </div>
-    </div>
-
-    <div id="p5" class="tabpanel" role="tabpanel" aria-labelledby="t5">
-      <p><strong>Objetivo:</strong> decisiones basadas en evidencia; telemetría desde día uno.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Prácticas</h3><ul class="list"><li>Naming de eventos</li><li>Dashboards por objetivo</li><li>A/B y feature flags</li></ul></div>
-        <div class="card"><h3>Artefactos</h3><ul class="list"><li>Taxonomía</li><li>KPIs/OKR</li><li>Plan de experimentos</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↑ adopción por etapa</li><li>↑ NPS por flujo</li><li>↓ onboarding</li></ul></div>
-      </div>
-    </div>
-
-    <div id="p6" class="tabpanel" role="tabpanel" aria-labelledby="t6">
-      <p><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
-      <div class="grid-3">
-        <div class="card"><h3>Prácticas</h3><ul class="list"><li>Gate pre-producción</li><li>WCAG por defecto</li><li>Revisión legal continua</li></ul></div>
-        <div class="card"><h3>Artefactos</h3><ul class="list"><li>Checklist de liberación</li><li>Guía UI normativa</li><li>Registro de evidencias</li></ul></div>
-        <div class="card"><h3>Resultados</h3><ul class="list"><li>↓ errores normativos</li><li>↑ velocidad de revisión</li><li>↓ hallazgos A11y</li></ul></div>
-      </div>
+    <span class="tag">Evidencias</span>
+    <h2>Diseño y procesos</h2>
+    <div class="grid4">
+      <figure class="evid"><img src="assets/img/mi-perfil-macbook.webp" alt=""><figcaption>Web · Perfil</figcaption></figure>
+      <figure class="evid"><img src="assets/img/app-oneplus.webp" alt=""><figcaption>App · Selector</figcaption></figure>
+      <figure class="evid"><img src="assets/img/sprint-diseno-transvip.webp" alt=""><figcaption>Sprint de diseño</figcaption></figure>
+      <figure class="evid"><img src="assets/img/ipad-mini-mock.webp" alt=""><figcaption>Tótem · Autoatención</figcaption></figure>
     </div>
   </div>
 </section>
 
-<!-- ===================== IMPACTO ESTRATÉGICO (versión 2) ===================== -->
-<section id="impacto" class="fade" aria-label="Impacto Estratégico">
-  <div class="container">
-    <div class="section-hd center">
-      <span class="tag">Impacto Estratégico</span>
-      <h2>Escalando decisiones con impacto real</h2>
-      <p class="lead text-muted">Resultados verificables de diseño estratégico, gestión ágil y métricas a nivel regional.</p>
-    </div>
-
-    <!-- BLOQUE DE MÉTRICAS PRINCIPALES -->
-    <div class="impact-metrics">
-      <div class="metric-card">
-        <h3>+120%</h3>
-        <p>Adopción digital</p>
-        <small>Integración Web · App · Tótem</small>
-      </div>
-      <div class="metric-card">
-        <h3>+76</h3>
-        <p>NPS consolidado</p>
-        <small>Post relanzamiento 2024</small>
-      </div>
-      <div class="metric-card">
-        <h3>−25%</h3>
-        <p>Tiempo de sprint</p>
-        <small>Mejor flujo de handoff UX–Dev</small>
-      </div>
-      <div class="metric-card">
-        <h3>92%</h3>
-        <p>Cumplimiento normativo</p>
-        <small>CMF + WCAG 2.2</small>
-      </div>
-    </div>
-
-    <!-- BLOQUE DE ESTRATEGIA -->
-    <div class="impact-grid">
-      <div class="impact-panel">
-        <h4 class="text-brand mb-2">Estrategia y liderazgo</h4>
-        <p>
-          Rol principal en el diseño de experiencia medible, coordinando equipos pequeños con alto impacto.  
-          Implementación de un Design System escalable a tres países, con trazabilidad UX y telemetría por flujo.
-        </p>
-        <ul class="list">
-          <li>Gestión end-to-end de investigación a producción</li>
-          <li>Gobernanza UX basada en evidencia</li>
-          <li>Framework ágil y normativo (CMF, A11y, Ley de Datos)</li>
-        </ul>
-      </div>
-
-      <div class="impact-visual">
-        <div class="chart-ring" data-value="0.85">
-          <svg viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,.1)" stroke-width="10" fill="none"/>
-            <circle class="ring" cx="60" cy="60" r="52" stroke="#FFC107" stroke-width="10" fill="none"
-              stroke-dasharray="327" stroke-dashoffset="327"/>
-          </svg>
-          <div class="chart-label">
-            <strong>85%</strong>
-            <small>flujo optimizado</small>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FRASE DE CIERRE -->
-    <blockquote class="blockquote center mt-5">
-      <p>“El impacto estratégico no se mide por entregables, sino por decisiones sostenibles en el tiempo.”</p>
-      <footer class="blockquote-footer text-brand">Rodrigo Gaete · UX Estratégico</footer>
-    </blockquote>
-  </div>
-</section>
-
-<style>
-#impacto{
-  position:relative;
-  background:linear-gradient(180deg, rgba(255,193,7,.05), transparent 60%);
-  padding:5rem 0 4rem;
-}
-#impacto .impact-metrics{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1rem;
-  margin:2.5rem 0;
-}
-#impacto .metric-card{
-  background:var(--night-2);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:.9rem;
-  padding:1.5rem;
-  text-align:center;
-  transition:transform .3s ease, box-shadow .3s ease;
-}
-#impacto .metric-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 24px rgba(0,0,0,.4);
-}
-#impacto .metric-card h3{
-  font-size:2rem;
-  color:var(--brand);
-  margin-bottom:.3rem;
-}
-#impacto .metric-card p{
-  font-weight:700;
-  color:var(--ink);
-  margin-bottom:.2rem;
-}
-#impacto .metric-card small{
-  color:var(--ink-2);
-}
-
-#impacto .impact-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:2rem;
-  align-items:center;
-  margin-top:2rem;
-}
-@media(max-width:900px){#impacto .impact-grid{grid-template-columns:1fr}}
-
-#impacto .impact-panel{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:var(--radius);
-  padding:1.5rem;
-}
-#impacto .impact-panel h4{font-size:1.1rem;}
-#impacto .impact-panel p{color:var(--ink-2);margin-bottom:.8rem;line-height:1.5}
-
-#impacto .impact-visual{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
-#impacto .chart-ring{
-  width:160px;height:160px;
-  position:relative;
-  display:inline-block;
-}
-#impacto .chart-ring svg{
-  transform:rotate(-90deg);
-  width:100%;height:100%;
-}
-#impacto .chart-ring .chart-label{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-}
-#impacto .chart-label strong{
-  font-size:1.8rem;
-  color:var(--brand);
-}
-#impacto .chart-label small{
-  color:var(--ink-2);
-}
-
-#impacto blockquote{
-  max-width:640px;
-  margin-inline:auto;
-  border-left:4px solid var(--brand);
-  padding-left:1rem;
-  color:var(--ink-2);
-}
-</style>
+<footer>© Rodrigo Gaete · Caso Transvip</footer>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const ring=document.querySelector("#impacto .ring");
-  const section=document.querySelector("#impacto");
-  const io=new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting){
-      ring.style.strokeDashoffset="52";
-      io.disconnect();
+/* menu toggle */
+const btn=document.querySelector(".menu"),links=document.querySelector(".links");
+btn.addEventListener("click",()=>links.classList.toggle("show"));
+
+/* fade in */
+const fades=document.querySelectorAll(".fade");
+if("IntersectionObserver"in window){
+  const io=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){x.target.classList.add("show");io.unobserve(x.target);}});
+  },{threshold:.2});
+  fades.forEach(el=>io.observe(el));
+}else{fades.forEach(el=>el.classList.add("show"));}
+
+/* ring animation */
+const heroRing=document.querySelector(".hero-ring .ring");
+const impactRing=document.querySelector("#impacto .ring");
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting){
+      x.target.style.strokeDashoffset="60";
+      obs.unobserve(x.target);
     }
-  },{threshold:.4});
-  io.observe(section);
-});
-</script>
-
-
-<!-- ===================== EVIDENCIAS ===================== -->
-<section id="evidencias" aria-label="Evidencias y assets">
-  <div class="container">
-    <div class="section-hd">
-      <span class="tag">Evidencias</span><h2>Diseño y procesos</h2>
-    </div>
-    <div class="evid-grid">
-      <figure class="evid">
-        <img src="assets/img/mi-perfil-macbook.webp" alt="Web · Perfil usuario, datos y pagos">
-        <figcaption><strong>Web · Perfil</strong><br><small>Datos y medios de pago.</small></figcaption>
-      </figure>
-      <figure class="evid">
-        <img src="assets/img/app-oneplus.webp" alt="App Transvip · Selector de viaje">
-        <figcaption><strong>App · Selector</strong><br><small>Flujos principales con Atomic Design.</small></figcaption>
-      </figure>
-      <figure class="evid">
-        <img src="assets/img/sprint-diseno-transvip.webp" alt="Sprint de diseño · Proceso colaborativo">
-        <figcaption><strong>Sprint</strong><br><small>Research → UI → Testing.</small></figcaption>
-      </figure>
-      <figure class="evid">
-        <img src="assets/img/ipad-mini-mock.webp" alt="Tótem · Autoatención en aeropuerto">
-        <figcaption><strong>Tótem</strong><br><small>Experiencia en picos de demanda.</small></figcaption>
-      </figure>
-    </div>
-
-    <div class="btn-row">
-      <a class="btn btn--brand" href="assets/docs/Maze-Resumen.pdf" target="_blank" rel="noopener">Resumen Maze</a>
-      <a class="btn btn--ghost" href="https://www.figma.com" target="_blank" rel="noopener">Prototipo Figma</a>
-      <a class="btn btn--ghost" href="index.html#Casos">← Volver al portafolio</a>
-    </div>
-  </div>
-</section>
-
-<footer role="contentinfo">
-  <div class="container">
-    <small>© Rodrigo Gaete · Caso Transvip · <a href="#inicio">Volver arriba</a></small>
-  </div>
-</footer>
-
-<script>
-/* ======== NAV mobile ======== */
-const menuBtn = document.querySelector('.nav__menu');
-const links = document.getElementById('links');
-if(menuBtn){
-  menuBtn.addEventListener('click', ()=>{
-    const open = links.classList.toggle('show');
-    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-}
-
-/* ======== Fade on view ======== */
-const onReveal = (els)=>{
-  if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('show')); return; }
-  const io=new IntersectionObserver((entries)=>{
-    entries.forEach(en=>{
-      if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target); }
-    });
-  },{threshold:.15});
-  els.forEach(e=>io.observe(e));
-};
-onReveal(Array.from(document.querySelectorAll('section, .hero__panel, .metric, .kpi-card, .evid, .card')));
-
-/* ======== Scroll progress bar ======== */
-const bar=document.querySelector('.scrollbar');
-document.addEventListener('scroll', ()=>{
-  const d=document.documentElement;
-  const p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
-  bar.style.transform=`scaleX(${Math.min(1,Math.max(0,p))})`;
-},{passive:true});
-
-/* ======== Tabs (Playbook) ======== */
-const tabs=Array.from(document.querySelectorAll('.tab'));
-const panes=Array.from(document.querySelectorAll('.tabpanel'));
-tabs.forEach((t)=>{
-  t.addEventListener('click', ()=>{
-    tabs.forEach(tt=>tt.setAttribute('aria-selected','false'));
-    panes.forEach(p=>p.classList.remove('active'));
-    t.setAttribute('aria-selected','true');
-    const pane=document.getElementById(t.getAttribute('aria-controls'));
-    if(pane) pane.classList.add('active');
-  });
-});
+},{threshold:.3});
+[heroRing,impactRing].forEach(r=>obs.observe(r));
 </script>
 </body>
 </html>
