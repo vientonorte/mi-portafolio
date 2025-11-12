@@ -265,6 +265,28 @@ const obs=new IntersectionObserver(e=>{
   });
 },{threshold:.3});
 [heroRing,impactRing].forEach(r=>obs.observe(r));
+
+// animación secuencial + ring
+const fadeEls=document.querySelectorAll(".fade-delay");
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        e.target.style.transitionDelay=`${i*0.1}s`;
+        e.target.classList.add("show");
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.25});
+  fadeEls.forEach(el=>io.observe(el));
+}else fadeEls.forEach(el=>el.classList.add("show"));
+
+const ring=document.querySelector(".hero-ring .ring");
+const ringObs=new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){ring.style.strokeDashoffset="60";ringObs.disconnect();}
+},{threshold:.4});
+ringObs.observe(ring);
+
 </script>
 </body>
 </html>

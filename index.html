@@ -2,494 +2,245 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rodrigo Gaete · UX Estratégico</title>
-  <meta name="description" content="UX estratégico para negocios regulados. Casos, métodos y métricas con foco en gobernanza, capa visual normativa y decisiones basadas en datos.">
-  <meta name="theme-color" content="#0C0F13">
-  <meta name="color-scheme" content="dark light">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>· Rodrigo Gaete · Estrategia UX y Cumplimiento Digital</title>
+  <meta name="description" content="Diseño estratégico que conecta cumplimiento, accesibilidad y datos. Casos SURA y Transvip.">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
-  <link rel="canonical" href="https://tudominio.com/">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Rodrigo Gaete · UX Estratégico · Portafolio">
-  <meta property="og:description" content="Estrategia digital, cumplimiento y métricas para Wealth Management.">
-  <meta property="og:image" content="assets/img/og-cover.jpg">
-  <meta property="og:url" content="https://tudominio.com/">
-
-  <!-- Fuentes + Bootstrap -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
-
-  <!-- ===== TOKENS + TEMA (estética Transvip) ===== -->
-  <style>
-    :root{
-      --brand:#FFC107; --brand-light:#FFD54F; --brand-dark:#B28704;
-      --night:#0C0F13; --night-2:#15181B; --paper:#F8F9FA;
-      --ink:#E9ECEF; --ink-soft:#ADB5BD; --graphite:#343A40;
-      --accent:#00BFA6; --danger:#FF6B6B; --success:#51CF66;
-      --glass:rgba(255,255,255,0.08); --radius:.75rem;
-      --gradient-hero:linear-gradient(180deg,#0C0F13 0%,#15181B 100%);
-    }
-    html{scroll-behavior:smooth}
-    body{
-      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--ink); background:var(--night); padding-top:72px;
-    }
-    [id]{scroll-margin-top:80px}
-    h1,h2,h3{font-weight:700;line-height:1.15;margin-bottom:.6rem}
-    p,ul,small{margin-bottom:1rem}
-    section{padding:4rem 0}
-
-    /* Navbar Transvip blur */
-    .navbar-blur{
-      background:rgba(12,15,19,.6); backdrop-filter:saturate(140%) blur(8px);
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    .navbar-blur .navbar-brand,.navbar-blur .nav-link{color:var(--brand)}
-    .navbar-blur .nav-link:hover{color:var(--brand-light)}
-    .navbar-toggler{border-color:rgba(255,255,255,.25)}
-
-    /* Hero minimal */
-    .hero{background:var(--gradient-hero)}
-    .chip{display:inline-block;padding:.32rem .6rem;border-radius:999px;
-      background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);
-      font-size:.85rem}
-    .btn-brand{background:var(--brand);color:#212529;border-color:var(--brand)}
-    .btn-brand:hover{filter:brightness(.95)}
-    .btn-ghost{border:2px solid rgba(255,255,255,.45);color:#fff}
-    .btn-ghost:hover{border-color:#fff}
-
-    /* Secciones unificadas */
-    .section-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1.75rem}
-    .section-header .chip{background:rgba(255,255,255,.1)}
-    .glass-card{background:var(--glass);backdrop-filter:blur(8px);
-      border:1px solid rgba(255,255,255,.18); border-radius:var(--radius)}
-    .card-base,.pillar,.kpi,.evidence-card{border:1px solid #2a2d31;background:#111315;color:#E9ECEF;border-radius:var(--radius);padding:1.25rem}
-    .evidence-card img{object-fit:cover;height:160px;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
-    .kpi .display-4{font-size:2rem;line-height:1;font-weight:700}
-
-    /* Alternancia de fondos */
-    .bg-paper{background:linear-gradient(180deg,#0F1318 0%, #0C0F13 100%)}
-
-    /* Microinteracciones */
-    .fade{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
-    .fade.visible{opacity:1;transform:none}
-    .hover-rise{transition:transform .2s ease, box-shadow .2s ease}
-    .hover-rise:hover{transform:translateY(-4px); box-shadow:0 16px 32px rgba(0,0,0,.25)}
-    .btn-press{transition:box-shadow .15s ease, transform .03s ease}
-    .btn-press:active{transform:translateY(1px); box-shadow:0 0 0 4px rgba(255,193,7,.25)}
-    .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:1030}
-    .scroll-progress__bar{height:100%;background:linear-gradient(90deg,#FFC107,#FFDA6A)}
-
-    /* Utilidades */
-    .text-brand{color:var(--brand)!important}
-    .shadow-quiet{box-shadow:0 4px 16px rgba(0,0,0,.18)}
-    a:focus,button:focus{outline:3px solid var(--brand);outline-offset:2px}
-  </style>
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@graph":[
-      {
-        "@type":"Person",
-        "name":"Rodrigo Gaete Gaona",
-        "jobTitle":"Lead UX / Senior Analyst",
-        "email":"mailto:gaete.gaona@gmail.com",
-        "worksFor":{"@type":"Organization","name":"SURA Investments"},
-        "knowsLanguage":["es","en"],
-        "sameAs":["https://github.com/vientonorte","https://www.linkedin.com/in/rodrigoscrummaster"]
-      },
-      {
-        "@type":"ItemList",
-        "name":"Casos destacados",
-        "itemListElement":[
-          {"@type":"CreativeWork","name":"Estrategia “Gaona” · Separación AFP–SURA","url":"assets/docs/Dossier_Separacion_AFP_SURA.pdf"},
-          {"@type":"CreativeWork","name":"Estrategia Digital UX 2025 · Wealth Management","url":"assets/docs/Estrategia_Digital_UX_SURA_2025.pdf"},
-          {"@type":"CreativeWork","name":"Transvip · Experiencia Digital","url":"landing-transvip.html"}
-        ]
-      }
-    ]
-  }
-  </script>
-
-  <!-- A/B assignment early -->
-  <script>
-    // Variante 50/50 persistida por sesión
-    (function(){
-      try{
-        var key='ab_variant_v1';
-        var v=sessionStorage.getItem(key) || (Math.random()<0.5?'A':'B');
-        sessionStorage.setItem(key,v);
-        document.documentElement.dataset.variant=v;
-      }catch(e){ document.documentElement.dataset.variant=(Math.random()<0.5?'A':'B'); }
-    })();
-  </script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a class="sr-only sr-only-focusable" href="#contenido">Saltar al contenido</a>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-blur fixed-top" role="navigation" aria-label="Principal">
-    <a class="navbar-brand font-weight-bold" href="#Inicio">· RODRIGO <span class="font-weight-normal">GAETE</span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Abrir menú">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="#Casos"><span data-variant-a>Casos</span><span data-variant-b hidden>Portafolio</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#Metodos"><span data-variant-a>Playbook</span><span data-variant-b hidden>Métodos</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#CV">CV</a></li>
-        <li class="nav-item"><a class="nav-link" href="#KPIs">KPIs</a></li>
-        <li class="nav-item"><a class="nav-link" href="#Contacto"><span data-variant-a>Contacto</span><span data-variant-b hidden>Conversemos</span></a></li>
-        <li class="nav-item ml-lg-3"><a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener">Descargar CV</a></li>
+<!-- Barra de progreso de scroll -->
+<div class="scroll-progress" role="progressbar"
+     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+     aria-label="Progreso de desplazamiento de la página">
+  <div class="scroll-progress__bar"></div>
+</div>
+
+<style>
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: rgba(255,255,255,0.1);
+  z-index: 9999;
+}
+.scroll-progress__bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #1F80E0, #00CFFF);
+  transition: width 0.15s ease-out;
+}
+</style>
+
+<script>
+const bar = document.querySelector('.scroll-progress__bar');
+const container = document.querySelector('.scroll-progress');
+
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  bar.style.width = progress + '%';
+  container.setAttribute('aria-valuenow', progress.toFixed(0));
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+</script>
+
+<!-- NAV -->
+<nav class="nav-main">
+  <div class="container nav-wrap">
+    <a href="#inicio" class="brand">· Rodrigo Gaete</a>
+    <button class="menu" aria-label="Abrir menú">☰</button>
+    <div class="links">
+      <a href="#inicio" class="dot-link active" data-index="0"><span class="dot"></span>Inicio</a>
+      <a href="#casos" class="dot-link" data-index="1"><span class="dot"></span>Casos</a>
+      <a href="#oferta" class="dot-link" data-index="2"><span class="dot"></span>Oferta</a>
+      <a href="#contacto" class="dot-link" data-index="3"><span class="dot"></span>Contacto</a>
+      <button class="theme-toggle" aria-label="Cambiar tema">☀</button>
+    </div>
+  </div>
+  <div class="nav-indicator"></div>
+</nav>
+
+<!-- HERO -->
+<header id="inicio" class="hero" role="banner" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <!-- Texto -->
+    <div class="hero-text">
+      <p class="badge" id="hero-badge">UX Estratégico · Cumplimiento · Métricas</p>
+
+      <h1 id="hero-title" class="hero-title">
+        Diseño que anticipa la ley y escala valor
+      </h1>
+
+      <p class="lead" id="hero-desc">
+        Experiencias seguras, accesibles y trazables para organizaciones reguladas.
+        Lidero <strong>diseño, cumplimiento y evidencia</strong> con impacto medible y visión regional.
+      </p>
+
+      <div class="actions" aria-describedby="hero-desc">
+        <a class="btn btn-brand" href="#casos">Ver casos</a>
+        <a class="btn btn-ghost" href="#oferta">Ver oferta</a>
+      </div>
+
+      <!-- Métricas como lista accesible -->
+      <ul class="hero-metrics" aria-label="Métricas destacadas" aria-live="polite">
+        <li class="metric">
+          <svg class="icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+            <path d="M12 20v-6M12 4v10M4 14h16" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <data value="120" class="metric-value">+120%</data>
+          <small class="metric-label">Adopción digital</small>
+        </li>
+        <li class="metric">
+          <svg class="icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8v4l2 2" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <data value="92" class="metric-value">92%</data>
+          <small class="metric-label">Cumplimiento normativo</small>
+        </li>
+        <li class="metric">
+          <svg class="icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+            <path d="M3 12l2-2 4 4 8-8 2 2-10 10z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <data value="3" class="metric-value">3</data>
+          <small class="metric-label">Países escalados</small>
+        </li>
       </ul>
     </div>
-  </nav>
 
-  <!-- HERO -->
-  <header id="Inicio" class="hero" role="banner" aria-label="Propuesta de valor">
-    <div class="container">
-      <div class="row align-items-center" style="min-height:70vh">
-        <div class="col-xl-7">
-          <div class="glass-card p-4 shadow-quiet">
-            <span class="chip mb-2"><span data-variant-a>UX estratégico · negocios regulados</span><span data-variant-b hidden>Diseño · cumplimiento · métricas</span></span>
-            <h1 class="mb-3">
-              <span data-variant-a>Experiencias seguras, trazables y medibles</span>
-              <span data-variant-b hidden>Diseño estratégico para negocios regulados</span>
-            </h1>
-            <p class="lead mb-4">
-              <span data-variant-a>Gobernanza, capa visual normativa y datos para decisiones verificables en Wealth Management.</span>
-              <span data-variant-b hidden>Transformo complejidad normativa en experiencias claras, seguras y medibles.</span>
-            </p>
-            <div class="d-flex flex-wrap">
-              <a class="btn btn-brand mr-2 mb-2 btn-press" href="#Casos" data-cta="hero-primary">
-                <span data-variant-a>Ver casos</span><span data-variant-b hidden>Explorar portafolio</span>
-              </a>
-              <a class="btn btn-ghost mb-2 btn-press" href="#Metodos" data-cta="hero-secondary">
-                <span data-variant-a>Ver playbook</span><span data-variant-b hidden>Ver métodos</span>
-              </a>
-            </div>
-          </div>
-        </div>
+    <!-- Visual -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-ring">
+        <svg viewBox="0 0 160 160" class="ring-svg" role="img" aria-label="">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="var(--gold)" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <circle cx="80" cy="80" r="70" stroke="url(#glow)" stroke-width="14" fill="none" class="pulse"/>
+          <circle class="ring" cx="80" cy="80" r="70" stroke="var(--gold)" stroke-width="8" fill="none"
+                  stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="440"/>
+        </svg>
+        <div class="label"><strong>UX</strong><small>estratégico</small></div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main id="contenido">
-    <!-- CASOS -->
-    <section id="Casos" class="fade" aria-label="Casos destacados">
-      <div class="container">
-        <div class="section-header">
-          <span class="chip">Casos</span>
-          <h2><span data-variant-a>Destacados</span><span data-variant-b hidden>Proyectos clave</span></h2>
-        </div>
 
-        <article class="glass-card p-4 mb-4 shadow-quiet" itemscope itemtype="https://schema.org/CreativeWork">
-          <div class="d-flex align-items-center mb-2">
-            <img src="assets/img/sura-logo.svg" alt="SURA Investments" class="mr-2" style="height:24px">
-            <strong itemprop="name">Separación AFP–SURA · “Estrategia Gaona”</strong>
-          </div>
-          <p class="small mb-2" itemprop="abstract">Desacople y réplica diferida con reglas de consentimiento. Capa visual normativa y gate pre-producción.</p>
-          <ul class="pl-3 mb-3"><li>AS-IS/TO-BE y tableros de control</li><li>Evidencia auditable y menor riesgo normativo</li></ul>
-          <a class="btn btn-warning btn-sm mr-2 btn-press" href="assets/docs/Dossier_Separacion_AFP_SURA.pdf" target="_blank" rel="noopener" itemprop="url" data-cta="sura-dossier">Ver dossier</a>
-          <a class="btn btn-outline-light btn-sm btn-press" href="landing-sura.html" data-cta="sura-landing">Ver landing</a>
-        </article>
-
-        <div class="row">
-          <article class="col-md-6 mb-4">
-            <div class="card-base h-100 hover-rise">
-              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/estrategia-ux-2025.png" alt="Estrategia Digital UX 2025">
-              <h3 class="h5">Estrategia Digital Wealth Management 2025</h3>
-              <p class="small mb-3">UX como unidad estratégica: gobernanza, compliance y KPIs en WM.</p>
-              <a class="btn btn-warning btn-sm btn-press" href="assets/docs/Estrategia_Digital_UX_SURA_2025.pdf" target="_blank" rel="noopener" data-cta="wm2025-doc">Ver documento</a>
-            </div>
-          </article>
-          <article class="col-md-6 mb-4">
-            <div class="card-base h-100 hover-rise">
-              <img loading="lazy" decoding="async" class="img-fluid rounded mb-3" src="assets/img/cdf-sura-pass.png" alt="Transvip · Experiencia digital">
-              <h3 class="h5">Experiencia digital Transvip</h3>
-              <p class="small mb-3">Movilidad y experiencia digital en aeropuertos, corporativos y personas.</p>
-              <a class="btn btn-outline-light btn-sm btn-press" href="landing-transvip.html" target="_blank" rel="noopener" data-cta="transvip-landing">Ver landing</a>
-            </div>
-          </article>
-        </div>
+<!-- CASOS -->
+<section id="casos" class="fade">
+  <div class="container">
+    <span class="tag">Casos</span>
+    <h2>Experiencias con impacto</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>SURA Investments</h3>
+        <p>Separación AFP–SURA, capa visual normativa y gobernanza UX auditable.</p>
+        <a href="landing-sura.html" class="btn btn-brand">Ver caso</a>
       </div>
-    </section>
-
-    <!-- MÉTODOS / PLAYBOOK -->
-    <section id="Metodos" class="fade bg-paper" aria-label="Métodos y artefactos">
-      <div class="container">
-        <div class="section-header">
-          <span class="chip"><span data-variant-a>Playbook</span><span data-variant-b hidden>Métodos</span></span>
-          <h2><span data-variant-a>Métodos aplicados</span><span data-variant-b hidden>Playbook en acción</span></h2>
-        </div>
-
-        <ul class="nav nav-tabs" id="metodosTabs" role="tablist" aria-label="Selector de métodos">
-          <li class="nav-item"><a class="nav-link active" id="tab-dt" data-toggle="tab" href="#pane-dt" role="tab" aria-controls="pane-dt" aria-selected="true">Design Thinking</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-ds" data-toggle="tab" href="#pane-ds" role="tab" aria-controls="pane-ds" aria-selected="false">Design Sprint</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-agile" data-toggle="tab" href="#pane-agile" role="tab" aria-controls="pane-agile" aria-selected="false">Agile</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-sbd" data-toggle="tab" href="#pane-sbd" role="tab" aria-controls="pane-sbd" aria-selected="false">Security by Design</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-ddd" data-toggle="tab" href="#pane-ddd" role="tab" aria-controls="pane-ddd" aria-selected="false">Data-Driven</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab-gov" data-toggle="tab" href="#pane-gov" role="tab" aria-controls="pane-gov" aria-selected="false">Gobernanza & A11y</a></li>
-        </ul>
-
-        <div class="tab-content pt-3" id="metodosContent">
-          <div class="tab-pane fade show active" id="pane-dt" role="tabpanel" aria-labelledby="tab-dt">
-            <div class="card-base">
-              <p class="mb-3"><strong>Objetivo:</strong> entender problema real y riesgos antes de construir.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Entrevistas y mapeo de actores</li><li>Journey + puntos de control</li><li>HMW + priorización riesgo/valor</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Problem Statement</li><li>Mapa de Riesgos Normativos</li><li>Storyboards y bocetos</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>↓ supuestos no validados</li><li>↑ claridad de alcance</li><li>Top 5 riesgos identificados</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-ds" role="tabpanel" aria-labelledby="tab-ds">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prototipar rápido, medir aprendizaje, decidir seguir o parar.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Map → Sketch → Decide → Prototype → Test</li><li>Hipótesis y criterios de éxito</li><li>Reclutamiento segmentado</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Prototipo alta fidelidad</li><li>Guion + checklist de test</li><li>Informe por severidad</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Tiempo a decisión ↓</li><li>Task-success y SUS/NPS</li><li>Backlog priorizado</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-agile" role="tabpanel" aria-labelledby="tab-agile">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> valor continuo con dual-track discovery/delivery.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Backlog por outcomes</li><li>DoR/DoD + A11y</li><li>Revisiones Legal y Seguridad</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Roadmap trimestral</li><li>Historias + aceptación</li><li>Design tokens + librería UI</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Lead time ↓, throughput ↑</li><li>Defectos post release ↓</li><li>Adopción por release ↑</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-sbd" role="tabpanel" aria-labelledby="tab-sbd">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> prevenir incidentes desde el diseño. Evidencia y control por defecto.</p>
-              <div class="row">
-                <div class="col-md-6"><h3 class="h6">Front</h3><ul class="small pl-3 mb-0"><li>Capa visual normativa</li><li>MFA por segmento</li><li>Consentimiento visible y revocable</li></ul></div>
-                <div class="col-md-6"><h3 class="h6">Back/Infra</h3><ul class="small pl-3 mb-0"><li>Muro de datos y réplica diferida</li><li>Logs inmutables y auditoría</li><li>Least privilege y minimización</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-ddd" role="tabpanel" aria-labelledby="tab-ddd">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> decisiones basadas en evidencia. Telemetría desde día uno.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Naming de eventos</li><li>Dashboards por objetivo</li><li>A/B tests y flags</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Taxonomía</li><li>KPIs/OKR</li><li>Plan de experimentos</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Adopción por etapa ↑</li><li>NPS por flujo ↑</li><li>Onboarding ↓</li></ul></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="pane-gov" role="tabpanel" aria-labelledby="tab-gov">
-            <div class="card-base"><p class="mb-3"><strong>Objetivo:</strong> controlar calidad y cumplimiento antes de producción.</p>
-              <div class="row">
-                <div class="col-md-4"><h3 class="h6">Prácticas</h3><ul class="small pl-3 mb-0"><li>Gate pre-producción</li><li>WCAG por defecto</li><li>Revisión legal continua</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Artefactos</h3><ul class="small pl-3 mb-0"><li>Checklist de liberación</li><li>Guía UI normativa</li><li>Registro de evidencias</li></ul></div>
-                <div class="col-md-4"><h3 class="h6">Resultados</h3><ul class="small pl-3 mb-0"><li>Errores normativos ↓</li><li>Velocidad de revisión ↑</li><li>Hallazgos de accesibilidad ↓</li></ul></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center mt-4">
-          <a class="btn btn-outline-light btn-press" href="landing-sura.html" data-cta="playbook-aplicado">
-            <span data-variant-a>Ver playbook aplicado</span><span data-variant-b hidden>Ver métodos aplicados</span>
-          </a>
-        </div>
+      <div class="card">
+        <h3>Transvip</h3>
+        <p>Unificación App–Web–Tótems con foco en accesibilidad y autoservicio.</p>
+        <a href="landing-transvip.html" class="btn btn-brand">Ver caso</a>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- CV -->
-    <section id="CV" class="fade" aria-label="CV">
-      <div class="container">
-        <div class="section-header">
-          <span class="chip">CV</span>
-          <h2>Experiencia</h2>
-        </div>
-        <div class="row">
-          <div class="col-lg-8">
-            <ul class="list-group mb-3 shadow-quiet">
-              <li class="list-group-item bg-dark text-light">
-                <div class="d-flex justify-content-between">
-                  <strong>SURA Investments · Lead UX / Senior Analyst</strong>
-                  <span class="text-muted small">2023–actual</span>
-                </div>
-                <ul class="small mb-0 pl-3">
-                  <li>Gobernanza UX y verificación pre-producción</li>
-                  <li>Capa visual normativa y trazabilidad de consentimiento</li>
-                  <li>Flujos críticos: Hazte Cliente, Mandato, Dashboard</li>
-                </ul>
-              </li>
-              <li class="list-group-item bg-dark text-light">
-                <div class="d-flex justify-content-between">
-                  <strong>Transvip / KARRI · Senior Product Designer</strong>
-                  <span class="text-muted small">2022–2023</span>
-                </div>
-                <ul class="small mb-0 pl-3">
-                  <li>App nueva y mejoras web orientadas a métricas</li>
-                  <li>Research continuo y pruebas con usuarios</li>
-                </ul>
-              </li>
-              <li class="list-group-item bg-dark text-light">
-                <div class="d-flex justify-content-between">
-                  <strong>Desafío Latam · Docente UX/UI</strong>
-                  <span class="text-muted small">2022–2023</span>
-                </div>
-                <ul class="small mb-0 pl-3">
-                  <li>Design Thinking aplicado a producto</li>
-                  <li>Acompañamiento en proyectos</li>
-                </ul>
-              </li>
-            </ul>
-            <a class="btn btn-warning btn-sm btn-press" href="assets/docs/CV_RODRIGO_GAETE.pdf" target="_blank" rel="noopener" data-cta="cv-descarga">Descargar CV completo</a>
-          </div>
-          <aside class="col-lg-4 mt-4 mt-lg-0">
-            <div class="card-base h-100">
-              <h3 class="h6 mb-2">Contacto rápido</h3>
-              <p class="mb-1"><i class="far fa-envelope"></i> <a class="text-brand" href="mailto:gaete.gaona@gmail.com">gaete.gaona@gmail.com</a></p>
-              <p class="mb-1"><i class="fab fa-linkedin"></i> <a class="text-brand" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener">LinkedIn</a></p>
-              <p class="mb-0"><i class="fab fa-github"></i> <a class="text-brand" href="https://github.com/vientonorte" target="_blank" rel="noopener">GitHub</a></p>
-            </div>
-          </aside>
-        </div>
+<!-- OFERTA -->
+<section id="oferta" class="fade bg-alt">
+  <div class="container">
+    <span class="tag">Oferta de valor</span>
+    <h2>Diseño estratégico con triple impacto</h2>
+    <div class="grid3">
+      <div class="pillar">
+        <h4>Negocio</h4>
+        <p>Experiencias que reducen tiempo de decisión y riesgo regulatorio.</p>
       </div>
-    </section>
-
-    <!-- KPIs -->
-    <section id="KPIs" class="fade bg-paper" aria-label="Indicadores">
-      <div class="container">
-        <div class="section-header">
-          <span class="chip">KPIs</span>
-          <h2>Indicadores</h2>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Cumplimiento</span><p class="display-4 mb-0 mt-2">↓</p><small>Errores normativos</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Adopción</span><p class="display-4 mb-0 mt-2">↑</p><small>Uso de flujos clave</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Satisfacción</span><p class="display-4 mb-0 mt-2">NPS</p><small>Por flujo</small></div></div>
-          <div class="col-sm-6 col-md-3 mb-3"><div class="kpi h-100 text-center hover-rise"><span class="badge badge-dark">Eficiencia</span><p class="display-4 mb-0 mt-2">↓</p><small>Tiempo de onboarding</small></div></div>
-        </div>
+      <div class="pillar">
+        <h4>Usuario</h4>
+        <p>Interfaces accesibles, claras y consistentes (WCAG 2.2 AA).</p>
       </div>
-    </section>
-
-    <!-- CONTACTO -->
-    <section id="Contacto" class="fade text-center" aria-label="Contacto">
-      <div class="container">
-        <h2 class="h4 font-weight-bolder mb-3">
-          <span data-variant-a>Hablemos</span><span data-variant-b hidden>Conversemos</span>
-        </h2>
-        <a class="btn btn-brand mr-2 btn-press" href="mailto:gaete.gaona@gmail.com" data-cta="contact-email">Email</a>
-        <a class="btn btn-outline-light mr-2 btn-press" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank" rel="noopener" data-cta="contact-linkedin">LinkedIn</a>
-        <a class="btn btn-outline-light btn-press" href="https://github.com/vientonorte" target="_blank" rel="noopener" data-cta="contact-github">GitHub</a>
+      <div class="pillar">
+        <h4>Tecnología</h4>
+        <p>Design tokens + librerías UI gobernadas con telemetría desde día uno.</p>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="text-center py-4" role="contentinfo" aria-label="Pie de página" style="border-top:1px solid rgba(255,255,255,.08)">
-    <small class="text-muted">© Rodrigo Gaete · <a href="#Inicio" class="text-brand">Volver arriba</a></small>
-  </footer>
+<!-- CONTACTO -->
+<section id="contacto" class="fade">
+  <div class="container center">
+    <h2>Conversemos</h2>
+    <p>Diseño estratégico para organizaciones que necesitan cumplir y crecer.</p>
+    <div class="actions">
+      <a class="btn btn-brand" href="mailto:gaete.gaona@gmail.com">Email</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/rodrigoscrummaster" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
 
-  <!-- Barra de progreso -->
-  <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" style="width:0%"></div></div>
+<footer>© Rodrigo Gaete · Estrategia UX 2025</footer>
 
-  <!-- ===== Interacciones + A/B + Tracking hooks ===== -->
-  <script>
-    // Revela .fade
-    (function(){
-      var els=document.querySelectorAll('.fade');
-      if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('visible')});return;}
-      var io=new IntersectionObserver(function(entries){
-        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target);} });
-      },{rootMargin:"0px 0px -10% 0px",threshold:.1});
-      els.forEach(function(e){io.observe(e);});
-    })();
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  const menu=document.querySelector(".menu"),links=document.querySelector(".links");
+  menu.addEventListener("click",()=>links.classList.toggle("show"));
 
-    // Progreso scroll
-    (function(){
-      var bar=document.querySelector('.scroll-progress__bar');
-      function onScroll(){
-        var d=document.documentElement; var p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
-        bar.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(2)+'%';
+  // Fade reveal
+  const fades=document.querySelectorAll(".fade,.fade-delay");
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");io.unobserve(e.target);}});
+  },{threshold:.2});
+  fades.forEach(f=>io.observe(f));
+
+  // Ring UX
+  const ring=document.querySelector(".hero-ring .ring");
+  const ro=new IntersectionObserver(e=>{
+    if(e[0].isIntersecting){ring.style.strokeDashoffset="60";ro.disconnect();}
+  },{threshold:.4});
+  ro.observe(ring);
+
+  // Theme toggle
+  const toggle=document.querySelector(".theme-toggle");
+  toggle.addEventListener("click",()=>{
+    const theme=document.documentElement.getAttribute("data-theme")==="light"?"dark":"light";
+    document.documentElement.setAttribute("data-theme",theme);
+  });
+
+  // GPS nav
+  const linksDots=document.querySelectorAll(".dot-link");
+  const sections=[...linksDots].map(l=>document.querySelector(l.getAttribute("href")));
+  const indicator=document.querySelector(".nav-indicator");
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        linksDots.forEach(l=>l.classList.remove("active"));
+        const active=[...linksDots].find(l=>l.getAttribute("href")==="#"+e.target.id);
+        if(active){
+          active.classList.add("active");
+          const i=parseInt(active.dataset.index);
+          indicator.style.transform=`translateY(${i*18}px)`;
+        }
       }
-      document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-    })();
-
-    // A/B Rendering
-    (function(){
-      var v=document.documentElement.dataset.variant||'A';
-      var show='[data-variant-'+v.toLowerCase()+']';
-      var hide='[data-variant-'+(v==='A'?'b':'a').toLowerCase()+']';
-      document.querySelectorAll(show).forEach(function(n){n.hidden=false;});
-      document.querySelectorAll(hide).forEach(function(n){n.hidden=true;});
-    })();
-
-    // Tracking stack: GA4 (dataLayer), Plausible, Fathom
-    window.dataLayer=window.dataLayer||[];
-    window.AB=(function(){
-      var variant=document.documentElement.dataset.variant||'A';
-      function track(name,params){
-        params=params||{}; params.variant=variant;
-        // GA4
-        try{ window.dataLayer.push({event:name, ...params}); }catch(e){}
-        // Plausible
-        try{ if(window.plausible) plausible(name,{props:params}); }catch(e){}
-        // Fathom
-        try{ if(window.fathom) fathom.trackGoal(name,0); }catch(e){}
-        if(window.console){ console.log('[AB]',name,params); }
-      }
-      return {track:track, variant:variant};
-    })();
-
-    // Eventos CTA
-    document.querySelectorAll('[data-cta]').forEach(function(btn){
-      btn.addEventListener('click',function(){
-        window.AB.track('cta_click',{id:btn.getAttribute('data-cta')});
-      });
     });
+  },{threshold:.5});
+  sections.forEach(s=>obs.observe(s));
 
-    // Scroll depth simple (50% y 90%)
-    (function(){
-      var hit50=false, hit90=false;
-      function check(){
-        var d=document.documentElement; var p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
-        if(!hit50 && p>=.5){ hit50=true; window.AB.track('scroll_50'); }
-        if(!hit90 && p>=.9){ hit90=true; window.AB.track('scroll_90'); }
-        if(hit50&&hit90) document.removeEventListener('scroll',check);
-      }
-      document.addEventListener('scroll',check,{passive:true});
-    })();
-  </script>
-
-  <!-- JS Bootstrap (defer) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
-
-  <!-- Integraciones opcionales (descomenta lo que uses)
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    // GA4
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config','G-XXXXXXX');
-  </script>
-
-  <script defer data-domain="tudominio.com" src="https://plausible.io/js/script.js"></script>
-
-  <script>
-    // Fathom
-    (function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
-    o=f.createElement('script'), m=f.getElementsByTagName('script')[0]; o.async=1;o.src=t; m.parentNode.insertBefore(o,m);
-    })(document,window,'https://cdn.usefathom.com/script.js','fathom'); fathom('set','site','XXXXXX'); fathom('trackPageview');
-  </script>
-  -->
+  // Barra de progreso
+  const bar=document.querySelector(".scroll-progress__bar");
+  document.addEventListener("scroll",()=>{
+    const d=document.documentElement;
+    const p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
+    bar.style.transform=`scaleX(${p})`;
+  },{passive:true});
+});
+</script>
 </body>
 </html>
