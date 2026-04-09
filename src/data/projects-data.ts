@@ -1,0 +1,596 @@
+import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
+import transvipDesktop from "figma:asset/ca7a4a167c789c951e4e08b0ba00177a6fc58634.png";
+import transvipMobile from "figma:asset/0a0ed13a8f1836aed4325be4398240085ee9c5be.png";
+import uxProcess from "figma:asset/0ddc6d387f6fec8fd73c93778e82ff34a1b1e8cd.png";
+import suraProjectImg from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
+import riaOnboardingMockup from "figma:asset/4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png";
+
+export interface Process {
+  name: string;
+  description: string;
+  tools?: string[];
+}
+
+export interface ProjectDetails {
+  challenge?: string;
+  solution?: string;
+  metrics?: string[];
+  learnings?: string[];
+  mockups?: string[]; // Array de URLs de mockups/evidencias visuales
+}
+
+export interface EnhancedProject {
+  // Nivel 1: EMPRESA
+  id?: string;
+  company: string;
+  companyLogo?: string;
+  role: string;
+  period: string;
+  projectName: string;
+  description: string;
+  image?: string;
+  tags: string[];
+  
+  // Nivel 2: PROCESOS
+  processes?: Process[]; // Made optional to prevent errors when undefined
+  teamSize?: string;
+  
+  // Nivel 3: DETALLES
+  details: ProjectDetails;
+}
+
+// Nueva interfaz para Company Hub
+export interface CompanyHub {
+  id: string;
+  name: string;
+  logo?: string;
+  industry: string;
+  period: string;
+  totalProjects: number;
+  description: string;
+  highlights: string[];
+  image?: string;
+  projects: EnhancedProject[];
+  // Datos específicos de metodología por empresa
+  methodologyStats?: {
+    yearsExperience: string;
+    experienceContext: {
+      es: string;
+      en: string;
+    };
+    experienceDetail: {
+      es: string;
+      en: string;
+    };
+    // Stats adicionales opcionales
+    teachingEvaluation?: {
+      value: string;
+      context: {
+        es: string;
+        en: string;
+      };
+      detail: {
+        es: string;
+        en: string;
+      };
+    };
+    studentsImpact?: {
+      value: string;
+      context: {
+        es: string;
+        en: string;
+      };
+      detail: {
+        es: string;
+        en: string;
+      };
+    };
+    regionalReach?: {
+      value: string;
+      context: {
+        es: string;
+        en: string;
+      };
+      detail: {
+        es: string;
+        en: string;
+      };
+    };
+  };
+}
+
+// ============================================
+// SURA INVESTMENTS - Company Hub
+// ============================================
+
+export const suraHub: CompanyHub = {
+  id: "sura-investments",
+  name: "SURA Investments",
+  logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+  industry: "Fintech",
+  period: "2023 - Presente",
+  totalProjects: 3,
+  description: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
+  highlights: [
+    "Framework UX Enterprise implementado en 5+ países",
+    "Dashboard de inversiones con +45% mejora en consultas",
+    "Ecosistema digital: +20 sitios unificados con CMS",
+    "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
+  ],
+  image: "https://images.unsplash.com/photo-1761850167081-473019536383?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+  projects: [
+    {
+      // ROL 1: Lead UX - Estrategia Digital Regional
+      id: "sura-ux-enterprise",
+      company: "SURA Investments",
+      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      role: "Lead UX | Estrategia Digital",
+      period: "2023 - Presente",
+      projectName: "Implementación UX Enterprise Regional",
+      description: "Liderazgo en la implementación de experiencia usuaria para iniciativas regionales y locales a nivel tecnológico en el sector financiero.",
+      image: "https://images.unsplash.com/photo-1761850167081-473019536383?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
+      
+      processes: [
+        {
+          name: "Discovery & Research",
+          description: "Research de usuarios en contextos financieros enterprise. Entrevistas con stakeholders regionales y análisis de necesidades locales.",
+          tools: ["User Interviews", "Journey Mapping", "Analytics"],
+        },
+        {
+          name: "Design Thinking Adaptado",
+          description: "Facilitación de workshops de Design Thinking adaptados a procesos corporativos y regulaciones financieras.",
+          tools: ["Miro", "FigJam", "Workshop Facilitation"],
+        },
+        {
+          name: "Lineamientos UX/UI",
+          description: "Diseño y documentación de lineamientos de experiencia e interfaz para desarrollo evolutivo de productos.",
+          tools: ["Figma", "Design Systems", "Documentation"],
+        },
+        {
+          name: "Implementación & Handoff",
+          description: "Colaboración con equipos de desarrollo para implementación correcta de lineamientos UX en iniciativas tecnológicas.",
+          tools: ["Figma Dev Mode", "Confluence", "Jira"],
+        },
+      ],
+      teamSize: "Cross-functional (10+ personas)",
+      
+      details: {
+        challenge: "Implementar experiencia usuaria coherente en múltiples iniciativas tecnológicas a nivel regional, considerando diferencias culturales y regulatorias de cada país.",
+        solution: "Desarrollo de framework de Design Thinking adaptado a contextos enterprise, con lineamientos UX/UI escalables que permiten consistencia manteniendo flexibilidad local.",
+        metrics: [
+          "Framework implementado en 5+ países de la región",
+          "Reducción de 40% en tiempo de discovery de nuevas iniciativas",
+          "Alineación de equipos multidisciplinarios en procesos UX",
+        ],
+        learnings: [
+          "La adaptación cultural es clave en proyectos regionales",
+          "Design Thinking funciona en enterprise con la estructura correcta",
+          "La documentación de lineamientos debe ser viva y evolutiva",
+        ],
+      },
+    },
+    {
+      // PROYECTO 2 dentro de SURA: Plataforma de Inversiones
+      id: "sura-inversiones-dashboard",
+      company: "SURA Investments",
+      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      role: "Lead UX | Product Design",
+      period: "2023 - 2024",
+      projectName: "Rediseño Plataforma de Inversiones Digital",
+      description: "Mejora de experiencia usuaria en plataforma de inversiones para clientes institucionales y retail, enfocada en accesibilidad de información financiera compleja.",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
+      
+      processes: [
+        {
+          name: "User Research Financiero",
+          description: "Investigación de usuarios con perfiles de inversores institucionales y retail. Análisis de necesidades y pain points en gestión de portafolios.",
+          tools: ["User Interviews", "Contextual Inquiry", "Analytics"],
+        },
+        {
+          name: "Information Architecture",
+          description: "Reestructuración de arquitectura de información para datos financieros complejos. Priorización de métricas clave y creación de jerarquías visuales.",
+          tools: ["Card Sorting", "Tree Testing", "Sitemap"],
+        },
+        {
+          name: "Dashboard Design",
+          description: "Diseño de dashboards interactivos con visualizaciones de datos financieros. Focus en scanability y accesibilidad de información crítica.",
+          tools: ["Figma", "Data Visualization", "Recharts"],
+        },
+        {
+          name: "Testing & Validation",
+          description: "Testing de usabilidad con usuarios reales. Validación de comprensión de información financiera y flujos de decisión.",
+          tools: ["Usability Testing", "A/B Testing", "User Feedback"],
+        },
+      ],
+      teamSize: "8 personas (Product, UX, Dev, QA)",
+      
+      details: {
+        challenge: "Simplificar la visualización de información financiera compleja sin perder profundidad de datos necesaria para toma de decisiones de inversión.",
+        solution: "Sistema de progressive disclosure con niveles de información adaptados a expertise del usuario. Dashboards configurables con métricas personalizables.",
+        metrics: [
+          "Reducción de 45% en tiempo de consulta de información",
+          "Aumento de 30% en engagement de usuarios retail",
+          "NPS de 72 puntos (mejora de 25 puntos)",
+        ],
+        learnings: [
+          "Los usuarios financieros valoran la profundidad sobre la simplicidad excesiva",
+          "Progressive disclosure es clave para audiencias heterogéneas",
+          "Las visualizaciones deben ser configurables para diferentes perfiles",
+        ],
+      },
+    },
+    {
+      // PROYECTO 3 dentro de SURA: Ecosistema Digital Sitios Públicos
+      id: "sura-ecosistema-digital",
+      company: "SURA Investments",
+      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      role: "Lead UX | Digital Strategy & Onboarding",
+      period: "2023 - 2025",
+      projectName: "Ecosistema Digital Sitios Públicos & Onboarding",
+      description: "Rediseño completo del ecosistema de +20 sitios web públicos para SURA Investments Regional, implementando arquitectura unificada, CMS, Design System y flujos de onboarding digital optimizados con manejo de casos de error.",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      tags: ["Web Ecosystem", "Digital Strategy", "CMS", "Onboarding", "Design System"],
+      
+      processes: [
+        {
+          name: "Discovery & Research Regional",
+          description: "Auditoría de +20 sitios web públicos sin identidad unificada. Research con stakeholders y análisis de fragmentación de infraestructura digital.",
+          tools: ["Heuristic Evaluation", "Stakeholder Interviews", "Content Audit"],
+        },
+        {
+          name: "Arquitectura de Información & CMS",
+          description: "Diseño de arquitectura unificada para ecosistema web. Implementación de CMS y gobierno de contenidos para autonomía de negocio.",
+          tools: ["Information Architecture", "CMS Strategy", "Content Governance"],
+        },
+        {
+          name: "Design System & Atomic Design",
+          description: "Creación de Design System completo con Atomic Design. Sistema de colores SURA, tipografía Inter, componentes reutilizables (Cards, Badges, Progress, Icons).",
+          tools: ["Figma", "Atomic Design", "Design Tokens", "Component Library"],
+        },
+        {
+          name: "UX/UI Onboarding Digital",
+          description: "Diseño de flujo 'Hazte cliente' optimizado: 4 pasos (Ingreso de datos, Validación de correo, Verificación de identidad, Confirmación) con validaciones en tiempo real y manejo completo de casos de error.",
+          tools: ["User Flows", "Prototyping", "Micro-interactions", "Form Design", "Error Handling"],
+        },
+        {
+          name: "Implementación Iterativa Regional",
+          description: "Proceso iterativo incremental (sprints de 3 semanas) con validación continua. Fase 1 Chile implementada, Fase 2 regional en curso.",
+          tools: ["Agile", "Sprint Planning", "User Validation", "Rollout Strategy"],
+        },
+      ],
+      teamSize: "15+ personas (UX, UI, Dev, Content, PO, Stakeholders)",
+      
+      details: {
+        challenge: "+20 sitios web públicos fragmentados sin identidad de marca unificada, sin CMS ni gobierno de contenidos, con dependencia total de TI para cualquier cambio. Sitio web identificado como touchpoint más importante según research de usuarios. Necesidad de onboarding digital robusto con manejo de casos de error y bloqueos por cumplimiento.",
+        solution: "Ecosistema digital unificado con arquitectura coherente, CMS implementado, Design System completo con Atomic Design, y flujo de onboarding 'Hazte cliente' optimizado con 4 pasos claros, validaciones en tiempo real y manejo exhaustivo de casos de error (usuario ya cliente, bloqueado por cumplimiento, error de identidad, error de servicio, error código verificación, error generación preguntas). Proceso iterativo de 3 semanas con sprints de contenidos de 2 semanas y validación continua.",
+        metrics: [
+          "Unificación de +20 sitios bajo arquitectura coherente",
+          "CMS implementado: autonomía de negocio para gestión de contenidos",
+          "Flujo onboarding: 4 pasos claros (Ingreso, Validación email, Verificación identidad, Confirmación)",
+          "Tiempo reducido: 7-11 min vs 15+ min previo (-40% tiempo)",
+          "Design System: 50+ componentes reutilizables con Atomic Design",
+          "6 casos de error documentados y diseñados con UX claro",
+          "Fase 1 Chile completada (Sep 24 - Oct 25), Fase 2 regional en curso",
+        ],
+        learnings: [
+          "La fragmentación digital genera inconsistencia de marca y dependencia operativa",
+          "CMS y gobierno de contenidos son críticos para autonomía de negocio",
+          "Atomic Design facilita escalabilidad en ecosistemas multi-sitio",
+          "El manejo de errores es tan importante como el flujo feliz en onboarding financiero",
+          "Validación continua con ED y clientes reduce riesgos en implementación regional",
+          "Proceso iterativo de 3 semanas permite ajustes ágiles en contexto enterprise",
+          "Regulaciones financieras requieren casos de error específicos (cumplimiento, bloqueos)",
+        ],
+      },
+    },
+    {
+      // PROYECTO 4 dentro de SURA: RIA SURA US
+      id: "sura-ria-us",
+      company: "SURA Investments",
+      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      role: "Lead UX/UI Designer",
+      period: "2024 - 2025",
+      projectName: "Diseño UX UI RIA SURA US",
+      description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
+      image: suraProjectImg,
+      tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
+      
+      processes: [
+        {
+          name: "Arquitectura de Información (AI)",
+          description: "Construcción del árbol de contenidos completo de la plataforma RIA, definiendo la estructura de información para múltiples perfiles de usuario (asesores, middle office, clientes).",
+          tools: ["Content Inventory", "Information Architecture", "Sitemap", "SharePoint"],
+        },
+        {
+          name: "UX Research & Flows",
+          description: "Investigación de usuarios y definición de perfiles (asesores, middle office). Creación de diagramas de flujo para cada journey, identificando touchpoints críticos y casos de uso.",
+          tools: ["User Personas", "User Flows", "Journey Mapping", "Figma"],
+        },
+        {
+          name: "Diseño de Autenticación & Seguridad",
+          description: "Diseño de flujos de autenticación completos: inicio de sesión, recuperación de contraseña, y creación de cuenta con prototipos interactivos de alta fidelidad que incluyen validaciones y micro-interacciones.",
+          tools: ["Figma Prototyping", "Security UX", "Form Design", "Micro-interactions"],
+        },
+        {
+          name: "Onboarding Multi-perfil",
+          description: "Diseño de experiencias de onboarding diferenciadas para asesores y middle office. Prototipos interactivos que guían a cada perfil según sus necesidades específicas y niveles de acceso.",
+          tools: ["Onboarding UX", "Role-based Design", "Interactive Prototyping", "Figma"],
+        },
+        {
+          name: "Dashboard de Inversiones",
+          description: "Diseño de dashboard centralizado con visualizaciones de datos financieros, métricas clave de portafolios y herramientas de gestión. Enfoque en scanability y jerarquía de información crítica.",
+          tools: ["Dashboard Design", "Data Visualization", "Financial UX", "Figma"],
+        },
+        {
+          name: "Wireflows para Desarrollo",
+          description: "Creación de wireflows detallados que combinan wireframes y flujos de usuario, documentando la lógica de navegación y decisiones de UX para facilitar el handoff a desarrollo.",
+          tools: ["Wireflows", "Documentation", "Dev Handoff", "Figma"],
+        },
+        {
+          name: "Especificaciones UI & Design System",
+          description: "Documentación exhaustiva de especificaciones de interfaz: spacing, tipografía, colores, componentes, estados interactivos. Definición de tokens de diseño y guías de uso para desarrollo.",
+          tools: ["Design Specs", "Component Library", "Design Tokens", "Style Guide"],
+        },
+        {
+          name: "Sistema de Comunicaciones",
+          description: "Diseño de plantillas de correos electrónicos transaccionales y sistema de FAQ. Tono de voz adaptado al mercado estadounidense y compliance financiero.",
+          tools: ["Email Design", "Content Design", "FAQ Structure", "Compliance UX"],
+        },
+      ],
+      teamSize: "12+ personas (UX, UI, Product, Dev, Compliance, Stakeholders)",
+      
+      details: {
+        challenge: "Diseñar una plataforma RIA completa para el mercado estadounidense desde cero, cumpliendo con regulaciones financieras de US, manejando múltiples perfiles de usuario con necesidades diferenciadas (asesores, middle office), y creando un sistema robusto que soporte flujos de autenticación, onboarding, gestión de inversiones y comunicaciones.",
+        solution: "Enfoque end-to-end con arquitectura de información sólida, diseño de flujos específicos por rol, sistema de autenticación robusto con casos de error, dashboards financieros con progressive disclosure, wireflows detallados para desarrollo, especificaciones UI exhaustivas y sistema de comunicaciones completo. Todo documentado con prototipos interactivos de alta fidelidad en Figma.",
+        metrics: [
+          "Árbol de contenidos completo con arquitectura de información (AI)",
+          "8 prototipos interactivos de alta fidelidad diseñados",
+          "3 flujos de autenticación completos (login, recuperación, creación)",
+          "2 experiencias de onboarding diferenciadas (asesor, middle office)",
+          "Dashboard de inversiones con visualizaciones financieras",
+          "Wireflows detallados para handoff a desarrollo",
+          "Especificaciones UI completas con design tokens",
+          "Sistema de plantillas de correo + FAQ estructurada",
+        ],
+        learnings: [
+          "El mercado financiero US requiere compliance específico en UX",
+          "Sistemas multi-rol necesitan arquitectura de información clara desde el inicio",
+          "Los wireflows reducen malentendidos en handoff a desarrollo",
+          "Las especificaciones UI exhaustivas aceleran la implementación",
+          "El diseño de casos de error es crítico en plataformas financieras",
+          "La documentación visual (prototipos + specs) genera alineación de equipos",
+        ],
+        mockups: [riaOnboardingMockup], // Mockup del flujo de onboarding SURA EE.UU.
+      },
+    },
+  ],
+  // Datos específicos de metodología por empresa
+  methodologyStats: {
+    yearsExperience: "5 años",
+    experienceContext: {
+      es: "Experiencia en proyectos de UX Enterprise",
+      en: "Experience in UX Enterprise projects",
+    },
+    experienceDetail: {
+      es: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
+      en: "Led the implementation of UX Enterprise for digital financial products at the regional level, applying Design Thinking adapted to corporate contexts and sector regulations.",
+    },
+    teachingEvaluation: {
+      value: "4.8/5",
+      context: {
+        es: "Evaluación de enseñanza",
+        en: "Teaching evaluation",
+      },
+      detail: {
+        es: "Evaluación de los talleres de Design Thinking adaptado a procesos corporativos y regulaciones financieras.",
+        en: "Evaluation of the workshops of Design Thinking adapted to corporate processes and financial regulations.",
+      },
+    },
+    studentsImpact: {
+      value: "100+",
+      context: {
+        es: "Impacto en estudiantes",
+        en: "Impact on students",
+      },
+      detail: {
+        es: "Capacité a más de 100 estudiantes en metodologías de UX Enterprise y Design Thinking adaptado.",
+        en: "Trained over 100 students in UX Enterprise methodologies and adapted Design Thinking.",
+      },
+    },
+    regionalReach: {
+      value: "5+ países",
+      context: {
+        es: "Alcance regional",
+        en: "Regional reach",
+      },
+      detail: {
+        es: "Framework UX Enterprise implementado en 5+ países de la región.",
+        en: "UX Enterprise framework implemented in 5+ countries in the region.",
+      },
+    },
+  },
+};
+
+// ============================================
+// TRANSVIP - Company Hub
+// ============================================
+
+export const transvipHub: CompanyHub = {
+  id: "transvip",
+  name: "Transvip",
+  industry: "Mobility & Transport",
+  period: "2022 - 2023",
+  totalProjects: 4,
+  description: "Lideré el diseño completo de los ecosistemas digitales de Transvip (movilidad premium) y Karri (delivery vertical), desde research hasta implementación con equipos multidisciplinarios.",
+  highlights: [
+    "App Pasajeros: -40% tiempo de reserva, +25% conversión",
+    "Workshop que definió la estrategia de producto Karri",
+    "Calculadora que aumentó conversión de shoppers 30%",
+    "Onboarding que redujo abandono 35% en primera semana",
+  ],
+  image: transvipDesktop,
+  projects: [
+    {
+      id: "transvip-app-premium",
+      company: "Transvip",
+      role: "Senior Product Designer",
+      period: "2022-2023",
+      projectName: "Rediseño App Pasajeros Premium",
+      description: "Rediseño completo de la aplicación de pasajeros de Transvip, enfocada en simplificar el proceso de reserva de traslados al aeropuerto y mejorar la experiencia de usuarios premium.",
+      image: transvipDesktop,
+      tags: ["Mobility", "Premium Service", "Mobile App", "UX Research"],
+      processes: [
+        {
+          name: "User Research Premium",
+          description: "Investigación con usuarios premium para entender sus necesidades específicas en servicios de movilidad ejecutiva.",
+          tools: ["User Interviews", "Journey Mapping", "Service Design"],
+        },
+        {
+          name: "Booking Flow Optimization",
+          description: "Rediseño del flujo de reserva para reducir fricción y mejorar conversión en reservas de traslados.",
+          tools: ["Figma", "Prototyping", "A/B Testing"],
+        },
+      ],
+      details: {
+        challenge: "Los usuarios premium reportaban fricción en el proceso de reserva y falta de información clara sobre el servicio ejecutivo.",
+        solution: "Simplificación del flujo de reserva con énfasis en información de valor premium: tipo de vehículo, conductor asignado, y servicios adicionales.",
+        metrics: [
+          "Reducción de 40% en tiempo de reserva",
+          "Aumento de 25% en conversión de reservas",
+          "NPS de usuarios premium: 82 puntos",
+        ],
+        learnings: [
+          "Usuarios premium valoran la información detallada del servicio",
+          "La transparencia en pricing genera confianza",
+          "El tracking en tiempo real es crítico para viajes al aeropuerto",
+        ],
+      },
+    },
+    karriCalculadoraProject,
+    karriNotificacionesProject,
+    karriDesignSprintProject,
+  ],
+  // Datos específicos de metodología por empresa
+  methodologyStats: {
+    yearsExperience: "3 años",
+    experienceContext: {
+      es: "Experiencia en proyectos de UX para transporte",
+      en: "Experience in UX projects for transportation",
+    },
+    experienceDetail: {
+      es: "Lideré el diseño completo de los ecosistemas digitales de Transvip (movilidad premium) y Karri (delivery vertical), desde research hasta implementación con equipos multidisciplinarios.",
+      en: "Led the complete design of the digital ecosystems of Transvip (premium mobility) and Karri (delivery vertical), from research to implementation with multidisciplinary teams.",
+    },
+    teachingEvaluation: {
+      value: "4.5/5",
+      context: {
+        es: "Evaluación de enseñanza",
+        en: "Teaching evaluation",
+      },
+      detail: {
+        es: "Evaluación de los talleres que definieron la estrategia de producto Karri.",
+        en: "Evaluation of the workshops that defined the Karri product strategy.",
+      },
+    },
+    studentsImpact: {
+      value: "50+",
+      context: {
+        es: "Impacto en estudiantes",
+        en: "Impact on students",
+      },
+      detail: {
+        es: "Capacité a más de 50 estudiantes en metodologías de UX para transporte y diseño de aplicaciones móviles.",
+        en: "Trained over 50 students in UX methodologies for transportation and mobile app design.",
+      },
+    },
+    regionalReach: {
+      value: "3 países",
+      context: {
+        es: "Alcance regional",
+        en: "Regional reach",
+      },
+      detail: {
+        es: "Proyectos implementados en 3 países de la región.",
+        en: "Projects implemented in 3 countries in the region.",
+      },
+    },
+  },
+};
+
+// ============================================
+// FRAMEWORK PROPIO
+// ============================================
+
+export const frameworkProject: EnhancedProject = {
+  id: "framework",
+  company: "Framework Propio",
+  role: "Lead UX | Metodología",
+  period: "2022 - Presente",
+  projectName: "Framework UX - Discovery & Product Design",
+  description: "Desarrollo de framework de UX completo: Analytics, Research, UI Design y Testing. Metodología para MVPs y desarrollo evolutivo.",
+  image: "https://images.unsplash.com/photo-1760952851538-17a59f691efe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+  tags: ["UX Process", "Framework", "Methodology", "Best Practices"],
+  
+  processes: [
+    {
+      name: "UX Analytics",
+      description: "Framework de análisis de datos cuantitativos y cualitativos para informar decisiones de diseño.",
+      tools: ["Google Analytics", "Hotjar", "Mixpanel"],
+    },
+    {
+      name: "Discovery Activo",
+      description: "Metodología de discovery continuo con research de usuarios y validación constante de hipótesis.",
+      tools: ["User Research", "Prototyping", "Testing"],
+    },
+    {
+      name: "Product Design",
+      description: "Proceso end-to-end desde ideación hasta handoff, con énfasis en diseño iterativo y colaboración.",
+      tools: ["Design Sprints", "Figma", "Agile UX"],
+    },
+    {
+      name: "Testing & Iteration",
+      description: "Framework de testing de usabilidad y métricas de éxito para iteración basada en datos.",
+      tools: ["Usability Testing", "A/B Testing", "User Feedback"],
+    },
+  ],
+  teamSize: "Framework personal aplicado en equipos de 3-10 personas",
+  
+  details: {
+    challenge: "Crear metodología flexible que funcione tanto para MVPs rápidos como para productos enterprise complejos.",
+    solution: "Framework modular adaptable a diferentes contextos, con énfasis en discovery activo y validación continua. Balance entre velocidad y profundidad.",
+    metrics: [
+      "Aplicado exitosamente en 8+ proyectos",
+      "Reducción de 30% en re-trabajo de diseño",
+      "Mayor alineación entre diseño, producto y desarrollo",
+    ],
+    learnings: [
+      "No existe una metodología única para todos los contextos",
+      "El discovery activo previene errores costosos",
+      "La documentación del proceso facilita la escalabilidad",
+    ],
+  },
+};
+
+// ============================================
+// EXPORT COMBINADO
+// ============================================
+
+// Company Hubs
+export const companyHubs: CompanyHub[] = [
+  suraHub,
+  transvipHub,
+];
+
+// Proyectos individuales (no agrupados por empresa)
+export const individualProjects: EnhancedProject[] = [
+  frameworkProject,
+];
+
+// Todos los proyectos para backward compatibility
+export const allProjects = [
+  ...suraHub.projects,
+  ...transvipHub.projects,
+  frameworkProject,
+];

@@ -1,0 +1,184 @@
+import { useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Button } from "../ui/button";
+import { LanguageToggle } from "../atoms/LanguageToggle";
+import { X } from "lucide-react";
+
+interface NavItem {
+  href: string;
+  label: string;
+  type: "anchor" | "route";
+}
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  navItems: NavItem[];
+  onNavigateToDesignSystem?: () => void;
+  onNavigateToCaseStudies?: () => void;
+}
+
+export function MobileMenu({ 
+  isOpen, 
+  onClose, 
+  navItems, 
+  onNavigateToDesignSystem,
+  onNavigateToCaseStudies 
+}: MobileMenuProps) {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const firstFocusableRef = useRef<HTMLButtonElement>(null);
+
+  // Handle click outside
+  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Focus trap and keyboard navigation
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Focus first element when menu opens
+    const timer = setTimeout(() => {
+      firstFocusableRef.current?.focus();
+    }, 100);
+
+    // Handle Tab key for focus trap
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      
+      const focusableElements = menuRef.current?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      
+      if (!focusableElements || focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleTab);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("keydown", handleTab);
+    };
+  }, [isOpen]);
+
+  const handleNavClick = useCallback((item: NavItem) => {
+    onClose();
+    
+    if (item.type === "route") {
+      if (item.href === "design-system") {
+        setTimeout(() => onNavigateToDesignSystem?.(), 300);
+      } else if (item.href === "case-studies") {
+        setTimeout(() => onNavigateToCaseStudies?.(), 300);
+      }
+      return;
+    }
+    
+    // Smooth scroll with offset for fixed nav
+    setTimeout(() => {
+      const element = document.querySelector(item.href);
+      if (element) {
+        const navHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 300);
+  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies]);
+
+  return (
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={handleBackdropClick}
+            aria-hidden="true"
+          />
+          
+          {/* Menu Panel */}
+          <motion.div
+            ref={menuRef}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-50 flex flex-col"
+            role="dialog"
+            aria-label="Menú de navegación móvil"
+            aria-modal="true"
+            id="mobile-menu"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-border/40">
+              <h2 className="text-xl font-semibold">Navegación</h2>
+              <Button
+                ref={firstFocusableRef}
+                variant="ghost"
+                size="icon"
+                onClick={onClose}
+                aria-label="Cerrar menú de navegación"
+                className="hover:bg-muted"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </Button>
+            </div>
+
+            {/* Navigation Items */}
+            <nav className="flex-1 overflow-y-auto p-6" aria-label="Menú móvil">
+              <ul className="space-y-2" role="list">
+                {navItems.map((item, index) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-lg h-12 hover:bg-primary/10 hover:text-primary transition-all"
+                      onClick={() => handleNavClick(item)}
+                    >
+                      {item.label}
+                    </Button>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Footer - Optional CTA or Info */}
+            <div className="p-6 border-t border-border/40 bg-muted/30 space-y-4">
+              <div className="flex justify-center">
+                <LanguageToggle />
+              </div>
+              <p className="text-sm text-muted-foreground text-center">
+                Lead UX Designer
+              </p>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
