@@ -8,9 +8,12 @@ function App() {
   return (
     <main style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
       <header style={{ marginBottom: 48 }}>
-        <h1>Portafolio Staff/Principal UX</h1>
+        <h1>Historias de impacto en UX financiero</h1>
         <p>
-          Diseño experiencias digitales que generan confianza, inclusión y resultados medibles en el sector financiero. Mi enfoque combina claridad, empatía y rigor en accesibilidad.
+          Mi propósito es transformar retos complejos en experiencias digitales simples, seguras y humanas para millones de personas. Como Staff/Principal UX, lidero la estrategia y ejecución de productos que conectan la visión de negocio con las verdaderas necesidades de usuarios en banca, inversiones y tecnología financiera.
+        </p>
+        <p>
+          Creo que el diseño es un puente entre la confianza y la innovación. Cada proyecto es una oportunidad para alinear equipos, desafiar el status quo y entregar valor medible, incluso en los entornos más regulados y exigentes.
         </p>
         <Boton onClick={() => window.open('https://github.com/tuusuario', '_blank')}>
           Ver perfil en GitHub
@@ -20,11 +23,22 @@ function App() {
         <h2>Casos de éxito recientes</h2>
         <CardCasoEstudio
           titulo="Onboarding digital bancario inclusivo"
-          resumen="Diseñé un flujo de alta digital que aumentó la conversión un 32% y redujo el abandono en dispositivos móviles."
+          resumen="Lideré el diseño y validación de un MVP de onboarding digital, priorizando accesibilidad y cumplimiento. El proceso fue iterado en sprints scrum, logrando reducir el abandono y sentar bases para releases futuros."
           imagen="/src/imagenes/onboarding.webp"
           link="#"
         />
-        {/* Agrega más <CardCasoEstudio /> aquí */}
+        <CardCasoEstudio
+          titulo="Framework UX Enterprise para banca regional"
+          resumen="Diseñé y documenté un framework UX escalable, alineando equipos multidisciplinarios bajo una visión común. El MVP permitió validar procesos clave y acelerar la adopción en 5 países."
+          imagen="/src/imagenes/framework-ux.png"
+          link="#"
+        />
+        <CardCasoEstudio
+          titulo="Optimización de reservas en movilidad premium"
+          resumen="Apliqué metodología scrum para rediseñar el flujo de reservas, priorizando quick wins y validando hipótesis en cada sprint. El MVP redujo el tiempo de reserva y mejoró la conversión."
+          imagen="/src/imagenes/movilidad-premium.png"
+          link="#"
+        />
       </section>
       <section style={{ marginTop: 48 }}>
         <h2>Contacto rápido</h2>
