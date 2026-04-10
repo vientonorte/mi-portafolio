@@ -18,6 +18,10 @@ jobs:
           node-version: '20'
       - name: Instalar dependencias
         run: npm install
+      - name: Lint de código
+        run: npm run lint
+      - name: Auditoría de seguridad
+        run: npm audit --audit-level=high || true
       - name: Build y preview
         run: |
           npm run build
@@ -27,6 +31,17 @@ jobs:
         run: npm run qa:axe
       - name: Ejecutar Lighthouse
         run: npm run qa:lighthouse
+      - name: Ejecutar tests unitarios
+        run: |
+          if [ -f package.json ] && grep -q 'test' package.json; then
+            npm test
+          else
+            echo 'No hay tests unitarios definidos. Agrega tests para cumplir DOD.'
+          fi
+      - name: Validar documentación (README y HANDOFF)
+        run: |
+          test -s README.md || (echo 'README.md vacío o no existe' && exit 1)
+          test -s HANDOFF.md || (echo 'HANDOFF.md vacío o no existe' && exit 1)
       - name: Subir reportes como artefactos
         uses: actions/upload-artifact@v4
         with:

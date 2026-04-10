@@ -1,3 +1,16 @@
+## Definition of Done (DOD)
+
+Para considerar cualquier entrega como "Done" en este portafolio, debe cumplir:
+
+- [ ] Accesibilidad AAA (WCAG 2.1): contraste, navegación, roles, foco, validación automatizada y manual
+- [ ] Código limpio y modular: sin warnings/lint, imports claros, componentes reutilizables, sin dead code
+- [ ] Tests y QA: scripts automatizados (axe, Lighthouse), revisión manual y artefactos adjuntos en CI
+- [ ] Documentación actualizada: README, handoff, QA checklist y comentarios relevantes en el código
+- [ ] Performance: bundle optimizado, imágenes comprimidas, carga rápida en dispositivos reales
+- [ ] Seguridad y privacidad: sin datos sensibles hardcodeados, dependencias auditadas
+- [ ] Storytelling validado: narrativa clara, impacto y aprendizaje documentados
+
+Solo se acepta un release si cumple todos los puntos anteriores.
 
 ![QA y Accesibilidad](https://github.com/vientonorte/mi-portafolio/actions/workflows/qa.yml/badge.svg)
 
@@ -44,10 +57,20 @@ Este proyecto es un portafolio profesional minimalista y accesible, diseñado pa
 - `/src/design-system` – Sistema de diseño básico
 - `/src/imagenes` – Imágenes optimizadas
 
+
 ## Accesibilidad
-- Contraste AA
-- Navegación por teclado
-- Etiquetas y roles semánticos
+- Contraste AAA (WCAG 2.1)
+- Navegación por teclado y lector de pantalla
+- Etiquetas, roles semánticos y foco visible
+- Validación automatizada (axe, Lighthouse) y QA manual
+- Compromiso: solo se considera "Done" (DOD) si cumple AAA
+
+## Propuesta de Scrum para releases
+- Sprints de 1 semana: backlog, daily, review y retrospectiva
+- QA y fixes de accesibilidad en cada release
+- Storytelling validado y deploy automático (CI/CD)
+- Roles claros: Product Owner, UX Lead, Dev/QA
+- Cada release documenta aprendizajes y mejoras
 
 ---
 

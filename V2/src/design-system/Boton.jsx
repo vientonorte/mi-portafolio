@@ -1,5 +1,7 @@
 import React from 'react';
-import { colores, tipografia, espaciado } from './colores';
+import { colores } from './colores';
+import { tipografia } from './tipografia';
+import { espaciado } from './espaciado';
 
 export function Boton({ children, onClick, tipo = 'button', variante = 'primario', ...props }) {
   const bg = variante === 'primario' ? colores.primario : colores.secundario;
