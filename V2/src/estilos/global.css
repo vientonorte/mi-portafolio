@@ -1,0 +1,98 @@
+/*
+  Estilos globales minimalistas y accesibles AA
+*/
+
+:root {
+    --color-primario: #003366;
+    --color-secundario: #F5A623;
+    --color-fondo: #fff;
+    --color-texto: #1a1a1a;
+    /* Mejor contraste */
+    --color-boton: #003366;
+    --color-boton-texto: #fff;
+    --color-boton-hover: #002244;
+    --color-link-hover: #c97a00;
+    --fuente-principal: 'Inter', Arial, sans-serif;
+}
+
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-principal);
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--color-primario);
+    font-family: var(--fuente-principal);
+    font-weight: 700;
+}
+
+a {
+    color: var(--color-secundario);
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+a:hover,
+a:focus {
+    color: var(--color-link-hover);
+    outline: 2px solid var(--color-secundario);
+    outline-offset: 2px;
+}
+
+button,
+[role="button"],
+input[type="submit"] {
+    background: var(--color-boton);
+    color: var(--color-boton-texto);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: var(--fuente-principal);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, outline 0.2s;
+}
+
+button:hover,
+button:focus,
+[role="button"]:hover,
+[role="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+    background: var(--color-boton-hover);
+    outline: 2px solid var(--color-secundario);
+    outline-offset: 2px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+}
+
+input,
+textarea,
+select {
+    font-family: var(--fuente-principal);
+    font-size: 1rem;
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--color-secundario);
+    outline-offset: 2px;
+}
