@@ -1,3 +1,39 @@
+# QA Checklist Post-Deploy — Portafolio Lead UX
+
+| Item | Validación | Resultado Esperado |
+|------|------------|--------------------|
+| 1 | Deploy en GitHub Pages | Sitio accesible en URL pública, sin errores 404 |
+| 2 | Workflow QA en Actions | Todos los jobs pasan en verde, sin fallos |
+| 3 | Accesibilidad AA | Navegación por teclado, contraste mínimo 4.5:1, sin errores axe-core |
+| 4 | Tests unitarios | Todos los tests pasan (Vitest/Testing Library) |
+| 5 | Lint y auditoría | Sin errores de lint ni vulnerabilidades críticas |
+| 6 | Documentación visible | README, HANDOFF y QA-CHECKLIST accesibles y completos |
+| 7 | Reportes QA | Artifacts de axe y Lighthouse disponibles en Actions |
+| 8 | Peso inicial | Bundle JS < 250 KB, imágenes optimizadas |
+| 9 | Responsive | Layout funcional en mobile, tablet y desktop |
+| 10 | Storytelling | Todos los casos siguen estructura narrativa y scrum |
+
+## Verificación
+
+- [ ] Deploy accesible y funcional
+- [ ] Actions en verde
+- [ ] Accesibilidad AA validada
+- [ ] Tests y lint OK
+- [ ] Documentación completa
+- [ ] Artifacts QA generados
+- [ ] Peso y performance aceptables
+- [ ] Responsive validado
+- [ ] Storytelling consistente
+
+---
+
+**Notas:**
+- Si algún punto falla, documentar hallazgo y crear issue en GitHub.
+- Adjuntar capturas o logs si aplica.
+- QA-CHECKLIST.md debe mantenerse actualizado tras cada release.
+
+---
+
 # Checklist QA Automatizado – Portafolio UX
 
 ## Accesibilidad (AA)

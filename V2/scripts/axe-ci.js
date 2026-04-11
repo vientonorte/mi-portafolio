@@ -1,8 +1,9 @@
 // scripts/axe-ci.js
 // Ejecuta axe-core sobre http://localhost:5173 y guarda el reporte
-const { chromium } = require('playwright');
-const fs = require('fs');
-const { source: axeSource } = require('axe-core');
+import { chromium } from 'playwright';
+import fs from 'fs';
+import pkg from 'axe-core';
+const { source: axeSource } = pkg;
 
 (async() => {
     const browser = await chromium.launch();
