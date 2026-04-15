@@ -1,0 +1,26 @@
+/* Global Styles */
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid #0A2540;
+    outline-offset: 2px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+[aria-hidden="true"] {
+    display: none !important;
+}
