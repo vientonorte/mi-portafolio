@@ -11,7 +11,7 @@ import Privacy from './pages/Privacy';
 import Grafo from './pages/Grafo';
 
 const App = () => (
-  <Router>
+  <Router basename="/mi-portafolio">
     <Header />
     <main id="main" tabIndex={-1}>
       <Routes>
