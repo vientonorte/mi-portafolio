@@ -1,5 +1,7 @@
 import React from 'react';
-import { colores, tipografia, espaciado } from './colores';
+import { colores } from './colores';
+import { tipografia } from './tipografia';
+import { espaciado } from './espaciado';
 
 export function CardCasoEstudio({ titulo, resumen, imagen, link }) {
   return (
