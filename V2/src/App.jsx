@@ -1,7 +1,7 @@
 
 import './estilos/global.css';
 import { Boton } from './design-system/Boton';
-
+import { CardCasoEstudio } from './design-system/CardCasoEstudio';
 import { Input } from './design-system/Input';
 
 function App() {
