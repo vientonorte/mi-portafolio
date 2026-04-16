@@ -21,6 +21,6 @@ img {
     display: block;
 }
 
-[aria-hidden="true"] {
-    display: none !important;
-}
+/* Removed: [aria-hidden="true"] { display: none } hides decorative SVG icons
+   (Lucide uses aria-hidden="true" on icons to hide them from screen readers
+   while keeping them visually rendered). Hiding is handled per-component. */
