@@ -5548,17 +5548,17 @@
   }
 
   .bg-brand-gradient {
-    background: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);
+    background: var(--brand-gradient);
   }
 
   .text-brand-gradient {
-    background: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);
+    background: var(--brand-gradient);
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .border-brand-gradient {
-    border-image: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%) 1;
+    border-image: var(--brand-gradient) 1;
   }
 }
 

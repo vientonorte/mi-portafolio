@@ -63,7 +63,7 @@ export function KPICard({ label, value, description, icon: Icon, index }: KPICar
                 transition={{ duration: 0.8, delay: index * 0.1 + 0.4 }}
               />
               
-              <span className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#FF1D25] to-[#FF931E] bg-clip-text text-transparent leading-none">
+              <span className="text-5xl md:text-6xl font-bold text-brand-gradient leading-none">
                 {value}
               </span>
             </div>

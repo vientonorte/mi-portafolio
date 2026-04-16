@@ -36,7 +36,7 @@ const Buscador = () => {
   }, [query]);
 
   return (
-    <section aria-labelledby="buscador-title" style={{ maxWidth: 480, margin: '0 auto', padding: 24 }}>
+    <section aria-labelledby="buscador-title" className="max-w-lg mx-auto p-6">
       <h2 id="buscador-title">Buscador de casos</h2>
       <label htmlFor="buscador-input" className="sr-only">Buscar caso</label>
       <input
@@ -46,21 +46,21 @@ const Buscador = () => {
         onChange={e => setQuery(e.target.value)}
         placeholder="Busca por palabra clave, actor o campo"
         aria-describedby="buscador-help"
-        style={{ width: '100%', padding: 12, fontSize: 16, borderRadius: 4, border: '1px solid #ccc', marginBottom: 8 }}
+        className="w-full p-3 text-base rounded border border-border mb-2 bg-background text-foreground"
       />
-      <div id="buscador-help" style={{ fontSize: 14, color: '#4B5563', marginBottom: 16 }}>
+      <div id="buscador-help" className="text-sm text-muted-foreground mb-4">
         Escribe para filtrar casos institucionales. Prueba: "SURA", "Mapuche", "Lobby".
       </div>
       <ExportarCSV data={resultados} />
       {loading && <div role="status" aria-live="polite">Cargando…</div>}
-      {error && <div role="alert" style={{ color: 'red' }}>{error}</div>}
+      {error && <div role="alert" className="text-destructive">{error}</div>}
       {!loading && !error && (
         <ul aria-live="polite" aria-label="Resultados de búsqueda">
           {resultados.length === 0 ? (
             <li>No se encontraron resultados.</li>
           ) : (
             resultados.map(caso => (
-              <li key={caso.id} style={{ marginBottom: 12, background: '#F9FAFB', padding: 12, borderRadius: 4 }}>
+              <li key={caso.id} className="mb-3 bg-muted p-3 rounded">
                 <strong>{caso.nombre}</strong><br />
                 <span>{caso.descripcion}</span>
               </li>

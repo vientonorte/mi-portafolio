@@ -20,9 +20,9 @@ export function ScrollProgress() {
       {/* Main progress bar with gradient */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 origin-left z-50"
-        style={{ 
+        style={{
           scaleX,
-          background: "linear-gradient(90deg, #FF1D25 0%, #FF931E 100%)",
+          background: "linear-gradient(90deg, var(--brand-red) 0%, var(--brand-orange) 100%)",
         }}
         role="progressbar"
         aria-label="Progreso de lectura de la página"
@@ -33,9 +33,9 @@ export function ScrollProgress() {
       {/* Glow effect */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 origin-left z-40 blur-sm"
-        style={{ 
+        style={{
           scaleX,
-          background: "linear-gradient(90deg, #FF1D25 0%, #FF931E 100%)",
+          background: "linear-gradient(90deg, var(--brand-red) 0%, var(--brand-orange) 100%)",
           opacity: 0.6,
         }}
       />
