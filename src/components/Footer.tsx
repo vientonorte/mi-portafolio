@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer role="contentinfo" style={{ marginTop: '48px', padding: '24px 0', background: 'var(--color-pizarra)', color: 'var(--color-marfil)', textAlign: 'center' }}>
+  <footer role="contentinfo" className="mt-12 py-6 bg-[--color-pizarra] text-[--color-marfil] text-center">
     <div>
-      <a href="mailto:rodrigo.gaete@gmail.com" style={{ color: 'var(--color-marfil)' }}>Contacto</a> | <a href="/privacy" style={{ color: 'var(--color-marfil)' }}>Privacidad</a>
+      <a href="mailto:rodrigo.gaete@gmail.com" className="text-[--color-marfil]">Contacto</a> | <a href="/privacy" className="text-[--color-marfil]">Privacidad</a>
     </div>
-    <div style={{ fontSize: '0.9em', marginTop: '8px' }}>
+    <div className="text-sm mt-2">
       © {new Date().getFullYear()} Rodrigo Gaete Gaona
     </div>
   </footer>

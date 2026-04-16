@@ -67,13 +67,7 @@ export function StatCard({ value, label, index = 0 }: StatCardProps) {
             }}
           >
             <motion.span
-              className="text-4xl md:text-5xl font-bold text-foreground inline-block"
-              style={{
-                background: "linear-gradient(135deg, #FF1D25 0%, #FF931E 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+              className="text-4xl md:text-5xl font-bold inline-block text-brand-gradient"
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
