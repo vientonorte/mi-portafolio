@@ -1,37 +1,12 @@
-/* Design System Básico */
+/* Design System — CSS custom properties only.
+   Body/heading element rules removed: Tailwind (index.css) owns those.
+   Dark mode support is handled via .dark class in index.css. */
 
 :root {
     --color-noche: #0A2540;
     --color-pizarra: #4B5563;
     --color-marfil: #F9FAFB;
-    --font-body: 'Inter', Arial, sans-serif;
-    --font-heading: 'DM Serif Display', serif;
     --grid: 8px;
-}
-
-body {
-    font-family: var(--font-body);
-    background: var(--color-marfil);
-    color: var(--color-noche);
-    margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--font-heading);
-    color: var(--color-noche);
-}
-
-.card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(10, 37, 64, 0.06);
-    padding: calc(var(--grid) * 3);
-    margin-bottom: calc(var(--grid) * 2);
 }
 
 .skip-link {

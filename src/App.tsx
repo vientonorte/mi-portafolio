@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
-import Header from './components/Header';
+import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Proyectos from './pages/Proyectos';
@@ -10,11 +10,33 @@ import SobreMi from './pages/SobreMi';
 import Contacto from './pages/Contacto';
 import Privacy from './pages/Privacy';
 import Grafo from './pages/Grafo';
+import DesignSystem from './pages/DesignSystem';
+import CaseStudies from './pages/CaseStudies';
+
+function RouterNavigation() {
+  const navigate = useNavigate();
+  return (
+    <Navigation
+      onNavigateToDesignSystem={() => navigate('/design-system')}
+      onNavigateToCaseStudies={() => navigate('/cases')}
+    />
+  );
+}
+
+function DesignSystemPage() {
+  const navigate = useNavigate();
+  return <DesignSystem onBack={() => navigate('/')} />;
+}
+
+function CaseStudiesPage() {
+  const navigate = useNavigate();
+  return <CaseStudies onBack={() => navigate('/')} onNavigateToProcess={() => {}} />;
+}
 
 const App = () => (
   <LanguageProvider>
     <Router basename="/mi-portafolio">
-      <Header />
+      <RouterNavigation />
       <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,6 +46,8 @@ const App = () => (
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/grafo" element={<Grafo />} />
+          <Route path="/design-system" element={<DesignSystemPage />} />
+          <Route path="/cases" element={<CaseStudiesPage />} />
         </Routes>
       </main>
       <Footer />
