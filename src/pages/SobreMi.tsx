@@ -1,10 +1,13 @@
-import React from 'react';
+import { About } from '../components/organisms/About';
+import { Skills } from '../components/organisms/Skills';
+import { Experience } from '../components/organisms/Experience';
 
 const SobreMi = () => (
-  <section>
-    <h1>Sobre mí</h1>
-    <p>Staff/Principal UX. Especialista en sistemas financieros, regulación y antropología aplicada a la toma de decisiones.</p>
-  </section>
+  <>
+    <About />
+    <Skills />
+    <Experience />
+  </>
 );
 
 export default SobreMi;

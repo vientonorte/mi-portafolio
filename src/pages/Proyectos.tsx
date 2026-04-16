@@ -1,11 +1,9 @@
-import React from 'react';
-import Buscador from '../components/Buscador';
+import { useNavigate } from 'react-router-dom';
+import { Projects } from '../components/organisms/Projects';
 
-const Proyectos = () => (
-  <section>
-    <h1>Proyectos</h1>
-    <Buscador />
-  </section>
-);
+const Proyectos = () => {
+  const navigate = useNavigate();
+  return <Projects onNavigateToCaseStudies={() => navigate('/cases')} />;
+};
 
 export default Proyectos;
