@@ -226,21 +226,10 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
               <Button 
                 size="lg" 
                 onClick={scrollToProjects}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden shadow-lg hover:shadow-xl"
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-lg hover:shadow-xl"
               >
-                {!prefersReducedMotion && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                      repeatDelay: 4,
-                    }}
-                  />
-                )}
-                <span className="relative font-semibold">{t.ctaPrimary}</span>
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform relative" />
+                <span className="font-semibold">{t.ctaPrimary}</span>
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
 

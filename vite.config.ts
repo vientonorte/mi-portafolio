@@ -93,6 +93,20 @@
     build: {
       target: 'esnext',
       outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-motion': ['motion', 'motion/react'],
+            'vendor-radix': [
+              '@radix-ui/react-accordion', '@radix-ui/react-dialog',
+              '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip',
+              '@radix-ui/react-tabs', '@radix-ui/react-select',
+            ],
+            'vendor-ui': ['lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+          },
+        },
+      },
     },
     server: {
       port: 3000,

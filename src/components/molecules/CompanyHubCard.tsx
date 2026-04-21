@@ -189,15 +189,9 @@ export function CompanyHubCard({
                 onSelect(id);
               }}
               size="lg"
-              className="w-full bg-brand-gradient hover:opacity-90 transition-opacity group/btn relative overflow-hidden"
+              className="w-full bg-brand-gradient hover:opacity-90 transition-opacity group/btn"
             >
-              {/* Shimmer effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ["-100%", "200%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              />
-              <span className="relative flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 {lang.viewProjects}
                 <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
               </span>
