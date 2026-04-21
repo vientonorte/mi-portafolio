@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { User, Lightbulb, Zap } from "lucide-react";
@@ -63,6 +63,12 @@ const roles = [
 
 export function About() {
   const { language } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
+
+  const fadeUp = (delay = 0, extra?: object) =>
+    prefersReducedMotion
+      ? {}
+      : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true as const }, transition: { duration: 0.6, delay, ...extra } };
 
   return (
     <section
@@ -80,26 +86,18 @@ export function About() {
 
         {/* Philosophy: Idea y Cuerpo */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          {...fadeUp()}
           className="mb-12 md:mb-16"
         >
           <div className="text-center max-w-4xl mx-auto mb-10">
             <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              {...fadeUp()}
               className="text-2xl md:text-3xl font-bold mb-4"
             >
               {language === "es" ? "Filosofía de Diseño" : "Design Philosophy"}
             </motion.h3>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+              {...fadeUp(0.1)}
               className="text-muted-foreground text-lg leading-relaxed"
             >
               {language === "es" 
@@ -112,29 +110,16 @@ export function About() {
             {philosophy.map((item, index) => (
               <motion.div
                 key={item.title[language]}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ scale: 1.02 }}
+                {...fadeUp(index * 0.15)}
+                whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
               >
                 <Card className="relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border-2 hover:border-primary/30 h-full">
-                  {/* Subtle background on hover */}
-                  <motion.div
-                    className={`absolute inset-0 ${item.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                    initial={false}
-                  />
-
                   <CardContent className="p-8 relative">
-                    <motion.div
-                      className="mb-6"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                    >
+                    <div className="mb-6">
                       <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${item.bgColor} border-2 border-border`}>
                         <item.icon className={`h-8 w-8 ${item.color}`} />
                       </div>
-                    </motion.div>
+                    </div>
 
                     <h4 className="text-2xl font-bold mb-3">{item.title[language]}</h4>
                     <p className="text-muted-foreground leading-relaxed">
@@ -143,10 +128,10 @@ export function About() {
 
                     {/* Decorative line with primary color */}
                     <motion.div
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
+                      initial={prefersReducedMotion ? undefined : { scaleX: 0 }}
+                      whileInView={prefersReducedMotion ? undefined : { scaleX: 1 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.2 + 0.4, duration: 0.6 }}
+                      transition={{ delay: index * 0.2 + 0.3, duration: 0.6 }}
                       className={`mt-6 h-1 bg-primary rounded-full origin-left`}
                     />
                   </CardContent>
@@ -160,27 +145,17 @@ export function About() {
             {values.map((value, index) => (
               <motion.div
                 key={value.label[language]}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -4 }}
+                {...fadeUp(index * 0.1)}
+                whileHover={prefersReducedMotion ? undefined : { y: -4 }}
               >
                 <Card className="border-2 hover:border-primary/20 transition-all duration-300 hover:shadow-lg">
                   <CardContent className="p-6 text-center">
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
-                    >
-                      <h5 className="font-bold text-lg mb-2 text-brand-gradient">
-                        {value.label[language]}
-                      </h5>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {value.description[language]}
-                      </p>
-                    </motion.div>
+                    <h5 className="font-bold text-lg mb-2 text-brand-gradient">
+                      {value.label[language]}
+                    </h5>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {value.description[language]}
+                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -191,18 +166,13 @@ export function About() {
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Left Column - About */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            {...(prefersReducedMotion ? {} : { initial: { opacity: 0, x: -20 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.5 } })}
             className="space-y-8"
           >
             {/* Main description */}
             <div className="space-y-6">
               <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                {...fadeUp()}
                 className="text-xl leading-relaxed"
               >
                 {language === "es" 
@@ -212,10 +182,7 @@ export function About() {
               </motion.p>
               
               <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
+                {...fadeUp(0.1)}
                 className="text-muted-foreground leading-relaxed text-lg"
               >
                 {language === "es"
@@ -225,10 +192,7 @@ export function About() {
               </motion.p>
 
               <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
+                {...fadeUp(0.2)}
                 className="text-muted-foreground leading-relaxed text-lg"
               >
                 {language === "es"
@@ -240,10 +204,7 @@ export function About() {
 
             {/* Roles Card */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              {...fadeUp(0.3)}
             >
               <Card className="border-2">
                 <CardContent className="p-6">
@@ -254,11 +215,8 @@ export function About() {
                     {roles.map((role, index) => (
                       <motion.div
                         key={role}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.35 + index * 0.05 }}
-                        whileHover={{ scale: 1.05, y: -2 }}
+                        {...(prefersReducedMotion ? {} : { initial: { opacity: 0, scale: 0.9 }, whileInView: { opacity: 1, scale: 1 }, viewport: { once: true }, transition: { delay: 0.35 + index * 0.05 } })}
+                        whileHover={prefersReducedMotion ? undefined : { scale: 1.05, y: -2 }}
                       >
                         <Badge 
                           variant="secondary" 
@@ -276,10 +234,7 @@ export function About() {
 
           {/* Right Column - Quote */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            {...(prefersReducedMotion ? {} : { initial: { opacity: 0, x: 20 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true }, transition: { duration: 0.5, delay: 0.2 } })}
             className="lg:sticky lg:top-24 space-y-6"
           >
             {/* Main Philosophy Quote - Fusionada */}
@@ -291,10 +246,7 @@ export function About() {
 
               <CardContent className="p-8 md:p-10 relative">
                 <motion.blockquote
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
+                  {...fadeUp(0.3)}
                   className="space-y-6"
                 >
                   <p className="text-xl md:text-2xl leading-relaxed">
@@ -325,10 +277,10 @@ export function About() {
 
                 {/* Decorative gradient line */}
                 <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
+                  initial={prefersReducedMotion ? undefined : { scaleX: 0 }}
+                  whileInView={prefersReducedMotion ? undefined : { scaleX: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
                   className="mt-6 h-1 bg-brand-gradient rounded-full origin-left"
                 />
               </CardContent>

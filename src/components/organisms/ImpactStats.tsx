@@ -1,10 +1,16 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
 import { BarChart3, Users, Building2, Zap } from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 
 export function ImpactStats() {
   const { language } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
+
+  const fadeUp = (delay = 0) =>
+    prefersReducedMotion
+      ? {}
+      : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true as const }, transition: { duration: 0.5, delay } };
 
   const stats = [
     {
@@ -45,9 +51,7 @@ export function ImpactStats() {
     <section className="py-16 md:py-20 px-4 bg-muted/30">
       <div className="container max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          {...fadeUp()}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -67,11 +71,8 @@ export function ImpactStats() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
+                {...fadeUp(index * 0.1)}
+                whileHover={prefersReducedMotion ? undefined : { y: -5 }}
               >
                 <Card className="h-full border-2 hover:border-primary/40 transition-all duration-300">
                   <CardContent className="p-6 text-center">
@@ -99,10 +100,7 @@ export function ImpactStats() {
 
         {/* Feature Highlight - RIA SURA Project */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          {...fadeUp(0.4)}
           className="mt-12"
         >
           <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 via-background to-background overflow-hidden group hover:border-primary/50 transition-all duration-500">
@@ -132,15 +130,8 @@ export function ImpactStats() {
                     </p>
                   </div>
 
-                  {/* Decorative gradient orb */}
-                  <motion.div
-                    className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/30 rounded-full blur-3xl"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  />
+                  {/* Static decorative gradient orb (no infinite animation) */}
+                  <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
                 </div>
 
                 {/* Right Side - Details */}

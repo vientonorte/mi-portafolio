@@ -1,5 +1,4 @@
-import { motion } from "motion/react";
-import { AnimatedCounter } from "../atoms/AnimatedCounter";
+import { motion, useReducedMotion } from "motion/react";
 
 interface StatCardProps {
   value: string;
@@ -8,91 +7,33 @@ interface StatCardProps {
 }
 
 export function StatCard({ value, label, index = 0 }: StatCardProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
+      whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        type: "spring",
-        stiffness: 100,
-      }}
-      whileHover={{ 
-        y: -8, 
-        scale: 1.05,
-        transition: { type: "spring", stiffness: 400, damping: 10 }
-      }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={prefersReducedMotion ? undefined : { y: -4 }}
       className="relative group"
     >
-      <motion.div
-        className="relative text-center p-6 md:p-8 rounded-2xl border-2 border-border bg-card overflow-hidden"
-        whileHover={{ borderColor: "var(--primary)" }}
-        transition={{ duration: 0.3 }}
-      >
+      <div className="relative text-center p-6 md:p-8 rounded-2xl border-2 border-border bg-card overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg">
         {/* Gradient background on hover */}
-        <motion.div
-          className="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-5"
-          initial={false}
-          transition={{ duration: 0.3 }}
-        />
-
-        {/* Animated glow effect */}
-        <motion.div
-          className="absolute inset-0 bg-brand-gradient opacity-0 blur-xl"
-          animate={{
-            opacity: [0, 0.1, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: index * 0.5,
-          }}
-        />
+        <div className="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
 
         <div className="relative z-10">
-          <motion.div
-            className="mb-3"
-            aria-live="polite"
-            initial={{ scale: 0.5, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.5,
-              delay: index * 0.1 + 0.2,
-              type: "spring",
-              stiffness: 200,
-            }}
-          >
-            <motion.span
-              className="text-4xl md:text-5xl font-bold inline-block text-brand-gradient"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
+          <div className="mb-3" aria-live="polite">
+            <span className="text-4xl md:text-5xl font-bold inline-block text-brand-gradient">
               {value}
-            </motion.span>
-          </motion.div>
+            </span>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 + 0.3 }}
-            className="text-sm md:text-base text-foreground/80 group-hover:text-foreground transition-colors"
-          >
+          <p className="text-sm md:text-base text-foreground/80 group-hover:text-foreground transition-colors">
             {label}
-          </motion.p>
+          </p>
         </div>
-
-        {/* Decorative corner accent */}
-        <motion.div
-          className="absolute top-0 right-0 w-16 h-16 bg-brand-gradient opacity-0 group-hover:opacity-20 blur-2xl"
-          initial={false}
-          transition={{ duration: 0.3 }}
-        />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
