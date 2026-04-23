@@ -34,7 +34,7 @@ describe('translations', () => {
 
       it('has non-empty string values for nav items', () => {
         const nav = translations[lang].nav;
-        Object.values(nav).forEach((value) => {
+        (Object.values(nav) as string[]).forEach((value) => {
           expect(typeof value).toBe('string');
           expect(value.length).toBeGreaterThan(0);
         });
