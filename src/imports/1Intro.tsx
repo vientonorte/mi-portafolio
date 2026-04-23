@@ -25,7 +25,7 @@ export default function Component1Intro() {
       </div>
       <div className="absolute font-['Open_Sauce_One:Regular',sans-serif] h-[597px] leading-[0] left-[calc(7.14%+42.86px)] not-italic text-[#333333] text-[18px] top-[calc(22.22%+30px)] tracking-[0.18px] w-[423px]">
         <p className="leading-[36px] mb-[24px]">Descubrir buenas prácticas para mejorar la UX con el fin de aumentar la fidelización de los shoppers de Karri.</p>
-        <ol className="list-decimal mb-[24px]" start={1}>
+        <ol className="list-decimal mb-[24px]">
           <li className="mb-0 ms-[27px]">
             <span className="leading-[36px]">BOOSMAP - APP</span>
           </li>
