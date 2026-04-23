@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { ArrowRight, FileText, Palette, Sparkles } from "lucide-react";
+import { ArrowRight, FileText, Sparkles } from "lucide-react";
 import { Logo } from "../atoms/Logo";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -29,22 +29,16 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
   const content = useMemo(() => ({
     es: {
       heading: "Lead UX diseñando experiencias que conectan estrategia digital con usuarios",
-      description: "Especialista en implementación de experiencia usuaria y desarrollo evolutivo de productos digitales. Experto en Design Thinking, Design Sprints y metodologías ágiles.",
-      emphasis1: "implementación de experiencia usuaria",
-      emphasis2: "desarrollo evolutivo",
+      description: "Lead UX con impacto medible: -40% abandono en onboarding, NPS 72, +35% activación. Implemento UX/UI en productos financieros y de movilidad a nivel regional.",
       ctaPrimary: "Ver proyectos",
       ctaSecondary: "Casos de Estudio",
-      ctaTertiary: "Design System",
       scroll: "Explorar"
     },
     en: {
       heading: "Lead UX designing experiences that connect digital strategy with users",
-      description: "Specialist in user experience implementation and evolutionary development of digital products. Expert in Design Thinking, Design Sprints and agile methodologies.",
-      emphasis1: "user experience implementation",
-      emphasis2: "evolutionary development",
+      description: "Lead UX with measurable impact: -40% onboarding drop-off, NPS 72, +35% activation. I implement UX/UI for financial and mobility products at a regional scale.",
       ctaPrimary: "View projects",
       ctaSecondary: "Case Studies",
-      ctaTertiary: "Design System",
       scroll: "Explore"
     }
   }), []);
@@ -83,7 +77,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden"
+      className="relative min-h-[75vh] flex items-center justify-center px-4 py-16 overflow-hidden"
       aria-labelledby="hero-heading"
     >
       {/* Optimized Background */}
@@ -140,7 +134,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         initial="hidden"
         animate="visible"
       >
-        <div className="text-center space-y-8 md:space-y-12">
+        <div className="text-center space-y-5 md:space-y-7">
           {/* Logo with optimized animations */}
           <motion.div
             variants={itemVariants}
@@ -195,22 +189,12 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
             </span>
           </motion.h1>
 
-          {/* Description with better text hierarchy */}
+          {/* Description */}
           <motion.div
             variants={itemVariants}
-            className="max-w-3xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
+            className="max-w-2xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
           >
-            <p>
-              Especialista en{" "}
-              <strong className="text-foreground font-semibold">
-                {t.emphasis1}
-              </strong>{" "}
-              y{" "}
-              <strong className="text-foreground font-semibold">
-                {t.emphasis2}
-              </strong>{" "}
-              de productos digitales. Experto en Design Thinking, Design Sprints y metodologías ágiles.
-            </p>
+            <p>{t.description}</p>
           </motion.div>
 
           {/* CTA Buttons - Better spacing and hierarchy */}
@@ -233,13 +217,13 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
               </Button>
             </motion.div>
 
-            {/* Secondary CTAs */}
+            {/* Secondary CTA */}
             <motion.div
               whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
               whileTap={{ scale: 0.98 }}
             >
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="outline"
                 onClick={onNavigateToCaseStudies}
                 className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
@@ -248,27 +232,12 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
                 {t.ctaSecondary}
               </Button>
             </motion.div>
-
-            <motion.div
-              whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button 
-                size="lg" 
-                variant="outline"
-                onClick={onNavigateToDesignSystem}
-                className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
-              >
-                <Palette className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
-                {t.ctaTertiary}
-              </Button>
-            </motion.div>
           </motion.div>
 
           {/* Scroll indicator - Improved animation */}
           <motion.div
             variants={itemVariants}
-            className="pt-16 md:pt-20"
+            className="pt-8 md:pt-10"
           >
             <motion.button
               animate={!prefersReducedMotion ? { y: [0, 8, 0] } : undefined}
