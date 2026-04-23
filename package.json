@@ -52,15 +52,33 @@
             "vite": "*"
       },
       "devDependencies": {
+            "@eslint/js": "^10.0.1",
+            "@testing-library/dom": "^10.4.1",
+            "@testing-library/jest-dom": "^6.9.1",
+            "@testing-library/react": "^16.3.2",
+            "@testing-library/user-event": "^14.6.1",
             "@types/node": "^25.6.0",
             "@types/react": "^18.3.18",
             "@types/react-dom": "^18.3.5",
             "@vitejs/plugin-react-swc": "^4.3.0",
+            "@vitest/coverage-v8": "^4.1.5",
+            "eslint": "^10.2.1",
+            "eslint-plugin-react-hooks": "^7.1.1",
+            "eslint-plugin-react-refresh": "^0.5.2",
+            "globals": "^17.5.0",
+            "jsdom": "^29.0.2",
             "typescript": "^5.7.3",
-            "vite": "8.0.8"
+            "vite": "8.0.8",
+            "vitest": "^4.1.5"
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "build": "vite build",
+            "lint": "eslint . --ext ts,tsx",
+            "lint:fix": "eslint . --ext ts,tsx --fix",
+            "test": "vitest run",
+            "test:watch": "vitest",
+            "test:coverage": "vitest run --coverage",
+            "qa": "npm run lint && npm run test:coverage"
       }
 }
