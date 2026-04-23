@@ -468,9 +468,9 @@ export const transvipHub: CompanyHub = {
         ],
       },
     },
-    karriCalculadoraProject,
-    karriNotificacionesProject,
-    karriDesignSprintProject,
+    karriCalculadoraProject as unknown as EnhancedProject,
+    karriNotificacionesProject as unknown as EnhancedProject,
+    karriDesignSprintProject as unknown as EnhancedProject,
   ],
   // Datos específicos de metodología por empresa
   methodologyStats: {

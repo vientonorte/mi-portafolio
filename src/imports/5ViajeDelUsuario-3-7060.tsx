@@ -37,7 +37,7 @@ export default function Component5ViajeDelUsuario() {
         <p className="mb-0">
           <span className="font-['Proxima_Nova:Bold',sans-serif] not-italic">{`En la sesión 2 `}</span>como equipo
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/file/mdWSGYqQtrZvrQhvihoEFt/Taller-Design-Thinking---Sprint-Design-Shopper?type=whiteboard&node-id=0%3A1&t=HIS50Pdhqzuvrg8K-1">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[40px]" href="https://www.figma.com/file/mdWSGYqQtrZvrQhvihoEFt/Taller-Design-Thinking---Sprint-Design-Shopper?type=whiteboard&node-id=0%3A1&t=HIS50Pdhqzuvrg8K-1">{` construimos el viaje del usuario`}</span>
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[40px]">{` construimos el viaje del usuario`}</span>
           </a>
           , lo que nos permite visualizar todos los puntos de contacto, desde la conciencia de la existencia de la app hasta el proceso de fidelización.
         </p>

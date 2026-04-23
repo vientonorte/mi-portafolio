@@ -46,19 +46,19 @@ function Frame() {
         <p className="leading-[24px] mb-0 whitespace-pre-wrap">
           <span>{`Con `}</span>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.uifrommars.com/atomic-design-ventajas/">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.uifrommars.com/atomic-design-ventajas/">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               atomic design
             </span>
           </a>
           <span>{`, utilizando el nuevo sistema de diseño  de SURA Investments, en estos `}</span>links<span>{` encontrarás la documentación necesaria para el correcto desarrollo de los `}</span>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               estilos
             </span>
           </a>
           <span>{` y `}</span>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">{`componentes base `}</span>
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">{`componentes base `}</span>
           </a>
           del sistema de diseño
         </p>
@@ -70,7 +70,7 @@ function Frame() {
         <p className="leading-[24px] mb-0">
           <span>{`Puedes ver el siguiente tutorial `}</span>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.youtube.com/watch?v=__ABPkb0aF8&t=49s">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.youtube.com/watch?v=__ABPkb0aF8&t=49s">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               aquí
             </span>
           </a>
@@ -83,7 +83,7 @@ function Frame() {
         <p className="leading-[24px]">
           <span>{`Son una explicación gráfica de como construir los componentes utilizados `}</span>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/2sqtmuruoylv9y2cQXZ1Ag?node-id=15328-60638">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/2sqtmuruoylv9y2cQXZ1Ag?node-id=15328-60638">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               aquí
             </span>
           </a>

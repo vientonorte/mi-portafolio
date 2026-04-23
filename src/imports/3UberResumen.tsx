@@ -31,12 +31,12 @@ export default function Component3UberResumen() {
         <p className="leading-[36px] mb-0">&nbsp;</p>
         <p className="cursor-pointer leading-[36px] underline">
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid font-['Open_Sauce_One:Bold',sans-serif]" href="https://transvipchile.atlassian.net/browse/WT2-835">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[36px] not-italic underline" href="https://transvipchile.atlassian.net/browse/WT2-835">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[36px] not-italic underline">
               Para ver el estudio completo haz click aquí
             </span>
           </a>
           <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid font-['Open_Sauce_One:ExtraBold',sans-serif]" href="https://transvipchile.atlassian.net/browse/WT2-835">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid leading-[36px] not-italic underline" href="https://transvipchile.atlassian.net/browse/WT2-835">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid leading-[36px] not-italic underline">
               .
             </span>
           </a>
