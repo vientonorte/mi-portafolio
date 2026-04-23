@@ -4,7 +4,56 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
+  build-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Smoke check preview artifact
+        run: |
+          mkdir -p preview-root/mi-portafolio
+          cp -R dist/. preview-root/mi-portafolio/
+
+          python3 -m http.server 4173 --directory preview-root &
+          SERVER_PID=$!
+          trap "kill $SERVER_PID" EXIT
+
+          READY=0
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/mi-portafolio/ > /tmp/preview.html; then
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$READY" -ne 1 ]; then
+            echo "Preview server did not become reachable at http://127.0.0.1:4173/mi-portafolio/ within timeout." >&2
+            exit 1
+          fi
+
+          grep -q '<div id="root"></div>' /tmp/preview.html
+
+          JS_ASSET_PATH=$(grep -oE '/mi-portafolio/assets/[^"]+\.js' /tmp/preview.html | head -n 1)
+          test -n "$JS_ASSET_PATH"
+          curl -fsS "http://127.0.0.1:4173$JS_ASSET_PATH" >/dev/null
+
+          CSS_ASSET_PATH=$(grep -oE '/mi-portafolio/assets/[^"]+\.css' /tmp/preview.html | head -n 1)
+          test -n "$CSS_ASSET_PATH"
+          curl -fsS "http://127.0.0.1:4173$CSS_ASSET_PATH" >/dev/null
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
