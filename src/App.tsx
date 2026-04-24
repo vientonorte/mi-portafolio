@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
+import { AnalyticsProvider } from './vn-core/analytics/react';
+import { analyticsConfig } from './vn-core/analytics/config';
 import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -35,6 +37,7 @@ function CaseStudiesPage() {
 
 const App = () => (
   <LanguageProvider>
+    <AnalyticsProvider config={analyticsConfig}>
     <Router basename="/mi-portafolio">
       <RouterNavigation />
       <main id="main" tabIndex={-1}>
@@ -52,6 +55,7 @@ const App = () => (
       </main>
       <Footer />
     </Router>
+    </AnalyticsProvider>
   </LanguageProvider>
 );
 
