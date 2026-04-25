@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from '@vientonorte/ui/card';
 import { Badge } from '@vientonorte/ui/badge';
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@vientonorte/ui/tabs';
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import {

@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { ArrowRight, FileText, Palette, Sparkles } from "lucide-react";
 import { Logo } from "../atoms/Logo";
 import { useRef, useMemo } from "react";

@@ -77,7 +77,7 @@ const principles = [
 const usage = [
   {
     title: "Instalación de Componentes",
-    code: `import { Button } from "./components/ui/button"
+    code: `import { Button } from '@vientonorte/ui/button'
 import { Card } from '@vientonorte/ui/card'`,
   },
   {

@@ -4,7 +4,7 @@ import { SectionHeader } from "../molecules/SectionHeader";
 import { CompanyHubCard } from "../molecules/CompanyHubCard";
 import { EnhancedProjectCard } from "../molecules/EnhancedProjectCard";
 import { StatCard } from "../molecules/StatCard";
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { FileText } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { suraHub, transvipHub, frameworkProject } from "../../data/projects-data";

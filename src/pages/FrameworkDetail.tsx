@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, RefreshCw, TrendingUp, GraduationCap, Users, Home, Sparkles, Zap, Target, ChevronRight } from "lucide-react";
-import { Button } from "../components/ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Badge } from '@vientonorte/ui/badge';
 import { Card, CardContent } from '@vientonorte/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@vientonorte/ui/tabs';

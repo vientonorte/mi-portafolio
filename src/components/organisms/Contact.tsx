@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from '@vientonorte/ui/textarea';
 import { Label } from '@vientonorte/ui/label';
 import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react";
 import { useState } from "react";

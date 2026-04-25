@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowLeft, Check, ExternalLink } from "lucide-react";
-import { Button } from "../components/ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Card, CardContent } from '@vientonorte/ui/card';
 import { Badge } from '@vientonorte/ui/badge';
 import { ProcessMethodCard } from "../components/molecules/ProcessMethodCard";

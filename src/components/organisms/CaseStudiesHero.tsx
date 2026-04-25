@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { SectionBadge } from "../atoms/SectionBadge";
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { FileText, Filter } from "lucide-react";
 
 interface CaseStudiesHeroProps {

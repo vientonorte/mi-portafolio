@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from '@vientonorte/ui/tooltip';
 import { Card, CardContent } from '@vientonorte/ui/card';
 import { LucideIcon } from "lucide-react";
 

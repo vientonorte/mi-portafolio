@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Badge } from '@vientonorte/ui/badge';
-import { Button } from "../components/ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Card, CardContent } from '@vientonorte/ui/card';
 import { 
   ArrowLeft, 

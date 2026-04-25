@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import { Menu, X } from "lucide-react";
 import { MobileMenu } from "../molecules/MobileMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";

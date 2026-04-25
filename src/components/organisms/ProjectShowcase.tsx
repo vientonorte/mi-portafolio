@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ExternalLink, Info } from "lucide-react";
 import { Card, CardContent } from '@vientonorte/ui/card';
 import { Badge } from '@vientonorte/ui/badge';
-import { Button } from "../ui/button";
+import { Button } from '@vientonorte/ui/button';
 import {
   Dialog,
   DialogContent,
