@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from '@vientonorte/ui/card';
 import { LucideIcon } from "lucide-react";
 
 interface StatsTooltipProps {

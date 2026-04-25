@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Badge } from "../ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
+import { Badge } from '@vientonorte/ui/badge';
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";

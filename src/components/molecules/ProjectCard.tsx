@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { Badge } from "../ui/badge";
+import { Card, CardContent } from '@vientonorte/ui/card';
+import { Badge } from '@vientonorte/ui/badge';
 import { Button } from "../ui/button";
 
 interface ProjectCardProps {

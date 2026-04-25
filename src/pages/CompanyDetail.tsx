@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
-import { Card, CardContent } from "../components/ui/card";
+import { Badge } from '@vientonorte/ui/badge';
+import { Card, CardContent } from '@vientonorte/ui/card';
 import { 
   ArrowLeft, 
   BarChart3, 

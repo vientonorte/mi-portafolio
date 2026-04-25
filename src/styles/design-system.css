@@ -6,8 +6,6 @@
    Nota: Tailwind (@layer base/utilities) vive en globals.css.
    Nota: Skip-link semántico usando clase .vn-skip-link (desde vn-tokens.css).
    ─────────────────────────────────────────────────────────────────────
-   IMPORTANTE: --color-pizarra y --color-marfil son usados en Footer.tsx.
-   Mantenerlos hasta que Footer migre a Tailwind utilities. (Fase 2)
    ─────────────────────────────────────────────────────────────────────── */
 
 :root {

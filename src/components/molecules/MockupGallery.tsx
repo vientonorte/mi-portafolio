@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { Card } from "../ui/card";
+import { Card } from '@vientonorte/ui/card';
 import { AspectRatio } from "../ui/aspect-ratio";
 import { Monitor, Smartphone } from "lucide-react";
 

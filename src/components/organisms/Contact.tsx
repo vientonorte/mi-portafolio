@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Label } from "../ui/label";
+import { Label } from '@vientonorte/ui/label';
 import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from '@vientonorte/ui/card';
 import { BarChart3, Users, Building2, Zap } from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 

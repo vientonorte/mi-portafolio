@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Card, CardContent, CardHeader } from '@vientonorte/ui/card';
+import { Badge } from '@vientonorte/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@vientonorte/ui/tabs';
 
 interface SuraEcosistemaEvidencesProps {
   lang: "es" | "en";

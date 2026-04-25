@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { Card } from "../ui/card";
+import { Card } from '@vientonorte/ui/card';
 import { CheckCircle2 } from "lucide-react";
 
 interface ProcessNavigationProps {

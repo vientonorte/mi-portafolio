@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Badge } from "../ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
+import { Badge } from '@vientonorte/ui/badge';
 import { Briefcase, GraduationCap, Award, Clock } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 
