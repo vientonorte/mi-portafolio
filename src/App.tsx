@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import Grafo from './pages/Grafo';
 import DesignSystem from './pages/DesignSystem';
 import CaseStudies from './pages/CaseStudies';
+import AuditoriaPortfolio from './pages/AuditoriaPortfolio';
 
 function RouterNavigation() {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/grafo" element={<Grafo />} />
           <Route path="/design-system" element={<DesignSystemPage />} />
           <Route path="/cases" element={<CaseStudiesPage />} />
+          <Route path="/auditoria" element={<AuditoriaPortfolio />} />
         </Routes>
       </main>
       <Footer />
