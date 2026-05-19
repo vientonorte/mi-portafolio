@@ -48,9 +48,9 @@ export function ImpactStats() {
   ];
 
   return (
-    <section className="py-10 md:py-14 px-4 bg-muted/30">
+    <section className="py-12 md:py-16 px-4 bg-muted/30">
       <div className="container max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6 lg:gap-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -60,7 +60,7 @@ export function ImpactStats() {
                 whileHover={prefersReducedMotion ? undefined : { y: -5 }}
               >
                 <Card className="h-full border-2 hover:border-primary/40 transition-all duration-300">
-                  <CardContent className="p-6 text-center">
+                  <CardContent className="p-6 md:p-8 text-center">
                     <div className={`w-14 h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center mx-auto mb-4`}>
                       <Icon className={`h-7 w-7 ${stat.color}`} />
                     </div>
@@ -85,7 +85,7 @@ export function ImpactStats() {
         {/* Feature Highlight - RIA SURA Project */}
         <motion.div
           {...fadeUp(0.4)}
-          className="mt-10"
+          className="mt-12 md:mt-16"
         >
           <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 via-background to-background overflow-hidden hover:border-primary/50 transition-all duration-500">
             <CardContent className="p-0">

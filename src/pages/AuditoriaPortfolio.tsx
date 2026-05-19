@@ -37,7 +37,7 @@ export default function AuditoriaPortfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-20">
       <SEOHead
         title="Auditoría Portfolio UX/UI"
         description="Análisis estratégico del portfolio UX/UI de Laura: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
