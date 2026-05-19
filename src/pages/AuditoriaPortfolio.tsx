@@ -1,6 +1,7 @@
 import { Calendar, User, Sparkles, Download, CheckCircle2, Circle, Clock } from 'lucide-react';
 import { auditData } from '../data/audit-data';
 import { useState } from 'react';
+import { SEOHead } from '../components/atoms/SEOHead';
 
 export default function AuditoriaPortfolio() {
   const [checklistItems, setChecklistItems] = useState([
@@ -37,6 +38,12 @@ export default function AuditoriaPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Auditoría Portfolio UX/UI"
+        description="Análisis estratégico del portfolio UX/UI de Laura: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
+        url="https://vientonorte.github.io/mi-portafolio/auditoria"
+        type="article"
+      />
       {/* Hero */}
       <header className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-orange-500/5">
         <div className="absolute inset-0 bg-brand-gradient opacity-5"></div>
@@ -96,7 +103,7 @@ export default function AuditoriaPortfolio() {
             </div>
 
             {/* Right - Image */}
-            <div className="relative lg:block hidden">
+            <div className="relative lg:block hidden no-print">
               <div className="absolute inset-0 bg-brand-gradient opacity-10"></div>
               <img
                 src="https://images.unsplash.com/photo-1621111848501-8d3634f82336?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
@@ -195,7 +202,7 @@ export default function AuditoriaPortfolio() {
                 {section.observations.slice(0, 2).map((obs, idx) => (
                   <div
                     key={idx}
-                    className={`absolute ${
+                    className={`no-print absolute ${
                       colIdx === 0
                         ? idx === 0 ? '-top-3 -left-3 -rotate-2' : '-bottom-3 -right-3 rotate-1'
                         : colIdx === 1
@@ -331,7 +338,7 @@ export default function AuditoriaPortfolio() {
             <div className="gradient-line"></div>
             <p className="text-muted-foreground mt-4">Análisis completo interactivo</p>
           </div>
-          <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xl">
+          <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xl no-print">
             <iframe
               style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
               width="100%"
@@ -351,6 +358,10 @@ export default function AuditoriaPortfolio() {
             >
               Abrir FigJam en nueva pestaña →
             </a>
+          </p>
+          {/* URL visible solo en PDF */}
+          <p className="print-only hidden text-sm border border-border rounded-lg p-4 mt-4">
+            <strong>FigJam Board:</strong> figma.com/board/lEGDG3EDlNI3OOUCucTyyx/PORTAFOLIO?node-id=2-41
           </p>
         </section>
 
@@ -426,7 +437,7 @@ export default function AuditoriaPortfolio() {
               <p className="text-muted-foreground mt-4">Trackea tu progreso</p>
             </div>
 
-            <div className="mb-8 p-6 bg-card border border-border rounded-xl shadow-lg">
+            <div className="no-print mb-8 p-6 bg-card border border-border rounded-xl shadow-lg">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium">Progreso general</p>
                 <p className="text-sm text-brand-gradient font-medium">{completedCount}/{checklistItems.length} completadas</p>
@@ -477,7 +488,7 @@ export default function AuditoriaPortfolio() {
               ))}
             </div>
 
-            <p className="text-sm text-muted-foreground mt-8 text-center">
+            <p className="no-print text-sm text-muted-foreground mt-8 text-center">
               Haz clic para cambiar estado: Pendiente → En Progreso → Completado
             </p>
           </div>

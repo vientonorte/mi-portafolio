@@ -16,6 +16,7 @@ interface MobileMenuProps {
   navItems: NavItem[];
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
+  onNavigateToAuditoria?: () => void;
 }
 
 export function MobileMenu({ 
@@ -23,7 +24,8 @@ export function MobileMenu({
   onClose, 
   navItems, 
   onNavigateToDesignSystem,
-  onNavigateToCaseStudies 
+  onNavigateToCaseStudies,
+  onNavigateToAuditoria
 }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
@@ -82,6 +84,8 @@ export function MobileMenu({
         setTimeout(() => onNavigateToDesignSystem?.(), 300);
       } else if (item.href === "case-studies") {
         setTimeout(() => onNavigateToCaseStudies?.(), 300);
+      } else if (item.href === "auditoria") {
+        setTimeout(() => onNavigateToAuditoria?.(), 300);
       }
       return;
     }
