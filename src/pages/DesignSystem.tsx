@@ -14,27 +14,7 @@ interface DesignSystemProps {
 
 export default function DesignSystem({ onBack }: DesignSystemProps) {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            className="gap-2 hover:bg-primary/10 hover:text-primary transition-all"
-            aria-label="Volver al portfolio"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Volver</span>
-          </Button>
-          
-          <div className="flex items-center gap-2 sm:gap-3">
-            <LanguageToggle />
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background pt-20">
       <main>
         {/* Hero Section - Simplificado */}
         <section className="py-12 md:py-20 px-4">

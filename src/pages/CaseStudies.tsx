@@ -73,29 +73,9 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-20">
       {/* Process Navigation - Lateral TOC */}
       <ProcessNavigation sections={navigationSections} />
-
-      {/* Fixed Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40"
-      >
-        <div className="container max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            className="gap-2 hover:gap-3 transition-all"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {t.caseStudies.cta.backToPortfolio}
-          </Button>
-
-          <LanguageToggle />
-        </div>
-      </motion.header>
 
       {/* Hero Section - MEGA DESTACADO */}
       <section id="hero" className="py-20 md:py-32 px-4 relative overflow-hidden">
