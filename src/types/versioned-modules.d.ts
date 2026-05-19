@@ -39,3 +39,8 @@ declare module 'figma:asset/*' {
   const src: string;
   export default src;
 }
+
+// CSS/style file side-effect imports
+declare module "*.css" {}
+declare module "*.scss" {}
+

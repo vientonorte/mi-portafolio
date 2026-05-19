@@ -22,8 +22,10 @@ jobs:
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli serve wait-on
-          serve -s dist -p 3000 &
-          wait-on http://localhost:3000 --timeout 30000
+          mkdir -p preview-root/mi-portafolio
+          cp -R dist/. preview-root/mi-portafolio/
+          serve preview-root -p 3000 &
+          wait-on http://localhost:3000/mi-portafolio/ --timeout 30000
           lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
