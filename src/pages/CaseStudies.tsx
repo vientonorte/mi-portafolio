@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
-import { Button } from "../components/ui/button";
+import { BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { SectionHeader } from "../components/molecules/SectionHeader";
@@ -9,7 +8,6 @@ import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { SEOHead } from "../components/atoms/SEOHead";
 
 interface CaseStudiesProps {

@@ -1,12 +1,8 @@
 import { motion } from "motion/react";
-import { Button } from "../components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { DesignTokens } from "../components/organisms/DesignTokens";
 import { ComponentsLibrary } from "../components/organisms/ComponentsLibrary";
 import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
-import { ThemeToggle } from "../components/atoms/ThemeToggle";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
 
 interface DesignSystemProps {
   onBack: () => void;
