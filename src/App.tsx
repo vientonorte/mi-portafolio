@@ -23,6 +23,7 @@ function RouterNavigation() {
     <Navigation
       onNavigateToDesignSystem={() => navigate('/design-system')}
       onNavigateToCaseStudies={() => navigate('/cases')}
+      onNavigateToAuditoria={() => navigate('/auditoria')}
     />
   );
 }

@@ -1,6 +1,7 @@
 import { Calendar, User, Sparkles, Download, CheckCircle2, Circle, Clock } from 'lucide-react';
 import { auditData } from '../data/audit-data';
 import { useState } from 'react';
+import { SEOHead } from '../components/atoms/SEOHead';
 
 export default function AuditoriaPortfolio() {
   const [checklistItems, setChecklistItems] = useState([
@@ -37,6 +38,12 @@ export default function AuditoriaPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Auditoría Portfolio UX/UI"
+        description="Análisis estratégico del portfolio UX/UI de Laura: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
+        url="https://vientonorte.github.io/mi-portafolio/auditoria"
+        type="article"
+      />
       {/* Hero */}
       <header className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-orange-500/5">
         <div className="absolute inset-0 bg-brand-gradient opacity-5"></div>
