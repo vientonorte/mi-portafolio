@@ -10,6 +10,7 @@ import { SectionDivider } from "../components/molecules/SectionDivider";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { SEOHead } from "../components/atoms/SEOHead";
 
 interface CaseStudiesProps {
   onBack: () => void;
@@ -19,6 +20,16 @@ interface CaseStudiesProps {
 export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudiesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+
+  return (
+    <>
+      <SEOHead 
+        title="Framework UX & Case Studies"
+        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      />
+      {/* Rest of component... */}
+    </>
+  );
 
   const processes = [
     {

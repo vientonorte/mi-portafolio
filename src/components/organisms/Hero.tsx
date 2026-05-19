@@ -4,6 +4,7 @@ import { ArrowRight, FileText, Sparkles } from "lucide-react";
 import { Logo } from "../atoms/Logo";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
+import { analytics } from "../../lib/analytics";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -46,6 +47,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
   const t = content[language];
 
   const scrollToProjects = () => {
+    analytics.clickViewProjects();
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -225,7 +227,10 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
               <Button
                 size="lg"
                 variant="outline"
-                onClick={onNavigateToCaseStudies}
+                onClick={() => {
+                  analytics.clickCaseStudies();
+                  onNavigateToCaseStudies?.();
+                }}
                 className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
               >
                 <FileText className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
