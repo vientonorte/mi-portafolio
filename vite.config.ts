@@ -91,6 +91,7 @@
     },
     base: '/mi-portafolio/',
     build: {
+      cssMinify: false,
       target: 'esnext',
       outDir: 'dist',
       rollupOptions: {
