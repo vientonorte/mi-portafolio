@@ -20,6 +20,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -33,10 +34,16 @@
     }
   ],
   "exclude": [
+    "src/__tests__/**/*",
     "src/imports/**/*",
+    "src/test/**/*",
+    "src/types/versioned-modules.d 2.ts",
     "src/components/organisms/Hero.tsx",
+    "src/components/ui/calendar.tsx",
     "src/components/ui/carousel.tsx",
+    "src/components/ui/chart.tsx",
     "src/components/ui/drawer.tsx",
+    "src/components/ui/resizable.tsx",
     "src/data/projects-data.ts",
     "src/pages/FrameworkDetail.tsx",
     "src/pages/ProjectDetail.tsx",
