@@ -25,6 +25,36 @@ img {
    (Lucide uses aria-hidden="true" on icons to hide them from screen readers
    while keeping them visually rendered). Hiding is handled per-component. */
 
+/* Hero split layout */
+.hero-split {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.hero-right {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  flex: 0 0 380px;
+}
+
+@media (min-width: 1024px) {
+  .hero-split {
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+  }
+  .hero-right {
+    display: flex;
+  }
+}
+
 /* Bottom nav — solo visible en mobile */
 .bottom-nav-mobile {
   display: flex;
