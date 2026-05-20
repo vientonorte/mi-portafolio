@@ -5,6 +5,7 @@ import { AnalyticsProvider } from './vn-core/analytics/react';
 import { analyticsConfig } from './vn-core/analytics/config';
 import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
+import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 
 // Lazy load pages for better performance
@@ -51,6 +52,10 @@ const App = () => (
   <LanguageProvider>
     <AnalyticsProvider config={analyticsConfig}>
     <Router basename="/mi-portafolio">
+      {/* Skip to content — accesibilidad teclado */}
+      <a href="#main" className="skip-link">
+        Ir al contenido principal
+      </a>
       <RouterNavigation />
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
@@ -70,6 +75,7 @@ const App = () => (
         </Suspense>
       </main>
       <Footer />
+      <BottomNav />
     </Router>
     </AnalyticsProvider>
   </LanguageProvider>

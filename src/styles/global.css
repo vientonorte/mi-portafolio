@@ -24,3 +24,39 @@ img {
 /* Removed: [aria-hidden="true"] { display: none } hides decorative SVG icons
    (Lucide uses aria-hidden="true" on icons to hide them from screen readers
    while keeping them visually rendered). Hiding is handled per-component. */
+
+/* Bottom nav — solo visible en mobile */
+.bottom-nav-mobile {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav-mobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #main {
+    padding-bottom: 4rem;
+  }
+}
+
+/* Skip-to-content link — accesibilidad teclado */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  background: #FF1D25;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+.skip-link:focus {
+  top: 1rem;
+}
