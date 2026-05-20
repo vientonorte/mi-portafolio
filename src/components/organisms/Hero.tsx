@@ -87,8 +87,8 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
       />
 
       <motion.div
-        className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10 pt-28 pb-20"
-        style={{ opacity, y }}
+        className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
+        style={{ opacity, y, paddingTop: "7rem", paddingBottom: "5rem" }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -105,8 +105,8 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         {/* Anchor number — el dato que ancla todo */}
         <motion.div variants={itemVariants} className="mb-6 select-none" aria-hidden="true">
           <span
-            className="font-mono font-black leading-none text-[clamp(80px,14vw,160px)] text-foreground"
-            style={{ letterSpacing: "-0.04em" }}
+            className="font-mono font-black leading-none text-foreground"
+            style={{ fontSize: "clamp(80px, 14vw, 160px)", letterSpacing: "-0.04em" }}
           >
             {t.anchor}
           </span>
@@ -129,12 +129,12 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         {/* Stats row */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center gap-6 md:gap-10 mb-12 flex-wrap"
+          className="flex items-center gap-6 md:gap-8 mb-12 flex-wrap"
           role="list"
           aria-label={language === "es" ? "Indicadores clave" : "Key metrics"}
         >
           {stats.map((s, i) => (
-            <div key={s.value} className="flex items-center gap-6 md:gap-10" role="listitem">
+            <div key={s.value} className="flex items-center gap-6 md:gap-8" role="listitem">
               <div>
                 <span className="font-mono font-bold text-2xl md:text-3xl text-foreground">
                   {s.value}
