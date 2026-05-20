@@ -77,8 +77,8 @@ export function Navigation({
     if (item.type === "route") {
       if (item.href === "design-system") {
         onNavigateToDesignSystem?.();
-      } else if (item.href === "case-studies") {
-        onNavigateToCaseStudies?.();
+      } else if (item.href === "auditoria") {
+        onNavigateToAuditoria?.();
       }
       return;
     }
@@ -149,9 +149,7 @@ export function Navigation({
                       onClick={
                         item.href === "design-system"
                           ? onNavigateToDesignSystem
-                          : item.href === "auditoria"
-                          ? onNavigateToAuditoria
-                          : onNavigateToCaseStudies
+                          : onNavigateToAuditoria
                       }
                     >
                       {item.label}

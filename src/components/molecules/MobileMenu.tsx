@@ -82,8 +82,6 @@ export function MobileMenu({
     if (item.type === "route") {
       if (item.href === "design-system") {
         setTimeout(() => onNavigateToDesignSystem?.(), 300);
-      } else if (item.href === "case-studies") {
-        setTimeout(() => onNavigateToCaseStudies?.(), 300);
       } else if (item.href === "auditoria") {
         setTimeout(() => onNavigateToAuditoria?.(), 300);
       }
@@ -104,7 +102,7 @@ export function MobileMenu({
         });
       }
     }, 300);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies]);
+  }, [onClose, onNavigateToDesignSystem, onNavigateToAuditoria]);
 
   return (
     <AnimatePresence mode="wait">
