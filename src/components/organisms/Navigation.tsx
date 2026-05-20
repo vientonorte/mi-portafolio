@@ -98,7 +98,7 @@ export function Navigation({
         behavior: "smooth"
       });
     }
-  }, [onNavigateToDesignSystem, onNavigateToCaseStudies]);
+  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
