@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Home, FolderOpen, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -36,6 +37,19 @@ export function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
+  const pendingScroll = useRef<string | null>(null);
+
+  // Fire pending scroll once home route is actually mounted
+  useEffect(() => {
+    if (location.pathname === "/" && pendingScroll.current) {
+      const target = pendingScroll.current;
+      pendingScroll.current = null;
+      // rAF ensures DOM is painted before we query
+      requestAnimationFrame(() => {
+        document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }, [location.pathname]);
 
   const handleTap = (item: typeof items[0]) => {
     if (item.type === "route") {
@@ -43,10 +57,8 @@ export function BottomNav() {
       return;
     }
     if (location.pathname !== "/") {
+      pendingScroll.current = item.target;
       navigate("/");
-      setTimeout(() => {
-        document.querySelector(item.target)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
     } else {
       document.querySelector(item.target)?.scrollIntoView({ behavior: "smooth" });
     }
