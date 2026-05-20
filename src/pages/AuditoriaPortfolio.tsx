@@ -40,7 +40,7 @@ export default function AuditoriaPortfolio() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Auditoría Portfolio UX/UI"
-        description="Análisis estratégico del portfolio UX/UI de Laura: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
+        description="Auditoría UX/UI estratégica: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
         url="https://vientonorte.github.io/mi-portafolio/auditoria"
         type="article"
       />
