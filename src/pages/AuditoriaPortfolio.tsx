@@ -73,14 +73,6 @@ export default function AuditoriaPortfolio() {
                   <Download className="w-4 h-4" />
                   Descargar PDF
                 </button>
-                <a
-                  href="https://laura-portfoli0.webflow.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-card border border-border rounded-lg font-medium hover:border-primary/30 transition-all duration-300"
-                >
-                  Ver Portfolio →
-                </a>
               </div>
 
               <div className="flex flex-col gap-3 text-sm pt-8 border-t border-border">
@@ -381,7 +373,7 @@ export default function AuditoriaPortfolio() {
               },
               {
                 title: "Meta Title Optimizado",
-                description: '"Laura López | [Especialización] UX Designer | Portfolio & Case Studies"',
+                description: '"[Cliente] | UX Designer | Portfolio & Case Studies"',
                 impact: "Alto"
               },
               {

@@ -30,7 +30,8 @@ export function Navigation({
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
     { href: "#proyectos", label: t.nav.projects, type: "anchor" as const },
-    { href: "design-system", label: language === "es" ? "Design System" : "Design System", type: "route" as const },
+    { href: "cases", label: language === "es" ? "Casos" : "Cases", type: "route" as const },
+    { href: "design-system", label: "Design System", type: "route" as const },
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
@@ -77,8 +78,10 @@ export function Navigation({
     if (item.type === "route") {
       if (item.href === "design-system") {
         onNavigateToDesignSystem?.();
-      } else if (item.href === "case-studies") {
+      } else if (item.href === "cases") {
         onNavigateToCaseStudies?.();
+      } else if (item.href === "auditoria") {
+        onNavigateToAuditoria?.();
       }
       return;
     }
@@ -128,7 +131,7 @@ export function Navigation({
           {/* Logo */}
           <motion.a
             href="#inicio"
-            onClick={(e) => handleNavClick(e, navItems[0])}
+            onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" as const })}
             className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -151,7 +154,9 @@ export function Navigation({
                           ? onNavigateToDesignSystem
                           : item.href === "auditoria"
                           ? onNavigateToAuditoria
-                          : onNavigateToCaseStudies
+                          : item.href === "cases"
+                          ? onNavigateToCaseStudies
+                          : undefined
                       }
                     >
                       {item.label}
