@@ -79,10 +79,15 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
       className="relative min-h-screen flex items-center overflow-hidden bg-background"
       aria-labelledby="hero-heading"
     >
-      {/* Subtle ambient light — top-right, very faint */}
+      {/* Ambient arc — top-right accent */}
       <div
-        className="pointer-events-none absolute -top-32 right-0 w-[640px] h-[640px] rounded-full opacity-[0.06]"
-        style={{ background: "var(--brand-gradient)", filter: "blur(120px)" }}
+        className="pointer-events-none absolute right-0 w-[800px] h-[800px] rounded-full"
+        style={{
+          top: "-200px",
+          background: "var(--brand-gradient)",
+          filter: "blur(140px)",
+          opacity: 0.18,
+        }}
         aria-hidden="true"
       />
 
@@ -93,12 +98,12 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         initial="hidden"
         animate="visible"
       >
-        {/* Label */}
+        {/* Label — eyebrow, whisper */}
         <motion.p
           variants={itemVariants}
-          className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-10 flex items-center gap-3"
+          className="font-mono text-xs uppercase text-primary mb-10"
+          style={{ letterSpacing: "0.22em" }}
         >
-          <span className="inline-block w-6 h-px bg-primary" aria-hidden="true" />
           {t.label}
         </motion.p>
 
@@ -110,41 +115,55 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
           >
             {t.anchor}
           </span>
-          <p className="text-base md:text-lg text-muted-foreground font-light mt-1 ml-1">
+          <p
+            className="text-base text-muted-foreground mt-1 ml-1"
+            style={{ fontWeight: 300 }}
+          >
             {t.anchorCtx}
           </p>
         </motion.div>
 
-        {/* H1 */}
+        {/* H1 — línea 1 susurra, línea 2 declara */}
         <motion.h1
           id="hero-heading"
           variants={itemVariants}
-          className="font-black tracking-tighter leading-[0.9] mb-10 max-w-2xl"
-          style={{ fontSize: "clamp(44px, 7vw, 88px)" }}
+          className="font-black tracking-tighter mb-10 max-w-2xl"
+          style={{ fontSize: "clamp(44px, 7vw, 88px)", lineHeight: 0.92 }}
         >
-          <span className="block text-foreground/70">{t.h1a}</span>
-          <span className="block text-foreground">{t.h1b}</span>
+          <span
+            className="block text-foreground"
+            style={{ fontWeight: 300, opacity: 0.45 }}
+          >
+            {t.h1a}
+          </span>
+          <span className="block text-foreground">
+            {t.h1b}
+          </span>
         </motion.h1>
 
         {/* Stats row */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center gap-6 md:gap-8 mb-12 flex-wrap"
+          className="flex items-center gap-6 mb-12 flex-wrap"
           role="list"
           aria-label={language === "es" ? "Indicadores clave" : "Key metrics"}
         >
           {stats.map((s, i) => (
-            <div key={s.value} className="flex items-center gap-6 md:gap-8" role="listitem">
+            <div key={s.value} className="flex items-center gap-6" role="listitem">
               <div>
-                <span className="font-mono font-bold text-2xl md:text-3xl text-foreground">
+                <span className="font-mono font-bold text-2xl text-foreground">
                   {s.value}
                 </span>
-                <span className="block text-xs text-muted-foreground mt-0.5">
+                <span className="block text-xs text-muted-foreground" style={{ marginTop: "2px" }}>
                   {language === "es" ? s.labelEs : s.labelEn}
                 </span>
               </div>
               {i < stats.length - 1 && (
-                <div className="w-px h-8 bg-border/60" aria-hidden="true" />
+                <div
+                  className="w-px h-8 bg-border"
+                  style={{ opacity: 0.5 }}
+                  aria-hidden="true"
+                />
               )}
             </div>
           ))}
@@ -153,7 +172,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         {/* CTAs */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center gap-3 md:gap-4 flex-wrap"
+          className="flex items-center gap-3 flex-wrap"
         >
           <Button
             size="lg"
@@ -171,9 +190,10 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
               analytics.clickCaseStudies();
               onNavigateToCaseStudies?.();
             }}
-            className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border/40 hover:border-border transition-all"
+            className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border hover:border-border transition-all"
+            style={{ borderOpacity: 0.4 } as React.CSSProperties}
           >
-            <FileText className="mr-2 h-4 w-4" />
+            <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
             {t.ctaSecondary}
           </Button>
         </motion.div>
@@ -181,16 +201,22 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         {/* Scroll indicator */}
         <motion.div
           variants={itemVariants}
-          className="mt-16 md:mt-20"
+          className="mt-16"
         >
           <motion.button
             animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="inline-flex flex-col items-start gap-2 text-muted-foreground/50 hover:text-muted-foreground transition-colors cursor-pointer group"
+            className="inline-flex flex-col items-start gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            style={{ opacity: 0.4 }}
             onClick={scrollToProjects}
             aria-label={t.scroll}
           >
-            <span className="font-mono text-xs tracking-widest uppercase">{t.scroll}</span>
+            <span
+              className="font-mono text-xs uppercase"
+              style={{ letterSpacing: "0.2em" }}
+            >
+              {t.scroll}
+            </span>
             <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
               <motion.div
                 className="w-1 h-2 bg-current rounded-full"
