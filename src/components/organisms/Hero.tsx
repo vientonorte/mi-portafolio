@@ -10,7 +10,13 @@ interface HeroProps {
   onNavigateToCaseStudies?: () => void;
 }
 
-export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: HeroProps) {
+const resultCards = [
+  { metric: "−40%", desc: "abandono en onboarding", company: "SURA Investments" },
+  { metric: "NPS 72", desc: "+25 pts sobre baseline", company: "SURA Inversiones" },
+  { metric: "+35%", desc: "activación de shoppers", company: "Karri" },
+];
+
+export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -24,32 +30,26 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
 
   const { language } = useLanguage();
 
-  const stats = useMemo(() => ([
-    { value: "5+",   labelEs: "países",     labelEn: "countries" },
-    { value: "10+",  labelEs: "proyectos",  labelEn: "projects" },
-    { value: "6+",   labelEs: "años UX",    labelEn: "years UX" },
-  ]), []);
-
   const content = useMemo(() => ({
     es: {
       label:        "Lead UX Designer",
-      anchor:       "−40%",
-      anchorCtx:    "abandono en onboarding",
+      valueProp:    "6 años liderando UX\nen fintech y mobility",
       h1a:          "Diseño que",
       h1b:          "reduce el ruido.",
       ctaPrimary:   "Ver proyectos",
       ctaSecondary: "Casos de Estudio",
       scroll:       "Explorar",
+      resultados:   "Resultados",
     },
     en: {
       label:        "Lead UX Designer",
-      anchor:       "−40%",
-      anchorCtx:    "onboarding drop-off",
+      valueProp:    "6 years leading UX\nin fintech & mobility",
       h1a:          "Design that",
       h1b:          "cuts the noise.",
       ctaPrimary:   "View projects",
       ctaSecondary: "Case Studies",
       scroll:       "Explore",
+      resultados:   "Results",
     },
   }), []);
 
@@ -64,12 +64,20 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
 
   const containerVariants = {
     hidden:  { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   };
 
   const itemVariants = {
-    hidden:  { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
+    hidden:  { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
+  };
+
+  const cardVariants = {
+    hidden:  { opacity: 0, x: 24 },
+    visible: (i: number) => ({
+      opacity: 1, x: 0,
+      transition: { duration: 0.65, ease, delay: 0.3 + i * 0.12 },
+    }),
   };
 
   return (
@@ -79,14 +87,16 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
       className="relative min-h-screen flex items-center overflow-hidden bg-background"
       aria-labelledby="hero-heading"
     >
-      {/* Ambient arc — top-right accent */}
+      {/* Ambient arc — top-right */}
       <div
-        className="pointer-events-none absolute right-0 w-[800px] h-[800px] rounded-full"
+        className="pointer-events-none absolute right-0 rounded-full"
         style={{
           top: "-200px",
+          width: "700px",
+          height: "700px",
           background: "var(--brand-gradient)",
           filter: "blur(140px)",
-          opacity: 0.18,
+          opacity: 0.15,
         }}
         aria-hidden="true"
       />
@@ -98,134 +108,146 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         initial="hidden"
         animate="visible"
       >
-        {/* Label — eyebrow, whisper */}
-        <motion.p
-          variants={itemVariants}
-          className="font-mono text-xs uppercase text-primary mb-10"
-          style={{ letterSpacing: "0.22em" }}
-        >
-          {t.label}
-        </motion.p>
+        {/* Split grid: texto izquierda | cards derecha */}
+        <div className="hero-split">
 
-        {/* Anchor number — el dato que ancla todo */}
-        <motion.div variants={itemVariants} className="mb-6 select-none" aria-hidden="true">
-          <span
-            className="font-mono font-black leading-none text-foreground"
-            style={{ fontSize: "clamp(80px, 14vw, 160px)", letterSpacing: "-0.04em" }}
-          >
-            {t.anchor}
-          </span>
-          <p
-            className="text-base text-muted-foreground mt-1 ml-1"
-            style={{ fontWeight: 300 }}
-          >
-            {t.anchorCtx}
-          </p>
-        </motion.div>
+          {/* ── Left column ── */}
+          <div className="hero-left">
 
-        {/* H1 — línea 1 susurra, línea 2 declara */}
-        <motion.h1
-          id="hero-heading"
-          variants={itemVariants}
-          className="font-black tracking-tighter mb-10 max-w-2xl"
-          style={{ fontSize: "clamp(44px, 7vw, 88px)", lineHeight: 0.92 }}
-        >
-          <span
-            className="block text-foreground"
-            style={{ fontWeight: 300, opacity: 0.45 }}
-          >
-            {t.h1a}
-          </span>
-          <span className="block text-foreground">
-            {t.h1b}
-          </span>
-        </motion.h1>
-
-        {/* Stats row */}
-        <motion.div
-          variants={itemVariants}
-          className="flex items-center gap-6 mb-12 flex-wrap"
-          role="list"
-          aria-label={language === "es" ? "Indicadores clave" : "Key metrics"}
-        >
-          {stats.map((s, i) => (
-            <div key={s.value} className="flex items-center gap-6" role="listitem">
-              <div>
-                <span className="font-mono font-bold text-2xl text-foreground">
-                  {s.value}
-                </span>
-                <span className="block text-xs text-muted-foreground" style={{ marginTop: "2px" }}>
-                  {language === "es" ? s.labelEs : s.labelEn}
-                </span>
-              </div>
-              {i < stats.length - 1 && (
-                <div
-                  className="w-px h-8 bg-border"
-                  style={{ opacity: 0.5 }}
-                  aria-hidden="true"
-                />
-              )}
-            </div>
-          ))}
-        </motion.div>
-
-        {/* CTAs */}
-        <motion.div
-          variants={itemVariants}
-          className="flex items-center gap-3 flex-wrap"
-        >
-          <Button
-            size="lg"
-            onClick={scrollToProjects}
-            className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
-          >
-            {t.ctaPrimary}
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-
-          <Button
-            size="lg"
-            variant="ghost"
-            onClick={() => {
-              analytics.clickCaseStudies();
-              onNavigateToCaseStudies?.();
-            }}
-            className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border hover:border-border transition-all"
-            style={{ borderOpacity: 0.4 } as React.CSSProperties}
-          >
-            <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
-            {t.ctaSecondary}
-          </Button>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-16"
-        >
-          <motion.button
-            animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="inline-flex flex-col items-start gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            style={{ opacity: 0.4 }}
-            onClick={scrollToProjects}
-            aria-label={t.scroll}
-          >
-            <span
-              className="font-mono text-xs uppercase"
-              style={{ letterSpacing: "0.2em" }}
+            {/* Eyebrow */}
+            <motion.p
+              variants={itemVariants}
+              className="font-mono text-xs uppercase text-primary"
+              style={{ letterSpacing: "0.22em", marginBottom: "1.5rem" }}
             >
-              {t.scroll}
-            </span>
-            <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
-              <motion.div
-                className="w-1 h-2 bg-current rounded-full"
-                animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
+              {t.label}
+            </motion.p>
+
+            {/* H1 */}
+            <motion.h1
+              id="hero-heading"
+              variants={itemVariants}
+              className="font-black tracking-tighter max-w-xl"
+              style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
+            >
+              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.4 }}>
+                {t.h1a}
+              </span>
+              <span className="block text-foreground">
+                {t.h1b}
+              </span>
+            </motion.h1>
+
+            {/* Value proposition */}
+            <motion.p
+              variants={itemVariants}
+              className="text-muted-foreground"
+              style={{
+                fontSize: "clamp(15px, 1.4vw, 18px)",
+                fontWeight: 300,
+                lineHeight: 1.5,
+                marginBottom: "2.5rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {t.valueProp}
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center gap-3 flex-wrap"
+              style={{ marginBottom: "3rem" }}
+            >
+              <Button
+                size="lg"
+                onClick={scrollToProjects}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
+              >
+                {t.ctaPrimary}
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Button>
+
+              <Button
+                size="lg"
+                variant="ghost"
+                onClick={() => {
+                  analytics.clickCaseStudies();
+                  onNavigateToCaseStudies?.();
+                }}
+                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
+              >
+                <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
+                {t.ctaSecondary}
+              </Button>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div variants={itemVariants}>
+              <motion.button
+                animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-          </motion.button>
-        </motion.div>
+                className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
+                style={{ color: "var(--muted-foreground)", opacity: 0.4 }}
+                onClick={scrollToProjects}
+                aria-label={t.scroll}
+              >
+                <span className="font-mono text-xs uppercase" style={{ letterSpacing: "0.2em" }}>
+                  {t.scroll}
+                </span>
+                <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
+                  <motion.div
+                    className="w-1 h-2 bg-current rounded-full"
+                    animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </div>
+              </motion.button>
+            </motion.div>
+          </div>
+
+          {/* ── Right column — result cards ── */}
+          <div className="hero-right" aria-label={t.resultados} role="list">
+            {resultCards.map((card, i) => (
+              <motion.div
+                key={card.metric}
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                role="listitem"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "12px",
+                  padding: "1.25rem 1.5rem",
+                  marginLeft: i === 1 ? "2rem" : i === 2 ? "1rem" : "0",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <span
+                  className="font-mono font-black text-foreground block"
+                  style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.03em", lineHeight: 1 }}
+                >
+                  {card.metric}
+                </span>
+                <span
+                  className="block text-muted-foreground"
+                  style={{ fontSize: "0.8125rem", marginTop: "0.375rem", fontWeight: 400 }}
+                >
+                  {card.desc}
+                </span>
+                <span
+                  className="block"
+                  style={{ fontSize: "0.6875rem", marginTop: "0.25rem", color: "var(--muted-foreground)", opacity: 0.55, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "monospace" }}
+                >
+                  {card.company}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
       </motion.div>
     </section>
   );
