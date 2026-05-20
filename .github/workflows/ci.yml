@@ -110,5 +110,7 @@ jobs:
             --standard WCAG2AA \
             --reporter cli \
             --ignore "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage" \
-            --threshold 0
+            --threshold 0 \
+            --chromium-arg="--no-sandbox" \
+            --chromium-arg="--disable-setuid-sandbox"
           kill %1

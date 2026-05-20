@@ -41,7 +41,7 @@ export class VNTracker {
       ga4Id: config.ga4Id ?? '',
       project: config.project,
       debug: config.debug ?? false,
-      enabled: config.enabled ?? (typeof process !== 'undefined' && process.env?.['NODE_ENV'] === 'production'),
+      enabled: config.enabled ?? import.meta.env.PROD,
     };
   }
 
