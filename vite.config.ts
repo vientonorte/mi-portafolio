@@ -91,8 +91,27 @@
     },
     base: '/mi-portafolio/',
     build: {
+      cssMinify: false,
       target: 'esnext',
       outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (['react', 'react-dom', 'react-router-dom'].some(p => id.includes(`/node_modules/${p}/`))) {
+              return 'vendor-react';
+            }
+            if (['motion'].some(p => id.includes(`/node_modules/${p}/`))) {
+              return 'vendor-motion';
+            }
+            if (['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip', '@radix-ui/react-tabs', '@radix-ui/react-select'].some(p => id.includes(`/node_modules/${p}/`))) {
+              return 'vendor-radix';
+            }
+            if (['lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'].some(p => id.includes(`/node_modules/${p}/`))) {
+              return 'vendor-ui';
+            }
+          },
+        },
+      },
     },
     server: {
       port: 3000,

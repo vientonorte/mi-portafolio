@@ -12,11 +12,13 @@ import { useTranslation } from "../../lib/i18n";
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
+  onNavigateToAuditoria?: () => void;
 }
 
 export function Navigation({ 
   onNavigateToDesignSystem,
-  onNavigateToCaseStudies 
+  onNavigateToCaseStudies,
+  onNavigateToAuditoria
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -31,6 +33,7 @@ export function Navigation({
     { href: "design-system", label: language === "es" ? "Design System" : "Design System", type: "route" as const },
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
+    { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
@@ -144,8 +147,10 @@ export function Navigation({
                       variant="ghost"
                       className="hover:text-primary hover:bg-primary/10 transition-all"
                       onClick={
-                        item.href === "design-system" 
-                          ? onNavigateToDesignSystem 
+                        item.href === "design-system"
+                          ? onNavigateToDesignSystem
+                          : item.href === "auditoria"
+                          ? onNavigateToAuditoria
                           : onNavigateToCaseStudies
                       }
                     >
@@ -212,6 +217,7 @@ export function Navigation({
         navItems={navItems}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
+        onNavigateToAuditoria={onNavigateToAuditoria}
       />
     </>
   );

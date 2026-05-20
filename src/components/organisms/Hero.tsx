@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { Button } from '@vientonorte/ui/button';
-import { ArrowRight, FileText, Palette, Sparkles } from "lucide-react";
+import { Button } from "../ui/button";
+import { ArrowRight, FileText, Target, Layers, TrendingUp } from "lucide-react";
 import { Logo } from "../atoms/Logo";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
+import { analytics } from "../../lib/analytics";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -25,26 +26,27 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
 
   const { language } = useLanguage();
 
+  // Flow nodes: la metáfora visual de transformación
+  const flowNodes = useMemo(() => ([
+    { icon: Target,     labelEs: "Estrategia",  labelEn: "Strategy",   detailEs: "Discovery activo",          detailEn: "Active discovery",         metric: "5+ países" },
+    { icon: Layers,     labelEs: "Diseño UX",   labelEn: "UX Design",  detailEs: "Design Sprint adaptado",     detailEn: "Adapted Design Sprint",    metric: "10+ proyectos" },
+    { icon: TrendingUp, labelEs: "Impacto",     labelEn: "Impact",    detailEs: "Resultados medibles",        detailEn: "Measurable results",       metric: "−40% abandono" },
+  ]), []);
+
   // Memoized text content for i18n
   const content = useMemo(() => ({
     es: {
-      heading: "Lead UX diseñando experiencias que conectan estrategia digital con usuarios",
-      description: "Especialista en implementación de experiencia usuaria y desarrollo evolutivo de productos digitales. Experto en Design Thinking, Design Sprints y metodologías ágiles.",
-      emphasis1: "implementación de experiencia usuaria",
-      emphasis2: "desarrollo evolutivo",
+      heading: "Transformo estrategia",
+      headingAccent: "en experiencias reales",
       ctaPrimary: "Ver proyectos",
       ctaSecondary: "Casos de Estudio",
-      ctaTertiary: "Design System",
       scroll: "Explorar"
     },
     en: {
-      heading: "Lead UX designing experiences that connect digital strategy with users",
-      description: "Specialist in user experience implementation and evolutionary development of digital products. Expert in Design Thinking, Design Sprints and agile methodologies.",
-      emphasis1: "user experience implementation",
-      emphasis2: "evolutionary development",
+      heading: "I transform strategy",
+      headingAccent: "into real experiences",
       ctaPrimary: "View projects",
       ctaSecondary: "Case Studies",
-      ctaTertiary: "Design System",
       scroll: "Explore"
     }
   }), []);
@@ -52,6 +54,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
   const t = content[language];
 
   const scrollToProjects = () => {
+    analytics.clickViewProjects();
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -74,7 +77,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] // Custom easing for smooth feel
+        ease: [0.22, 1, 0.36, 1] as [number, number, number, number] // Custom easing for smooth feel
       }
     }
   };
@@ -83,7 +86,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden"
+      className="relative min-h-[75vh] flex items-center justify-center px-4 py-16 overflow-hidden"
       aria-labelledby="hero-heading"
     >
       {/* Optimized Background */}
@@ -140,7 +143,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         initial="hidden"
         animate="visible"
       >
-        <div className="text-center space-y-8 md:space-y-12">
+        <div className="text-center space-y-5 md:space-y-7">
           {/* Logo with optimized animations */}
           <motion.div
             variants={itemVariants}
@@ -163,54 +166,77 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
             >
               <Logo size="lg" showText={true} animated={!prefersReducedMotion} />
             </motion.div>
-
-            {/* Sparkle effect - only if motion enabled */}
-            {!prefersReducedMotion && (
-              <motion.div
-                className="absolute -top-3 -right-3"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  rotate: [0, 180, 360],
-                  opacity: [0.6, 1, 0.6]
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Sparkles className="h-7 w-7 text-primary drop-shadow-glow" />
-              </motion.div>
-            )}
           </motion.div>
 
-          {/* Main Heading - Improved typography */}
+          {/* Main Heading — 2 líneas, segunda con acento de marca */}
           <motion.h1
             id="hero-heading"
             variants={itemVariants}
-            className="max-w-5xl mx-auto px-4 tracking-tight"
+            className="max-w-4xl mx-auto px-4 tracking-tight leading-tight"
           >
-            <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/90">
-              {t.heading}
+            <span className="block text-foreground">{t.heading}</span>
+            <span className="block bg-clip-text text-transparent bg-brand-gradient">
+              {t.headingAccent}
             </span>
           </motion.h1>
 
-          {/* Description with better text hierarchy */}
+          {/* Flow pictogram — la metáfora de transformación */}
           <motion.div
             variants={itemVariants}
-            className="max-w-3xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
+            className="flex items-center justify-center gap-3 md:gap-6 flex-wrap px-4 py-2"
+            role="list"
+            aria-label={language === "es" ? "Proceso de trabajo" : "Work process"}
           >
-            <p>
-              Especialista en{" "}
-              <strong className="text-foreground font-semibold">
-                {t.emphasis1}
-              </strong>{" "}
-              y{" "}
-              <strong className="text-foreground font-semibold">
-                {t.emphasis2}
-              </strong>{" "}
-              de productos digitales. Experto en Design Thinking, Design Sprints y metodologías ágiles.
-            </p>
+            {flowNodes.map((node, idx) => (
+              <>
+                {/* Nodo */}
+                <motion.div
+                  key={node.labelEs}
+                  role="listitem"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + idx * 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={!prefersReducedMotion ? { y: -4, transition: { duration: 0.2 } } : undefined}
+                  className="flex flex-col items-center gap-2 cursor-default"
+                >
+                  <div className="h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-muted/60 border border-border/60 flex items-center justify-center backdrop-blur-sm">
+                    <node.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" strokeWidth={1.5} />
+                  </div>
+                  <span className="font-semibold text-sm text-foreground">
+                    {language === "es" ? node.labelEs : node.labelEn}
+                  </span>
+                  <span className="text-xs text-muted-foreground text-center leading-tight max-w-[90px]">
+                    {language === "es" ? node.detailEs : node.detailEn}
+                  </span>
+                  <motion.span
+                    className="text-xs font-mono font-bold text-primary/80 bg-primary/8 px-2 py-0.5 rounded-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 + idx * 0.15 }}
+                  >
+                    {node.metric}
+                  </motion.span>
+                </motion.div>
+
+                {/* Conector animado */}
+                {idx < flowNodes.length - 1 && !prefersReducedMotion && (
+                  <motion.div
+                    key={`arrow-${idx}`}
+                    className="flex items-center gap-0 flex-shrink-0"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ delay: 0.55 + idx * 0.15, duration: 0.4, transformOrigin: "left" }}
+                  >
+                    <motion.div
+                      className="h-px w-6 md:w-10 bg-gradient-to-r from-border to-primary/50"
+                      animate={{ opacity: [0.4, 0.9, 0.4] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: idx * 0.3 }}
+                    />
+                    <ArrowRight className="h-3.5 w-3.5 text-primary/60 -ml-0.5" />
+                  </motion.div>
+                )}
+              </>
+            ))}
           </motion.div>
 
           {/* CTA Buttons - Better spacing and hierarchy */}
@@ -226,52 +252,29 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
               <Button 
                 size="lg" 
                 onClick={scrollToProjects}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden shadow-lg hover:shadow-xl"
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-lg hover:shadow-xl"
               >
-                {!prefersReducedMotion && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                      repeatDelay: 4,
-                    }}
-                  />
-                )}
-                <span className="relative font-semibold">{t.ctaPrimary}</span>
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform relative" />
+                <span className="font-semibold">{t.ctaPrimary}</span>
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
 
-            {/* Secondary CTAs */}
+            {/* Secondary CTA */}
             <motion.div
               whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
               whileTap={{ scale: 0.98 }}
             >
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="outline"
-                onClick={onNavigateToCaseStudies}
+                onClick={() => {
+                  analytics.clickCaseStudies();
+                  onNavigateToCaseStudies?.();
+                }}
                 className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
               >
                 <FileText className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 {t.ctaSecondary}
-              </Button>
-            </motion.div>
-
-            <motion.div
-              whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button 
-                size="lg" 
-                variant="outline"
-                onClick={onNavigateToDesignSystem}
-                className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
-              >
-                <Palette className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
-                {t.ctaTertiary}
               </Button>
             </motion.div>
           </motion.div>
@@ -279,7 +282,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
           {/* Scroll indicator - Improved animation */}
           <motion.div
             variants={itemVariants}
-            className="pt-16 md:pt-20"
+            className="pt-8 md:pt-10"
           >
             <motion.button
               animate={!prefersReducedMotion ? { y: [0, 8, 0] } : undefined}

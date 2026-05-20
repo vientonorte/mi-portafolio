@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <footer role="contentinfo" className="mt-12 py-6 bg-foreground text-background text-center">
+  <footer role="contentinfo" className="mt-12 py-6 bg-[--color-pizarra] text-[--color-marfil] text-center">
     <div>
-      <a href="mailto:rodrigo.gaete@gmail.com" className="text-background">Contacto</a> | <a href="/privacy" className="text-background">Privacidad</a>
+      <a href="mailto:rodrigo.gaete@gmail.com" className="text-[--color-marfil]">Contacto</a> | <Link to="/privacy" className="text-[--color-marfil]">Privacidad</Link>
     </div>
     <div className="text-sm mt-2">
       © {new Date().getFullYear()} Rodrigo Gaete Gaona

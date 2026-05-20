@@ -260,13 +260,7 @@ export function EnhancedProjectCard({
               >
                 <Target className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
                 Ver proyecto completo
-                <motion.span
-                  className="ml-2"
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
+                <span className="ml-2">→</span>
               </Button>
             </motion.div>
           )}

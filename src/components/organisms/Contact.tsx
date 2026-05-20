@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
-import { Button } from '@vientonorte/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
+import { Button } from "../ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
-import { Textarea } from '@vientonorte/ui/textarea';
-import { Label } from '@vientonorte/ui/label';
-import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react";
+import { Textarea } from "../ui/textarea";
+import { Label } from "../ui/label";
+import { Mail, Link, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -25,17 +25,10 @@ const contactInfo = [
 
 const socialLinks = [
   {
-    icon: Linkedin,
+    icon: Link,
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/rodrigogaete",
   },
-];
-
-const benefits = [
-  "Experiencia en implementación de UX en contextos enterprise",
-  "Enfoque en desarrollo evolutivo y resultados medibles",
-  "Metodologías: Design Thinking, Design Sprints, Product Design",
-  "Experto en Figma, Frameworks y Accesibilidad",
 ];
 
 export function Contact() {
@@ -68,9 +61,9 @@ export function Contact() {
   };
 
   return (
-    <section 
+    <section
       id="contacto"
-      className="py-20 md:py-28 px-4"
+      className="py-12 md:py-16 px-4"
       aria-labelledby="contact-heading"
     >
       <div className="container max-w-7xl mx-auto">
@@ -78,7 +71,7 @@ export function Contact() {
           badge="Hablemos"
           badgeIcon={Send}
           title="Conversemos"
-          description="¿Tienes un proyecto en mente? ¿Buscas un Lead UX para tu equipo? Me encantaría conocer más sobre tus necesidades."
+          description="Respondo en menos de 24h · Disponible para proyectos freelance y full-time"
         />
 
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
@@ -155,39 +148,6 @@ export function Contact() {
               </Card>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg md:text-xl">
-                    ¿Por qué trabajar conmigo?
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm" role="list">
-                    {benefits.map((benefit, index) => (
-                      <motion.li
-                        key={index}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 + index * 0.05 }}
-                        className="flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1 flex-shrink-0" aria-hidden="true">
-                          ✓
-                        </span>
-                        <span>{benefit}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
           </div>
 
           {/* Contact Form */}

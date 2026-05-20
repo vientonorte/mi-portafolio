@@ -10,6 +10,7 @@ import { SectionDivider } from "../components/molecules/SectionDivider";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { SEOHead } from "../components/atoms/SEOHead";
 
 interface CaseStudiesProps {
   onBack: () => void;
@@ -63,6 +64,10 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Framework UX & Case Studies"
+        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      />
       {/* Process Navigation - Lateral TOC */}
       <ProcessNavigation sections={navigationSections} />
 
