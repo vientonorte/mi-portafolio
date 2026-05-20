@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import { ArrowLeft, BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
-import { Button } from '@vientonorte/ui/button';
-import { Card, CardContent } from '@vientonorte/ui/card';
-import { Badge } from '@vientonorte/ui/badge';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";

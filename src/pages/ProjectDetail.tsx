@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Badge } from '@vientonorte/ui/badge';
-import { Button } from '@vientonorte/ui/button';
-import { Card, CardContent } from '@vientonorte/ui/card';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
 import { 
   ArrowLeft, 
   Home, 
@@ -19,7 +19,7 @@ import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@vientonorte/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { KPICard } from "../components/molecules/KPICard";
 
 interface ProcessApplied {

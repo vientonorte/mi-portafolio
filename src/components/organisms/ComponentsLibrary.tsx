@@ -1,13 +1,13 @@
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ComponentShowcase } from "../molecules/ComponentShowcase";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../ui/button';
 import { Input } from "../ui/input";
-import { Badge } from '@vientonorte/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@vientonorte/ui/card';
-import { Switch } from '@vientonorte/ui/switch';
-import { Checkbox } from '@vientonorte/ui/checkbox';
+import { Badge } from '../ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Switch } from '../ui/switch';
+import { Checkbox } from '../ui/checkbox';
 import { Slider } from "../ui/slider";
-import { Alert, AlertDescription, AlertTitle } from '@vientonorte/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Package, Info } from "lucide-react";
 

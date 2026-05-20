@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
 

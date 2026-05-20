@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../components/ui/button';
 import { ArrowLeft } from "lucide-react";
 import { DesignTokens } from "../components/organisms/DesignTokens";
 import { ComponentsLibrary } from "../components/organisms/ComponentsLibrary";

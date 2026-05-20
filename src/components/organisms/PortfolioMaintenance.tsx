@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Card, CardContent } from '@vientonorte/ui/card';
-import { Badge } from '@vientonorte/ui/badge';
+import { Card, CardContent } from '../ui/card';
+import { Badge } from '../ui/badge';
 import { Code, Database, GitBranch, Layers, Rocket, Scale } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";

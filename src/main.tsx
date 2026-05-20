@@ -4,7 +4,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import App from './App';
 import './index.css';
-import '@vientonorte/tokens/css';
 import './styles/global.css';
 import './styles/design-system.css';
 import { ErrorBoundary } from './components/organisms/ErrorBoundary';

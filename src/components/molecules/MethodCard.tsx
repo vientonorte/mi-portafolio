@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Card, CardContent, CardHeader, CardTitle } from '@vientonorte/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { LucideIcon } from "lucide-react";
 
 interface MethodCardProps {

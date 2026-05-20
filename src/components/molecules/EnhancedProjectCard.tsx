@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Card, CardContent, CardHeader } from '@vientonorte/ui/card';
-import { Badge } from '@vientonorte/ui/badge';
-import { Button } from '@vientonorte/ui/button';
+import { Card, CardContent, CardHeader } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 import { 
   ChevronDown, 
   ChevronUp, 

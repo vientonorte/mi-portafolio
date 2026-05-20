@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Share2, Check, Copy } from "lucide-react";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../ui/button';
 import { toast } from "sonner@2.0.3";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@vientonorte/ui/tooltip';
+} from '../ui/tooltip';
 
 interface ShareButtonProps {
   sectionId: string;

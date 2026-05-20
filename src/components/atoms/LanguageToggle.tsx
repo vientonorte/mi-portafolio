@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../ui/button';
 import { Globe } from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 

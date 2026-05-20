@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
-import { Button } from '@vientonorte/ui/button';
+import { Button } from '../ui/button';
 import { ArrowRight, X } from "lucide-react";
 
 interface StickyCtaProps {
