@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { ArrowRight, FileText, Sparkles } from "lucide-react";
+import { ArrowRight, FileText, Target, Layers, TrendingUp } from "lucide-react";
 import { Logo } from "../atoms/Logo";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -26,18 +26,25 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
 
   const { language } = useLanguage();
 
+  // Flow nodes: la metáfora visual de transformación
+  const flowNodes = useMemo(() => ([
+    { icon: Target,     labelEs: "Estrategia",  labelEn: "Strategy",   detailEs: "Discovery activo",          detailEn: "Active discovery",         metric: "5+ países" },
+    { icon: Layers,     labelEs: "Diseño UX",   labelEn: "UX Design",  detailEs: "Design Sprint adaptado",     detailEn: "Adapted Design Sprint",    metric: "10+ proyectos" },
+    { icon: TrendingUp, labelEs: "Impacto",     labelEn: "Impact",    detailEs: "Resultados medibles",        detailEn: "Measurable results",       metric: "−40% abandono" },
+  ]), []);
+
   // Memoized text content for i18n
   const content = useMemo(() => ({
     es: {
-      heading: "Lead UX diseñando experiencias que conectan estrategia digital con usuarios",
-      description: "Lead UX con impacto medible: -40% abandono en onboarding, NPS 72, +35% activación. Implemento UX/UI en productos financieros y de movilidad a nivel regional.",
+      heading: "Transformo estrategia",
+      headingAccent: "en experiencias reales",
       ctaPrimary: "Ver proyectos",
       ctaSecondary: "Casos de Estudio",
       scroll: "Explorar"
     },
     en: {
-      heading: "Lead UX designing experiences that connect digital strategy with users",
-      description: "Lead UX with measurable impact: -40% onboarding drop-off, NPS 72, +35% activation. I implement UX/UI for financial and mobility products at a regional scale.",
+      heading: "I transform strategy",
+      headingAccent: "into real experiences",
       ctaPrimary: "View projects",
       ctaSecondary: "Case Studies",
       scroll: "Explore"
@@ -159,44 +166,77 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
             >
               <Logo size="lg" showText={true} animated={!prefersReducedMotion} />
             </motion.div>
-
-            {/* Sparkle effect - only if motion enabled */}
-            {!prefersReducedMotion && (
-              <motion.div
-                className="absolute -top-3 -right-3"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  rotate: [0, 180, 360],
-                  opacity: [0.6, 1, 0.6]
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Sparkles className="h-7 w-7 text-primary drop-shadow-glow" />
-              </motion.div>
-            )}
           </motion.div>
 
-          {/* Main Heading - Improved typography */}
+          {/* Main Heading — 2 líneas, segunda con acento de marca */}
           <motion.h1
             id="hero-heading"
             variants={itemVariants}
-            className="max-w-5xl mx-auto px-4 tracking-tight"
+            className="max-w-4xl mx-auto px-4 tracking-tight leading-tight"
           >
-            <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/90">
-              {t.heading}
+            <span className="block text-foreground">{t.heading}</span>
+            <span className="block bg-clip-text text-transparent bg-brand-gradient">
+              {t.headingAccent}
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* Flow pictogram — la metáfora de transformación */}
           <motion.div
             variants={itemVariants}
-            className="max-w-2xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
+            className="flex items-center justify-center gap-3 md:gap-6 flex-wrap px-4 py-2"
+            role="list"
+            aria-label={language === "es" ? "Proceso de trabajo" : "Work process"}
           >
-            <p>{t.description}</p>
+            {flowNodes.map((node, idx) => (
+              <>
+                {/* Nodo */}
+                <motion.div
+                  key={node.labelEs}
+                  role="listitem"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + idx * 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={!prefersReducedMotion ? { y: -4, transition: { duration: 0.2 } } : undefined}
+                  className="flex flex-col items-center gap-2 cursor-default"
+                >
+                  <div className="h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-muted/60 border border-border/60 flex items-center justify-center backdrop-blur-sm">
+                    <node.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" strokeWidth={1.5} />
+                  </div>
+                  <span className="font-semibold text-sm text-foreground">
+                    {language === "es" ? node.labelEs : node.labelEn}
+                  </span>
+                  <span className="text-xs text-muted-foreground text-center leading-tight max-w-[90px]">
+                    {language === "es" ? node.detailEs : node.detailEn}
+                  </span>
+                  <motion.span
+                    className="text-xs font-mono font-bold text-primary/80 bg-primary/8 px-2 py-0.5 rounded-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 + idx * 0.15 }}
+                  >
+                    {node.metric}
+                  </motion.span>
+                </motion.div>
+
+                {/* Conector animado */}
+                {idx < flowNodes.length - 1 && !prefersReducedMotion && (
+                  <motion.div
+                    key={`arrow-${idx}`}
+                    className="flex items-center gap-0 flex-shrink-0"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ delay: 0.55 + idx * 0.15, duration: 0.4, transformOrigin: "left" }}
+                  >
+                    <motion.div
+                      className="h-px w-6 md:w-10 bg-gradient-to-r from-border to-primary/50"
+                      animate={{ opacity: [0.4, 0.9, 0.4] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: idx * 0.3 }}
+                    />
+                    <ArrowRight className="h-3.5 w-3.5 text-primary/60 -ml-0.5" />
+                  </motion.div>
+                )}
+              </>
+            ))}
           </motion.div>
 
           {/* CTA Buttons - Better spacing and hierarchy */}
