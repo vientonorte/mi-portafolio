@@ -505,7 +505,7 @@ export default function AuditoriaPortfolio() {
               </a>
               <span className="text-muted-foreground">·</span>
               <a
-                href="https://www.linkedin.com/in/rodrigo-gaete/"
+                href="https://www.linkedin.com/in/rodrigo-gaete-ux/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors"

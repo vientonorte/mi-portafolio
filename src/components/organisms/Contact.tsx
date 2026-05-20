@@ -27,7 +27,7 @@ const socialLinks = [
   {
     icon: Link,
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/rodrigogaete",
+    href: "https://www.linkedin.com/in/rodrigo-gaete-ux/",
   },
 ];
 
