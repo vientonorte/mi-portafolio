@@ -21,16 +21,6 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
   const { language } = useLanguage();
   const t = useTranslation(language);
 
-  return (
-    <>
-      <SEOHead 
-        title="Framework UX & Case Studies"
-        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
-      />
-      {/* Rest of component... */}
-    </>
-  );
-
   const processes = [
     {
       id: "ux-analytics",
@@ -74,6 +64,10 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Framework UX & Case Studies"
+        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      />
       {/* Process Navigation - Lateral TOC */}
       <ProcessNavigation sections={navigationSections} />
 
