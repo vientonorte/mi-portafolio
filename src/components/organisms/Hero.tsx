@@ -29,18 +29,30 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
   // Memoized text content for i18n
   const content = useMemo(() => ({
     es: {
-      heading: "Lead UX diseñando experiencias que conectan estrategia digital con usuarios",
-      description: "Lead UX con impacto medible: -40% abandono en onboarding, NPS 72, +35% activación. Implemento UX/UI en productos financieros y de movilidad a nivel regional.",
-      ctaPrimary: "Ver proyectos",
+      badge: "Lead UX · Senior Product Designer",
+      heading: "Transformo estrategia digital en experiencias que impulsan resultados de negocio",
+      description: "Resultados medibles en productos financieros y de movilidad: -40% abandono en onboarding · NPS 72 · +35% activación de usuarios. Diseño con impacto a nivel regional.",
+      ctaPrimary: "Explorar proyectos",
       ctaSecondary: "Casos de Estudio",
-      scroll: "Explorar"
+      scroll: "Explorar portafolio",
+      metrics: {
+        reduction: "40% menos abandono",
+        nps: "NPS 72",
+        activation: "+35% activación"
+      }
     },
     en: {
-      heading: "Lead UX designing experiences that connect digital strategy with users",
-      description: "Lead UX with measurable impact: -40% onboarding drop-off, NPS 72, +35% activation. I implement UX/UI for financial and mobility products at a regional scale.",
-      ctaPrimary: "View projects",
+      badge: "Lead UX · Senior Product Designer",
+      heading: "Transforming digital strategy into experiences that drive business results",
+      description: "Measurable results in financial and mobility products: -40% onboarding drop-off · NPS 72 · +35% user activation. Designing with regional impact.",
+      ctaPrimary: "Explore projects",
       ctaSecondary: "Case Studies",
-      scroll: "Explore"
+      scroll: "Explore portfolio",
+      metrics: {
+        reduction: "40% less drop-off",
+        nps: "NPS 72",
+        activation: "+35% activation"
+      }
     }
   }), []);
 
@@ -79,7 +91,7 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-[75vh] flex items-center justify-center px-4 py-16 overflow-hidden"
+      className="relative min-h-[80vh] md:min-h-[75vh] flex items-center justify-center px-4 py-20 md:py-16 overflow-hidden"
       aria-labelledby="hero-heading"
     >
       {/* Optimized Background */}
@@ -136,7 +148,20 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
         initial="hidden"
         animate="visible"
       >
-        <div className="text-center space-y-5 md:space-y-7">
+        <div className="text-center space-y-6 md:space-y-8">
+          {/* Badge with role */}
+          <motion.div
+            variants={itemVariants}
+            className="flex justify-center"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-sm md:text-base font-medium text-foreground">
+                {t.badge}
+              </span>
+            </div>
+          </motion.div>
+
           {/* Logo with optimized animations */}
           <motion.div
             variants={itemVariants}
@@ -175,54 +200,74 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
                   ease: "easeInOut",
                 }}
               >
-                <Sparkles className="h-7 w-7 text-primary drop-shadow-glow" />
+                <Sparkles className="h-6 w-6 md:h-7 md:w-7 text-primary drop-shadow-glow" />
               </motion.div>
             )}
           </motion.div>
 
-          {/* Main Heading - Improved typography */}
+          {/* Main Heading - Improved typography and mobile optimization */}
           <motion.h1
             id="hero-heading"
             variants={itemVariants}
-            className="max-w-5xl mx-auto px-4 tracking-tight"
+            className="max-w-5xl mx-auto px-4 tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
           >
             <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/90">
               {t.heading}
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* Description - Better mobile readability */}
           <motion.div
             variants={itemVariants}
-            className="max-w-2xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
+            className="max-w-2xl mx-auto text-muted-foreground px-4 text-base md:text-lg lg:text-xl leading-relaxed"
           >
             <p>{t.description}</p>
           </motion.div>
 
-          {/* CTA Buttons - Better spacing and hierarchy */}
+          {/* Social proof metrics - Mobile optimized */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center justify-center gap-3 md:gap-4 flex-wrap px-4"
+            className="flex flex-wrap items-center justify-center gap-4 md:gap-6 px-4 pt-2"
           >
-            {/* Primary CTA */}
+            {Object.values(t.metrics).map((metric, index) => (
+              <div 
+                key={index}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 border border-border/50"
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span className="text-xs md:text-sm font-medium text-foreground/80">
+                  {metric}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons - Mobile optimized with better touch targets */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 px-4 pt-2"
+          >
+            {/* Primary CTA - Full width on mobile */}
             <motion.div
               whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
               whileTap={{ scale: 0.98 }}
+              className="w-full sm:w-auto"
             >
               <Button 
                 size="lg" 
                 onClick={scrollToProjects}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto min-h-[48px] bg-brand-gradient hover:opacity-90 transition-opacity group shadow-lg hover:shadow-xl px-6 md:px-8"
               >
-                <span className="font-semibold">{t.ctaPrimary}</span>
+                <span className="font-semibold text-base md:text-lg">{t.ctaPrimary}</span>
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
 
-            {/* Secondary CTA */}
+            {/* Secondary CTA - Full width on mobile */}
             <motion.div
               whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
               whileTap={{ scale: 0.98 }}
+              className="w-full sm:w-auto"
             >
               <Button
                 size="lg"
@@ -231,18 +276,18 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
                   analytics.clickCaseStudies();
                   onNavigateToCaseStudies?.();
                 }}
-                className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
+                className="w-full sm:w-auto min-h-[48px] group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all px-6 md:px-8"
               >
                 <FileText className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-                {t.ctaSecondary}
+                <span className="text-base md:text-lg">{t.ctaSecondary}</span>
               </Button>
             </motion.div>
           </motion.div>
 
-          {/* Scroll indicator - Improved animation */}
+          {/* Scroll indicator - Improved animation and mobile touch target */}
           <motion.div
             variants={itemVariants}
-            className="pt-8 md:pt-10"
+            className="pt-10 md:pt-12"
           >
             <motion.button
               animate={!prefersReducedMotion ? { y: [0, 8, 0] } : undefined}
@@ -251,11 +296,11 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="inline-flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
+              className="inline-flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group min-h-[44px] min-w-[44px] justify-center"
               onClick={scrollToProjects}
               aria-label={t.scroll}
             >
-              <span className="text-sm font-medium">{t.scroll}</span>
+              <span className="text-sm md:text-base font-medium">{t.scroll}</span>
               <div className="w-6 h-10 border-2 border-current rounded-full flex items-start justify-center p-1.5 group-hover:border-foreground transition-colors">
                 <motion.div
                   className="w-1.5 h-3 bg-current rounded-full"

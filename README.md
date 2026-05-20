@@ -17,6 +17,38 @@ npm install
 npm run dev
 ```
 
+## Mobile Testing
+
+Este proyecto está optimizado para dispositivos móviles. Ver [MOBILE_QA.md](./MOBILE_QA.md) para:
+- Breakpoints y viewports de prueba (320px, 375px, 414px, 768px, 1024px)
+- Estándares de touch targets (WCAG 2.1 Level AA)
+- Checklist de QA mobile completo
+- Herramientas de testing automatizado
+
+**Viewports clave:**
+- 📱 Mobile: 320px - 767px (botones full-width, tipo responsive)
+- 📱 Tablet: 768px - 1023px (layout híbrido)
+- 💻 Desktop: 1024px+ (layout completo)
+
+## QA y Testing
+
+```sh
+# Lint
+npm run lint
+
+# Tests unitarios
+npm run test
+
+# Coverage
+npm run test:coverage
+
+# QA completo (lint + tests)
+npm run qa
+
+# Mobile audit con Lighthouse
+npx lighthouse http://localhost:5173 --preset=mobile --view
+```
+
 ## Deploy
 
 GitHub Actions → Vite build → GitHub Pages.
@@ -24,6 +56,12 @@ GitHub Actions → Vite build → GitHub Pages.
 ```sh
 npm run build
 ```
+
+## Documentación
+
+- [MOBILE_QA.md](./MOBILE_QA.md) — Checklist y guía de QA mobile
+- [HANDOFF_SPRINT.md](./HANDOFF_SPRINT.md) — Sprint de estabilización
+- [V2/QA-CHECKLIST.md](./V2/QA-CHECKLIST.md) — Checklist QA general
 
 ---
 
