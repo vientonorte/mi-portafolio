@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Card, CardContent } from "../ui/card";
-import { Badge } from "../ui/badge";
+import { Card, CardContent } from '../ui/card';
+import { Badge } from '../ui/badge';
 import { Check } from "lucide-react";
 
 interface ProcessMethodCardProps {

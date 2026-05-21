@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Card, CardContent, CardHeader } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import {
   BarChart3,

@@ -1,13 +1,15 @@
 import { motion } from "motion/react";
-import { BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
-import { Card, CardContent } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
+import { ArrowLeft, BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
+import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { SEOHead } from "../components/atoms/SEOHead";
 
 interface CaseStudiesProps {
@@ -18,16 +20,6 @@ interface CaseStudiesProps {
 export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudiesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-
-  return (
-    <>
-      <SEOHead 
-        title="Framework UX & Case Studies"
-        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
-      />
-      {/* Rest of component... */}
-    </>
-  );
 
   const processes = [
     {
@@ -71,9 +63,33 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
   ];
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Framework UX & Case Studies"
+        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      />
       {/* Process Navigation - Lateral TOC */}
       <ProcessNavigation sections={navigationSections} />
+
+      {/* Fixed Header */}
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40"
+      >
+        <div className="container max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Button
+            variant="ghost"
+            onClick={onBack}
+            className="gap-2 hover:gap-3 transition-all"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t.caseStudies.cta.backToPortfolio}
+          </Button>
+
+          <LanguageToggle />
+        </div>
+      </motion.header>
 
       {/* Hero Section - MEGA DESTACADO */}
       <section id="hero" className="py-20 md:py-32 px-4 relative overflow-hidden">

@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
 
@@ -82,6 +82,8 @@ export function MobileMenu({
     if (item.type === "route") {
       if (item.href === "design-system") {
         setTimeout(() => onNavigateToDesignSystem?.(), 300);
+      } else if (item.href === "cases") {
+        setTimeout(() => onNavigateToCaseStudies?.(), 300);
       } else if (item.href === "auditoria") {
         setTimeout(() => onNavigateToAuditoria?.(), 300);
       }
@@ -102,7 +104,7 @@ export function MobileMenu({
         });
       }
     }, 300);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToAuditoria]);
+  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   return (
     <AnimatePresence mode="wait">

@@ -2,7 +2,7 @@ import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintP
 import transvipDesktop from "figma:asset/ca7a4a167c789c951e4e08b0ba00177a6fc58634.png";
 import transvipMobile from "figma:asset/0a0ed13a8f1836aed4325be4398240085ee9c5be.png";
 import uxProcess from "figma:asset/0ddc6d387f6fec8fd73c93778e82ff34a1b1e8cd.png";
-import suraProjectImg from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
+import uxSprintDiagram from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
 import riaOnboardingMockup from "figma:asset/4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png";
 
 export interface Process {
@@ -117,7 +117,7 @@ export const suraHub: CompanyHub = {
     "Ecosistema digital: +20 sitios unificados con CMS",
     "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
   ],
-  image: "https://images.unsplash.com/photo-1761850167081-473019536383?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+  image: uxSprintDiagram,
   projects: [
     {
       // ROL 1: Lead UX - Estrategia Digital Regional
@@ -128,7 +128,7 @@ export const suraHub: CompanyHub = {
       period: "2023 - Presente",
       projectName: "Implementación UX Enterprise Regional",
       description: "Liderazgo en la implementación de experiencia usuaria para iniciativas regionales y locales a nivel tecnológico en el sector financiero.",
-      image: "https://images.unsplash.com/photo-1761850167081-473019536383?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      image: uxSprintDiagram,
       tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
       
       processes: [
@@ -168,6 +168,7 @@ export const suraHub: CompanyHub = {
           "Design Thinking funciona en enterprise con la estructura correcta",
           "La documentación de lineamientos debe ser viva y evolutiva",
         ],
+        mockups: [uxSprintDiagram, uxProcess],
       },
     },
     {
@@ -294,7 +295,7 @@ export const suraHub: CompanyHub = {
       period: "2024 - 2025",
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
-      image: suraProjectImg,
+      image: riaOnboardingMockup,
       tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
       
       processes: [
@@ -362,7 +363,7 @@ export const suraHub: CompanyHub = {
           "El diseño de casos de error es crítico en plataformas financieras",
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
-        mockups: [riaOnboardingMockup], // Mockup del flujo de onboarding SURA EE.UU.
+        mockups: [riaOnboardingMockup, uxSprintDiagram], // Mockup onboarding + proceso UX adaptado SURA EE.UU.
       },
     },
   ],
@@ -466,6 +467,7 @@ export const transvipHub: CompanyHub = {
           "La transparencia en pricing genera confianza",
           "El tracking en tiempo real es crítico para viajes al aeropuerto",
         ],
+        mockups: [transvipMobile],
       },
     },
     karriCalculadoraProject as unknown as EnhancedProject,
@@ -530,7 +532,7 @@ export const frameworkProject: EnhancedProject = {
   period: "2022 - Presente",
   projectName: "Framework UX - Discovery & Product Design",
   description: "Desarrollo de framework de UX completo: Analytics, Research, UI Design y Testing. Metodología para MVPs y desarrollo evolutivo.",
-  image: "https://images.unsplash.com/photo-1760952851538-17a59f691efe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+  image: uxSprintDiagram,
   tags: ["UX Process", "Framework", "Methodology", "Best Practices"],
   
   processes: [
@@ -570,6 +572,7 @@ export const frameworkProject: EnhancedProject = {
       "El discovery activo previene errores costosos",
       "La documentación del proceso facilita la escalabilidad",
     ],
+    mockups: [uxSprintDiagram, uxProcess],
   },
 };
 

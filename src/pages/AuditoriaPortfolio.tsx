@@ -37,10 +37,10 @@ export default function AuditoriaPortfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background">
       <SEOHead
         title="Auditoría Portfolio UX/UI"
-        description="Análisis estratégico del portfolio UX/UI de Laura: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
+        description="Auditoría UX/UI estratégica: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
         url="https://vientonorte.github.io/mi-portafolio/auditoria"
         type="article"
       />
@@ -73,14 +73,6 @@ export default function AuditoriaPortfolio() {
                   <Download className="w-4 h-4" />
                   Descargar PDF
                 </button>
-                <a
-                  href="https://laura-portfoli0.webflow.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-card border border-border rounded-lg font-medium hover:border-primary/30 transition-all duration-300"
-                >
-                  Ver Portfolio →
-                </a>
               </div>
 
               <div className="flex flex-col gap-3 text-sm pt-8 border-t border-border">
@@ -381,7 +373,7 @@ export default function AuditoriaPortfolio() {
               },
               {
                 title: "Meta Title Optimizado",
-                description: '"Laura López | [Especialización] UX Designer | Portfolio & Case Studies"',
+                description: '"[Cliente] | UX Designer | Portfolio & Case Studies"',
                 impact: "Alto"
               },
               {
@@ -513,7 +505,7 @@ export default function AuditoriaPortfolio() {
               </a>
               <span className="text-muted-foreground">·</span>
               <a
-                href="https://www.linkedin.com/in/rodrigo-gaete/"
+                href="https://www.linkedin.com/in/rodrigo-gaete-ux/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors"

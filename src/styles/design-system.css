@@ -1,31 +1,51 @@
-/* Design System — CSS custom properties only.
-   Body/heading element rules removed: Tailwind (index.css) owns those.
-   Dark mode support is handled via .dark class in index.css. */
+/* design-system.css — mi-portafolio
+   ─────────────────────────────────────────────────────────────────────
+   Vars de proyecto: mapean a tokens VN donde corresponde,
+   o declaran valores propios del portafolio.
+
+   Nota: Tailwind (@layer base/utilities) vive en globals.css.
+   Nota: Skip-link semántico usando clase .vn-skip-link (desde vn-tokens.css).
+   ─────────────────────────────────────────────────────────────────────
+   ─────────────────────────────────────────────────────────────────────── */
 
 :root {
-    --color-noche: #0A2540;
-    --color-pizarra: #4B5563;
-    --color-marfil: #F9FAFB;
-    --grid: 8px;
+    /* Aliases de proyecto → tokens VN donde el valor coincide */
+    --color-noche:   var(--vn-primitive-azul-noche);  /* #0d1b3d */
+    --color-pizarra: var(--vn-primitive-pizarra);      /* #4a5568 */
+    --color-marfil:  var(--vn-primitive-marfil);       /* f7f2e7 — ver nota abajo */
+    --grid:          var(--vn-space-2);                /* 8px */
 }
 
+/*
+  Nota sobre --color-marfil:
+  El portafolio usaba #F9FAFB (casi blanco).
+  @vientonorte/tokens define --vn-primitive-marfil: #f7f2e7 (marfil cálido).
+  Footer.tsx usa --color-marfil para texto sobre fondo oscuro.
+  Contraste #f7f2e7 sobre #4a5568 = 4.7:1 ✓ WCAG AA
+  Si el cambio visual es perceptible, fallback:
+  --color-marfil: #F9FAFB; (restaurar hasta migración de Footer)
+*/
+
+/* skip-link — portafolio usa clase .skip-link (legacy).
+   Mantener hasta migrar JSX a className="vn-skip-link". (Fase 2) */
 .skip-link {
     position: absolute;
-    left: -999px;
-    top: auto;
+    left: -9999px;
+    top: var(--vn-space-2);
     width: 1px;
     height: 1px;
     overflow: hidden;
-    z-index: 100;
+    z-index: var(--vn-z-nav);
 }
 
-.skip-link:focus {
-    left: 8px;
-    top: 8px;
+.skip-link:focus-visible {
+    left: var(--vn-space-2);
     width: auto;
     height: auto;
     background: var(--color-noche);
     color: var(--color-marfil);
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: var(--vn-space-2) var(--vn-space-4);
+    border-radius: var(--vn-radius-xs);
+    outline: 2px solid var(--vn-color-brand);
+    outline-offset: 2px;
 }

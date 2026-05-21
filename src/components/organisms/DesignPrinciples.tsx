@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { 
   Accessibility, 
   Smartphone, 
@@ -77,8 +77,8 @@ const principles = [
 const usage = [
   {
     title: "Instalación de Componentes",
-    code: `import { Button } from "./components/ui/button"
-import { Card } from "./components/ui/card"`,
+    code: `import { Button } from '../ui/button'
+import { Card } from '../ui/card'`,
   },
   {
     title: "Uso de Design Tokens",

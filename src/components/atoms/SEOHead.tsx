@@ -6,14 +6,16 @@ interface SEOHeadProps {
   image?: string;
   url?: string;
   type?: string;
+  noIndex?: boolean;
 }
 
-export function SEOHead({ 
-  title, 
-  description, 
-  image, 
+export function SEOHead({
+  title,
+  description,
+  image,
   url,
-  type = "website" 
+  type = "website",
+  noIndex = false,
 }: SEOHeadProps) {
   const defaultImage = "https://vientonorte.github.io/mi-portafolio/og-image.jpg";
   const siteUrl = "https://vientonorte.github.io/mi-portafolio";
@@ -43,6 +45,7 @@ export function SEOHead({
       
       {/* Additional SEO */}
       <link rel="canonical" href={finalUrl} />
+      {noIndex && <meta name="robots" content="noindex, nofollow" />}
     </Helmet>
   );
 }

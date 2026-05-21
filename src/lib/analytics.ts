@@ -10,16 +10,7 @@
  * analytics.clickViewProjects();
  */
 
-// Type definition for gtag function
-declare global {
-  interface Window {
-    gtag?: (
-      command: 'config' | 'event' | 'get',
-      targetId: string,
-      config?: Record<string, any>
-    ) => void;
-  }
-}
+// gtag type is declared in src/vn-core/analytics/gtm.ts — no re-declaration needed
 
 /**
  * Generic event tracking function

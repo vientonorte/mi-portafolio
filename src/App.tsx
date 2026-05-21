@@ -1,8 +1,11 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
+import { AnalyticsProvider } from './vn-core/analytics/react';
+import { analyticsConfig } from './vn-core/analytics/config';
 import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
+import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 
 // Lazy load pages for better performance
@@ -16,6 +19,7 @@ const Grafo = lazy(() => import('./pages/Grafo'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
+const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
 
 function RouterNavigation() {
   const navigate = useNavigate();
@@ -35,12 +39,23 @@ function DesignSystemPage() {
 
 function CaseStudiesPage() {
   const navigate = useNavigate();
-  return <CaseStudies onBack={() => navigate('/')} onNavigateToProcess={() => {}} />;
+  return <CaseStudies onBack={() => navigate('/')} onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)} />;
+}
+
+function ProcessDetailPage() {
+  const { processId } = useParams<{ processId: string }>();
+  const navigate = useNavigate();
+  return <ProcessDetail processId={processId || ''} onBack={() => navigate('/cases')} onNavigateToPortfolio={() => navigate('/')} />;
 }
 
 const App = () => (
   <LanguageProvider>
+    <AnalyticsProvider config={analyticsConfig}>
     <Router basename="/mi-portafolio">
+      {/* Skip to content — accesibilidad teclado */}
+      <a href="#main" className="skip-link">
+        Ir al contenido principal
+      </a>
       <RouterNavigation />
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
@@ -54,12 +69,15 @@ const App = () => (
             <Route path="/grafo" element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/cases" element={<CaseStudiesPage />} />
+            <Route path="/cases/process/:processId" element={<ProcessDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
           </Routes>
         </Suspense>
       </main>
       <Footer />
+      <BottomNav />
     </Router>
+    </AnalyticsProvider>
   </LanguageProvider>
 );
 

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { SectionBadge } from "../atoms/SectionBadge";
 import { MetricCard } from "../atoms/MetricCard";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { 
   TrendingUp, 
   Users, 
