@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
 import { AnalyticsProvider } from './vn-core/analytics/react';
 import { analyticsConfig } from './vn-core/analytics/config';
@@ -51,7 +51,7 @@ function ProcessDetailPage() {
 const App = () => (
   <LanguageProvider>
     <AnalyticsProvider config={analyticsConfig}>
-    <Router basename="/mi-portafolio">
+    <Router>
       {/* Skip to content — accesibilidad teclado */}
       <a href="#main" className="skip-link">
         Ir al contenido principal
