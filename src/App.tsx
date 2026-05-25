@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
 import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
@@ -39,7 +39,7 @@ function CaseStudiesPage() {
 
 const App = () => (
   <LanguageProvider>
-    <Router basename="/mi-portafolio">
+    <Router>
       <RouterNavigation />
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
