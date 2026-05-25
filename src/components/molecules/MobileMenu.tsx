@@ -112,7 +112,7 @@ export function MobileMenu({
     
     if (location.pathname !== "/") {
       pendingScroll.current = item.href;
-      setTimeout(() => navigate("/"), 300);
+      navigate("/");
       return;
     }
 
