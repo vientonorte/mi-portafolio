@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Home, FolderOpen, Mail } from "lucide-react";
+import { Home, FolderOpen, Palette, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 
@@ -21,6 +21,15 @@ const items = [
     type: "route" as const,
     target: "/cases",
     route: "/cases",
+  },
+  {
+    id: "design-system",
+    labelEs: "Diseño",
+    labelEn: "Design",
+    icon: Palette,
+    type: "route" as const,
+    target: "/design-system",
+    route: "/design-system",
   },
   {
     id: "contacto",

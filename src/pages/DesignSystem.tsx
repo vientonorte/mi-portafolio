@@ -7,12 +7,15 @@ import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
 import { ThemeToggle } from "../components/atoms/ThemeToggle";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { useLanguage } from "../lib/LanguageContext";
 
 interface DesignSystemProps {
   onBack: () => void;
 }
 
 export default function DesignSystem({ onBack }: DesignSystemProps) {
+  const { language } = useLanguage();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -22,10 +25,10 @@ export default function DesignSystem({ onBack }: DesignSystemProps) {
             variant="ghost"
             onClick={onBack}
             className="gap-2 hover:bg-primary/10 hover:text-primary transition-all"
-            aria-label="Volver al portfolio"
+            aria-label={language === "es" ? "Volver al portfolio" : "Back to portfolio"}
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Volver</span>
+            <span className="hidden sm:inline">{language === "es" ? "Volver" : "Back"}</span>
           </Button>
           
           <div className="flex items-center gap-2 sm:gap-3">
@@ -45,7 +48,7 @@ export default function DesignSystem({ onBack }: DesignSystemProps) {
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto"
             >
-              Sistema de Diseño Atómico
+              {language === "es" ? "Sistema de Diseño Atómico" : "Atomic Design System"}
             </motion.h1>
 
             <motion.p
@@ -54,7 +57,9 @@ export default function DesignSystem({ onBack }: DesignSystemProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="max-w-2xl mx-auto text-muted-foreground text-lg"
             >
-              Componentes reutilizables construidos con React, TypeScript y Tailwind CSS v4
+              {language === "es"
+                ? "Componentes reutilizables construidos con React, TypeScript y Tailwind CSS v4"
+                : "Reusable components built with React, TypeScript, and Tailwind CSS v4"}
             </motion.p>
           </div>
         </section>
