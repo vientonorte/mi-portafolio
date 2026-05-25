@@ -92,18 +92,18 @@ export function BottomNav() {
             <li key={item.id} className="min-w-0">
               <button
                 onClick={() => handleTap(item)}
-                className="flex h-16 w-full flex-col items-center justify-center gap-1 px-1 transition-colors"
+                className="flex h-16 w-full min-h-[44px] flex-col items-center justify-center gap-1 px-1 transition-colors"
                 style={{ color: active ? "var(--primary)" : "var(--muted-foreground)" }}
                 aria-label={language === "es" ? item.labelEs : item.labelEn}
                 aria-current={active ? "page" : undefined}
               >
                 <Icon
-                  className="h-[18px] w-[18px]"
+                  className="h-5 w-5"
                   aria-hidden="true"
                   strokeWidth={active ? 2.5 : 1.5}
                 />
                 <span
-                  className="max-w-full whitespace-nowrap text-[11px] leading-none"
+                  className="max-w-full whitespace-nowrap text-xs leading-none"
                   style={{
                     fontWeight: active ? 600 : 400,
                     letterSpacing: "0.01em",

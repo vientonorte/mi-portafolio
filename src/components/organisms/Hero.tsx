@@ -84,7 +84,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen flex items-center overflow-hidden bg-background"
+      className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 sm:pt-24"
       aria-labelledby="hero-heading"
     >
       {/* Ambient arc — top-right */}
@@ -103,7 +103,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
       <motion.div
         className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
-        style={{ opacity, y, paddingTop: "7rem", paddingBottom: "5rem" }}
+        style={{ opacity, y, paddingBottom: "5rem" }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -117,7 +117,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             {/* Eyebrow */}
             <motion.p
               variants={itemVariants}
-              className="font-mono text-xs uppercase text-primary"
+              className="font-mono text-sm uppercase text-primary"
               style={{ letterSpacing: "0.22em", marginBottom: "1.5rem" }}
             >
               {t.label}
@@ -130,7 +130,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               className="font-black tracking-tighter max-w-xl"
               style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
             >
-              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.4 }}>
+              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.7 }}>
                 {t.h1a}
               </span>
               <span className="block text-foreground">
@@ -188,11 +188,11 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                 className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
-                style={{ color: "var(--muted-foreground)", opacity: 0.4 }}
+                style={{ color: "var(--muted-foreground)", opacity: 0.7 }}
                 onClick={scrollToProjects}
                 aria-label={t.scroll}
               >
-                <span className="font-mono text-xs uppercase" style={{ letterSpacing: "0.2em" }}>
+                <span className="font-mono text-sm uppercase" style={{ letterSpacing: "0.2em" }}>
                   {t.scroll}
                 </span>
                 <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
@@ -233,13 +233,13 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 </span>
                 <span
                   className="block text-muted-foreground"
-                  style={{ fontSize: "0.8125rem", marginTop: "0.375rem", fontWeight: 400 }}
+                  style={{ fontSize: "0.875rem", marginTop: "0.375rem", fontWeight: 400 }}
                 >
                   {card.desc}
                 </span>
                 <span
                   className="block"
-                  style={{ fontSize: "0.6875rem", marginTop: "0.25rem", color: "var(--muted-foreground)", opacity: 0.55, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "monospace" }}
+                  style={{ fontSize: "0.75rem", marginTop: "0.25rem", color: "var(--muted-foreground)", opacity: 0.8, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "monospace" }}
                 >
                   {card.company}
                 </span>
