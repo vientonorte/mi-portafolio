@@ -46,7 +46,7 @@
   --secondary: #f5f5f5;
   --secondary-foreground: #171717;
   --muted: #f5f5f5;
-  --muted-foreground: #737373;
+  --muted-foreground: #525252;
   --accent: #fafafa;
   --accent-foreground: #171717;
   
@@ -93,7 +93,7 @@
   --secondary: #262626;
   --secondary-foreground: #fafafa;
   --muted: #262626;
-  --muted-foreground: #a3a3a3;
+  --muted-foreground: #d4d4d4;
   --accent: #1a1a1a;
   --accent-foreground: #fafafa;
   
@@ -301,7 +301,14 @@ html {
 
 @media (max-width: 767px) {
   #main {
-    padding-bottom: 4rem;
+    padding-bottom: 5rem;
+  }
+
+  /* StickyCTA se posiciona sobre el BottomNav via clase max-[767px] en componente */
+
+  /* Padding seguro en footer para dispositivos con notch */
+  footer[role="contentinfo"] {
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

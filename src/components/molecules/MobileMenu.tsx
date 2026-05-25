@@ -45,10 +45,9 @@ export function MobileMenu({
   useEffect(() => {
     if (!isOpen) return;
 
-    // Focus first element when menu opens
-    const timer = setTimeout(() => {
+    const frame = requestAnimationFrame(() => {
       firstFocusableRef.current?.focus();
-    }, 100);
+    });
 
     // Handle Tab key for focus trap
     const handleTab = (e: KeyboardEvent) => {
@@ -75,10 +74,34 @@ export function MobileMenu({
     document.addEventListener("keydown", handleTab);
 
     return () => {
-      clearTimeout(timer);
+      cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleTab);
     };
   }, [isOpen]);
+
+  const getNavHeight = useCallback(() => {
+    const header = document.querySelector('header[role="banner"]');
+    if (header instanceof HTMLElement) {
+      return header.offsetHeight;
+    }
+    return 80;
+  }, []);
+
+  const scrollToAnchor = useCallback((selector: string) => {
+    requestAnimationFrame(() => {
+      const element = document.querySelector(selector);
+      if (!element) return;
+
+      const navHeight = getNavHeight();
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    });
+  }, [getNavHeight]);
 
   useEffect(() => {
     if (location.pathname !== "/" || !pendingScroll.current) return;
@@ -91,10 +114,7 @@ export function MobileMenu({
     const tryScroll = () => {
       const element = document.querySelector(target);
       if (element) {
-        const navHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        scrollToAnchor(target);
         if (pendingScroll.current === target) {
           pendingScroll.current = null;
         }
@@ -114,18 +134,18 @@ export function MobileMenu({
         cancelAnimationFrame(frameId);
       }
     };
-  }, [location.pathname]);
+  }, [location.pathname, scrollToAnchor]);
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
     
     if (item.type === "route") {
       if (item.href === "design-system") {
-        setTimeout(() => onNavigateToDesignSystem?.(), 300);
+        onNavigateToDesignSystem?.();
       } else if (item.href === "cases") {
-        setTimeout(() => onNavigateToCaseStudies?.(), 300);
+        onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
-        setTimeout(() => onNavigateToAuditoria?.(), 300);
+        onNavigateToAuditoria?.();
       }
       return;
     }
@@ -136,21 +156,8 @@ export function MobileMenu({
       return;
     }
 
-    // Smooth scroll with offset for fixed nav
-    setTimeout(() => {
-      const element = document.querySelector(item.href);
-      if (element) {
-        const navHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }, 300);
-  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+    scrollToAnchor(item.href);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">
@@ -162,8 +169,7 @@ export function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
-            style={{ zIndex: 110 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55]"
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -175,8 +181,7 @@ export function MobileMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-50 flex flex-col"
-            style={{ zIndex: 120 }}
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-[60] flex flex-col"
             role="dialog"
             aria-label="Menú de navegación móvil"
             aria-modal="true"

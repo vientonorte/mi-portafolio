@@ -69,7 +69,7 @@ img {
 @media (max-width: 767px) {
   #main,
   footer {
-    padding-bottom: 4rem;
+    padding-bottom: 5rem;
   }
 }
 
