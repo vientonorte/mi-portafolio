@@ -80,33 +80,33 @@ export function BottomNav() {
 
   return (
     <nav
-      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border"
+      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-50 border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
     >
-      <ul className="flex items-center justify-around h-16">
+      <ul className="grid h-16 grid-cols-4 items-stretch">
         {items.map((item) => {
           const Icon = item.icon;
           const active = isActive(item);
           return (
-            <li key={item.id} className="flex-1">
+            <li key={item.id} className="min-w-0">
               <button
                 onClick={() => handleTap(item)}
-                className="flex flex-col items-center justify-center w-full h-16 gap-1 transition-colors"
+                className="flex h-16 w-full flex-col items-center justify-center gap-1 px-1 transition-colors"
                 style={{ color: active ? "var(--primary)" : "var(--muted-foreground)" }}
                 aria-label={language === "es" ? item.labelEs : item.labelEn}
                 aria-current={active ? "page" : undefined}
               >
                 <Icon
-                  className="h-5 w-5"
+                  className="h-[18px] w-[18px]"
                   aria-hidden="true"
                   strokeWidth={active ? 2.5 : 1.5}
                 />
                 <span
-                  className="text-xs"
+                  className="max-w-full whitespace-nowrap text-[11px] leading-none"
                   style={{
                     fontWeight: active ? 600 : 400,
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.01em",
                   }}
                 >
                   {language === "es" ? item.labelEs : item.labelEn}

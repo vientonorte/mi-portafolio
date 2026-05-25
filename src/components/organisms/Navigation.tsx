@@ -200,7 +200,7 @@ export function Navigation({
               aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
-              className="relative w-10 h-10"
+              className="relative h-11 w-11 rounded-full border border-border/60 bg-background/85 shadow-sm backdrop-blur-sm transition-all hover:bg-muted/90 hover:shadow-md"
             >
               <span className="sr-only">
                 {isMenuOpen ? "Cerrar menú" : "Abrir menú"}

@@ -41,10 +41,9 @@ export function MobileMenu({
   useEffect(() => {
     if (!isOpen) return;
 
-    // Focus first element when menu opens
-    const timer = setTimeout(() => {
+    const frame = requestAnimationFrame(() => {
       firstFocusableRef.current?.focus();
-    }, 100);
+    });
 
     // Handle Tab key for focus trap
     const handleTab = (e: KeyboardEvent) => {
@@ -71,40 +70,43 @@ export function MobileMenu({
     document.addEventListener("keydown", handleTab);
 
     return () => {
-      clearTimeout(timer);
+      cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleTab);
     };
   }, [isOpen]);
+
+  const scrollToAnchor = useCallback((selector: string) => {
+    requestAnimationFrame(() => {
+      const element = document.querySelector(selector);
+      if (!element) return;
+
+      const navHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    });
+  }, []);
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
     
     if (item.type === "route") {
       if (item.href === "design-system") {
-        setTimeout(() => onNavigateToDesignSystem?.(), 300);
+        onNavigateToDesignSystem?.();
       } else if (item.href === "cases") {
-        setTimeout(() => onNavigateToCaseStudies?.(), 300);
+        onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
-        setTimeout(() => onNavigateToAuditoria?.(), 300);
+        onNavigateToAuditoria?.();
       }
       return;
     }
     
-    // Smooth scroll with offset for fixed nav
-    setTimeout(() => {
-      const element = document.querySelector(item.href);
-      if (element) {
-        const navHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }, 300);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+    scrollToAnchor(item.href);
+  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">

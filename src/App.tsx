@@ -7,9 +7,9 @@ import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
 import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
+import Home from './pages/Home';
 
-// Lazy load pages for better performance
-const Home = lazy(() => import('./pages/Home'));
+// Lazy load secondary pages for better performance
 const Proyectos = lazy(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazy(() => import('./pages/AutosuggestFondos'));
 const SobreMi = lazy(() => import('./pages/SobreMi'));
