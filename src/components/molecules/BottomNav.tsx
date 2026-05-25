@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Home, FolderOpen, Palette, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -47,6 +47,7 @@ export function BottomNav() {
   const location = useLocation();
   const { language } = useLanguage();
   const pendingScroll = useRef<string | null>(null);
+  const [nearContact, setNearContact] = useState(false);
 
   // Fire pending scroll once home route is actually mounted
   useEffect(() => {
@@ -58,6 +59,19 @@ export function BottomNav() {
         document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
       });
     }
+  }, [location.pathname]);
+
+  // Detect when user is in the contact section
+  useEffect(() => {
+    if (location.pathname !== "/") { setNearContact(false); return; }
+    const section = document.querySelector("#contacto");
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setNearContact(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
   }, [location.pathname]);
 
   const handleTap = (item: typeof items[0]) => {
@@ -75,7 +89,8 @@ export function BottomNav() {
 
   const isActive = (item: typeof items[0]) => {
     if (item.type === "route") return location.pathname === item.route;
-    return location.pathname === "/" && item.id === "inicio";
+    if (item.id === "contacto") return nearContact;
+    return location.pathname === "/" && !nearContact;
   };
 
   return (

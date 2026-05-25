@@ -303,6 +303,13 @@ html {
   #main {
     padding-bottom: 5rem;
   }
+
+  /* StickyCTA se posiciona sobre el BottomNav via clase max-[767px] en componente */
+
+  /* Padding seguro en footer para dispositivos con notch */
+  footer[role="contentinfo"] {
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* Skip-to-content link — accesibilidad teclado */
