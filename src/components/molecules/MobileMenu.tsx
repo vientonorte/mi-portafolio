@@ -81,19 +81,39 @@ export function MobileMenu({
   }, [isOpen]);
 
   useEffect(() => {
-    if (location.pathname === "/" && pendingScroll.current) {
-      const target = pendingScroll.current;
-      pendingScroll.current = null;
-      requestAnimationFrame(() => {
-        const element = document.querySelector(target);
-        if (!element) return;
+    if (location.pathname !== "/" || !pendingScroll.current) return;
 
+    const target = pendingScroll.current;
+    const maxAttempts = 60;
+    let attempts = 0;
+    let frameId: number | null = null;
+
+    const tryScroll = () => {
+      const element = document.querySelector(target);
+      if (element) {
         const navHeight = 80;
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - navHeight;
         window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-      });
-    }
+        if (pendingScroll.current === target) {
+          pendingScroll.current = null;
+        }
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < maxAttempts) {
+        frameId = requestAnimationFrame(tryScroll);
+      }
+    };
+
+    frameId = requestAnimationFrame(tryScroll);
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    };
   }, [location.pathname]);
 
   const handleNavClick = useCallback((item: NavItem) => {
