@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface NavItem {
   href: string;
@@ -27,8 +28,11 @@ export function MobileMenu({
   onNavigateToCaseStudies,
   onNavigateToAuditoria
 }: MobileMenuProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
+  const pendingScroll = useRef<string | null>(null);
 
   // Handle click outside
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -76,6 +80,22 @@ export function MobileMenu({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (location.pathname === "/" && pendingScroll.current) {
+      const target = pendingScroll.current;
+      pendingScroll.current = null;
+      requestAnimationFrame(() => {
+        const element = document.querySelector(target);
+        if (!element) return;
+
+        const navHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      });
+    }
+  }, [location.pathname]);
+
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
     
@@ -90,6 +110,12 @@ export function MobileMenu({
       return;
     }
     
+    if (location.pathname !== "/") {
+      pendingScroll.current = item.href;
+      setTimeout(() => navigate("/"), 300);
+      return;
+    }
+
     // Smooth scroll with offset for fixed nav
     setTimeout(() => {
       const element = document.querySelector(item.href);
@@ -104,7 +130,7 @@ export function MobileMenu({
         });
       }
     }, 300);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   return (
     <AnimatePresence mode="wait">
@@ -116,7 +142,8 @@ export function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            style={{ zIndex: 110 }}
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -129,6 +156,7 @@ export function MobileMenu({
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-50 flex flex-col"
+            style={{ zIndex: 120 }}
             role="dialog"
             aria-label="Menú de navegación móvil"
             aria-modal="true"
