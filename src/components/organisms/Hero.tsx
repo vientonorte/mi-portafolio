@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { ArrowRight, FileText, Sparkles } from "lucide-react";
-import { Logo } from "../atoms/Logo";
+import { ArrowRight, FileText } from "lucide-react";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
@@ -11,37 +10,47 @@ interface HeroProps {
   onNavigateToCaseStudies?: () => void;
 }
 
-export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: HeroProps) {
+const resultCards = [
+  { metric: "−40%", desc: "abandono en onboarding", company: "SURA Investments" },
+  { metric: "NPS 72", desc: "+25 pts sobre baseline", company: "SURA Inversiones" },
+  { metric: "+35%", desc: "activación de shoppers", company: "Karri" },
+];
+
+export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.6], [0, 60]);
 
   const { language } = useLanguage();
 
-  // Memoized text content for i18n
   const content = useMemo(() => ({
     es: {
-      heading: "Lead UX diseñando experiencias que conectan estrategia digital con usuarios",
-      description: "Lead UX con impacto medible: -40% abandono en onboarding, NPS 72, +35% activación. Implemento UX/UI en productos financieros y de movilidad a nivel regional.",
-      ctaPrimary: "Ver proyectos",
+      label:        "Lead UX Designer",
+      valueProp:    "6 años liderando UX\nen fintech y mobility",
+      h1a:          "Diseño que",
+      h1b:          "reduce el ruido.",
+      ctaPrimary:   "Ver proyectos",
       ctaSecondary: "Casos de Estudio",
-      scroll: "Explorar"
+      scroll:       "Explorar",
+      resultados:   "Resultados",
     },
     en: {
-      heading: "Lead UX designing experiences that connect digital strategy with users",
-      description: "Lead UX with measurable impact: -40% onboarding drop-off, NPS 72, +35% activation. I implement UX/UI for financial and mobility products at a regional scale.",
-      ctaPrimary: "View projects",
+      label:        "Lead UX Designer",
+      valueProp:    "6 years leading UX\nin fintech & mobility",
+      h1a:          "Design that",
+      h1b:          "cuts the noise.",
+      ctaPrimary:   "View projects",
       ctaSecondary: "Case Studies",
-      scroll: "Explore"
-    }
+      scroll:       "Explore",
+      resultados:   "Results",
+    },
   }), []);
 
   const t = content[language];
@@ -51,224 +60,193 @@ export function Hero({ onNavigateToDesignSystem, onNavigateToCaseStudies }: Hero
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Optimized animation variants
+  const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
   const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
-    }
+    hidden:  { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] as [number, number, number, number] // Custom easing for smooth feel
-      }
-    }
+    hidden:  { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
+  };
+
+  const cardVariants = {
+    hidden:  { opacity: 0, x: 24 },
+    visible: (i: number) => ({
+      opacity: 1, x: 0,
+      transition: { duration: 0.65, ease, delay: 0.3 + i * 0.12 },
+    }),
   };
 
   return (
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-[75vh] flex items-center justify-center px-4 py-16 overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 sm:pt-24"
       aria-labelledby="hero-heading"
     >
-      {/* Optimized Background */}
-      <div className="absolute inset-0 bg-background" />
-      
-      {/* Single animated gradient orb - better performance */}
-      {!prefersReducedMotion && (
-        <motion.div
-          className="absolute top-1/3 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
-          style={{ 
-            background: "var(--brand-gradient)",
-            willChange: "transform, opacity"
-          }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.04, 0.08, 0.04],
-            x: [0, 40, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      )}
+      {/* Ambient arc — top-right */}
+      <div
+        className="pointer-events-none absolute right-0 rounded-full"
+        style={{
+          top: "-200px",
+          width: "700px",
+          height: "700px",
+          background: "var(--brand-gradient)",
+          filter: "blur(140px)",
+          opacity: 0.15,
+        }}
+        aria-hidden="true"
+      />
 
-      {/* Optimized floating particles - reduced and simpler */}
-      {!prefersReducedMotion && [...Array(3)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-muted-foreground/10 rounded-full"
-          style={{
-            left: `${30 + i * 25}%`,
-            top: `${45 + (i % 2) * 15}%`,
-          }}
-          animate={{
-            y: [-15, 15],
-            opacity: [0.1, 0.25, 0.1],
-          }}
-          transition={{
-            duration: 5 + i,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.5,
-          }}
-        />
-      ))}
-
-      <motion.div 
-        className="container max-w-6xl mx-auto relative z-10"
-        style={{ opacity, scale, y }}
+      <motion.div
+        className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
+        style={{ opacity, y, paddingBottom: "5rem" }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="text-center space-y-5 md:space-y-7">
-          {/* Logo with optimized animations */}
-          <motion.div
-            variants={itemVariants}
-            className="flex justify-center relative"
-          >
-            <motion.div
-              animate={!prefersReducedMotion ? {
-                boxShadow: [
-                  "0 0 0 0 rgba(255, 29, 37, 0)",
-                  "0 0 50px 15px rgba(255, 147, 30, 0.15)",
-                  "0 0 0 0 rgba(255, 29, 37, 0)",
-                ],
-              } : undefined}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
+        {/* Split grid: texto izquierda | cards derecha */}
+        <div className="hero-split">
+
+          {/* ── Left column ── */}
+          <div className="hero-left">
+
+            {/* Eyebrow */}
+            <motion.p
+              variants={itemVariants}
+              className="font-mono text-sm uppercase text-primary"
+              style={{ letterSpacing: "0.22em", marginBottom: "1.5rem" }}
+            >
+              {t.label}
+            </motion.p>
+
+            {/* H1 */}
+            <motion.h1
+              id="hero-heading"
+              variants={itemVariants}
+              className="font-black tracking-tighter max-w-xl"
+              style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
+            >
+              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.7 }}>
+                {t.h1a}
+              </span>
+              <span className="block text-foreground">
+                {t.h1b}
+              </span>
+            </motion.h1>
+
+            {/* Value proposition */}
+            <motion.p
+              variants={itemVariants}
+              className="text-muted-foreground"
+              style={{
+                fontSize: "clamp(15px, 1.4vw, 18px)",
+                fontWeight: 300,
+                lineHeight: 1.5,
+                marginBottom: "2.5rem",
+                whiteSpace: "pre-line",
               }}
-              className="rounded-full"
             >
-              <Logo size="lg" showText={true} animated={!prefersReducedMotion} />
-            </motion.div>
+              {t.valueProp}
+            </motion.p>
 
-            {/* Sparkle effect - only if motion enabled */}
-            {!prefersReducedMotion && (
-              <motion.div
-                className="absolute -top-3 -right-3"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  rotate: [0, 180, 360],
-                  opacity: [0.6, 1, 0.6]
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Sparkles className="h-7 w-7 text-primary drop-shadow-glow" />
-              </motion.div>
-            )}
-          </motion.div>
-
-          {/* Main Heading - Improved typography */}
-          <motion.h1
-            id="hero-heading"
-            variants={itemVariants}
-            className="max-w-5xl mx-auto px-4 tracking-tight"
-          >
-            <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/90">
-              {t.heading}
-            </span>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.div
-            variants={itemVariants}
-            className="max-w-2xl mx-auto text-muted-foreground px-4 text-lg md:text-xl leading-relaxed"
-          >
-            <p>{t.description}</p>
-          </motion.div>
-
-          {/* CTA Buttons - Better spacing and hierarchy */}
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center justify-center gap-3 md:gap-4 flex-wrap px-4"
-          >
-            {/* Primary CTA */}
+            {/* CTAs */}
             <motion.div
-              whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button 
-                size="lg" 
-                onClick={scrollToProjects}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-lg hover:shadow-xl"
-              >
-                <span className="font-semibold">{t.ctaPrimary}</span>
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </motion.div>
-
-            {/* Secondary CTA */}
-            <motion.div
-              whileHover={!prefersReducedMotion ? { scale: 1.05 } : undefined}
-              whileTap={{ scale: 0.98 }}
+              variants={itemVariants}
+              className="flex items-center gap-3 flex-wrap"
+              style={{ marginBottom: "3rem" }}
             >
               <Button
                 size="lg"
-                variant="outline"
+                onClick={scrollToProjects}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
+              >
+                {t.ctaPrimary}
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Button>
+
+              <Button
+                size="lg"
+                variant="ghost"
                 onClick={() => {
                   analytics.clickCaseStudies();
                   onNavigateToCaseStudies?.();
                 }}
-                className="group border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all"
+                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
               >
-                <FileText className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
                 {t.ctaSecondary}
               </Button>
             </motion.div>
-          </motion.div>
 
-          {/* Scroll indicator - Improved animation */}
-          <motion.div
-            variants={itemVariants}
-            className="pt-8 md:pt-10"
-          >
-            <motion.button
-              animate={!prefersReducedMotion ? { y: [0, 8, 0] } : undefined}
-              transition={{
-                duration: 2.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="inline-flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
-              onClick={scrollToProjects}
-              aria-label={t.scroll}
-            >
-              <span className="text-sm font-medium">{t.scroll}</span>
-              <div className="w-6 h-10 border-2 border-current rounded-full flex items-start justify-center p-1.5 group-hover:border-foreground transition-colors">
-                <motion.div
-                  className="w-1.5 h-3 bg-current rounded-full"
-                  animate={!prefersReducedMotion ? { y: [0, 14, 0] } : undefined}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </div>
-            </motion.button>
-          </motion.div>
+            {/* Scroll indicator */}
+            <motion.div variants={itemVariants}>
+              <motion.button
+                animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
+                style={{ color: "var(--muted-foreground)", opacity: 0.7 }}
+                onClick={scrollToProjects}
+                aria-label={t.scroll}
+              >
+                <span className="font-mono text-sm uppercase" style={{ letterSpacing: "0.2em" }}>
+                  {t.scroll}
+                </span>
+                <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
+                  <motion.div
+                    className="w-1 h-2 bg-current rounded-full"
+                    animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </div>
+              </motion.button>
+            </motion.div>
+          </div>
+
+          {/* ── Right column — result cards ── */}
+          <div className="hero-right" aria-label={t.resultados} role="list">
+            {resultCards.map((card, i) => (
+              <motion.div
+                key={card.metric}
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                role="listitem"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "12px",
+                  padding: "1.25rem 1.5rem",
+                  marginLeft: i === 1 ? "2rem" : i === 2 ? "1rem" : "0",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <span
+                  className="font-mono font-black text-foreground block"
+                  style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.03em", lineHeight: 1 }}
+                >
+                  {card.metric}
+                </span>
+                <span
+                  className="block text-muted-foreground"
+                  style={{ fontSize: "0.875rem", marginTop: "0.375rem", fontWeight: 400 }}
+                >
+                  {card.desc}
+                </span>
+                <span
+                  className="block"
+                  style={{ fontSize: "0.75rem", marginTop: "0.25rem", color: "var(--muted-foreground)", opacity: 0.8, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "monospace" }}
+                >
+                  {card.company}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </motion.div>
     </section>

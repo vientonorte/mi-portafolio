@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import { ArrowLeft, BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Card, CardContent } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
@@ -20,16 +20,6 @@ interface CaseStudiesProps {
 export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudiesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-
-  return (
-    <>
-      <SEOHead 
-        title="Framework UX & Case Studies"
-        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
-      />
-      {/* Rest of component... */}
-    </>
-  );
 
   const processes = [
     {
@@ -74,6 +64,10 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Framework UX & Case Studies"
+        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      />
       {/* Process Navigation - Lateral TOC */}
       <ProcessNavigation sections={navigationSections} />
 

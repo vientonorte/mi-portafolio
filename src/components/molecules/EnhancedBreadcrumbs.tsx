@@ -1,6 +1,6 @@
 import { ChevronRight, Home } from "lucide-react";
 import { motion } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 
 export interface BreadcrumbItem {
   label: string;

@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { Copy } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { toast } from "sonner@2.0.3";
 
 interface TokenDisplayProps {

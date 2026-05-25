@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { Copy, Check } from "lucide-react";
 import { toast } from "sonner@2.0.3";
 

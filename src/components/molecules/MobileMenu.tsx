@@ -1,8 +1,9 @@
 import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface NavItem {
   href: string;
@@ -16,6 +17,7 @@ interface MobileMenuProps {
   navItems: NavItem[];
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
+  onNavigateToAuditoria?: () => void;
 }
 
 export function MobileMenu({ 
@@ -23,10 +25,14 @@ export function MobileMenu({
   onClose, 
   navItems, 
   onNavigateToDesignSystem,
-  onNavigateToCaseStudies 
+  onNavigateToCaseStudies,
+  onNavigateToAuditoria
 }: MobileMenuProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
+  const pendingScroll = useRef<string | null>(null);
 
   // Handle click outside
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -39,10 +45,9 @@ export function MobileMenu({
   useEffect(() => {
     if (!isOpen) return;
 
-    // Focus first element when menu opens
-    const timer = setTimeout(() => {
+    const frame = requestAnimationFrame(() => {
       firstFocusableRef.current?.focus();
-    }, 100);
+    });
 
     // Handle Tab key for focus trap
     const handleTab = (e: KeyboardEvent) => {
@@ -69,38 +74,90 @@ export function MobileMenu({
     document.addEventListener("keydown", handleTab);
 
     return () => {
-      clearTimeout(timer);
+      cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleTab);
     };
   }, [isOpen]);
+
+  const getNavHeight = useCallback(() => {
+    const header = document.querySelector('header[role="banner"]');
+    if (header instanceof HTMLElement) {
+      return header.offsetHeight;
+    }
+    return 80;
+  }, []);
+
+  const scrollToAnchor = useCallback((selector: string) => {
+    requestAnimationFrame(() => {
+      const element = document.querySelector(selector);
+      if (!element) return;
+
+      const navHeight = getNavHeight();
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    });
+  }, [getNavHeight]);
+
+  useEffect(() => {
+    if (location.pathname !== "/" || !pendingScroll.current) return;
+
+    const target = pendingScroll.current;
+    const maxAttempts = 60;
+    let attempts = 0;
+    let frameId: number | null = null;
+
+    const tryScroll = () => {
+      const element = document.querySelector(target);
+      if (element) {
+        scrollToAnchor(target);
+        if (pendingScroll.current === target) {
+          pendingScroll.current = null;
+        }
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < maxAttempts) {
+        frameId = requestAnimationFrame(tryScroll);
+      }
+    };
+
+    frameId = requestAnimationFrame(tryScroll);
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [location.pathname, scrollToAnchor]);
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
     
     if (item.type === "route") {
       if (item.href === "design-system") {
-        setTimeout(() => onNavigateToDesignSystem?.(), 300);
-      } else if (item.href === "case-studies") {
-        setTimeout(() => onNavigateToCaseStudies?.(), 300);
+        onNavigateToDesignSystem?.();
+      } else if (item.href === "cases") {
+        onNavigateToCaseStudies?.();
+      } else if (item.href === "auditoria") {
+        onNavigateToAuditoria?.();
       }
       return;
     }
     
-    // Smooth scroll with offset for fixed nav
-    setTimeout(() => {
-      const element = document.querySelector(item.href);
-      if (element) {
-        const navHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+    if (location.pathname !== "/") {
+      pendingScroll.current = item.href;
+      navigate("/");
+      return;
+    }
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }, 300);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies]);
+    scrollToAnchor(item.href);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">
@@ -112,7 +169,7 @@ export function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55]"
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -124,7 +181,7 @@ export function MobileMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-50 flex flex-col"
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background border-l border-border shadow-2xl z-[60] flex flex-col"
             role="dialog"
             aria-label="Menú de navegación móvil"
             aria-modal="true"

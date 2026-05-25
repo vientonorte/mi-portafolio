@@ -2,7 +2,7 @@ import { Briefcase } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { EnhancedProjectCard } from "../molecules/EnhancedProjectCard";
 import { StatCard } from "../molecules/StatCard";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { FileText } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { allProjects } from "../../data/projects-data";

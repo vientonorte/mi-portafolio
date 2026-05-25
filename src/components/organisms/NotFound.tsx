@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { Home, ArrowLeft, FileQuestion } from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 

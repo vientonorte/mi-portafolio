@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
-import { Card, CardContent } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import { Card, CardContent } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 import { Building2, ArrowRight, Briefcase, FileText } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { LogoMark } from "../atoms/Logo";

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { Menu, X } from "lucide-react";
 import { MobileMenu } from "../molecules/MobileMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
@@ -12,11 +12,13 @@ import { useTranslation } from "../../lib/i18n";
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
+  onNavigateToAuditoria?: () => void;
 }
 
 export function Navigation({ 
   onNavigateToDesignSystem,
-  onNavigateToCaseStudies 
+  onNavigateToCaseStudies,
+  onNavigateToAuditoria
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -28,9 +30,11 @@ export function Navigation({
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
     { href: "#proyectos", label: t.nav.projects, type: "anchor" as const },
-    { href: "design-system", label: language === "es" ? "Design System" : "Design System", type: "route" as const },
+    { href: "cases", label: language === "es" ? "Casos" : "Cases", type: "route" as const },
+    { href: "design-system", label: "Design System", type: "route" as const },
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
+    { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
@@ -74,8 +78,10 @@ export function Navigation({
     if (item.type === "route") {
       if (item.href === "design-system") {
         onNavigateToDesignSystem?.();
-      } else if (item.href === "case-studies") {
+      } else if (item.href === "cases") {
         onNavigateToCaseStudies?.();
+      } else if (item.href === "auditoria") {
+        onNavigateToAuditoria?.();
       }
       return;
     }
@@ -92,7 +98,7 @@ export function Navigation({
         behavior: "smooth"
       });
     }
-  }, [onNavigateToDesignSystem, onNavigateToCaseStudies]);
+  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
@@ -111,7 +117,7 @@ export function Navigation({
         }}
         animate={isHidden ? "hidden" : "visible"}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled 
             ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80" 
             : "bg-transparent"
@@ -125,7 +131,7 @@ export function Navigation({
           {/* Logo */}
           <motion.a
             href="#inicio"
-            onClick={(e) => handleNavClick(e, navItems[0])}
+            onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" as const })}
             className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -144,9 +150,13 @@ export function Navigation({
                       variant="ghost"
                       className="hover:text-primary hover:bg-primary/10 transition-all"
                       onClick={
-                        item.href === "design-system" 
-                          ? onNavigateToDesignSystem 
-                          : onNavigateToCaseStudies
+                        item.href === "design-system"
+                          ? onNavigateToDesignSystem
+                          : item.href === "auditoria"
+                          ? onNavigateToAuditoria
+                          : item.href === "cases"
+                          ? onNavigateToCaseStudies
+                          : undefined
                       }
                     >
                       {item.label}
@@ -190,7 +200,7 @@ export function Navigation({
               aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
-              className="relative w-10 h-10"
+              className="relative h-11 w-11 rounded-full border border-border/60 bg-background/85 shadow-sm backdrop-blur-sm transition-all hover:bg-muted/90 hover:shadow-md"
             >
               <span className="sr-only">
                 {isMenuOpen ? "Cerrar menú" : "Abrir menú"}
@@ -212,6 +222,7 @@ export function Navigation({
         navItems={navItems}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
+        onNavigateToAuditoria={onNavigateToAuditoria}
       />
     </>
   );

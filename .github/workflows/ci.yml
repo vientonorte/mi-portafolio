@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -55,15 +57,60 @@ jobs:
           curl -fsS "http://127.0.0.1:4173$CSS_ASSET_PATH" >/dev/null
 
   typecheck:
+    name: TypeScript
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-
       - run: npm ci
-
       - run: npx tsc --noEmit
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Bundle size check
+        run: |
+          BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)
+          echo "JS bundle: ${BUNDLE}KB"
+          # Budget: 650KB (gzip ~196KB) — warning si se supera
+          if [ "$BUNDLE" -gt "750" ]; then
+            echo "::warning::Bundle JS superó 750KB sin comprimir (${BUNDLE}KB)"
+          fi
+
+  a11y:
+    name: Accesibilidad WCAG AA
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Instalar pa11y
+        run: npm install -g pa11y
+      - name: Servir y escanear
+        run: |
+          npx serve dist -p 4444 &
+          sleep 3
+          pa11y http://localhost:4444 \
+            --standard WCAG2AA \
+            --reporter cli \
+            --ignore "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage" \
+            --threshold 0 \
+            --config .pa11yrc.json
+          kill %1
+          kill %1

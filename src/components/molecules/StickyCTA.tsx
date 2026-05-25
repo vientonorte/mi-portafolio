@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 import { ArrowRight, X } from "lucide-react";
 
 interface StickyCtaProps {
@@ -59,7 +59,7 @@ export function StickyCTA({
             damping: 30,
             duration: shouldReduceMotion ? 0 : undefined
           }}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 max-[767px]:bottom-[5.5rem]"
         >
           <div className="relative">
             {/* Glow effect */}
