@@ -40,7 +40,7 @@
         "motion": "*",
         "next-themes": "^0.4.6",
         "react": "19.2.6",
-        "react-day-picker": "^10.0.0",
+        "react-day-picker": "^10.0.1",
         "react-dom": "19.2.6",
         "react-helmet-async": "^3.0.0",
         "react-hook-form": "^7.55.0",
