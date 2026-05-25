@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface NavItem {
   href: string;
@@ -27,8 +28,11 @@ export function MobileMenu({
   onNavigateToCaseStudies,
   onNavigateToAuditoria
 }: MobileMenuProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
+  const pendingScroll = useRef<string | null>(null);
 
   // Handle click outside
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -75,12 +79,20 @@ export function MobileMenu({
     };
   }, [isOpen]);
 
+  const getNavHeight = useCallback(() => {
+    const header = document.querySelector('header[role="banner"]');
+    if (header instanceof HTMLElement) {
+      return header.offsetHeight;
+    }
+    return 80;
+  }, []);
+
   const scrollToAnchor = useCallback((selector: string) => {
     requestAnimationFrame(() => {
       const element = document.querySelector(selector);
       if (!element) return;
 
-      const navHeight = 80;
+      const navHeight = getNavHeight();
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navHeight;
 
@@ -89,7 +101,40 @@ export function MobileMenu({
         behavior: "smooth"
       });
     });
-  }, []);
+  }, [getNavHeight]);
+
+  useEffect(() => {
+    if (location.pathname !== "/" || !pendingScroll.current) return;
+
+    const target = pendingScroll.current;
+    const maxAttempts = 60;
+    let attempts = 0;
+    let frameId: number | null = null;
+
+    const tryScroll = () => {
+      const element = document.querySelector(target);
+      if (element) {
+        scrollToAnchor(target);
+        if (pendingScroll.current === target) {
+          pendingScroll.current = null;
+        }
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < maxAttempts) {
+        frameId = requestAnimationFrame(tryScroll);
+      }
+    };
+
+    frameId = requestAnimationFrame(tryScroll);
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [location.pathname, scrollToAnchor]);
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
@@ -105,8 +150,14 @@ export function MobileMenu({
       return;
     }
     
+    if (location.pathname !== "/") {
+      pendingScroll.current = item.href;
+      navigate("/");
+      return;
+    }
+
     scrollToAnchor(item.href);
-  }, [onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">
