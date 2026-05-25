@@ -84,7 +84,7 @@ export function BottomNav() {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
     >
-      <ul className="grid h-16 grid-cols-4 items-stretch">
+      <ul className="grid h-16 grid-cols-4 items-stretch justify-items-stretch">
         {items.map((item) => {
           const Icon = item.icon;
           const active = isActive(item);
@@ -103,7 +103,7 @@ export function BottomNav() {
                   strokeWidth={active ? 2.5 : 1.5}
                 />
                 <span
-                  className="max-w-full whitespace-nowrap text-[11px] leading-none"
+                  className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-0.5 text-center text-[11px] leading-none"
                   style={{
                     fontWeight: active ? 600 : 400,
                     letterSpacing: "0.01em",

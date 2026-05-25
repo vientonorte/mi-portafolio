@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowDown, ArrowRight, FileText } from "lucide-react";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
@@ -33,7 +33,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const content = useMemo(() => ({
     es: {
       label:        "Lead UX Designer",
-      valueProp:    "6 años liderando UX\nen fintech y mobility",
+      valueProp:    "6 años liderando UX\nen fintech y movilidad",
       h1a:          "Diseño que",
       h1b:          "reduce el ruido.",
       ctaPrimary:   "Ver proyectos",
@@ -130,7 +130,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               className="font-black tracking-tighter max-w-xl"
               style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
             >
-              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.4 }}>
+              <span className="block text-foreground" style={{ fontWeight: 400, opacity: 0.72 }}>
                 {t.h1a}
               </span>
               <span className="block text-foreground">
@@ -144,10 +144,11 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               className="text-muted-foreground"
               style={{
                 fontSize: "clamp(15px, 1.4vw, 18px)",
-                fontWeight: 300,
+                fontWeight: 400,
                 lineHeight: 1.5,
                 marginBottom: "2.5rem",
                 whiteSpace: "pre-line",
+                opacity: 0.88,
               }}
             >
               {t.valueProp}
@@ -195,13 +196,13 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 <span className="font-mono text-xs uppercase" style={{ letterSpacing: "0.2em" }}>
                   {t.scroll}
                 </span>
-                <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
-                  <motion.div
-                    className="w-1 h-2 bg-current rounded-full"
-                    animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                </div>
+                <motion.span
+                  animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-current"
+                >
+                  <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                </motion.span>
               </motion.button>
             </motion.div>
           </div>
