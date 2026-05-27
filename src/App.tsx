@@ -29,6 +29,7 @@ function RouterNavigation() {
       onNavigateToDesignSystem={() => navigate('/design-system')}
       onNavigateToCaseStudies={() => navigate('/cases')}
       onNavigateToAuditoria={() => navigate('/auditoria')}
+      onNavigateToCitasAttac={() => navigate('/investigacion/citas-attac')}
     />
   );
 }
