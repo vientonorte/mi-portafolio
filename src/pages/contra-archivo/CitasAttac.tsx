@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen, ExternalLink, FileText, Hash, Shield } from 'lucide-react';
-import { SEOHead } from '../components/atoms/SEOHead';
+import { SEOHead } from '../../components/atoms/SEOHead';
 
 // ─── Datos ────────────────────────────────────────────────────────────────────
 
@@ -65,7 +65,7 @@ export default function CitasAttac() {
       <SEOHead
         title="Citas ATTAC — Etnografía Digital SURA Investments"
         description="Fichas de citas y capturas de ATTAC usadas como evidencia en la tesis doctoral Contra-Archivo: Antropología y Corrupción. Análisis de circuitos financieros transnacionales, mistranslation institucional y marcadores de fricción semántica."
-        url="https://vientonorte.github.io/mi-portafolio/#/investigacion/citas-attac"
+        url="https://vientonorte.github.io/mi-portafolio/#/contra-archivo/citas-attac"
         type="article"
         noIndex={false}
       />

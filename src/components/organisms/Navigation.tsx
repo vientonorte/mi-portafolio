@@ -37,7 +37,7 @@ export function Navigation({
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
-    { href: "investigacion/citas-attac", label: language === "es" ? "Investigación" : "Research", type: "route" as const },
+    { href: "contra-archivo/citas-attac", label: language === "es" ? "Investigación" : "Research", type: "route" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
@@ -85,7 +85,7 @@ export function Navigation({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
-      } else if (item.href === "investigacion/citas-attac") {
+      } else if (item.href === "contra-archivo/citas-attac") {
         onNavigateToCitasAttac?.();
       }
       return;
@@ -161,7 +161,7 @@ export function Navigation({
                           ? onNavigateToAuditoria
                           : item.href === "cases"
                           ? onNavigateToCaseStudies
-                          : item.href === "investigacion/citas-attac"
+                          : item.href === "contra-archivo/citas-attac"
                           ? onNavigateToCitasAttac
                           : undefined
                       }

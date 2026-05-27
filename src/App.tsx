@@ -20,7 +20,7 @@ const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
 const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
-const CitasAttac = lazy(() => import('./pages/CitasAttac'));
+const CitasAttac = lazy(() => import('./pages/contra-archivo/CitasAttac'));
 
 function RouterNavigation() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function RouterNavigation() {
       onNavigateToDesignSystem={() => navigate('/design-system')}
       onNavigateToCaseStudies={() => navigate('/cases')}
       onNavigateToAuditoria={() => navigate('/auditoria')}
-      onNavigateToCitasAttac={() => navigate('/investigacion/citas-attac')}
+      onNavigateToCitasAttac={() => navigate('/contra-archivo/citas-attac')}
     />
   );
 }
@@ -73,7 +73,7 @@ const App = () => (
             <Route path="/cases" element={<CaseStudiesPage />} />
             <Route path="/cases/process/:processId" element={<ProcessDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
-            <Route path="/investigacion/citas-attac" element={<CitasAttac />} />
+            <Route path="/contra-archivo/citas-attac" element={<CitasAttac />} />
           </Routes>
         </Suspense>
       </main>
