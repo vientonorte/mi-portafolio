@@ -20,6 +20,7 @@ const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
 const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
+const CitasAttac = lazy(() => import('./pages/CitasAttac'));
 
 function RouterNavigation() {
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ const App = () => (
             <Route path="/cases" element={<CaseStudiesPage />} />
             <Route path="/cases/process/:processId" element={<ProcessDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
+            <Route path="/investigacion/citas-attac" element={<CitasAttac />} />
           </Routes>
         </Suspense>
       </main>
