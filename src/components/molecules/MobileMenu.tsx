@@ -148,7 +148,7 @@ export function MobileMenu({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
-      } else if (item.href === "investigacion/citas-attac") {
+      } else if (item.href === "contra-archivo/citas-attac") {
         onNavigateToCitasAttac?.();
       }
       return;
