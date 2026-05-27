@@ -1,4 +1,38 @@
-## Definition of Done (DOD)
+# ⚠️ ARCHIVED: Portafolio V2
+
+> **Nota:** Este directorio contiene una versión anterior del portafolio y se mantiene como referencia histórica. **No está activo ni mantenido.**
+
+## ¿Por qué existe este directorio?
+
+Esta carpeta (`V2/`) es una versión previa del portafolio que incluía:
+- Setup básico de React + Vite
+- QA workflow con axe-core y Lighthouse
+- Documentación de proceso Scrum
+- Checklists de QA y accesibilidad
+
+## Estado Actual
+
+- ❌ **NO se usa en producción**
+- ❌ **NO se mantiene actualizado**
+- ℹ️ Ignorado por ESLint (ver `eslint.config.js`)
+- ℹ️ Incluido en `.gitignore` de root (opcional)
+
+## ¿Debo usarlo?
+
+**No.** Para desarrollo activo, usa el proyecto principal en la raíz del repositorio (`/`).
+
+## ¿Puedo eliminarlo?
+
+Sí, puedes eliminar `/V2` completamente si no necesitas la referencia histórica. No afecta al proyecto principal.
+
+```bash
+# Para eliminar completamente
+rm -rf V2/
+```
+
+---
+
+## Definition of Done (DOD) - Referencia Histórica
 
 Para considerar cualquier entrega como "Done" en este portafolio, debe cumplir:
 
