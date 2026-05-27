@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen, ExternalLink, FileText, Hash, Shield } from 'lucide-react';
-import { SEOHead } from '../components/atoms/SEOHead';
+import { SEOHead } from '../../components/atoms/SEOHead';
 
 // ─── Datos ────────────────────────────────────────────────────────────────────
 
