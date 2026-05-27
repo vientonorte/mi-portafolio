@@ -13,12 +13,14 @@ interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
+  onNavigateToCitasAttac?: () => void;
 }
 
-export function Navigation({ 
+export function Navigation({
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
-  onNavigateToAuditoria
+  onNavigateToAuditoria,
+  onNavigateToCitasAttac
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -35,6 +37,7 @@ export function Navigation({
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
+    { href: "investigacion/citas-attac", label: language === "es" ? "Investigación" : "Research", type: "route" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
@@ -82,10 +85,12 @@ export function Navigation({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
+      } else if (item.href === "investigacion/citas-attac") {
+        onNavigateToCitasAttac?.();
       }
       return;
     }
-    
+
     // Smooth scroll to anchor
     const element = document.querySelector(item.href);
     if (element) {
@@ -98,7 +103,7 @@ export function Navigation({
         behavior: "smooth"
       });
     }
-  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, onNavigateToCitasAttac]);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
@@ -156,6 +161,8 @@ export function Navigation({
                           ? onNavigateToAuditoria
                           : item.href === "cases"
                           ? onNavigateToCaseStudies
+                          : item.href === "investigacion/citas-attac"
+                          ? onNavigateToCitasAttac
                           : undefined
                       }
                     >
@@ -216,13 +223,14 @@ export function Navigation({
       </motion.header>
 
       {/* Mobile Menu */}
-      <MobileMenu 
+      <MobileMenu
         isOpen={isMenuOpen}
         onClose={closeMenu}
         navItems={navItems}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
         onNavigateToAuditoria={onNavigateToAuditoria}
+        onNavigateToCitasAttac={onNavigateToCitasAttac}
       />
     </>
   );

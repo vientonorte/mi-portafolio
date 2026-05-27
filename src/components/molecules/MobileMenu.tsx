@@ -18,15 +18,17 @@ interface MobileMenuProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
+  onNavigateToCitasAttac?: () => void;
 }
 
-export function MobileMenu({ 
-  isOpen, 
-  onClose, 
-  navItems, 
+export function MobileMenu({
+  isOpen,
+  onClose,
+  navItems,
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
-  onNavigateToAuditoria
+  onNavigateToAuditoria,
+  onNavigateToCitasAttac
 }: MobileMenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,10 +148,12 @@ export function MobileMenu({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
+      } else if (item.href === "investigacion/citas-attac") {
+        onNavigateToCitasAttac?.();
       }
       return;
     }
-    
+
     if (location.pathname !== "/") {
       pendingScroll.current = item.href;
       navigate("/");
@@ -157,7 +161,7 @@ export function MobileMenu({
     }
 
     scrollToAnchor(item.href);
-  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, onNavigateToCitasAttac, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">
