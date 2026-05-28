@@ -74,7 +74,7 @@ export default function CitasAttac() {
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <header className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-orange-500/5 border-b border-border">
-          <div className="max-w-4xl mx-auto px-6 py-20 lg:py-28">
+          <div className="max-w-4xl mx-auto px-6 py-12 lg:py-28">
 
             {/* Badge */}
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-sm w-fit mb-6">
@@ -179,7 +179,7 @@ export default function CitasAttac() {
               Marcadores de fricción semántica
             </h2>
 
-            <div className="rounded-xl border border-border overflow-hidden">
+            <div className="rounded-xl border border-border overflow-x-auto">
               <table className="w-full text-sm" role="table">
                 <thead>
                   <tr className="bg-muted/50 border-b border-border">
