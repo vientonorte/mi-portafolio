@@ -17,6 +17,21 @@ npm install
 npm run dev
 ```
 
+## Environment Variables
+
+Este proyecto usa variables de entorno para configuración. Para desarrollo local:
+
+1. Copia el archivo de ejemplo:
+```sh
+cp .env.example .env.local
+```
+
+2. Edita `.env.local` con tus valores reales:
+   - `VITE_GA_MEASUREMENT_ID`: ID de Google Analytics 4 (opcional)
+   - `VITE_FORMSPREE_ENDPOINT`: Endpoint de FormSpree para formulario de contacto (opcional)
+
+⚠️ **Nunca commitees archivos `.env` con valores reales.**
+
 ## Mobile Testing
 
 Este proyecto está optimizado para dispositivos móviles. Ver [MOBILE_QA.md](./MOBILE_QA.md) para:
@@ -59,6 +74,7 @@ npm run build
 
 ## Documentación
 
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — Guía para contribuir al proyecto
 - [MOBILE_QA.md](./MOBILE_QA.md) — Checklist y guía de QA mobile
 - [HANDOFF_SPRINT.md](./HANDOFF_SPRINT.md) — Sprint de estabilización
 - [V2/QA-CHECKLIST.md](./V2/QA-CHECKLIST.md) — Checklist QA general
