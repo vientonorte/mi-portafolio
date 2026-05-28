@@ -30,6 +30,7 @@ export interface EnhancedProject {
   description: string;
   image?: string;
   tags: string[];
+  externalLink?: string; // External project link
   
   // Nivel 2: PROCESOS
   processes?: Process[]; // Made optional to prevent errors when undefined
@@ -586,9 +587,50 @@ export const companyHubs: CompanyHub[] = [
   transvipHub,
 ];
 
+// UX Tools Project
+const uxToolsProject: EnhancedProject = {
+  id: "ux-tools",
+  company: "Proyecto Personal",
+  role: "UX Designer & Developer",
+  period: "2024 - Presente",
+  projectName: "UX Tools Collection",
+  description: "Colección de herramientas y recursos para diseñadores UX. Incluye frameworks, plantillas, y utilidades prácticas para optimizar el flujo de trabajo en proyectos de diseño de experiencia de usuario.",
+  image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+  tags: ["Tools", "UX Resources", "Web Development", "Design Systems"],
+  externalLink: "https://vientonorte.github.io/uxtools/index.html",
+  
+  processes: [
+    {
+      name: "Research & Curation",
+      description: "Investigación y curación de herramientas UX útiles para el día a día de diseñadores.",
+      tools: ["Research", "UX Tools Analysis", "Best Practices"],
+    },
+    {
+      name: "Web Development",
+      description: "Desarrollo de sitio web para compartir herramientas y recursos con la comunidad UX.",
+      tools: ["HTML/CSS", "JavaScript", "Web Design"],
+    },
+  ],
+  teamSize: "Proyecto individual",
+  
+  details: {
+    challenge: "Crear un recurso centralizado de herramientas UX que sea útil para diseñadores de todos los niveles.",
+    solution: "Sitio web con colección curada de herramientas, frameworks y recursos organizados por categorías para fácil acceso.",
+    metrics: [
+      "Colección de herramientas UX curadas",
+      "Recurso público para la comunidad de diseño",
+    ],
+    learnings: [
+      "La curación de recursos ahorra tiempo a otros diseñadores",
+      "Compartir conocimiento fortalece la comunidad UX",
+    ],
+  },
+};
+
 // Proyectos individuales (no agrupados por empresa)
 export const individualProjects: EnhancedProject[] = [
   frameworkProject,
+  uxToolsProject,
 ];
 
 // Todos los proyectos para backward compatibility
@@ -596,4 +638,5 @@ export const allProjects = [
   ...suraHub.projects,
   ...transvipHub.projects,
   frameworkProject,
+  uxToolsProject,
 ];
