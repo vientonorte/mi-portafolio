@@ -8,6 +8,7 @@ import { LanguageToggle } from "../atoms/LanguageToggle";
 import { LogoMark } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { useLocation } from "react-router-dom";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -28,6 +29,7 @@ export function Navigation({
   const [isScrolled, setIsScrolled] = useState(false);
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const location = useLocation();
 
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
@@ -105,6 +107,15 @@ export function Navigation({
     }
   }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, onNavigateToCitasAttac]);
 
+  // Helper function to check if route is active
+  const isRouteActive = useCallback((href: string) => {
+    if (href === "design-system") return location.pathname === "/design-system";
+    if (href === "cases") return location.pathname.startsWith("/cases");
+    if (href === "auditoria") return location.pathname === "/auditoria";
+    if (href === "contra-archivo/citas-attac") return location.pathname === "/contra-archivo/citas-attac";
+    return false;
+  }, [location.pathname]);
+
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
   }, []);
@@ -148,42 +159,55 @@ export function Navigation({
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
             <ul className="flex items-center gap-1" role="list">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  {item.type === "route" ? (
-                    <Button
-                      variant="ghost"
-                      className="hover:text-primary hover:bg-primary/10 transition-all"
-                      onClick={
-                        item.href === "design-system"
-                          ? onNavigateToDesignSystem
-                          : item.href === "auditoria"
-                          ? onNavigateToAuditoria
-                          : item.href === "cases"
-                          ? onNavigateToCaseStudies
-                          : item.href === "contra-archivo/citas-attac"
-                          ? onNavigateToCitasAttac
-                          : undefined
-                      }
-                    >
-                      {item.label}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="ghost"
-                      asChild
-                      className="hover:text-primary hover:bg-primary/10 transition-all"
-                    >
-                      <a 
-                        href={item.href}
-                        onClick={(e) => handleNavClick(e, item)}
+              {navItems.map((item) => {
+                const isActive = item.type === "route" && isRouteActive(item.href);
+                return (
+                  <li key={item.href}>
+                    {item.type === "route" ? (
+                      <Button
+                        variant="ghost"
+                        className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
+                          isActive ? "text-primary bg-primary/10" : ""
+                        }`}
+                        onClick={
+                          item.href === "design-system"
+                            ? onNavigateToDesignSystem
+                            : item.href === "auditoria"
+                            ? onNavigateToAuditoria
+                            : item.href === "cases"
+                            ? onNavigateToCaseStudies
+                            : item.href === "contra-archivo/citas-attac"
+                            ? onNavigateToCitasAttac
+                            : undefined
+                        }
                       >
                         {item.label}
-                      </a>
-                    </Button>
-                  )}
-                </li>
-              ))}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeNavIndicator"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                            initial={false}
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="ghost"
+                        asChild
+                        className="hover:text-primary hover:bg-primary/10 transition-all"
+                      >
+                        <a 
+                          href={item.href}
+                          onClick={(e) => handleNavClick(e, item)}
+                        >
+                          {item.label}
+                        </a>
+                      </Button>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
 
             {/* Theme Toggle Desktop */}
