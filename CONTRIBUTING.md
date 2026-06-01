@@ -1,214 +1,285 @@
-# Contributing to Portafolio Lead UX
+# Guía de Contribución
 
-¡Gracias por tu interés en contribuir! Este documento describe las pautas y mejores prácticas para trabajar en este proyecto.
+Gracias por tu interés en contribuir al proyecto! Este documento establece las convenciones y mejores prácticas para mantener la calidad del código.
 
-## 🚀 Configuración Inicial
+## 📋 Tabla de Contenidos
 
-1. **Clonar el repositorio:**
-```bash
-git clone https://github.com/vientonorte/mi-portafolio.git
-cd mi-portafolio
+- [Convenciones de Commits](#convenciones-de-commits)
+- [Convenciones de Branches](#convenciones-de-branches)
+- [Workflow de Desarrollo](#workflow-de-desarrollo)
+- [Quality Assurance](#quality-assurance)
+- [Pull Requests](#pull-requests)
+
+## 🎯 Convenciones de Commits
+
+Este proyecto usa [Conventional Commits](https://www.conventionalcommits.org/) con validación automática vía commitlint.
+
+### Formato
+
+```
+<type>(<scope>): <subject>
+
+[optional body]
+
+[optional footer]
 ```
 
-2. **Instalar dependencias:**
+### Types
+
+- **feat**: Nueva funcionalidad para el usuario
+- **fix**: Corrección de bug
+- **docs**: Cambios en documentación
+- **style**: Formato, espaciado, sin cambios de lógica
+- **refactor**: Refactorización sin cambios funcionales
+- **test**: Agregar o modificar tests
+- **chore**: Tareas de mantenimiento, deps, config
+- **perf**: Mejoras de performance
+- **ci**: Cambios en CI/CD pipeline
+
+### Scope (opcional)
+
+Indica el área afectada: `hero`, `nav`, `mobile`, `a11y`, `deps`, etc.
+
+### Ejemplos
+
 ```bash
-npm install
+feat(hero): add social proof metrics badges
+fix(mobile): correct touch target sizes for WCAG AA
+docs(readme): add CI/CD badges and metrics
+style(navigation): format navigation component
+refactor(cards): extract ProjectCard to reusable component
+test(hero): add unit tests for Hero metrics display
+chore(deps): bump react-router-dom from 7.15.0 to 7.15.1
 ```
 
-3. **Configurar variables de entorno:**
-```bash
-cp .env.example .env.local
-# Editar .env.local con tus valores
+### Reglas
+
+- ✅ Subject max 100 caracteres
+- ✅ Subject en minúsculas (sin mayúscula inicial)
+- ✅ Sin punto final en subject
+- ✅ Usar imperativo: "add" no "added" ni "adds"
+
+## 🌿 Convenciones de Branches
+
+### Nomenclatura
+
+```
+<type>/<descripción-corta>
 ```
 
-4. **Iniciar desarrollo:**
+### Types de Branches
+
+- **feature/** — Nueva funcionalidad
+- **bugfix/** — Corrección de bug
+- **hotfix/** — Fix urgente en producción
+- **refactor/** — Refactorización de código
+- **docs/** — Cambios solo de documentación
+- **test/** — Agregar o modificar tests
+- **chore/** — Tareas de mantenimiento
+
+### Ejemplos
+
 ```bash
-npm run dev
-```
-
-## 📋 Git Workflow
-
-### Branch Naming Convention
-
-Usa prefijos descriptivos para tus ramas:
-
-- `feature/` - Nuevas funcionalidades
-- `fix/` - Corrección de bugs
-- `chore/` - Tareas de mantenimiento
-- `docs/` - Cambios en documentación
-- `refactor/` - Refactorización de código
-- `test/` - Agregar o modificar tests
-- `perf/` - Mejoras de rendimiento
-
-**Ejemplos:**
-```bash
-feature/contact-form
-fix/navigation-mobile
+feature/hero-redesign
+feature/add-contact-form
+bugfix/mobile-nav-overlap
+bugfix/hero-metrics-alignment
+hotfix/broken-routing
+refactor/extract-card-component
+docs/update-readme-badges
+test/add-hero-unit-tests
 chore/update-dependencies
-docs/readme-improvements
 ```
 
-### Conventional Commits
+### Reglas
 
-Este proyecto usa [Conventional Commits](https://www.conventionalcommits.org/) para mensajes de commit estructurados.
+- ✅ Todo en minúsculas
+- ✅ Usar guiones `-` no underscores `_`
+- ✅ Descriptivo pero conciso
+- ✅ Sin prefijos de usuario (`copilot/`, `claude/`) excepto para branches de agentes
+- ❌ Evitar nombres genéricos: `fix`, `update`, `changes`
 
-**Formato:**
-```
-type(scope): mensaje corto
+## 🔄 Workflow de Desarrollo
 
-[cuerpo opcional]
+### 1. Crear una branch desde main
 
-[footer opcional]
-```
-
-**Tipos permitidos:**
-- `feat`: Nueva funcionalidad
-- `fix`: Corrección de bug
-- `chore`: Mantenimiento
-- `docs`: Documentación
-- `style`: Formato de código (sin cambios funcionales)
-- `refactor`: Refactorización
-- `test`: Tests
-- `perf`: Mejoras de rendimiento
-- `ci`: Cambios en CI/CD
-- `build`: Cambios en build system
-- `revert`: Revertir commit anterior
-
-**Ejemplos:**
 ```bash
-feat(hero): agregar animación de entrada
-fix(nav): corregir link roto en mobile
-chore(deps): actualizar Radix UI a v1.2
-docs(readme): agregar sección de deployment
-test(header): agregar tests para Logo component
+git checkout main
+git pull origin main
+git checkout -b feature/mi-nueva-funcionalidad
 ```
+
+### 2. Desarrollar con commits incrementales
+
+```bash
+git add .
+git commit -m "feat(scope): descripción del cambio"
+```
+
+### 3. Mantener branch actualizada
+
+```bash
+git fetch origin main
+git rebase origin/main
+```
+
+### 4. Push y crear PR
+
+```bash
+git push origin feature/mi-nueva-funcionalidad
+```
+
+Luego crear PR en GitHub con:
+- Título descriptivo (siguiendo Conventional Commits)
+- Descripción clara del cambio
+- Screenshots si hay cambios visuales
+- Checklist de testing realizado
+
+### 5. Merge y limpieza
+
+Después del merge exitoso:
+
+```bash
+git checkout main
+git pull origin main
+git branch -d feature/mi-nueva-funcionalidad
+git push origin --delete feature/mi-nueva-funcionalidad
+```
+
+## ✅ Quality Assurance
 
 ### Pre-commit Hooks
 
-El proyecto usa **Husky** y **lint-staged** para validar código antes de commits:
+Husky ejecuta automáticamente en cada commit:
 
-- ✅ ESLint automático en archivos modificados
-- ✅ Tests relacionados ejecutados
-- ✅ Validación de mensaje de commit con commitlint
+- **lint-staged**: ESLint con auto-fix en archivos staged
+- **vitest**: Tests relacionados a archivos modificados
 
-Si un hook falla, tu commit será rechazado. Corrige los errores y vuelve a intentar.
+### Antes de crear PR
+
+```bash
+# Lint completo
+npm run lint
+
+# Tests completos
+npm run test
+
+# Build exitoso
+npm run build
+
+# QA completo (lint + tests + coverage)
+npm run qa
+```
+
+### CI Pipeline
+
+El CI ejecuta automáticamente:
+
+1. **TypeScript** strict type-check (`tsc --noEmit`)
+2. **Build** smoke test + bundle size check
+3. **Pa11y** WCAG 2.1 AA accessibility audit
+4. **Lighthouse** CI (performance, a11y, SEO)
+
+**Todos los checks deben pasar** antes de mergear.
+
+## 🎯 Pull Requests
+
+### Checklist
+
+Antes de marcar PR como "Ready for review":
+
+- [ ] Código pasa todos los tests locales
+- [ ] Código pasa lint sin warnings
+- [ ] Build exitoso sin errores
+- [ ] CI pipeline completamente verde
+- [ ] Commits siguen Conventional Commits
+- [ ] PR title sigue Conventional Commits
+- [ ] Descripción clara del problema/solución
+- [ ] Screenshots agregados si hay cambios UI
+- [ ] Documentación actualizada si aplica
+- [ ] CHANGELOG.md actualizado si aplica
+- [ ] No hay TODOs o console.logs pendientes
+- [ ] Accesibilidad verificada (keyboard, screen readers)
+- [ ] Mobile responsive verificado (320px, 768px, 1024px+)
+
+### Template de PR
+
+```markdown
+## 📝 Descripción
+
+[Descripción clara del cambio]
+
+## 🎯 Motivación
+
+[Por qué este cambio es necesario]
 
 ## 🧪 Testing
 
-### Ejecutar tests
-```bash
-npm run test          # Tests una vez
-npm run test:watch    # Tests en modo watch
-npm run test:coverage # Tests con coverage
+- [ ] Tests unitarios
+- [ ] Tests de accesibilidad
+- [ ] Mobile responsive verificado
+- [ ] Cross-browser testing
+
+## 📸 Screenshots
+
+[Si aplica, agregar screenshots]
+
+## 📋 Checklist
+
+- [ ] Código pasa lint
+- [ ] Tests pasan
+- [ ] Build exitoso
+- [ ] CI green
 ```
 
-### Escribir tests
-- Coloca tests en `src/__tests__/`
-- Usa estructura: `componente.test.tsx`
-- Sigue patrón AAA: Arrange, Act, Assert
+## 🧪 Testing Guidelines
 
-**Ejemplo:**
-```tsx
-import { render, screen } from '@testing-library/react'
-import { MyComponent } from '../components/MyComponent'
+### Unit Tests
 
-describe('MyComponent', () => {
-  it('renders correctly', () => {
-    render(<MyComponent />)
-    expect(screen.getByText('Hello')).toBeInTheDocument()
-  })
-})
-```
+- Usar Vitest + Testing Library
+- Cobertura mínima recomendada: 70%
+- Test user interactions, no implementation details
+- Seguir patrón AAA: Arrange, Act, Assert
 
-## 🎨 Code Style
+### Accessibility Testing
 
-### TypeScript
-- Usa tipos explícitos cuando sea necesario
-- Evita `any`
-- Prefiere interfaces para objetos, types para unions
+- Touch targets min 48x48px (WCAG 2.1 Level AA)
+- Color contrast min 4.5:1 para texto normal
+- Semantic HTML (headings, landmarks, labels)
+- Keyboard navigation completa
+- Screen reader compatible
 
-### React
-- Componentes funcionales con hooks
-- Props interfaces declaradas arriba del componente
-- Atomic Design: atoms > molecules > organisms
+### Mobile Testing
 
-### Tailwind CSS
-- Usa clases utilitarias
-- Evita CSS inline excepto para valores dinámicos
-- Proyecto usa Tailwind v4
+Viewports obligatorios:
 
-## ✅ Quality Checklist
+- 📱 320px (Mobile S)
+- 📱 375px (Mobile M)
+- 📱 414px (Mobile L)
+- 📱 768px (Tablet)
+- 💻 1024px+ (Desktop)
 
-Antes de crear un PR, verifica:
+Ver [MOBILE_QA.md](./MOBILE_QA.md) para checklist completo.
 
-- [ ] El código compila sin errores: `npm run build`
-- [ ] Todos los tests pasan: `npm run test`
-- [ ] No hay errores de TypeScript: `npm run type-check`
-- [ ] El linter está satisfecho: `npm run lint`
-- [ ] Los commits siguen Conventional Commits
-- [ ] La documentación está actualizada
+## 🚫 Anti-patterns a Evitar
 
-**Script rápido:**
-```bash
-npm run ci  # Ejecuta lint + type-check + test + build
-```
+❌ Commits directos a `main`  
+❌ Force push a branches compartidas  
+❌ Merge de branches obsoletas sin rebase  
+❌ PRs >500 líneas sin justificación  
+❌ Commits con mensajes genéricos: "fix", "update", "wip"  
+❌ Dejar branches mergeadas sin eliminar  
+❌ Agregar `console.log` en código de producción  
+❌ Commits sin pasar lint o tests  
+❌ Hardcodear secrets o API keys  
 
-## 📝 Pull Request Process
+## 📞 Contacto
 
-1. **Crea una rama desde `main`**
-```bash
-git checkout -b feature/mi-nueva-feature
-```
+Para preguntas o sugerencias:
 
-2. **Haz commits pequeños y atómicos**
-```bash
-git add .
-git commit -m "feat(component): descripción"
-```
-
-3. **Push a tu rama**
-```bash
-git push origin feature/mi-nueva-feature
-```
-
-4. **Crea el Pull Request en GitHub**
-   - Usa el template de PR
-   - Describe qué cambios hiciste y por qué
-   - Referencia issues relacionados
-
-5. **Espera aprobación y CI verde**
-   - Todos los checks de CI deben pasar
-   - Resuelve comentarios de code review
-
-6. **Merge con Squash**
-   - Se usará squash merge para mantener historial limpio
-
-## 🔒 Seguridad
-
-- ❌ **NO** commitees secretos, tokens o API keys
-- ❌ **NO** commitees archivos `.env` (solo `.env.example`)
-- ✅ Usa variables de entorno para datos sensibles
-- ✅ Ejecuta `npm audit` regularmente
-
-## 📚 Recursos
-
-- [React Docs](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [Vitest](https://vitest.dev)
-- [Conventional Commits](https://www.conventionalcommits.org/)
-
-## 🤝 Código de Conducta
-
-- Sé respetuoso y profesional
-- Acepta críticas constructivas
-- Enfócate en el código, no en la persona
-- Ayuda a otros desarrolladores
-
-## ❓ Preguntas
-
-Si tienes dudas o problemas, abre un issue en GitHub o contacta al maintainer.
+- Abrir un Issue en GitHub
+- Contactar a [@vientonorte](https://github.com/vientonorte)
 
 ---
 
-**¡Gracias por contribuir!** 🎉
+**Gracias por contribuir y mantener la calidad del proyecto! 🚀**
