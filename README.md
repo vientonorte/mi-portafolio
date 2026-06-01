@@ -59,6 +59,23 @@ npm run dev
 
 Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 
+## Environment Variables
+
+Este proyecto usa variables de entorno para configuración. Para desarrollo local:
+
+1. Copia el archivo de ejemplo:
+```sh
+cp .env.example .env.local
+```
+
+2. Edita `.env.local` con tus valores reales:
+   - `VITE_GA_MEASUREMENT_ID`: ID de Google Analytics 4 (opcional)
+   - `VITE_FORMSPREE_ENDPOINT`: Endpoint de FormSpree para formulario de contacto (opcional)
+
+⚠️ **Nunca commitees archivos `.env` con valores reales.**
+
+## Mobile Testing
+
 ## 🧪 QA y Testing
 
 ```sh
@@ -128,6 +145,7 @@ Los archivos optimizados se generan en `/dist`.
 - **[CHANGELOG.md](./CHANGELOG.md)** — Historial de cambios (Keep a Changelog format)
 - **[V2/QA-CHECKLIST.md](./V2/QA-CHECKLIST.md)** — Checklist QA general
 - **[.github/workflows/](./. github/workflows/)** — CI/CD pipeline configs
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — Guía para contribuir al proyecto
 
 ## 🏗️ Arquitectura del Proyecto
 
@@ -148,19 +166,6 @@ src/
 
 Este es un proyecto de portafolio personal, pero se agradecen sugerencias y feedback.
 
-### Convenciones de Commits
-
-Usamos [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat: nueva funcionalidad
-fix: corrección de bug
-docs: cambios en documentación
-style: formato, sin cambios de código
-refactor: refactorización sin cambios funcionales
-test: agregar o modificar tests
-chore: tareas de mantenimiento
-```
 
 ---
 

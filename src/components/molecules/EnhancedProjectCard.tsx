@@ -38,6 +38,7 @@ interface EnhancedProjectCardProps {
   description: string;
   image?: string;
   tags: string[];
+  externalLink?: string;
   
   // Nivel 2: Procesos
   processes?: Process[]; // Made optional to prevent errors when undefined
@@ -63,6 +64,7 @@ interface EnhancedProjectCardProps {
     learnings: string;
     viewMore: string;
     viewLess: string;
+    visitProject: string;
   };
 }
 
@@ -75,6 +77,7 @@ export function EnhancedProjectCard({
   description,
   image,
   tags,
+  externalLink,
   processes,
   teamSize,
   details,
@@ -91,6 +94,7 @@ export function EnhancedProjectCard({
     learnings: "Aprendizajes",
     viewMore: "Ver más",
     viewLess: "Ver menos",
+    visitProject: "Visitar Proyecto",
   },
 }: EnhancedProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -261,6 +265,34 @@ export function EnhancedProjectCard({
                 <Target className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
                 Ver proyecto completo
                 <span className="ml-2">→</span>
+              </Button>
+            </motion.div>
+          )}
+
+          {/* Botón para link externo */}
+          {externalLink && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15 + 0.6 }}
+              className="mb-3"
+            >
+              <Button
+                asChild
+                className="w-full bg-brand-gradient hover:opacity-90 transition-all group"
+                size="sm"
+              >
+                <a 
+                  href={externalLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label={`${lang.visitProject} - ${projectName}`}
+                >
+                  <Target className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                  {lang.visitProject}
+                  <span className="ml-2">↗</span>
+                </a>
               </Button>
             </motion.div>
           )}
