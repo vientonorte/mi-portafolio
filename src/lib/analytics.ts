@@ -22,7 +22,7 @@ export const trackEvent = (eventName: string, params?: Record<string, unknown>) 
     window.gtag("event", eventName, params);
   } else {
     // Fallback for development/debugging - silent in production
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
       console.log('[Analytics]', eventName, params);
     }
