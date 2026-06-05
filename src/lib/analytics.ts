@@ -17,12 +17,15 @@
  * @param eventName - Name of the event to track
  * @param params - Additional parameters for the event
  */
-export const trackEvent = (eventName: string, params?: Record<string, any>) => {
+export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, params);
   } else {
-    // Fallback for development/debugging
-    console.log('[Analytics]', eventName, params);
+    // Fallback for development/debugging - silent in production
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('[Analytics]', eventName, params);
+    }
   }
 };
 
@@ -108,6 +111,12 @@ export const analytics = {
     category: "engagement",
     metric: metric,
     destination: destination
+  }),
+  
+  // ===== Project Filters =====
+  filterProjects: (filter: string) => trackEvent("filter_projects", {
+    category: "interaction",
+    filter: filter
   }),
   
   // ===== Form Events =====

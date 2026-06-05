@@ -146,6 +146,7 @@ export const translations = {
       loading: 'Cargando...',
       error: 'Algo salió mal',
       backToTop: 'Volver arriba',
+      visitProject: 'Visitar proyecto',
     },
     
     // Case Studies
@@ -385,6 +386,7 @@ export const translations = {
       loading: 'Loading...',
       error: 'Something went wrong',
       backToTop: 'Back to top',
+      visitProject: 'Visit project',
     },
     
     // Case Studies
