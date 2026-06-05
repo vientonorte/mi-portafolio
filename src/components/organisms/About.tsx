@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { User } from "lucide-react";
+import { Button } from "../ui/button";
+import { User, Download } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
+import { analytics } from "../../lib/analytics";
 
 const roles = [
   "Head UX",
@@ -27,6 +29,12 @@ export function About() {
     ? "Lead UX con 3+ años implementando UX/UI para productos financieros (SURA, 5+ países) y de movilidad (Transvip/Karri). Combino research, Design Sprints y arquitectura de información para entregar soluciones con resultados medibles."
     : "Lead UX with 3+ years implementing UX/UI for financial products (SURA, 5+ countries) and mobility (Transvip/Karri). I combine research, Design Sprints, and information architecture to deliver solutions with measurable results.";
 
+  const handleDownloadCV = () => {
+    analytics.downloadCV();
+    // Open CV in new window (add actual CV file to public folder)
+    window.open("/cv-rodrigo-gaete-ux.pdf", "_blank");
+  };
+
   return (
     <section
       id="sobre-mi"
@@ -42,12 +50,46 @@ export function About() {
         />
 
         <div className="space-y-6">
-          <motion.p
+          {/* Profile Photo & Bio Section */}
+          <motion.div
             {...fadeUp()}
-            className="text-xl leading-relaxed text-muted-foreground"
+            className="flex flex-col md:flex-row gap-6 md:gap-8 items-start"
           >
-            {bio}
-          </motion.p>
+            {/* Profile Photo - Add actual photo to public folder */}
+            <motion.div
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+              className="flex-shrink-0 mx-auto md:mx-0"
+            >
+              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-lg">
+                {/* Placeholder - replace with actual image */}
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <User className="w-16 h-16 md:w-20 md:h-20 text-primary/40" />
+                </div>
+                {/* Uncomment when you add the actual photo */}
+                {/* <img 
+                  src="/profile-photo.jpg" 
+                  alt="Rodrigo Gaete - Lead UX Designer"
+                  className="w-full h-full object-cover"
+                /> */}
+              </div>
+            </motion.div>
+
+            <div className="flex-1 text-center md:text-left">
+              <p className="text-xl leading-relaxed text-muted-foreground">
+                {bio}
+              </p>
+              
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={handleDownloadCV}
+                className="mt-6 group border-2 hover:border-primary hover:bg-primary/5 transition-all"
+              >
+                <Download className="mr-2 h-5 w-5 group-hover:translate-y-0.5 transition-transform" />
+                {language === "es" ? "Descargar CV" : "Download CV"}
+              </Button>
+            </div>
+          </motion.div>
 
           <motion.div {...fadeUp(0.15)}>
             <Card className="border-2">

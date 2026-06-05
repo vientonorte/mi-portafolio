@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
-import { Mail, Link, MapPin, Send } from "lucide-react";
+import { Badge } from "../ui/badge";
+import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -36,19 +37,97 @@ export function Contact() {
     name: "",
     email: "",
     message: "",
+    _gotcha: "", // Honeypot field for spam protection
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "El nombre es requerido";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "El nombre debe tener al menos 2 caracteres";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "El email es requerido";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Por favor ingresa un email válido";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "El mensaje es requerido";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "El mensaje debe tener al menos 10 caracteres";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check honeypot - if filled, it's a bot
+    if (formData._gotcha) {
+      return;
+    }
+
+    if (!validateForm()) {
+      toast.error("Por favor corrige los errores en el formulario");
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simular envío
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast.success("Mensaje enviado correctamente. Te responderé pronto!");
-    setFormData({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
+
+    try {
+      // Get FormSpree ID from environment variable
+      const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
+
+      if (!formspreeId) {
+        // Fallback to demo mode if no FormSpree ID is configured
+        console.warn("FormSpree ID not configured. Running in demo mode.");
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        toast.success("Mensaje enviado correctamente. Te responderé pronto!");
+        setFormData({ name: "", email: "", message: "", _gotcha: "" });
+        setErrors({});
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Send to FormSpree
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        toast.success("¡Mensaje enviado correctamente! Te responderé pronto.");
+        setFormData({ name: "", email: "", message: "", _gotcha: "" });
+        setErrors({});
+      } else {
+        throw new Error("Error en el envío");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("Hubo un error al enviar el mensaje. Intenta nuevamente o escríbeme directamente a gaete.gaona@gmail.com");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -67,12 +146,18 @@ export function Contact() {
       aria-labelledby="contact-heading"
     >
       <div className="container max-w-7xl mx-auto">
-        <SectionHeader
-          badge="Hablemos"
-          badgeIcon={Send}
-          title="Conversemos"
-          description="Respondo en menos de 24h · Disponible para proyectos freelance y full-time"
-        />
+        <div className="text-center mb-8">
+          <SectionHeader
+            badge="Hablemos"
+            badgeIcon={Send}
+            title="Conversemos"
+            description="Disponible para proyectos freelance y oportunidades full-time"
+          />
+          <Badge variant="secondary" className="mt-4">
+            <Clock className="mr-2 h-3 w-3" />
+            Respuesta típica: menos de 24h
+          </Badge>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           {/* Contact Info */}
@@ -182,8 +267,15 @@ export function Contact() {
                         onChange={handleChange}
                         required
                         aria-required="true"
-                        className="transition-all focus:ring-2 focus:ring-primary"
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? "name-error" : undefined}
+                        className={`transition-all focus:ring-2 focus:ring-primary ${errors.name ? "border-destructive" : ""}`}
                       />
+                      {errors.name && (
+                        <p id="name-error" className="text-sm text-destructive mt-1">
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">
@@ -198,8 +290,15 @@ export function Contact() {
                         onChange={handleChange}
                         required
                         aria-required="true"
-                        className="transition-all focus:ring-2 focus:ring-primary"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "email-error" : undefined}
+                        className={`transition-all focus:ring-2 focus:ring-primary ${errors.email ? "border-destructive" : ""}`}
                       />
+                      {errors.email && (
+                        <p id="email-error" className="text-sm text-destructive mt-1">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -216,9 +315,28 @@ export function Contact() {
                       onChange={handleChange}
                       required
                       aria-required="true"
-                      className="transition-all focus:ring-2 focus:ring-primary resize-none"
+                      aria-invalid={!!errors.message}
+                      aria-describedby={errors.message ? "message-error" : undefined}
+                      className={`transition-all focus:ring-2 focus:ring-primary resize-none ${errors.message ? "border-destructive" : ""}`}
                     />
+                    {errors.message && (
+                      <p id="message-error" className="text-sm text-destructive mt-1">
+                        {errors.message}
+                      </p>
+                    )}
                   </div>
+
+                  {/* Honeypot field - hidden from users, for spam protection */}
+                  <input
+                    type="text"
+                    name="_gotcha"
+                    value={formData._gotcha}
+                    onChange={handleChange}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
 
                   <Button
                     type="submit"

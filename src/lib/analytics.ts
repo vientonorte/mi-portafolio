@@ -103,6 +103,13 @@ export const analytics = {
     label: "CV Download"
   }),
   
+  // ===== Impact Stats =====
+  viewImpactStat: (metric: string, destination?: string) => trackEvent("view_impact_stat", {
+    category: "engagement",
+    metric: metric,
+    destination: destination
+  }),
+  
   // ===== Form Events =====
   submitContactForm: (success: boolean) => trackEvent("submit_contact_form", {
     category: "conversion",
