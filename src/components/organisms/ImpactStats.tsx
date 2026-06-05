@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
 import { BarChart3, TrendingDown, TrendingUp, Zap } from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
+import { analytics } from "../../lib/analytics";
 
 export function ImpactStats() {
   const { language } = useLanguage();
@@ -20,6 +21,8 @@ export function ImpactStats() {
       description: language === "es" ? "SURA Ecosistema — 7-11 min vs 15+" : "SURA Ecosystem — 7-11 min vs 15+",
       color: "text-blue-600 dark:text-blue-400",
       bgColor: "bg-blue-50 dark:bg-blue-950/20",
+      link: "/#/cases", // Link to case studies
+      company: "SURA",
     },
     {
       icon: BarChart3,
@@ -28,6 +31,8 @@ export function ImpactStats() {
       description: language === "es" ? "+25 pts sobre baseline" : "+25 pts above baseline",
       color: "text-amber-600 dark:text-amber-400",
       bgColor: "bg-amber-50 dark:bg-amber-950/20",
+      link: "/#/cases",
+      company: "SURA",
     },
     {
       icon: TrendingUp,
@@ -36,6 +41,8 @@ export function ImpactStats() {
       description: language === "es" ? "Calculadora de ganancias" : "Earnings calculator",
       color: "text-rose-600 dark:text-rose-400",
       bgColor: "bg-rose-50 dark:bg-rose-950/20",
+      link: "/#/cases",
+      company: "Karri",
     },
     {
       icon: Zap,
@@ -44,8 +51,15 @@ export function ImpactStats() {
       description: language === "es" ? "Hub centralizado Karri" : "Karri centralized hub",
       color: "text-violet-600 dark:text-violet-400",
       bgColor: "bg-violet-50 dark:bg-violet-950/20",
+      link: "/#/cases",
+      company: "Karri",
     },
   ];
+
+  const handleStatClick = (stat: typeof stats[0]) => {
+    analytics.viewImpactStat(stat.value, stat.company);
+    window.location.href = stat.link;
+  };
 
   return (
     <section className="py-12 md:py-16 px-4 bg-muted/30">
@@ -57,9 +71,19 @@ export function ImpactStats() {
               <motion.div
                 key={index}
                 {...fadeUp(index * 0.1)}
-                whileHover={prefersReducedMotion ? undefined : { y: -5 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
+                onClick={() => handleStatClick(stat)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleStatClick(stat);
+                  }
+                }}
+                className="cursor-pointer"
               >
-                <Card className="h-full border-2 hover:border-primary/40 transition-all duration-300">
+                <Card className="h-full border-2 hover:border-primary/40 transition-all duration-300 hover:shadow-lg">
                   <CardContent className="p-6 md:p-8 text-center">
                     <div className={`w-14 h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center mx-auto mb-4`}>
                       <Icon className={`h-7 w-7 ${stat.color}`} />
@@ -73,6 +97,9 @@ export function ImpactStats() {
                       </h3>
                       <p className="text-sm text-muted-foreground">
                         {stat.description}
+                      </p>
+                      <p className="text-xs text-primary/60 mt-2">
+                        {language === "es" ? "Click para ver caso →" : "Click to view case →"}
                       </p>
                     </div>
                   </CardContent>
