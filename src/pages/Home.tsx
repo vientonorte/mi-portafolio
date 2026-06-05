@@ -6,6 +6,7 @@ import { Projects } from '../components/organisms/Projects';
 import { Experience } from '../components/organisms/Experience';
 import { Contact } from '../components/organisms/Contact';
 import { SEOHead } from '../components/atoms/SEOHead';
+import { BackToTop } from '../components/molecules/BackToTop';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Home = () => {
       <About />
       <Experience />
       <Contact />
+      <BackToTop />
     </>
   );
 };
