@@ -14,14 +14,12 @@ interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
-  onNavigateToCitasAttac?: () => void;
 }
 
 export function Navigation({
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
   onNavigateToAuditoria,
-  onNavigateToCitasAttac
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -39,7 +37,7 @@ export function Navigation({
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
-    { href: "contra-archivo/citas-attac", label: language === "es" ? "Investigación" : "Research", type: "route" as const },
+    { href: "https://vientonorte.github.io/antropologia-corrupcion/citas-attac.html", label: language === "es" ? "Investigación" : "Research", type: "external" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
@@ -87,8 +85,6 @@ export function Navigation({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
-      } else if (item.href === "contra-archivo/citas-attac") {
-        onNavigateToCitasAttac?.();
       }
       return;
     }
@@ -105,14 +101,13 @@ export function Navigation({
         behavior: "smooth"
       });
     }
-  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, onNavigateToCitasAttac]);
+  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   // Helper function to check if route is active
   const isRouteActive = useCallback((href: string) => {
     if (href === "design-system") return location.pathname === "/design-system";
     if (href === "cases") return location.pathname.startsWith("/cases");
     if (href === "auditoria") return location.pathname === "/auditoria";
-    if (href === "contra-archivo/citas-attac") return location.pathname === "/contra-archivo/citas-attac";
     return false;
   }, [location.pathname]);
 
@@ -163,7 +158,11 @@ export function Navigation({
                 const isActive = item.type === "route" && isRouteActive(item.href);
                 return (
                   <li key={item.href}>
-                    {item.type === "route" ? (
+                    {item.type === "external" ? (
+                      <Button variant="ghost" className="hover:text-primary hover:bg-primary/10 transition-all" asChild>
+                        <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>
+                      </Button>
+                    ) : item.type === "route" ? (
                       <Button
                         variant="ghost"
                         className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
@@ -176,8 +175,6 @@ export function Navigation({
                             ? onNavigateToAuditoria
                             : item.href === "cases"
                             ? onNavigateToCaseStudies
-                            : item.href === "contra-archivo/citas-attac"
-                            ? onNavigateToCitasAttac
                             : undefined
                         }
                       >
@@ -254,7 +251,6 @@ export function Navigation({
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
         onNavigateToAuditoria={onNavigateToAuditoria}
-        onNavigateToCitasAttac={onNavigateToCitasAttac}
       />
     </>
   );

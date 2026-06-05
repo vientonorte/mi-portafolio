@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 interface NavItem {
   href: string;
   label: string;
-  type: "anchor" | "route";
+  type: "anchor" | "route" | "external";
 }
 
 interface MobileMenuProps {
@@ -18,7 +18,6 @@ interface MobileMenuProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
-  onNavigateToCitasAttac?: () => void;
 }
 
 export function MobileMenu({
@@ -28,7 +27,6 @@ export function MobileMenu({
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
   onNavigateToAuditoria,
-  onNavigateToCitasAttac
 }: MobileMenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -140,7 +138,12 @@ export function MobileMenu({
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
-    
+
+    if (item.type === "external") {
+      window.open(item.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
     if (item.type === "route") {
       if (item.href === "design-system") {
         onNavigateToDesignSystem?.();
@@ -148,8 +151,6 @@ export function MobileMenu({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
-      } else if (item.href === "contra-archivo/citas-attac") {
-        onNavigateToCitasAttac?.();
       }
       return;
     }
@@ -161,7 +162,7 @@ export function MobileMenu({
     }
 
     scrollToAnchor(item.href);
-  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, onNavigateToCitasAttac, scrollToAnchor]);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   return (
     <AnimatePresence mode="wait">
