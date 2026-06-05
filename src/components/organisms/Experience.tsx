@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { Briefcase, Clock, MapPin } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 
 const experiences = [
@@ -124,7 +124,8 @@ export function Experience() {
                             </Badge>
                           )}
                         </div>
-                      <CardDescription>{exp.company}</CardDescription>
+                        <CardDescription>{exp.company}</CardDescription>
+                      </div>
                     </div>
                     <Badge variant="secondary" className="self-start whitespace-nowrap">
                       {exp.period}

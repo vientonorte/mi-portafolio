@@ -16,7 +16,6 @@ const individualProjects = [frameworkProject];
 
 export function ProjectsHub({ 
   onNavigateToCaseStudies,
-  onNavigateToCompany,
   onNavigateToProject
 }: { 
   onNavigateToCaseStudies?: () => void;
@@ -28,7 +27,7 @@ export function ProjectsHub({
   const t = useTranslation(language);
 
   // Handler para navegar al Framework UX desde cualquier company hub
-  const handleNavigateToFramework = (companyId: string) => {
+  const handleNavigateToFramework = () => {
     // Navegar a la página completa del Framework
     if (onNavigateToProject) {
       onNavigateToProject("framework");
@@ -132,6 +131,7 @@ export function ProjectsHub({
                         learnings: t.projects.details.learnings,
                         viewMore: t.common.viewMore,
                         viewLess: t.common.viewLess,
+                        visitProject: t.common.visitProject,
                       }}
                     />
                   ))}
@@ -219,6 +219,7 @@ export function ProjectsHub({
                       learnings: t.projects.details.learnings,
                       viewMore: t.common.viewMore,
                       viewLess: t.common.viewLess,
+                      visitProject: t.common.visitProject,
                     }}
                   />
                 ))}
