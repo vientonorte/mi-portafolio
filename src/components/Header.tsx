@@ -10,6 +10,7 @@ const Header = () => (
         <li><Link to="/sobre-mi">Sobre mí</Link></li>
         <li><Link to="/contacto">Contacto</Link></li>
         <li><Link to="/privacy">Privacidad</Link></li>
+        <li><a href="https://vientonorte.github.io/uxtools/" target="_blank" rel="noopener noreferrer">UX Tools</a></li>
       </ul>
     </nav>
   </header>
