@@ -53,6 +53,9 @@ interface EnhancedProjectCardProps {
   id?: string;
   onNavigateToProject?: (projectId: string) => void;
   
+  // Featured flag
+  isFeatured?: boolean;
+  
   // i18n
   lang?: {
     processes: string;
@@ -84,6 +87,7 @@ export function EnhancedProjectCard({
   index,
   id,
   onNavigateToProject,
+  isFeatured = false,
   lang = {
     processes: "Procesos",
     details: "Resultados",
@@ -114,7 +118,15 @@ export function EnhancedProjectCard({
       }}
       className="group"
     >
-      <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 border-2 hover:border-primary/30 relative">
+      <Card className={`overflow-hidden hover:shadow-2xl transition-all duration-500 border-2 hover:border-primary/30 relative ${isFeatured ? 'border-primary/50 bg-primary/5' : ''}`}>
+        {/* Featured Badge */}
+        {isFeatured && (
+          <div className="absolute top-4 right-4 z-20">
+            <Badge className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold shadow-lg">
+              ⭐ Destacado
+            </Badge>
+          </div>
+        )}
         {/* Gradient glow on hover */}
         <motion.div
           className="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-5 blur-xl"
