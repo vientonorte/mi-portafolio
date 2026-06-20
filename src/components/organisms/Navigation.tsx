@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
 import { Menu, X } from "lucide-react";
@@ -29,6 +30,8 @@ export function Navigation({
   const { language } = useLanguage();
   const t = useTranslation(language);
   const location = useLocation();
+  const navigate = useNavigate();
+  const pendingScroll = useRef<string | null>(null);
 
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
@@ -44,6 +47,31 @@ export function Navigation({
   useEffect(() => {
     isMenuOpenRef.current = isMenuOpen;
   }, [isMenuOpen]);
+
+  const scrollToAnchor = useCallback((selector: string) => {
+    requestAnimationFrame(() => {
+      const element = document.querySelector(selector);
+      if (!element) return;
+
+      const header = document.querySelector('header[role="banner"]');
+      const navHeight = header instanceof HTMLElement ? header.offsetHeight : 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname !== "/" || !pendingScroll.current) return;
+
+    const target = pendingScroll.current;
+    pendingScroll.current = null;
+    scrollToAnchor(target);
+  }, [location.pathname, scrollToAnchor]);
 
   // Close mobile menu when clicking outside or on escape
   useEffect(() => {
@@ -96,19 +124,14 @@ export function Navigation({
       return;
     }
 
-    // Smooth scroll to anchor
-    const element = document.querySelector(item.href);
-    if (element) {
-      const navHeight = 80; // Account for fixed nav height
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+    if (location.pathname !== "/") {
+      pendingScroll.current = item.href;
+      navigate("/");
+      return;
     }
-  }, [onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+
+    scrollToAnchor(item.href);
+  }, [location.pathname, navigate, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
 
   // Helper function to check if route is active
   const isRouteActive = useCallback((href: string) => {

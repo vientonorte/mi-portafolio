@@ -260,7 +260,7 @@ export function ProjectsHub({
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-12 md:pt-16">
+        <div className="metric-card-grid pt-12 md:pt-16">
           {stats.map((stat, index) => (
             <StatCard key={stat.label} {...stat} index={index} />
           ))}
