@@ -54,7 +54,13 @@ jobs:
 
           CSS_ASSET_PATH=$(grep -oE '/mi-portafolio/assets/[^"]+\.css' /tmp/preview.html | head -n 1)
           test -n "$CSS_ASSET_PATH"
-          curl -fsS "http://127.0.0.1:4173$CSS_ASSET_PATH" >/dev/null
+          curl -fsS "http://127.0.0.1:4173$CSS_ASSET_PATH" -o /tmp/preview.css
+          CSS_BYTES=$(wc -c < /tmp/preview.css | tr -d ' ')
+          if [ "$CSS_BYTES" -lt 50000 ]; then
+            echo "CSS bundle too small (${CSS_BYTES}B) — Tailwind utilities missing" >&2
+            exit 1
+          fi
+          grep -q '\.flex' /tmp/preview.css
 
   typecheck:
     name: TypeScript

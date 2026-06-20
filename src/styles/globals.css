@@ -1,4 +1,5 @@
-@import url('https://api.fontshare.com/v2/css?f[]=chillax@400,500,600,700,300&display=swap');
+@import "tailwindcss";
+@import "./vn-tokens.css";
 
 @custom-variant dark (&:is(.dark *));
 
