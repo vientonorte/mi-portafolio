@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
 import { Menu, X } from "lucide-react";
@@ -22,6 +22,7 @@ export function Navigation({
   onNavigateToAuditoria,
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isMenuOpenRef = useRef(isMenuOpen);
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,6 +40,10 @@ export function Navigation({
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
     { href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html", label: language === "es" ? "Investigación" : "Research", type: "external" as const },
   ];
+
+  useEffect(() => {
+    isMenuOpenRef.current = isMenuOpen;
+  }, [isMenuOpen]);
 
   // Close mobile menu when clicking outside or on escape
   useEffect(() => {
@@ -58,19 +63,21 @@ export function Navigation({
     };
   }, [isMenuOpen]);
 
-  // Handle scroll behavior
+  // Handle scroll behavior — auto-hide only on desktop (lg+); mobile keeps header + hamburger visible
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    
-    // Hide nav on scroll down, show on scroll up
-    if (latest > previous && latest > 150) {
-      setIsHidden(true);
-      setIsMenuOpen(false); // Close mobile menu on scroll
+    const isDesktopNav = window.matchMedia("(min-width: 1024px)").matches;
+
+    if (isDesktopNav && !isMenuOpenRef.current) {
+      if (latest > previous && latest > 150) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
     } else {
       setIsHidden(false);
     }
 
-    // Add background on scroll
     setIsScrolled(latest > 50);
   });
 
@@ -126,7 +133,7 @@ export function Navigation({
           visible: { y: 0 },
           hidden: { y: "-100%" },
         }}
-        animate={isHidden ? "hidden" : "visible"}
+        animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled 

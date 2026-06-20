@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { Card, CardContent } from "../ui/card";
 
 interface StatCardProps {
   value: string;
@@ -16,24 +17,18 @@ export function StatCard({ value, label, index = 0 }: StatCardProps) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={prefersReducedMotion ? undefined : { y: -4 }}
-      className="relative group"
+      className="h-full"
     >
-      <div className="relative text-center p-6 md:p-8 rounded-2xl border-2 border-border bg-card overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg">
-        {/* Gradient background on hover */}
-        <div className="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-
-        <div className="relative z-10">
-          <div className="mb-3" aria-live="polite">
-            <span className="text-4xl md:text-5xl font-bold inline-block text-brand-gradient">
-              {value}
-            </span>
+      <Card className="metric-card group hover:border-primary/40 hover:shadow-lg">
+        <CardContent className="metric-card-body">
+          <div className="metric-card-value text-brand-gradient" aria-live="polite">
+            {value}
           </div>
-
-          <p className="text-sm md:text-base text-foreground/80 group-hover:text-foreground transition-colors">
+          <p className="metric-card-label text-foreground/80 group-hover:text-foreground transition-colors">
             {label}
           </p>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 }

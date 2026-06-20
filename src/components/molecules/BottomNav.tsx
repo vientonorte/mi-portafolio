@@ -63,7 +63,7 @@ export function BottomNav() {
 
   // Detect when user is in the contact section
   useEffect(() => {
-    if (location.pathname !== "/") { setNearContact(false); return; }
+    if (location.pathname !== "/") return;
     const section = document.querySelector("#contacto");
     if (!section) return;
     const observer = new IntersectionObserver(
@@ -71,7 +71,10 @@ export function BottomNav() {
       { threshold: 0.3 }
     );
     observer.observe(section);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      setNearContact(false);
+    };
   }, [location.pathname]);
 
   const handleTap = (item: typeof items[0]) => {
@@ -87,10 +90,13 @@ export function BottomNav() {
     }
   };
 
+  const isOnHome = location.pathname === "/";
+  const contactActive = isOnHome && nearContact;
+
   const isActive = (item: typeof items[0]) => {
     if (item.type === "route") return location.pathname === item.route;
-    if (item.id === "contacto") return nearContact;
-    return location.pathname === "/" && !nearContact;
+    if (item.id === "contacto") return contactActive;
+    return isOnHome && !nearContact;
   };
 
   return (
@@ -107,7 +113,7 @@ export function BottomNav() {
             <li key={item.id} className="min-w-0">
               <button
                 onClick={() => handleTap(item)}
-                className="flex h-16 w-full min-h-[44px] flex-col items-center justify-center gap-1 px-1 transition-colors"
+                className="flex h-16 w-full min-h-[44px] flex-col items-center justify-center gap-1 px-1 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 style={{ color: active ? "var(--primary)" : "var(--muted-foreground)" }}
                 aria-label={language === "es" ? item.labelEs : item.labelEn}
                 aria-current={active ? "page" : undefined}

@@ -264,6 +264,89 @@
   }
 }
 
+/* Metric / stat cards — grid y superficie unificados */
+@layer utilities {
+  .metric-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 768px) {
+    .metric-card-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .metric-card {
+    height: 100%;
+    border-radius: 1rem;
+    border-width: 2px;
+    border-color: var(--border);
+    background-color: var(--card);
+    transition: all 0.3s;
+  }
+
+  .metric-card-interactive:hover,
+  .metric-card-interactive:focus-within {
+    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  .metric-card-body {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .metric-card-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .metric-card-value {
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .metric-card-value {
+      font-size: 2.25rem;
+    }
+  }
+
+  .metric-card-label {
+    margin-top: 0.5rem;
+    min-height: 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.375;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .metric-card-meta {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
 /* Utilities para gradiente de marca */
 @layer utilities {
   .bg-brand-gradient {
