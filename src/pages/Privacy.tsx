@@ -1,5 +1,6 @@
 import React from 'react';
 import { SEOHead } from '../components/atoms/SEOHead';
+import { SITE_CONTACT, getContactMailtoUrl } from '../lib/site-contact';
 
 const Privacy = () => (
   <>
@@ -22,15 +23,16 @@ const Privacy = () => (
 
       <h2>Formulario de contacto</h2>
       <p>
-        Si usas el formulario de contacto, tu nombre, email y mensaje se usan únicamente para
-        responderte. No se almacenan en bases de datos externas ni se comparten con terceros.
+        Si usas el formulario de contacto, tu nombre, email y mensaje se transmiten de forma
+        cifrada (HTTPS) a un relay de correo (Cloudflare Workers) y se reenvían únicamente para
+        responderte. No se almacenan en bases de datos del sitio ni se usan para marketing.
       </p>
 
       <h2>Tus derechos</h2>
       <p>
         Puedes solicitar acceso, rectificación o eliminación de cualquier dato escribiendo a{' '}
-        <a href="mailto:gaete.gaona@gmail.com" className="text-primary underline">
-          gaete.gaona@gmail.com
+        <a href={getContactMailtoUrl()} className="text-primary underline">
+          {SITE_CONTACT.email}
         </a>.
       </p>
 

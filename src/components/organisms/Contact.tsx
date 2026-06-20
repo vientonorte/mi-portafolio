@@ -9,14 +9,19 @@ import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { SITE_CONTACT } from "../../lib/site-contact";
+import {
+  SITE_CONTACT,
+  CONTACT_API_URL,
+  getContactMailtoUrl,
+} from "../../lib/site-contact";
+import { analytics } from "../../lib/analytics";
 
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
     value: SITE_CONTACT.email,
-    href: `mailto:${SITE_CONTACT.email}`,
+    href: getContactMailtoUrl(),
   },
   {
     icon: MapPin,
@@ -89,43 +94,37 @@ export function Contact() {
     setIsSubmitting(true);
 
     try {
-      // Get FormSpree ID from environment variable
-      const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
-
-      if (!formspreeId) {
-        // Fallback to demo mode if no FormSpree ID is configured
-        console.warn("FormSpree ID not configured. Running in demo mode.");
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        toast.success("Mensaje enviado correctamente. Te responderé pronto!");
-        setFormData({ name: "", email: "", message: "", _gotcha: "" });
-        setErrors({});
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Send to FormSpree
-      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+      const response = await fetch(CONTACT_API_URL, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+          _gotcha: formData._gotcha,
         }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
-      if (response.ok) {
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+
+      if (response.ok && result.ok) {
+        analytics.submitContactForm(true);
         toast.success("¡Mensaje enviado correctamente! Te responderé pronto.");
         setFormData({ name: "", email: "", message: "", _gotcha: "" });
         setErrors({});
       } else {
-        throw new Error("Error en el envío");
+        analytics.submitContactForm(false);
+        throw new Error(result.error || "Error en el envío");
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Hubo un error al enviar el mensaje. Intenta nuevamente o escríbeme directamente a gaete.gaona@gmail.com");
+      analytics.submitContactForm(false);
+      toast.error(
+        `No se pudo enviar el mensaje. Escríbeme a ${SITE_CONTACT.email} o usa LinkedIn.`,
+      );
     } finally {
       setIsSubmitting(false);
     }
