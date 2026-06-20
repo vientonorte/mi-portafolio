@@ -1,7 +1,0 @@
-NOTA: Agregar archivo CV en formato PDF
-
-Renombrar como: cv-rodrigo-gaete-ux.pdf
-
-El botón "Descargar CV" en la sección About apunta a este archivo.
-
-Ver QUICK_WINS_SETUP.md para más información.

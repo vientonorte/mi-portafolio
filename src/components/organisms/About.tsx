@@ -6,6 +6,7 @@ import { User, Download } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
+import { getCvDownloadUrl } from "../../lib/site-contact";
 
 const roles = [
   "Head UX",
@@ -31,8 +32,7 @@ export function About() {
 
   const handleDownloadCV = () => {
     analytics.downloadCV();
-    // Open CV in new window (add actual CV file to public folder)
-    window.open("/cv-rodrigo-gaete-ux.pdf", "_blank");
+    window.open(getCvDownloadUrl(), "_blank", "noopener,noreferrer");
   };
 
   return (
