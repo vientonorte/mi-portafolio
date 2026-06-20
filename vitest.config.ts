@@ -57,9 +57,11 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/__tests__/**/*.test.{ts,tsx}'],
     exclude: ['V2/**', 'node_modules/**', 'dist/**'],
-    pool: 'threads',
-    maxWorkers: 2,
+    pool: 'forks',
+    maxWorkers: 1,
     fileParallelism: false,
+    isolate: true,
+    execArgv: ['--max-old-space-size=4096'],
     testTimeout: 30_000,
     hookTimeout: 30_000,
     coverage: {
