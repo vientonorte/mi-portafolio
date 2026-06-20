@@ -63,7 +63,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       <SEOHead 
         title="Framework UX & Case Studies"
         description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
