@@ -105,8 +105,8 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
         className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
         style={{ opacity, y, paddingBottom: "5rem" }}
         variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        initial={prefersReducedMotion ? false : "hidden"}
+        animate={prefersReducedMotion ? false : "visible"}
       >
         {/* Split grid: texto izquierda | cards derecha */}
         <div className="hero-split">
