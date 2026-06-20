@@ -37,7 +37,7 @@ export function Navigation({
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
     { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
-    { href: "https://vientonorte.github.io/antropologia-corrupcion/citas-attac.html", label: language === "es" ? "Investigación" : "Research", type: "external" as const },
+    { href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html", label: language === "es" ? "Investigación" : "Research", type: "external" as const },
   ];
 
   // Close mobile menu when clicking outside or on escape
