@@ -69,7 +69,15 @@ img {
 @media (max-width: 767px) {
   #main,
   footer {
-    padding-bottom: 5rem;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bottom-nav-mobile button[aria-current="page"] span {
+    font-weight: 600;
+  }
+
+  .bottom-nav-mobile button:not([aria-current="page"]) span {
+    color: var(--bottom-nav-inactive, #404040);
   }
 }
 

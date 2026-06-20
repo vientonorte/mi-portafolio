@@ -48,6 +48,7 @@
   --secondary-foreground: #171717;
   --muted: #f5f5f5;
   --muted-foreground: #525252;
+  --bottom-nav-inactive: #404040;
   --accent: #fafafa;
   --accent-foreground: #171717;
   
@@ -95,6 +96,7 @@
   --secondary-foreground: #fafafa;
   --muted: #262626;
   --muted-foreground: #d4d4d4;
+  --bottom-nav-inactive: #a3a3a3;
   --accent: #1a1a1a;
   --accent-foreground: #fafafa;
   

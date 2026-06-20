@@ -15,7 +15,7 @@ const principles = [
   {
     icon: Accessibility,
     title: "Accesibilidad Primero",
-    description: "WCAG 2.1 AA compliant. Todos los componentes son navegables por teclado y compatibles con lectores de pantalla.",
+    description: "WCAG 2.2 AA como mínimo. Todos los componentes son navegables por teclado y compatibles con lectores de pantalla.",
     examples: [
       "Roles ARIA semánticos",
       "Contraste de color ≥ 4.5:1",

@@ -47,7 +47,7 @@ export function BottomNav() {
   const location = useLocation();
   const { language } = useLanguage();
   const pendingScroll = useRef<string | null>(null);
-  const [nearContact, setNearContact] = useState(false);
+  const [homeSection, setHomeSection] = useState<"inicio" | "contacto">("inicio");
 
   // Fire pending scroll once home route is actually mounted
   useEffect(() => {
@@ -61,21 +61,24 @@ export function BottomNav() {
     }
   }, [location.pathname]);
 
-  // Detect when user is in the contact section
+  const isOnHome = location.pathname === "/";
+
+  // Scroll spy: inicio vs contacto en home (mobile-first bottom nav)
   useEffect(() => {
-    if (location.pathname !== "/") return;
-    const section = document.querySelector("#contacto");
-    if (!section) return;
+    if (!isOnHome) return;
+
+    const contact = document.querySelector("#contacto");
+    if (!contact) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => setNearContact(entry.isIntersecting),
-      { threshold: 0.3 }
+      ([entry]) => {
+        setHomeSection(entry.isIntersecting ? "contacto" : "inicio");
+      },
+      { threshold: 0.25, rootMargin: "-20% 0px -55% 0px" }
     );
-    observer.observe(section);
-    return () => {
-      observer.disconnect();
-      setNearContact(false);
-    };
-  }, [location.pathname]);
+    observer.observe(contact);
+    return () => observer.disconnect();
+  }, [isOnHome]);
 
   const handleTap = (item: typeof items[0]) => {
     if (item.type === "route") {
@@ -90,13 +93,11 @@ export function BottomNav() {
     }
   };
 
-  const isOnHome = location.pathname === "/";
-  const contactActive = isOnHome && nearContact;
-
   const isActive = (item: typeof items[0]) => {
     if (item.type === "route") return location.pathname === item.route;
-    if (item.id === "contacto") return contactActive;
-    return isOnHome && !nearContact;
+    if (item.id === "contacto") return isOnHome && homeSection === "contacto";
+    if (item.id === "inicio") return isOnHome && homeSection === "inicio";
+    return false;
   };
 
   return (
@@ -114,7 +115,9 @@ export function BottomNav() {
               <button
                 onClick={() => handleTap(item)}
                 className="flex h-16 w-full min-h-[44px] flex-col items-center justify-center gap-1 px-1 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                style={{ color: active ? "var(--primary)" : "var(--muted-foreground)" }}
+                style={{
+                  color: active ? "var(--primary)" : "var(--bottom-nav-inactive, #404040)",
+                }}
                 aria-label={language === "es" ? item.labelEs : item.labelEn}
                 aria-current={active ? "page" : undefined}
               >
