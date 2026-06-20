@@ -2,6 +2,7 @@ import { Calendar, User, Sparkles, Download, CheckCircle2, Circle, Clock } from 
 import { auditData } from '../data/audit-data';
 import { useState } from 'react';
 import { SEOHead } from '../components/atoms/SEOHead';
+import { SITE_CONTACT } from '../lib/site-contact';
 
 export default function AuditoriaPortfolio() {
   const [checklistItems, setChecklistItems] = useState([
@@ -505,7 +506,7 @@ export default function AuditoriaPortfolio() {
               </a>
               <span className="text-muted-foreground">·</span>
               <a
-                href="https://www.linkedin.com/in/rodrigo-gaete-ux/"
+                href={SITE_CONTACT.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors"
@@ -514,7 +515,7 @@ export default function AuditoriaPortfolio() {
               </a>
               <span className="text-muted-foreground">·</span>
               <a
-                href="https://github.com/vientonorte"
+                href={SITE_CONTACT.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors"

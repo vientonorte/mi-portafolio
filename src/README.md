@@ -456,7 +456,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 Lead UX | UX/UI Designer | Design Systems Specialist
 
 - 🌐 Portfolio: [rodrigogaete.com](#)
-- 💼 LinkedIn: [linkedin.com/in/rodrigogaete](#)
+- 💼 LinkedIn: [linkedin.com/in/rodrigo-gaete-ux](https://www.linkedin.com/in/rodrigo-gaete-ux/)
 - 📧 Email: contacto@rodrigogaete.com
 
 ---

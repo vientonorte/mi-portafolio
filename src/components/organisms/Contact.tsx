@@ -9,13 +9,14 @@ import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
+import { SITE_CONTACT } from "../../lib/site-contact";
 
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "gaete.gaona@gmail.com",
-    href: "mailto:gaete.gaona@gmail.com",
+    value: SITE_CONTACT.email,
+    href: `mailto:${SITE_CONTACT.email}`,
   },
   {
     icon: MapPin,
@@ -28,7 +29,7 @@ const socialLinks = [
   {
     icon: Link,
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/rodrigo-gaete-ux/",
+    href: SITE_CONTACT.linkedin,
   },
 ];
 
