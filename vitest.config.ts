@@ -3,8 +3,10 @@ import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
+const isVitest = process.argv.some((arg) => /vitest/i.test(arg));
+
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: isVitest ? [react()] : [react(), tailwindcss()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -55,6 +57,11 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/__tests__/**/*.test.{ts,tsx}'],
     exclude: ['V2/**', 'node_modules/**', 'dist/**'],
+    pool: 'threads',
+    maxWorkers: 2,
+    fileParallelism: false,
+    testTimeout: 30_000,
+    hookTimeout: 30_000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],

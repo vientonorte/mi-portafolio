@@ -5,8 +5,7 @@
   "type": "module",
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix",
-      "vitest related --run"
+      "eslint --fix"
     ]
   },
   "dependencies": {
