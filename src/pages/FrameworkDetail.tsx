@@ -14,6 +14,7 @@ import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProjectCard } from "../components/molecules/ProjectCard";
 import { useLanguage } from "../lib/LanguageContext";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { GradientHeading } from "../components/atoms/GradientHeading";
 
 interface CompanyContext {
   id: string;
@@ -275,7 +276,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
         {/* Hero Section - MEJORADO */}
         <section 
           id="hero" 
-          className="py-20 md:py-32 px-4 relative overflow-hidden scroll-mt-20"
+          className="subpage-hero py-12 md:py-20 px-4 relative overflow-hidden"
           aria-labelledby="framework-heading"
         >
           {/* Animated gradient background */}
@@ -341,36 +342,17 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                 </Badge>
               </motion.div>
 
-              {/* Title con gradiente animado */}
               <motion.h1
                 id="framework-heading"
                 variants={fadeInVariant}
                 initial="hidden"
                 animate="visible"
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-6xl md:text-8xl mb-8 leading-tight"
+                className="subpage-hero__title mb-8 w-full"
               >
-                <motion.span
-                  className="bg-clip-text text-transparent bg-brand-gradient inline-block"
-                  animate={shouldReduceMotion ? {} : { 
-                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] 
-                  }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                  style={{ backgroundSize: "200% 200%" }}
-                >
-                  {language === "es" ? "Framework de " : "Product Design "}
-                </motion.span>
-                <br />
-                <motion.span
-                  className="bg-clip-text text-transparent bg-brand-gradient inline-block"
-                  animate={shouldReduceMotion ? {} : { 
-                    backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"] 
-                  }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 0.5 }}
-                  style={{ backgroundSize: "200% 200%" }}
-                >
-                  {language === "es" ? "Diseño de Producto" : "Framework"}
-                </motion.span>
+                <GradientHeading as="span">
+                  {language === "es" ? "Framework de Diseño de Producto" : "Product Design Framework"}
+                </GradientHeading>
               </motion.h1>
 
               {/* Subtitle con highlights */}
@@ -427,7 +409,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
                     <CardContent className="p-6 text-center">
                       <RefreshCw className="h-8 w-8 text-primary mx-auto mb-3" aria-hidden="true" />
-                      <div className="text-4xl font-bold bg-clip-text text-transparent bg-brand-gradient mb-1">
+                      <div className="heading-gradient text-4xl font-bold mb-1">
                         5
                       </div>
                       <div className="text-sm text-muted-foreground">
@@ -447,7 +429,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
                     <CardContent className="p-6 text-center">
                       <TrendingUp className="h-8 w-8 text-primary mx-auto mb-3" aria-hidden="true" />
-                      <div className="text-4xl font-bold bg-clip-text text-transparent bg-brand-gradient mb-1">
+                      <div className="heading-gradient text-4xl font-bold mb-1">
                         3+
                       </div>
                       <div className="text-sm text-muted-foreground">
@@ -467,7 +449,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
                     <CardContent className="p-6 text-center">
                       <GraduationCap className="h-8 w-8 text-primary mx-auto mb-3" aria-hidden="true" />
-                      <div className="text-4xl font-bold bg-clip-text text-transparent bg-brand-gradient mb-1">
+                      <div className="heading-gradient text-4xl font-bold mb-1">
                         90%
                       </div>
                       <div className="text-sm text-muted-foreground">
@@ -487,7 +469,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
                     <CardContent className="p-6 text-center">
                       <Users className="h-8 w-8 text-primary mx-auto mb-3" aria-hidden="true" />
-                      <div className="text-4xl font-bold bg-clip-text text-transparent bg-brand-gradient mb-1">
+                      <div className="heading-gradient text-4xl font-bold mb-1">
                         25+
                       </div>
                       <div className="text-sm text-muted-foreground">

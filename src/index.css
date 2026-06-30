@@ -4617,6 +4617,7 @@ height: calc(var(--spacing) * 4);
 }
 .text-brand-gradient {
     background: var(--brand-gradient);
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }

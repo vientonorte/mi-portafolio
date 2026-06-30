@@ -40,8 +40,8 @@ export function SectionDivider({ number, label, sectionId, language = "es", show
       </div>
 
       {/* Label */}
-      <div className="flex-1 flex items-center justify-between gap-4">
-        <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">
+      <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3">
+        <h2 className="min-w-0 break-words text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tight">
           {label}
         </h2>
         

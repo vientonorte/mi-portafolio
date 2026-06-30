@@ -11,6 +11,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { SEOHead } from "../components/atoms/SEOHead";
+import { GradientHeading } from "../components/atoms/GradientHeading";
 
 interface CaseStudiesProps {
   onBack: () => void;
@@ -92,7 +93,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
       </motion.header>
 
       {/* Hero Section - MEGA DESTACADO */}
-      <section id="hero" className="py-20 md:py-32 px-4 relative overflow-hidden">
+      <section id="hero" className="subpage-hero py-12 md:py-20 px-4 relative overflow-hidden">
         {/* Animated gradient background */}
         <motion.div
           className="absolute inset-0 opacity-30"
@@ -132,36 +133,13 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
             </motion.div>
             
             {/* MEGA TITLE con gradiente animado */}
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl lg:text-8xl mb-8 leading-tight"
-            >
-              <motion.span
-                className="bg-clip-text text-transparent bg-brand-gradient inline-block"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{ duration: 5, repeat: Infinity }}
-                style={{
-                  backgroundSize: "200% 200%",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                {t.caseStudies.hero.title}
-              </motion.span>
-            </motion.h1>
+            <h1 className="subpage-hero__title mb-6">
+              <GradientHeading as="span">{t.caseStudies.hero.title}</GradientHeading>
+            </h1>
             
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-2xl md:text-3xl text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-12"
-            >
+            <p className="subpage-hero__lead text-muted-foreground mb-10 px-2">
               {t.caseStudies.hero.description}
-            </motion.p>
+            </p>
 
             {/* Scroll indicator */}
             <motion.div

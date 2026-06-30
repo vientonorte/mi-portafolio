@@ -29,6 +29,7 @@ import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProjectCard } from "../components/molecules/ProjectCard";
+import { GradientHeading } from "../components/atoms/GradientHeading";
 
 interface CompanyDetailProps {
   company: CompanyHub;
@@ -186,7 +187,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
         {/* Hero Section */}
         <section 
           id="hero" 
-          className="py-20 md:py-32 px-4 relative overflow-hidden scroll-mt-20"
+          className="subpage-hero py-12 md:py-20 px-4 relative overflow-hidden"
           aria-labelledby="company-heading"
         >
           {/* Animated gradient background */}
@@ -208,87 +209,31 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
 
           <div className="container max-w-7xl mx-auto relative z-10">
             <motion.div
-              variants={fadeInVariant}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.8 }}
-              className="text-center"
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col items-center gap-6 text-center"
             >
-              {/* Company Logo */}
               {company.logo && (
-                <motion.div
-                  variants={scaleVariant}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.5 }}
-                  className="mb-8"
-                >
-                  <img 
-                    src={company.logo} 
-                    alt=""
-                    role="presentation"
-                    className="h-20 w-20 rounded-2xl mx-auto object-cover border-2 border-primary/20"
-                  />
-                </motion.div>
+                <img 
+                  src={company.logo} 
+                  alt=""
+                  role="presentation"
+                  className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl object-cover border-2 border-primary/20"
+                />
               )}
 
-              {/* Badge */}
-              <motion.div
-                variants={scaleVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mb-6"
-              >
-                <Badge variant="outline" className="text-base px-4 py-1.5 bg-primary/10 border-primary/30">
-                  {company.industry} • {company.period}
-                </Badge>
-              </motion.div>
+              <Badge variant="outline" className="text-sm sm:text-base px-4 py-1.5 bg-primary/10 border-primary/30">
+                {company.industry} • {company.period}
+              </Badge>
 
-              {/* Company Name */}
-              <motion.h1
-                id="company-heading"
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-5xl md:text-7xl mb-6"
-              >
-                <motion.span
-                  className="bg-clip-text text-transparent bg-brand-gradient inline-block"
-                  animate={shouldReduceMotion ? {} : { opacity: [1, 0.8, 1] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  {company.name}
-                </motion.span>
-              </motion.h1>
+              <h1 id="company-heading" className="subpage-hero__title w-full">
+                <GradientHeading as="span">{company.name}</GradientHeading>
+              </h1>
               
-              <motion.p
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-2xl md:text-3xl text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-12"
-              >
-                {language === "es" 
-                  ? "Framework de diseño de producto estructurado en 5 macroprocesos que priorizan decisiones basadas en data y validación con usuarios reales"
-                  : "Product design framework structured in 5 macro-processes that prioritize data-driven decisions and real user validation"
-                }
-              </motion.p>
-
-              {/* Subtitle - Company Context */}
-              <motion.p
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="text-lg text-muted-foreground/80 max-w-3xl mx-auto mb-16"
-              >
-                {language === "es"
-                  ? "Metodología aplicada de forma transversal en todos los proyectos digitales"
-                  : "Methodology applied transversally across all digital projects"
-                }
-              </motion.p>
+              <p className="subpage-hero__lead text-muted-foreground px-2">
+                {company.description}
+              </p>
 
               {/* Stats destacados - METODOLOGÍA */}
               <motion.div

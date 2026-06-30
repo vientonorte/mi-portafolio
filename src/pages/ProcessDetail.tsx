@@ -8,6 +8,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { processesData, ProcessDetailData } from "../data/processes-data";
+import { GradientHeading } from "../components/atoms/GradientHeading";
 
 interface ProcessDetailProps {
   processId: string;
@@ -71,7 +72,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
       </motion.header>
 
       {/* Hero Section */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
+      <section className="subpage-hero py-12 md:py-20 px-4 relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
         
@@ -83,37 +84,24 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
             className="max-w-4xl"
           >
             {/* Icon + Title */}
-            <div className="flex items-center gap-4 mb-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-                className="h-20 w-20 rounded-2xl bg-primary/10 flex items-center justify-center"
-              >
-                <Icon className="h-10 w-10 text-primary" />
-              </motion.div>
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
+              <div className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+              </div>
               
-              <div>
+              <div className="min-w-0 flex-1">
                 <Badge variant="secondary" className="mb-2">
                   {t.caseStudies.process.badge}
                 </Badge>
-                <h1 className="text-5xl md:text-7xl font-black leading-tight">
-                  {title}
+                <h1 className="subpage-hero__title">
+                  <GradientHeading as="span">{title}</GradientHeading>
                 </h1>
               </div>
             </div>
 
-            {/* Question */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mb-6"
-            >
-              <h2 className="text-3xl md:text-5xl font-bold text-muted-foreground italic">
-                "{question}"
-              </h2>
-            </motion.div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-muted-foreground italic mb-6 break-words">
+              &ldquo;{question}&rdquo;
+            </h2>
             
             {/* Description */}
             <motion.p
@@ -280,10 +268,10 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
             <Badge variant="outline" className="mb-4">
               {t.processDetail.relatedProjects}
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-black mb-4">
+            <h2 className="text-3xl md:text-4xl font-black mb-4 break-words">
               {language === 'es' ? 'Casos reales' : 'Real cases'}
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-muted-foreground break-words">
               {language === 'es' 
                 ? `Proyectos donde apliqué ${title} con resultados medibles`
                 : `Projects where I applied ${title} with measurable results`
@@ -307,7 +295,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
                         <Badge variant="secondary" className="mb-3">
                           {project.company}
                         </Badge>
-                        <h3 className="font-bold text-2xl group-hover:text-primary transition-colors">
+                        <h3 className="font-bold text-xl sm:text-2xl group-hover:text-primary transition-colors break-words">
                           {project.projectName}
                         </h3>
                       </div>

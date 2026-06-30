@@ -36,7 +36,7 @@ export function StatsTooltip({
                 aria-hidden="true"
               />
               <div 
-                className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-brand-gradient mb-2"
+                className="heading-gradient text-4xl md:text-5xl font-black mb-2"
                 aria-label={ariaLabel}
               >
                 {value}

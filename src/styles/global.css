@@ -116,6 +116,34 @@ img {
   z-index: 40;
 }
 
+/* Títulos con gradiente — webkit completo (Safari) */
+.heading-gradient {
+  background: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.subpage-hero {
+  scroll-margin-top: calc(var(--header-height) + 5rem);
+}
+
+.subpage-hero__title {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+.subpage-hero__lead {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.55;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
 @media (max-width: 767px) {
   #main,
   footer[role="contentinfo"] {
