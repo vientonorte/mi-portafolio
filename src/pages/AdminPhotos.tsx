@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Github, KeyRound, LogOut, RefreshCw, Upload } from "lucide-react";
+import { KeyRound, LogOut, RefreshCw, ShieldCheck, Upload } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
@@ -179,7 +179,7 @@ export default function AdminPhotos() {
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-3">
               <Button onClick={handleGithub} className="gap-2">
-                <Github className="h-4 w-4" />
+                <ShieldCheck className="h-4 w-4" />
                 Entrar con GitHub (@{ADMIN_GITHUB_USER})
               </Button>
               {isPasskeySupported() && (
