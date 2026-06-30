@@ -62,3 +62,45 @@ curl -X POST https://mi-portafolio-contact.vientonorte.workers.dev/api/contact \
 ```
 
 Debe llegar a Gmail con asunto `Portfolio · mensaje de QA Test`.
+
+---
+
+## Admin de fotos (privado)
+
+Ruta del sitio: `https://vientonorte.github.io/mi-portafolio/#/admin/fotos`
+
+Solo el usuario GitHub **`vientonorte`** puede entrar. Flujo:
+
+1. **GitHub OAuth** — primera vez o para registrar passkey
+2. **Passkey (WebAuthn)** — entradas siguientes sin GitHub
+3. Subir/reemplazar imágenes → **R2** + manifest en **KV**
+4. El sitio público lee overrides en `GET /api/images/manifest`
+
+### Recursos Cloudflare (una vez)
+
+```bash
+cd worker
+npx wrangler kv namespace create ADMIN_KV
+npx wrangler r2 bucket create mi-portafolio-images
+# Copiar el id de KV a wrangler.toml → [[kv_namespaces]].id
+
+# Habilitar acceso público al bucket R2 y pegar URL en wrangler.toml:
+# R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"
+```
+
+### GitHub OAuth App
+
+1. GitHub → Settings → Developer settings → OAuth App
+2. Homepage: `https://vientonorte.github.io/mi-portafolio/`
+3. Callback: `https://mi-portafolio-contact.vientonorte.workers.dev/api/admin/auth/github/callback`
+
+```bash
+npx wrangler secret put SESSION_SECRET      # openssl rand -base64 32
+npx wrangler secret put GITHUB_CLIENT_ID
+npx wrangler secret put GITHUB_CLIENT_SECRET
+npx wrangler deploy
+```
+
+### Catálogo editable
+
+Las fotos listadas coinciden con `public/images/**` y `profile-photo.jpg` (ver `src/data/image-registry.ts`).

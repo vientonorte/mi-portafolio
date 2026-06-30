@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 import { getCompanyById, getProjectById } from './data/project-registry';
+import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import Home from './pages/Home';
 
 // Lazy load secondary pages for better performance
@@ -23,6 +24,7 @@ const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
 const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const AdminPhotos = lazy(() => import('./pages/AdminPhotos'));
 function RouterNavigation() {
   const navigate = useNavigate();
   return (
@@ -115,6 +117,7 @@ function ProjectDetailPage() {
 const App = () => (
   <LanguageProvider>
     <AnalyticsProvider config={analyticsConfig}>
+    <ImageManifestProvider>
     <Router>
       {/* Skip to content — accesibilidad teclado */}
       <a href="#main" className="skip-link">
@@ -137,12 +140,14 @@ const App = () => (
             <Route path="/empresa/:companyId" element={<CompanyDetailPage />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
+            <Route path="/admin/fotos" element={<AdminPhotos />} />
           </Routes>
         </Suspense>
       </main>
       <Footer />
       <BottomNav />
     </Router>
+    </ImageManifestProvider>
     </AnalyticsProvider>
   </LanguageProvider>
 );

@@ -1,4 +1,4 @@
-import { portfolioImages } from "../lib/portfolio-image-urls";
+import { getPortfolioImages } from "../lib/image-overrides";
 
 export interface CaseStudyCardData {
   id: string;
@@ -11,7 +11,9 @@ export interface CaseStudyCardData {
 }
 
 /** Casos destacados para grid visual en /proyectos */
-export const featuredCaseStudies: CaseStudyCardData[] = [
+export function getFeaturedCaseStudies(): CaseStudyCardData[] {
+  const portfolioImages = getPortfolioImages();
+  return [
   {
     id: "sura-ria-us",
     title: "Diseño UX UI RIA SURA US",
@@ -90,4 +92,8 @@ export const featuredCaseStudies: CaseStudyCardData[] = [
       { label: "MVPs", value: "3" },
     ],
   },
-];
+  ];
+}
+
+/** Snapshot al cargar el módulo; en runtime preferir getFeaturedCaseStudies() */
+export const featuredCaseStudies = getFeaturedCaseStudies();

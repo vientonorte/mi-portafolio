@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { User } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { portfolioImages } from "../../lib/portfolio-image-urls";
+import { getPortfolioImages } from "../../lib/image-overrides";
+import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
 
 interface ProfileAvatarProps {
   className?: string;
@@ -14,6 +15,7 @@ export function ProfileAvatar({
   initials = "RG",
   alt = "Rodrigo Gaete — Lead UX Designer",
 }: ProfileAvatarProps) {
+  useImageManifestVersion();
   const [hasPhoto, setHasPhoto] = useState(true);
 
   if (!hasPhoto) {
@@ -35,7 +37,7 @@ export function ProfileAvatar({
 
   return (
     <img
-      src={portfolioImages.branding.profilePhoto}
+      src={getPortfolioImages().branding.profilePhoto}
       alt={alt}
       className={cn("w-full h-full object-cover object-top", className)}
       onError={() => setHasPhoto(false)}

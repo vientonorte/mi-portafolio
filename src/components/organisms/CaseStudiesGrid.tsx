@@ -3,11 +3,14 @@ import { FolderOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { CaseStudyCard } from "../molecules/CaseStudyCard";
-import { featuredCaseStudies } from "../../data/case-study-cards";
+import { getFeaturedCaseStudies } from "../../data/case-study-cards";
+import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
 
 export function CaseStudiesGrid() {
   const navigate = useNavigate();
   const prefersReducedMotion = useReducedMotion();
+  useImageManifestVersion();
+  const featuredCaseStudies = getFeaturedCaseStudies();
 
   return (
     <section

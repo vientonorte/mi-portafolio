@@ -1,0 +1,24 @@
+/** Catálogo espejo de src/data/image-registry.ts */
+export const IMAGE_REGISTRY = [
+  { id: 'branding.profilePhoto', category: 'Branding', label: 'Foto de perfil', path: 'profile-photo.jpg', alt: 'Rodrigo Gaete — Lead UX Designer' },
+  { id: 'branding.ogPortfolio', category: 'Branding', label: 'OG / PWA', path: 'branding/og-portfolio.png', alt: 'Portfolio Rodrigo Gaete' },
+  { id: 'sura.riaOnboarding', category: 'SURA', label: 'RIA onboarding', path: 'sura/ria-onboarding.png', alt: 'Onboarding RIA SURA US' },
+  { id: 'sura.webPrototype', category: 'SURA', label: 'Prototipo web', path: 'sura/web-prototype.png', alt: 'Prototipo web SURA' },
+  { id: 'sura.benchmarkNavigation', category: 'SURA', label: 'Benchmark navegación', path: 'sura/benchmark-navigation.png', alt: 'Benchmark de navegación' },
+  { id: 'sura.analyticsGa4', category: 'SURA', label: 'Analytics GA4', path: 'sura/analytics-ga4.png', alt: 'Dashboard GA4' },
+  { id: 'sura.hotjarDashboard', category: 'SURA', label: 'Hotjar', path: 'sura/hotjar-dashboard.png', alt: 'Dashboard Hotjar' },
+  { id: 'sura.bookingFlowchart', category: 'SURA', label: 'Booking flowchart', path: 'sura/booking-flowchart.png', alt: 'Flujo de booking' },
+  { id: 'sura.onboardingFlags', category: 'SURA', label: 'Onboarding flags', path: 'sura/onboarding-flags.png', alt: 'Flags de onboarding' },
+  { id: 'sura.uxProcess', category: 'SURA', label: 'Proceso UX', path: 'sura/ux-process.png', alt: 'Diagrama proceso UX' },
+  { id: 'transvip.appDesktop', category: 'Transvip', label: 'App desktop', path: 'transvip/app-desktop.png', alt: 'App Transvip desktop' },
+  { id: 'transvip.appMobile', category: 'Transvip', label: 'App mobile', path: 'transvip/app-mobile.png', alt: 'App Transvip mobile' },
+  { id: 'transvip.productVision', category: 'Transvip', label: 'Product vision', path: 'transvip/product-vision.png', alt: 'Visión de producto Transvip' },
+  { id: 'karri.logo', category: 'Karri', label: 'Logo', path: 'karri/logo.png', alt: 'Logo Karri' },
+  { id: 'karri.boosmapBenchmark', category: 'Karri', label: 'Benchmark BOOSMAP', path: 'karri/boosmap-benchmark.png', alt: 'Benchmark BOOSMAP' },
+  { id: 'karri.deliveryBrand', category: 'Karri', label: 'Delivery brand', path: 'karri/delivery-brand.png', alt: 'Marca delivery Karri' },
+  { id: 'karri.okrsBoard', category: 'Karri', label: 'OKRs board', path: 'karri/okrs-board.png', alt: 'Tablero OKRs' },
+  { id: 'karri.sprintBrief1', category: 'Karri', label: 'Sprint brief 1', path: 'karri/sprint-brief-1.png', alt: 'Sprint brief Karri' },
+  { id: 'framework.uxValueChain', category: 'Framework', label: 'UX value chain', path: 'framework/ux-value-chain.png', alt: 'Cadena de valor UX' },
+];
+
+export const REGISTRY_BY_ID = Object.fromEntries(IMAGE_REGISTRY.map((i) => [i.id, i]));

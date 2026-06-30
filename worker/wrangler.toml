@@ -5,12 +5,24 @@ account_id = "6e96c77c41a11e043c84a7802c6108b8"
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGIN = "https://vientonorte.github.io"
+ALLOWED_ORIGIN = "https://vientonorte.github.io,http://localhost:3000"
 CONTACT_FROM = "contacto@vientonorte.cl"
 CONTACT_FROM_NAME = "Rodrigo Gaete · Portfolio"
+ADMIN_GITHUB_USER = "vientonorte"
+STATIC_IMAGE_BASE = "https://vientonorte.github.io/mi-portafolio"
+WEBAUTHN_RP_ID = "vientonorte.github.io"
+# R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"  # tras habilitar acceso público al bucket
 
-# Secret (wrangler secret put CONTACT_INBOX): gaete.gaona@gmail.com
-# Requiere dominio vientonorte.cl en Email Sending + Email Routing (ver worker/README.md)
+# Secrets (wrangler secret put):
+#   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
 
 [[send_email]]
 name = "EMAIL"
+
+[[kv_namespaces]]
+binding = "ADMIN_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[[r2_buckets]]
+binding = "IMAGES_BUCKET"
+bucket_name = "mi-portafolio-images"
