@@ -4,6 +4,7 @@ import { ArrowRight, FileText } from "lucide-react";
 import { useRef, useMemo } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
+import { HeroResultCard } from "../atoms/HeroResultCard";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -70,14 +71,6 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const itemVariants = {
     hidden:  { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
-  };
-
-  const cardVariants = {
-    hidden:  { opacity: 0, x: 24 },
-    visible: (i: number) => ({
-      opacity: 1, x: 0,
-      transition: { duration: 0.65, ease, delay: 0.3 + i * 0.12 },
-    }),
   };
 
   return (
@@ -209,41 +202,13 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
           {/* ── Right column — result cards ── */}
           <div className="hero-right" aria-label={t.resultados} role="list">
             {resultCards.map((card, i) => (
-              <motion.div
+              <HeroResultCard
                 key={card.metric}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                role="listitem"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "12px",
-                  padding: "1.25rem 1.5rem",
-                  marginLeft: i === 1 ? "2rem" : i === 2 ? "1rem" : "0",
-                  backdropFilter: "blur(8px)",
-                }}
-              >
-                <span
-                  className="font-mono font-black text-foreground block"
-                  style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.03em", lineHeight: 1 }}
-                >
-                  {card.metric}
-                </span>
-                <span
-                  className="block text-muted-foreground"
-                  style={{ fontSize: "0.875rem", marginTop: "0.375rem", fontWeight: 400 }}
-                >
-                  {card.desc}
-                </span>
-                <span
-                  className="block"
-                  style={{ fontSize: "0.75rem", marginTop: "0.25rem", color: "var(--muted-foreground)", opacity: 0.8, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "monospace" }}
-                >
-                  {card.company}
-                </span>
-              </motion.div>
+                metric={card.metric}
+                description={card.desc}
+                company={card.company}
+                index={i}
+              />
             ))}
           </div>
 
