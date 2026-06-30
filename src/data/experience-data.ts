@@ -1,0 +1,70 @@
+import {
+  suraRiaOnboarding,
+  transvipDesktop,
+  karriLogo,
+  karriOkrsBoard,
+} from "./project-images";
+
+export const experiences = [
+  {
+    company: "SURA Investments | Wealth Management",
+    position: "Associate Estrategia Digital · Lead UX",
+    period: "Nov 2023 - Actualidad",
+    isCurrent: true,
+    logo: suraRiaOnboarding,
+    location: "Remoto",
+    summary: "-40% onboarding · 50+ componentes design system · 5+ países",
+    achievements: [
+      "Diseño de lineamientos de experiencia e interfaz durante la ideación, estructuración e implementación de nuevas iniciativas",
+      "Implementación de desarrollo evolutivo en productos digitales regionales",
+      "Aplicación de Design Thinking adaptado a contextos enterprise y financieros",
+    ],
+    tools: ["Figma", "Miro", "Jira", "Confluence", "Analytics"],
+    companyId: "sura-investments",
+  },
+  {
+    company: "Academia Desafío Latam",
+    position: "Docente Carrera UX / UI",
+    period: "Jun 2022 - Feb 2023",
+    isCurrent: false,
+    logo: karriOkrsBoard,
+    location: "Remoto",
+    summary: "Generación G48 · Design Thinking · Mentoría de proyectos finales",
+    achievements: [
+      "Cursos de diseño UX y UI como aprendizaje continuo",
+      "Mentoría en proyectos finales de la generación",
+    ],
+    tools: ["Figma", "Design Thinking", "User Research"],
+  },
+  {
+    company: "Transvip",
+    position: "Senior Product Designer",
+    period: "2022 - 2023",
+    isCurrent: false,
+    logo: transvipDesktop,
+    location: "Remoto",
+    summary: "-40% fricción en reservas · Tracking en tiempo real",
+    achievements: [
+      "Rediseño completo de la app de pasajeros premium",
+      "Optimización del flujo de reservas con reducción de 40% en fricción",
+    ],
+    tools: ["Figma", "Sketch", "User Testing", "A/B Testing"],
+    companyId: "transvip",
+  },
+  {
+    company: "Karri by Transvip",
+    position: "Lead UX Designer - Vertical Shoppers",
+    period: "2022 - 2023",
+    isCurrent: false,
+    logo: karriLogo,
+    location: "Remoto",
+    summary: "+35% activación · +58% engagement · -42% abandono",
+    achievements: [
+      "Calculadora de ganancias que aumentó activación en +35%",
+      "Sistema de notificaciones centralizado con +58% engagement",
+      "Optimización de onboarding con -42% de abandono",
+    ],
+    tools: ["Figma", "Analytics", "User Research", "Prototyping"],
+    companyId: "transvip",
+  },
+];

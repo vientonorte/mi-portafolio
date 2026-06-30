@@ -22,7 +22,10 @@ const Home = () => {
         onNavigateToDesignSystem={() => navigate('/design-system')}
       />
       <ImpactStats />
-      <Projects onNavigateToCaseStudies={() => navigate('/cases')} />
+      <Projects
+        onNavigateToCaseStudies={() => navigate('/cases')}
+        onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
+      />
       <About />
       <Experience />
       <Contact />

@@ -1,71 +1,15 @@
 import { motion } from "motion/react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { Briefcase } from "lucide-react";
+import { Button } from "../ui/button";
+import { Briefcase, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../molecules/SectionHeader";
-
-const experiences = [
-  {
-    company: "SURA Investments | Wealth Management",
-    position: "Associate Estrategia Digital · Lead UX",
-    period: "Nov 2023 - Actualidad",
-    isCurrent: true,
-    logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop",
-    location: "Remoto",
-    summary: "-40% onboarding · 50+ componentes design system · 5+ países",
-    achievements: [
-      "Diseño de lineamientos de experiencia e interfaz durante la ideación, estructuración e implementación de nuevas iniciativas",
-      "Implementación de desarrollo evolutivo en productos digitales regionales",
-      "Aplicación de Design Thinking adaptado a contextos enterprise y financieros",
-    ],
-    tools: ["Figma", "Miro", "Jira", "Confluence", "Analytics"],
-  },
-  {
-    company: "Academia Desafío Latam",
-    position: "Docente Carrera UX / UI",
-    period: "Jun 2022 - Feb 2023",
-    isCurrent: false,
-    logo: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=100&h=100&fit=crop",
-    location: "Remoto",
-    summary: "Generación G48 · Design Thinking · Mentoría de proyectos finales",
-    achievements: [
-      "Cursos de diseño UX y UI como aprendizaje continuo",
-      "Mentoría en proyectos finales de la generación",
-    ],
-    tools: ["Figma", "Design Thinking", "User Research"],
-  },
-  {
-    company: "Transvip",
-    position: "Senior Product Designer",
-    period: "2022 - 2023",
-    isCurrent: false,
-    logo: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=100&h=100&fit=crop",
-    location: "Remoto",
-    summary: "-40% fricción en reservas · Tracking en tiempo real",
-    achievements: [
-      "Rediseño completo de la app de pasajeros premium",
-      "Optimización del flujo de reservas con reducción de 40% en fricción",
-    ],
-    tools: ["Figma", "Sketch", "User Testing", "A/B Testing"],
-  },
-  {
-    company: "Karri by Transvip",
-    position: "Lead UX Designer - Vertical Shoppers",
-    period: "2022 - 2023",
-    isCurrent: false,
-    logo: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=100&h=100&fit=crop",
-    location: "Remoto",
-    summary: "+35% activación · +58% engagement · -42% abandono",
-    achievements: [
-      "Calculadora de ganancias que aumentó activación en +35%",
-      "Sistema de notificaciones centralizado con +58% engagement",
-      "Optimización de onboarding con -42% de abandono",
-    ],
-    tools: ["Figma", "Analytics", "User Research", "Prototyping"],
-  },
-];
+import { experiences } from "../../data/experience-data";
+import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 export function Experience() {
+  const navigate = useNavigate();
   return (
     <section
       id="experiencia"
@@ -100,15 +44,10 @@ export function Experience() {
                       {/* Company Logo */}
                       <div className="relative flex-shrink-0">
                         <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-muted flex items-center justify-center ring-2 ring-border">
-                          <img 
-                            src={exp.logo} 
-                            alt={`${exp.company} logo`}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              // Fallback to icon if image fails to load
-                              e.currentTarget.style.display = 'none';
-                              e.currentTarget.parentElement!.innerHTML = '<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>';
-                            }}
+                          <ImageWithFallback
+                            src={exp.logo}
+                            alt={`${exp.company} — evidencia visual`}
+                            className="w-full h-full object-cover object-top"
                           />
                         </div>
                         {/* Timeline dot */}
@@ -162,6 +101,20 @@ export function Experience() {
                         </Badge>
                       ))}
                     </div>
+                  </CardContent>
+                )}
+
+                {"companyId" in exp && exp.companyId && (
+                  <CardContent className="pt-0">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="gap-1 px-0 text-primary hover:text-primary"
+                      onClick={() => navigate(`/empresa/${exp.companyId}`)}
+                    >
+                      Ver casos y evidencias
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
                   </CardContent>
                 )}
               </Card>

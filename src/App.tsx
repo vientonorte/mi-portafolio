@@ -7,6 +7,7 @@ import { Navigation } from './components/organisms/Navigation';
 import Footer from './components/Footer';
 import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
+import { getCompanyById, getProjectById } from './data/project-registry';
 import Home from './pages/Home';
 
 // Lazy load secondary pages for better performance
@@ -20,6 +21,8 @@ const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
 const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
+const CompanyDetail = lazy(() => import('./pages/CompanyDetail'));
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 function RouterNavigation() {
   const navigate = useNavigate();
   return (
@@ -47,6 +50,68 @@ function ProcessDetailPage() {
   return <ProcessDetail processId={processId || ''} onBack={() => navigate('/cases')} onNavigateToPortfolio={() => navigate('/')} />;
 }
 
+function CompanyDetailPage() {
+  const { companyId } = useParams<{ companyId: string }>();
+  const navigate = useNavigate();
+  const company = getCompanyById(companyId || '');
+
+  if (!company) {
+    return (
+      <div className="container max-w-3xl mx-auto py-24 px-4 text-center">
+        <p className="text-muted-foreground mb-4">No encontramos esa empresa.</p>
+        <button
+          type="button"
+          onClick={() => navigate('/proyectos')}
+          className="text-primary underline-offset-4 hover:underline"
+        >
+          Volver a proyectos
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <CompanyDetail
+      company={company}
+      onBack={() => navigate('/proyectos')}
+      onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
+      onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)}
+    />
+  );
+}
+
+function ProjectDetailPage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  const navigate = useNavigate();
+  const result = getProjectById(projectId || '');
+
+  if (!result) {
+    return (
+      <div className="container max-w-3xl mx-auto py-24 px-4 text-center">
+        <p className="text-muted-foreground mb-4">No encontramos ese proyecto.</p>
+        <button
+          type="button"
+          onClick={() => navigate('/proyectos')}
+          className="text-primary underline-offset-4 hover:underline"
+        >
+          Volver a proyectos
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <ProjectDetail
+      project={result.project}
+      onBack={() => navigate('/proyectos')}
+      onBackToCompany={() =>
+        result.companyId ? navigate(`/empresa/${result.companyId}`) : navigate('/proyectos')
+      }
+      onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)}
+    />
+  );
+}
+
 const App = () => (
   <LanguageProvider>
     <AnalyticsProvider config={analyticsConfig}>
@@ -69,6 +134,8 @@ const App = () => (
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/cases" element={<CaseStudiesPage />} />
             <Route path="/cases/process/:processId" element={<ProcessDetailPage />} />
+            <Route path="/empresa/:companyId" element={<CompanyDetailPage />} />
+            <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
           </Routes>
         </Suspense>

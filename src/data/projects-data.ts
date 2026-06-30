@@ -1,9 +1,21 @@
 import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
-import transvipDesktop from "figma:asset/ca7a4a167c789c951e4e08b0ba00177a6fc58634.png";
-import transvipMobile from "figma:asset/0a0ed13a8f1836aed4325be4398240085ee9c5be.png";
-import uxProcess from "figma:asset/0ddc6d387f6fec8fd73c93778e82ff34a1b1e8cd.png";
-import uxSprintDiagram from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
-import riaOnboardingMockup from "figma:asset/4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png";
+import {
+  suraRiaOnboarding,
+  suraWebPrototype,
+  suraAnalyticsGa4,
+  suraHotjarDashboard,
+  suraBenchmarkNavigation,
+  suraBookingFlowchart,
+  suraOnboardingFlags,
+  suraComponentPipeline,
+  transvipDesktop,
+  transvipMobile,
+  transvipProductVision,
+  karriLogo,
+  uxSprintDiagram,
+  uxProcessDiagram,
+  uxValueChain,
+} from "./project-images";
 
 export interface Process {
   name: string;
@@ -107,10 +119,10 @@ export interface CompanyHub {
 export const suraHub: CompanyHub = {
   id: "sura-investments",
   name: "SURA Investments",
-  logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+  logo: suraRiaOnboarding,
   industry: "Fintech",
   period: "2023 - Presente",
-  totalProjects: 3,
+  totalProjects: 4,
   description: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
   highlights: [
     "Framework UX Enterprise implementado en 5+ países",
@@ -118,18 +130,18 @@ export const suraHub: CompanyHub = {
     "Ecosistema digital: +20 sitios unificados con CMS",
     "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
   ],
-  image: uxSprintDiagram,
+  image: suraWebPrototype,
   projects: [
     {
       // ROL 1: Lead UX - Estrategia Digital Regional
       id: "sura-ux-enterprise",
       company: "SURA Investments",
-      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      companyLogo: suraRiaOnboarding,
       role: "Lead UX | Estrategia Digital",
       period: "2023 - Presente",
       projectName: "Implementación UX Enterprise Regional",
       description: "Liderazgo en la implementación de experiencia usuaria para iniciativas regionales y locales a nivel tecnológico en el sector financiero.",
-      image: uxSprintDiagram,
+      image: uxProcessDiagram,
       tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
       
       processes: [
@@ -169,19 +181,19 @@ export const suraHub: CompanyHub = {
           "Design Thinking funciona en enterprise con la estructura correcta",
           "La documentación de lineamientos debe ser viva y evolutiva",
         ],
-        mockups: [uxSprintDiagram, uxProcess],
+        mockups: [uxProcessDiagram, uxValueChain],
       },
     },
     {
       // PROYECTO 2 dentro de SURA: Plataforma de Inversiones
       id: "sura-inversiones-dashboard",
       company: "SURA Investments",
-      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      companyLogo: suraRiaOnboarding,
       role: "Lead UX | Product Design",
       period: "2023 - 2024",
       projectName: "Rediseño Plataforma de Inversiones Digital",
       description: "Mejora de experiencia usuaria en plataforma de inversiones para clientes institucionales y retail, enfocada en accesibilidad de información financiera compleja.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      image: suraWebPrototype,
       tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
       
       processes: [
@@ -221,18 +233,19 @@ export const suraHub: CompanyHub = {
           "Progressive disclosure es clave para audiencias heterogéneas",
           "Las visualizaciones deben ser configurables para diferentes perfiles",
         ],
+        mockups: [suraWebPrototype, suraComponentPipeline],
       },
     },
     {
       // PROYECTO 3 dentro de SURA: Ecosistema Digital Sitios Públicos
       id: "sura-ecosistema-digital",
       company: "SURA Investments",
-      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      companyLogo: suraRiaOnboarding,
       role: "Lead UX | Digital Strategy & Onboarding",
       period: "2023 - 2025",
       projectName: "Ecosistema Digital Sitios Públicos & Onboarding",
       description: "Rediseño completo del ecosistema de +20 sitios web públicos para SURA Investments Regional, implementando arquitectura unificada, CMS, Design System y flujos de onboarding digital optimizados con manejo de casos de error.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+      image: suraBenchmarkNavigation,
       tags: ["Web Ecosystem", "Digital Strategy", "CMS", "Onboarding", "Design System"],
       
       processes: [
@@ -285,18 +298,24 @@ export const suraHub: CompanyHub = {
           "Proceso iterativo de 3 semanas permite ajustes ágiles en contexto enterprise",
           "Regulaciones financieras requieren casos de error específicos (cumplimiento, bloqueos)",
         ],
+        mockups: [
+          suraOnboardingFlags,
+          suraAnalyticsGa4,
+          suraHotjarDashboard,
+          suraBookingFlowchart,
+        ],
       },
     },
     {
       // PROYECTO 4 dentro de SURA: RIA SURA US
       id: "sura-ria-us",
       company: "SURA Investments",
-      companyLogo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop",
+      companyLogo: suraRiaOnboarding,
       role: "Lead UX/UI Designer",
       period: "2024 - 2025",
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
-      image: riaOnboardingMockup,
+      image: suraRiaOnboarding,
       tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
       
       processes: [
@@ -364,7 +383,7 @@ export const suraHub: CompanyHub = {
           "El diseño de casos de error es crítico en plataformas financieras",
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
-        mockups: [riaOnboardingMockup, uxSprintDiagram], // Mockup onboarding + proceso UX adaptado SURA EE.UU.
+        mockups: [suraRiaOnboarding, uxProcessDiagram],
       },
     },
   ],
@@ -422,6 +441,7 @@ export const suraHub: CompanyHub = {
 export const transvipHub: CompanyHub = {
   id: "transvip",
   name: "Transvip",
+  logo: transvipDesktop,
   industry: "Mobility & Transport",
   period: "2022 - 2023",
   totalProjects: 4,
@@ -437,6 +457,7 @@ export const transvipHub: CompanyHub = {
     {
       id: "transvip-app-premium",
       company: "Transvip",
+      companyLogo: transvipDesktop,
       role: "Senior Product Designer",
       period: "2022-2023",
       projectName: "Rediseño App Pasajeros Premium",
@@ -468,7 +489,7 @@ export const transvipHub: CompanyHub = {
           "La transparencia en pricing genera confianza",
           "El tracking en tiempo real es crítico para viajes al aeropuerto",
         ],
-        mockups: [transvipMobile],
+        mockups: [transvipMobile, transvipProductVision],
       },
     },
     karriCalculadoraProject as unknown as EnhancedProject,
@@ -533,7 +554,7 @@ export const frameworkProject: EnhancedProject = {
   period: "2022 - Presente",
   projectName: "Framework UX - Discovery & Product Design",
   description: "Desarrollo de framework de UX completo: Analytics, Research, UI Design y Testing. Metodología para MVPs y desarrollo evolutivo.",
-  image: uxSprintDiagram,
+  image: uxValueChain,
   tags: ["UX Process", "Framework", "Methodology", "Best Practices"],
   
   processes: [
@@ -573,7 +594,7 @@ export const frameworkProject: EnhancedProject = {
       "El discovery activo previene errores costosos",
       "La documentación del proceso facilita la escalabilidad",
     ],
-    mockups: [uxSprintDiagram, uxProcess],
+    mockups: [uxValueChain, uxProcessDiagram, uxSprintDiagram],
   },
 };
 

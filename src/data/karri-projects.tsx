@@ -5,15 +5,35 @@ import Component3UberResumen from "../imports/3UberResumen";
 import Component4Brief from "../imports/4Brief-3-7056";
 import Component5ViajeDelUsuario from "../imports/5ViajeDelUsuario-3-7060";
 import Component5OkRs from "../imports/5OkRs-3-7064";
+import ComponentSidebarCliente from "../imports/SidebarCliente-3-6340";
+import ComponentMisPagos from "../imports/MisPagos";
+import {
+  karriLogo,
+  karriBoosmapBenchmark,
+  karriIdUpload,
+  karriDeliveryPhoto,
+  karriZubaleDocuments,
+  karriOkrsBoard,
+  karriSprintBrief1,
+  karriSprintBrief2,
+  transvipProductVision,
+} from "./project-images";
 
 export const karriCalculadoraProject = {
   id: "karri-calculadora",
   name: "Karri - Calculadora de Ganancias",
+  projectName: "Karri - Calculadora de Ganancias",
   company: "Karri",
-  companyLogo: undefined,
+  companyLogo: karriLogo,
   role: "Lead UX Designer",
   period: "2022-2023",
+  image: karriBoosmapBenchmark,
   description: "Sistema de simulación de ingresos para shoppers que permite calcular ganancias proyectadas basadas en parámetros reales de trabajo, mejorando la transparencia y confianza en la plataforma.",
+  details: {
+    challenge: "Los shoppers de Karri no podían estimar sus ingresos potenciales antes de comenzar, generando incertidumbre sobre la rentabilidad del trabajo.",
+    solution: "Calculadora interactiva con benchmark de competidores (BOOSMAP, ZUBALE) y simulación de escenarios de trabajo.",
+    mockups: [karriBoosmapBenchmark, karriIdUpload],
+  },
   tags: ["Figma", "React Native", "UX Research", "Mobile First", "Design System"],
   challenge: {
     problem: "Los shoppers de Karri no podían estimar sus ingresos potenciales antes de comenzar, generando incertidumbre sobre la rentabilidad del trabajo. No existía transparencia en cómo se calculaban las ganancias ni cómo optimizar sus tiempos para maximizar ingresos.",
@@ -145,11 +165,18 @@ export const karriCalculadoraProject = {
 export const karriNotificacionesProject = {
   id: "karri-notificaciones",
   name: "Karri - Sistema de Notificaciones + Onboarding",
+  projectName: "Karri - Sistema de Notificaciones + Onboarding",
   company: "Karri",
-  companyLogo: undefined,
+  companyLogo: karriLogo,
   role: "Lead UX Designer",
   period: "2022-2023",
+  image: karriDeliveryPhoto,
   description: "Hub centralizado de notificaciones y flujo de autenticación optimizado para shoppers. Reduce la carga cognitiva, mejora la retención y facilita la gestión de tareas críticas.",
+  details: {
+    challenge: "Notificaciones dispersas en push, SMS y email sin centro unificado. Autenticación confusa con alto abandono.",
+    solution: "Hub de notificaciones categorizado y onboarding simplificado de 7 a 4 pasos con feedback visual claro.",
+    mockups: [karriDeliveryPhoto, karriZubaleDocuments],
+  },
   tags: ["Figma", "React Native", "Information Architecture", "Mobile UX", "Accessibility"],
   challenge: {
     problem: "Las notificaciones de Karri llegaban dispersas por múltiples canales (push, SMS, email) sin un centro unificado. Los shoppers perdían información crítica sobre pedidos, bonos y actualizaciones. El proceso de autenticación era confuso y generaba abandono en el registro.",
@@ -223,8 +250,8 @@ export const karriNotificacionesProject = {
       impact: "El engagement con notificaciones aumentó un 58% post-lanzamiento del hub",
     }
   ],
-  designComponents: [],
-  designComponentNames: [],
+  designComponents: [ComponentSidebarCliente, ComponentMisPagos],
+  designComponentNames: ["Centro de notificaciones", "Mis pagos — shopper"],
   results: [
     {
       label: "Engagement con notificaciones",
@@ -256,11 +283,18 @@ export const karriNotificacionesProject = {
 export const karriDesignSprintProject = {
   id: "karri-design-sprint",
   name: "Karri - Workshop de Estrategia de Producto",
+  projectName: "Karri - Workshop de Estrategia de Producto",
   company: "Karri",
-  companyLogo: undefined,
+  companyLogo: karriLogo,
   role: "Lead UX Designer & Workshop Facilitator",
   period: "Agosto 2023",
+  image: karriOkrsBoard,
   description: "Taller intensivo de 3 sesiones que alineó al equipo completo en la estrategia de producto. Creamos el brief colaborativo, mapeamos el journey completo del shopper y priorizamos MVPs con OKRs medibles.",
+  details: {
+    challenge: "Información dispersa y falta de consenso sobre la visión del producto Karri.",
+    solution: "3 talleres: brief colaborativo, journey map (24 touchpoints) y OKRs con 3 MVPs priorizados.",
+    mockups: [karriSprintBrief1, karriSprintBrief2, karriOkrsBoard, transvipProductVision],
+  },
   tags: ["Design Sprint", "Facilitation", "Product Strategy", "Journey Mapping", "OKR Planning"],
   challenge: {
     problem: "El equipo tenía información dispersa y falta de consenso sobre la visión del producto. No existía un mapa claro del journey del shopper ni priorización de funcionalidades para los MVPs.",

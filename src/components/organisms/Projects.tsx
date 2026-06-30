@@ -19,7 +19,13 @@ const stats = [
 
 type FilterCategory = 'all' | 'fintech' | 'mobility' | 'featured';
 
-export function Projects({ onNavigateToCaseStudies }: { onNavigateToCaseStudies?: () => void }) {
+export function Projects({
+  onNavigateToCaseStudies,
+  onNavigateToProject,
+}: {
+  onNavigateToCaseStudies?: () => void;
+  onNavigateToProject?: (projectId: string) => void;
+}) {
   const prefersReducedMotion = useReducedMotion();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
@@ -109,10 +115,10 @@ export function Projects({ onNavigateToCaseStudies }: { onNavigateToCaseStudies?
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              <EnhancedProjectCard 
-                {...project} 
+              <EnhancedProjectCard
+                {...project}
                 index={index}
-                // Add featured badge to first 3 projects
+                onNavigateToProject={onNavigateToProject}
                 {...(index < 3 && activeFilter === 'all' ? { isFeatured: true } : {})}
               />
             </motion.div>
