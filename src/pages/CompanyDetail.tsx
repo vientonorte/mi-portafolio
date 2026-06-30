@@ -16,7 +16,7 @@ import {
   Users,
   TrendingDown
 } from "lucide-react";
-import { MockupGallery } from "../components/molecules/MockupGallery";
+import { MockupGallery, type MockupItem } from "../components/molecules/MockupGallery";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
@@ -38,10 +38,21 @@ interface CompanyDetailProps {
   onNavigateToProcess?: (processId: string) => void;
 }
 
+function buildGalleryMockups(company: CompanyHub): MockupItem[] {
+  return company.projects.flatMap((project) =>
+    (project.details?.mockups ?? []).map((src) => ({
+      src,
+      alt: `${project.projectName} — ${company.name}`,
+      label: project.projectName,
+    }))
+  );
+}
+
 export default function CompanyDetail({ company, onBack, onNavigateToProject, onNavigateToProcess }: CompanyDetailProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
+  const galleryMockups = buildGalleryMockups(company);
 
   const processes = [
     {
@@ -392,10 +403,8 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
             >
               <SectionHeader
                 badge={language === "es" ? "El Desafío" : "The Challenge"}
-                title={language === "es" ? "De procesos ambiguos a framework estructurado" : "From ambiguous processes to structured framework"}
-                description={language === "es" 
-                  ? "Transformar la manera de trabajar en diseño UX mediante un framework claro y documentado."
-                  : "Transform the way we work in UX design through a clear, documented framework."}
+                title={company.challenge.title[language]}
+                description={company.description}
               />
 
               <div className="grid md:grid-cols-2 gap-8 mt-12">
@@ -417,9 +426,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
                         </h3>
                       </div>
                       <p className="text-muted-foreground leading-relaxed">
-                        {language === "es"
-                          ? "Anteriormente, el proceso de diseño no contaba con tareas definidas y se sustentaba en dos estados durante los sprints: \"Diseño en progreso\" y \"Diseño en aprobación\"."
-                          : "Previously, the design process had no defined tasks and relied on two states during sprints: \"Design in progress\" and \"Design in approval\"."}
+                        {company.challenge.problem[language]}
                       </p>
                     </CardContent>
                   </Card>
@@ -443,9 +450,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
                         </h3>
                       </div>
                       <p className="text-muted-foreground leading-relaxed">
-                        {language === "es"
-                          ? "Definir claramente los macroprocesos del diseño de producto, facilitando la estimación de esfuerzos, el registro del trabajo y la documentación estructurada."
-                          : "Clearly define product design macro-processes, facilitating effort estimation, work logging, and structured documentation."}
+                        {company.challenge.solution[language]}
                       </p>
                     </CardContent>
                   </Card>
@@ -530,10 +535,8 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
             >
               <SectionHeader
                 badge={language === "es" ? `${company.totalProjects} Proyectos` : `${company.totalProjects} Projects`}
-                title={language === "es" ? "Aplicación transversal del framework" : "Transversal framework application"}
-                description={language === "es"
-                  ? "Cada proyecto implementa los 5 macroprocesos de forma integral, adaptándose a las necesidades específicas del producto."
-                  : "Each project implements all 5 macro-processes holistically, adapting to specific product needs."}
+                title={company.projectsSection.title[language]}
+                description={company.projectsSection.description[language]}
               />
 
               <div 
@@ -541,46 +544,31 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
                 role="list"
                 aria-label={language === "es" ? "Lista de proyectos" : "Projects list"}
               >
-                {/* Proyecto 1: Karri - Calculadora de Ganancias */}
-                <ProjectCard
-                  name="Karri - Calculadora de Ganancias"
-                  description={language === "es"
-                    ? "Sistema de simulación de ingresos para shoppers que permite calcular ganancias proyectadas basadas en parámetros reales."
-                    : "Income simulation system for shoppers that calculates projected earnings based on real parameters."}
-                  period="2022-2023"
-                  tags={["Figma", "React Native", "UX Research", "Mobile First", "Design System"]}
-                  processCount={5}
-                  onClick={() => onNavigateToProject?.("karri-calculadora")}
-                  language={language}
-                  index={0}
-                />
-
-                {/* Proyecto 2: Karri - Sistema de Notificaciones */}
-                <ProjectCard
-                  name="Karri - Sistema de Notificaciones + Onboarding"
-                  description={language === "es"
-                    ? "Hub centralizado de notificaciones y flujo de autenticación para shoppers. Reduce la carga cognitiva y mejora la retención."
-                    : "Centralized notification hub and authentication flow for shoppers. Reduces cognitive load and improves retention."}
-                  period="2022-2023"
-                  tags={["Figma", "React Native", "Information Architecture", "Mobile UX", "Accessibility"]}
-                  processCount={5}
-                  onClick={() => onNavigateToProject?.("karri-notificaciones")}
-                  language={language}
-                  index={1}
-                />
+                {company.projects.map((project, index) => (
+                  <ProjectCard
+                    key={project.id ?? project.projectName}
+                    name={project.projectName}
+                    description={project.description}
+                    period={project.period}
+                    tags={project.tags}
+                    processCount={project.processes?.length ?? 5}
+                    thumbnail={project.image}
+                    onClick={() => project.id && onNavigateToProject?.(project.id)}
+                    language={language}
+                    index={index}
+                  />
+                ))}
               </div>
             </motion.div>
           </div>
         </section>
 
         {/* Mockups Gallery - Evidencias visuales de proyectos */}
-        {company.projects.some(p => p.details?.mockups && p.details.mockups.length > 0) && (
+        {galleryMockups.length > 0 && (
           <MockupGallery
-            mockups={company.projects.flatMap(p => p.details?.mockups || [])}
-            title={language === "es" ? "Evidencias Visuales del Proyecto RIA SURA US" : "RIA SURA US Project Visual Evidence"}
-            description={language === "es" 
-              ? "Mockups de alta fidelidad del flujo de onboarding diseñado para la plataforma RIA (Registered Investment Advisor) en Estados Unidos" 
-              : "High-fidelity mockups of the onboarding flow designed for the RIA (Registered Investment Advisor) platform in the United States"}
+            mockups={galleryMockups}
+            title={company.gallery.title[language]}
+            description={company.gallery.description[language]}
             language={language}
           />
         )}

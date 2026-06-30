@@ -52,6 +52,11 @@ export interface EnhancedProject {
   details: ProjectDetails;
 }
 
+export interface LocalizedCopy {
+  es: string;
+  en: string;
+}
+
 // Nueva interfaz para Company Hub
 export interface CompanyHub {
   id: string;
@@ -63,6 +68,19 @@ export interface CompanyHub {
   description: string;
   highlights: string[];
   image?: string;
+  challenge: {
+    title: LocalizedCopy;
+    problem: LocalizedCopy;
+    solution: LocalizedCopy;
+  };
+  projectsSection: {
+    title: LocalizedCopy;
+    description: LocalizedCopy;
+  };
+  gallery: {
+    title: LocalizedCopy;
+    description: LocalizedCopy;
+  };
   projects: EnhancedProject[];
   // Datos específicos de metodología por empresa
   methodologyStats?: {
@@ -131,6 +149,40 @@ export const suraHub: CompanyHub = {
     "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
   ],
   image: suraWebPrototype,
+  challenge: {
+    title: {
+      es: "Modernización de experiencia financiera enterprise",
+      en: "Enterprise financial experience modernization",
+    },
+    problem: {
+      es: "Múltiples productos financieros digitales sin experiencia unificada a nivel regional: sitios fragmentados, plataformas de inversión complejas y regulaciones distintas por país.",
+      en: "Multiple digital financial products without a unified regional experience: fragmented websites, complex investment platforms, and varying regulations per country.",
+    },
+    solution: {
+      es: "Framework UX Enterprise con Design Thinking adaptado: lineamientos escalables, ecosistema digital unificado (+20 sitios, CMS, Design System) y plataformas de inversiones y RIA diseñadas con validación continua.",
+      en: "UX Enterprise framework with adapted Design Thinking: scalable guidelines, unified digital ecosystem (20+ sites, CMS, Design System), and investment and RIA platforms designed with continuous validation.",
+    },
+  },
+  projectsSection: {
+    title: {
+      es: "Iniciativas UX en el sector financiero",
+      en: "UX initiatives in financial services",
+    },
+    description: {
+      es: "Cuatro proyectos que aplican el framework de diseño en contextos enterprise: estrategia regional, inversiones, ecosistema digital y plataforma RIA en EE.UU.",
+      en: "Four projects applying the design framework in enterprise contexts: regional strategy, investments, digital ecosystem, and RIA platform in the US.",
+    },
+  },
+  gallery: {
+    title: {
+      es: "Evidencias visuales — SURA Investments",
+      en: "Visual evidence — SURA Investments",
+    },
+    description: {
+      es: "Mockups, prototipos y diagramas de onboarding, dashboards, ecosistema digital y plataforma RIA.",
+      en: "Mockups, prototypes, and diagrams of onboarding, dashboards, digital ecosystem, and RIA platform.",
+    },
+  },
   projects: [
     {
       // ROL 1: Lead UX - Estrategia Digital Regional
@@ -301,8 +353,7 @@ export const suraHub: CompanyHub = {
         mockups: [
           suraOnboardingFlags,
           suraAnalyticsGa4,
-          suraHotjarDashboard,
-          suraBookingFlowchart,
+          suraBenchmarkNavigation,
         ],
       },
     },
@@ -453,6 +504,40 @@ export const transvipHub: CompanyHub = {
     "Onboarding que redujo abandono 35% en primera semana",
   ],
   image: transvipDesktop,
+  challenge: {
+    title: {
+      es: "De procesos ambiguos a framework estructurado",
+      en: "From ambiguous processes to structured framework",
+    },
+    problem: {
+      es: "Anteriormente, el proceso de diseño no contaba con tareas definidas y se sustentaba en dos estados durante los sprints: \"Diseño en progreso\" y \"Diseño en aprobación\".",
+      en: "Previously, the design process had no defined tasks and relied on two states during sprints: \"Design in progress\" and \"Design in approval\".",
+    },
+    solution: {
+      es: "Definir claramente los macroprocesos del diseño de producto, facilitando la estimación de esfuerzos, el registro del trabajo y la documentación estructurada en Transvip y Karri.",
+      en: "Clearly define product design macro-processes, facilitating effort estimation, work logging, and structured documentation across Transvip and Karri.",
+    },
+  },
+  projectsSection: {
+    title: {
+      es: "Movilidad premium y delivery vertical",
+      en: "Premium mobility and vertical delivery",
+    },
+    description: {
+      es: "Cuatro proyectos que aplican el framework en la app de pasajeros Transvip y los productos Karri para shoppers.",
+      en: "Four projects applying the framework across the Transvip passenger app and Karri shopper products.",
+    },
+  },
+  gallery: {
+    title: {
+      es: "Evidencias visuales — Transvip & Karri",
+      en: "Visual evidence — Transvip & Karri",
+    },
+    description: {
+      es: "Mockups, flujos de reserva, analytics y prototipos de la app de pasajeros, calculadora de ganancias, notificaciones y design sprint.",
+      en: "Mockups, booking flows, analytics, and prototypes from the passenger app, earnings calculator, notifications, and design sprint.",
+    },
+  },
   projects: [
     {
       id: "transvip-app-premium",
@@ -489,7 +574,13 @@ export const transvipHub: CompanyHub = {
           "La transparencia en pricing genera confianza",
           "El tracking en tiempo real es crítico para viajes al aeropuerto",
         ],
-        mockups: [transvipMobile, transvipProductVision],
+        mockups: [
+          transvipMobile,
+          transvipDesktop,
+          transvipProductVision,
+          suraHotjarDashboard,
+          suraBookingFlowchart,
+        ],
       },
     },
     karriCalculadoraProject as unknown as EnhancedProject,

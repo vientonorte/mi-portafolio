@@ -60,8 +60,7 @@ export function ProjectCard({
           <div className="aspect-video overflow-hidden bg-muted/30">
             <img
               src={thumbnail}
-              alt=""
-              role="presentation"
+              alt={name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
