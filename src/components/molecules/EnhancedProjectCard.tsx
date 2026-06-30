@@ -13,6 +13,7 @@ import {
   Wrench
 } from "lucide-react";
 import { useState } from "react";
+import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 interface Process {
@@ -238,17 +239,19 @@ export function EnhancedProjectCard({
         {/* Imagen del proyecto */}
         {image && (
           <motion.div
-            className="relative h-56 overflow-hidden mx-6 mt-4 rounded-xl"
+            className="relative mx-6 mt-4 overflow-hidden rounded-xl"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.15 + 0.5 }}
             whileHover={{ scale: 1.02 }}
           >
-            <ImageWithFallback
+            <ResponsiveImage
               src={image}
               alt={projectName}
-              className="w-full h-full object-cover"
+              fit="cover"
+              aspectRatio="16 / 10"
+              sizes="(max-width: 768px) 92vw, (max-width: 1200px) 50vw, 40vw"
             />
             <motion.div
               className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"

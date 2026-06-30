@@ -21,6 +21,8 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { KPICard } from "../components/molecules/KPICard";
+import { MockupGallery } from "../components/molecules/MockupGallery";
+import { ResponsiveDesignFrame } from "../components/molecules/ResponsiveDesignFrame";
 
 interface ProcessApplied {
   id: string;
@@ -58,6 +60,7 @@ interface ProjectData {
     description: string;
     icon: React.ComponentType<{ className?: string }>;
   }[];
+  details?: Pick<ProjectDetails, "mockups">;
 }
 
 // SURA enhanced project structure
@@ -99,7 +102,11 @@ interface ProjectDetailProps {
 
 // Type guard to check if project is EnhancedProject
 function isEnhancedProject(project: ProjectData | EnhancedProject): project is EnhancedProject {
-  return 'projectName' in project && 'details' in project;
+  return (
+    "projectName" in project &&
+    "details" in project &&
+    !("processesApplied" in project)
+  );
 }
 
 export default function ProjectDetail({ project, onBack, onBackToCompany, onNavigateToProcess }: ProjectDetailProps) {
@@ -111,6 +118,9 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
   const projectName = isEnhanced ? project.projectName : project.name;
   const challengeProblem = isEnhanced ? project.details.challenge : project.challenge.problem;
   const challengeSolution = isEnhanced ? project.details.solution : project.challenge.solution;
+  const projectMockups = isEnhanced
+    ? project.details.mockups
+    : project.details?.mockups;
 
   const navigationSections = [
     { 
@@ -628,6 +638,10 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
           </section>
         )}
 
+        {projectMockups && projectMockups.length > 0 && (
+          <MockupGallery mockups={projectMockups} language={language} />
+        )}
+
         {/* Enhanced Project Metrics & Learnings */}
         {isEnhanced && (project.details.metrics || project.details.learnings) && (
           <section 
@@ -758,49 +772,11 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
 
                     {project.designComponents.map((DesignComponent, idx) => (
                       <TabsContent key={idx} value={`screen-${idx}`} className="m-0">
-                        {/* Mobile: Hint de scroll */}
-                        <div className="md:hidden mb-3 p-3 bg-muted/50 rounded-lg border border-border/50 text-center">
-                          <p className="text-xs text-muted-foreground">
-                            💡 {language === "es" ? "Desliza para ver el contenido completo" : "Swipe to see full content"}
-                          </p>
-                        </div>
-                        
-                        {/* Contenedor responsive con scroll */}
-                        <div className="bg-background rounded-xl border-2 border-border/50 overflow-hidden shadow-lg">
-                          <div 
-                            className="relative w-full overflow-auto" 
-                            style={{ 
-                              maxHeight: '80vh',
-                              WebkitOverflowScrolling: 'touch' // Smooth scroll en iOS
-                            }}
-                          >
-                            {/* Desktop: Full size 1920x1080 */}
-                            <div className="hidden lg:block min-w-[1920px] min-h-[1080px]">
-                              <DesignComponent />
-                            </div>
-                            
-                            {/* Tablet: Scaled to 1280x720 */}
-                            <div className="hidden md:block lg:hidden min-w-[1280px] min-h-[720px]">
-                              <div className="scale-[0.667] origin-top-left" style={{ width: '1920px', height: '1080px' }}>
-                                <DesignComponent />
-                              </div>
-                            </div>
-                            
-                            {/* Mobile: Scaled to 960x540 */}
-                            <div className="block md:hidden min-w-[960px] min-h-[540px]">
-                              <div className="scale-50 origin-top-left" style={{ width: '1920px', height: '1080px' }}>
-                                <DesignComponent />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Indicador de scroll desktop */}
-                        <div className="hidden lg:block mt-3 text-center">
-                          <p className="text-xs text-muted-foreground">
-                            {language === "es" ? "Usa scroll para explorar el benchmark completo" : "Use scroll to explore full benchmark"}
-                          </p>
-                        </div>
+                        <ResponsiveDesignFrame
+                          label={project.designComponentNames?.[idx]}
+                        >
+                          <DesignComponent />
+                        </ResponsiveDesignFrame>
                       </TabsContent>
                     ))}
                   </Tabs>

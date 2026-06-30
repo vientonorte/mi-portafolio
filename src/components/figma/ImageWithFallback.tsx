@@ -1,47 +1,40 @@
-import React, { useState } from 'react'
-import { Skeleton } from '../ui/skeleton'
+import React from "react";
+import { ResponsiveImage, type ImageFit } from "../atoms/ResponsiveImage";
+import { cn } from "../../lib/utils";
 
-const ERROR_IMG_SRC =
-  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4KCg=='
+function resolveFit(className?: string): ImageFit {
+  if (className?.includes("object-contain")) return "contain";
+  if (className?.includes("object-scale-down")) return "scale-down";
+  return "cover";
+}
 
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
-  const [didError, setDidError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const { src, alt, className, loading } = props;
 
-  const handleError = () => {
-    setDidError(true)
-    setIsLoading(false)
-  }
+  if (!src || !alt) return null;
 
-  const handleLoad = () => {
-    setIsLoading(false)
-  }
+  const fit = resolveFit(className);
+  const isPriority = loading === "eager";
 
-  const { src, alt, style, className, ...rest } = props
+  const layoutClasses = cn(
+    className?.includes("h-full") && "h-full",
+    className?.includes("w-full") && "w-full"
+  );
 
-  return didError ? (
-    <div
-      className={`inline-block bg-gray-100 text-center align-middle ${className ?? ''}`}
-      style={style}
-    >
-      <div className="flex items-center justify-center w-full h-full">
-        <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
-      </div>
-    </div>
-  ) : (
-    <div className={`relative ${className ?? ''}`} style={style}>
-      {isLoading && (
-        <Skeleton className="absolute inset-0 w-full h-full" />
-      )}
-      <img 
-        src={src} 
-        alt={alt} 
-        className={`${className ?? ''} ${isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-300'}`}
-        style={style} 
-        {...rest} 
-        onError={handleError}
-        onLoad={handleLoad}
-      />
-    </div>
-  )
+  const imgClasses = cn(
+    className?.match(/object-\S+/)?.[0],
+    className?.includes("group-hover:scale") && "group-hover:scale-105 transition-transform duration-500",
+    className?.includes("object-top") && "object-top"
+  );
+
+  return (
+    <ResponsiveImage
+      src={src}
+      alt={alt}
+      fit={fit}
+      priority={isPriority}
+      className={cn("h-full w-full", layoutClasses)}
+      imgClassName={imgClasses}
+    />
+  );
 }

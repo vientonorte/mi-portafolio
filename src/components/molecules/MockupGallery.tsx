@@ -1,30 +1,128 @@
+import { useCallback, useState } from "react";
 import { motion } from "motion/react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { Card } from '../ui/card';
-import { AspectRatio } from "../ui/aspect-ratio";
-import { Monitor, Smartphone } from "lucide-react";
+import { Expand, Monitor, Smartphone } from "lucide-react";
+import { ResponsiveImage } from "../atoms/ResponsiveImage";
+import { MediaLightbox } from "./MediaLightbox";
+import { Card } from "../ui/card";
+import { cn } from "../../lib/utils";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
+
+export interface MockupItem {
+  src: string;
+  alt?: string;
+  label?: string;
+}
 
 interface MockupGalleryProps {
-  mockups: string[];
+  mockups: string[] | MockupItem[];
   title?: string;
   description?: string;
   language: "es" | "en";
 }
 
-export function MockupGallery({ mockups, title, description, language }: MockupGalleryProps) {
-  if (!mockups || mockups.length === 0) return null;
+function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
+  return mockups.map((item, index) =>
+    typeof item === "string"
+      ? { src: item, alt: `Mockup ${index + 1}`, label: undefined }
+      : item
+  );
+}
 
-  const defaultTitle = language === "es" 
-    ? "Evidencias Visuales del Proyecto" 
-    : "Project Visual Evidence";
+function bentoClass(index: number, total: number): string {
+  if (total === 1) return "col-span-1 row-span-1";
+  if (total === 2) return "col-span-1";
+  if (index === 0) return "md:col-span-2 md:row-span-2";
+  return "col-span-1";
+}
 
-  const defaultDescription = language === "es"
-    ? "Mockups de alta fidelidad del diseño UX/UI implementado"
-    : "High-fidelity mockups of the implemented UX/UI design";
+function MockupTile({
+  item,
+  index,
+  total,
+  language,
+  onOpen,
+  className,
+}: {
+  item: MockupItem;
+  index: number;
+  total: number;
+  language: "es" | "en";
+  onOpen: () => void;
+  className?: string;
+}) {
+  const label =
+    item.label ??
+    (language === "es"
+      ? `Vista ${index + 1} de ${total}`
+      : `View ${index + 1} of ${total}`);
 
   return (
-    <section 
-      className="py-16 md:py-24 px-4 scroll-mt-20" 
+    <Card
+      className={cn(
+        "group relative overflow-hidden border-2 border-border/40 transition-all duration-300",
+        "hover:border-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary",
+        className
+      )}
+    >
+      <ResponsiveImage
+        src={item.src}
+        alt={item.alt ?? label}
+        fit="contain"
+        aspectRatio="16 / 10"
+        sizes="(max-width: 768px) 92vw, (max-width: 1200px) 45vw, 30vw"
+        className="cursor-zoom-in bg-muted/30"
+        onClick={onOpen}
+      />
+
+      <button
+        type="button"
+        onClick={onOpen}
+        className="absolute right-3 top-3 rounded-full bg-background/90 p-2 opacity-0 shadow-md backdrop-blur-sm transition-opacity group-hover:opacity-100 focus:opacity-100"
+        aria-label={language === "es" ? "Ampliar imagen" : "Expand image"}
+      >
+        <Expand className="h-4 w-4 text-primary" aria-hidden />
+      </button>
+
+      <div className="flex items-center gap-2 border-t border-border/40 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
+        <Monitor className="h-4 w-4 shrink-0" aria-hidden />
+        <span className="truncate">{label}</span>
+      </div>
+    </Card>
+  );
+}
+
+export function MockupGallery({
+  mockups,
+  title,
+  description,
+  language,
+}: MockupGalleryProps) {
+  const items = normalizeMockups(mockups);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+
+  if (items.length === 0) return null;
+
+  const defaultTitle =
+    language === "es" ? "Evidencias Visuales del Proyecto" : "Project Visual Evidence";
+  const defaultDescription =
+    language === "es"
+      ? "Mockups de alta fidelidad del diseño UX/UI implementado"
+      : "High-fidelity mockups of the implemented UX/UI design";
+
+  const active = lightboxIndex !== null ? items[lightboxIndex] : null;
+
+  return (
+    <section
+      className="py-16 md:py-24 px-4 scroll-mt-20"
       aria-labelledby="mockups-heading"
     >
       <div className="container max-w-7xl mx-auto">
@@ -33,58 +131,93 @@ export function MockupGallery({ mockups, title, description, language }: MockupG
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12 text-center"
+          className="mb-10 text-center md:mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <Monitor className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">
-              {language === "es" ? "Mockups" : "Mockups"}
-            </span>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
+            <Monitor className="h-4 w-4 text-primary" aria-hidden />
+            <span className="text-sm font-medium text-primary">Mockups</span>
           </div>
-
-          <h2 id="mockups-heading" className="text-3xl md:text-4xl mb-4">
+          <h2 id="mockups-heading" className="mb-4 text-3xl md:text-4xl">
             {title || defaultTitle}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             {description || defaultDescription}
+          </p>
+          <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground md:hidden">
+            <Smartphone className="h-3.5 w-3.5" aria-hidden />
+            {language === "es"
+              ? "Desliza para explorar · Toca para ampliar"
+              : "Swipe to explore · Tap to zoom"}
           </p>
         </motion.div>
 
-        <div className="grid gap-8">
-          {mockups.map((mockupUrl, index) => (
+        {/* Mobile / tablet: carousel con swipe */}
+        <div className="md:hidden">
+          <Carousel opts={{ align: "start", loop: items.length > 1 }}>
+            <CarouselContent className="-ml-3">
+              {items.map((item, index) => (
+                <CarouselItem key={item.src + index} className="basis-[88%] pl-3 sm:basis-[72%]">
+                  <MockupTile
+                    item={item}
+                    index={index}
+                    total={items.length}
+                    language={language}
+                    onOpen={() => openLightbox(index)}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            {items.length > 1 && (
+              <>
+                <CarouselPrevious className="left-1 border-background/80 bg-background/90 backdrop-blur-sm" />
+                <CarouselNext className="right-1 border-background/80 bg-background/90 backdrop-blur-sm" />
+              </>
+            )}
+          </Carousel>
+        </div>
+
+        {/* Desktop: bento grid responsivo */}
+        <div
+          className={cn(
+            "hidden gap-4 md:grid",
+            items.length >= 3
+              ? "grid-cols-2 lg:grid-cols-3 lg:grid-rows-2"
+              : "grid-cols-1 sm:grid-cols-2"
+          )}
+        >
+          {items.map((item, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
+              key={item.src + index}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              className={bentoClass(index, items.length)}
             >
-              <Card className="overflow-hidden border-2 border-border/40 hover:border-primary/40 transition-all duration-300 group">
-                <AspectRatio ratio={16 / 10}>
-                  <ImageWithFallback
-                    src={mockupUrl}
-                    alt={`${language === "es" ? "Mockup del proyecto" : "Project mockup"} ${index + 1}`}
-                    className="w-full h-full object-contain bg-muted/30 group-hover:scale-[1.02] transition-transform duration-500"
-                  />
-                </AspectRatio>
-
-                {/* Caption opcional */}
-                <div className="px-6 py-4 bg-muted/30 border-t">
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Monitor className="h-4 w-4" />
-                    <span>
-                      {language === "es" 
-                        ? `Vista de diseño ${index + 1} de ${mockups.length}`
-                        : `Design view ${index + 1} of ${mockups.length}`
-                      }
-                    </span>
-                  </p>
-                </div>
-              </Card>
+              <MockupTile
+                item={item}
+                index={index}
+                total={items.length}
+                language={language}
+                onOpen={() => openLightbox(index)}
+                className="h-full"
+              />
             </motion.div>
           ))}
         </div>
       </div>
+
+      {active && lightboxIndex !== null && (
+        <MediaLightbox
+          open={lightboxIndex !== null}
+          onOpenChange={(open) => !open && closeLightbox()}
+          src={active.src}
+          alt={active.alt ?? ""}
+          caption={active.label}
+          index={lightboxIndex}
+          total={items.length}
+        />
+      )}
     </section>
   );
 }

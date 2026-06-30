@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { ArrowRight } from "lucide-react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { Briefcase } from "lucide-react";
 
 interface CaseStudyCardProps {
@@ -35,14 +35,15 @@ export function CaseStudyCard({
       transition={{ delay: index * 0.1 }}
     >
       <Card className="overflow-hidden h-full hover:shadow-xl dark:hover:shadow-primary/5 transition-all duration-300 group border-border/50 flex flex-col">
-        <div className="aspect-video overflow-hidden bg-muted">
-          <ImageWithFallback
-            src={image}
-            alt={`Caso de estudio: ${title}`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-          />
-        </div>
+        <ResponsiveImage
+          src={image}
+          alt={`Caso de estudio: ${title}`}
+          fit="cover"
+          aspectRatio="16 / 9"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="bg-muted"
+          imgClassName="group-hover:scale-105 transition-transform duration-500"
+        />
 
         <CardHeader className="flex-grow space-y-3">
           <div className="flex items-start justify-between gap-2">
