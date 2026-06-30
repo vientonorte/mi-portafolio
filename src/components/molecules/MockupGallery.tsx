@@ -5,13 +5,6 @@ import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { MediaLightbox } from "./MediaLightbox";
 import { Card } from "../ui/card";
 import { cn } from "../../lib/utils";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../ui/carousel";
 
 export interface MockupItem {
   src: string;
@@ -151,29 +144,32 @@ export function MockupGallery({
           </p>
         </motion.div>
 
-        {/* Mobile / tablet: carousel con swipe */}
-        <div className="md:hidden">
-          <Carousel opts={{ align: "start", loop: items.length > 1 }}>
-            <CarouselContent className="-ml-3">
-              {items.map((item, index) => (
-                <CarouselItem key={item.src + index} className="basis-[88%] pl-3 sm:basis-[72%]">
-                  <MockupTile
-                    item={item}
-                    index={index}
-                    total={items.length}
-                    language={language}
-                    onOpen={() => openLightbox(index)}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {items.length > 1 && (
-              <>
-                <CarouselPrevious className="left-1 border-background/80 bg-background/90 backdrop-blur-sm" />
-                <CarouselNext className="right-1 border-background/80 bg-background/90 backdrop-blur-sm" />
-              </>
-            )}
-          </Carousel>
+        {/* Mobile / tablet: scroll-snap horizontal (sin dependencia de carousel) */}
+        <div className="md:hidden -mx-4 px-4">
+          <div
+            className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ WebkitOverflowScrolling: "touch" }}
+            aria-label={
+              language === "es"
+                ? "Galería de mockups, desliza horizontalmente"
+                : "Mockup gallery, swipe horizontally"
+            }
+          >
+            {items.map((item, index) => (
+              <div
+                key={item.src + index}
+                className="w-[88%] shrink-0 snap-start sm:w-[72%]"
+              >
+                <MockupTile
+                  item={item}
+                  index={index}
+                  total={items.length}
+                  language={language}
+                  onOpen={() => openLightbox(index)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Desktop: bento grid responsivo */}
