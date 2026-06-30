@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Home, FolderOpen, Palette, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
+import { NavTabItem } from "../atoms/NavTabItem";
 
 const items = [
   {
@@ -49,12 +50,10 @@ export function BottomNav() {
   const pendingScroll = useRef<string | null>(null);
   const [homeSection, setHomeSection] = useState<"inicio" | "contacto">("inicio");
 
-  // Fire pending scroll once home route is actually mounted
   useEffect(() => {
     if (location.pathname === "/" && pendingScroll.current) {
       const target = pendingScroll.current;
       pendingScroll.current = null;
-      // rAF ensures DOM is painted before we query
       requestAnimationFrame(() => {
         document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
       });
@@ -63,7 +62,6 @@ export function BottomNav() {
 
   const isOnHome = location.pathname === "/";
 
-  // Scroll spy: inicio vs contacto en home (mobile-first bottom nav)
   useEffect(() => {
     if (!isOnHome) return;
 
@@ -106,36 +104,17 @@ export function BottomNav() {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
     >
-      <ul className="grid h-16 grid-cols-4 items-stretch">
+      <ul className="bottom-nav-mobile__list">
         {items.map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item);
+          const label = language === "es" ? item.labelEs : item.labelEn;
           return (
-            <li key={item.id} className="min-w-0">
-              <button
+            <li key={item.id} className="bottom-nav-mobile__item">
+              <NavTabItem
+                icon={item.icon}
+                label={label}
+                active={isActive(item)}
                 onClick={() => handleTap(item)}
-                className="flex h-16 w-full min-h-[44px] flex-col items-center justify-center gap-1 px-1 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                style={{
-                  color: active ? "var(--primary)" : "var(--bottom-nav-inactive, #404040)",
-                }}
-                aria-label={language === "es" ? item.labelEs : item.labelEn}
-                aria-current={active ? "page" : undefined}
-              >
-                <Icon
-                  className="h-5 w-5"
-                  aria-hidden="true"
-                  strokeWidth={active ? 2.5 : 1.5}
-                />
-                <span
-                  className="max-w-full whitespace-nowrap text-xs leading-none"
-                  style={{
-                    fontWeight: active ? 600 : 400,
-                    letterSpacing: "0.01em",
-                  }}
-                >
-                  {language === "es" ? item.labelEs : item.labelEn}
-                </span>
-              </button>
+              />
             </li>
           );
         })}

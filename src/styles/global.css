@@ -57,7 +57,23 @@ img {
 
 /* Bottom nav — solo visible en mobile */
 .bottom-nav-mobile {
+  display: block;
+  width: 100%;
+}
+
+.bottom-nav-mobile__list {
   display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bottom-nav-mobile__item {
+  flex: 1 1 0%;
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
