@@ -28,13 +28,19 @@ desktop.ini
 
 # Imágenes, videos y binarios pesados (no versionar assets grandes)
 *.png
+!public/images/**
+!public/icon-192x192.png
+!public/icon-512x512.png
 *.jpg
+!public/profile-photo.jpg
 *.jpeg
 *.gif
 *.bmp
 *.tiff
 *.ico
+!public/favicon.ico
 *.svg
+!public/favicon.svg
 *.mp4
 *.mov
 *.avi

@@ -85,7 +85,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "sync:images": "bash scripts/sync-semantic-images.sh",
+    "build": "npm run sync:images && vite build",
     "preview": "vite preview --port 4173",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint . --ext ts,tsx --fix",

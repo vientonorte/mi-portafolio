@@ -1,9 +1,4 @@
-import {
-  suraRiaOnboarding,
-  transvipDesktop,
-  karriLogo,
-  karriOkrsBoard,
-} from "./project-images";
+import { portfolioImages } from "../lib/portfolio-image-urls";
 
 export const experiences = [
   {
@@ -11,7 +6,7 @@ export const experiences = [
     position: "Associate Estrategia Digital · Lead UX",
     period: "Nov 2023 - Actualidad",
     isCurrent: true,
-    logo: suraRiaOnboarding,
+    logo: portfolioImages.sura.riaOnboarding,
     location: "Remoto",
     summary: "-40% onboarding · 50+ componentes design system · 5+ países",
     achievements: [
@@ -27,7 +22,7 @@ export const experiences = [
     position: "Docente Carrera UX / UI",
     period: "Jun 2022 - Feb 2023",
     isCurrent: false,
-    logo: karriOkrsBoard,
+    logo: portfolioImages.karri.okrsBoard,
     location: "Remoto",
     summary: "Generación G48 · Design Thinking · Mentoría de proyectos finales",
     achievements: [
@@ -41,7 +36,7 @@ export const experiences = [
     position: "Senior Product Designer",
     period: "2022 - 2023",
     isCurrent: false,
-    logo: transvipDesktop,
+    logo: portfolioImages.transvip.appDesktop,
     location: "Remoto",
     summary: "-40% fricción en reservas · Tracking en tiempo real",
     achievements: [
@@ -56,7 +51,7 @@ export const experiences = [
     position: "Lead UX Designer - Vertical Shoppers",
     period: "2022 - 2023",
     isCurrent: false,
-    logo: karriLogo,
+    logo: portfolioImages.karri.logo,
     location: "Remoto",
     summary: "+35% activación · +58% engagement · -42% abandono",
     achievements: [

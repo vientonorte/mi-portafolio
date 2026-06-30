@@ -22,6 +22,7 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run sync:images
       - run: npm run build
 
       - name: Smoke check preview artifact
@@ -84,6 +85,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run sync:images
       - run: npm run build
       - name: Bundle size check
         run: |
@@ -105,6 +107,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run sync:images
       - run: npm run build
       - name: Instalar pa11y
         run: npm install -g pa11y

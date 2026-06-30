@@ -3,6 +3,7 @@ import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { User, Download } from "lucide-react";
+import { ProfileAvatar } from "../atoms/ProfileAvatar";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
@@ -61,16 +62,13 @@ export function About() {
               className="flex-shrink-0 mx-auto md:mx-0"
             >
               <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-lg">
-                {/* Placeholder - replace with actual image */}
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <User className="w-16 h-16 md:w-20 md:h-20 text-primary/40" />
-                </div>
-                {/* Uncomment when you add the actual photo */}
-                {/* <img 
-                  src="/profile-photo.jpg" 
-                  alt="Rodrigo Gaete - Lead UX Designer"
-                  className="w-full h-full object-cover"
-                /> */}
+                <ProfileAvatar
+                  alt={
+                    language === "es"
+                      ? "Rodrigo Gaete — Lead UX Designer"
+                      : "Rodrigo Gaete — Lead UX Designer"
+                  }
+                />
               </div>
             </motion.div>
 

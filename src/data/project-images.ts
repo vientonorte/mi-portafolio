@@ -1,6 +1,7 @@
 /**
- * Catálogo semántico de assets Figma — mapeo verificado visualmente.
- * Cada import corresponde a una captura real del trabajo (no stock genérico).
+ * Imports empaquetados (hash Figma) — usados por componentes en src/imports/.
+ * URLs públicas con nombres legibles: src/lib/portfolio-image-urls.ts
+ * Sincronizar: npm run sync:images
  */
 
 // —— SURA Investments ——

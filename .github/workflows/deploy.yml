@@ -30,6 +30,7 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run sync:images
       - run: npx vite build
 
       - name: SPA fallback for GitHub Pages
