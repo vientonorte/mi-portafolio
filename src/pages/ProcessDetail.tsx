@@ -54,7 +54,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40"
+        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
       >
         <div className="container max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <Button

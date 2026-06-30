@@ -3,6 +3,7 @@ import { Home, FolderOpen, Palette, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 const items = [
   {
@@ -54,9 +55,7 @@ export function BottomNav() {
     if (location.pathname === "/" && pendingScroll.current) {
       const target = pendingScroll.current;
       pendingScroll.current = null;
-      requestAnimationFrame(() => {
-        document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
-      });
+      scrollToSection(target);
     }
   }, [location.pathname]);
 
@@ -87,7 +86,7 @@ export function BottomNav() {
       pendingScroll.current = item.target;
       navigate("/");
     } else {
-      document.querySelector(item.target)?.scrollIntoView({ behavior: "smooth" });
+      scrollToSection(item.target);
     }
   };
 
@@ -100,7 +99,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-50 border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
+      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-[60] border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
     >

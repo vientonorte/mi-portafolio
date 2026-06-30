@@ -191,8 +191,9 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-        className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40"
-        role="banner"
+        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
+        role="region"
+        aria-label={language === "es" ? "Navegación del proyecto" : "Project navigation"}
       >
         <div className="container max-w-7xl mx-auto px-4 py-4">
           {/* Breadcrumbs */}
