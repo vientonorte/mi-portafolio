@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { suraHub, transvipHub, frameworkProject } from "../../data/projects-data";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { localized } from "../../lib/localized";
 
 const companyHubs = [suraHub, transvipHub];
 const individualProjects = [frameworkProject];
@@ -91,9 +92,12 @@ export function ProjectsHub({
                         index={index}
                         onSelect={setSelectedCompany}
                         onNavigateToDetail={handleNavigateToFramework}
+                        language={language}
                         lang={{
                           viewProjects: t.projects.viewProjects,
                           projectCount: t.projects.projectCount,
+                          featuredProjects: t.projectsHub.featuredProjects,
+                          frameworkButton: t.projectsHub.frameworkButton,
                         }}
                       />
                     ))}
@@ -109,9 +113,9 @@ export function ProjectsHub({
                   viewport={{ once: true }}
                   className="mb-8"
                 >
-                  <h3 className="text-2xl font-bold mb-2">Otros proyectos</h3>
+                  <h3 className="text-2xl font-bold mb-2">{t.projectsHub.otherProjects}</h3>
                   <p className="text-muted-foreground">
-                    Proyectos independientes y frameworks desarrollados
+                    {t.projectsHub.otherProjectsDesc}
                   </p>
                 </motion.div>
 
@@ -196,7 +200,7 @@ export function ProjectsHub({
                     </div>
                   </div>
                   <p className="text-muted-foreground leading-relaxed">
-                    {selectedHub.description}
+                    {localized(selectedHub.description, language)}
                   </p>
                 </motion.div>
               )}

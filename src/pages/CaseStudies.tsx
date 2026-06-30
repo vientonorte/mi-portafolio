@@ -207,17 +207,17 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded bg-destructive/20 flex items-center justify-center text-xs font-bold">1</div>
                       <div className="flex-1 h-12 rounded bg-muted flex items-center px-4 text-sm italic">
-                        "Diseño en progreso"
+                        {t.caseStudies.challenge.sprintProgress}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded bg-destructive/20 flex items-center justify-center text-xs font-bold">2</div>
                       <div className="flex-1 h-12 rounded bg-muted flex items-center px-4 text-sm italic">
-                        "Diseño en aprobación"
+                        {t.caseStudies.challenge.sprintApproval}
                       </div>
                     </div>
                     <div className="flex items-center justify-center py-2">
-                      <span className="text-xs text-destructive font-medium">❌ Ambiguo y difícil de trackear</span>
+                      <span className="text-xs text-destructive font-medium">{t.caseStudies.challenge.ambiguous}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -252,7 +252,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
 
                   {/* Visual representation */}
                   <div className="mt-6 space-y-2">
-                    {['Analytics', 'Research', 'Design', 'Testing', 'Refinamiento'].map((phase, idx) => (
+                    {t.caseStudies.challenge.phaseNames.map((phase, idx) => (
                       <motion.div
                         key={phase}
                         initial={{ opacity: 0, x: -20 }}
@@ -270,7 +270,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
                       </motion.div>
                     ))}
                     <div className="flex items-center justify-center py-2">
-                      <span className="text-xs text-primary font-medium">✓ Estructurado y medible</span>
+                      <span className="text-xs text-primary font-medium">{t.caseStudies.challenge.structured}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -318,7 +318,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
             transition={{ duration: 0.8 }}
           >
             <Card className="p-8 bg-gradient-to-br from-muted/50 to-muted/20 border-2">
-              <h4 className="font-bold text-xl mb-6 text-center">Flujo de Mejora Continua</h4>
+              <h4 className="font-bold text-xl mb-6 text-center">{t.caseStudies.process.flowTitle}</h4>
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 {processes.map((process, idx) => (
@@ -394,15 +394,15 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
                   <div className="mt-6 space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-primary mt-1">✓</span>
-                      <span className="text-sm">Decisiones basadas en data real</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.activeBullets[0]}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-primary mt-1">✓</span>
-                      <span className="text-sm">Identificación proactiva de problemas</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.activeBullets[1]}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-primary mt-1">✓</span>
-                      <span className="text-sm">Priorización estratégica de esfuerzos</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.activeBullets[2]}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -433,15 +433,15 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
                   <div className="mt-6 space-y-3 opacity-60">
                     <div className="flex items-start gap-2">
                       <span className="text-muted-foreground mt-1">✗</span>
-                      <span className="text-sm">Reacción a quejas de stakeholders</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.passiveBullets[0]}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-muted-foreground mt-1">✗</span>
-                      <span className="text-sm">Falta de priorización clara</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.passiveBullets[1]}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-muted-foreground mt-1">✗</span>
-                      <span className="text-sm">Correcciones costosas post-desarrollo</span>
+                      <span className="text-sm">{t.caseStudies.valueChain.passiveBullets[2]}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -477,7 +477,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
             viewport={{ once: true }}
           >
             <Card className="p-8 bg-background">
-              <h4 className="font-bold text-xl mb-8 text-center">Cadena de Valor UX/UI Design</h4>
+              <h4 className="font-bold text-xl mb-8 text-center">{t.caseStudies.valueChain.diagramTitle}</h4>
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Discovery Activo */}
@@ -526,8 +526,8 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
                       {t.caseStudies.valueChain.phases.development}
                     </h5>
                     <div className="space-y-2">
-                      <div className="bg-background/50 rounded p-3 text-sm text-center">MVP</div>
-                      <div className="bg-background/50 rounded p-3 text-sm text-center">Refinamiento</div>
+                      <div className="bg-background/50 rounded p-3 text-sm text-center">{t.caseStudies.valueChain.diagramMvp}</div>
+                      <div className="bg-background/50 rounded p-3 text-sm text-center">{t.caseStudies.valueChain.diagramRefinement}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -540,7 +540,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
       {/* CTA Section */}
       <section id="cta" className="py-16 md:py-24 px-4 scroll-mt-20">
         <div className="container max-w-7xl mx-auto text-center">
-          <SectionDivider number="04" label={language === "es" ? "Proyectos Reales" : "Real Projects"} />
+          <SectionDivider number="04" label={t.caseStudies.cta.sectionLabel} />
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -548,10 +548,10 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-6xl font-black mb-6">
-              ¿Quieres ver este framework en acción?
+              {t.caseStudies.cta.title}
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Explora proyectos reales donde apliqué esta metodología en empresas como SURA y Transvip
+              {t.caseStudies.cta.description}
             </p>
             
             <Button

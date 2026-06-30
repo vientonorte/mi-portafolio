@@ -49,7 +49,14 @@ function CaseStudiesPage() {
 function ProcessDetailPage() {
   const { processId } = useParams<{ processId: string }>();
   const navigate = useNavigate();
-  return <ProcessDetail processId={processId || ''} onBack={() => navigate('/cases')} onNavigateToPortfolio={() => navigate('/')} />;
+  return (
+    <ProcessDetail
+      processId={processId || ''}
+      onBack={() => navigate('/cases')}
+      onNavigateToPortfolio={() => navigate('/')}
+      onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
+    />
+  );
 }
 
 function CompanyDetailPage() {
@@ -105,6 +112,7 @@ function ProjectDetailPage() {
   return (
     <ProjectDetail
       project={result.project}
+      companyName={result.companyName}
       onBack={() => navigate('/proyectos')}
       onBackToCompany={() =>
         result.companyId ? navigate(`/empresa/${result.companyId}`) : navigate('/proyectos')

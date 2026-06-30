@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { ArrowRight } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { Briefcase } from "lucide-react";
+import { useTranslation } from "../../lib/i18n";
 
 interface CaseStudyCardProps {
   title: string;
@@ -15,6 +16,7 @@ interface CaseStudyCardProps {
   metrics: Array<{ label: string; value: string }>;
   onRead: () => void;
   index?: number;
+  language?: "es" | "en";
 }
 
 export function CaseStudyCard({
@@ -26,7 +28,9 @@ export function CaseStudyCard({
   metrics,
   onRead,
   index = 0,
+  language = "es",
 }: CaseStudyCardProps) {
+  const t = useTranslation(language);
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -37,7 +41,7 @@ export function CaseStudyCard({
       <Card className="overflow-hidden h-full hover:shadow-xl dark:hover:shadow-primary/5 transition-all duration-300 group border-border/50 flex flex-col">
         <ResponsiveImage
           src={image}
-          alt={`Caso de estudio: ${title}`}
+          alt={`${t.caseStudiesGrid.altPrefix} ${title}`}
           fit="cover"
           aspectRatio="16 / 9"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -89,7 +93,7 @@ export function CaseStudyCard({
             variant="outline"
             onClick={onRead}
           >
-            Ver Caso de Estudio
+            {t.caseStudiesGrid.viewCase}
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </CardContent>

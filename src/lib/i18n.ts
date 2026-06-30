@@ -176,10 +176,16 @@ export const translations = {
         problem: 'Anteriormente, el proceso de diseño no contaba con tareas definidas y se sustentaba en dos estados durante los sprints: "Diseño en progreso" y "Diseño en aprobación".',
         solution: 'Propuesta de framework',
         solutionText: 'Definir claramente los macroprocesos del diseño de producto, facilitando la estimación de esfuerzos, el registro del trabajo y la documentación estructurada.',
+        sprintProgress: 'Diseño en progreso',
+        sprintApproval: 'Diseño en aprobación',
+        ambiguous: '❌ Ambiguo y difícil de trackear',
+        structured: '✓ Estructurado y medible',
+        phaseNames: ['Analytics', 'Research', 'Design', 'Testing', 'Refinamiento'],
       },
       process: {
         badge: 'Mi Proceso',
         title: 'Los 5 macroprocesos',
+        flowTitle: 'Flujo de Mejora Continua',
         description: 'Cada fase está pensada para agregar valor mediante mejora continua y validación constante.',
         phases: {
           analytics: {
@@ -217,6 +223,19 @@ export const translations = {
           description: 'Reacción a dolores detectados en reviews o conversaciones con stakeholders. Menos eficiente y más costoso.',
         },
         benefit: 'Al incluir Product Design colaborativo desde la jerarquización de hallazgos hasta el testeo con usuarios, disminuimos errores de diseño y desarrollos innecesarios.',
+        activeBullets: [
+          'Decisiones basadas en data real',
+          'Identificación proactiva de problemas',
+          'Priorización estratégica de esfuerzos',
+        ],
+        passiveBullets: [
+          'Reacción a quejas de stakeholders',
+          'Falta de priorización clara',
+          'Correcciones costosas post-desarrollo',
+        ],
+        diagramTitle: 'Cadena de Valor UX/UI Design',
+        diagramMvp: 'MVP',
+        diagramRefinement: 'Refinamiento',
         phases: {
           discovery: 'Discovery Activo',
           productDesign: 'Product Design',
@@ -226,7 +245,52 @@ export const translations = {
       cta: {
         viewProjects: 'Ver proyectos reales',
         backToPortfolio: 'Volver al portfolio',
+        sectionLabel: 'Proyectos Reales',
+        title: '¿Quieres ver este framework en acción?',
+        description: 'Explora proyectos reales donde apliqué esta metodología en empresas como SURA y Transvip',
       },
+    },
+
+    caseStudiesGrid: {
+      badge: 'Casos visuales',
+      title: 'Evidencia de impacto',
+      description: 'Selección de proyectos con capturas reales, métricas y profundidad de caso. Toca para ver el estudio completo.',
+      viewCase: 'Ver Caso de Estudio',
+      altPrefix: 'Caso de estudio:',
+    },
+
+    projectsList: {
+      title: 'Roles y Proyectos Destacados',
+      description: 'Experiencia profesional organizada por empresa y rol. Cada proyecto incluye contexto empresarial, procesos aplicados y resultados medibles.',
+      filters: {
+        all: 'Todos los proyectos',
+        featured: '⭐ Destacados',
+        fintech: 'Fintech',
+        mobility: 'Mobility',
+      },
+      noResults: 'No se encontraron proyectos en esta categoría',
+      viewFullCases: 'Ver Casos de Estudio Completos',
+    },
+
+    projectsHub: {
+      otherProjects: 'Otros proyectos',
+      otherProjectsDesc: 'Proyectos independientes y frameworks desarrollados',
+      featuredProjects: 'Proyectos destacados',
+      frameworkButton: 'Cómo trabajé: Los 5 procesos UX',
+    },
+
+    breadcrumbs: {
+      home: 'Inicio',
+      projects: 'Proyectos',
+      cases: 'Casos de estudio',
+    },
+
+    errors: {
+      companyNotFound: 'No encontramos esa empresa.',
+      projectNotFound: 'No encontramos ese proyecto.',
+      processNotFound: 'Proceso no encontrado',
+      backToProjects: 'Volver a proyectos',
+      back: 'Volver',
     },
     
     // Process Detail
@@ -238,6 +302,9 @@ export const translations = {
       relatedProjects: 'Proyectos donde apliqué esto',
       backToCaseStudies: 'Volver a Case Studies',
       viewProject: 'Ver proyecto',
+      realCases: 'Casos reales',
+      relatedSubtitle: 'Proyectos donde apliqué {process} con resultados medibles',
+      viewAllProjects: 'Ver todos los proyectos',
     },
   },
   
@@ -416,10 +483,16 @@ export const translations = {
         problem: 'Previously, the design process lacked defined tasks and relied on two states during sprints: "Design in progress" and "Design pending approval".',
         solution: 'Framework proposal',
         solutionText: 'Clearly define product design macro-processes, facilitating effort estimation, work tracking, and structured documentation.',
+        sprintProgress: 'Design in progress',
+        sprintApproval: 'Design pending approval',
+        ambiguous: '❌ Ambiguous and hard to track',
+        structured: '✓ Structured and measurable',
+        phaseNames: ['Analytics', 'Research', 'Design', 'Testing', 'Refinement'],
       },
       process: {
         badge: 'My Process',
         title: 'The 5 macro-processes',
+        flowTitle: 'Continuous Improvement Flow',
         description: 'Each phase is designed to add value through continuous improvement and constant validation.',
         phases: {
           analytics: {
@@ -457,6 +530,19 @@ export const translations = {
           description: 'Reaction to pain points detected in reviews or stakeholder conversations. Less efficient and more costly.',
         },
         benefit: 'By including collaborative Product Design from findings prioritization to user testing, we reduce design errors and unnecessary development.',
+        activeBullets: [
+          'Data-driven decisions',
+          'Proactive problem identification',
+          'Strategic effort prioritization',
+        ],
+        passiveBullets: [
+          'Reaction to stakeholder complaints',
+          'Lack of clear prioritization',
+          'Costly post-development fixes',
+        ],
+        diagramTitle: 'UX/UI Design Value Chain',
+        diagramMvp: 'MVP',
+        diagramRefinement: 'Refinement',
         phases: {
           discovery: 'Active Discovery',
           productDesign: 'Product Design',
@@ -466,7 +552,52 @@ export const translations = {
       cta: {
         viewProjects: 'View real projects',
         backToPortfolio: 'Back to portfolio',
+        sectionLabel: 'Real Projects',
+        title: 'Want to see this framework in action?',
+        description: 'Explore real projects where I applied this methodology at companies like SURA and Transvip',
       },
+    },
+
+    caseStudiesGrid: {
+      badge: 'Visual cases',
+      title: 'Evidence of impact',
+      description: 'Selected projects with real screenshots, metrics, and case depth. Tap to view the full study.',
+      viewCase: 'View Case Study',
+      altPrefix: 'Case study:',
+    },
+
+    projectsList: {
+      title: 'Roles and Featured Projects',
+      description: 'Professional experience organized by company and role. Each project includes business context, applied processes, and measurable results.',
+      filters: {
+        all: 'All projects',
+        featured: '⭐ Featured',
+        fintech: 'Fintech',
+        mobility: 'Mobility',
+      },
+      noResults: 'No projects found in this category',
+      viewFullCases: 'View Full Case Studies',
+    },
+
+    projectsHub: {
+      otherProjects: 'Other projects',
+      otherProjectsDesc: 'Independent projects and developed frameworks',
+      featuredProjects: 'Featured projects',
+      frameworkButton: 'How I work: The 5 UX processes',
+    },
+
+    breadcrumbs: {
+      home: 'Home',
+      projects: 'Projects',
+      cases: 'Case studies',
+    },
+
+    errors: {
+      companyNotFound: 'We could not find that company.',
+      projectNotFound: 'We could not find that project.',
+      processNotFound: 'Process not found',
+      backToProjects: 'Back to projects',
+      back: 'Back',
     },
     
     // Process Detail
@@ -478,6 +609,9 @@ export const translations = {
       relatedProjects: 'Projects where I applied this',
       backToCaseStudies: 'Back to Case Studies',
       viewProject: 'View project',
+      realCases: 'Real cases',
+      relatedSubtitle: 'Projects where I applied {process} with measurable results',
+      viewAllProjects: 'View all projects',
     },
   },
 };

@@ -6,14 +6,19 @@ import { Building2, ArrowRight, Briefcase, FileText } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { LogoMark } from "../atoms/Logo";
 import type { CompanyHub } from "../../data/projects-data";
+import type { Language } from "../../lib/LanguageContext";
+import { localized, localizedList } from "../../lib/localized";
 
 interface CompanyHubCardProps extends CompanyHub {
   index: number;
   onSelect: (companyId: string) => void;
   onNavigateToDetail?: (companyId: string) => void;
+  language: Language;
   lang: {
     viewProjects: string;
     projectCount: string;
+    featuredProjects: string;
+    frameworkButton: string;
   };
 }
 
@@ -30,8 +35,11 @@ export function CompanyHubCard({
   index,
   onSelect,
   onNavigateToDetail,
+  language,
   lang,
 }: CompanyHubCardProps) {
+  const hubDescription = localized(description, language);
+  const hubHighlights = localizedList(highlights, language);
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -137,7 +145,7 @@ export function CompanyHubCard({
             transition={{ delay: index * 0.2 + 0.3 }}
             className="text-muted-foreground leading-relaxed"
           >
-            {description}
+            {hubDescription}
           </motion.p>
 
           {/* Highlights with better visual hierarchy - MEJORADO */}
@@ -152,10 +160,10 @@ export function CompanyHubCard({
               <div className="h-8 w-8 rounded-lg bg-primary/15 dark:bg-primary/10 flex items-center justify-center border border-primary/20">
                 <Briefcase className="h-4 w-4 text-primary dark:text-primary/90" />
               </div>
-              <h4 className="font-semibold text-foreground">Proyectos destacados</h4>
+              <h4 className="font-semibold text-foreground">{lang.featuredProjects}</h4>
             </div>
             <ul className="space-y-2 ml-1">
-              {highlights.slice(0, 3).map((highlight, idx) => (
+              {hubHighlights.slice(0, 3).map((highlight, idx) => (
                 <motion.li
                   key={idx}
                   initial={{ opacity: 0, x: -10 }}
@@ -208,7 +216,7 @@ export function CompanyHubCard({
                 className="w-full group/detail border-2 hover:border-primary/50 hover:bg-primary/5 transition-all"
               >
                 <FileText className="h-4 w-4 mr-2 group-hover/detail:scale-110 transition-transform" />
-                <span className="flex-1 text-left">Cómo trabajé: Los 5 procesos UX</span>
+                <span className="flex-1 text-left">{lang.frameworkButton}</span>
                 <ArrowRight className="h-4 w-4 group-hover/detail:translate-x-1 transition-transform" />
               </Button>
             )}

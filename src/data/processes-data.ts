@@ -26,6 +26,7 @@ export interface ProcessDetailData {
   methods: ProcessMethod[];
   tools: string[];
   relatedProjects: {
+    projectId: string;
     company: string;
     projectName: string;
     projectNameEN: string;
@@ -88,14 +89,16 @@ export const processesData: Record<string, ProcessDetailData> = {
     tools: ["Hotjar", "Mixpanel", "Google Analytics 4", "Microsoft Clarity", "FullStory"],
     relatedProjects: [
       {
-        company: "SURA",
-        projectName: "Optimización de Dashboard de Inversiones",
-        projectNameEN: "Investment Dashboard Optimization",
+        projectId: "sura-inversiones-dashboard",
+        company: "SURA Investments",
+        projectName: "Rediseño Plataforma de Inversiones Digital",
+        projectNameEN: "Digital Investment Platform Redesign",
       },
       {
-        company: "Transvip",
-        projectName: "Análisis de Onboarding de Conductores",
-        projectNameEN: "Driver Onboarding Analysis",
+        projectId: "transvip-app-premium",
+        company: "Transvip / Karri",
+        projectName: "Rediseño App Pasajeros Premium",
+        projectNameEN: "Premium Passenger App Redesign",
       },
     ],
     benefits: [
@@ -165,14 +168,16 @@ export const processesData: Record<string, ProcessDetailData> = {
     tools: ["Typeform", "Google Forms", "Zoom", "Notion", "Miro"],
     relatedProjects: [
       {
-        company: "SURA",
-        projectName: "Research de Usuarios Premium",
-        projectNameEN: "Premium User Research",
+        projectId: "sura-ux-enterprise",
+        company: "SURA Investments",
+        projectName: "Implementación UX Enterprise Regional",
+        projectNameEN: "Regional UX Enterprise Implementation",
       },
       {
-        company: "Transvip",
-        projectName: "Entrevistas con Conductores",
-        projectNameEN: "Driver Interviews",
+        projectId: "karri-calculadora",
+        company: "Transvip / Karri",
+        projectName: "Karri - Calculadora de Ganancias",
+        projectNameEN: "Karri - Earnings Calculator",
       },
     ],
     benefits: [
@@ -249,14 +254,16 @@ export const processesData: Record<string, ProcessDetailData> = {
     tools: ["Figma", "FigJam", "Adobe XD", "Principle", "ProtoPie"],
     relatedProjects: [
       {
-        company: "SURA",
-        projectName: "Rediseño de Dashboard",
-        projectNameEN: "Dashboard Redesign",
+        projectId: "sura-ria-us",
+        company: "SURA Investments",
+        projectName: "Diseño UX UI RIA SURA US",
+        projectNameEN: "RIA SURA US UX/UI Design",
       },
       {
-        company: "Transvip",
-        projectName: "Sistema de Diseño Mobile",
-        projectNameEN: "Mobile Design System",
+        projectId: "karri-notificaciones",
+        company: "Transvip / Karri",
+        projectName: "Karri - Sistema de Notificaciones + Onboarding",
+        projectNameEN: "Karri - Notifications + Onboarding",
       },
     ],
     benefits: [
@@ -333,14 +340,16 @@ export const processesData: Record<string, ProcessDetailData> = {
     tools: ["Maze", "UsabilityHub", "Lyssna", "Hotjar", "Google Optimize"],
     relatedProjects: [
       {
-        company: "SURA",
-        projectName: "Testing de Flujo de Inversión",
-        projectNameEN: "Investment Flow Testing",
+        projectId: "sura-ecosistema-digital",
+        company: "SURA Investments",
+        projectName: "Ecosistema Digital Sitios Públicos & Onboarding",
+        projectNameEN: "Public Websites Digital Ecosystem & Onboarding",
       },
       {
-        company: "Transvip",
-        projectName: "A/B Test de Onboarding",
-        projectNameEN: "Onboarding A/B Test",
+        projectId: "karri-design-sprint",
+        company: "Transvip / Karri",
+        projectName: "Karri - Workshop de Estrategia de Producto",
+        projectNameEN: "Karri - Product Strategy Workshop",
       },
     ],
     benefits: [
@@ -417,14 +426,16 @@ export const processesData: Record<string, ProcessDetailData> = {
     tools: ["Mixpanel", "Hotjar", "Google Analytics", "Jira", "Linear"],
     relatedProjects: [
       {
-        company: "SURA",
-        projectName: "Optimización Continua de Dashboard",
-        projectNameEN: "Continuous Dashboard Optimization",
+        projectId: "sura-inversiones-dashboard",
+        company: "SURA Investments",
+        projectName: "Rediseño Plataforma de Inversiones Digital",
+        projectNameEN: "Digital Investment Platform Redesign",
       },
       {
-        company: "Transvip",
-        projectName: "Iteraciones de Onboarding",
-        projectNameEN: "Onboarding Iterations",
+        projectId: "karri-notificaciones",
+        company: "Transvip / Karri",
+        projectName: "Karri - Sistema de Notificaciones + Onboarding",
+        projectNameEN: "Karri - Notifications + Onboarding",
       },
     ],
     benefits: [

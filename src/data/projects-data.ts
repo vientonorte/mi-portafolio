@@ -40,6 +40,7 @@ export interface EnhancedProject {
   period: string;
   projectName: string;
   description: string;
+  descriptionEN?: string;
   image?: string;
   tags: string[];
   externalLink?: string; // External project link
@@ -65,8 +66,8 @@ export interface CompanyHub {
   industry: string;
   period: string;
   totalProjects: number;
-  description: string;
-  highlights: string[];
+  description: LocalizedCopy;
+  highlights: { es: string[]; en: string[] };
   image?: string;
   challenge: {
     title: LocalizedCopy;
@@ -141,13 +142,24 @@ export const suraHub: CompanyHub = {
   industry: "Fintech",
   period: "2023 - Presente",
   totalProjects: 4,
-  description: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
-  highlights: [
-    "Framework UX Enterprise implementado en 5+ países",
-    "Dashboard de inversiones con +45% mejora en consultas",
-    "Ecosistema digital: +20 sitios unificados con CMS",
-    "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
-  ],
+  description: {
+    es: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
+    en: "Led UX Enterprise implementation for digital financial products across the region, applying Design Thinking adapted to corporate contexts and sector regulations.",
+  },
+  highlights: {
+    es: [
+      "Framework UX Enterprise implementado en 5+ países",
+      "Dashboard de inversiones con +45% mejora en consultas",
+      "Ecosistema digital: +20 sitios unificados con CMS",
+      "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
+    ],
+    en: [
+      "UX Enterprise framework implemented in 5+ countries",
+      "Investment dashboard with +45% query improvement",
+      "Digital ecosystem: 20+ unified sites with CMS",
+      "Onboarding: -40% time (7-11 min vs 15+ min) + 6 error cases",
+    ],
+  },
   image: suraWebPrototype,
   challenge: {
     title: {
@@ -193,6 +205,7 @@ export const suraHub: CompanyHub = {
       period: "2023 - Presente",
       projectName: "Implementación UX Enterprise Regional",
       description: "Liderazgo en la implementación de experiencia usuaria para iniciativas regionales y locales a nivel tecnológico en el sector financiero.",
+      descriptionEN: "Led user experience implementation for regional and local technology initiatives in the financial sector.",
       image: uxProcessDiagram,
       tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
       
@@ -245,6 +258,7 @@ export const suraHub: CompanyHub = {
       period: "2023 - 2024",
       projectName: "Rediseño Plataforma de Inversiones Digital",
       description: "Mejora de experiencia usuaria en plataforma de inversiones para clientes institucionales y retail, enfocada en accesibilidad de información financiera compleja.",
+      descriptionEN: "Improved user experience on the investment platform for institutional and retail clients, focused on accessible complex financial information.",
       image: suraWebPrototype,
       tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
       
@@ -297,6 +311,7 @@ export const suraHub: CompanyHub = {
       period: "2023 - 2025",
       projectName: "Ecosistema Digital Sitios Públicos & Onboarding",
       description: "Rediseño completo del ecosistema de +20 sitios web públicos para SURA Investments Regional, implementando arquitectura unificada, CMS, Design System y flujos de onboarding digital optimizados con manejo de casos de error.",
+      descriptionEN: "Complete redesign of 20+ public websites for SURA Investments Regional: unified architecture, CMS, Design System, and optimized digital onboarding with error handling.",
       image: suraBenchmarkNavigation,
       tags: ["Web Ecosystem", "Digital Strategy", "CMS", "Onboarding", "Design System"],
       
@@ -366,6 +381,7 @@ export const suraHub: CompanyHub = {
       period: "2024 - 2025",
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
+      descriptionEN: "End-to-end UX/UI design for SURA's RIA (Registered Investment Advisor) platform in the United States: information architecture, authentication, advisor onboarding, investment dashboard, and communications.",
       image: suraRiaOnboarding,
       tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
       
@@ -496,13 +512,24 @@ export const transvipHub: CompanyHub = {
   industry: "Mobility & Transport",
   period: "2022 - 2023",
   totalProjects: 4,
-  description: "Lideré el diseño completo de los ecosistemas digitales de Transvip (movilidad premium) y Karri (delivery vertical), desde research hasta implementación con equipos multidisciplinarios.",
-  highlights: [
-    "App Pasajeros: -40% tiempo de reserva, +25% conversión",
-    "Workshop que definió la estrategia de producto Karri",
-    "Calculadora que aumentó conversión de shoppers 30%",
-    "Onboarding que redujo abandono 35% en primera semana",
-  ],
+  description: {
+    es: "Lideré el diseño completo de los ecosistemas digitales de Transvip (movilidad premium) y Karri (delivery vertical), desde research hasta implementación con equipos multidisciplinarios.",
+    en: "Led the complete design of Transvip (premium mobility) and Karri (delivery vertical) digital ecosystems, from research through implementation with multidisciplinary teams.",
+  },
+  highlights: {
+    es: [
+      "App Pasajeros: -40% tiempo de reserva, +25% conversión",
+      "Workshop que definió la estrategia de producto Karri",
+      "Calculadora que aumentó conversión de shoppers 30%",
+      "Onboarding que redujo abandono 35% en primera semana",
+    ],
+    en: [
+      "Passenger App: -40% booking time, +25% conversion",
+      "Workshop that defined Karri product strategy",
+      "Calculator that increased shopper conversion 30%",
+      "Onboarding that reduced drop-off 35% in first week",
+    ],
+  },
   image: transvipDesktop,
   challenge: {
     title: {
@@ -547,6 +574,7 @@ export const transvipHub: CompanyHub = {
       period: "2022-2023",
       projectName: "Rediseño App Pasajeros Premium",
       description: "Rediseño completo de la aplicación de pasajeros de Transvip, enfocada en simplificar el proceso de reserva de traslados al aeropuerto y mejorar la experiencia de usuarios premium.",
+      descriptionEN: "Complete redesign of the Transvip passenger app, focused on simplifying airport transfer booking and improving the premium user experience.",
       image: transvipDesktop,
       tags: ["Mobility", "Premium Service", "Mobile App", "UX Research"],
       processes: [

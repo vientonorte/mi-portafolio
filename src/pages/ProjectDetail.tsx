@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useLanguage } from "../lib/LanguageContext";
 import { Breadcrumbs } from "../components/molecules/Breadcrumbs";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { useTranslation } from "../lib/i18n";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
@@ -95,6 +96,7 @@ interface EnhancedProject {
 
 interface ProjectDetailProps {
   project: ProjectData | EnhancedProject;
+  companyName?: string;
   onBack: () => void;
   onBackToCompany: () => void;
   onNavigateToProcess?: (processId: string) => void;
@@ -109,9 +111,11 @@ function isEnhancedProject(project: ProjectData | EnhancedProject): project is E
   );
 }
 
-export default function ProjectDetail({ project, onBack, onBackToCompany, onNavigateToProcess }: ProjectDetailProps) {
+export default function ProjectDetail({ project, companyName, onBack, onBackToCompany, onNavigateToProcess }: ProjectDetailProps) {
   const { language } = useLanguage();
+  const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
+  const hubName = companyName ?? project.company;
 
   // Determine project type and extract data accordingly
   const isEnhanced = isEnhancedProject(project);
@@ -201,18 +205,18 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
             links={[
               {
                 href: "#",
-                label: language === "es" ? "Inicio" : "Home",
+                label: t.breadcrumbs.home,
                 icon: Home,
                 onClick: onBack,
               },
               {
                 href: "#",
-                label: language === "es" ? "Proyectos" : "Projects",
+                label: t.breadcrumbs.projects,
                 onClick: onBack,
               },
               {
                 href: "#",
-                label: project.company,
+                label: hubName,
                 icon: Building2,
                 onClick: onBackToCompany,
               },
@@ -231,11 +235,11 @@ export default function ProjectDetail({ project, onBack, onBackToCompany, onNavi
               variant="ghost"
               onClick={onBackToCompany}
               className="gap-2 hover:gap-3 transition-all"
-              aria-label={language === "es" ? `Volver a ${project.company}` : `Back to ${project.company}`}
+              aria-label={language === "es" ? `Volver a ${hubName}` : `Back to ${hubName}`}
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">
-                {language === "es" ? `Volver a ${project.company}` : `Back to ${project.company}`}
+                {language === "es" ? `Volver a ${hubName}` : `Back to ${hubName}`}
               </span>
               <span className="sm:hidden">
                 {language === "es" ? "Volver" : "Back"}

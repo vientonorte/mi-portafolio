@@ -30,6 +30,7 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProjectCard } from "../components/molecules/ProjectCard";
 import { GradientHeading } from "../components/atoms/GradientHeading";
+import { localized, projectDescription } from "../lib/localized";
 
 interface CompanyDetailProps {
   company: CompanyHub;
@@ -51,6 +52,7 @@ function buildGalleryMockups(company: CompanyHub): MockupItem[] {
 export default function CompanyDetail({ company, onBack, onNavigateToProject, onNavigateToProcess }: CompanyDetailProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const companyDescription = localized(company.description, language);
   const shouldReduceMotion = useReducedMotion();
   const galleryMockups = buildGalleryMockups(company);
 
@@ -170,7 +172,8 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
           {/* Breadcrumbs */}
           <EnhancedBreadcrumbs
             items={[
-              { label: language === "es" ? "Inicio" : "Home", onClick: onBack },
+              { label: t.breadcrumbs.home, onClick: onBack },
+              { label: t.breadcrumbs.projects, onClick: onBack },
               { label: company.name, isActive: true },
             ]}
           />
@@ -243,7 +246,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
               </h1>
               
               <p className="subpage-hero__lead text-muted-foreground px-2">
-                {company.description}
+                {companyDescription}
               </p>
 
               {/* Stats destacados - METODOLOGÍA */}
@@ -404,7 +407,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
               <SectionHeader
                 badge={language === "es" ? "El Desafío" : "The Challenge"}
                 title={company.challenge.title[language]}
-                description={company.description}
+                description={companyDescription}
               />
 
               <div className="grid md:grid-cols-2 gap-8 mt-12">
@@ -548,7 +551,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
                   <ProjectCard
                     key={project.id ?? project.projectName}
                     name={project.projectName}
-                    description={project.description}
+                    description={projectDescription(project, language)}
                     period={project.period}
                     tags={project.tags}
                     processCount={project.processes?.length ?? 5}

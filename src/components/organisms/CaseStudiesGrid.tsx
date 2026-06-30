@@ -5,10 +5,14 @@ import { SectionHeader } from "../molecules/SectionHeader";
 import { CaseStudyCard } from "../molecules/CaseStudyCard";
 import { getFeaturedCaseStudies } from "../../data/case-study-cards";
 import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
+import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
 
 export function CaseStudiesGrid() {
   const navigate = useNavigate();
   const prefersReducedMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   useImageManifestVersion();
   const featuredCaseStudies = getFeaturedCaseStudies();
 
@@ -19,10 +23,10 @@ export function CaseStudiesGrid() {
     >
       <div className="container max-w-7xl mx-auto">
         <SectionHeader
-          badge="Casos visuales"
+          badge={t.caseStudiesGrid.badge}
           badgeIcon={FolderOpen}
-          title="Evidencia de impacto"
-          description="Selección de proyectos con capturas reales, métricas y profundidad de caso. Toca para ver el estudio completo."
+          title={t.caseStudiesGrid.title}
+          description={t.caseStudiesGrid.description}
         />
 
         <motion.div
@@ -42,6 +46,7 @@ export function CaseStudiesGrid() {
               metrics={study.metrics}
               index={index}
               onRead={() => navigate(`/proyecto/${study.id}`)}
+              language={language}
             />
           ))}
         </motion.div>

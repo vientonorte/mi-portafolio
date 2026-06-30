@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Check, ExternalLink } from "lucide-react";
+import { ArrowLeft, Check, ExternalLink, Home, FolderKanban } from "lucide-react";
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -9,24 +9,26 @@ import { useTranslation } from "../lib/i18n";
 import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { processesData, ProcessDetailData } from "../data/processes-data";
 import { GradientHeading } from "../components/atoms/GradientHeading";
+import { Breadcrumbs } from "../components/molecules/Breadcrumbs";
 
 interface ProcessDetailProps {
   processId: string;
   onBack: () => void;
   onNavigateToPortfolio?: () => void;
+  onNavigateToProject?: (projectId: string) => void;
 }
 
-export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio }: ProcessDetailProps) {
+export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio, onNavigateToProject }: ProcessDetailProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const processData: ProcessDetailData = processesData[processId];
+  const processData: ProcessDetailData | undefined = processesData[processId];
 
   if (!processData) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Proceso no encontrado</h1>
-          <Button onClick={onBack}>Volver</Button>
+          <h1 className="text-2xl font-bold mb-4">{t.errors.processNotFound}</h1>
+          <Button onClick={onBack}>{t.errors.back}</Button>
         </div>
       </div>
     );
@@ -45,6 +47,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
   }));
   const benefits = language === 'es' ? processData.benefits : processData.benefitsEN;
   const relatedProjects = processData.relatedProjects.map(p => ({
+    projectId: p.projectId,
     company: p.company,
     projectName: language === 'es' ? p.projectName : p.projectNameEN,
   }));
@@ -57,17 +60,26 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
         animate={{ y: 0 }}
         className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
       >
-        <div className="container max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            className="gap-2 hover:gap-3 transition-all"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {t.processDetail.backToCaseStudies}
-          </Button>
+        <div className="container max-w-7xl mx-auto px-4 py-4">
+          <Breadcrumbs
+            links={[
+              { href: "#", label: t.breadcrumbs.home, icon: Home, onClick: onNavigateToPortfolio },
+              { href: "#", label: t.breadcrumbs.cases, onClick: onBack },
+              { href: "#", label: title, icon: FolderKanban, current: true },
+            ]}
+          />
+          <div className="flex items-center justify-between mt-2">
+            <Button
+              variant="ghost"
+              onClick={onBack}
+              className="gap-2 hover:gap-3 transition-all"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              {t.processDetail.backToCaseStudies}
+            </Button>
 
-          <LanguageToggle />
+            <LanguageToggle />
+          </div>
         </div>
       </motion.header>
 
@@ -269,26 +281,34 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
               {t.processDetail.relatedProjects}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-black mb-4 break-words">
-              {language === 'es' ? 'Casos reales' : 'Real cases'}
+              {t.processDetail.realCases}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground break-words">
-              {language === 'es' 
-                ? `Proyectos donde apliqué ${title} con resultados medibles`
-                : `Projects where I applied ${title} with measurable results`
-              }
+              {t.processDetail.relatedSubtitle.replace('{process}', title)}
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {relatedProjects.map((project, index) => (
               <motion.div
-                key={index}
+                key={project.projectId}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="h-full border-2 hover:border-primary/30 transition-all group cursor-pointer">
+                <Card
+                  className="h-full border-2 hover:border-primary/30 transition-all group cursor-pointer"
+                  onClick={() => onNavigateToProject?.(project.projectId)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onNavigateToProject?.(project.projectId);
+                    }
+                  }}
+                >
                   <CardContent className="p-8">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
@@ -305,7 +325,10 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
                     <Button
                       variant="ghost"
                       className="w-full justify-start gap-2 group-hover:gap-3 transition-all mt-4"
-                      onClick={onNavigateToPortfolio}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNavigateToProject?.(project.projectId);
+                      }}
                     >
                       {t.processDetail.viewProject}
                       <ArrowLeft className="h-4 w-4 rotate-180" />
@@ -334,7 +357,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               />
               <span className="relative flex items-center gap-2">
-                {language === 'es' ? 'Ver todos los proyectos' : 'View all projects'}
+                {t.processDetail.viewAllProjects}
                 <ArrowLeft className="h-5 w-5 rotate-180 group-hover:translate-x-1 transition-transform" />
               </span>
             </Button>

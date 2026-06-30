@@ -9,13 +9,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { allProjects } from "../../data/projects-data";
 import { useState } from "react";
 import { analytics } from "../../lib/analytics";
-
-const stats = [
-  { value: "3+", label: "Años experiencia Lead UX" },
-  { value: "8+", label: "Proyectos completados" },
-  { value: "G48", label: "Generación docente UX/UI" },
-  { value: "100%", label: "Design Thinking aplicado" },
-];
+import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
 
 type FilterCategory = 'all' | 'fintech' | 'mobility' | 'featured';
 
@@ -27,7 +22,16 @@ export function Projects({
   onNavigateToProject?: (projectId: string) => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
+
+  const stats = [
+    { value: "3+", label: t.projects.stats.experience },
+    { value: "8+", label: t.projects.stats.projects },
+    { value: "G48", label: t.projects.stats.generation },
+    { value: "100%", label: t.projects.stats.designThinking },
+  ];
 
   const handleFilterChange = (filter: FilterCategory) => {
     setActiveFilter(filter);
@@ -56,10 +60,10 @@ export function Projects({
   });
 
   const filters: { value: FilterCategory; label: string; count: number }[] = [
-    { value: 'all', label: 'Todos los proyectos', count: allProjects.length },
-    { value: 'featured', label: '⭐ Destacados', count: 3 },
-    { value: 'fintech', label: 'Fintech', count: allProjects.filter(p => p.tags.some(t => t.toLowerCase().includes('fintech') || t.toLowerCase().includes('investment'))).length },
-    { value: 'mobility', label: 'Mobility', count: allProjects.filter(p => p.company?.toLowerCase().includes('karri') || p.company?.toLowerCase().includes('transvip')).length },
+    { value: 'all', label: t.projectsList.filters.all, count: allProjects.length },
+    { value: 'featured', label: t.projectsList.filters.featured, count: 3 },
+    { value: 'fintech', label: t.projectsList.filters.fintech, count: allProjects.filter(p => p.tags.some(tag => tag.toLowerCase().includes('fintech') || tag.toLowerCase().includes('investment'))).length },
+    { value: 'mobility', label: t.projectsList.filters.mobility, count: allProjects.filter(p => p.company?.toLowerCase().includes('karri') || p.company?.toLowerCase().includes('transvip')).length },
   ];
 
   return (
@@ -70,10 +74,10 @@ export function Projects({
     >
       <div className="container max-w-7xl mx-auto">
         <SectionHeader
-          badge="Portfolio"
+          badge={t.projects.badge}
           badgeIcon={Briefcase}
-          title="Roles y Proyectos Destacados"
-          description="Experiencia profesional organizada por empresa y rol. Cada proyecto incluye contexto empresarial, procesos aplicados y resultados medibles."
+          title={t.projectsList.title}
+          description={t.projectsList.description}
         />
 
         {/* Filter Tabs */}
@@ -128,7 +132,7 @@ export function Projects({
         {filteredProjects.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">
-              No se encontraron proyectos en esta categoría
+              {t.projectsList.noResults}
             </p>
           </div>
         )}
@@ -146,7 +150,7 @@ export function Projects({
             onClick={onNavigateToCaseStudies}
           >
             <FileText className="mr-2 h-5 w-5 inline group-hover:scale-110 transition-transform" />
-            Ver Casos de Estudio Completos
+            {t.projectsList.viewFullCases}
           </Button>
         </motion.div>
 
