@@ -1,11 +1,12 @@
+import type { ComponentType } from "react";
 import { motion } from "motion/react";
-import { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface KPICardProps {
   label: string;
   value: string;
   description: string;
-  icon: LucideIcon;
+  icon: LucideIcon | ComponentType<{ className?: string }>;
   index: number;
 }
 
