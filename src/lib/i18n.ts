@@ -133,7 +133,7 @@ export const translations = {
       badge: 'Validación',
       title: 'Lo que dicen los equipos',
       description:
-        'Feedback sintetizado de revisiones con stakeholders en fintech y movilidad premium (roles verificables, sin nombres publicados).',
+        'Perspectivas de stakeholders en proyectos de fintech y movilidad premium.',
       items: [
         {
           quote:
@@ -666,7 +666,7 @@ export const translations = {
       badge: 'Social proof',
       title: 'What teams say',
       description:
-        'Synthesized feedback from project reviews with stakeholders in fintech and premium mobility (verifiable roles, names not published).',
+        'Stakeholder perspectives from fintech and premium mobility projects.',
       items: [
         {
           quote:
