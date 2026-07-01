@@ -20,8 +20,9 @@ describe('translations', () => {
 
       it('has hero section with required keys', () => {
         const hero = translations[lang].hero;
-        expect(hero).toHaveProperty('role');
-        expect(hero).toHaveProperty('tagline');
+        expect(hero).toHaveProperty('label');
+        expect(hero).toHaveProperty('headlineLead');
+        expect(hero).toHaveProperty('headlineFocus');
         expect(hero.cta).toHaveProperty('primary');
         expect(hero.cta).toHaveProperty('secondary');
       });
