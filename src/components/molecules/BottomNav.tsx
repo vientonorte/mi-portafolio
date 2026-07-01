@@ -6,6 +6,7 @@ import { NavTabItem } from "../atoms/NavTabItem";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { ROUTES } from "../../lib/routes";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
+import { BOTTOM_NAV_BASE_CLASS, BOTTOM_NAV_DOCK_CLASS } from "./bottom-nav-classes";
 
 const items = [
   {
@@ -27,7 +28,7 @@ const items = [
     route: "/proyectos",
   },
   {
-    id: "cases",
+    id: "proceso",
     labelEs: "Proceso",
     labelEn: "Process",
     icon: FolderOpen,
@@ -102,7 +103,7 @@ export function BottomNav() {
           location.pathname.startsWith("/empresa/")
         );
       }
-      if (item.id === "cases") {
+      if (item.id === "proceso") {
         return (
           location.pathname === ROUTES.process ||
           location.pathname.startsWith(`${ROUTES.process}/`) ||
@@ -118,7 +119,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-[60] border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85 lg:bottom-4 lg:left-1/2 lg:right-auto lg:w-[min(560px,calc(100%-2rem))] lg:-translate-x-1/2 lg:rounded-full lg:border"
+      className={`bottom-nav-mobile ${BOTTOM_NAV_BASE_CLASS} ${BOTTOM_NAV_DOCK_CLASS}`}
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
       data-process-label-variant={processLabelVariant}
@@ -126,7 +127,7 @@ export function BottomNav() {
       <ul className="bottom-nav-mobile__list">
         {items.map((item) => {
           const label =
-            item.id === "cases"
+            item.id === "proceso"
               ? processLabel
               : language === "es"
                 ? item.labelEs

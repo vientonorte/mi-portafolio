@@ -1,4 +1,3 @@
-import { useId } from "react";
 import { motion } from "motion/react";
 import { useLanguage } from "../../lib/LanguageContext";
 
@@ -16,15 +15,20 @@ const sizes = {
 
 interface LogoMarkSvgProps {
   size: number;
-  gradientId: string;
   className?: string;
   labelled?: boolean;
 }
 
+const LOGO_CENTER = 20;
+const LOGO_RING_RADIUS = 13;
+const LOGO_RING_STROKE = 5;
+const LOGO_RING_DASH = "70 16";
+const LOGO_RING_ROTATION = -106;
+const LOGO_DOT_RADIUS = 5.2;
+
 /** Isologo circular — variante principal del sistema de marca 2026. */
 export function LogoMarkSvg({
   size,
-  gradientId: _gradientId,
   className,
   labelled = false,
 }: LogoMarkSvgProps) {
@@ -41,29 +45,28 @@ export function LogoMarkSvg({
       aria-label={labelled ? "Rodrigo Gaete · UX Design Ops" : undefined}
     >
       <circle
-        cx="20"
-        cy="20"
-        r="13"
+        cx={LOGO_CENTER}
+        cy={LOGO_CENTER}
+        r={LOGO_RING_RADIUS}
         fill="none"
         stroke="#FF5A1F"
-        strokeWidth="5"
+        strokeWidth={LOGO_RING_STROKE}
         strokeLinecap="round"
-        strokeDasharray="70 16"
-        transform="rotate(-106 20 20)"
+        strokeDasharray={LOGO_RING_DASH}
+        transform={`rotate(${LOGO_RING_ROTATION} ${LOGO_CENTER} ${LOGO_CENTER})`}
       />
-      <circle cx="20" cy="20" r="5.2" fill="#FF5A1F" />
+      <circle cx={LOGO_CENTER} cy={LOGO_CENTER} r={LOGO_DOT_RADIUS} fill="#FF5A1F" />
     </svg>
   );
 }
 
 export function Logo({ size = "md", showText = true, animated = false }: LogoProps) {
   const { language } = useLanguage();
-  const gradientId = useId();
   const { mark, text, role, spacing } = sizes[size];
   const roleLabel = language === "es" ? "UX Design Ops" : "UX Design Ops";
 
   const markNode = (
-    <LogoMarkSvg size={mark} gradientId={gradientId} labelled={!showText} />
+    <LogoMarkSvg size={mark} labelled={!showText} />
   );
 
   const content = (
@@ -99,12 +102,9 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
 }
 
 export function LogoMark({ size = 36 }: { size?: number }) {
-  const gradientId = useId();
-
   return (
     <LogoMarkSvg
       size={size}
-      gradientId={gradientId}
       labelled
       className="shrink-0"
     />
