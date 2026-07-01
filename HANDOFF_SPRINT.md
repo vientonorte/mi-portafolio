@@ -59,7 +59,7 @@ commit → push main → CI (build + typecheck + a11y) → Deploy Pages → qa-p
 | S2-2 | Como usuario, quiero `/proceso` como URL canónica (redirect desde `/cases`) | MUST | 2 | ✅ |
 | S2-3 | Como dev, quiero `ROUTES` centralizado para evitar drift de paths | MUST | 1 | ✅ |
 | S2-4 | Como dev, quiero smoke QA post-deploy extendido | SHOULD | 2 | ✅ |
-| S2-5 | Como PO, quiero protocolo test con 5 recruiters (guía + métricas) | COULD | 3 | ⏳ |
+| S2-5 | Como PO, quiero protocolo test con 5 recruiters (guía + métricas) | COULD | 3 | ✅ |
 | S2-6 | Renombrar breadcrumb «Casos de estudio» → «Proceso» en i18n | SHOULD | 1 | ✅ |
 
 ### Fuera de scope (Sprint 3)
@@ -86,14 +86,19 @@ commit → push main → CI (build + typecheck + a11y) → Deploy Pages → qa-p
 
 ---
 
-## Protocolo test recruiters (S2-5 — pendiente)
+## Protocolo test recruiters (S2-5 — ✅ completado)
 
 **Objetivo:** Validar comprensión en <10s (hallazgo research).
 
-1. 5 participantes perfil recruiter tech / hiring manager
-2. Tarea: «¿Qué hace Rodrigo y en qué industrias?» — sin scroll 10s, luego navegación libre 3 min
-3. Métricas: tiempo a `/proyectos`, comprensión Fintech/Mobility (Sí/No), NPS del portfolio (0–10)
-4. Registro: spreadsheet o Notion — no bloquea deploy
+**Documento creado:** `RECRUITER_TEST_PROTOCOL.md`
+
+Incluye:
+- Perfil de 5 participantes (recruiters tech / hiring managers)
+- Protocolo de 3 fases (10s first impression + 3min navegación + validación)
+- Métricas cuantitativas: Time to Projects, Fintech/Mobility ID, NPS
+- Template de spreadsheet para registro
+- Checklist de ejecución completa
+- Reporte de resultados (template)
 
 ---
 
