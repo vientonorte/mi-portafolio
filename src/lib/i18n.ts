@@ -131,28 +131,34 @@ export const translations = {
     },
 
     testimonials: {
-      badge: 'Validación',
+      badge: 'Recomendaciones',
       title: 'Lo que dicen los equipos',
       description:
-        'Perspectivas de stakeholders en proyectos de fintech y movilidad premium.',
+        'Recomendaciones de LinkedIn de líderes en fintech y movilidad premium con los que colaboré.',
       items: [
         {
           quote:
-            'Tradujo requisitos regulatorios en flujos claros sin perder la calidad premium que esperamos del producto.',
-          role: 'Product Owner',
+            'Destaco su capacidad para entender rápidamente las necesidades del usuario y transformarlas en soluciones simples, intuitivas y aterrizadas. Fue un excelente articulador entre negocio, diseño y tecnología en un entorno altamente regulado.',
+          author: 'Pablo Matte R.',
+          role: 'Estrategia Digital · Wealth Management',
           company: 'SURA Investments',
+          context: 'Líder en operación US · jun 2026',
         },
         {
           quote:
-            'El rediseño de reserva redujo fricción en mobile y alineó diseño con operaciones en tiempo real.',
-          role: 'Engineering Lead',
-          company: 'Transvip',
+            'Ha demostrado capacidad de trabajar de forma colaborativa y transversal con equipos distribuidos en Latinoamérica. Es un apasionado del UX y cada intervención aportó gran valor a la organización.',
+          author: 'Arturo Ruiz Palafox',
+          role: 'Product Owner · Strategic Design',
+          company: 'SURA',
+          context: 'Mismo equipo · sep 2025',
         },
         {
           quote:
-            'La calculadora cambió la conversación con shoppers: de dudas sobre ingresos a decisiones informadas.',
-          role: 'Operations Lead',
-          company: 'Karri',
+            'Sus habilidades UX/UI son tremendas: vi el gran impacto de su trabajo en usuarios y en la cultura de la organización. Destaco su approach metodológico y su capacidad de integrar usuarios no representados.',
+          author: 'Francco Frugone',
+          role: 'Supervisor directo',
+          company: 'Transvip / Karri',
+          context: 'Nov 2024',
         },
       ],
     },
@@ -675,28 +681,34 @@ export const translations = {
     },
 
     testimonials: {
-      badge: 'Social proof',
+      badge: 'Recommendations',
       title: 'What teams say',
       description:
-        'Stakeholder perspectives from fintech and premium mobility projects.',
+        'LinkedIn recommendations from leaders in fintech and premium mobility I worked with.',
       items: [
         {
           quote:
-            'Turned regulatory requirements into clear flows without sacrificing the premium quality we expect.',
-          role: 'Product Owner',
+            'What stands out is his ability to quickly understand user needs and turn them into simple, intuitive, grounded solutions. He was an excellent bridge between business, design, and technology in a highly regulated environment.',
+          author: 'Pablo Matte R.',
+          role: 'Digital Strategy · Wealth Management',
           company: 'SURA Investments',
+          context: 'US operations lead · Jun 2026',
         },
         {
           quote:
-            'The booking redesign cut mobile friction and aligned design with real-time operations.',
-          role: 'Engineering Lead',
-          company: 'Transvip',
+            "He's shown collaborative, cross-functional work with distributed teams across Latin America. Passionate about UX—every contribution added real value to the organization.",
+          author: 'Arturo Ruiz Palafox',
+          role: 'Product Owner · Strategic Design',
+          company: 'SURA',
+          context: 'Same team · Sep 2025',
         },
         {
           quote:
-            'The calculator changed the conversation with shoppers—from income doubts to informed decisions.',
-          role: 'Operations Lead',
-          company: 'Karri',
+            'His UX/UI skills are outstanding—I saw real impact on users and on organizational culture. I especially value his methodological approach and ability to include underrepresented users.',
+          author: 'Francco Frugone',
+          role: 'Direct manager',
+          company: 'Transvip / Karri',
+          context: 'Nov 2024',
         },
       ],
     },

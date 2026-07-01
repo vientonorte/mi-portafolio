@@ -12,7 +12,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="py-16 md:py-24 px-4 bg-muted/20"
+      className="py-16 md:py-24 px-4 bg-surface-matte"
       aria-labelledby="testimonials-heading"
     >
       <div className="container max-w-7xl mx-auto">
@@ -26,22 +26,29 @@ export function Testimonials() {
         <div className="grid gap-6 md:grid-cols-3">
           {t.items.map((item, index) => (
             <motion.article
-              key={`${item.role}-${item.company}`}
+              key={item.author}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="h-full border-border/50">
+              <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
                 <CardContent className="flex h-full flex-col p-6">
-                  <Quote className="mb-4 h-8 w-8 text-primary/40" aria-hidden />
+                  <Quote className="mb-4 h-8 w-8 text-primary/35" aria-hidden />
                   <blockquote className="mb-6 flex-1 text-muted-foreground leading-relaxed">
                     «{item.quote}»
                   </blockquote>
-                  <footer className="border-t border-border/50 pt-4">
+                  <footer className="border-t border-[color:var(--logo-surface-border)] pt-4">
                     <cite className="not-italic">
-                      <div className="font-medium text-foreground">{item.role}</div>
-                      <div className="text-sm text-muted-foreground">{item.company}</div>
+                      <div className="font-semibold text-foreground">{item.author}</div>
+                      <div className="mt-0.5 text-sm text-muted-foreground">
+                        {item.role} · {item.company}
+                      </div>
+                      {item.context && (
+                        <div className="mt-1 text-xs text-muted-foreground/70">
+                          {item.context}
+                        </div>
+                      )}
                     </cite>
                   </footer>
                 </CardContent>
