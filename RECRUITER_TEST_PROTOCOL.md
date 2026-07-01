@@ -105,7 +105,7 @@ Este hallazgo proviene de research que indica que recruiters toman decisiones r�
 
 **Ejemplo de fila:**
 ```
-| 1 | 2026-07-02 | Tech Recruiter (Fintech) | Desktop | Sí | 18s | Sí | Sí | 5 | 9 | "Muy claro desde el inicio" | "Agregar más casos en mobile" |
+| 1 | 2026-07-05 | Tech Recruiter (Fintech) | Desktop | Sí | 18s | Sí | Sí | 5 | 9 | "Muy claro desde el inicio" | "Agregar más casos en mobile" |
 ```
 
 ---
@@ -139,7 +139,7 @@ Este hallazgo proviene de research que indica que recruiters toman decisiones r�
 
 ### Resumen Ejecutivo
 
-**Fecha de ejecución:** [YYYY-MM-DD]  
+**Fecha de ejecución:** [YYYY-MM-DD] *(Ejemplo: 2026-07-05)*  
 **Participantes:** 5 (3 recruiters fintech, 2 hiring managers enterprise)
 
 **Hallazgos clave:**
