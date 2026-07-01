@@ -19,6 +19,8 @@ import { buildMockupItems, projectGalleryCopy } from "../lib/mockup-gallery";
 import { buildProjectNavSections, navNumberFor } from "../lib/project-nav-sections";
 import { ResponsiveDesignFrame } from "../components/molecules/ResponsiveDesignFrame";
 import { CompanyLogo } from "../components/atoms/CompanyLogo";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { canonicalFromPath, projectPageSeo } from "../lib/seo";
 
 interface ProcessApplied {
   id: string;
@@ -145,6 +147,8 @@ export default function ProjectDetail({
     ? Boolean(project.details.metrics?.length || project.details.learnings?.length)
     : Boolean(project.results && project.results.length > 0);
   const hasEvidence = hasDesignArtifacts || hasMockupTiles;
+  const projectId = project.id;
+  const pageSeo = projectPageSeo(projectName, hubName, project.description, language);
 
   const navigationSections = buildProjectNavSections(language, {
     hasProcess,
@@ -169,6 +173,13 @@ export default function ProjectDetail({
 
   return (
     <div className="min-h-screen bg-background pb-8 md:pb-0">
+      {projectId && (
+        <SEOHead
+          {...pageSeo}
+          keywords={t.seo.keywords}
+          url={canonicalFromPath(`/proyecto/${projectId}`)}
+        />
+      )}
       {/* Skip Links */}
       <a 
         href="#main-content" 

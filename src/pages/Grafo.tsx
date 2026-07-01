@@ -3,6 +3,7 @@ import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 const Grafo = () => {
   const { language } = useLanguage();
@@ -11,8 +12,8 @@ const Grafo = () => {
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.grafo, current: true }]}>
       <SEOHead
-        title="Red de Fricción Institucional"
-        description="Grafo de relaciones y fricción institucional — investigación territorial."
+        {...t.seo.pages.grafo}
+        url={canonicalFromPath('/grafo')}
         noIndex
       />
       <section className="container max-w-7xl mx-auto px-4 py-12">

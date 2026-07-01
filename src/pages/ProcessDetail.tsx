@@ -10,6 +10,8 @@ import { processesData, ProcessDetailData } from "../data/processes-data";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { NotFoundPage } from "../components/layout/NotFoundPage";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { canonicalFromPath, processPageSeo, trimMetaDescription } from "../lib/seo";
 
 interface ProcessDetailProps {
   processId: string;
@@ -52,8 +54,18 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
     projectName: language === 'es' ? p.projectName : p.projectNameEN,
   }));
 
+  const pageSeo = {
+    ...processPageSeo(title, language),
+    description: trimMetaDescription(description),
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        {...pageSeo}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath(`/cases/process/${processId}`)}
+      />
       <SubpageToolbar
         crumbs={[
           { label: t.breadcrumbs.cases, onClick: onBack },

@@ -5,6 +5,7 @@ import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 const SobreMi = () => {
   const { language } = useLanguage();
@@ -13,8 +14,9 @@ const SobreMi = () => {
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.about, current: true }]}>
       <SEOHead
-        title="Sobre Mí"
-        description="Conoce a Rodrigo Gaete, Lead UX / Senior Product Designer con experiencia en SURA, Transvip y Karri. Especialista en research, design systems y UX estratégico."
+        {...t.seo.pages.about}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/sobre-mi')}
       />
       <About />
       <Skills />

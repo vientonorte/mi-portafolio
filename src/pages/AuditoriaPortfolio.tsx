@@ -6,6 +6,7 @@ import { SITE_CONTACT } from '../lib/site-contact';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 export default function AuditoriaPortfolio() {
   const { language } = useLanguage();
@@ -13,7 +14,7 @@ export default function AuditoriaPortfolio() {
   const [checklistItems, setChecklistItems] = useState([
     { id: 1, task: "Reescribir hero con especialización clara", category: "Posicionamiento", status: "completed" },
     { id: 2, task: "Implementar schema.org/Person + CreativeWork", category: "SEO", status: "completed" },
-    { id: 3, task: "Optimizar meta title y description", category: "SEO", status: "pending" },
+    { id: 3, task: "Optimizar meta title y description", category: "SEO", status: "completed" },
     { id: 4, task: "Agregar métricas cuantificables en proyectos", category: "Contenido", status: "pending" },
     { id: 5, task: "Desarrollar 1 case study completo con framework", category: "Contenido", status: "pending" },
     { id: 6, task: "Incluir 3 testimonios con validación social", category: "Credibilidad", status: "pending" },
@@ -45,9 +46,9 @@ export default function AuditoriaPortfolio() {
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.audit, current: true }]}>
       <SEOHead
-        title="Auditoría Portfolio UX/UI"
-        description="Auditoría UX/UI estratégica: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
-        url="https://vientonorte.github.io/mi-portafolio/auditoria"
+        {...t.seo.pages.audit}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/auditoria')}
         type="article"
       />
       {/* Hero */}

@@ -16,6 +16,7 @@ import { SEOHead } from "../components/atoms/SEOHead";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { getFrameworkCompanyContexts } from "../lib/framework-applications";
+import { canonicalFromPath } from "../lib/seo";
 
 interface FrameworkDetailProps {
   onBack: () => void;
@@ -123,8 +124,9 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
       <ProcessNavigation sections={navigationSections} />
 
       <SEOHead
-        title="Framework UX — 5 procesos"
-        description="Metodología UX en 5 macroprocesos: Analytics, Research, UI Design, Testing y Refinamiento. Aplicada en SURA, Transvip y Karri."
+        {...t.seo.pages.framework}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/framework')}
       />
 
       <SubpageToolbar

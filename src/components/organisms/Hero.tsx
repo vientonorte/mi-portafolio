@@ -96,13 +96,8 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
             <motion.p
               variants={itemVariants}
-              className="text-muted-foreground max-w-lg"
-              style={{
-                fontSize: "clamp(15px, 1.4vw, 18px)",
-                fontWeight: 300,
-                lineHeight: 1.6,
-                marginBottom: "1.5rem",
-              }}
+              className="max-w-md text-muted-foreground text-base md:text-lg font-light leading-snug"
+              style={{ marginBottom: "1.25rem" }}
             >
               {t.valueProp}
             </motion.p>
@@ -110,7 +105,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             <motion.div
               variants={itemVariants}
               className="flex flex-wrap gap-2"
-              style={{ marginBottom: "2.5rem" }}
+              style={{ marginBottom: "2rem" }}
               aria-label={language === "es" ? "Especialización" : "Specialization"}
             >
               {t.specialties.map((specialty) => (

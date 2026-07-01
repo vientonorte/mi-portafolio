@@ -4,6 +4,7 @@ import { Projects } from '../components/organisms/Projects';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 const Proyectos = () => {
   const navigate = useNavigate();
@@ -13,8 +14,9 @@ const Proyectos = () => {
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.projects, current: true }]}>
       <SEOHead
-        title="Proyectos y Casos"
-        description="Casos de estudio SURA, Transvip y Karri con evidencia visual, métricas y profundidad de proceso UX."
+        {...t.seo.pages.proyectos}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/proyectos')}
       />
       <Projects
         onNavigateToCaseStudies={() => navigate('/cases')}

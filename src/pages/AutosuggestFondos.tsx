@@ -3,6 +3,7 @@ import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 const AutosuggestFondos = () => {
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ const AutosuggestFondos = () => {
       ]}
     >
       <SEOHead
-        title="Autosuggest Fondos"
-        description="Caso flagship SURA: autosuggest de fondos de inversión — próximamente detalle completo."
+        {...t.seo.pages.autosuggest}
+        url={canonicalFromPath('/proyectos/autosuggest-fondos')}
         noIndex
       />
       <section className="container max-w-3xl mx-auto px-4 py-16">

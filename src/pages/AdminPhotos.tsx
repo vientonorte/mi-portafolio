@@ -155,7 +155,7 @@ export default function AdminPhotos() {
   if (loading) {
     return (
       <PageShell crumbs={[{ label: t.breadcrumbs.admin, current: true }]}>
-        <SEOHead title="Admin fotos" description="Editor privado de imágenes del portafolio." noIndex />
+        <SEOHead {...t.seo.pages.admin} noIndex />
         <div className="container max-w-6xl mx-auto px-4 py-16 text-center text-muted-foreground">
           Cargando admin de fotos…
         </div>
@@ -165,7 +165,7 @@ export default function AdminPhotos() {
 
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.admin, current: true }]}>
-      <SEOHead title="Admin fotos" description="Editor privado de imágenes del portafolio." noIndex />
+      <SEOHead {...t.seo.pages.admin} noIndex />
       <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-8">
         <header className="space-y-2">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Admin privado</p>

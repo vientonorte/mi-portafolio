@@ -13,24 +13,87 @@ export const translations = {
       caseStudies: 'Casos de Estudio',
     },
     
+    seo: {
+      keywords:
+        'UX Lead, fintech, design systems, onboarding, SURA, Transvip, Karri, product design',
+      pages: {
+        home: {
+          title: 'Rodrigo Gaete · UX Lead Fintech & Mobility',
+          description:
+            'UX Lead en fintech y movilidad. Onboarding −40%, design systems y casos con métricas en SURA, Transvip y Karri.',
+        },
+        proyectos: {
+          title: 'Proyectos UX',
+          description:
+            'Casos con evidencia y métricas: SURA Investments, Transvip y Karri. Onboarding, fintech y mobility.',
+        },
+        cases: {
+          title: 'Framework UX y casos',
+          description:
+            '5 procesos UX — analytics, research, diseño, testing y refinamiento. Aplicados en SURA, Transvip y Karri.',
+        },
+        framework: {
+          title: 'Framework UX — 5 procesos',
+          description:
+            'Metodología en 5 macroprocesos con casos reales en fintech y mobility enterprise.',
+        },
+        about: {
+          title: 'Sobre mí',
+          description:
+            'Rodrigo Gaete, UX Lead en fintech y mobility. Research, design systems y Design Thinking en SURA, Transvip y Karri.',
+        },
+        contact: {
+          title: 'Contacto',
+          description:
+            'Contacta a Rodrigo Gaete para proyectos UX, consultoría o colaboraciones en fintech y mobility.',
+        },
+        designSystem: {
+          title: 'Design System',
+          description:
+            'Tokens, componentes y principios del design system del portafolio Lead UX.',
+        },
+        privacy: {
+          title: 'Privacidad',
+          description:
+            'Política de privacidad del portafolio. Sin cookies de tracking ni datos sin consentimiento.',
+        },
+        audit: {
+          title: 'Auditoría Portfolio UX/UI',
+          description:
+            'Auditoría estratégica UX/UI: riesgos, quick wins SEO y plan de mentoría en 3 sesiones.',
+        },
+        grafo: {
+          title: 'Red de fricción institucional',
+          description: 'Grafo de relaciones y fricción institucional — investigación territorial.',
+        },
+        autosuggest: {
+          title: 'Autosuggest fondos',
+          description: 'Caso SURA: autosuggest de fondos de inversión — detalle próximamente.',
+        },
+        admin: {
+          title: 'Admin fotos',
+          description: 'Editor privado de imágenes del portafolio.',
+        },
+      },
+    },
+
     // Hero
     hero: {
-      label: 'Lead UX · Fintech & Mobility',
-      headlineLead: 'Diseño de producto para',
-      headlineFocus: 'fintech y movilidad enterprise.',
-      valueProp:
-        'Onboarding digital, design systems y research en entornos regulados. +6 años liderando equipos en SURA Investments, Transvip y Karri — con métricas verificables.',
-      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'UX Research', 'Mobility'],
+      label: 'UX Lead · Fintech & Mobility',
+      headlineLead: 'Fintech y movilidad,',
+      headlineFocus: 'diseñadas con datos.',
+      valueProp: 'Onboarding, design systems y research · SURA · Transvip · Karri',
+      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'Mobility'],
       cta: {
         primary: 'Ver proyectos',
-        secondary: 'Casos de Estudio',
+        secondary: 'Casos de estudio',
       },
       scroll: 'Explorar',
       resultsLabel: 'Resultados',
       resultCards: [
-        { metric: '−40%', description: 'tiempo en onboarding digital', company: 'SURA Investments' },
-        { metric: 'NPS 72', description: '+25 pts sobre baseline', company: 'SURA Inversiones' },
-        { metric: '+35%', description: 'activación de shoppers', company: 'Karri' },
+        { metric: '−40%', description: 'onboarding SURA', company: 'SURA Investments' },
+        { metric: 'NPS 72', description: 'plataforma inversiones', company: 'SURA' },
+        { metric: '+35%', description: 'activación shoppers', company: 'Karri' },
       ],
     },
     
@@ -358,23 +421,86 @@ export const translations = {
       caseStudies: 'Case Studies',
     },
     
+    seo: {
+      keywords:
+        'UX Lead, fintech, design systems, onboarding, SURA, Transvip, Karri, product design',
+      pages: {
+        home: {
+          title: 'Rodrigo Gaete · Lead UX Fintech & Mobility',
+          description:
+            'Lead UX for fintech & mobility. −40% onboarding, design systems, and measured cases at SURA, Transvip, and Karri.',
+        },
+        proyectos: {
+          title: 'UX Projects',
+          description:
+            'Case studies with evidence and metrics: SURA Investments, Transvip, and Karri. Onboarding, fintech, mobility.',
+        },
+        cases: {
+          title: 'UX Framework & Cases',
+          description:
+            '5 UX processes — analytics, research, design, testing, refinement. Applied at SURA, Transvip, and Karri.',
+        },
+        framework: {
+          title: 'UX Framework — 5 Processes',
+          description:
+            '5 macro-process methodology with real cases in enterprise fintech and mobility.',
+        },
+        about: {
+          title: 'About',
+          description:
+            'Rodrigo Gaete, Lead UX in fintech & mobility. Research, design systems, and Design Thinking at SURA, Transvip, Karri.',
+        },
+        contact: {
+          title: 'Contact',
+          description:
+            'Contact Rodrigo Gaete for UX projects, consulting, or collaborations in fintech and mobility.',
+        },
+        designSystem: {
+          title: 'Design System',
+          description:
+            'Tokens, components, and principles from the Lead UX portfolio design system.',
+        },
+        privacy: {
+          title: 'Privacy',
+          description:
+            'Portfolio privacy policy. No tracking cookies or data without consent.',
+        },
+        audit: {
+          title: 'UX/UI Portfolio Audit',
+          description:
+            'Strategic UX/UI audit: risks, SEO quick wins, and a 3-session mentorship plan.',
+        },
+        grafo: {
+          title: 'Institutional friction network',
+          description: 'Graph of institutional relationships and friction — territorial research.',
+        },
+        autosuggest: {
+          title: 'Fund autosuggest',
+          description: 'SURA case: investment fund autosuggest — full detail coming soon.',
+        },
+        admin: {
+          title: 'Photo admin',
+          description: 'Private portfolio image editor.',
+        },
+      },
+    },
+
     // Hero
     hero: {
       label: 'Lead UX · Fintech & Mobility',
-      headlineLead: 'Product design for',
-      headlineFocus: 'enterprise fintech & mobility.',
-      valueProp:
-        'Digital onboarding, design systems, and research in regulated environments. +6 years leading teams at SURA Investments, Transvip, and Karri — with measurable outcomes.',
-      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'UX Research', 'Mobility'],
+      headlineLead: 'Fintech & mobility,',
+      headlineFocus: 'designed with data.',
+      valueProp: 'Onboarding, design systems, research · SURA · Transvip · Karri',
+      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'Mobility'],
       cta: {
         primary: 'View projects',
-        secondary: 'Case Studies',
+        secondary: 'Case studies',
       },
       scroll: 'Explore',
       resultsLabel: 'Results',
       resultCards: [
-        { metric: '−40%', description: 'digital onboarding time', company: 'SURA Investments' },
-        { metric: 'NPS 72', description: '+25 pts above baseline', company: 'SURA Investments' },
+        { metric: '−40%', description: 'SURA onboarding', company: 'SURA Investments' },
+        { metric: 'NPS 72', description: 'investments platform', company: 'SURA' },
         { metric: '+35%', description: 'shopper activation', company: 'Karri' },
       ],
     },

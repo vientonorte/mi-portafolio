@@ -11,10 +11,13 @@ import { StructuredData } from '../components/atoms/StructuredData';
 import { BackToTop } from '../components/molecules/BackToTop';
 import { useLanguage } from '../lib/LanguageContext';
 import { buildPortfolioStructuredData } from '../lib/structured-data';
+import { canonicalFromPath } from '../lib/seo';
+import { useTranslation } from '../lib/i18n';
 
 const Home = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
+  const seo = useTranslation(language).seo;
   const structuredData = useMemo(
     () => buildPortfolioStructuredData(language),
     [language]
@@ -22,9 +25,11 @@ const Home = () => {
 
   return (
     <>
-      <SEOHead 
-        title="Rodrigo Gaete — UX Lead Fintech & Mobility"
-        description="UX Lead especializado en fintech y movilidad enterprise: onboarding digital, design systems y research en entornos regulados. Casos verificables en SURA, Transvip y Karri."
+      <SEOHead
+        {...seo.pages.home}
+        isHome
+        keywords={seo.keywords}
+        url={canonicalFromPath('/')}
       />
       <StructuredData data={structuredData} />
       <Hero

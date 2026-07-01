@@ -7,6 +7,8 @@ import { ThemeToggle } from "../components/atoms/ThemeToggle";
 import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { canonicalFromPath } from "../lib/seo";
 
 export default function DesignSystem() {
   const { language } = useLanguage();
@@ -17,6 +19,11 @@ export default function DesignSystem() {
       crumbs={[{ label: t.breadcrumbs.designSystem, current: true }]}
       trailing={<ThemeToggle />}
     >
+      <SEOHead
+        {...t.seo.pages.designSystem}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/design-system')}
+      />
       <main>
         <section className="py-12 md:py-20 px-4">
           <div className="container max-w-6xl mx-auto text-center space-y-4">

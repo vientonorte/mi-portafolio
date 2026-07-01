@@ -12,6 +12,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { GradientHeading } from "../components/atoms/GradientHeading";
+import { canonicalFromPath } from "../lib/seo";
 
 interface CaseStudiesProps {
   onBack: () => void;
@@ -66,9 +67,10 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
 
   return (
     <div className="min-h-screen bg-background pb-8">
-      <SEOHead 
-        title="Framework UX & Case Studies"
-        description="Framework de UX completo: Analytics, Research, UI Design y Testing. Metodología aplicada en casos reales de SURA, Transvip y Karri."
+      <SEOHead
+        {...t.seo.pages.cases}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath('/cases')}
       />
       <ProcessNavigation sections={navigationSections} />
 

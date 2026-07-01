@@ -31,6 +31,8 @@ import { ProjectCard } from "../components/molecules/ProjectCard";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { CompanyLogo } from "../components/atoms/CompanyLogo";
 import { localized, projectDescription } from "../lib/localized";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { canonicalFromPath, companyPageSeo } from "../lib/seo";
 
 interface CompanyDetailProps {
   company: CompanyHub;
@@ -48,6 +50,7 @@ export default function CompanyDetail({
   const { language } = useLanguage();
   const t = useTranslation(language);
   const companyDescription = localized(company.description, language);
+  const pageSeo = companyPageSeo(company.name, companyDescription, language);
   const shouldReduceMotion = useReducedMotion();
   const galleryMockups = flattenProjectMockups(company.projects, company.name, t.mockups);
 
@@ -122,6 +125,11 @@ export default function CompanyDetail({
 
   return (
     <div className="min-h-screen bg-background pb-8 md:pb-0">
+      <SEOHead
+        {...pageSeo}
+        keywords={t.seo.keywords}
+        url={canonicalFromPath(`/empresa/${company.id}`)}
+      />
       {/* Skip Links - WCAG 2.1 AA */}
       <a 
         href="#main-content" 

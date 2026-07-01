@@ -3,6 +3,7 @@ import { SITE_CONTACT, getContactMailtoUrl } from '../lib/site-contact';
 import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
+import { canonicalFromPath } from '../lib/seo';
 
 const Privacy = () => {
   const { language } = useLanguage();
@@ -11,9 +12,9 @@ const Privacy = () => {
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.privacy, current: true }]}>
       <SEOHead
-        title="Política de Privacidad · Rodrigo Gaete"
-        description="Política de privacidad del portfolio de Rodrigo Gaete. No se usan cookies de tracking ni datos personales sin consentimiento."
-        noIndex={true}
+        {...t.seo.pages.privacy}
+        url={canonicalFromPath('/privacy')}
+        noIndex
       />
       <section className="container max-w-3xl mx-auto px-6 py-16 prose prose-neutral dark:prose-invert">
         <h1 className="text-3xl font-black tracking-tight mb-6">Política de Privacidad</h1>
