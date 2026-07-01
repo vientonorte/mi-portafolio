@@ -17,6 +17,15 @@ export function getFeaturedCaseStudies(language: Language = "es"): CaseStudyCard
   const portfolioImages = getPortfolioImages();
   const cards: Omit<CaseStudyCardData, "metrics">[] = [
   {
+    id: "sura-ux-enterprise",
+    title: "Implementación UX Enterprise Regional",
+    company: "SURA Investments",
+    description:
+      "Framework de Design Thinking adaptado para iniciativas tecnológicas regionales: lineamientos UX/UI escalables en 5+ países.",
+    image: portfolioImages.sura.uxProcess,
+    tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
+  },
+  {
     id: "sura-ria-us",
     title: "Diseño UX UI RIA SURA US",
     company: "SURA Investments",
