@@ -13,7 +13,7 @@ interface ProfileAvatarProps {
 export function ProfileAvatar({
   className,
   initials = "RG",
-  alt = "Rodrigo Gaete, UX Lead en fintech y movilidad",
+  alt = "Rodrigo Gaete, Design Ops",
 }: ProfileAvatarProps) {
   useImageManifestVersion();
   const [hasPhoto, setHasPhoto] = useState(true);

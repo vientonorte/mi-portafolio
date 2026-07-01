@@ -28,7 +28,7 @@ export function buildPortfolioStructuredData(language: Language) {
     "@type": "Person",
     "@id": PERSON_ID,
     name: SEO_SITE.brand,
-    jobTitle: hero.label,
+    jobTitle: SEO_SITE.role,
     description: hero.valueProp,
     url: SITE_URL,
     image: "https://vientonorte.github.io/mi-portafolio/images/branding/og-portfolio.png",
@@ -41,7 +41,7 @@ export function buildPortfolioStructuredData(language: Language) {
     "@type": "WebSite",
     "@id": WEBSITE_ID,
     url: SITE_URL,
-    name: language === "es" ? `Portafolio Lead UX · ${SEO_SITE.brand}` : `Lead UX Portfolio · ${SEO_SITE.brand}`,
+    name: language === "es" ? `Portafolio ${SEO_SITE.role} · ${SEO_SITE.brand}` : `${SEO_SITE.brand} · ${SEO_SITE.role} Portfolio`,
     description: hero.valueProp,
     inLanguage: language === "es" ? "es-CL" : "en",
     author: { "@id": PERSON_ID },
@@ -52,10 +52,7 @@ export function buildPortfolioStructuredData(language: Language) {
     "@type": "ProfilePage",
     "@id": PROFILE_ID,
     url: SITE_URL,
-    name:
-      language === "es"
-        ? `${SEO_SITE.brand} — UX Lead Fintech & Mobility`
-        : `${SEO_SITE.brand} — Lead UX Fintech & Mobility`,
+    name: `${SEO_SITE.brand} · ${SEO_SITE.role}`,
     description: hero.valueProp,
     inLanguage: language === "es" ? "es-CL" : "en",
     mainEntity: { "@id": PERSON_ID },

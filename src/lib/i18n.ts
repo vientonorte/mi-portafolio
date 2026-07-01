@@ -26,15 +26,15 @@ export const translations = {
     
     seo: {
       keywords:
-        'UX Lead, cumplimiento regulatorio, experiencias premium, fintech, mobility, SURA, Transvip, Karri',
+        'Design Ops, UX Lead, cumplimiento regulatorio, experiencias premium, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
-          title: 'Rodrigo Gaete · UX Lead Fintech & Mobility',
+          title: 'Rodrigo Gaete · Design Ops',
           description:
             'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium. Casos en SURA, Transvip y Karri.',
         },
         proyectos: {
-          title: 'Negocios · UX Lead',
+          title: 'Negocios · Design Ops',
           description:
             'Casos con evidencia y métricas en SURA Investments, Transvip y Karri. Fintech, mobility y enterprise.',
         },
@@ -51,7 +51,7 @@ export const translations = {
         about: {
           title: 'Sobre mí',
           description:
-            'Rodrigo Gaete, UX Lead en fintech y mobility. Research, design systems y Design Thinking en SURA, Transvip y Karri.',
+            'Rodrigo Gaete, Design Ops en fintech y mobility. Research, design systems y Design Thinking en SURA, Transvip y Karri.',
         },
         contact: {
           title: 'Contacto',
@@ -596,15 +596,15 @@ export const translations = {
     
     seo: {
       keywords:
-        'UX Lead, regulatory compliance, premium experiences, fintech, mobility, SURA, Transvip, Karri',
+        'Design Ops, UX Lead, regulatory compliance, premium experiences, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
-          title: 'Rodrigo Gaete · Lead UX Fintech & Mobility',
+          title: 'Rodrigo Gaete · Design Ops',
           description:
             'Design that cuts the noise: regulatory compliance and premium experiences. Cases at SURA, Transvip, and Karri.',
         },
         proyectos: {
-          title: 'Business · Lead UX',
+          title: 'Business · Design Ops',
           description:
             'Case studies with evidence and metrics at SURA Investments, Transvip, and Karri. Fintech, mobility, enterprise.',
         },
@@ -621,7 +621,7 @@ export const translations = {
         about: {
           title: 'About',
           description:
-            'Rodrigo Gaete, Lead UX in fintech & mobility. Research, design systems, and Design Thinking at SURA, Transvip, Karri.',
+            'Rodrigo Gaete, Design Ops in fintech & mobility. Research, design systems, and Design Thinking at SURA, Transvip, Karri.',
         },
         contact: {
           title: 'Contact',

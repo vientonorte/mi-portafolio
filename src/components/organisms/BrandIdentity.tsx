@@ -22,7 +22,7 @@ const copy = {
     rulesTitle: "Reglas de aplicación",
     dos: [
       "Isologo RG en nav, toolbar y favicon",
-      "Wordmark «Rodrigo Gaete · UX Lead · Fintech & Mobility» en contextos editoriales",
+      "Wordmark «Rodrigo Gaete · Design Ops» en contextos editoriales",
       "Logos de cliente en wordmark-sm + flat sobre cards matte",
       "Gradiente solo en CTAs, acento del isologo y highlights clave",
     ],
@@ -50,7 +50,7 @@ const copy = {
     rulesTitle: "Application rules",
     dos: [
       "RG mark in nav, toolbar, and favicon",
-      "«Rodrigo Gaete · UX Lead · Fintech & Mobility» wordmark in editorial contexts",
+      "«Rodrigo Gaete · Design Ops» wordmark in editorial contexts",
       "Client logos as wordmark-sm + flat on matte cards",
       "Gradient only on CTAs, mark accent, and key highlights",
     ],

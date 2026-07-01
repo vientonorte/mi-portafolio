@@ -65,8 +65,8 @@ export function About() {
                 <ProfileAvatar
                   alt={
                     language === "es"
-                      ? "Rodrigo Gaete, UX Lead en fintech y movilidad"
-                      : "Rodrigo Gaete, UX Lead in fintech and mobility"
+                      ? "Rodrigo Gaete, Design Ops"
+                      : "Rodrigo Gaete, Design Ops"
                   }
                 />
               </div>
