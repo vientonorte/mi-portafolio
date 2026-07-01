@@ -68,7 +68,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
       />
       <SubpageToolbar
         crumbs={[
-          { label: t.breadcrumbs.cases, onClick: onBack },
+          { label: t.breadcrumbs.process, onClick: onBack },
           { label: title, current: true },
         ]}
       />

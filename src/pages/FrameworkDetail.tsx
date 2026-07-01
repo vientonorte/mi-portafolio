@@ -131,7 +131,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
 
       <SubpageToolbar
         crumbs={[
-          { label: t.breadcrumbs.cases, onClick: () => onBack() },
+          { label: t.breadcrumbs.process, onClick: () => onBack() },
           { label: t.breadcrumbs.framework, current: true },
         ]}
       />

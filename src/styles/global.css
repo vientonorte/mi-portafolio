@@ -131,6 +131,20 @@ html[data-nav="subpage"] .subpage-hero {
   scroll-margin-top: 4.5rem;
 }
 
+html[data-nav="subpage"] .process-nav-mobile {
+  --process-nav-mobile-top: 3.25rem;
+}
+
+html[data-nav="subpage"] [id].scroll-mt-20 {
+  scroll-margin-top: 7.5rem;
+}
+
+@media (min-width: 1280px) {
+  html[data-nav="subpage"] [id].scroll-mt-20 {
+    scroll-margin-top: 5rem;
+  }
+}
+
 html[data-nav="subpage"] #main,
 html[data-nav="subpage"] footer[role="contentinfo"] {
   padding-bottom: 0;

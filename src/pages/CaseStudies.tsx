@@ -5,6 +5,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
+import { ProcessOutcomeStrip } from "../components/molecules/ProcessOutcomeStrip";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { useLanguage } from "../lib/LanguageContext";
@@ -83,10 +84,13 @@ export default function CaseStudies({
         keywords={t.seo.keywords}
         url={canonicalFromPath('/cases')}
       />
-      <ProcessNavigation sections={navigationSections} />
-
       <SubpageToolbar
-        crumbs={[{ label: t.breadcrumbs.cases, current: true }]}
+        crumbs={[{ label: t.breadcrumbs.process, current: true }]}
+      />
+
+      <ProcessNavigation
+        sections={navigationSections}
+        mobileAriaLabel={t.caseStudies.navMobile}
       />
 
       {/* Hero Section - MEGA DESTACADO */}
@@ -374,6 +378,25 @@ export default function CaseStudies({
               </div>
             </Card>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-10 rounded-xl border border-primary/20 bg-primary/5 p-4 md:p-6"
+          >
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="border-primary/30 text-primary">
+                {t.caseStudies.bridge.badge}
+              </Badge>
+              <p className="text-sm text-muted-foreground">{t.caseStudies.bridge.description}</p>
+            </div>
+            <ProcessOutcomeStrip
+              items={processes.map(({ id, title, company, metric }) => ({ id, title, company, metric }))}
+              onItemClick={(id) => onNavigateToProcess?.(id)}
+              ariaLabel={t.caseStudies.bridge.stripLabel}
+            />
+          </motion.div>
         </div>
       </section>
 
@@ -564,37 +587,9 @@ export default function CaseStudies({
         </div>
       </section>
 
-      {/* Bridge + CTA Section */}
+      {/* CTA Section */}
       <section id="cta" className="py-16 md:py-24 px-4 scroll-mt-20">
-        <div className="container max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <Badge variant="outline" className="mb-4">{t.caseStudies.bridge.badge}</Badge>
-            <h2 className="text-3xl md:text-4xl font-black mb-3">{t.caseStudies.bridge.title}</h2>
-            <p className="text-muted-foreground max-w-2xl mb-8">{t.caseStudies.bridge.description}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {processes.map((process) => (
-                <button
-                  key={process.id}
-                  type="button"
-                  onClick={() => onNavigateToProcess?.(process.id)}
-                  className="rounded-xl border-2 border-border hover:border-primary/30 bg-card p-4 text-left transition-all hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-sm font-bold">{process.title}</span>
-                    <span className="text-lg font-black text-primary">{process.metric}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">{process.company} · {process.metricLabel}</p>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="text-center">
+        <div className="container max-w-7xl mx-auto text-center">
           <SectionDivider number="05" label={t.caseStudies.cta.sectionLabel} />
 
           <motion.div
@@ -637,7 +632,6 @@ export default function CaseStudies({
               </Button>
             </div>
           </motion.div>
-          </div>
         </div>
       </section>
     </div>
