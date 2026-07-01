@@ -10,6 +10,7 @@ function img(path: string) {
 
 export const portfolioImages = {
   sura: {
+    logo: img("sura/logo.svg"),
     riaOnboarding: img("sura/ria-onboarding.png"),
     webPrototype: img("sura/web-prototype.png"),
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
@@ -20,6 +21,7 @@ export const portfolioImages = {
     uxProcess: img("sura/ux-process.png"),
   },
   transvip: {
+    logo: img("transvip/logo.svg"),
     appDesktop: img("transvip/app-desktop.png"),
     appMobile: img("transvip/app-mobile.png"),
     productVision: img("transvip/product-vision.png"),

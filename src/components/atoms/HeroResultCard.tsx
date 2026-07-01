@@ -1,5 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "../../lib/utils";
+import { CompanyLogoFromName } from "./CompanyLogoFromName";
+import { resolveCompanyBrand } from "../../lib/company-logos";
 
 export interface HeroResultCardProps {
   metric: string;
@@ -17,6 +19,7 @@ export function HeroResultCard({
   index = 0,
 }: HeroResultCardProps) {
   const prefersReducedMotion = useReducedMotion();
+  const hasLogo = resolveCompanyBrand(company) !== null;
 
   return (
     <motion.div
@@ -41,9 +44,14 @@ export function HeroResultCard({
       <span className="mt-1.5 block text-sm text-muted-foreground">
         {description}
       </span>
-      <span className="mt-1 block font-mono text-xs uppercase tracking-widest text-muted-foreground/80">
-        {company}
-      </span>
+      <div className="mt-3 flex items-center gap-2.5">
+        {hasLogo && (
+          <CompanyLogoFromName company={company} size="sm" className="shadow-sm" />
+        )}
+        <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground/80">
+          {company}
+        </span>
+      </div>
     </motion.div>
   );
 }

@@ -4,7 +4,8 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { ArrowRight } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
-import { Briefcase } from "lucide-react";
+import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
+import { resolveCompanyBrand } from "../../lib/company-logos";
 import { useTranslation } from "../../lib/i18n";
 
 interface CaseStudyCardProps {
@@ -31,6 +32,8 @@ export function CaseStudyCard({
   language = "es",
 }: CaseStudyCardProps) {
   const t = useTranslation(language);
+  const hasLogo = resolveCompanyBrand(company) !== null;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -55,7 +58,9 @@ export function CaseStudyCard({
               <CardTitle className="text-xl md:text-2xl mb-2">{title}</CardTitle>
               <p className="text-sm text-muted-foreground">{company}</p>
             </div>
-            <Briefcase className="h-5 w-5 text-primary flex-shrink-0" aria-hidden="true" />
+            {hasLogo ? (
+              <CompanyLogoFromName company={company} size="sm" className="shadow-sm" />
+            ) : null}
           </div>
 
           <CardDescription className="text-base leading-relaxed">

@@ -3,6 +3,12 @@ import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { cn } from "../../lib/utils";
 
 const SIZES = {
+  sm: {
+    box: "h-9 w-9 rounded-lg",
+    pad: "p-1",
+    icon: "h-4 w-4",
+    wordmark: "scale-[1.28]",
+  },
   md: {
     box: "h-16 w-16 rounded-xl",
     pad: "p-2",
@@ -21,7 +27,7 @@ export type CompanyLogoSize = keyof typeof SIZES;
 
 /** Logos horizontales (p. ej. Karri) necesitan más escala para igualar el peso visual de Transvip. */
 export function isWordmarkLogo(src: string): boolean {
-  return /karri\/logo|karriLogo/i.test(src);
+  return /karri\/logo|karriLogo|sura\/logo|transvip\/logo/i.test(src);
 }
 
 interface CompanyLogoProps {
@@ -71,7 +77,8 @@ export function CompanyLogo({
         alt={alt}
         className={cn(
           "h-full w-full object-contain object-center",
-          isWordmark && styles.wordmark
+          isWordmark && styles.wordmark,
+          /sura\/logo/i.test(src) && "dark:invert"
         )}
       />
     </div>

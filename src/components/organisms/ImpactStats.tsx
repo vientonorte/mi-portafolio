@@ -4,6 +4,7 @@ import { BarChart3, TrendingDown, TrendingUp, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
+import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
 
 export function ImpactStats() {
   const navigate = useNavigate();
@@ -99,8 +100,11 @@ export function ImpactStats() {
                     className="metric-card-body h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                     aria-label={`${stat.label}: ${stat.value}. ${ctaLabel}`}
                   >
-                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center mb-3`}>
-                      <Icon className={`h-6 w-6 md:h-7 md:w-7 ${stat.color}`} aria-hidden="true" />
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center`}>
+                        <Icon className={`h-6 w-6 md:h-7 md:w-7 ${stat.color}`} aria-hidden="true" />
+                      </div>
+                      <CompanyLogoFromName company={stat.company} size="sm" className="shadow-sm" />
                     </div>
                     <div className={`metric-card-value ${stat.color}`}>
                       {stat.value}
@@ -136,7 +140,12 @@ export function ImpactStats() {
                       {language === "es" ? "Proyecto Destacado" : "Featured Project"}
                     </span>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
+                    <CompanyLogoFromName
+                      company="SURA Investments"
+                      size="md"
+                      className="shadow-md bg-card"
+                    />
                     <h3 className="text-2xl md:text-3xl font-bold leading-tight">
                       RIA SURA Investments US
                     </h3>

@@ -41,6 +41,7 @@ desktop.ini
 !public/favicon.ico
 *.svg
 !public/favicon.svg
+!public/images/**/*.svg
 *.mp4
 *.mov
 *.avi

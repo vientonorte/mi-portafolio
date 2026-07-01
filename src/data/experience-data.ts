@@ -6,7 +6,7 @@ export const experiences = [
     position: "Associate Estrategia Digital · Lead UX",
     period: "Nov 2023 - Actualidad",
     isCurrent: true,
-    logo: portfolioImages.sura.riaOnboarding,
+    logo: portfolioImages.sura.logo,
     location: "Remoto",
     summary: "-40% onboarding · 50+ componentes design system · 5+ países",
     achievements: [
@@ -36,7 +36,7 @@ export const experiences = [
     position: "Senior Product Designer",
     period: "2022 - 2023",
     isCurrent: false,
-    logo: portfolioImages.transvip.appDesktop,
+    logo: portfolioImages.transvip.logo,
     location: "Remoto",
     summary: "-40% fricción en reservas · Tracking en tiempo real",
     achievements: [
