@@ -12,7 +12,7 @@ export default function AuditoriaPortfolio() {
   const t = useTranslation(language);
   const [checklistItems, setChecklistItems] = useState([
     { id: 1, task: "Reescribir hero con especialización clara", category: "Posicionamiento", status: "completed" },
-    { id: 2, task: "Implementar schema.org/Person + CreativeWork", category: "SEO", status: "pending" },
+    { id: 2, task: "Implementar schema.org/Person + CreativeWork", category: "SEO", status: "completed" },
     { id: 3, task: "Optimizar meta title y description", category: "SEO", status: "pending" },
     { id: 4, task: "Agregar métricas cuantificables en proyectos", category: "Contenido", status: "pending" },
     { id: 5, task: "Desarrollar 1 case study completo con framework", category: "Contenido", status: "pending" },
