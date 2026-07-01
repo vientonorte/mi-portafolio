@@ -15,12 +15,12 @@ export const translations = {
     
     seo: {
       keywords:
-        'UX Lead, fintech, design systems, onboarding, SURA, Transvip, Karri, product design',
+        'UX Lead, cumplimiento regulatorio, experiencias premium, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
           title: 'Rodrigo Gaete · UX Lead Fintech & Mobility',
           description:
-            'UX Lead en fintech y movilidad. Onboarding −40%, design systems y casos con métricas en SURA, Transvip y Karri.',
+            'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium en fintech y movilidad. Casos en SURA, Transvip y Karri.',
         },
         proyectos: {
           title: 'Proyectos UX',
@@ -79,11 +79,12 @@ export const translations = {
 
     // Hero
     hero: {
-      label: 'UX Lead · Fintech & Mobility',
-      headlineLead: 'Fintech y movilidad,',
-      headlineFocus: 'diseñadas con datos.',
-      valueProp: 'Onboarding, design systems y research · SURA · Transvip · Karri',
-      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'Mobility'],
+      label: 'UX Lead · Compliance & Premium',
+      headlineLead: 'Diseño que',
+      headlineFocus: 'reduce el ruido.',
+      valueProp:
+        'Cumplimiento regulatorio y experiencias premium en fintech y movilidad.',
+      specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
         primary: 'Ver proyectos',
         secondary: 'Casos de estudio',
@@ -423,12 +424,12 @@ export const translations = {
     
     seo: {
       keywords:
-        'UX Lead, fintech, design systems, onboarding, SURA, Transvip, Karri, product design',
+        'UX Lead, regulatory compliance, premium experiences, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
           title: 'Rodrigo Gaete · Lead UX Fintech & Mobility',
           description:
-            'Lead UX for fintech & mobility. −40% onboarding, design systems, and measured cases at SURA, Transvip, and Karri.',
+            'Design that cuts the noise: regulatory compliance and premium experiences in fintech and mobility. Cases at SURA, Transvip, and Karri.',
         },
         proyectos: {
           title: 'UX Projects',
@@ -487,11 +488,12 @@ export const translations = {
 
     // Hero
     hero: {
-      label: 'Lead UX · Fintech & Mobility',
-      headlineLead: 'Fintech & mobility,',
-      headlineFocus: 'designed with data.',
-      valueProp: 'Onboarding, design systems, research · SURA · Transvip · Karri',
-      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'Mobility'],
+      label: 'Lead UX · Compliance & Premium',
+      headlineLead: 'Design that',
+      headlineFocus: 'cuts the noise.',
+      valueProp:
+        'Regulatory compliance and premium experiences in fintech and mobility.',
+      specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
         primary: 'View projects',
         secondary: 'Case studies',
