@@ -6,7 +6,7 @@ BASE_URL="${BASE_URL:-https://vientonorte.github.io/mi-portafolio}"
 PASS=0
 FAIL=0
 
-check() {
+check_url() {
   local label="$1"
   local pattern="$2"
   local url="$3"
@@ -20,14 +20,19 @@ check() {
   fi
 }
 
-echo "QA producción — $BASE_URL"
-echo "---"
+check_content() {
+  local label="$1"
+  local pattern="$2"
+  local file="$3"
 
-HTML=$(curl -fsSL "$BASE_URL/")
-JS_PATH=$(echo "$HTML" | grep -oE '/mi-portafolio/assets/index-[^"]+\.js' | head -1)
-test -n "$JS_PATH" || { echo "✗ No JS bundle in index.html"; exit 1; }
-JS_URL="https://vientonorte.github.io${JS_PATH}"
-JS=$(curl -fsSL "$JS_URL")
+  if grep -q "$pattern" "$file"; then
+    echo "✓ $label"
+    PASS=$((PASS + 1))
+  else
+    echo "✗ $label (missing: $pattern)"
+    FAIL=$((FAIL + 1))
+  fi
+}
 
 check_http() {
   local label="$1"
@@ -43,20 +48,33 @@ check_http() {
   fi
 }
 
-check "Hero meta description" "reduce el ruido" "$BASE_URL/"
-check "8 proyectos en grid" "sura-ux-enterprise" "$JS_URL"
-check "Testimonios section" "testimonios" "$JS_URL"
-check "Karri flagship" "karri-calculadora" "$JS_URL"
-check "SEO keywords proyecto" "shopper UX" "$JS_URL"
-check "i18n featuredCaseStudies" "featuredCaseStudies" "$JS_URL"
-check "Analytics wiring" "AnalyticsProvider" "$JS_URL"
-check "Schema.org" "CreativeWork" "$JS_URL"
+echo "QA producción — $BASE_URL"
+echo "---"
 
-CASE_CHUNK=$(echo "$HTML" | grep -oE '/mi-portafolio/assets/CaseStudies-[^"]+\.js' | head -1 || true)
-if [ -n "$CASE_CHUNK" ]; then
-  check "Flagship en /cases chunk" "flagship" "https://vientonorte.github.io${CASE_CHUNK}"
+HTML=$(curl -fsSL "$BASE_URL/")
+JS_PATH=$(echo "$HTML" | grep -oE '/mi-portafolio/assets/index-[^"]+\.js' | head -1)
+test -n "$JS_PATH" || { echo "✗ No JS bundle in index.html"; exit 1; }
+JS_URL="https://vientonorte.github.io${JS_PATH}"
+JS_FILE=$(mktemp)
+CASE_FILE=$(mktemp)
+trap 'rm -f "$JS_FILE" "$CASE_FILE"' EXIT
+curl -fsSL "$JS_URL" -o "$JS_FILE"
+
+check_url "Hero meta description" "reduce el ruido" "$BASE_URL/"
+check_content "8 proyectos en grid" "sura-ux-enterprise" "$JS_FILE"
+check_content "Testimonios section" "testimonios" "$JS_FILE"
+check_content "Karri flagship" "karri-calculadora" "$JS_FILE"
+check_content "SEO keywords proyecto" "shopper UX" "$JS_FILE"
+check_content "i18n featuredCaseStudies" "featuredCaseStudies" "$JS_FILE"
+check_content "Analytics wiring" "VNTracker" "$JS_FILE"
+check_content "Schema.org" "CreativeWork" "$JS_FILE"
+
+CASE_CHUNK_FILE=$(grep -oE 'CaseStudies-[A-Za-z0-9_-]+\.js' "$JS_FILE" | head -1 || true)
+if [ -n "$CASE_CHUNK_FILE" ]; then
+  curl -fsSL "$BASE_URL/assets/$CASE_CHUNK_FILE" -o "$CASE_FILE"
+  check_content "Flagship en /cases chunk" "flagship" "$CASE_FILE"
 else
-  echo "✗ Flagship en /cases chunk (CaseStudies chunk not found)"
+  echo "✗ Flagship en /cases chunk (CaseStudies chunk not in bundle)"
   FAIL=$((FAIL + 1))
 fi
 
