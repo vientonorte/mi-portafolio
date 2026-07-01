@@ -20,7 +20,7 @@ export const translations = {
         home: {
           title: 'Rodrigo Gaete · UX Lead Fintech & Mobility',
           description:
-            'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium en fintech y movilidad. Casos en SURA, Transvip y Karri.',
+            'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium. Casos en SURA, Transvip y Karri.',
         },
         proyectos: {
           title: 'Proyectos UX',
@@ -83,7 +83,7 @@ export const translations = {
       headlineLead: 'Diseño que',
       headlineFocus: 'reduce el ruido.',
       valueProp:
-        'Cumplimiento regulatorio y experiencias premium en fintech y movilidad.',
+        'Menos fricción, más claridad — donde el cumplimiento y la excelencia no compiten.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
         primary: 'Ver proyectos',
@@ -429,7 +429,7 @@ export const translations = {
         home: {
           title: 'Rodrigo Gaete · Lead UX Fintech & Mobility',
           description:
-            'Design that cuts the noise: regulatory compliance and premium experiences in fintech and mobility. Cases at SURA, Transvip, and Karri.',
+            'Design that cuts the noise: regulatory compliance and premium experiences. Cases at SURA, Transvip, and Karri.',
         },
         proyectos: {
           title: 'UX Projects',
@@ -492,7 +492,7 @@ export const translations = {
       headlineLead: 'Design that',
       headlineFocus: 'cuts the noise.',
       valueProp:
-        'Regulatory compliance and premium experiences in fintech and mobility.',
+        'Less friction, more clarity — where compliance and excellence don’t compete.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
         primary: 'View projects',
