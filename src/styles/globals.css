@@ -453,10 +453,6 @@
   .logo-mark {
     color: var(--logo-accent);
   }
-
-  .dark .logo-mark {
-    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--brand-orange) 30%, transparent));
-  }
 }
 
 /* Utilities para gradiente de marca */

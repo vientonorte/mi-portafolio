@@ -282,7 +282,7 @@ export function Navigation({
           <motion.a
             href="#inicio"
             onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" })}
-            className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors max-lg:rounded-full max-lg:bg-logo-surface max-lg:px-2.5 max-lg:py-1.5 max-lg:shadow-sm"
+            className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}

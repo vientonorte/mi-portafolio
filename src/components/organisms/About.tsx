@@ -61,12 +61,12 @@ export function About() {
               whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
               className="flex-shrink-0 mx-auto md:mx-0"
             >
-              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-lg">
+              <div className="relative h-32 w-32 overflow-hidden rounded-2xl border border-border/60 md:h-40 md:w-40">
                 <ProfileAvatar
                   alt={
                     language === "es"
-                      ? "Rodrigo Gaete — Lead UX Designer"
-                      : "Rodrigo Gaete — Lead UX Designer"
+                      ? "Rodrigo Gaete, UX Lead en fintech y movilidad"
+                      : "Rodrigo Gaete, UX Lead in fintech and mobility"
                   }
                 />
               </div>

@@ -13,7 +13,7 @@ interface ProfileAvatarProps {
 export function ProfileAvatar({
   className,
   initials = "RG",
-  alt = "Rodrigo Gaete — Lead UX Designer",
+  alt = "Rodrigo Gaete, UX Lead en fintech y movilidad",
 }: ProfileAvatarProps) {
   useImageManifestVersion();
   const [hasPhoto, setHasPhoto] = useState(true);
@@ -39,7 +39,7 @@ export function ProfileAvatar({
     <img
       src={getPortfolioImages().branding.profilePhoto}
       alt={alt}
-      className={cn("w-full h-full object-cover object-top", className)}
+      className={cn("h-full w-full object-cover object-[50%_22%]", className)}
       onError={() => setHasPhoto(false)}
     />
   );
