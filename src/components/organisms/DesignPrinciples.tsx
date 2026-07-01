@@ -73,7 +73,7 @@ const principles = {
       title: "Atomic Design",
       description: "Átomos reutilizables (Logo, CompanyLogo, HeroResultCard) componen el landing.",
       examples: [
-        "LogoMark en nav y subpage toolbar",
+        "Logo horizontal en nav desktop; LogoMark en mobile y subpage toolbar",
         "SectionHeader + Card en secciones",
         "i18n ES/EN centralizado",
       ],
@@ -139,7 +139,7 @@ const principles = {
       title: "Atomic Design",
       description: "Reusable atoms (Logo, CompanyLogo, HeroResultCard) compose the landing.",
       examples: [
-        "LogoMark in nav and subpage toolbar",
+        "Horizontal logo in desktop nav; LogoMark in mobile and subpage toolbar",
         "SectionHeader + Card in sections",
         "Centralized ES/EN i18n",
       ],

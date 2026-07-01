@@ -7,7 +7,7 @@ import { MobileMenu } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
-import { LogoMark } from "../atoms/Logo";
+import { Logo, LogoMark } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
@@ -281,7 +281,12 @@ export function Navigation({
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
-            <LogoMark size={32} />
+            <span className="sm:hidden">
+              <LogoMark size={32} />
+            </span>
+            <span className="hidden sm:block">
+              <Logo size="sm" />
+            </span>
           </motion.a>
 
           <div className="hidden lg:flex items-center gap-6">
