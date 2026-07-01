@@ -14,7 +14,6 @@ export function buildProjectNavSections(
   language: Language,
   flags: {
     hasProcess: boolean;
-    hasDesign: boolean;
     hasResults: boolean;
     hasEvidence: boolean;
   }
@@ -30,14 +29,6 @@ export function buildProjectNavSections(
     sections.push({
       id: "process",
       label: es ? "Proceso" : "Process",
-      number: pad(index),
-    });
-    index += 1;
-  }
-  if (flags.hasDesign) {
-    sections.push({
-      id: "design",
-      label: es ? "Investigación" : "Research",
       number: pad(index),
     });
     index += 1;

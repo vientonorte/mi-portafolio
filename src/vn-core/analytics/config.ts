@@ -1,10 +1,13 @@
 // Configuración analytics para mi-portafolio
 import type { AnalyticsConfig } from './types';
 
+const ga4Id = import.meta.env.VITE_GA_MEASUREMENT_ID;
+const gtmId = import.meta.env.VITE_GTM_ID;
+
 export const analyticsConfig: AnalyticsConfig = {
   project: 'mi-portafolio',
-  ga4Id: undefined,   // TODO: agregar G-XXXXXXXXXX cuando se active GA4
-  gtmId: undefined,   // TODO: agregar GTM-XXXXXXX cuando se active GTM
-  enabled: false,     // cambiar a true cuando se agreguen los IDs reales
-  debug: true,        // logs en consola durante desarrollo
+  ga4Id,
+  gtmId,
+  enabled: Boolean(ga4Id || gtmId),
+  debug: import.meta.env.DEV,
 };

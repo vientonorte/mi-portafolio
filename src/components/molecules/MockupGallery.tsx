@@ -19,6 +19,8 @@ interface MockupGalleryProps {
   description?: string;
   language: Language;
   sectionId?: string;
+  /** Sin cabecera ni wrapper de sección — para anidar dentro de #evidence */
+  embedded?: boolean;
 }
 
 function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
@@ -96,6 +98,7 @@ export function MockupGallery({
   description,
   language,
   sectionId = "mockups",
+  embedded = false,
 }: MockupGalleryProps) {
   const t = useTranslation(language);
   const items = normalizeMockups(mockups);
@@ -113,36 +116,8 @@ export function MockupGallery({
 
   const active = lightboxIndex !== null ? items[lightboxIndex] : null;
 
-  return (
-    <section
-      id={sectionId}
-      className="py-16 md:py-24 px-4 scroll-mt-20"
-      aria-labelledby="mockups-heading"
-    >
-      <div className="container max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-10 text-center md:mb-12"
-        >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
-            <Monitor className="h-4 w-4 text-primary" aria-hidden />
-            <span className="text-sm font-medium text-primary">{t.mockups.badge}</span>
-          </div>
-          <h2 id="mockups-heading" className="mb-4 text-3xl md:text-4xl">
-            {title || t.mockups.defaultTitle}
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            {description || t.mockups.defaultDescription}
-          </p>
-          <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground md:hidden">
-            <Smartphone className="h-3.5 w-3.5" aria-hidden />
-            {t.mockups.swipeHint}
-          </p>
-        </motion.div>
-
+  const grid = (
+    <>
         {/* Mobile / tablet: scroll-snap horizontal (sin dependencia de carousel) */}
         <div className="md:hidden -mx-4 px-4">
           <div
@@ -198,9 +173,11 @@ export function MockupGallery({
             </motion.div>
           ))}
         </div>
-      </div>
+    </>
+  );
 
-      {active && lightboxIndex !== null && (
+  const lightbox =
+    active && lightboxIndex !== null ? (
         <MediaLightbox
           open={lightboxIndex !== null}
           onOpenChange={(open) => !open && closeLightbox()}
@@ -210,7 +187,49 @@ export function MockupGallery({
           index={lightboxIndex}
           total={items.length}
         />
-      )}
+    ) : null;
+
+  if (embedded) {
+    return (
+      <div aria-label={t.mockups.galleryAria}>
+        {grid}
+        {lightbox}
+      </div>
+    );
+  }
+
+  return (
+    <section
+      id={sectionId}
+      className="py-16 md:py-24 px-4 scroll-mt-20"
+      aria-labelledby="mockups-heading"
+    >
+      <div className="container max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10 text-center md:mb-12"
+        >
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
+            <Monitor className="h-4 w-4 text-primary" aria-hidden />
+            <span className="text-sm font-medium text-primary">{t.mockups.badge}</span>
+          </div>
+          <h2 id="mockups-heading" className="mb-4 text-3xl md:text-4xl">
+            {title || t.mockups.defaultTitle}
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            {description || t.mockups.defaultDescription}
+          </p>
+          <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground md:hidden">
+            <Smartphone className="h-3.5 w-3.5" aria-hidden />
+            {t.mockups.swipeHint}
+          </p>
+        </motion.div>
+        {grid}
+      </div>
+      {lightbox}
     </section>
   );
 }

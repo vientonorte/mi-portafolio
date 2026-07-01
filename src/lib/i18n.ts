@@ -283,6 +283,7 @@ export const translations = {
       home: 'Inicio',
       projects: 'Proyectos',
       cases: 'Casos de estudio',
+      framework: 'Framework UX',
       about: 'Sobre mí',
       contact: 'Contacto',
       privacy: 'Privacidad',
@@ -314,6 +315,8 @@ export const translations = {
       designTitle: 'Artefactos de diseño',
       designDescription:
         'Pantallas, diagramas y entregables visuales del proceso de investigación y diseño.',
+      capturesTitle: 'Capturas y mockups',
+      capturesDescription: 'Evidencia visual complementaria en alta fidelidad.',
       swipeHint: 'Desliza para explorar · Toca para ampliar',
       expand: 'Ampliar imagen',
       galleryAria: 'Galería de mockups, desliza horizontalmente',
@@ -485,6 +488,8 @@ export const translations = {
       designTitle: 'Design artifacts',
       designDescription:
         'Screens, diagrams, and visual deliverables from the research and design process.',
+      capturesTitle: 'Screenshots and mockups',
+      capturesDescription: 'Complementary high-fidelity visual evidence.',
       swipeHint: 'Swipe to explore · Tap to zoom',
       expand: 'Expand image',
       galleryAria: 'Mockup gallery, swipe horizontally',
@@ -635,6 +640,7 @@ export const translations = {
       home: 'Home',
       projects: 'Projects',
       cases: 'Case studies',
+      framework: 'UX Framework',
       about: 'About',
       contact: 'Contact',
       privacy: 'Privacy',

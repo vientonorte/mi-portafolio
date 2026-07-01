@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { HashRouter as Router, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useParams, useLocation, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
 import { AnalyticsProvider } from './vn-core/analytics/react';
 import { analyticsConfig } from './vn-core/analytics/config';
@@ -30,6 +30,7 @@ const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const AdminPhotos = lazy(() => import('./pages/AdminPhotos'));
+const FrameworkDetail = lazy(() => import('./pages/FrameworkDetail'));
 function RouterNavigation() {
   const navigate = useNavigate();
   return (
@@ -47,7 +48,13 @@ function DesignSystemPage() {
 
 function CaseStudiesPage() {
   const navigate = useNavigate();
-  return <CaseStudies onBack={() => navigate('/')} onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)} />;
+  return (
+    <CaseStudies
+      onBack={() => navigate('/proyectos')}
+      onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)}
+      onNavigateToFramework={() => navigate('/framework')}
+    />
+  );
 }
 
 function ProcessDetailPage() {
@@ -91,11 +98,27 @@ function CompanyDetailPage() {
   );
 }
 
+function FrameworkDetailPage() {
+  const navigate = useNavigate();
+  return (
+    <FrameworkDetail
+      onBack={() => navigate('/cases')}
+      onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
+      onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)}
+    />
+  );
+}
+
 function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
+
+  if (projectId === 'framework') {
+    return <Navigate to="/framework" replace />;
+  }
+
   const result = getProjectById(projectId || '');
 
   if (!result) {
@@ -143,6 +166,7 @@ function AppRoutes() {
             <Route path="/grafo" element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/cases" element={<CaseStudiesPage />} />
+            <Route path="/framework" element={<FrameworkDetailPage />} />
             <Route path="/cases/process/:processId" element={<ProcessDetailPage />} />
             <Route path="/empresa/:companyId" element={<CompanyDetailPage />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />

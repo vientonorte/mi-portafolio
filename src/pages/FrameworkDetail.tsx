@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowLeft, RefreshCw, TrendingUp, GraduationCap, Users, Home, Sparkles, Zap, Target, ChevronRight } from "lucide-react";
-import { Button } from '../components/ui/button';
+import { RefreshCw, TrendingUp, GraduationCap, Users, Sparkles, Zap, Target, ChevronRight } from "lucide-react";
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
@@ -9,11 +8,12 @@ import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { SectionDivider } from "../components/molecules/SectionDivider";
-import { StatsTooltip } from "../components/molecules/StatsTooltip";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProjectCard } from "../components/molecules/ProjectCard";
 import { useLanguage } from "../lib/LanguageContext";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { useTranslation } from "../lib/i18n";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 
 interface CompanyContext {
@@ -38,12 +38,13 @@ interface CompanyContext {
 
 interface FrameworkDetailProps {
   onBack: () => void;
-  onNavigateToProject?: (companyId: string, projectId: string) => void;
+  onNavigateToProject?: (projectId: string) => void;
   onNavigateToProcess?: (processId: string) => void;
 }
 
 export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigateToProcess }: FrameworkDetailProps) {
   const { language } = useLanguage();
+  const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState("transvip");
 
@@ -198,7 +199,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-8 md:pb-0">
       {/* Skip Links */}
       <a 
         href="#main-content" 
@@ -215,62 +216,19 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
         showAfterScroll={800}
       />
 
-      {/* Lateral Navigation */}
       <ProcessNavigation sections={navigationSections} />
 
-      {/* Fixed Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
-        role="region"
-        aria-label={language === "es" ? "Navegación del framework" : "Framework navigation"}
-      >
-        <div className="container max-w-7xl mx-auto px-4 py-4">
-          {/* Breadcrumbs */}
-          <nav aria-label={language === "es" ? "Navegación de ruta" : "Breadcrumb"} className="mb-3">
-            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onBack}
-                  className="h-auto p-0 hover:text-primary transition-colors"
-                  aria-label={language === "es" ? "Ir a inicio" : "Go to home"}
-                >
-                  <Home className="h-4 w-4" />
-                </Button>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li className="flex items-center gap-2 text-foreground" aria-current="page">
-                <Sparkles className="h-4 w-4" />
-                <span>{language === "es" ? "Framework UX" : "UX Framework"}</span>
-              </li>
-            </ol>
-          </nav>
+      <SEOHead
+        title="Framework UX — 5 procesos"
+        description="Metodología UX en 5 macroprocesos: Analytics, Research, UI Design, Testing y Refinamiento. Aplicada en SURA, Transvip y Karri."
+      />
 
-          {/* Header Actions */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className="gap-2 hover:gap-3 transition-all"
-              aria-label={language === "es" ? "Volver a inicio" : "Back to home"}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                {language === "es" ? "Volver a Inicio" : "Back to Home"}
-              </span>
-              <span className="sm:hidden">
-                {language === "es" ? "Volver" : "Back"}
-              </span>
-            </Button>
-
-            <LanguageToggle />
-          </div>
-        </div>
-      </motion.header>
+      <SubpageToolbar
+        crumbs={[
+          { label: t.breadcrumbs.cases, onClick: () => onBack() },
+          { label: t.breadcrumbs.framework, current: true },
+        ]}
+      />
 
       <main id="main-content" role="main">
         {/* Hero Section - MEJORADO */}
@@ -696,7 +654,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                                 period={project.period}
                                 tags={project.tags}
                                 processCount={project.processCount}
-                                onClick={() => onNavigateToProject?.(company.id, project.id)}
+                                onClick={() => onNavigateToProject?.(project.id)}
                                 language={language}
                                 index={index}
                               />

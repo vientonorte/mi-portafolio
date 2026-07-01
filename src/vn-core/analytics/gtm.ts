@@ -20,6 +20,27 @@ declare global {
  * import { initGTM } from '@vientonorte/analytics';
  * initGTM('GTM-ABC1234');
  */
+/**
+ * Inyecta gtag.js para GA4. Los page_view se envían manualmente (HashRouter).
+ */
+export function initGA4(ga4Id: string): void {
+  if (typeof window === 'undefined') return;
+  if (document.querySelector(`script[data-ga4-id="${ga4Id}"]`)) return;
+
+  window.dataLayer = window.dataLayer ?? [];
+  window.gtag = function gtag(...args: unknown[]) {
+    window.dataLayer.push(args);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', ga4Id, { send_page_view: false });
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${ga4Id}`;
+  script.setAttribute('data-ga4-id', ga4Id);
+  document.head.appendChild(script);
+}
+
 export function initGTM(gtmId: string): void {
   if (typeof window === 'undefined') return;
   if (document.querySelector(`script[data-gtm-id="${gtmId}"]`)) return; // ya inicializado

@@ -138,15 +138,16 @@ export default function ProjectDetail({
   const hasProcess = isEnhanced
     ? Boolean(project.processes && project.processes.length > 0)
     : Boolean(project.processesApplied && project.processesApplied.length > 0);
-  const hasDesign = !isEnhanced && Boolean(project.designComponents && project.designComponents.length > 0);
+  const hasDesignArtifacts =
+    !isEnhanced && Boolean(project.designComponents && project.designComponents.length > 0);
+  const hasMockupTiles = Boolean(projectMockups && projectMockups.length > 0);
   const hasResults = isEnhanced
     ? Boolean(project.details.metrics?.length || project.details.learnings?.length)
     : Boolean(project.results && project.results.length > 0);
-  const hasEvidence = Boolean(projectMockups && projectMockups.length > 0);
+  const hasEvidence = hasDesignArtifacts || hasMockupTiles;
 
   const navigationSections = buildProjectNavSections(language, {
     hasProcess,
-    hasDesign,
     hasResults,
     hasEvidence,
   });
@@ -672,60 +673,7 @@ export default function ProjectDetail({
           </section>
         )}
 
-        {/* Design Section */}
-        {!isEnhanced && project.designComponents && project.designComponents.length > 0 && (
-          <section 
-            id="design" 
-            className="py-16 md:py-24 px-4 bg-muted/30 scroll-mt-20"
-            aria-labelledby="design-heading"
-          >
-            <div className="container max-w-7xl mx-auto">
-              <SectionDivider 
-                number={navNumberFor(navigationSections, "design")} 
-                label={language === "es" ? "Investigación" : "Research"} 
-                sectionId="design"
-                language={language}
-              />
 
-              <motion.div
-                variants={fadeInVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="mt-12"
-              >
-                <SectionHeader
-                  badge={t.mockups.badge}
-                  title={t.mockups.designTitle}
-                  description={t.mockups.designDescription}
-                />
-
-                <div className="mt-12">
-                  <Tabs defaultValue="screen-0" className="w-full">
-                    <TabsList className="w-full justify-start mb-8 flex-wrap h-auto gap-2">
-                      {project.designComponentNames?.map((name, idx) => (
-                        <TabsTrigger key={idx} value={`screen-${idx}`} className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                          <span>{name}</span>
-                        </TabsTrigger>
-                      ))}
-                    </TabsList>
-
-                    {project.designComponents.map((DesignComponent, idx) => (
-                      <TabsContent key={idx} value={`screen-${idx}`} className="m-0">
-                        <ResponsiveDesignFrame
-                          label={project.designComponentNames?.[idx]}
-                        >
-                          <DesignComponent />
-                        </ResponsiveDesignFrame>
-                      </TabsContent>
-                    ))}
-                  </Tabs>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-        )}
 
         {/* Results Section */}
         {!isEnhanced && project.results && project.results.length > 0 && (
@@ -778,14 +726,87 @@ export default function ProjectDetail({
           </section>
         )}
 
-        {hasEvidence && projectMockups && (
-          <MockupGallery
-            mockups={projectMockups}
-            title={mockupCopy.title}
-            description={mockupCopy.description}
-            language={language}
-            sectionId="evidence"
-          />
+        {hasEvidence && (
+          <section
+            id="evidence"
+            className="py-16 md:py-24 px-4 bg-muted/30 scroll-mt-20"
+            aria-labelledby="evidence-heading"
+          >
+            <div className="container max-w-7xl mx-auto">
+              <SectionDivider
+                number={navNumberFor(navigationSections, "evidence")}
+                label={language === "es" ? "Evidencias" : "Evidence"}
+                sectionId="evidence"
+                language={language}
+              />
+
+              <motion.div
+                variants={fadeInVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="mt-12 space-y-12"
+              >
+                {hasDesignArtifacts && project.designComponents && (
+                  <div>
+                    <SectionHeader
+                      badge={t.mockups.badge}
+                      title={t.mockups.designTitle}
+                      description={t.mockups.designDescription}
+                    />
+                    <div className="mt-12">
+                      <Tabs defaultValue="screen-0" className="w-full">
+                        <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-start gap-2">
+                          {project.designComponentNames?.map((name, idx) => (
+                            <TabsTrigger
+                              key={idx}
+                              value={`screen-${idx}`}
+                              className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                            >
+                              <span>{name}</span>
+                            </TabsTrigger>
+                          ))}
+                        </TabsList>
+                        {project.designComponents.map((DesignComponent, idx) => (
+                          <TabsContent key={idx} value={`screen-${idx}`} className="m-0">
+                            <ResponsiveDesignFrame label={project.designComponentNames?.[idx]}>
+                              <DesignComponent />
+                            </ResponsiveDesignFrame>
+                          </TabsContent>
+                        ))}
+                      </Tabs>
+                    </div>
+                  </div>
+                )}
+
+                {hasMockupTiles && projectMockups && (
+                  <div>
+                    {hasDesignArtifacts ? (
+                      <SectionHeader
+                        badge={t.mockups.badge}
+                        title={t.mockups.capturesTitle}
+                        description={t.mockups.capturesDescription}
+                      />
+                    ) : (
+                      <SectionHeader
+                        badge={t.mockups.badge}
+                        title={mockupCopy.title}
+                        description={mockupCopy.description}
+                      />
+                    )}
+                    <div className={hasDesignArtifacts ? "mt-10" : ""}>
+                      <MockupGallery
+                        mockups={projectMockups}
+                        language={language}
+                        embedded
+                      />
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </section>
         )}
       </main>
     </div>

@@ -16,9 +16,10 @@ import { GradientHeading } from "../components/atoms/GradientHeading";
 interface CaseStudiesProps {
   onBack: () => void;
   onNavigateToProcess?: (processId: string) => void;
+  onNavigateToFramework?: () => void;
 }
 
-export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudiesProps) {
+export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToFramework }: CaseStudiesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
 
@@ -537,21 +538,33 @@ export default function CaseStudies({ onBack, onNavigateToProcess }: CaseStudies
               {t.caseStudies.cta.description}
             </p>
             
-            <Button
-              size="lg"
-              onClick={onBack}
-              className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden text-lg px-8 py-6 h-auto"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ["-100%", "200%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              />
-              <span className="relative flex items-center gap-2">
-                {t.caseStudies.cta.viewProjects}
-                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {onNavigateToFramework && (
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={onNavigateToFramework}
+                  className="text-lg px-8 py-6 h-auto border-2"
+                >
+                  {t.projectsHub.frameworkButton}
+                </Button>
+              )}
+              <Button
+                size="lg"
+                onClick={onBack}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden text-lg px-8 py-6 h-auto"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                />
+                <span className="relative flex items-center gap-2">
+                  {t.caseStudies.cta.viewProjects}
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
