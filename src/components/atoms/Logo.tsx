@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useLanguage } from "../../lib/LanguageContext";
+import { SEO_SITE } from "../../lib/seo";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -42,7 +42,7 @@ export function LogoMarkSvg({
       className={className}
       role={labelled ? "img" : undefined}
       aria-hidden={labelled ? undefined : true}
-      aria-label={labelled ? "Rodrigo Gaete · UX Design Ops" : undefined}
+      aria-label={labelled ? `${SEO_SITE.brand} · ${SEO_SITE.role}` : undefined}
     >
       <circle
         cx={LOGO_CENTER}
@@ -61,9 +61,8 @@ export function LogoMarkSvg({
 }
 
 export function Logo({ size = "md", showText = true, animated = false }: LogoProps) {
-  const { language } = useLanguage();
   const { mark, text, role, spacing } = sizes[size];
-  const roleLabel = language === "es" ? "UX Design Ops" : "UX Design Ops";
+  const roleLabel = SEO_SITE.role;
 
   const markNode = (
     <LogoMarkSvg size={mark} labelled={!showText} />
@@ -86,7 +85,7 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
       {showText && (
         <div className="flex flex-col leading-none">
           <span className={`${text} font-semibold tracking-tight text-foreground`}>
-            Rodrigo Gaete
+            {SEO_SITE.brand}
           </span>
           <span
             className={`${role} font-mono uppercase tracking-[0.24em] text-muted-foreground mt-1`}

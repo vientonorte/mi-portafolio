@@ -5,6 +5,7 @@ import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
+import { SEO_SITE } from "../../lib/seo";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -246,7 +247,7 @@ export function MobileMenu({
                 <LanguageToggle />
               </div>
               <p className="text-sm text-muted-foreground text-center font-mono uppercase tracking-widest">
-                UX Design Ops
+                {SEO_SITE.role}
               </p>
             </div>
           </motion.div>

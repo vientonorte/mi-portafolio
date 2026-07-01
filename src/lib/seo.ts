@@ -5,6 +5,7 @@ export const SEO_SITE = {
   ogImage:
     "https://vientonorte.github.io/mi-portafolio/images/branding/og-portfolio.png",
   brand: "Rodrigo Gaete",
+  role: "UX Design Ops",
 } as const;
 
 export function trimMetaDescription(text: string, max = 160): string {

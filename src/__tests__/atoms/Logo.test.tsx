@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Logo, LogoMark } from '@/components/atoms/Logo';
 import { LanguageProvider } from '@/lib/LanguageContext';
+import { SEO_SITE } from '@/lib/seo';
 
 function renderWithLanguage(ui: React.ReactNode) {
   return render(<LanguageProvider>{ui}</LanguageProvider>);
@@ -11,14 +12,14 @@ function renderWithLanguage(ui: React.ReactNode) {
 describe('Logo', () => {
   it('renders with default props in Spanish', () => {
     renderWithLanguage(<Logo />);
-    expect(screen.getByText('Rodrigo Gaete')).toBeInTheDocument();
-    expect(screen.getByText('UX Design Ops')).toBeInTheDocument();
+    expect(screen.getByText(SEO_SITE.brand)).toBeInTheDocument();
+    expect(screen.getByText(SEO_SITE.role)).toBeInTheDocument();
   });
 
   it('hides text when showText=false', () => {
     renderWithLanguage(<Logo showText={false} />);
-    expect(screen.queryByText('Rodrigo Gaete')).not.toBeInTheDocument();
-    expect(screen.getByLabelText('Rodrigo Gaete · UX Design Ops')).toBeInTheDocument();
+    expect(screen.queryByText(SEO_SITE.brand)).not.toBeInTheDocument();
+    expect(screen.getByLabelText(`${SEO_SITE.brand} · ${SEO_SITE.role}`)).toBeInTheDocument();
   });
 
   it('renders svg icon with aria-hidden when text is shown', () => {
@@ -41,12 +42,12 @@ describe('Logo', () => {
 describe('LogoMark', () => {
   it('renders svg with accessible label', () => {
     render(<LogoMark />);
-    expect(screen.getByLabelText('Rodrigo Gaete · UX Design Ops')).toBeInTheDocument();
+    expect(screen.getByLabelText(`${SEO_SITE.brand} · ${SEO_SITE.role}`)).toBeInTheDocument();
   });
 
   it('accepts custom size', () => {
     render(<LogoMark size={64} />);
-    const svg = screen.getByLabelText('Rodrigo Gaete · UX Design Ops');
+    const svg = screen.getByLabelText(`${SEO_SITE.brand} · ${SEO_SITE.role}`);
     expect(svg).toHaveAttribute('width', '64');
     expect(svg).toHaveAttribute('height', '64');
   });

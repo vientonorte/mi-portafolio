@@ -2,8 +2,9 @@ import { getFeaturedCaseStudies } from "../data/case-study-cards";
 import type { Language } from "./i18n";
 import { useTranslation } from "./i18n";
 import { SITE_CONTACT } from "./site-contact";
+import { SEO_SITE } from "./seo";
 
-const SITE_URL = "https://vientonorte.github.io/mi-portafolio";
+const SITE_URL = SEO_SITE.baseUrl;
 const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const PROFILE_ID = `${SITE_URL}/#profile`;
@@ -26,7 +27,7 @@ export function buildPortfolioStructuredData(language: Language) {
   const person = {
     "@type": "Person",
     "@id": PERSON_ID,
-    name: "Rodrigo Gaete",
+    name: SEO_SITE.brand,
     jobTitle: hero.label,
     description: hero.valueProp,
     url: SITE_URL,
@@ -40,7 +41,7 @@ export function buildPortfolioStructuredData(language: Language) {
     "@type": "WebSite",
     "@id": WEBSITE_ID,
     url: SITE_URL,
-    name: language === "es" ? "Portafolio Lead UX · Rodrigo Gaete" : "Lead UX Portfolio · Rodrigo Gaete",
+    name: language === "es" ? `Portafolio Lead UX · ${SEO_SITE.brand}` : `Lead UX Portfolio · ${SEO_SITE.brand}`,
     description: hero.valueProp,
     inLanguage: language === "es" ? "es-CL" : "en",
     author: { "@id": PERSON_ID },
@@ -53,8 +54,8 @@ export function buildPortfolioStructuredData(language: Language) {
     url: SITE_URL,
     name:
       language === "es"
-        ? "Rodrigo Gaete — UX Lead Fintech & Mobility"
-        : "Rodrigo Gaete — Lead UX Fintech & Mobility",
+        ? `${SEO_SITE.brand} — UX Lead Fintech & Mobility`
+        : `${SEO_SITE.brand} — Lead UX Fintech & Mobility`,
     description: hero.valueProp,
     inLanguage: language === "es" ? "es-CL" : "en",
     mainEntity: { "@id": PERSON_ID },

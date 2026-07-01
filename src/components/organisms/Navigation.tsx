@@ -13,6 +13,7 @@ import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
+import { SEO_SITE } from "../../lib/seo";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -277,7 +278,7 @@ export function Navigation({
             className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            aria-label="Inicio — Rodrigo Gaete · UX Design Ops"
+            aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
             <LogoMark size={32} />
