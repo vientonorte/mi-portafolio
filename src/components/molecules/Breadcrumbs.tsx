@@ -11,11 +11,12 @@ interface BreadcrumbLink {
 
 interface BreadcrumbsProps {
   links: BreadcrumbLink[];
+  className?: string;
 }
 
-export function Breadcrumbs({ links }: BreadcrumbsProps) {
+export function Breadcrumbs({ links, className }: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-4">
+    <nav aria-label="Breadcrumb" className={className ?? "mb-4"}>
       <ol className="flex items-center gap-2 text-sm flex-wrap">
         {links.map((link, index) => {
           const isLast = index === links.length - 1 || link.current;

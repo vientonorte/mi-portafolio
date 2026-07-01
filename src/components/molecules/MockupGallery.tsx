@@ -5,6 +5,7 @@ import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { MediaLightbox } from "./MediaLightbox";
 import { Card } from "../ui/card";
 import { cn } from "../../lib/utils";
+import { useTranslation, type Language } from "../../lib/i18n";
 
 export interface MockupItem {
   src: string;
@@ -16,7 +17,8 @@ interface MockupGalleryProps {
   mockups: string[] | MockupItem[];
   title?: string;
   description?: string;
-  language: "es" | "en";
+  language: Language;
+  sectionId?: string;
 }
 
 function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
@@ -38,22 +40,20 @@ function MockupTile({
   item,
   index,
   total,
-  language,
+  viewOfLabel,
+  expandLabel,
   onOpen,
   className,
 }: {
   item: MockupItem;
   index: number;
   total: number;
-  language: "es" | "en";
+  viewOfLabel: string;
+  expandLabel: string;
   onOpen: () => void;
   className?: string;
 }) {
-  const label =
-    item.label ??
-    (language === "es"
-      ? `Vista ${index + 1} de ${total}`
-      : `View ${index + 1} of ${total}`);
+  const label = item.label ?? viewOfLabel;
 
   return (
     <Card
@@ -77,7 +77,7 @@ function MockupTile({
         type="button"
         onClick={onOpen}
         className="absolute right-3 top-3 rounded-full bg-background/90 p-2 opacity-0 shadow-md backdrop-blur-sm transition-opacity group-hover:opacity-100 focus:opacity-100"
-        aria-label={language === "es" ? "Ampliar imagen" : "Expand image"}
+        aria-label={expandLabel}
       >
         <Expand className="h-4 w-4 text-primary" aria-hidden />
       </button>
@@ -95,7 +95,9 @@ export function MockupGallery({
   title,
   description,
   language,
+  sectionId = "mockups",
 }: MockupGalleryProps) {
+  const t = useTranslation(language);
   const items = normalizeMockups(mockups);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -104,17 +106,16 @@ export function MockupGallery({
 
   if (items.length === 0) return null;
 
-  const defaultTitle =
-    language === "es" ? "Evidencias Visuales del Proyecto" : "Project Visual Evidence";
-  const defaultDescription =
-    language === "es"
-      ? "Mockups de alta fidelidad del diseño UX/UI implementado"
-      : "High-fidelity mockups of the implemented UX/UI design";
+  const viewOf = (current: number, total: number) =>
+    t.mockups.viewOf
+      .replace("{current}", String(current))
+      .replace("{total}", String(total));
 
   const active = lightboxIndex !== null ? items[lightboxIndex] : null;
 
   return (
     <section
+      id={sectionId}
       className="py-16 md:py-24 px-4 scroll-mt-20"
       aria-labelledby="mockups-heading"
     >
@@ -128,19 +129,17 @@ export function MockupGallery({
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
             <Monitor className="h-4 w-4 text-primary" aria-hidden />
-            <span className="text-sm font-medium text-primary">Mockups</span>
+            <span className="text-sm font-medium text-primary">{t.mockups.badge}</span>
           </div>
           <h2 id="mockups-heading" className="mb-4 text-3xl md:text-4xl">
-            {title || defaultTitle}
+            {title || t.mockups.defaultTitle}
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            {description || defaultDescription}
+            {description || t.mockups.defaultDescription}
           </p>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground md:hidden">
             <Smartphone className="h-3.5 w-3.5" aria-hidden />
-            {language === "es"
-              ? "Desliza para explorar · Toca para ampliar"
-              : "Swipe to explore · Tap to zoom"}
+            {t.mockups.swipeHint}
           </p>
         </motion.div>
 
@@ -149,11 +148,7 @@ export function MockupGallery({
           <div
             className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             style={{ WebkitOverflowScrolling: "touch" }}
-            aria-label={
-              language === "es"
-                ? "Galería de mockups, desliza horizontalmente"
-                : "Mockup gallery, swipe horizontally"
-            }
+            aria-label={t.mockups.galleryAria}
           >
             {items.map((item, index) => (
               <div
@@ -164,7 +159,8 @@ export function MockupGallery({
                   item={item}
                   index={index}
                   total={items.length}
-                  language={language}
+                  viewOfLabel={viewOf(index + 1, items.length)}
+                  expandLabel={t.mockups.expand}
                   onOpen={() => openLightbox(index)}
                 />
               </div>
@@ -194,7 +190,8 @@ export function MockupGallery({
                 item={item}
                 index={index}
                 total={items.length}
-                language={language}
+                viewOfLabel={viewOf(index + 1, items.length)}
+                expandLabel={t.mockups.expand}
                 onOpen={() => openLightbox(index)}
                 className="h-full"
               />

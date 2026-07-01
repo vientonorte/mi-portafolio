@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { HashRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
 import { AnalyticsProvider } from './vn-core/analytics/react';
 import { analyticsConfig } from './vn-core/analytics/config';
@@ -9,6 +9,11 @@ import { BottomNav } from './components/molecules/BottomNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 import { getCompanyById, getProjectById } from './data/project-registry';
 import { ImageManifestProvider } from './lib/ImageManifestProvider';
+import { PortfolioChrome } from './components/layout/PortfolioChrome';
+import { NotFoundPage } from './components/layout/NotFoundPage';
+import { isDeepPortfolioPage } from './lib/page-depth';
+import { useLanguage } from './lib/LanguageContext';
+import { useTranslation } from './lib/i18n';
 import Home from './pages/Home';
 
 // Lazy load secondary pages for better performance
@@ -37,8 +42,7 @@ function RouterNavigation() {
 }
 
 function DesignSystemPage() {
-  const navigate = useNavigate();
-  return <DesignSystem onBack={() => navigate('/')} />;
+  return <DesignSystem />;
 }
 
 function CaseStudiesPage() {
@@ -62,20 +66,18 @@ function ProcessDetailPage() {
 function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const company = getCompanyById(companyId || '');
 
   if (!company) {
     return (
-      <div className="container max-w-3xl mx-auto py-24 px-4 text-center">
-        <p className="text-muted-foreground mb-4">No encontramos esa empresa.</p>
-        <button
-          type="button"
-          onClick={() => navigate('/proyectos')}
-          className="text-primary underline-offset-4 hover:underline"
-        >
-          Volver a proyectos
-        </button>
-      </div>
+      <NotFoundPage
+        message={t.errors.companyNotFound}
+        backLabel={t.errors.backToProjects}
+        onBack={() => navigate('/proyectos')}
+        crumbLabel={t.breadcrumbs.notFound}
+      />
     );
   }
 
@@ -92,20 +94,18 @@ function CompanyDetailPage() {
 function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const result = getProjectById(projectId || '');
 
   if (!result) {
     return (
-      <div className="container max-w-3xl mx-auto py-24 px-4 text-center">
-        <p className="text-muted-foreground mb-4">No encontramos ese proyecto.</p>
-        <button
-          type="button"
-          onClick={() => navigate('/proyectos')}
-          className="text-primary underline-offset-4 hover:underline"
-        >
-          Volver a proyectos
-        </button>
-      </div>
+      <NotFoundPage
+        message={t.errors.projectNotFound}
+        backLabel={t.errors.backToProjects}
+        onBack={() => navigate('/proyectos')}
+        crumbLabel={t.breadcrumbs.notFound}
+      />
     );
   }
 
@@ -122,16 +122,15 @@ function ProjectDetailPage() {
   );
 }
 
-const App = () => (
-  <LanguageProvider>
-    <AnalyticsProvider config={analyticsConfig}>
-    <ImageManifestProvider>
-    <Router>
-      {/* Skip to content — accesibilidad teclado */}
+function AppRoutes() {
+  const isDeepPage = isDeepPortfolioPage(useLocation().pathname);
+
+  return (
+    <PortfolioChrome>
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      <RouterNavigation />
+      {!isDeepPage && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -153,7 +152,17 @@ const App = () => (
         </Suspense>
       </main>
       <Footer />
-      <BottomNav />
+      {!isDeepPage && <BottomNav />}
+    </PortfolioChrome>
+  );
+}
+
+const App = () => (
+  <LanguageProvider>
+    <AnalyticsProvider config={analyticsConfig}>
+    <ImageManifestProvider>
+    <Router>
+      <AppRoutes />
     </Router>
     </ImageManifestProvider>
     </AnalyticsProvider>

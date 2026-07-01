@@ -3,7 +3,6 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import { 
-  ArrowLeft, 
   BarChart3, 
   Users2, 
   Palette, 
@@ -16,20 +15,21 @@ import {
   Users,
   TrendingDown
 } from "lucide-react";
-import { MockupGallery, type MockupItem } from "../components/molecules/MockupGallery";
+import { MockupGallery } from "../components/molecules/MockupGallery";
+import { flattenProjectMockups } from "../lib/mockup-gallery";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { CompanyHub } from "../data/projects-data";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
-import { EnhancedBreadcrumbs } from "../components/molecules/EnhancedBreadcrumbs";
+import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { StatsTooltip } from "../components/molecules/StatsTooltip";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProjectCard } from "../components/molecules/ProjectCard";
 import { GradientHeading } from "../components/atoms/GradientHeading";
+import { CompanyLogo } from "../components/atoms/CompanyLogo";
 import { localized, projectDescription } from "../lib/localized";
 
 interface CompanyDetailProps {
@@ -39,22 +39,17 @@ interface CompanyDetailProps {
   onNavigateToProcess?: (processId: string) => void;
 }
 
-function buildGalleryMockups(company: CompanyHub): MockupItem[] {
-  return company.projects.flatMap((project) =>
-    (project.details?.mockups ?? []).map((src) => ({
-      src,
-      alt: `${project.projectName} — ${company.name}`,
-      label: project.projectName,
-    }))
-  );
-}
-
-export default function CompanyDetail({ company, onBack, onNavigateToProject, onNavigateToProcess }: CompanyDetailProps) {
+export default function CompanyDetail({
+  company,
+  onBack,
+  onNavigateToProject,
+  onNavigateToProcess,
+}: CompanyDetailProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const companyDescription = localized(company.description, language);
   const shouldReduceMotion = useReducedMotion();
-  const galleryMockups = buildGalleryMockups(company);
+  const galleryMockups = flattenProjectMockups(company.projects, company.name);
 
   const processes = [
     {
@@ -105,26 +100,13 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
   ];
 
   const navigationSections = [
-    { 
-      id: "hero", 
-      label: language === "es" ? "Empresa" : "Company", 
-      number: "00" 
-    },
-    { 
-      id: "challenge", 
-      label: language === "es" ? "Desafío" : "Challenge", 
-      number: "01" 
-    },
-    { 
-      id: "process", 
-      label: language === "es" ? "Proceso" : "Process", 
-      number: "02" 
-    },
-    { 
-      id: "projects", 
-      label: language === "es" ? "Proyectos" : "Projects", 
-      number: "03" 
-    },
+    { id: "hero", label: language === "es" ? "Empresa" : "Company", number: "00" },
+    { id: "challenge", label: language === "es" ? "Desafío" : "Challenge", number: "01" },
+    { id: "process", label: language === "es" ? "Proceso" : "Process", number: "02" },
+    { id: "projects", label: language === "es" ? "Proyectos" : "Projects", number: "03" },
+    ...(galleryMockups.length > 0
+      ? [{ id: "evidence", label: language === "es" ? "Evidencias" : "Evidence", number: "04" }]
+      : []),
   ];
 
   // Animation variants respecting prefers-reduced-motion
@@ -139,7 +121,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-8 md:pb-0">
       {/* Skip Links - WCAG 2.1 AA */}
       <a 
         href="#main-content" 
@@ -156,46 +138,14 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
         showAfterScroll={800}
       />
 
-      {/* Lateral Navigation */}
       <ProcessNavigation sections={navigationSections} />
 
-      {/* Fixed Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
-        role="region"
-        aria-label={language === "es" ? "Navegación de empresa" : "Company navigation"}
-      >
-        <div className="container max-w-7xl mx-auto px-4 py-4">
-          {/* Breadcrumbs */}
-          <EnhancedBreadcrumbs
-            items={[
-              { label: t.breadcrumbs.home, onClick: onBack },
-              { label: t.breadcrumbs.projects, onClick: onBack },
-              { label: company.name, isActive: true },
-            ]}
-          />
-
-          {/* Header Actions */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className="gap-2 hover:gap-3 transition-all"
-              aria-label={language === "es" ? "Volver a lista de proyectos" : "Back to projects list"}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                {language === "es" ? "Volver" : "Back"}
-              </span>
-            </Button>
-
-            <LanguageToggle />
-          </div>
-        </div>
-      </motion.header>
+      <SubpageToolbar
+        crumbs={[
+          { label: t.breadcrumbs.projects, onClick: onBack },
+          { label: company.name, current: true },
+        ]}
+      />
 
       <main id="main-content" role="main">
         {/* Hero Section */}
@@ -229,11 +179,10 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
               className="flex flex-col items-center gap-6 text-center"
             >
               {company.logo && (
-                <img 
-                  src={company.logo} 
-                  alt=""
-                  role="presentation"
-                  className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl object-cover border-2 border-primary/20"
+                <CompanyLogo
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  size="lg"
                 />
               )}
 
@@ -573,6 +522,7 @@ export default function CompanyDetail({ company, onBack, onNavigateToProject, on
             title={company.gallery.title[language]}
             description={company.gallery.description[language]}
             language={language}
+            sectionId="evidence"
           />
         )}
       </main>

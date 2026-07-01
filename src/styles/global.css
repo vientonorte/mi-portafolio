@@ -116,6 +116,26 @@ img {
   z-index: 40;
 }
 
+/* Páginas de detalle (proyecto / empresa / proceso): sin nav global duplicado */
+html[data-nav="subpage"] {
+  --header-height: 0px;
+  scroll-padding-top: 0;
+}
+
+html[data-nav="subpage"] .subpage-toolbar {
+  top: 0;
+  z-index: 50;
+}
+
+html[data-nav="subpage"] .subpage-hero {
+  scroll-margin-top: 4.5rem;
+}
+
+html[data-nav="subpage"] #main,
+html[data-nav="subpage"] footer[role="contentinfo"] {
+  padding-bottom: 0;
+}
+
 /* Títulos con gradiente — webkit completo (Safari) */
 .heading-gradient {
   background: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);

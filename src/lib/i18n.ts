@@ -254,7 +254,7 @@ export const translations = {
     caseStudiesGrid: {
       badge: 'Casos visuales',
       title: 'Evidencia de impacto',
-      description: 'Selección de proyectos con capturas reales, métricas y profundidad de caso. Toca para ver el estudio completo.',
+      description: 'Selección de proyectos con capturas reales, métricas y profundidad de caso. Haz clic para ver el estudio completo.',
       viewCase: 'Ver Caso de Estudio',
       altPrefix: 'Caso de estudio:',
     },
@@ -283,6 +283,15 @@ export const translations = {
       home: 'Inicio',
       projects: 'Proyectos',
       cases: 'Casos de estudio',
+      about: 'Sobre mí',
+      contact: 'Contacto',
+      privacy: 'Privacidad',
+      designSystem: 'Design System',
+      audit: 'Auditoría',
+      grafo: 'Grafo',
+      autosuggest: 'Autosuggest Fondos',
+      admin: 'Admin fotos',
+      notFound: 'No encontrado',
     },
 
     errors: {
@@ -291,6 +300,16 @@ export const translations = {
       processNotFound: 'Proceso no encontrado',
       backToProjects: 'Volver a proyectos',
       back: 'Volver',
+    },
+
+    mockups: {
+      badge: 'Evidencias',
+      defaultTitle: 'Evidencias visuales del proyecto',
+      defaultDescription: 'Mockups de alta fidelidad del diseño UX/UI implementado',
+      swipeHint: 'Desliza para explorar · Toca para ampliar',
+      expand: 'Ampliar imagen',
+      galleryAria: 'Galería de mockups, desliza horizontalmente',
+      viewOf: 'Vista {current} de {total}',
     },
     
     // Process Detail
@@ -446,6 +465,16 @@ export const translations = {
       },
     },
     
+    mockups: {
+      badge: 'Visual evidence',
+      defaultTitle: 'Project visual evidence',
+      defaultDescription: 'High-fidelity mockups of the implemented UX/UI design',
+      swipeHint: 'Swipe to explore · Tap to zoom',
+      expand: 'Expand image',
+      galleryAria: 'Mockup gallery, swipe horizontally',
+      viewOf: 'View {current} of {total}',
+    },
+
     // Common
     common: {
       viewMore: 'View more',
@@ -561,7 +590,7 @@ export const translations = {
     caseStudiesGrid: {
       badge: 'Visual cases',
       title: 'Evidence of impact',
-      description: 'Selected projects with real screenshots, metrics, and case depth. Tap to view the full study.',
+      description: 'Selected projects with real screenshots, metrics, and case depth. Click to view the full study.',
       viewCase: 'View Case Study',
       altPrefix: 'Case study:',
     },
@@ -590,6 +619,15 @@ export const translations = {
       home: 'Home',
       projects: 'Projects',
       cases: 'Case studies',
+      about: 'About',
+      contact: 'Contact',
+      privacy: 'Privacy',
+      designSystem: 'Design System',
+      audit: 'Audit',
+      grafo: 'Graph',
+      autosuggest: 'Autosuggest Funds',
+      admin: 'Photo admin',
+      notFound: 'Not found',
     },
 
     errors: {

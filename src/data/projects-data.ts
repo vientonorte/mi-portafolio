@@ -450,7 +450,7 @@ export const suraHub: CompanyHub = {
           "El diseño de casos de error es crítico en plataformas financieras",
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
-        mockups: [suraRiaOnboarding, uxProcessDiagram],
+        mockups: [suraRiaOnboarding],
       },
     },
   ],

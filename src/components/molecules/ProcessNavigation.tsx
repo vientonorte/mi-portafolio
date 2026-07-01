@@ -39,11 +39,14 @@ export function ProcessNavigation({ sections }: ProcessNavigationProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const header = document.querySelector('header[role="banner"]');
+      const isSubpageOnly = document.documentElement.dataset.nav === "subpage";
+      const header = isSubpageOnly
+        ? null
+        : document.querySelector('header[role="banner"]');
       const toolbar = document.querySelector('.subpage-toolbar');
       const navHeight =
-        (header instanceof HTMLElement ? header.offsetHeight : 64) +
-        (toolbar instanceof HTMLElement ? toolbar.offsetHeight : 56);
+        (header instanceof HTMLElement ? header.offsetHeight : 0) +
+        (toolbar instanceof HTMLElement ? toolbar.offsetHeight : isSubpageOnly ? 56 : 56);
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navHeight;
 

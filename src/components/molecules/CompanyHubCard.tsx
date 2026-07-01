@@ -2,9 +2,9 @@ import { motion } from "motion/react";
 import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Building2, ArrowRight, Briefcase, FileText } from "lucide-react";
+import { ArrowRight, Briefcase, FileText } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { LogoMark } from "../atoms/Logo";
+import { CompanyLogo } from "../atoms/CompanyLogo";
 import type { CompanyHub } from "../../data/projects-data";
 import type { Language } from "../../lib/LanguageContext";
 import { localized, localizedList } from "../../lib/localized";
@@ -76,19 +76,12 @@ export function CompanyHubCard({
               whileHover={{ scale: 1.05 }}
               className="absolute top-4 left-4"
             >
-              {logo ? (
-                <div className="h-16 w-16 rounded-xl overflow-hidden bg-card/95 backdrop-blur-sm flex items-center justify-center ring-1 ring-border/50 group-hover:ring-primary/40 transition-all shadow-lg p-2.5">
-                  <ImageWithFallback
-                    src={logo}
-                    alt={`${name} logo`}
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-              ) : (
-                <div className="h-16 w-16 rounded-xl bg-brand-gradient flex items-center justify-center shadow-lg">
-                  <Building2 className="h-8 w-8 text-white" />
-                </div>
-              )}
+              <CompanyLogo
+                src={logo}
+                alt={`${name} logo`}
+                size="md"
+                className="group-hover:ring-primary/40 transition-all"
+              />
             </motion.div>
 
             {/* Project count badge - top right - MEJORADO CON MEJOR VISIBILIDAD */}

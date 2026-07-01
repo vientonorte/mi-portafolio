@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Briefcase, ArrowLeft } from "lucide-react";
+import { ArrowLeft, Briefcase } from "lucide-react";
+import { CompanyLogo } from "../atoms/CompanyLogo";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { CompanyHubCard } from "../molecules/CompanyHubCard";
 import { EnhancedProjectCard } from "../molecules/EnhancedProjectCard";
@@ -177,19 +178,11 @@ export function ProjectsHub({
                   className="mb-12 p-8 rounded-2xl bg-muted/30 border-2 border-border"
                 >
                   <div className="flex items-center gap-4 mb-4">
-                    {selectedHub.logo ? (
-                      <div className="h-16 w-16 rounded-xl overflow-hidden bg-background flex items-center justify-center ring-2 ring-border">
-                        <img
-                          src={selectedHub.logo}
-                          alt={`${selectedHub.name} logo`}
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <div className="h-16 w-16 rounded-xl bg-brand-gradient flex items-center justify-center shadow-lg">
-                        <Briefcase className="h-8 w-8 text-white" />
-                      </div>
-                    )}
+                    <CompanyLogo
+                      src={selectedHub.logo}
+                      alt={`${selectedHub.name} logo`}
+                      size="md"
+                    />
                     <div>
                       <h3 className="text-3xl font-bold mb-1">{selectedHub.name}</h3>
                       <div className="flex gap-2">

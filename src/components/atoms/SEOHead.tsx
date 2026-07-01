@@ -17,7 +17,7 @@ export function SEOHead({
   type = "website",
   noIndex = false,
 }: SEOHeadProps) {
-  const defaultImage = "https://vientonorte.github.io/mi-portafolio/og-image.jpg";
+  const defaultImage = "https://vientonorte.github.io/mi-portafolio/images/branding/og-portfolio.png";
   const siteUrl = "https://vientonorte.github.io/mi-portafolio";
   const fullTitle = `${title} | Rodrigo Gaete - Lead UX`;
   const finalUrl = url || siteUrl;

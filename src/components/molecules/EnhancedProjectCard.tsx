@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { 
   ChevronDown, 
   ChevronUp, 
-  Building2, 
   Workflow, 
   Target,
   Calendar,
@@ -14,7 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { CompanyLogo } from "../atoms/CompanyLogo";
 
 interface Process {
   name: string;
@@ -145,19 +144,11 @@ export function EnhancedProjectCard({
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 className="flex-shrink-0"
               >
-                {companyLogo ? (
-                  <div className="h-12 w-12 rounded-xl overflow-hidden bg-muted flex items-center justify-center ring-2 ring-border">
-                    <ImageWithFallback
-                      src={companyLogo}
-                      alt={`${company} logo`}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                ) : (
-                  <div className="h-12 w-12 rounded-xl bg-brand-gradient flex items-center justify-center shadow-md">
-                    <Building2 className="h-6 w-6 text-white" />
-                  </div>
-                )}
+                <CompanyLogo
+                  src={companyLogo}
+                  alt={`${company} logo`}
+                  size="md"
+                />
               </motion.div>
 
               <div className="flex-1 min-w-0">

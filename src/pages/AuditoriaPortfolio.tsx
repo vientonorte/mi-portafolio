@@ -3,8 +3,13 @@ import { auditData } from '../data/audit-data';
 import { useState } from 'react';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { SITE_CONTACT } from '../lib/site-contact';
+import { PageShell } from '../components/layout/PageShell';
+import { useLanguage } from '../lib/LanguageContext';
+import { useTranslation } from '../lib/i18n';
 
 export default function AuditoriaPortfolio() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [checklistItems, setChecklistItems] = useState([
     { id: 1, task: "Reescribir hero con especialización clara", category: "Posicionamiento", status: "pending" },
     { id: 2, task: "Implementar schema.org/Person + CreativeWork", category: "SEO", status: "pending" },
@@ -38,7 +43,7 @@ export default function AuditoriaPortfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20 md:pb-0">
+    <PageShell crumbs={[{ label: t.breadcrumbs.audit, current: true }]}>
       <SEOHead
         title="Auditoría Portfolio UX/UI"
         description="Auditoría UX/UI estratégica: 5 riesgos críticos, 6 quick wins SEO, plan de mentoría en 3 sesiones. Por Rodrigo Gaete, Lead UX Designer."
@@ -533,6 +538,6 @@ export default function AuditoriaPortfolio() {
           </div>
         </footer>
       </main>
-    </div>
+    </PageShell>
   );
 }

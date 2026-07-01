@@ -1,45 +1,23 @@
 import { motion } from "motion/react";
-import { Button } from '../components/ui/button';
-import { ArrowLeft } from "lucide-react";
 import { DesignTokens } from "../components/organisms/DesignTokens";
 import { ComponentsLibrary } from "../components/organisms/ComponentsLibrary";
 import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
 import { ThemeToggle } from "../components/atoms/ThemeToggle";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
+import { useTranslation } from "../lib/i18n";
 
-interface DesignSystemProps {
-  onBack: () => void;
-}
-
-export default function DesignSystem({ onBack }: DesignSystemProps) {
+export default function DesignSystem() {
   const { language } = useLanguage();
+  const t = useTranslation(language);
 
   return (
-    <div className="min-h-screen bg-background pb-20 md:pb-0">
-      {/* Header */}
-      <header className="subpage-toolbar bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            className="gap-2 hover:bg-primary/10 hover:text-primary transition-all"
-            aria-label={language === "es" ? "Volver al portfolio" : "Back to portfolio"}
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">{language === "es" ? "Volver" : "Back"}</span>
-          </Button>
-          
-          <div className="flex items-center gap-2 sm:gap-3">
-            <LanguageToggle />
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
-
+    <PageShell
+      crumbs={[{ label: t.breadcrumbs.designSystem, current: true }]}
+      trailing={<ThemeToggle />}
+    >
       <main>
-        {/* Hero Section - Simplificado */}
         <section className="py-12 md:py-20 px-4">
           <div className="container max-w-6xl mx-auto text-center space-y-4">
             <motion.h1
@@ -64,18 +42,11 @@ export default function DesignSystem({ onBack }: DesignSystemProps) {
           </div>
         </section>
 
-        {/* Design Principles */}
         <DesignPrinciples />
-
-        {/* Design Tokens */}
         <DesignTokens />
-
-        {/* Components Library */}
         <ComponentsLibrary />
-
-        {/* Portfolio Maintenance */}
         <PortfolioMaintenance />
       </main>
-    </div>
+    </PageShell>
   );
 }

@@ -2,20 +2,12 @@ import { motion, useReducedMotion } from "motion/react";
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { 
-  ArrowLeft, 
-  Home, 
-  Building2, 
-  FolderKanban, 
-  TrendingDown, 
-  TrendingUp 
-} from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { useEffect } from "react";
 import { useLanguage } from "../lib/LanguageContext";
-import { Breadcrumbs } from "../components/molecules/Breadcrumbs";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
+import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { useTranslation } from "../lib/i18n";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
@@ -23,7 +15,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { KPICard } from "../components/molecules/KPICard";
 import { MockupGallery } from "../components/molecules/MockupGallery";
+import { buildMockupItems, projectGalleryCopy } from "../lib/mockup-gallery";
+import { buildProjectNavSections, navNumberFor } from "../lib/project-nav-sections";
 import { ResponsiveDesignFrame } from "../components/molecules/ResponsiveDesignFrame";
+import { CompanyLogo } from "../components/atoms/CompanyLogo";
 
 interface ProcessApplied {
   id: string;
@@ -111,7 +106,13 @@ function isEnhancedProject(project: ProjectData | EnhancedProject): project is E
   );
 }
 
-export default function ProjectDetail({ project, companyName, onBack, onBackToCompany, onNavigateToProcess }: ProjectDetailProps) {
+export default function ProjectDetail({
+  project,
+  companyName,
+  onBack,
+  onBackToCompany,
+  onNavigateToProcess,
+}: ProjectDetailProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
@@ -122,37 +123,32 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
   const projectName = isEnhanced ? project.projectName : project.name;
   const challengeProblem = isEnhanced ? project.details.challenge : project.challenge.problem;
   const challengeSolution = isEnhanced ? project.details.solution : project.challenge.solution;
-  const projectMockups = isEnhanced
+  const projectMockupSources = isEnhanced
     ? project.details.mockups
     : project.details?.mockups;
+  const projectMockups =
+    projectMockupSources && projectMockupSources.length > 0
+      ? buildMockupItems(projectMockupSources, {
+          projectName,
+          companyName: hubName,
+        })
+      : undefined;
+  const mockupCopy = projectGalleryCopy(projectName, language);
+  const hasProcess = isEnhanced
+    ? Boolean(project.processes && project.processes.length > 0)
+    : Boolean(project.processesApplied && project.processesApplied.length > 0);
+  const hasDesign = !isEnhanced && Boolean(project.designComponents && project.designComponents.length > 0);
+  const hasResults = isEnhanced
+    ? Boolean(project.details.metrics?.length || project.details.learnings?.length)
+    : Boolean(project.results && project.results.length > 0);
+  const hasEvidence = Boolean(projectMockups && projectMockups.length > 0);
 
-  const navigationSections = [
-    { 
-      id: "hero", 
-      label: language === "es" ? "Proyecto" : "Project", 
-      number: "00" 
-    },
-    { 
-      id: "challenge", 
-      label: language === "es" ? "Desafío" : "Challenge", 
-      number: "01" 
-    },
-    { 
-      id: "process", 
-      label: language === "es" ? "Proceso" : "Process", 
-      number: "02" 
-    },
-    { 
-      id: "design", 
-      label: language === "es" ? "Diseño" : "Design", 
-      number: "03" 
-    },
-    { 
-      id: "results", 
-      label: language === "es" ? "Resultados" : "Results", 
-      number: "04" 
-    },
-  ];
+  const navigationSections = buildProjectNavSections(language, {
+    hasProcess,
+    hasDesign,
+    hasResults,
+    hasEvidence,
+  });
 
   const fadeInVariant = {
     hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
@@ -170,7 +166,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-8 md:pb-0">
       {/* Skip Links */}
       <a 
         href="#main-content" 
@@ -187,69 +183,15 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
         showAfterScroll={800}
       />
 
-      {/* Lateral Navigation */}
       <ProcessNavigation sections={navigationSections} />
 
-      {/* Fixed Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
-        role="region"
-        aria-label={language === "es" ? "Navegación del proyecto" : "Project navigation"}
-      >
-        <div className="container max-w-7xl mx-auto px-4 py-4">
-          {/* Breadcrumbs */}
-          <Breadcrumbs
-            links={[
-              {
-                href: "#",
-                label: t.breadcrumbs.home,
-                icon: Home,
-                onClick: onBack,
-              },
-              {
-                href: "#",
-                label: t.breadcrumbs.projects,
-                onClick: onBack,
-              },
-              {
-                href: "#",
-                label: hubName,
-                icon: Building2,
-                onClick: onBackToCompany,
-              },
-              {
-                href: "#",
-                label: projectName,
-                icon: FolderKanban,
-                current: true,
-              },
-            ]}
-          />
-
-          {/* Header Actions */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              onClick={onBackToCompany}
-              className="gap-2 hover:gap-3 transition-all"
-              aria-label={language === "es" ? `Volver a ${hubName}` : `Back to ${hubName}`}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                {language === "es" ? `Volver a ${hubName}` : `Back to ${hubName}`}
-              </span>
-              <span className="sm:hidden">
-                {language === "es" ? "Volver" : "Back"}
-              </span>
-            </Button>
-
-            <LanguageToggle />
-          </div>
-        </div>
-      </motion.header>
+      <SubpageToolbar
+        crumbs={[
+          { label: t.breadcrumbs.projects, onClick: onBack },
+          { label: hubName, onClick: onBackToCompany },
+          { label: projectName, current: true },
+        ]}
+      />
 
       <main id="main-content" role="main">
         {/* Hero Section */}
@@ -290,13 +232,12 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
                   initial="hidden"
                   animate="visible"
                   transition={{ duration: 0.5 }}
-                  className="mb-6"
+                  className="mb-6 flex justify-center"
                 >
-                  <img 
-                    src={project.companyLogo} 
-                    alt=""
-                    role="presentation"
-                    className="h-16 w-16 rounded-xl mx-auto object-cover border-2 border-primary/20"
+                  <CompanyLogo
+                    src={project.companyLogo}
+                    alt={`${project.company} logo`}
+                    size="lg"
                   />
                 </motion.div>
               )}
@@ -374,7 +315,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
         >
           <div className="container max-w-7xl mx-auto">
             <SectionDivider 
-              number="01" 
+              number={navNumberFor(navigationSections, "challenge")} 
               label={language === "es" ? "El Desafío" : "The Challenge"} 
               sectionId="challenge"
               language={language}
@@ -441,7 +382,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
         >
           <div className="container max-w-7xl mx-auto">
             <SectionDivider 
-              number="02" 
+              number={navNumberFor(navigationSections, "process")} 
               label={language === "es" ? "El Proceso" : "The Process"} 
               sectionId="process"
               language={language}
@@ -580,7 +521,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
           >
             <div className="container max-w-7xl mx-auto">
               <SectionDivider 
-                number="02" 
+                number={navNumberFor(navigationSections, "process")} 
                 label={language === "es" ? "El Proceso" : "The Process"} 
                 sectionId="process"
                 language={language}
@@ -643,10 +584,6 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
           </section>
         )}
 
-        {projectMockups && projectMockups.length > 0 && (
-          <MockupGallery mockups={projectMockups} language={language} />
-        )}
-
         {/* Enhanced Project Metrics & Learnings */}
         {isEnhanced && (project.details.metrics || project.details.learnings) && (
           <section 
@@ -656,7 +593,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
           >
             <div className="container max-w-7xl mx-auto">
               <SectionDivider 
-                number="03" 
+                number={navNumberFor(navigationSections, "results")} 
                 label={language === "es" ? "Resultados" : "Results"} 
                 sectionId="results"
                 language={language}
@@ -743,7 +680,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
           >
             <div className="container max-w-7xl mx-auto">
               <SectionDivider 
-                number="03" 
+                number={navNumberFor(navigationSections, "design")} 
                 label={language === "es" ? "Investigación" : "Research"} 
                 sectionId="design"
                 language={language}
@@ -800,7 +737,7 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
           >
             <div className="container max-w-7xl mx-auto">
               <SectionDivider 
-                number="04" 
+                number={navNumberFor(navigationSections, "results")} 
                 label={language === "es" ? "Resultados" : "Results"} 
                 sectionId="results"
                 language={language}
@@ -840,6 +777,16 @@ export default function ProjectDetail({ project, companyName, onBack, onBackToCo
               </motion.div>
             </div>
           </section>
+        )}
+
+        {hasEvidence && projectMockups && (
+          <MockupGallery
+            mockups={projectMockups}
+            title={mockupCopy.title}
+            description={mockupCopy.description}
+            language={language}
+            sectionId="evidence"
+          />
         )}
       </main>
     </div>

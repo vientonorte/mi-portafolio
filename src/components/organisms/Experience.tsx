@@ -6,7 +6,7 @@ import { Briefcase, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { experiences } from "../../data/experience-data";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { CompanyLogo } from "../atoms/CompanyLogo";
 
 export function Experience() {
   const navigate = useNavigate();
@@ -43,13 +43,11 @@ export function Experience() {
                     <div className="flex items-start gap-4 flex-1">
                       {/* Company Logo */}
                       <div className="relative flex-shrink-0">
-                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden bg-muted flex items-center justify-center ring-2 ring-border">
-                          <ImageWithFallback
-                            src={exp.logo}
-                            alt={`${exp.company} — evidencia visual`}
-                            className="w-full h-full object-cover object-top"
-                          />
-                        </div>
+                        <CompanyLogo
+                          src={exp.logo}
+                          alt={`${exp.company} logo`}
+                          size="md"
+                        />
                         {/* Timeline dot */}
                         <div className="absolute -left-[1.85rem] md:-left-[2.1rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background hidden sm:block z-10" />
                       </div>

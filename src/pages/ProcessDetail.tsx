@@ -1,15 +1,15 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Check, ExternalLink, Home, FolderKanban } from "lucide-react";
+import { ArrowLeft, Check, ExternalLink } from "lucide-react";
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { ProcessMethodCard } from "../components/molecules/ProcessMethodCard";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
-import { LanguageToggle } from "../components/atoms/LanguageToggle";
 import { processesData, ProcessDetailData } from "../data/processes-data";
 import { GradientHeading } from "../components/atoms/GradientHeading";
-import { Breadcrumbs } from "../components/molecules/Breadcrumbs";
+import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
+import { NotFoundPage } from "../components/layout/NotFoundPage";
 
 interface ProcessDetailProps {
   processId: string;
@@ -25,12 +25,12 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
 
   if (!processData) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t.errors.processNotFound}</h1>
-          <Button onClick={onBack}>{t.errors.back}</Button>
-        </div>
-      </div>
+      <NotFoundPage
+        message={t.errors.processNotFound}
+        backLabel={t.processDetail.backToCaseStudies}
+        onBack={onBack}
+        crumbLabel={t.breadcrumbs.notFound}
+      />
     );
   }
 
@@ -54,34 +54,12 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Fixed Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="subpage-toolbar backdrop-blur-xl bg-background/80 border-b border-border/40"
-      >
-        <div className="container max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs
-            links={[
-              { href: "#", label: t.breadcrumbs.home, icon: Home, onClick: onNavigateToPortfolio },
-              { href: "#", label: t.breadcrumbs.cases, onClick: onBack },
-              { href: "#", label: title, icon: FolderKanban, current: true },
-            ]}
-          />
-          <div className="flex items-center justify-between mt-2">
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className="gap-2 hover:gap-3 transition-all"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t.processDetail.backToCaseStudies}
-            </Button>
-
-            <LanguageToggle />
-          </div>
-        </div>
-      </motion.header>
+      <SubpageToolbar
+        crumbs={[
+          { label: t.breadcrumbs.cases, onClick: onBack },
+          { label: title, current: true },
+        ]}
+      />
 
       {/* Hero Section */}
       <section className="subpage-hero py-12 md:py-20 px-4 relative overflow-hidden">
