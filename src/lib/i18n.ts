@@ -519,6 +519,15 @@ export const translations = {
       notFound: 'No encontrado',
     },
 
+    footer: {
+      contact: 'Contacto',
+      linkedin: 'LinkedIn',
+      privacy: 'Privacidad',
+      research: 'Investigación',
+      copyright: 'Rodrigo Gaete Gaona · Lead UX Designer',
+      tagline: 'Diseñado con atención al detalle y accesibilidad.',
+    },
+
     errors: {
       companyNotFound: 'No encontramos esa empresa.',
       projectNotFound: 'No encontramos ese proyecto.',
@@ -1098,6 +1107,15 @@ export const translations = {
       autosuggest: 'Autosuggest Funds',
       admin: 'Photo admin',
       notFound: 'Not found',
+    },
+
+    footer: {
+      contact: 'Contact',
+      linkedin: 'LinkedIn',
+      privacy: 'Privacy',
+      research: 'Research',
+      copyright: 'Rodrigo Gaete Gaona · Lead UX Designer',
+      tagline: 'Designed with attention to detail and accessibility.',
     },
 
     errors: {

@@ -352,18 +352,6 @@ export function Contact() {
             </Card>
           </motion.div>
         </div>
-
-        {/* Footer */}
-        <motion.footer
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 md:mt-24 pt-8 border-t text-center text-sm text-muted-foreground"
-          role="contentinfo"
-        >
-          <p>© 2025 Rodrigo Gaete Gaona · Lead UX Designer. Diseñado con atención al detalle y accesibilidad.</p>
-        </motion.footer>
       </div>
     </section>
   );

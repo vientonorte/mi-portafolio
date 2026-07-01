@@ -145,8 +145,7 @@ html[data-nav="subpage"] [id].scroll-mt-20 {
   }
 }
 
-html[data-nav="subpage"] #main,
-html[data-nav="subpage"] footer[role="contentinfo"] {
+html[data-nav="subpage"] .site-footer {
   padding-bottom: 0;
 }
 
@@ -179,8 +178,7 @@ html[data-nav="subpage"] footer[role="contentinfo"] {
 }
 
 @media (max-width: 767px) {
-  #main,
-  footer[role="contentinfo"] {
+  .site-footer {
     padding-bottom: var(--bottom-nav-total);
   }
 
