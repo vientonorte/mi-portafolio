@@ -13,6 +13,7 @@ import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { canonicalFromPath } from "../lib/seo";
+import { ROUTES } from "../lib/routes";
 import { FlagshipCaseStudy } from "../components/organisms/FlagshipCaseStudy";
 import { processesData } from "../data/processes-data";
 import { useNavigate } from "react-router-dom";
@@ -85,7 +86,7 @@ export default function CaseStudies({
       <SEOHead
         {...t.seo.pages.cases}
         keywords={t.seo.keywords}
-        url={canonicalFromPath('/cases')}
+        url={canonicalFromPath(ROUTES.process)}
       />
       <SubpageToolbar
         crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [

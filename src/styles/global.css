@@ -149,6 +149,13 @@ html[data-nav="subpage"] .site-footer {
   padding-bottom: 0;
 }
 
+@media (max-width: 767px) {
+  html[data-nav="subpage"] .page-shell,
+  html[data-nav="subpage"] .site-footer {
+    padding-bottom: var(--bottom-nav-total);
+  }
+}
+
 /* Títulos con gradiente — webkit completo (Safari) */
 .heading-gradient {
   background: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);

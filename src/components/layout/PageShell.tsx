@@ -11,7 +11,7 @@ interface PageShellProps {
 
 export function PageShell({ crumbs, children, trailing, className }: PageShellProps) {
   return (
-    <div className={cn("min-h-screen bg-background pb-8", className)}>
+    <div className={cn("page-shell min-h-screen bg-background pb-8 md:pb-0", className)}>
       <SubpageToolbar crumbs={crumbs} trailing={trailing} />
       {children}
     </div>

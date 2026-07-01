@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { ROUTES } from "../../lib/routes";
 
 const items = [
   {
@@ -30,8 +31,8 @@ const items = [
     labelEn: "Process",
     icon: FolderOpen,
     type: "route" as const,
-    target: "/cases",
-    route: "/cases",
+    target: ROUTES.process,
+    route: ROUTES.process,
   },
   {
     id: "contacto",
@@ -97,6 +98,13 @@ export function BottomNav() {
           location.pathname === "/proyectos" ||
           location.pathname.startsWith("/proyecto/") ||
           location.pathname.startsWith("/empresa/")
+        );
+      }
+      if (item.id === "cases") {
+        return (
+          location.pathname === ROUTES.process ||
+          location.pathname.startsWith(`${ROUTES.process}/`) ||
+          location.pathname.startsWith("/cases")
         );
       }
       return location.pathname === item.route;

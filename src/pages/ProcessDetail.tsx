@@ -12,6 +12,7 @@ import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { NotFoundPage } from "../components/layout/NotFoundPage";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, processPageSeo, trimMetaDescription } from "../lib/seo";
+import { ROUTES } from "../lib/routes";
 import { useNavigate } from "react-router-dom";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 
@@ -67,7 +68,7 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
       <SEOHead
         {...pageSeo}
         keywords={t.seo.keywords}
-        url={canonicalFromPath(`/cases/process/${processId}`)}
+        url={canonicalFromPath(ROUTES.processPhase(processId))}
       />
       <SubpageToolbar
         crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [

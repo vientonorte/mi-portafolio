@@ -9,6 +9,7 @@ import { getFeaturedCaseStudies } from "../../data/case-study-cards";
 import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { ROUTES } from "../../lib/routes";
 
 const TEASER_IDS = ["sura-ria-us", "transvip-app-premium", "karri-calculadora"] as const;
 
@@ -33,7 +34,7 @@ export function ProjectsTeaser({
       onNavigateToCaseStudies();
       return;
     }
-    navigate("/cases");
+    navigate(ROUTES.process);
   };
 
   return (

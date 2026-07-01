@@ -14,6 +14,7 @@ import { useLanguage } from '../lib/LanguageContext';
 import { buildPortfolioStructuredData } from '../lib/structured-data';
 import { canonicalFromPath } from '../lib/seo';
 import { useTranslation } from '../lib/i18n';
+import { ROUTES } from '../lib/routes';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ const Home = () => {
       />
       <StructuredData data={structuredData} />
       <Hero
-        onNavigateToCaseStudies={() => navigate('/cases')}
-        onNavigateToDesignSystem={() => navigate('/design-system')}
+        onNavigateToCaseStudies={() => navigate(ROUTES.process)}
+        onNavigateToDesignSystem={() => navigate(ROUTES.designSystem)}
       />
       <ImpactStats />
-      <ProjectsTeaser onNavigateToCaseStudies={() => navigate('/cases')} />
+      <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
       <About />
       <Experience />
       <Testimonials />

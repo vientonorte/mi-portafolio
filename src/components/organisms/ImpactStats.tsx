@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
 import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
+import { ROUTES } from "../../lib/routes";
 
 export function ImpactStats() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function ImpactStats() {
       description: language === "es" ? "SURA Ecosistema — 7-11 min vs 15+" : "SURA Ecosystem — 7-11 min vs 15+",
       color: "text-stat-tint-blue",
       bgColor: "bg-stat-tint-blue",
-      link: "/#/cases/process/ux-analytics",
+      link: `/#${ROUTES.processPhase("ux-analytics")}`,
       processId: "ux-analytics",
       company: "SURA",
     },
@@ -35,7 +36,7 @@ export function ImpactStats() {
       description: language === "es" ? "+25 pts sobre baseline" : "+25 pts above baseline",
       color: "text-stat-tint-amber",
       bgColor: "bg-stat-tint-amber",
-      link: "/#/cases/process/ux-research",
+      link: `/#${ROUTES.processPhase("ux-research")}`,
       processId: "ux-research",
       company: "SURA",
     },
@@ -46,7 +47,7 @@ export function ImpactStats() {
       description: language === "es" ? "Calculadora de ganancias" : "Earnings calculator",
       color: "text-stat-tint-rose",
       bgColor: "bg-stat-tint-rose",
-      link: "/#/cases/process/ux-ui-design",
+      link: `/#${ROUTES.processPhase("ux-ui-design")}`,
       processId: "ux-ui-design",
       company: "Karri",
     },
@@ -57,7 +58,7 @@ export function ImpactStats() {
       description: language === "es" ? "Hub centralizado Karri" : "Karri centralized hub",
       color: "text-stat-tint-violet",
       bgColor: "bg-stat-tint-violet",
-      link: "/#/cases/process/refinamiento",
+      link: `/#${ROUTES.processPhase("refinamiento")}`,
       processId: "refinamiento",
       company: "Karri",
     },
@@ -65,7 +66,7 @@ export function ImpactStats() {
 
   const handleStatClick = (stat: typeof stats[0]) => {
     analytics.viewImpactStat(stat.value, stat.company);
-    navigate(`/cases/process/${stat.processId}`);
+    navigate(ROUTES.processPhase(stat.processId));
   };
 
   const ctaLabel = language === "es" ? "Ver aplicación del método" : "View method in action";

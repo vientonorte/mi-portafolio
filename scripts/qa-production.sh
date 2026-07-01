@@ -72,9 +72,11 @@ check_content "Schema.org" "CreativeWork" "$JS_FILE"
 CASE_CHUNK_FILE=$(grep -oE 'CaseStudies-[A-Za-z0-9_-]+\.js' "$JS_FILE" | head -1 || true)
 if [ -n "$CASE_CHUNK_FILE" ]; then
   curl -fsSL "$BASE_URL/assets/$CASE_CHUNK_FILE" -o "$CASE_FILE"
-  check_content "Flagship en /cases chunk" "flagship" "$CASE_FILE"
+  check_content "Flagship en /proceso chunk" "flagship" "$CASE_FILE"
+  check_content "Ruta canónica /proceso" '"/proceso"' "$JS_FILE"
+  check_content "Legacy redirect /cases" '"/cases"' "$JS_FILE"
 else
-  echo "✗ Flagship en /cases chunk (CaseStudies chunk not in bundle)"
+  echo "✗ Flagship en /proceso chunk (CaseStudies chunk not in bundle)"
   FAIL=$((FAIL + 1))
 fi
 

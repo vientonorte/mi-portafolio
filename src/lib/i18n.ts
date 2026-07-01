@@ -505,7 +505,7 @@ export const translations = {
     breadcrumbs: {
       home: 'Inicio',
       projects: 'Negocios',
-      cases: 'Casos de estudio',
+      cases: 'Proceso',
       process: 'Proceso UX',
       framework: 'Framework UX',
       about: 'Sobre mí',
@@ -1095,7 +1095,7 @@ export const translations = {
     breadcrumbs: {
       home: 'Home',
       projects: 'Business',
-      cases: 'Case studies',
+      cases: 'Process',
       process: 'UX Process',
       framework: 'UX Framework',
       about: 'About',

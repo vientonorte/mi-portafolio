@@ -6,6 +6,7 @@ import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
 import { withHomeCrumb } from '../lib/breadcrumb-helpers';
+import { ROUTES } from '../lib/routes';
 
 const Proyectos = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Proyectos = () => {
         url={canonicalFromPath('/proyectos')}
       />
       <Projects
-        onNavigateToCaseStudies={() => navigate('/cases')}
+        onNavigateToCaseStudies={() => navigate(ROUTES.process)}
         onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
       />
     </PageShell>

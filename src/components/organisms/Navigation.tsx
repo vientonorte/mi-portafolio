@@ -37,7 +37,7 @@ export function Navigation({
   const primaryNavItems: NavItem[] = useMemo(
     () => [
       { href: "proyectos", label: t.nav.projects, type: "route" },
-      { href: "cases", label: t.nav.process, type: "route" },
+      { href: "proceso", label: t.nav.process, type: "route" },
       { href: "#contacto", label: t.nav.contact, type: "anchor" },
     ],
     [t.nav.projects, t.nav.process, t.nav.contact]
@@ -182,7 +182,13 @@ export function Navigation({
   const isRouteActive = useCallback(
     (href: string) => {
       if (href === "design-system") return location.pathname === "/design-system";
-      if (href === "cases") return location.pathname.startsWith("/cases");
+      if (href === "proceso") {
+        return (
+          location.pathname === "/proceso" ||
+          location.pathname.startsWith("/proceso/") ||
+          location.pathname.startsWith("/cases")
+        );
+      }
       if (href === "auditoria") return location.pathname === "/auditoria";
       if (href === "sobre-mi") return location.pathname === "/sobre-mi";
       if (href === "proyectos") {
