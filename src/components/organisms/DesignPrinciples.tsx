@@ -1,121 +1,227 @@
 import { motion } from "motion/react";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { 
-  Accessibility, 
-  Smartphone, 
-  Zap, 
-  Users, 
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Accessibility,
+  BarChart3,
+  Building2,
   Layers,
   Target,
-  BookOpen
+  BookOpen,
+  Sparkles,
 } from "lucide-react";
+import { useLanguage } from "../../lib/LanguageContext";
 
-const principles = [
-  {
-    icon: Accessibility,
-    title: "Accesibilidad Primero",
-    description: "WCAG 2.2 AA como mínimo. Todos los componentes son navegables por teclado y compatibles con lectores de pantalla.",
-    examples: [
-      "Roles ARIA semánticos",
-      "Contraste de color ≥ 4.5:1",
-      "Focus visible en todos los elementos",
-    ],
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile First",
-    description: "Diseño responsive que prioriza la experiencia móvil con breakpoints optimizados.",
-    examples: [
-      "Breakpoints: 640px, 768px, 1024px, 1280px",
-      "Touch targets mínimo 44x44px",
-      "Navegación adaptativa",
-    ],
-  },
-  {
-    icon: Zap,
-    title: "Performance",
-    description: "Componentes optimizados para carga rápida y animaciones fluidas a 60fps.",
-    examples: [
-      "Motion con GPU acceleration",
-      "Lazy loading de imágenes",
-      "Code splitting por componente",
-    ],
-  },
-  {
-    icon: Layers,
-    title: "Atomic Design",
-    description: "Arquitectura modular y escalable basada en átomos, moléculas y organismos.",
-    examples: [
-      "Atoms: Botones, badges, inputs",
-      "Molecules: Cards, forms, headers",
-      "Organisms: Navigation, sections",
-    ],
-  },
-  {
-    icon: Users,
-    title: "Diseño Centrado en Usuario",
-    description: "Componentes diseñados a partir de research y testing con usuarios reales.",
-    examples: [
-      "Patrones de UI familiares",
-      "Feedback visual inmediato",
-      "Mensajes de error claros",
-    ],
-  },
-  {
-    icon: Target,
-    title: "Consistencia",
-    description: "Sistema de diseño unificado con tokens y variables reutilizables.",
-    examples: [
-      "Design tokens centralizados",
-      "Nomenclatura predecible",
-      "Documentación completa",
-    ],
-  },
-];
+const principles = {
+  es: [
+    {
+      icon: Target,
+      title: "Especialización en <10s",
+      description:
+        "El hero comunica nicho (Fintech & Mobility), métricas y CTA a negocios sin copy genérico.",
+      examples: [
+        "Headline + badges de especialización",
+        "Cards de resultado con KPI (−40%, NPS 72)",
+        "CTA primario → /proyectos",
+      ],
+    },
+    {
+      icon: BarChart3,
+      title: "Evidencia medible",
+      description:
+        "Cada claim del landing tiene número, empresa y ruta a caso o proceso UX.",
+      examples: [
+        "HeroResultCard + ImpactStats enlazados",
+        "Flagship Karri con 5 macroprocesos",
+        "Métricas en cards de caso",
+      ],
+    },
+    {
+      icon: Building2,
+      title: "Prueba social",
+      description:
+        "Logos de cliente legibles y recomendaciones LinkedIn con rol y tenure reales.",
+      examples: [
+        "wordmark-sm + flat en cards matte",
+        "Testimonios con metadata verificable",
+        "Experiencia con logo + resumen KPI",
+      ],
+    },
+    {
+      icon: Sparkles,
+      title: "Superficies mate",
+      description:
+        "Warm neutrals en métricas y testimonios; gradiente reservado al ~10% (CTAs, acento RG).",
+      examples: [
+        "--surface-matte-elevated en cards",
+        "--logo-surface solo fuera de cards",
+        "Sin glass/blur en indicadores",
+      ],
+    },
+    {
+      icon: Accessibility,
+      title: "Accesibilidad WCAG 2.2 AA",
+      description: "Contraste, teclado, landmarks y touch targets como baseline SURA.",
+      examples: [
+        "Contraste ≥ 4.5:1 en texto",
+        "Focus visible y skip-link",
+        "Touch targets ≥ 44px",
+      ],
+    },
+    {
+      icon: Layers,
+      title: "Atomic Design",
+      description: "Átomos reutilizables (Logo, CompanyLogo, HeroResultCard) componen el landing.",
+      examples: [
+        "LogoMark en nav y subpage toolbar",
+        "SectionHeader + Card en secciones",
+        "i18n ES/EN centralizado",
+      ],
+    },
+  ],
+  en: [
+    {
+      icon: Target,
+      title: "Specialization in <10s",
+      description:
+        "Hero states niche (Fintech & Mobility), metrics, and business CTA without generic copy.",
+      examples: [
+        "Headline + specialization badges",
+        "Result cards with KPIs (−40%, NPS 72)",
+        "Primary CTA → /proyectos",
+      ],
+    },
+    {
+      icon: BarChart3,
+      title: "Measurable evidence",
+      description:
+        "Every landing claim has a number, company, and path to a case or UX process.",
+      examples: [
+        "HeroResultCard + ImpactStats linked",
+        "Karri flagship with 5 macro-processes",
+        "Metrics on case cards",
+      ],
+    },
+    {
+      icon: Building2,
+      title: "Social proof",
+      description:
+        "Readable client logos and LinkedIn recommendations with real role and tenure.",
+      examples: [
+        "wordmark-sm + flat on matte cards",
+        "Testimonials with verifiable metadata",
+        "Experience with logo + KPI summary",
+      ],
+    },
+    {
+      icon: Sparkles,
+      title: "Matte surfaces",
+      description:
+        "Warm neutrals on metrics and testimonials; gradient reserved to ~10% (CTAs, RG accent).",
+      examples: [
+        "--surface-matte-elevated on cards",
+        "--logo-surface only outside cards",
+        "No glass/blur on indicators",
+      ],
+    },
+    {
+      icon: Accessibility,
+      title: "WCAG 2.2 AA accessibility",
+      description: "Contrast, keyboard, landmarks, and touch targets as SURA baseline.",
+      examples: [
+        "Contrast ≥ 4.5:1 on text",
+        "Visible focus and skip-link",
+        "Touch targets ≥ 44px",
+      ],
+    },
+    {
+      icon: Layers,
+      title: "Atomic Design",
+      description: "Reusable atoms (Logo, CompanyLogo, HeroResultCard) compose the landing.",
+      examples: [
+        "LogoMark in nav and subpage toolbar",
+        "SectionHeader + Card in sections",
+        "Centralized ES/EN i18n",
+      ],
+    },
+  ],
+} as const;
 
-const usage = [
-  {
-    title: "Instalación de Componentes",
-    code: `import { Button } from '../ui/button'
-import { Card } from '../ui/card'`,
-  },
-  {
-    title: "Uso de Design Tokens",
-    code: `/* En tu CSS */
-.element {
-  color: var(--primary);
-  border-radius: var(--radius);
+const usage = {
+  es: [
+    {
+      title: "Marca RG",
+      code: `import { LogoMark, Logo } from '../atoms/Logo'
+
+<LogoMark size={32} />
+<Logo size="md" />`,
+    },
+    {
+      title: "Logos de cliente",
+      code: `<CompanyLogoFromName
+  company="SURA Investments"
+  size="wordmark-sm"
+  flat
+/>`,
+    },
+    {
+      title: "Tokens matte",
+      code: `.card-metric {
+  background: var(--surface-matte-elevated);
+  border-color: var(--logo-surface-border);
 }`,
-  },
-  {
-    title: "Extensión de Componentes",
-    code: `<Button 
-  variant="outline" 
-  size="lg"
-  className="custom-class"
->
-  Click me
-</Button>`,
-  },
-];
+    },
+  ],
+  en: [
+    {
+      title: "RG brand",
+      code: `import { LogoMark, Logo } from '../atoms/Logo'
+
+<LogoMark size={32} />
+<Logo size="md" />`,
+    },
+    {
+      title: "Client logos",
+      code: `<CompanyLogoFromName
+  company="SURA Investments"
+  size="wordmark-sm"
+  flat
+/>`,
+    },
+    {
+      title: "Matte tokens",
+      code: `.card-metric {
+  background: var(--surface-matte-elevated);
+  border-color: var(--logo-surface-border);
+}`,
+    },
+  ],
+} as const;
 
 export function DesignPrinciples() {
+  const { language } = useLanguage();
+  const items = principles[language];
+  const guides = usage[language];
+
   return (
     <section className="py-16 md:py-24 px-4" aria-labelledby="principles-heading">
       <div className="container max-w-6xl mx-auto space-y-16 md:space-y-24">
-        {/* Principles */}
         <div>
           <SectionHeader
-            badge="Fundamentos"
+            badge={language === "es" ? "Research" : "Research"}
             badgeIcon={BookOpen}
-            title="Principios de Diseño"
-            description="Los valores que guían cada decisión en nuestro sistema de diseño"
+            title={language === "es" ? "Principios del portafolio" : "Portfolio principles"}
+            description={
+              language === "es"
+                ? "Decisiones derivadas de auditoría UX, benchmark recruiter y validación en landing."
+                : "Decisions from UX audit, recruiter benchmark, and landing validation."
+            }
             align="left"
+            titleId="principles-heading"
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {principles.map((principle, index) => (
+            {items.map((principle, index) => (
               <motion.article
                 key={principle.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -123,22 +229,18 @@ export function DesignPrinciples() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow">
+                <Card className="h-full bg-surface-matte-elevated border-[color:var(--logo-surface-border)] shadow-none hover:border-primary/20 transition-colors">
                   <CardHeader>
                     <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <principle.icon className="h-6 w-6 text-primary" aria-hidden="true" />
                     </div>
-                    <CardTitle className="text-base md:text-lg">
-                      {principle.title}
-                    </CardTitle>
+                    <CardTitle className="text-base md:text-lg">{principle.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-sm text-muted-foreground">
-                      {principle.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{principle.description}</p>
                     <ul className="space-y-1 text-sm" role="list">
-                      {principle.examples.map((example, i) => (
-                        <li key={i} className="flex items-start gap-2">
+                      {principle.examples.map((example) => (
+                        <li key={example} className="flex items-start gap-2">
                           <span className="text-primary mt-1 flex-shrink-0" aria-hidden="true">
                             •
                           </span>
@@ -153,17 +255,20 @@ export function DesignPrinciples() {
           </div>
         </div>
 
-        {/* Usage Examples */}
         <div>
           <SectionHeader
-            badge="Guía"
-            title="Cómo Usar el Sistema"
-            description="Ejemplos de implementación y mejores prácticas"
+            badge={language === "es" ? "Guía" : "Guide"}
+            title={language === "es" ? "Implementación" : "Implementation"}
+            description={
+              language === "es"
+                ? "Patrones usados en producción en este repositorio."
+                : "Patterns used in production in this repository."
+            }
             align="left"
           />
 
           <div className="space-y-4 md:space-y-6">
-            {usage.map((item, index) => (
+            {guides.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -171,11 +276,9 @@ export function DesignPrinciples() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card>
+                <Card className="border-[color:var(--logo-surface-border)] shadow-none">
                   <CardHeader>
-                    <CardTitle className="text-base md:text-lg">
-                      {item.title}
-                    </CardTitle>
+                    <CardTitle className="text-base md:text-lg">{item.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <pre className="p-4 bg-muted/50 rounded-lg overflow-x-auto text-xs md:text-sm">

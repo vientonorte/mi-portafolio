@@ -243,8 +243,8 @@ export function MobileMenu({
               <div className="flex justify-center">
                 <LanguageToggle />
               </div>
-              <p className="text-sm text-muted-foreground text-center">
-                Lead UX Designer
+              <p className="text-sm text-muted-foreground text-center font-mono uppercase tracking-widest">
+                UX Architect
               </p>
             </div>
           </motion.div>

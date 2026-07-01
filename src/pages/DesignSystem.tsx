@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { BrandIdentity } from "../components/organisms/BrandIdentity";
 import { DesignTokens } from "../components/organisms/DesignTokens";
 import { ComponentsLibrary } from "../components/organisms/ComponentsLibrary";
 import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
@@ -38,7 +39,9 @@ export default function DesignSystem() {
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto"
             >
-              {language === "es" ? "Sistema de Diseño Atómico" : "Atomic Design System"}
+              {language === "es"
+                ? "Sistema de diseño · Rodrigo Gaete"
+                : "Design system · Rodrigo Gaete"}
             </motion.h1>
 
             <motion.p
@@ -48,12 +51,13 @@ export default function DesignSystem() {
               className="max-w-2xl mx-auto text-muted-foreground text-lg"
             >
               {language === "es"
-                ? "Componentes reutilizables construidos con React, TypeScript y Tailwind CSS v4"
-                : "Reusable components built with React, TypeScript, and Tailwind CSS v4"}
+                ? "Marca minimalista, tokens matte y patrones de evidencia medible aplicados al portafolio Lead UX en Fintech & Mobility."
+                : "Minimal brand, matte tokens, and measurable-evidence patterns applied to the Lead UX portfolio in Fintech & Mobility."}
             </motion.p>
           </div>
         </section>
 
+        <BrandIdentity />
         <DesignPrinciples />
         <DesignTokens />
         <ComponentsLibrary />

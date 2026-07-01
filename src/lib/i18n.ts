@@ -59,9 +59,9 @@ export const translations = {
             'Contacta a Rodrigo Gaete para proyectos UX, consultoría o colaboraciones en fintech y mobility.',
         },
         designSystem: {
-          title: 'Design System',
+          title: 'Design System · Rodrigo Gaete',
           description:
-            'Tokens, componentes y principios del design system del portafolio Lead UX.',
+            'Marca RG minimalista, tokens matte, evidencia medible y patrones de prueba social del portafolio UX Architect.',
         },
         privacy: {
           title: 'Privacidad',
@@ -629,9 +629,9 @@ export const translations = {
             'Contact Rodrigo Gaete for UX projects, consulting, or collaborations in fintech and mobility.',
         },
         designSystem: {
-          title: 'Design System',
+          title: 'Design System · Rodrigo Gaete',
           description:
-            'Tokens, components, and principles from the Lead UX portfolio design system.',
+            'Minimal RG brand, matte tokens, measurable evidence, and social-proof patterns from the UX Architect portfolio.',
         },
         privacy: {
           title: 'Privacy',

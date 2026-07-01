@@ -1,4 +1,6 @@
+import { useId } from "react";
 import { motion } from "motion/react";
+import { useLanguage } from "../../lib/LanguageContext";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -6,58 +8,116 @@ interface LogoProps {
   animated?: boolean;
 }
 
-export function Logo({ size = "md", showText = true, animated = false }: LogoProps) {
-  const sizes = {
-    sm: { icon: 32, text: "text-lg", spacing: "gap-2" },
-    md: { icon: 48, text: "text-2xl", spacing: "gap-3" },
-    lg: { icon: 64, text: "text-4xl", spacing: "gap-4" },
-  };
+const sizes = {
+  sm: { mark: 28, text: "text-base", role: "text-[10px]", spacing: "gap-2" },
+  md: { mark: 36, text: "text-xl", role: "text-xs", spacing: "gap-2.5" },
+  lg: { mark: 48, text: "text-3xl", role: "text-sm", spacing: "gap-3" },
+} as const;
 
-  const { icon, text, spacing } = sizes[size];
+interface LogoMarkSvgProps {
+  size: number;
+  gradientId: string;
+  className?: string;
+  labelled?: boolean;
+}
 
-  const LogoIcon = () => (
+/** Isologo minimalista RG — marco arquitectónico + acento de marca (10%). */
+export function LogoMarkSvg({
+  size,
+  gradientId,
+  className,
+  labelled = false,
+}: LogoMarkSvgProps) {
+  return (
     <svg
-      width={icon}
-      height={icon}
-      viewBox="0 0 78 78"
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
+      className={className}
+      role={labelled ? "img" : undefined}
+      aria-hidden={labelled ? undefined : true}
+      aria-label={labelled ? "Rodrigo Gaete · UX Architect" : undefined}
     >
       <defs>
-        <linearGradient id="logoGradient" x1="72.2227" y1="87.7735" x2="-10.5419" y2="42.3562" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradientId} x1="6" y1="36" x2="34" y2="36" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FF1D25" />
           <stop offset="1" stopColor="#FF931E" />
         </linearGradient>
       </defs>
-      <path
-        d="M39 0C60.54 0 78 17.46 78 39C78 60.54 60.54 78 39 78C17.46 78 0 60.54 0 39C0 17.46 17.46 0 39 0ZM39 15.6C26.52 15.6 15.6 26.52 15.6 39C15.6 51.48 26.52 62.4 39 62.4C51.48 62.4 62.4 51.48 62.4 39C62.4 26.52 51.48 15.6 39 15.6ZM39 31.2C43.98 31.2 46.8 34.02 46.8 39C46.8 43.98 43.98 46.8 39 46.8C34.02 46.8 31.2 43.98 31.2 39C31.2 34.02 34.02 31.2 39 31.2Z"
-        fill="url(#logoGradient)"
+      <rect
+        x="5"
+        y="5"
+        width="30"
+        height="30"
+        rx="7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        className="text-foreground/85"
       />
+      <path
+        d="M9 33.5H31"
+        stroke={`url(#${gradientId})`}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M31 9V15"
+        stroke={`url(#${gradientId})`}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <text
+        x="20"
+        y="23.5"
+        textAnchor="middle"
+        fill="currentColor"
+        fontFamily="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        fontSize="12.5"
+        fontWeight="700"
+        letterSpacing="-0.06em"
+        className="text-foreground"
+      >
+        RG
+      </text>
     </svg>
+  );
+}
+
+export function Logo({ size = "md", showText = true, animated = false }: LogoProps) {
+  const { language } = useLanguage();
+  const gradientId = useId();
+  const { mark, text, role, spacing } = sizes[size];
+  const roleLabel = language === "es" ? "Arquitecto UX" : "UX Architect";
+
+  const markNode = (
+    <LogoMarkSvg size={mark} gradientId={gradientId} labelled={!showText} />
   );
 
   const content = (
     <div className={`flex items-center ${spacing}`}>
       {animated ? (
         <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
         >
-          <LogoIcon />
+          {markNode}
         </motion.div>
       ) : (
-        <LogoIcon />
+        markNode
       )}
-      
+
       {showText && (
-        <div className="flex flex-col">
-          <span className={`${text} font-bold tracking-wide leading-none`}>
-            RODRIGO GAETE
+        <div className="flex flex-col leading-none">
+          <span className={`${text} font-semibold tracking-tight text-foreground`}>
+            Rodrigo Gaete
           </span>
-          <span className="text-sm text-muted-foreground leading-none mt-1">
-            Designer
+          <span
+            className={`${role} font-mono uppercase tracking-[0.18em] text-muted-foreground mt-1`}
+          >
+            {roleLabel}
           </span>
         </div>
       )}
@@ -67,26 +127,15 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
   return content;
 }
 
-export function LogoMark({ size = 48 }: { size?: number }) {
+export function LogoMark({ size = 36 }: { size?: number }) {
+  const gradientId = useId();
+
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 78 78"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="Rodrigo Gaete Logo"
-    >
-      <defs>
-        <linearGradient id="logoMarkGradient" x1="72.2227" y1="87.7735" x2="-10.5419" y2="42.3562" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF1D25" />
-          <stop offset="1" stopColor="#FF931E" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M39 0C60.54 0 78 17.46 78 39C78 60.54 60.54 78 39 78C17.46 78 0 60.54 0 39C0 17.46 17.46 0 39 0ZM39 15.6C26.52 15.6 15.6 26.52 15.6 39C15.6 51.48 26.52 62.4 39 62.4C51.48 62.4 62.4 51.48 62.4 39C62.4 26.52 51.48 15.6 39 15.6ZM39 31.2C43.98 31.2 46.8 34.02 46.8 39C46.8 43.98 43.98 46.8 39 46.8C34.02 46.8 31.2 43.98 31.2 39C31.2 34.02 34.02 31.2 39 31.2Z"
-        fill="url(#logoMarkGradient)"
-      />
-    </svg>
+    <LogoMarkSvg
+      size={size}
+      gradientId={gradientId}
+      labelled
+      className="shrink-0"
+    />
   );
 }
