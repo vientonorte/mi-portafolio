@@ -56,8 +56,8 @@ Run preview: `npm run preview` and verify:
 - [ ] `/#/sobre-mi` (About) loads
 - [ ] `/#/proyectos` (Projects) loads
 - [ ] `/#/contacto` (Contact) loads
-- [ ] `/#/cases` (Case Studies) loads
-- [ ] `/#/cases/process/:id` (Process Detail) loads
+- [ ] `/#/proceso` (Process) loads
+- [ ] `/#/proceso/fase/:id` (Process Detail) loads
 - [ ] `/#/design-system` (Design System) loads
 
 #### Responsive Design

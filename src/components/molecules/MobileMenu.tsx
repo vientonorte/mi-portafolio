@@ -244,7 +244,7 @@ export function MobileMenu({
                 <LanguageToggle />
               </div>
               <p className="text-sm text-muted-foreground text-center font-mono uppercase tracking-widest">
-                UX Architect
+                UX Design Ops
               </p>
             </div>
           </motion.div>

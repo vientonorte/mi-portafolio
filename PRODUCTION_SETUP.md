@@ -173,7 +173,7 @@ The repository is already configured for GitHub Pages deployment.
 After deployment, verify the following:
 
 - [ ] Site loads without errors
-- [ ] All routes work (`/`, `/#/proyectos`, `/#/sobre-mi`, `/#/contacto`, `/#/cases`)
+- [ ] All routes work (`/`, `/#/proyectos`, `/#/sobre-mi`, `/#/contacto`, `/#/proceso`)
 - [ ] Contact form submits (sends real email if FormSpree configured)
 - [ ] CV downloads correctly
 - [ ] Analytics tracking works (check GA4 Real-time if configured)

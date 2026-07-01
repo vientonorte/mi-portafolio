@@ -12,13 +12,13 @@ describe('Logo', () => {
   it('renders with default props in Spanish', () => {
     renderWithLanguage(<Logo />);
     expect(screen.getByText('Rodrigo Gaete')).toBeInTheDocument();
-    expect(screen.getByText('Arquitecto UX')).toBeInTheDocument();
+    expect(screen.getByText('UX Design Ops')).toBeInTheDocument();
   });
 
   it('hides text when showText=false', () => {
     renderWithLanguage(<Logo showText={false} />);
     expect(screen.queryByText('Rodrigo Gaete')).not.toBeInTheDocument();
-    expect(screen.getByLabelText('Rodrigo Gaete · UX Architect')).toBeInTheDocument();
+    expect(screen.getByLabelText('Rodrigo Gaete · UX Design Ops')).toBeInTheDocument();
   });
 
   it('renders svg icon with aria-hidden when text is shown', () => {
@@ -41,12 +41,12 @@ describe('Logo', () => {
 describe('LogoMark', () => {
   it('renders svg with accessible label', () => {
     render(<LogoMark />);
-    expect(screen.getByLabelText('Rodrigo Gaete · UX Architect')).toBeInTheDocument();
+    expect(screen.getByLabelText('Rodrigo Gaete · UX Design Ops')).toBeInTheDocument();
   });
 
   it('accepts custom size', () => {
     render(<LogoMark size={64} />);
-    const svg = screen.getByLabelText('Rodrigo Gaete · UX Architect');
+    const svg = screen.getByLabelText('Rodrigo Gaete · UX Design Ops');
     expect(svg).toHaveAttribute('width', '64');
     expect(svg).toHaveAttribute('height', '64');
   });

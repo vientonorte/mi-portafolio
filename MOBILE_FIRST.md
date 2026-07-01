@@ -7,13 +7,13 @@
 | Viewport | Primaria | Secundaria |
 |---|---|---|
 | `<768px` | `BottomNav` (4 ítems) | Header hamburger → `MobileMenu` |
-| `≥768px` | Header desktop | Bottom nav oculta |
+| `≥768px` | Header desktop | Bottom nav visible como dock inferior |
 
 ## Cambios recientes
 
 - **BottomNav**: scroll spy inicio/contacto; inactivos `#404040`
 - **MobileMenu**: `bottom-16` para no solapar bottom nav + safe-area
-- **Rutas secundarias**: `pb-20 md:pb-0` en `/design-system`, `/cases`, `/auditoria`
+- **Rutas secundarias**: espacio inferior persistente en `/design-system`, `/proceso`, `/auditoria`
 - **Contraste**: `--bottom-nav-inactive` en light/dark tokens
 
 ## Checklist QA (iPhone SE / 375px)

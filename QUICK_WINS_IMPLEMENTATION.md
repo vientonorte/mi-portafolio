@@ -37,7 +37,7 @@ This document summarizes the implementation of Quick Wins improvements to the po
 - ✅ Home (`/`)
 - ✅ Sobre Mí (`/sobre-mi`)
 - ✅ Contacto (`/contacto`)
-- ✅ Case Studies (`/cases`)
+- ✅ Proceso (`/proceso`)
 
 **Implementation:**
 ```tsx

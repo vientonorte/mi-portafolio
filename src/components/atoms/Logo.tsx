@@ -10,7 +10,7 @@ interface LogoProps {
 
 const sizes = {
   sm: { mark: 28, text: "text-base", role: "text-[10px]", spacing: "gap-2" },
-  md: { mark: 36, text: "text-xl", role: "text-xs", spacing: "gap-2.5" },
+  md: { mark: 36, text: "text-xl", role: "text-[11px]", spacing: "gap-2.5" },
   lg: { mark: 48, text: "text-3xl", role: "text-sm", spacing: "gap-3" },
 } as const;
 
@@ -21,10 +21,10 @@ interface LogoMarkSvgProps {
   labelled?: boolean;
 }
 
-/** Isologo minimalista RG — marco arquitectónico + acento de marca (10%). */
+/** Isologo circular — variante principal del sistema de marca 2026. */
 export function LogoMarkSvg({
   size,
-  gradientId,
+  gradientId: _gradientId,
   className,
   labelled = false,
 }: LogoMarkSvgProps) {
@@ -38,49 +38,20 @@ export function LogoMarkSvg({
       className={className}
       role={labelled ? "img" : undefined}
       aria-hidden={labelled ? undefined : true}
-      aria-label={labelled ? "Rodrigo Gaete · UX Architect" : undefined}
+      aria-label={labelled ? "Rodrigo Gaete · UX Design Ops" : undefined}
     >
-      <defs>
-        <linearGradient id={gradientId} x1="6" y1="36" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF1D25" />
-          <stop offset="1" stopColor="#FF931E" />
-        </linearGradient>
-      </defs>
-      <rect
-        x="5"
-        y="5"
-        width="30"
-        height="30"
-        rx="7"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        className="text-foreground/85"
-      />
-      <path
-        d="M9 33.5H31"
-        stroke={`url(#${gradientId})`}
-        strokeWidth="2"
+      <circle
+        cx="20"
+        cy="20"
+        r="13"
+        fill="none"
+        stroke="#FF5A1F"
+        strokeWidth="5"
         strokeLinecap="round"
+        strokeDasharray="70 16"
+        transform="rotate(-106 20 20)"
       />
-      <path
-        d="M31 9V15"
-        stroke={`url(#${gradientId})`}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <text
-        x="20"
-        y="23.5"
-        textAnchor="middle"
-        fill="currentColor"
-        fontFamily="system-ui, -apple-system, 'Segoe UI', sans-serif"
-        fontSize="12.5"
-        fontWeight="700"
-        letterSpacing="-0.06em"
-        className="text-foreground"
-      >
-        RG
-      </text>
+      <circle cx="20" cy="20" r="5.2" fill="#FF5A1F" />
     </svg>
   );
 }
@@ -89,7 +60,7 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
   const { language } = useLanguage();
   const gradientId = useId();
   const { mark, text, role, spacing } = sizes[size];
-  const roleLabel = language === "es" ? "Arquitecto UX" : "UX Architect";
+  const roleLabel = language === "es" ? "UX Design Ops" : "UX Design Ops";
 
   const markNode = (
     <LogoMarkSvg size={mark} gradientId={gradientId} labelled={!showText} />
@@ -115,7 +86,7 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
             Rodrigo Gaete
           </span>
           <span
-            className={`${role} font-mono uppercase tracking-[0.18em] text-muted-foreground mt-1`}
+            className={`${role} font-mono uppercase tracking-[0.24em] text-muted-foreground mt-1`}
           >
             {roleLabel}
           </span>

@@ -5,6 +5,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { ROUTES } from "../../lib/routes";
+import { useProcessNavLabel } from "../../lib/process-label-experiment";
 
 const items = [
   {
@@ -49,6 +50,7 @@ export function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
+  const { label: processLabel, variant: processLabelVariant } = useProcessNavLabel(language);
   const pendingScroll = useRef<string | null>(null);
   const [homeSection, setHomeSection] = useState<"inicio" | "contacto">("inicio");
 
@@ -116,13 +118,19 @@ export function BottomNav() {
 
   return (
     <nav
-      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-[60] border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
+      className="bottom-nav-mobile fixed bottom-0 left-0 right-0 z-[60] border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85 lg:bottom-4 lg:left-1/2 lg:right-auto lg:w-[min(560px,calc(100%-2rem))] lg:-translate-x-1/2 lg:rounded-full lg:border"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación principal" : "Main navigation"}
+      data-process-label-variant={processLabelVariant}
     >
       <ul className="bottom-nav-mobile__list">
         {items.map((item) => {
-          const label = language === "es" ? item.labelEs : item.labelEn;
+          const label =
+            item.id === "cases"
+              ? processLabel
+              : language === "es"
+                ? item.labelEs
+                : item.labelEn;
           return (
             <li key={item.id} className="bottom-nav-mobile__item">
               <NavTabItem
