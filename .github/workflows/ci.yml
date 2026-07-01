@@ -123,12 +123,25 @@ jobs:
       - name: Servir y escanear
         run: |
           npx serve dist -p 4444 &
-          sleep 3
-          pa11y http://localhost:4444 \
+          SERVER_PID=$!
+          trap "kill $SERVER_PID" EXIT
+
+          READY=0
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4444/ > /dev/null; then
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$READY" -ne 1 ]; then
+            echo "Preview server did not become reachable at http://127.0.0.1:4444/ within timeout." >&2
+            exit 1
+          fi
+
+          pa11y http://127.0.0.1:4444 \
             --standard WCAG2AA \
             --reporter cli \
             --ignore "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage" \
             --threshold 0 \
             --config .pa11yrc.json
-          kill %1
-          kill %1
