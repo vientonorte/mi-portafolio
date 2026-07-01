@@ -22,8 +22,8 @@ export function ImpactStats() {
       value: "-40%",
       label: language === "es" ? "Abandono en onboarding" : "Onboarding drop-off",
       description: language === "es" ? "SURA Ecosistema — 7-11 min vs 15+" : "SURA Ecosystem — 7-11 min vs 15+",
-      color: "text-blue-600 dark:text-blue-400",
-      bgColor: "bg-blue-50 dark:bg-blue-950/20",
+      color: "text-stat-tint-blue",
+      bgColor: "bg-stat-tint-blue",
       link: "/#/cases/process/ux-analytics",
       processId: "ux-analytics",
       company: "SURA",
@@ -33,8 +33,8 @@ export function ImpactStats() {
       value: "NPS 72",
       label: language === "es" ? "Plataforma inversiones SURA" : "SURA investments platform",
       description: language === "es" ? "+25 pts sobre baseline" : "+25 pts above baseline",
-      color: "text-amber-600 dark:text-amber-400",
-      bgColor: "bg-amber-50 dark:bg-amber-950/20",
+      color: "text-stat-tint-amber",
+      bgColor: "bg-stat-tint-amber",
       link: "/#/cases/process/ux-research",
       processId: "ux-research",
       company: "SURA",
@@ -44,8 +44,8 @@ export function ImpactStats() {
       value: "+35%",
       label: language === "es" ? "Activación shoppers Karri" : "Karri shopper activation",
       description: language === "es" ? "Calculadora de ganancias" : "Earnings calculator",
-      color: "text-rose-600 dark:text-rose-400",
-      bgColor: "bg-rose-50 dark:bg-rose-950/20",
+      color: "text-stat-tint-rose",
+      bgColor: "bg-stat-tint-rose",
       link: "/#/cases/process/ux-ui-design",
       processId: "ux-ui-design",
       company: "Karri",
@@ -55,8 +55,8 @@ export function ImpactStats() {
       value: "+58%",
       label: language === "es" ? "Engagement notificaciones" : "Notification engagement",
       description: language === "es" ? "Hub centralizado Karri" : "Karri centralized hub",
-      color: "text-violet-600 dark:text-violet-400",
-      bgColor: "bg-violet-50 dark:bg-violet-950/20",
+      color: "text-stat-tint-violet",
+      bgColor: "bg-stat-tint-violet",
       link: "/#/cases/process/refinamiento",
       processId: "refinamiento",
       company: "Karri",
@@ -72,7 +72,7 @@ export function ImpactStats() {
 
   return (
     <section
-      className="py-12 md:py-16 px-4 bg-muted/30"
+      className="py-12 md:py-16 px-4 bg-surface-section"
       aria-labelledby="impact-stats-heading"
     >
       <div className="container max-w-7xl mx-auto">
@@ -104,7 +104,7 @@ export function ImpactStats() {
                       <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center`}>
                         <Icon className={`h-6 w-6 md:h-7 md:w-7 ${stat.color}`} aria-hidden="true" />
                       </div>
-                      <CompanyLogoFromName company={stat.company} size="sm" className="shadow-sm" />
+                      <CompanyLogoFromName company={stat.company} size="sm" />
                     </div>
                     <div className={`metric-card-value ${stat.color}`}>
                       {stat.value}
@@ -130,22 +130,18 @@ export function ImpactStats() {
           {...fadeUp(0.4)}
           className="mt-12 md:mt-16"
         >
-          <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 via-background to-background overflow-hidden hover:border-primary/50 transition-all duration-500">
+          <Card className="border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated overflow-hidden hover:border-primary/25 transition-colors duration-500 shadow-none">
             <CardContent className="p-0">
               <div className="grid md:grid-cols-5 gap-0">
-                <div className="md:col-span-2 relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 md:p-8 flex flex-col justify-between min-h-[200px]">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-4 w-fit">
+                <div className="md:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col justify-between min-h-[200px]">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] mb-4 w-fit">
                     <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
                     <span className="text-sm font-semibold text-primary">
                       {language === "es" ? "Proyecto Destacado" : "Featured Project"}
                     </span>
                   </div>
                   <div className="space-y-3">
-                    <CompanyLogoFromName
-                      company="SURA Investments"
-                      size="md"
-                      className="shadow-md bg-card"
-                    />
+                    <CompanyLogoFromName company="SURA Investments" size="md" />
                     <h3 className="text-2xl md:text-3xl font-bold leading-tight">
                       RIA SURA Investments US
                     </h3>
@@ -153,7 +149,7 @@ export function ImpactStats() {
                       {language === "es" ? "Plataforma RIA para mercado estadounidense" : "RIA Platform for US market"}
                     </p>
                   </div>
-                  <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+
                 </div>
 
                 <div className="md:col-span-3 p-6 md:p-8 flex flex-col justify-between gap-6">
@@ -165,7 +161,7 @@ export function ImpactStats() {
                     ].map((metric) => (
                       <span
                         key={metric}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] text-sm font-medium text-primary"
                       >
                         <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
                         {metric}

@@ -41,7 +41,7 @@ export function CaseStudyCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className="overflow-hidden h-full hover:shadow-xl dark:hover:shadow-primary/5 transition-all duration-300 group border-border/50 flex flex-col">
+      <Card className="overflow-hidden h-full bg-surface-matte-elevated hover:shadow-md transition-all duration-300 group border-[color:var(--logo-surface-border)] shadow-none flex flex-col">
         <ResponsiveImage
           src={image}
           alt={`${t.caseStudiesGrid.altPrefix} ${title}`}
@@ -59,7 +59,7 @@ export function CaseStudyCard({
               <p className="text-sm text-muted-foreground">{company}</p>
             </div>
             {hasLogo ? (
-              <CompanyLogoFromName company={company} size="sm" className="shadow-sm" />
+              <CompanyLogoFromName company={company} size="sm" />
             ) : null}
           </div>
 

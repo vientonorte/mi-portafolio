@@ -13,7 +13,7 @@ export function Experience() {
   return (
     <section
       id="experiencia"
-      className="py-12 md:py-16 px-4 bg-muted/30"
+      className="py-12 md:py-16 px-4 bg-surface-section"
       aria-labelledby="experience-heading"
     >
       <div className="container max-w-7xl mx-auto">

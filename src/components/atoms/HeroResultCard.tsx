@@ -33,9 +33,10 @@ export function HeroResultCard({
           : { y: -2, transition: { duration: 0.2 } }
       }
       className={cn(
-        "w-full rounded-xl border border-border/50 bg-card/60 p-5 backdrop-blur-sm",
-        "shadow-sm transition-[border-color,box-shadow] duration-300",
-        "hover:border-primary/30 hover:shadow-md"
+        "w-full rounded-xl border p-5 bg-surface-matte-elevated",
+        "border-[color:var(--logo-surface-border)]",
+        "shadow-none transition-[border-color] duration-300",
+        "hover:border-primary/25"
       )}
     >
       <span className="block font-mono text-[clamp(1.75rem,3.5vw,2.75rem)] font-black leading-none tracking-tight text-foreground tabular-nums">
@@ -46,7 +47,7 @@ export function HeroResultCard({
       </span>
       <div className="mt-3 flex items-center gap-2.5">
         {hasLogo && (
-          <CompanyLogoFromName company={company} size="sm" className="shadow-sm" />
+          <CompanyLogoFromName company={company} size="sm" />
         )}
         <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground/80">
           {company}

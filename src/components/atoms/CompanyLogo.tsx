@@ -66,7 +66,7 @@ export function CompanyLogo({
     <div
       className={cn(
         "flex shrink-0 items-center justify-center overflow-hidden",
-        "bg-card/95 backdrop-blur-sm ring-1 ring-border/50 shadow-lg",
+        "bg-logo-surface shadow-none",
         styles.box,
         styles.pad,
         className

@@ -78,6 +78,23 @@
   --sidebar-accent-foreground: #171717;
   --sidebar-border: #e5e5e5;
   --sidebar-ring: #a3a3a3;
+
+  /* Superficies mate — landing, logos y métricas */
+  --surface-matte: #f0eeea;
+  --surface-matte-elevated: #f7f5f1;
+  --surface-section: #ebe8e3;
+  --logo-surface: #e8e5df;
+  --logo-surface-border: rgba(23, 23, 23, 0.07);
+  --stat-tint-blue: #e4eaf0;
+  --stat-tint-blue-fg: #4a6578;
+  --stat-tint-amber: #ede8df;
+  --stat-tint-amber-fg: #7a6340;
+  --stat-tint-rose: #ebe3e4;
+  --stat-tint-rose-fg: #7a5560;
+  --stat-tint-violet: #e6e3eb;
+  --stat-tint-violet-fg: #625a75;
+  --featured-matte: #ebe6de;
+  --featured-matte-accent: rgba(255, 29, 37, 0.06);
 }
 
 .dark {
@@ -119,6 +136,23 @@
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #262626;
   --sidebar-ring: #525252;
+
+  /* Superficies mate — dark */
+  --surface-matte: #1a1917;
+  --surface-matte-elevated: #222120;
+  --surface-section: #161514;
+  --logo-surface: #2c2a27;
+  --logo-surface-border: rgba(250, 250, 250, 0.07);
+  --stat-tint-blue: #1c2228;
+  --stat-tint-blue-fg: #8da8be;
+  --stat-tint-amber: #24211c;
+  --stat-tint-amber-fg: #c4a574;
+  --stat-tint-rose: #241c1e;
+  --stat-tint-rose-fg: #c4909a;
+  --stat-tint-violet: #201e24;
+  --stat-tint-violet-fg: #a89ab8;
+  --featured-matte: #1e1c19;
+  --featured-matte-accent: rgba(255, 147, 30, 0.08);
 }
 
 @theme inline {
@@ -285,16 +319,21 @@
   .metric-card {
     height: 100%;
     border-radius: 1rem;
-    border-width: 2px;
-    border-color: var(--border);
-    background-color: var(--card);
-    transition: all 0.3s;
+    border-width: 1px;
+    border-color: var(--logo-surface-border);
+    background-color: var(--surface-matte-elevated);
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
 
   .metric-card-interactive:hover,
   .metric-card-interactive:focus-within {
-    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border-color: color-mix(in srgb, var(--primary) 28%, transparent);
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.06);
+  }
+
+  .dark .metric-card-interactive:hover,
+  .dark .metric-card-interactive:focus-within {
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.25);
   }
 
   .metric-card-body {
@@ -346,6 +385,66 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+}
+
+/* Superficies mate reutilizables */
+@layer utilities {
+  .bg-surface-matte {
+    background-color: var(--surface-matte);
+  }
+
+  .bg-surface-matte-elevated {
+    background-color: var(--surface-matte-elevated);
+  }
+
+  .bg-surface-section {
+    background-color: var(--surface-section);
+  }
+
+  .bg-logo-surface {
+    background-color: var(--logo-surface);
+    border: 1px solid var(--logo-surface-border);
+  }
+
+  .bg-stat-tint-blue {
+    background-color: var(--stat-tint-blue);
+    color: var(--stat-tint-blue-fg);
+  }
+
+  .bg-stat-tint-amber {
+    background-color: var(--stat-tint-amber);
+    color: var(--stat-tint-amber-fg);
+  }
+
+  .bg-stat-tint-rose {
+    background-color: var(--stat-tint-rose);
+    color: var(--stat-tint-rose-fg);
+  }
+
+  .bg-stat-tint-violet {
+    background-color: var(--stat-tint-violet);
+    color: var(--stat-tint-violet-fg);
+  }
+
+  .text-stat-tint-blue {
+    color: var(--stat-tint-blue-fg);
+  }
+
+  .text-stat-tint-amber {
+    color: var(--stat-tint-amber-fg);
+  }
+
+  .text-stat-tint-rose {
+    color: var(--stat-tint-rose-fg);
+  }
+
+  .text-stat-tint-violet {
+    color: var(--stat-tint-violet-fg);
+  }
+
+  .bg-featured-matte {
+    background-color: var(--featured-matte);
   }
 }
 
