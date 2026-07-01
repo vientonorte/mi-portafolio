@@ -150,25 +150,26 @@ export const translations = {
           quote:
             'Destaco su capacidad para entender rápidamente las necesidades del usuario y transformarlas en soluciones simples, intuitivas y aterrizadas. Fue un excelente articulador entre negocio, diseño y tecnología en un entorno altamente regulado.',
           author: 'Pablo Matte R.',
-          role: 'Estrategia Digital · Wealth Management',
-          company: 'SURA Investments',
-          context: 'Líder en operación US · jun 2026',
+          role: 'Chief Executive Officer — Principal | Registered Investment Advisor',
+          company: 'Miami, FL, USA',
+          context: 'feb. 2022 – may. 2026 · 4 años 4 meses',
         },
         {
           quote:
             'Ha demostrado capacidad de trabajar de forma colaborativa y transversal con equipos distribuidos en Latinoamérica. Es un apasionado del UX y cada intervención aportó gran valor a la organización.',
           author: 'Arturo Ruiz Palafox',
-          role: 'Product Owner · Strategic Design',
+          role: 'Product Owner — Digital MX',
           company: 'SURA',
-          context: 'Mismo equipo · sep 2025',
+          context: 'Jornada completa · ago. 2022 – actualidad · 4 años',
         },
         {
           quote:
             'Sus habilidades UX/UI son tremendas: vi el gran impacto de su trabajo en usuarios y en la cultura de la organización. Destaco su approach metodológico y su capacidad de integrar usuarios no representados.',
           author: 'Francco Frugone',
-          role: 'Supervisor directo',
-          company: 'Transvip / Karri',
-          context: 'Nov 2024',
+          role: 'Subgerente de productos',
+          company: 'Transvip Chile',
+          context:
+            'Jornada completa · 4 años 1 mes · Chile · En remoto · may. 2023 – abr. 2025 · 2 años',
         },
       ],
     },
@@ -710,25 +711,26 @@ export const translations = {
           quote:
             'What stands out is his ability to quickly understand user needs and turn them into simple, intuitive, grounded solutions. He was an excellent bridge between business, design, and technology in a highly regulated environment.',
           author: 'Pablo Matte R.',
-          role: 'Digital Strategy · Wealth Management',
-          company: 'SURA Investments',
-          context: 'US operations lead · Jun 2026',
+          role: 'Chief Executive Officer — Principal | Registered Investment Advisor',
+          company: 'Miami, FL, USA',
+          context: 'Feb 2022 – May 2026 · 4 yrs 4 mos',
         },
         {
           quote:
             "He's shown collaborative, cross-functional work with distributed teams across Latin America. Passionate about UX—every contribution added real value to the organization.",
           author: 'Arturo Ruiz Palafox',
-          role: 'Product Owner · Strategic Design',
+          role: 'Product Owner — Digital MX',
           company: 'SURA',
-          context: 'Same team · Sep 2025',
+          context: 'Full-time · Aug 2022 – Present · 4 yrs',
         },
         {
           quote:
             'His UX/UI skills are outstanding—I saw real impact on users and on organizational culture. I especially value his methodological approach and ability to include underrepresented users.',
           author: 'Francco Frugone',
-          role: 'Direct manager',
-          company: 'Transvip / Karri',
-          context: 'Nov 2024',
+          role: 'Deputy Product Manager',
+          company: 'Transvip Chile',
+          context:
+            'Full-time · 4 yrs 1 mos · Remote, Chile · May 2023 – Apr 2025 · 2 yrs',
         },
       ],
     },
