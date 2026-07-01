@@ -42,7 +42,7 @@ export function Projects({
 
   return (
     <section
-      id="proyectos"
+      id="negocios"
       className="py-20 md:py-28 px-4 bg-surface-matte"
       aria-labelledby="projects-heading"
     >

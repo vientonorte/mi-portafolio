@@ -35,7 +35,7 @@ export function Navigation({
 
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
-    { href: "#proyectos", label: t.nav.projects, type: "anchor" as const },
+    { href: "proyectos", label: t.nav.projects, type: "route" as const },
     { href: "cases", label: t.nav.process, type: "route" as const },
     { href: "design-system", label: "Design System", type: "route" as const },
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
@@ -120,6 +120,8 @@ export function Navigation({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
+      } else if (item.href === "proyectos") {
+        navigate("/proyectos");
       }
       return;
     }
@@ -138,6 +140,13 @@ export function Navigation({
     if (href === "design-system") return location.pathname === "/design-system";
     if (href === "cases") return location.pathname.startsWith("/cases");
     if (href === "auditoria") return location.pathname === "/auditoria";
+    if (href === "proyectos") {
+      return (
+        location.pathname === "/proyectos" ||
+        location.pathname.startsWith("/proyecto/") ||
+        location.pathname.startsWith("/empresa/")
+      );
+    }
     return false;
   }, [location.pathname]);
 
@@ -205,6 +214,8 @@ export function Navigation({
                             ? onNavigateToAuditoria
                             : item.href === "cases"
                             ? onNavigateToCaseStudies
+                            : item.href === "proyectos"
+                            ? () => navigate("/proyectos")
                             : undefined
                         }
                       >

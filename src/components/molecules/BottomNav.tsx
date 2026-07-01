@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, FolderOpen, Palette, Mail } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Mail } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
@@ -16,6 +16,15 @@ const items = [
     route: "/",
   },
   {
+    id: "negocios",
+    labelEs: "Negocios",
+    labelEn: "Business",
+    icon: Briefcase,
+    type: "route" as const,
+    target: "/proyectos",
+    route: "/proyectos",
+  },
+  {
     id: "cases",
     labelEs: "Proceso",
     labelEn: "Process",
@@ -23,15 +32,6 @@ const items = [
     type: "route" as const,
     target: "/cases",
     route: "/cases",
-  },
-  {
-    id: "design-system",
-    labelEs: "Diseño",
-    labelEn: "Design",
-    icon: Palette,
-    type: "route" as const,
-    target: "/design-system",
-    route: "/design-system",
   },
   {
     id: "contacto",
@@ -91,7 +91,16 @@ export function BottomNav() {
   };
 
   const isActive = (item: typeof items[0]) => {
-    if (item.type === "route") return location.pathname === item.route;
+    if (item.type === "route") {
+      if (item.id === "negocios") {
+        return (
+          location.pathname === "/proyectos" ||
+          location.pathname.startsWith("/proyecto/") ||
+          location.pathname.startsWith("/empresa/")
+        );
+      }
+      return location.pathname === item.route;
+    }
     if (item.id === "contacto") return isOnHome && homeSection === "contacto";
     if (item.id === "inicio") return isOnHome && homeSection === "inicio";
     return false;

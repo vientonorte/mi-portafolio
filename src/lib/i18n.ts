@@ -5,7 +5,7 @@ export const translations = {
     // Navigation
     nav: {
       about: 'Sobre mí',
-      projects: 'Proyectos',
+      projects: 'Negocios',
       experience: 'Experiencia',
       skills: 'Habilidades',
       contact: 'Contacto',
@@ -24,9 +24,9 @@ export const translations = {
             'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium. Casos en SURA, Transvip y Karri.',
         },
         proyectos: {
-          title: 'Proyectos UX',
+          title: 'Negocios · UX Lead',
           description:
-            'Casos con evidencia y métricas: SURA Investments, Transvip y Karri. Onboarding, fintech y mobility.',
+            'Casos con evidencia y métricas en SURA Investments, Transvip y Karri. Fintech, mobility y enterprise.',
         },
         cases: {
           title: 'Framework UX y casos',
@@ -87,7 +87,7 @@ export const translations = {
         'Menos fricción, más claridad — donde el cumplimiento y la excelencia no compiten.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
-        primary: 'Ver proyectos',
+        primary: 'Ver negocios',
         secondary: 'Proceso UX',
       },
       scroll: 'Explorar',
@@ -218,7 +218,7 @@ export const translations = {
         title: 'Empresas donde he trabajado',
         description: 'Experiencia en fintech y mobility tech. Click para ver proyectos completos.',
       },
-      viewProjects: 'Ver proyectos',
+      viewProjects: 'Ver negocios',
       projectCount: 'proyectos',
       backToCompanies: 'Volver a empresas',
       tabs: {
@@ -312,7 +312,7 @@ export const translations = {
         challenge: 'El Desafío',
         process: 'Los 5 Procesos',
         valueChain: 'Cadena de Valor',
-        cta: 'Proyectos',
+        cta: 'Negocios',
       },
       challenge: {
         badge: 'El Desafío',
@@ -396,18 +396,18 @@ export const translations = {
       },
       navMobile: 'Secciones del proceso UX',
       cta: {
-        viewProjects: 'Ver proyectos reales',
+        viewProjects: 'Explorar negocios',
         backToPortfolio: 'Volver al portfolio',
-        sectionLabel: 'Proyectos Reales',
+        sectionLabel: 'Negocios reales',
         title: '¿Quieres ver este framework en acción?',
-        description: 'Explora los proyectos completos donde apliqué esta metodología en SURA, Transvip y Karri.',
+        description: 'Explora los casos completos por negocio donde apliqué esta metodología en SURA, Transvip y Karri.',
       },
     },
 
     caseStudiesGrid: {
       badge: 'Casos visuales',
       title: 'Evidencia de impacto',
-      description: 'Selección de proyectos con capturas reales, métricas y profundidad de caso. Haz clic para ver el estudio completo.',
+      description: 'Selección de casos por negocio con capturas reales, métricas y profundidad. Haz clic para ver el estudio completo.',
       viewCase: 'Ver Caso de Estudio',
       altPrefix: 'Caso de estudio:',
     },
@@ -493,7 +493,7 @@ export const translations = {
 
     breadcrumbs: {
       home: 'Inicio',
-      projects: 'Proyectos',
+      projects: 'Negocios',
       cases: 'Casos de estudio',
       process: 'Proceso UX',
       framework: 'Framework UX',
@@ -512,7 +512,7 @@ export const translations = {
       companyNotFound: 'No encontramos esa empresa.',
       projectNotFound: 'No encontramos ese proyecto.',
       processNotFound: 'Proceso no encontrado',
-      backToProjects: 'Volver a proyectos',
+      backToProjects: 'Volver a negocios',
       back: 'Volver',
     },
 
@@ -547,7 +547,7 @@ export const translations = {
       viewProject: 'Ver proyecto',
       realCases: 'Casos reales',
       relatedSubtitle: 'Proyectos donde apliqué {process} con resultados medibles',
-      viewAllProjects: 'Ver todos los proyectos',
+      viewAllProjects: 'Ver todos los negocios',
     },
   },
   
@@ -555,7 +555,7 @@ export const translations = {
     // Navigation
     nav: {
       about: 'About',
-      projects: 'Projects',
+      projects: 'Business',
       experience: 'Experience',
       skills: 'Skills',
       contact: 'Contact',
@@ -574,9 +574,9 @@ export const translations = {
             'Design that cuts the noise: regulatory compliance and premium experiences. Cases at SURA, Transvip, and Karri.',
         },
         proyectos: {
-          title: 'UX Projects',
+          title: 'Business · Lead UX',
           description:
-            'Case studies with evidence and metrics: SURA Investments, Transvip, and Karri. Onboarding, fintech, mobility.',
+            'Case studies with evidence and metrics at SURA Investments, Transvip, and Karri. Fintech, mobility, enterprise.',
         },
         cases: {
           title: 'UX Framework & Cases',
@@ -637,7 +637,7 @@ export const translations = {
         'Less friction, more clarity — where compliance and excellence don’t compete.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
-        primary: 'View projects',
+        primary: 'View business',
         secondary: 'UX Process',
       },
       scroll: 'Explore',
@@ -768,7 +768,7 @@ export const translations = {
         title: 'Companies I\'ve worked with',
         description: 'Experience in fintech and mobility tech. Click to see full projects.',
       },
-      viewProjects: 'View projects',
+      viewProjects: 'View business',
       projectCount: 'projects',
       backToCompanies: 'Back to companies',
       tabs: {
@@ -882,7 +882,7 @@ export const translations = {
         challenge: 'The Challenge',
         process: 'The 5 Processes',
         valueChain: 'Value Chain',
-        cta: 'Projects',
+        cta: 'Business',
       },
       challenge: {
         badge: 'The Challenge',
@@ -966,18 +966,18 @@ export const translations = {
       },
       navMobile: 'UX process sections',
       cta: {
-        viewProjects: 'View real projects',
+        viewProjects: 'Explore business',
         backToPortfolio: 'Back to portfolio',
-        sectionLabel: 'Real Projects',
+        sectionLabel: 'Real business',
         title: 'Want to see this framework in action?',
-        description: 'Explore the full projects where I applied this methodology at SURA, Transvip, and Karri.',
+        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri.',
       },
     },
 
     caseStudiesGrid: {
       badge: 'Visual cases',
       title: 'Evidence of impact',
-      description: 'Selected projects with real screenshots, metrics, and case depth. Click to view the full study.',
+      description: 'Selected cases by business with real screenshots, metrics, and depth. Click to view the full study.',
       viewCase: 'View Case Study',
       altPrefix: 'Case study:',
     },
@@ -1063,7 +1063,7 @@ export const translations = {
 
     breadcrumbs: {
       home: 'Home',
-      projects: 'Projects',
+      projects: 'Business',
       cases: 'Case studies',
       process: 'UX Process',
       framework: 'UX Framework',
@@ -1082,7 +1082,7 @@ export const translations = {
       companyNotFound: 'We could not find that company.',
       projectNotFound: 'We could not find that project.',
       processNotFound: 'Process not found',
-      backToProjects: 'Back to projects',
+      backToProjects: 'Back to business',
       back: 'Back',
     },
     
@@ -1097,7 +1097,7 @@ export const translations = {
       viewProject: 'View project',
       realCases: 'Real cases',
       relatedSubtitle: 'Projects where I applied {process} with measurable results',
-      viewAllProjects: 'View all projects',
+      viewAllProjects: 'View all business',
     },
   },
 };

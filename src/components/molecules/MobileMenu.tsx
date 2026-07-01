@@ -151,6 +151,8 @@ export function MobileMenu({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
+      } else if (item.href === "proyectos") {
+        navigate("/proyectos");
       }
       return;
     }

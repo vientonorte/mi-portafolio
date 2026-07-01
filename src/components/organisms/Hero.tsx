@@ -30,7 +30,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
   const scrollToProjects = () => {
     analytics.clickViewProjects();
-    document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("negocios")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
