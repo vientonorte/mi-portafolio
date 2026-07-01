@@ -19,6 +19,7 @@
   --brand-red: #FF1D25;
   --brand-orange: #FF931E;
   --brand-gradient: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%);
+  --logo-accent: var(--brand-red);
   
   /* 70% - Neutros dominantes */
   --brand-dark: #333333;
@@ -98,6 +99,8 @@
 }
 
 .dark {
+  --logo-accent: var(--brand-orange);
+
   /* 70% - Neutros dominantes dark */
   --background: #0a0a0a;
   --foreground: #fafafa;
@@ -445,6 +448,14 @@
 
   .bg-featured-matte {
     background-color: var(--featured-matte);
+  }
+
+  .logo-mark {
+    color: var(--logo-accent);
+  }
+
+  .dark .logo-mark {
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--brand-orange) 30%, transparent));
   }
 }
 

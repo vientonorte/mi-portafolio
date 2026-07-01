@@ -1,5 +1,7 @@
+import { useId } from "react";
 import { motion } from "motion/react";
 import { SEO_SITE } from "../../lib/seo";
+import { cn } from "../../lib/utils";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -32,6 +34,8 @@ export function LogoMarkSvg({
   className,
   labelled = false,
 }: LogoMarkSvgProps) {
+  const gradientId = useId();
+
   return (
     <svg
       width={size}
@@ -39,23 +43,41 @@ export function LogoMarkSvg({
       viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={cn("logo-mark shrink-0", className)}
       role={labelled ? "img" : undefined}
       aria-hidden={labelled ? undefined : true}
       aria-label={labelled ? `${SEO_SITE.brand} · ${SEO_SITE.role}` : undefined}
     >
+      <defs>
+        <linearGradient
+          id={gradientId}
+          x1="8"
+          y1="32"
+          x2="32"
+          y2="8"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="var(--brand-red, #FF1D25)" />
+          <stop offset="1" stopColor="var(--brand-orange, #FF931E)" />
+        </linearGradient>
+      </defs>
       <circle
         cx={LOGO_CENTER}
         cy={LOGO_CENTER}
         r={LOGO_RING_RADIUS}
         fill="none"
-        stroke="#FF5A1F"
+        stroke={`url(#${gradientId})`}
         strokeWidth={LOGO_RING_STROKE}
         strokeLinecap="round"
         strokeDasharray={LOGO_RING_DASH}
         transform={`rotate(${LOGO_RING_ROTATION} ${LOGO_CENTER} ${LOGO_CENTER})`}
       />
-      <circle cx={LOGO_CENTER} cy={LOGO_CENTER} r={LOGO_DOT_RADIUS} fill="#FF5A1F" />
+      <circle
+        cx={LOGO_CENTER}
+        cy={LOGO_CENTER}
+        r={LOGO_DOT_RADIUS}
+        fill={`url(#${gradientId})`}
+      />
     </svg>
   );
 }
@@ -105,7 +127,6 @@ export function LogoMark({ size = 36 }: { size?: number }) {
     <LogoMarkSvg
       size={size}
       labelled
-      className="shrink-0"
     />
   );
 }

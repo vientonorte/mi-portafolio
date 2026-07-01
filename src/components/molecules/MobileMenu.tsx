@@ -2,7 +2,13 @@ import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
+import { ThemeToggle } from "../atoms/ThemeToggle";
 import { X } from "lucide-react";
+import {
+  MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
+  MOBILE_HEADER_CONTROL_CLASS,
+} from "./mobile-header-classes";
+import { cn } from "../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { SEO_SITE } from "../../lib/seo";
@@ -180,7 +186,7 @@ export function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[105] lg:z-[55]"
+            className="fixed left-0 right-0 bottom-0 top-[var(--header-height)] bg-foreground/25 backdrop-blur-sm z-[105] dark:bg-black/60 lg:z-[55]"
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -200,17 +206,17 @@ export function MobileMenu({
             id="mobile-menu"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-border/40">
-              <h2 className="text-xl font-semibold">Navegación</h2>
+            <div className="flex items-center justify-between border-b border-border/40 bg-background p-6">
+              <h2 className="text-xl font-semibold text-foreground">Navegación</h2>
               <Button
                 ref={firstFocusableRef}
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
                 aria-label="Cerrar menú de navegación"
-                className="hover:bg-muted"
+                className={cn(MOBILE_HEADER_CONTROL_CLASS, MOBILE_HEADER_CONTROL_ACTIVE_CLASS)}
               >
-                <X className="h-5 w-5" aria-hidden="true" />
+                <X className="h-5 w-5 text-current" aria-hidden="true" />
               </Button>
             </div>
 
@@ -231,7 +237,7 @@ export function MobileMenu({
                     )}
                     <Button
                       variant="ghost"
-                      className="w-full justify-start text-lg min-h-[44px] h-12 hover:bg-primary/10 hover:text-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                      className="w-full justify-start text-lg min-h-[44px] h-12 text-foreground hover:bg-primary/10 hover:text-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:hover:bg-primary/15"
                       onClick={() => handleNavClick(item)}
                     >
                       {item.label}
@@ -242,8 +248,9 @@ export function MobileMenu({
             </nav>
 
             {/* Footer - Optional CTA or Info */}
-            <div className="p-6 border-t border-border/40 bg-muted/30 space-y-4">
-              <div className="flex justify-center">
+            <div className="space-y-4 border-t border-border/40 bg-muted/30 p-6 dark:bg-muted/20">
+              <div className="flex items-center justify-center gap-3">
+                <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
                 <LanguageToggle />
               </div>
               <p className="text-sm text-muted-foreground text-center font-mono uppercase tracking-widest">

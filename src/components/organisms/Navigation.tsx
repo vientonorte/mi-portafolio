@@ -14,6 +14,11 @@ import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
+import {
+  MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
+  MOBILE_HEADER_CONTROL_CLASS,
+} from "../molecules/mobile-header-classes";
+import { cn } from "../../lib/utils";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -261,10 +266,12 @@ export function Navigation({
         }}
         animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
+          isMenuOpen ? "z-[115]" : "z-[100]"
+        } ${
+          isScrolled || isMenuOpen
             ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80"
-            : "bg-transparent"
+            : "max-lg:bg-background/92 max-lg:backdrop-blur-md max-lg:border-b max-lg:border-border/30 max-lg:shadow-sm max-lg:supports-[backdrop-filter]:bg-background/88 lg:bg-transparent"
         }`}
         role="banner"
       >
@@ -275,7 +282,7 @@ export function Navigation({
           <motion.a
             href="#inicio"
             onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" })}
-            className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
+            className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors max-lg:rounded-full max-lg:bg-logo-surface max-lg:px-2.5 max-lg:py-1.5 max-lg:shadow-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
@@ -313,7 +320,7 @@ export function Navigation({
           </div>
 
           <div className="flex lg:hidden items-center gap-2">
-            <ThemeToggle />
+            <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
             <Button
               variant="ghost"
               size="icon"
@@ -321,13 +328,16 @@ export function Navigation({
               aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
-              className="relative h-11 w-11 rounded-full border border-border/60 bg-background/85 shadow-sm backdrop-blur-sm transition-all hover:bg-muted/90 hover:shadow-md"
+              className={cn(
+                MOBILE_HEADER_CONTROL_CLASS,
+                isMenuOpen && MOBILE_HEADER_CONTROL_ACTIVE_CLASS
+              )}
             >
               <span className="sr-only">{isMenuOpen ? "Cerrar menú" : "Abrir menú"}</span>
               {isMenuOpen ? (
-                <X className="h-5 w-5" aria-hidden="true" />
+                <X className="h-5 w-5 text-current" aria-hidden="true" />
               ) : (
-                <Menu className="h-5 w-5" aria-hidden="true" />
+                <Menu className="h-5 w-5 text-current" aria-hidden="true" />
               )}
             </Button>
           </div>

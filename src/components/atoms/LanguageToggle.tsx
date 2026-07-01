@@ -16,7 +16,7 @@ export function LanguageToggle() {
         variant="ghost"
         size="sm"
         onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
-        className="relative group"
+        className="relative group text-foreground hover:text-foreground"
         aria-label="Toggle language"
       >
         <Globe className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform" />

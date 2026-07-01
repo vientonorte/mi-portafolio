@@ -46,7 +46,7 @@ export function SubpageToolbar({
               <button
                 type="button"
                 onClick={() => navigate("/")}
-                className="shrink-0 rounded-lg p-1.5 transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="shrink-0 rounded-full bg-logo-surface p-1.5 shadow-sm transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:rounded-lg lg:bg-transparent lg:shadow-none"
                 aria-label={language === "es" ? "Inicio" : "Home"}
               >
                 <LogoMark size={28} />
