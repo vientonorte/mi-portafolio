@@ -63,12 +63,12 @@ export function CompanyLogo({
     return (
       <div
         className={cn(
-          "flex shrink-0 items-center justify-center bg-brand-gradient shadow-lg",
+          "flex shrink-0 items-center justify-center border border-[color:var(--logo-surface-border)] bg-logo-surface",
           styles.box,
           className
         )}
       >
-        <Building2 className={cn(styles.icon, "text-white")} aria-hidden />
+        <Building2 className={cn(styles.icon, "text-primary")} aria-hidden />
       </div>
     );
   }
