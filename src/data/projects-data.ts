@@ -79,7 +79,6 @@ export interface CompanyHub {
     description: LocalizedCopy;
   };
   gallery: {
-    title: LocalizedCopy;
     description: LocalizedCopy;
   };
   projects: EnhancedProject[];
@@ -186,10 +185,6 @@ export const suraHub: CompanyHub = {
     },
   },
   gallery: {
-    title: {
-      es: "Evidencias visuales — SURA Investments",
-      en: "Visual evidence — SURA Investments",
-    },
     description: {
       es: "Mockups, prototipos y diagramas de onboarding, dashboards, ecosistema digital y plataforma RIA.",
       en: "Mockups, prototypes, and diagrams of onboarding, dashboards, digital ecosystem, and RIA platform.",
@@ -369,6 +364,8 @@ export const suraHub: CompanyHub = {
           suraOnboardingFlags,
           suraAnalyticsGa4,
           suraBenchmarkNavigation,
+          suraHotjarDashboard,
+          suraBookingFlowchart,
         ],
       },
     },
@@ -556,13 +553,9 @@ export const transvipHub: CompanyHub = {
     },
   },
   gallery: {
-    title: {
-      es: "Evidencias visuales — Transvip & Karri",
-      en: "Visual evidence — Transvip & Karri",
-    },
     description: {
-      es: "Mockups, flujos de reserva, analytics y prototipos de la app de pasajeros, calculadora de ganancias, notificaciones y design sprint.",
-      en: "Mockups, booking flows, analytics, and prototypes from the passenger app, earnings calculator, notifications, and design sprint.",
+      es: "Mockups, flujos de reserva y prototipos de la app de pasajeros, calculadora de ganancias y notificaciones Karri.",
+      en: "Mockups, booking flows, and prototypes from the passenger app, Karri earnings calculator, and notifications.",
     },
   },
   projects: [
@@ -606,8 +599,6 @@ export const transvipHub: CompanyHub = {
           transvipMobile,
           transvipDesktop,
           transvipProductVision,
-          suraHotjarDashboard,
-          suraBookingFlowchart,
         ],
       },
     },

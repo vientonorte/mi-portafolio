@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { KeyRound, LogOut, RefreshCw, ShieldCheck, Upload } from "lucide-react";
+import { SEOHead } from "../components/atoms/SEOHead";
+import { PageShell } from "../components/layout/PageShell";
+import { useLanguage } from "../lib/LanguageContext";
+import { useTranslation } from "../lib/i18n";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
@@ -25,6 +29,8 @@ import {
 import { createPasskey, isPasskeySupported, loginWithPasskey } from "../lib/admin-passkey";
 
 export default function AdminPhotos() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [session, setSession] = useState<{ ok: boolean; user?: string; passkeyRegistered?: boolean } | null>(null);
   const [images, setImages] = useState<AdminImageRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -148,15 +154,19 @@ export default function AdminPhotos() {
 
   if (loading) {
     return (
-      <div className="container max-w-6xl mx-auto px-4 py-24 text-center text-muted-foreground">
-        Cargando admin de fotos…
-      </div>
+      <PageShell crumbs={[{ label: t.breadcrumbs.admin, current: true }]}>
+        <SEOHead title="Admin fotos" description="Editor privado de imágenes del portafolio." noIndex />
+        <div className="container max-w-6xl mx-auto px-4 py-16 text-center text-muted-foreground">
+          Cargando admin de fotos…
+        </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
-      <div className="container max-w-6xl mx-auto px-4 space-y-8">
+    <PageShell crumbs={[{ label: t.breadcrumbs.admin, current: true }]}>
+      <SEOHead title="Admin fotos" description="Editor privado de imágenes del portafolio." noIndex />
+      <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-8">
         <header className="space-y-2">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Admin privado</p>
           <h1 className="text-3xl font-bold">Fotos del portafolio</h1>
@@ -294,6 +304,6 @@ export default function AdminPhotos() {
           ))}
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
