@@ -3,6 +3,13 @@ import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { cn } from "../../lib/utils";
 
 const SIZES = {
+  /** Wordmarks horizontales en cards compactas (hero, métricas). */
+  "wordmark-sm": {
+    box: "h-8 w-[5.5rem] rounded-lg",
+    pad: "px-2 py-1",
+    icon: "h-4 w-4",
+    wordmark: "scale-100",
+  },
   sm: {
     box: "h-9 w-9 rounded-lg",
     pad: "p-1",
@@ -36,6 +43,8 @@ interface CompanyLogoProps {
   size?: CompanyLogoSize;
   className?: string;
   wordmark?: boolean;
+  /** Sin relleno matte — para cards que ya usan surface-matte-elevated. */
+  flat?: boolean;
 }
 
 export function CompanyLogo({
@@ -44,9 +53,11 @@ export function CompanyLogo({
   size = "md",
   className,
   wordmark,
+  flat = false,
 }: CompanyLogoProps) {
   const styles = SIZES[size];
-  const isWordmark = wordmark ?? (src ? isWordmarkLogo(src) : false);
+  const isWordmark =
+    wordmark ?? (size === "wordmark-sm" || (src ? isWordmarkLogo(src) : false));
 
   if (!src) {
     return (
@@ -65,8 +76,10 @@ export function CompanyLogo({
   return (
     <div
       className={cn(
-        "flex shrink-0 items-center justify-center overflow-hidden",
-        "bg-logo-surface shadow-none",
+        "flex shrink-0 items-center justify-center overflow-hidden shadow-none",
+        flat
+          ? "border border-[color:var(--logo-surface-border)] bg-transparent"
+          : "bg-logo-surface",
         styles.box,
         styles.pad,
         className

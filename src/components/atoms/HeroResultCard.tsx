@@ -39,20 +39,22 @@ export function HeroResultCard({
         "hover:border-primary/25"
       )}
     >
-      <span className="block font-mono text-[clamp(1.75rem,3.5vw,2.75rem)] font-black leading-none tracking-tight text-foreground tabular-nums">
-        {metric}
-      </span>
-      <span className="mt-1.5 block text-sm text-muted-foreground">
-        {description}
-      </span>
-      <div className="mt-3 flex items-center gap-2.5">
-        {hasLogo && (
-          <CompanyLogoFromName company={company} size="sm" />
-        )}
-        <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground/80">
-          {company}
+      <div className="flex items-start justify-between gap-3">
+        <span className="font-mono text-[clamp(1.75rem,3.5vw,2.75rem)] font-black leading-none tracking-tight text-foreground tabular-nums">
+          {metric}
         </span>
+        {hasLogo && (
+          <CompanyLogoFromName
+            company={company}
+            size="wordmark-sm"
+            flat
+          />
+        )}
       </div>
+      <p className="mt-1.5 text-sm text-muted-foreground leading-snug">
+        {description}
+      </p>
+      <span className="sr-only">{company}</span>
     </motion.div>
   );
 }

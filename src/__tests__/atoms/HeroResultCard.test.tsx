@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { HeroResultCard } from "@/components/atoms/HeroResultCard";
 
 describe("HeroResultCard", () => {
-  it("renders metric, description and company", () => {
+  it("renders metric, description and accessible company label", () => {
     render(
       <HeroResultCard
         metric="−40%"
@@ -13,6 +13,7 @@ describe("HeroResultCard", () => {
     );
     expect(screen.getByText("−40%")).toBeInTheDocument();
     expect(screen.getByText("abandono en onboarding")).toBeInTheDocument();
-    expect(screen.getByText("SURA Investments")).toBeInTheDocument();
+    expect(screen.getByText("SURA Investments")).toHaveClass("sr-only");
+    expect(screen.getByRole("img", { name: "SURA Investments logo" })).toBeInTheDocument();
   });
 });

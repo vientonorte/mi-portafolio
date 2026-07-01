@@ -5,12 +5,14 @@ interface CompanyLogoFromNameProps {
   company: string;
   size?: CompanyLogoSize;
   className?: string;
+  flat?: boolean;
 }
 
 export function CompanyLogoFromName({
   company,
   size = "md",
   className,
+  flat = false,
 }: CompanyLogoFromNameProps) {
   const logo = getCompanyLogo(company);
 
@@ -21,6 +23,7 @@ export function CompanyLogoFromName({
       size={size}
       className={className}
       wordmark={logo?.wordmark}
+      flat={flat}
     />
   );
 }

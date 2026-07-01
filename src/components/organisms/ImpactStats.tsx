@@ -104,7 +104,11 @@ export function ImpactStats() {
                       <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center`}>
                         <Icon className={`h-6 w-6 md:h-7 md:w-7 ${stat.color}`} aria-hidden="true" />
                       </div>
-                      <CompanyLogoFromName company={stat.company} size="sm" />
+                      <CompanyLogoFromName
+                        company={stat.company}
+                        size="wordmark-sm"
+                        flat
+                      />
                     </div>
                     <div className={`metric-card-value ${stat.color}`}>
                       {stat.value}
