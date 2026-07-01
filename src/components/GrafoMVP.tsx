@@ -24,7 +24,14 @@ const leyenda = [
 const GrafoMVP = () => (
   <section aria-labelledby="grafo-title" style={{ maxWidth: 480, margin: '0 auto', padding: 24 }}>
     <h2 id="grafo-title">Grafo de relaciones institucionales</h2>
-    <svg width="400" height="240" role="img" aria-label="Red de casos institucionales" tabIndex={0} style={{ background: '#F9FAFB', borderRadius: 8, marginBottom: 16 }}>
+    <svg
+      viewBox="0 0 400 240"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      aria-label="Red de casos institucionales"
+      tabIndex={0}
+      style={{ background: '#F9FAFB', borderRadius: 8, marginBottom: 16, width: '100%', height: 'auto', maxWidth: 400, display: 'block' }}
+    >
       {/* Aristas */}
       {aristas.map((a, i) => {
         const from = nodos.find(n => n.id === a.from);
@@ -67,7 +74,7 @@ const GrafoMVP = () => (
         </g>
       ))}
     </svg>
-    <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
       {leyenda.map(l => (
         <span key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <span style={{ width: 16, height: 16, borderRadius: '50%', background: l.color, display: 'inline-block', border: '1px solid #222' }} aria-hidden="true" />
