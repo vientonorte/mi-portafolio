@@ -14,6 +14,11 @@ import {
   karriDeliveryPhoto,
   karriZubaleDocuments,
   karriOkrsBoard,
+  karriShopperPhoto,
+  karriZubaleOnboarding,
+  karriDocumentsStep,
+  karriSprintBrief1,
+  karriSprintBrief2,
 } from "./project-images";
 
 export const karriCalculadoraProject = {
@@ -30,7 +35,7 @@ export const karriCalculadoraProject = {
   details: {
     challenge: "Los shoppers de Karri no podían estimar sus ingresos potenciales antes de comenzar, generando incertidumbre sobre la rentabilidad del trabajo.",
     solution: "Calculadora interactiva con benchmark de competidores (BOOSMAP, ZUBALE) y simulación de escenarios de trabajo.",
-    mockups: [karriBoosmapBenchmark, karriIdUpload],
+    mockups: [karriBoosmapBenchmark, karriIdUpload, karriZubaleOnboarding, karriDocumentsStep],
   },
   tags: ["Figma", "React Native", "UX Research", "Mobile First", "Design System"],
   challenge: {
@@ -174,7 +179,7 @@ export const karriNotificacionesProject = {
   details: {
     challenge: "Notificaciones dispersas en push, SMS y email sin centro unificado. Autenticación confusa con alto abandono.",
     solution: "Hub de notificaciones categorizado y onboarding simplificado de 7 a 4 pasos con feedback visual claro.",
-    mockups: [karriDeliveryPhoto, karriZubaleDocuments],
+    mockups: [karriDeliveryPhoto, karriZubaleDocuments, karriShopperPhoto],
   },
   tags: ["Figma", "React Native", "Information Architecture", "Mobile UX", "Accessibility"],
   challenge: {
@@ -293,8 +298,7 @@ export const karriDesignSprintProject = {
   details: {
     challenge: "Información dispersa y falta de consenso sobre la visión del producto Karri.",
     solution: "3 talleres: brief colaborativo, journey map (24 touchpoints) y OKRs con 3 MVPs priorizados.",
-    // Evidencias en pestañas designComponents; sin mockups PNG duplicados
-    mockups: [],
+    mockups: [karriSprintBrief1, karriSprintBrief2],
   },
   tags: ["Design Sprint", "Facilitation", "Product Strategy", "Journey Mapping", "OKR Planning"],
   challenge: {

@@ -14,6 +14,7 @@ import {
   karriLogo,
   uxProcessDiagram,
   uxValueChain,
+  uxSprintDiagram,
 } from "./project-images";
 
 export interface Process {
@@ -240,7 +241,7 @@ export const suraHub: CompanyHub = {
           "Design Thinking funciona en enterprise con la estructura correcta",
           "La documentación de lineamientos debe ser viva y evolutiva",
         ],
-        mockups: [uxProcessDiagram, uxValueChain],
+        mockups: [uxProcessDiagram, uxValueChain, uxSprintDiagram],
       },
     },
     {
