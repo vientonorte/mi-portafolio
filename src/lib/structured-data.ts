@@ -21,7 +21,7 @@ function absoluteImageUrl(image: string): string {
 export function buildPortfolioStructuredData(language: Language) {
   const t = useTranslation(language);
   const hero = t.hero;
-  const caseStudies = getFeaturedCaseStudies();
+  const caseStudies = getFeaturedCaseStudies(language);
 
   const person = {
     "@type": "Person",
