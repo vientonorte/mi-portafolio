@@ -1,5 +1,5 @@
 import type { MockupItem } from "../components/molecules/MockupGallery";
-import type { Language } from "./LanguageContext";
+import type { Language } from "./i18n";
 import { useTranslation } from "./i18n";
 
 type MockupStrings = ReturnType<typeof useTranslation>["mockups"];

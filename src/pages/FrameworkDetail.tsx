@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { RefreshCw, TrendingUp, GraduationCap, Users, Sparkles, Zap, Target, ChevronRight } from "lucide-react";
+import { BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, GraduationCap, Users, Sparkles, Zap, Target, ChevronRight } from "lucide-react";
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
@@ -51,7 +51,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
   const processes = [
     {
       id: "ux-analytics",
-      number: "01",
+      icon: BarChart3,
       title: language === "es" ? "UX Analytics" : "UX Analytics",
       description: language === "es" 
         ? "Análisis cuantitativo de comportamiento con herramientas de analytics"
@@ -59,7 +59,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
     },
     {
       id: "ux-research",
-      number: "02",
+      icon: Search,
       title: language === "es" ? "UX Research" : "UX Research",
       description: language === "es"
         ? "Investigación cualitativa con usuarios finales y stakeholders"
@@ -67,7 +67,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
     },
     {
       id: "ux-ui-design",
-      number: "03",
+      icon: Palette,
       title: language === "es" ? "UX/UI Design" : "UX/UI Design",
       description: language === "es"
         ? "Ideación colaborativa, wireframes y prototipos interactivos"
@@ -75,7 +75,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
     },
     {
       id: "ux-testing",
-      number: "04",
+      icon: TestTube,
       title: language === "es" ? "UX Testing" : "UX Testing",
       description: language === "es"
         ? "Validación de prototipos con usuarios reales mediante testing"
@@ -83,7 +83,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
     },
     {
       id: "refinamiento",
-      number: "05",
+      icon: RefreshCw,
       title: language === "es" ? "Refinamiento" : "Refinement",
       description: language === "es"
         ? "Iteración continua post-lanzamiento basada en métricas"
@@ -530,7 +530,9 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                 {processes.map((process, index) => (
                   <div key={process.id} role="listitem">
                     <ProcessPhaseCard
-                      phase={process}
+                      icon={process.icon}
+                      title={process.title}
+                      description={process.description}
                       index={index}
                       onClick={() => onNavigateToProcess?.(process.id)}
                     />

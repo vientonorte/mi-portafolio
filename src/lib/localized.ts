@@ -1,5 +1,5 @@
 import type { LocalizedCopy } from "../data/projects-data";
-import type { Language } from "./LanguageContext";
+import type { Language } from "./i18n";
 
 export function localized(copy: LocalizedCopy, lang: Language): string {
   return copy[lang];
