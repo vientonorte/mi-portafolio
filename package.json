@@ -55,8 +55,7 @@
     "recharts": "^3.8.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "*",
-    "vaul": "^1.1.2",
-    "vite": "*"
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.0",
@@ -80,7 +79,7 @@
     "lint-staged": "^17.0.8",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.1",
-    "vite": "8.0.13",
+    "vite": "^8.1.2",
     "vitest": "^4.1.9"
   },
   "scripts": {
