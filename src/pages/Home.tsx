@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Hero } from '../components/organisms/Hero';
 import { ImpactStats } from '../components/organisms/ImpactStats';
 import { About } from '../components/organisms/About';
-import { Projects } from '../components/organisms/Projects';
+import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
 import { Experience } from '../components/organisms/Experience';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
@@ -38,10 +38,7 @@ const Home = () => {
         onNavigateToDesignSystem={() => navigate('/design-system')}
       />
       <ImpactStats />
-      <Projects
-        onNavigateToCaseStudies={() => navigate('/cases')}
-        onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
-      />
+      <ProjectsTeaser onNavigateToCaseStudies={() => navigate('/cases')} />
       <About />
       <Experience />
       <Testimonials />

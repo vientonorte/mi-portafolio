@@ -4,17 +4,14 @@ import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-interface NavItem {
-  href: string;
-  label: string;
-  type: "anchor" | "route" | "external";
-}
+import type { NavItem } from "../../lib/nav-types";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   navItems: NavItem[];
+  moreDividerLabel?: string;
+  moreStartIndex?: number;
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
@@ -24,6 +21,8 @@ export function MobileMenu({
   isOpen,
   onClose,
   navItems,
+  moreDividerLabel,
+  moreStartIndex,
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
   onNavigateToAuditoria,
@@ -153,6 +152,8 @@ export function MobileMenu({
         onNavigateToAuditoria?.();
       } else if (item.href === "proyectos") {
         navigate("/proyectos");
+      } else if (item.href === "sobre-mi") {
+        navigate("/sobre-mi");
       }
       return;
     }
@@ -220,6 +221,11 @@ export function MobileMenu({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
+                    {moreDividerLabel && moreStartIndex === index && (
+                      <p className="px-3 pt-4 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {moreDividerLabel}
+                      </p>
+                    )}
                     <Button
                       variant="ghost"
                       className="w-full justify-start text-lg min-h-[44px] h-12 hover:bg-primary/10 hover:text-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"

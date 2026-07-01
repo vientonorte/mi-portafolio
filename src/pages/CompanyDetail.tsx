@@ -23,6 +23,8 @@ import { CompanyHub } from "../data/projects-data";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
+import { useNavigate } from "react-router-dom";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { StatsTooltip } from "../components/molecules/StatsTooltip";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
@@ -48,6 +50,7 @@ export default function CompanyDetail({
   onNavigateToProject,
   onNavigateToProcess,
 }: CompanyDetailProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
   const companyDescription = localized(company.description, language);
@@ -150,10 +153,10 @@ export default function CompanyDetail({
       <ProcessNavigation sections={navigationSections} />
 
       <SubpageToolbar
-        crumbs={[
+        crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
           { label: t.breadcrumbs.projects, onClick: onBack },
           { label: company.name, current: true },
-        ]}
+        ])}
       />
 
       <main id="main-content" role="main">

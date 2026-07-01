@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
 import { Menu, X } from "lucide-react";
 import { MobileMenu } from "../molecules/MobileMenu";
+import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { LogoMark } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { useLocation } from "react-router-dom";
+import type { NavItem } from "../../lib/nav-types";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -33,16 +34,34 @@ export function Navigation({
   const navigate = useNavigate();
   const pendingScroll = useRef<string | null>(null);
 
-  const navItems = [
-    { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
-    { href: "proyectos", label: t.nav.projects, type: "route" as const },
-    { href: "cases", label: t.nav.process, type: "route" as const },
-    { href: "design-system", label: "Design System", type: "route" as const },
-    { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
-    { href: "#contacto", label: t.nav.contact, type: "anchor" as const },
-    { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" as const },
-    { href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html", label: language === "es" ? "Investigación" : "Research", type: "external" as const },
-  ];
+  const primaryNavItems: NavItem[] = useMemo(
+    () => [
+      { href: "proyectos", label: t.nav.projects, type: "route" },
+      { href: "cases", label: t.nav.process, type: "route" },
+      { href: "#contacto", label: t.nav.contact, type: "anchor" },
+    ],
+    [t.nav.projects, t.nav.process, t.nav.contact]
+  );
+
+  const moreNavItems: NavItem[] = useMemo(
+    () => [
+      { href: "sobre-mi", label: t.nav.about, type: "route" },
+      { href: "#experiencia", label: t.nav.experience, type: "anchor" },
+      { href: "design-system", label: t.nav.designSystem, type: "route" },
+      { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" },
+      {
+        href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html",
+        label: language === "es" ? "Investigación" : "Research",
+        type: "external",
+      },
+    ],
+    [t.nav.about, t.nav.experience, t.nav.designSystem, language]
+  );
+
+  const mobileNavItems = useMemo(
+    () => [...primaryNavItems, ...moreNavItems],
+    [primaryNavItems, moreNavItems]
+  );
 
   useEffect(() => {
     isMenuOpenRef.current = isMenuOpen;
@@ -73,7 +92,6 @@ export function Navigation({
     scrollToAnchor(target);
   }, [location.pathname, scrollToAnchor]);
 
-  // Close mobile menu when clicking outside or on escape
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -82,7 +100,6 @@ export function Navigation({
     };
 
     document.addEventListener("keydown", handleEscape);
-    // Prevent body scroll when menu is open
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -91,7 +108,6 @@ export function Navigation({
     };
   }, [isMenuOpen]);
 
-  // Handle scroll behavior — auto-hide only on desktop (lg+); mobile keeps header + hamburger visible
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     const isDesktopNav = window.matchMedia("(min-width: 1024px)").matches;
@@ -109,54 +125,119 @@ export function Navigation({
     setIsScrolled(latest > 50);
   });
 
-  // Memoized navigation handler
-  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, item: typeof navItems[0]) => {
-    e.preventDefault();
-    
-    if (item.type === "route") {
-      if (item.href === "design-system") {
-        onNavigateToDesignSystem?.();
-      } else if (item.href === "cases") {
-        onNavigateToCaseStudies?.();
-      } else if (item.href === "auditoria") {
-        onNavigateToAuditoria?.();
-      } else if (item.href === "proyectos") {
-        navigate("/proyectos");
+  const runNavAction = useCallback(
+    (item: NavItem) => {
+      if (item.type === "external") {
+        window.open(item.href, "_blank", "noopener,noreferrer");
+        return;
       }
-      return;
-    }
 
-    if (location.pathname !== "/") {
-      pendingScroll.current = item.href;
-      navigate("/");
-      return;
-    }
+      if (item.type === "route") {
+        switch (item.href) {
+          case "design-system":
+            onNavigateToDesignSystem?.();
+            break;
+          case "cases":
+            onNavigateToCaseStudies?.();
+            break;
+          case "auditoria":
+            onNavigateToAuditoria?.();
+            break;
+          case "proyectos":
+            navigate("/proyectos");
+            break;
+          case "sobre-mi":
+            navigate("/sobre-mi");
+            break;
+        }
+        return;
+      }
 
-    scrollToAnchor(item.href);
-  }, [location.pathname, navigate, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
+      if (location.pathname !== "/") {
+        pendingScroll.current = item.href;
+        navigate("/");
+        return;
+      }
 
-  // Helper function to check if route is active
-  const isRouteActive = useCallback((href: string) => {
-    if (href === "design-system") return location.pathname === "/design-system";
-    if (href === "cases") return location.pathname.startsWith("/cases");
-    if (href === "auditoria") return location.pathname === "/auditoria";
-    if (href === "proyectos") {
-      return (
-        location.pathname === "/proyectos" ||
-        location.pathname.startsWith("/proyecto/") ||
-        location.pathname.startsWith("/empresa/")
-      );
-    }
-    return false;
-  }, [location.pathname]);
+      scrollToAnchor(item.href);
+    },
+    [
+      location.pathname,
+      navigate,
+      onNavigateToAuditoria,
+      onNavigateToCaseStudies,
+      onNavigateToDesignSystem,
+      scrollToAnchor,
+    ]
+  );
+
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
+      e.preventDefault();
+      runNavAction(item);
+    },
+    [runNavAction]
+  );
+
+  const isRouteActive = useCallback(
+    (href: string) => {
+      if (href === "design-system") return location.pathname === "/design-system";
+      if (href === "cases") return location.pathname.startsWith("/cases");
+      if (href === "auditoria") return location.pathname === "/auditoria";
+      if (href === "sobre-mi") return location.pathname === "/sobre-mi";
+      if (href === "proyectos") {
+        return (
+          location.pathname === "/proyectos" ||
+          location.pathname.startsWith("/proyecto/") ||
+          location.pathname.startsWith("/empresa/")
+        );
+      }
+      return false;
+    },
+    [location.pathname]
+  );
 
   const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => !prev);
+    setIsMenuOpen((prev) => !prev);
   }, []);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
+
+  const renderPrimaryItem = (item: NavItem) => {
+    const isActive = item.type === "route" && isRouteActive(item.href);
+
+    if (item.type === "route") {
+      return (
+        <Button
+          variant="ghost"
+          className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
+            isActive ? "text-primary bg-primary/10" : ""
+          }`}
+          onClick={() => runNavAction(item)}
+        >
+          {item.label}
+          {isActive && (
+            <motion.div
+              layoutId="activeNavIndicator"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+              initial={false}
+              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            />
+          )}
+        </Button>
+      );
+    }
+
+    return (
+      <Button variant="ghost" asChild className="hover:text-primary hover:bg-primary/10 transition-all">
+        <a href={item.href} onClick={(e) => handleNavClick(e, item)}>
+          {item.label}
+        </a>
+      </Button>
+    );
+  };
 
   return (
     <>
@@ -168,20 +249,19 @@ export function Navigation({
         animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled 
-            ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80" 
+          isScrolled
+            ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80"
             : "bg-transparent"
         }`}
         role="banner"
       >
-        <nav 
+        <nav
           className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between"
           aria-label="Navegación principal"
         >
-          {/* Logo */}
           <motion.a
             href="#inicio"
-            onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" as const })}
+            onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" })}
             className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -190,76 +270,29 @@ export function Navigation({
             <LogoMark size={32} />
           </motion.a>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
             <ul className="flex items-center gap-1" role="list">
-              {navItems.map((item) => {
-                const isActive = item.type === "route" && isRouteActive(item.href);
-                return (
-                  <li key={item.href}>
-                    {item.type === "external" ? (
-                      <Button variant="ghost" className="hover:text-primary hover:bg-primary/10 transition-all" asChild>
-                        <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>
-                      </Button>
-                    ) : item.type === "route" ? (
-                      <Button
-                        variant="ghost"
-                        className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
-                          isActive ? "text-primary bg-primary/10" : ""
-                        }`}
-                        onClick={
-                          item.href === "design-system"
-                            ? onNavigateToDesignSystem
-                            : item.href === "auditoria"
-                            ? onNavigateToAuditoria
-                            : item.href === "cases"
-                            ? onNavigateToCaseStudies
-                            : item.href === "proyectos"
-                            ? () => navigate("/proyectos")
-                            : undefined
-                        }
-                      >
-                        {item.label}
-                        {isActive && (
-                          <motion.div
-                            layoutId="activeNavIndicator"
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                            initial={false}
-                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                          />
-                        )}
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="ghost"
-                        asChild
-                        className="hover:text-primary hover:bg-primary/10 transition-all"
-                      >
-                        <a 
-                          href={item.href}
-                          onClick={(e) => handleNavClick(e, item)}
-                        >
-                          {item.label}
-                        </a>
-                      </Button>
-                    )}
-                  </li>
-                );
-              })}
+              {primaryNavItems.map((item) => (
+                <li key={item.href}>{renderPrimaryItem(item)}</li>
+              ))}
+              <li>
+                <NavMoreMenu
+                  label={t.nav.more}
+                  items={moreNavItems}
+                  onSelect={runNavAction}
+                />
+              </li>
             </ul>
 
-            {/* Theme Toggle Desktop */}
             <div className="flex items-center pl-6 ml-2 border-l border-border/40">
               <ThemeToggle />
             </div>
 
-            {/* Language Toggle Desktop */}
             <div className="flex items-center pl-6 ml-2 border-l border-border/40">
               <LanguageToggle />
             </div>
           </div>
 
-          {/* Mobile Actions */}
           <div className="flex lg:hidden items-center gap-2">
             <ThemeToggle />
             <Button
@@ -271,9 +304,7 @@ export function Navigation({
               aria-controls="mobile-menu"
               className="relative h-11 w-11 rounded-full border border-border/60 bg-background/85 shadow-sm backdrop-blur-sm transition-all hover:bg-muted/90 hover:shadow-md"
             >
-              <span className="sr-only">
-                {isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              </span>
+              <span className="sr-only">{isMenuOpen ? "Cerrar menú" : "Abrir menú"}</span>
               {isMenuOpen ? (
                 <X className="h-5 w-5" aria-hidden="true" />
               ) : (
@@ -284,11 +315,12 @@ export function Navigation({
         </nav>
       </motion.header>
 
-      {/* Mobile Menu */}
       <MobileMenu
         isOpen={isMenuOpen}
         onClose={closeMenu}
-        navItems={navItems}
+        navItems={mobileNavItems}
+        moreDividerLabel={t.nav.more}
+        moreStartIndex={primaryNavItems.length}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
         onNavigateToAuditoria={onNavigateToAuditoria}

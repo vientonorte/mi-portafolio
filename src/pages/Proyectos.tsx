@@ -5,6 +5,7 @@ import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
+import { withHomeCrumb } from '../lib/breadcrumb-helpers';
 
 const Proyectos = () => {
   const navigate = useNavigate();
@@ -12,7 +13,11 @@ const Proyectos = () => {
   const t = useTranslation(language);
 
   return (
-    <PageShell crumbs={[{ label: t.breadcrumbs.projects, current: true }]}>
+    <PageShell
+      crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate('/'), [
+        { label: t.breadcrumbs.projects, current: true },
+      ])}
+    >
       <SEOHead
         {...t.seo.pages.proyectos}
         keywords={t.seo.keywords}

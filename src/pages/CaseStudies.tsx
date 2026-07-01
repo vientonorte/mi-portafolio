@@ -15,6 +15,8 @@ import { GradientHeading } from "../components/atoms/GradientHeading";
 import { canonicalFromPath } from "../lib/seo";
 import { FlagshipCaseStudy } from "../components/organisms/FlagshipCaseStudy";
 import { processesData } from "../data/processes-data";
+import { useNavigate } from "react-router-dom";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 
 const processIds = ["ux-analytics", "ux-research", "ux-ui-design", "ux-testing", "refinamiento"] as const;
 
@@ -31,6 +33,7 @@ export default function CaseStudies({
   onNavigateToFramework,
   onNavigateToProject,
 }: CaseStudiesProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
 
@@ -85,7 +88,9 @@ export default function CaseStudies({
         url={canonicalFromPath('/cases')}
       />
       <SubpageToolbar
-        crumbs={[{ label: t.breadcrumbs.process, current: true }]}
+        crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
+          { label: t.breadcrumbs.process, current: true },
+        ])}
       />
 
       <ProcessNavigation

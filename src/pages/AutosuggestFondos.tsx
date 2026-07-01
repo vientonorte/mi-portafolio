@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
+import { withHomeCrumb } from '../lib/breadcrumb-helpers';
 
 const AutosuggestFondos = () => {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ const AutosuggestFondos = () => {
 
   return (
     <PageShell
-      crumbs={[
+      crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate('/'), [
         { label: t.breadcrumbs.projects, onClick: () => navigate('/proyectos') },
         { label: t.breadcrumbs.autosuggest, current: true },
-      ]}
+      ])}
     >
       <SEOHead
         {...t.seo.pages.autosuggest}

@@ -5,18 +5,23 @@ import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
 import { ThemeToggle } from "../components/atoms/ThemeToggle";
 import { PageShell } from "../components/layout/PageShell";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath } from "../lib/seo";
+import { useNavigate } from "react-router-dom";
 
 export default function DesignSystem() {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
 
   return (
     <PageShell
-      crumbs={[{ label: t.breadcrumbs.designSystem, current: true }]}
+      crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
+        { label: t.breadcrumbs.designSystem, current: true },
+      ])}
       trailing={<ThemeToggle />}
     >
       <SEOHead

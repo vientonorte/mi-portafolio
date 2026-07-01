@@ -13,6 +13,8 @@ import { ProjectCard } from "../components/molecules/ProjectCard";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
+import { useNavigate } from "react-router-dom";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { getFrameworkCompanyContexts } from "../lib/framework-applications";
@@ -25,6 +27,7 @@ interface FrameworkDetailProps {
 }
 
 export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigateToProcess }: FrameworkDetailProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
@@ -130,10 +133,10 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
       />
 
       <SubpageToolbar
-        crumbs={[
+        crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
           { label: t.breadcrumbs.process, onClick: () => onBack() },
           { label: t.breadcrumbs.framework, current: true },
-        ]}
+        ])}
       />
 
       <main id="main-content" role="main">

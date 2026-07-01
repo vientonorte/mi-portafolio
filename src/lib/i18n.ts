@@ -12,6 +12,16 @@ export const translations = {
       designSystem: 'Design System',
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
+      more: 'Más',
+    },
+
+    homeTeaser: {
+      badge: 'Negocios',
+      title: 'Impacto por empresa',
+      description:
+        'Tres casos destacados en fintech y mobility. El hub completo incluye métricas, proceso y evidencia visual.',
+      ctaNegocios: 'Ver todos los negocios',
+      ctaProceso: 'Ver método UX',
     },
     
     seo: {
@@ -562,6 +572,16 @@ export const translations = {
       designSystem: 'Design System',
       caseStudies: 'Case Studies',
       process: 'Process',
+      more: 'More',
+    },
+
+    homeTeaser: {
+      badge: 'Business',
+      title: 'Impact by company',
+      description:
+        'Three featured cases in fintech and mobility. The full hub includes metrics, process, and visual evidence.',
+      ctaNegocios: 'View all business',
+      ctaProceso: 'View UX process',
     },
     
     seo: {

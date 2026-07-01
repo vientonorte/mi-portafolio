@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { ArrowRight, FileText } from "lucide-react";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
@@ -25,11 +26,16 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const y = useTransform(scrollYProgress, [0, 0.6], [0, 60]);
 
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).hero;
 
-  const scrollToProjects = () => {
+  const goToNegocios = () => {
     analytics.clickViewProjects();
+    navigate("/proyectos");
+  };
+
+  const scrollToTeaser = () => {
     document.getElementById("negocios")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -126,7 +132,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             >
               <Button
                 size="lg"
-                onClick={scrollToProjects}
+                onClick={goToNegocios}
                 className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
               >
                 {t.cta.primary}
@@ -153,7 +159,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                 className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
                 style={{ color: "var(--muted-foreground)", opacity: 0.7 }}
-                onClick={scrollToProjects}
+                onClick={scrollToTeaser}
                 aria-label={t.scroll}
               >
                 <span className="font-mono text-sm uppercase" style={{ letterSpacing: "0.2em" }}>

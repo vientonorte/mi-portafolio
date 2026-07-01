@@ -6,6 +6,8 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { useLanguage } from "../lib/LanguageContext";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { useTranslation } from "../lib/i18n";
@@ -116,6 +118,7 @@ export default function ProjectDetail({
   onBackToCompany,
   onNavigateToProcess,
 }: ProjectDetailProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
   const shouldReduceMotion = useReducedMotion();
@@ -191,7 +194,7 @@ export default function ProjectDetail({
 
       {/* Sticky CTA */}
       <StickyCTA
-        label={language === "es" ? "Ver todos los proyectos" : "View all projects"}
+        label={t.processDetail.viewAllProjects}
         onClick={onBack}
         ariaLabel={language === "es" ? "Volver a la lista de proyectos" : "Return to projects list"}
         showAfterScroll={800}
@@ -200,11 +203,11 @@ export default function ProjectDetail({
       <ProcessNavigation sections={navigationSections} />
 
       <SubpageToolbar
-        crumbs={[
+        crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
           { label: t.breadcrumbs.projects, onClick: onBack },
           { label: hubName, onClick: onBackToCompany },
           { label: projectName, current: true },
-        ]}
+        ])}
       />
 
       <main id="main-content" role="main">

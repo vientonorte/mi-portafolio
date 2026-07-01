@@ -12,6 +12,8 @@ import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { NotFoundPage } from "../components/layout/NotFoundPage";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, processPageSeo, trimMetaDescription } from "../lib/seo";
+import { useNavigate } from "react-router-dom";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 
 interface ProcessDetailProps {
   processId: string;
@@ -21,6 +23,7 @@ interface ProcessDetailProps {
 }
 
 export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio, onNavigateToProject }: ProcessDetailProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
   const processData: ProcessDetailData | undefined = processesData[processId];
@@ -67,10 +70,10 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
         url={canonicalFromPath(`/cases/process/${processId}`)}
       />
       <SubpageToolbar
-        crumbs={[
+        crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
           { label: t.breadcrumbs.process, onClick: onBack },
           { label: title, current: true },
-        ]}
+        ])}
       />
 
       {/* Hero Section */}

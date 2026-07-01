@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { PageShell } from "./PageShell";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { withHomeCrumb } from "../../lib/breadcrumb-helpers";
 
 interface NotFoundPageProps {
   message: string;
@@ -23,10 +24,10 @@ export function NotFoundPage({
 
   return (
     <PageShell
-      crumbs={[
+      crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
         { label: t.breadcrumbs.projects, onClick: () => navigate("/proyectos") },
         { label: crumbLabel, current: true },
-      ]}
+      ])}
     >
       <div className="container max-w-3xl mx-auto py-24 px-4 text-center">
         <p className="text-muted-foreground mb-6">{message}</p>
