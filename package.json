@@ -96,6 +96,7 @@
     "test:coverage": "vitest run --coverage",
     "qa": "npm run lint && npm run test:coverage",
     "qa:css": "bash scripts/qa-css-smoke.sh",
+    "qa:production": "bash scripts/qa-production.sh",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",
     "reset": "npm run clean && npm install",

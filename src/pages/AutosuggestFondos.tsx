@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
+import { Button } from '../components/ui/button';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
@@ -9,6 +11,7 @@ const AutosuggestFondos = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const page = t.autosuggestPage;
 
   return (
     <PageShell
@@ -23,10 +26,15 @@ const AutosuggestFondos = () => {
         noIndex
       />
       <section className="container max-w-3xl mx-auto px-4 py-16">
-        <h1 className="text-3xl font-black mb-4">Autosuggest Fondos</h1>
-        <p className="text-muted-foreground text-lg leading-relaxed">
-          Caso flagship: próximamente detalle completo con decisiones, trade-offs y KPIs.
-        </p>
+        <h1 className="text-3xl font-black mb-4">{page.title}</h1>
+        <p className="text-muted-foreground text-lg leading-relaxed mb-8">{page.body}</p>
+        <Button
+          className="bg-brand-gradient hover:opacity-90"
+          onClick={() => navigate(`/proyecto/${page.relatedProjectId}`)}
+        >
+          {page.cta}
+          <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+        </Button>
       </section>
     </PageShell>
   );

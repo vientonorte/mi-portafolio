@@ -414,20 +414,23 @@ const projectMap: Record<string, { data: any; parentCompany: string }> = {
 
 ### Navegación no funciona
 
-**Causa:** Función `setCurrentPage` no se está pasando correctamente
+**Causa:** Callbacks `onNavigateTo*` no conectados o rutas HashRouter mal formadas
 
-**Solución:** Verifica que los callbacks se pasan en cascada:
+**Solución:** Verifica que los callbacks usan `useNavigate()` de React Router:
 ```typescript
-// En App.tsx
-<ProjectsHub 
-  onNavigateToProject={(id) => setCurrentPage(`project-${id}`)}  // ✅
+// En App.tsx o página contenedora
+const navigate = useNavigate();
+
+<Projects
+  onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
+  onNavigateToCaseStudies={() => navigate('/cases')}
 />
 
-// En ProjectsHub.tsx
-<ProjectCard 
-  onClick={() => onNavigateToProject?.(project.id)}  // ✅
-/>
+// En componente hijo
+<CaseStudyCard onRead={() => openProject(study.id)} />
 ```
+
+Rutas públicas en GitHub Pages: `https://vientonorte.github.io/mi-portafolio/#/proyecto/:id`
 
 ---
 

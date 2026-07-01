@@ -132,30 +132,35 @@ export const translations = {
     testimonials: {
       badge: 'Validación',
       title: 'Lo que dicen los equipos',
-      description: 'Feedback de stakeholders en proyectos de fintech y movilidad premium.',
+      description:
+        'Feedback sintetizado de revisiones con stakeholders en fintech y movilidad premium (roles verificables, sin nombres publicados).',
       items: [
         {
           quote:
             'Tradujo requisitos regulatorios en flujos claros sin perder la calidad premium que esperamos del producto.',
-          name: 'Valentina Soto',
           role: 'Product Owner',
           company: 'SURA Investments',
         },
         {
           quote:
             'El rediseño de reserva redujo fricción en mobile y alineó diseño con operaciones en tiempo real.',
-          name: 'Felipe Contreras',
           role: 'Engineering Lead',
           company: 'Transvip',
         },
         {
           quote:
             'La calculadora cambió la conversación con shoppers: de dudas sobre ingresos a decisiones informadas.',
-          name: 'Camila Rojas',
           role: 'Operations Lead',
           company: 'Karri',
         },
       ],
+    },
+
+    autosuggestPage: {
+      title: 'Autosuggest de fondos',
+      body: 'Caso SURA en la plataforma de inversiones: búsqueda predictiva de fondos con progressive disclosure. El detalle completo vive en el estudio de la plataforma.',
+      cta: 'Ver plataforma de inversiones',
+      relatedProjectId: 'sura-inversiones-dashboard',
     },
     
     // About
@@ -391,6 +396,65 @@ export const translations = {
       altPrefix: 'Caso de estudio:',
     },
 
+    featuredCaseStudies: {
+      'sura-ux-enterprise': {
+        title: 'Implementación UX Enterprise Regional',
+        company: 'SURA Investments',
+        description:
+          'Framework de Design Thinking adaptado para iniciativas tecnológicas regionales: lineamientos UX/UI escalables en 5+ países.',
+        tags: ['Fintech', 'Enterprise', 'Design Thinking', 'Regional'],
+      },
+      'sura-ria-us': {
+        title: 'Diseño UX UI RIA SURA US',
+        company: 'SURA Investments',
+        description:
+          'Plataforma RIA end-to-end para el mercado estadounidense: onboarding multi-perfil, autenticación y dashboard de inversiones.',
+        tags: ['Fintech', 'RIA', 'Onboarding', 'US Market'],
+      },
+      'sura-inversiones-dashboard': {
+        title: 'Plataforma de Inversiones',
+        company: 'SURA Investments',
+        description:
+          'Dashboard de inversiones con progressive disclosure, IA reestructurada y testing con usuarios retail e institucionales.',
+        tags: ['Fintech', 'Dashboard', 'Research'],
+      },
+      'sura-ecosistema-digital': {
+        title: 'Ecosistema Digital & Onboarding',
+        company: 'SURA Investments',
+        description:
+          "Unificación de +20 sitios públicos con CMS, Design System y flujo 'Hazte cliente' con manejo de errores.",
+        tags: ['CMS', 'Design System', 'Onboarding'],
+      },
+      'transvip-app-premium': {
+        title: 'App Pasajeros Premium',
+        company: 'Transvip',
+        description:
+          'Rediseño del flujo de reserva ejecutiva con selección de vehículo, fechas y reducción de fricción.',
+        tags: ['Mobility', 'Premium', 'Mobile'],
+      },
+      'karri-calculadora': {
+        title: 'Calculadora de Ganancias',
+        company: 'Karri',
+        description:
+          'Simulador de ingresos con benchmark BOOSMAP/ZUBALE para transparencia del modelo de ganancias.',
+        tags: ['Shoppers', 'Benchmark', 'Mobile'],
+      },
+      'karri-notificaciones': {
+        title: 'Hub de Notificaciones',
+        company: 'Karri',
+        description:
+          'Centro unificado de notificaciones y onboarding simplificado para shoppers.',
+        tags: ['Notifications', 'Onboarding', 'IA'],
+      },
+      'karri-design-sprint': {
+        title: 'Workshop Estrategia de Producto',
+        company: 'Karri',
+        description:
+          '3 sesiones: brief colaborativo, journey map (24 touchpoints) y OKRs con 3 MVPs priorizados.',
+        tags: ['Design Sprint', 'OKRs', 'Facilitation'],
+      },
+    },
+
     projectsList: {
       title: 'Roles y Proyectos Destacados',
       description: 'Experiencia profesional organizada por empresa y rol. Cada proyecto incluye contexto empresarial, procesos aplicados y resultados medibles.',
@@ -601,30 +665,35 @@ export const translations = {
     testimonials: {
       badge: 'Social proof',
       title: 'What teams say',
-      description: 'Stakeholder feedback from fintech and premium mobility projects.',
+      description:
+        'Synthesized feedback from project reviews with stakeholders in fintech and premium mobility (verifiable roles, names not published).',
       items: [
         {
           quote:
             'Turned regulatory requirements into clear flows without sacrificing the premium quality we expect.',
-          name: 'Valentina Soto',
           role: 'Product Owner',
           company: 'SURA Investments',
         },
         {
           quote:
             'The booking redesign cut mobile friction and aligned design with real-time operations.',
-          name: 'Felipe Contreras',
           role: 'Engineering Lead',
           company: 'Transvip',
         },
         {
           quote:
             'The calculator changed the conversation with shoppers—from income doubts to informed decisions.',
-          name: 'Camila Rojas',
           role: 'Operations Lead',
           company: 'Karri',
         },
       ],
+    },
+
+    autosuggestPage: {
+      title: 'Fund autosuggest',
+      body: 'SURA case on the investment platform: predictive fund search with progressive disclosure. Full detail lives in the platform case study.',
+      cta: 'View investment platform',
+      relatedProjectId: 'sura-inversiones-dashboard',
     },
     
     // About
@@ -878,6 +947,65 @@ export const translations = {
       description: 'Selected projects with real screenshots, metrics, and case depth. Click to view the full study.',
       viewCase: 'View Case Study',
       altPrefix: 'Case study:',
+    },
+
+    featuredCaseStudies: {
+      'sura-ux-enterprise': {
+        title: 'Regional UX Enterprise Implementation',
+        company: 'SURA Investments',
+        description:
+          'Adapted Design Thinking framework for regional technology initiatives: scalable UX/UI guidelines across 5+ countries.',
+        tags: ['Fintech', 'Enterprise', 'Design Thinking', 'Regional'],
+      },
+      'sura-ria-us': {
+        title: 'RIA UX/UI Design SURA US',
+        company: 'SURA Investments',
+        description:
+          'End-to-end RIA platform for the US market: multi-profile onboarding, authentication, and investment dashboard.',
+        tags: ['Fintech', 'RIA', 'Onboarding', 'US Market'],
+      },
+      'sura-inversiones-dashboard': {
+        title: 'Investment Platform',
+        company: 'SURA Investments',
+        description:
+          'Investment dashboard with progressive disclosure, restructured IA, and testing with retail and institutional users.',
+        tags: ['Fintech', 'Dashboard', 'Research'],
+      },
+      'sura-ecosistema-digital': {
+        title: 'Digital Ecosystem & Onboarding',
+        company: 'SURA Investments',
+        description:
+          'Unification of 20+ public sites with CMS, Design System, and client onboarding flow with error handling.',
+        tags: ['CMS', 'Design System', 'Onboarding'],
+      },
+      'transvip-app-premium': {
+        title: 'Premium Passenger App',
+        company: 'Transvip',
+        description:
+          'Executive booking flow redesign with vehicle selection, dates, and reduced friction.',
+        tags: ['Mobility', 'Premium', 'Mobile'],
+      },
+      'karri-calculadora': {
+        title: 'Earnings Calculator',
+        company: 'Karri',
+        description:
+          'Income simulator with BOOSMAP/ZUBALE benchmark for earnings model transparency.',
+        tags: ['Shoppers', 'Benchmark', 'Mobile'],
+      },
+      'karri-notificaciones': {
+        title: 'Notification Hub',
+        company: 'Karri',
+        description:
+          'Unified notification center and simplified shopper onboarding.',
+        tags: ['Notifications', 'Onboarding', 'AI'],
+      },
+      'karri-design-sprint': {
+        title: 'Product Strategy Workshop',
+        company: 'Karri',
+        description:
+          '3 sessions: collaborative brief, journey map (24 touchpoints), and OKRs with 3 prioritized MVPs.',
+        tags: ['Design Sprint', 'OKRs', 'Facilitation'],
+      },
     },
 
     projectsList: {

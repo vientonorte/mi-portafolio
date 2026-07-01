@@ -26,7 +26,7 @@ export function Testimonials() {
         <div className="grid gap-6 md:grid-cols-3">
           {t.items.map((item, index) => (
             <motion.article
-              key={item.name}
+              key={`${item.role}-${item.company}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -40,10 +40,8 @@ export function Testimonials() {
                   </blockquote>
                   <footer className="border-t border-border/50 pt-4">
                     <cite className="not-italic">
-                      <div className="font-medium text-foreground">{item.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {item.role} · {item.company}
-                      </div>
+                      <div className="font-medium text-foreground">{item.role}</div>
+                      <div className="text-sm text-muted-foreground">{item.company}</div>
                     </cite>
                   </footer>
                 </CardContent>
