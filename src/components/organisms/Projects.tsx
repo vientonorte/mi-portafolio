@@ -23,7 +23,7 @@ export function Projects({
   const { language } = useLanguage();
   const t = useTranslation(language);
   useImageManifestVersion();
-  const featuredCaseStudies = getFeaturedCaseStudies();
+  const featuredCaseStudies = getFeaturedCaseStudies(language);
 
   const stats = [
     { value: "3+", label: t.projects.stats.experience },

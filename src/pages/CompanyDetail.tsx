@@ -33,6 +33,7 @@ import { CompanyLogo } from "../components/atoms/CompanyLogo";
 import { localized, projectDescription } from "../lib/localized";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, companyPageSeo } from "../lib/seo";
+import { getProjectHeadlineMetrics } from "../lib/project-metrics";
 
 interface CompanyDetailProps {
   company: CompanyHub;
@@ -512,6 +513,7 @@ export default function CompanyDetail({
                     period={project.period}
                     tags={project.tags}
                     processCount={project.processes?.length ?? 5}
+                    metrics={getProjectHeadlineMetrics(project.id, language)}
                     thumbnail={project.image}
                     onClick={() => project.id && onNavigateToProject?.(project.id)}
                     language={language}

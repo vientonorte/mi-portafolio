@@ -562,6 +562,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
                                 period={project.period}
                                 tags={project.tags}
                                 processCount={project.processCount}
+                                metrics={project.metrics}
                                 onClick={() => onNavigateToProject?.(project.id)}
                                 language={language}
                                 index={index}

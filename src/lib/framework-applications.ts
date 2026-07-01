@@ -6,6 +6,7 @@ import {
   type EnhancedProject,
 } from "../data/projects-data";
 import type { Language } from "./i18n";
+import { getProjectHeadlineMetrics } from "./project-metrics";
 
 export interface FrameworkApplicationProject {
   id: string;
@@ -14,6 +15,7 @@ export interface FrameworkApplicationProject {
   period: string;
   tags: string[];
   processCount: number;
+  metrics: { label: string; value: string }[];
 }
 
 export interface FrameworkCompanyContext {
@@ -43,6 +45,7 @@ function mapProject(
     period: project.period,
     tags: project.tags,
     processCount: project.processes?.length ?? 5,
+    metrics: getProjectHeadlineMetrics(project.id, language),
   };
 }
 

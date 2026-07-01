@@ -1,4 +1,6 @@
 import { getPortfolioImages } from "../lib/image-overrides";
+import type { Language } from "../lib/i18n";
+import { getProjectHeadlineMetrics } from "../lib/project-metrics";
 
 export interface CaseStudyCardData {
   id: string;
@@ -11,9 +13,9 @@ export interface CaseStudyCardData {
 }
 
 /** Casos destacados para grid visual en /proyectos */
-export function getFeaturedCaseStudies(): CaseStudyCardData[] {
+export function getFeaturedCaseStudies(language: Language = "es"): CaseStudyCardData[] {
   const portfolioImages = getPortfolioImages();
-  return [
+  const cards: Omit<CaseStudyCardData, "metrics">[] = [
   {
     id: "sura-ria-us",
     title: "Diseño UX UI RIA SURA US",
@@ -22,10 +24,15 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "Plataforma RIA end-to-end para el mercado estadounidense: onboarding multi-perfil, autenticación y dashboard de inversiones.",
     image: portfolioImages.sura.riaOnboarding,
     tags: ["Fintech", "RIA", "Onboarding", "US Market"],
-    metrics: [
-      { label: "Prototipos Hi-Fi", value: "8" },
-      { label: "Flujos auth", value: "3" },
-    ],
+  },
+  {
+    id: "sura-inversiones-dashboard",
+    title: "Plataforma de Inversiones",
+    company: "SURA Investments",
+    description:
+      "Dashboard de inversiones con progressive disclosure, IA reestructurada y testing con usuarios retail e institucionales.",
+    image: portfolioImages.sura.webPrototype,
+    tags: ["Fintech", "Dashboard", "Research"],
   },
   {
     id: "sura-ecosistema-digital",
@@ -35,10 +42,6 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "Unificación de +20 sitios públicos con CMS, Design System y flujo 'Hazte cliente' con manejo de errores.",
     image: portfolioImages.sura.benchmarkNavigation,
     tags: ["CMS", "Design System", "Onboarding"],
-    metrics: [
-      { label: "Tiempo onboarding", value: "-40%" },
-      { label: "Componentes DS", value: "50+" },
-    ],
   },
   {
     id: "transvip-app-premium",
@@ -48,10 +51,6 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "Rediseño del flujo de reserva ejecutiva con selección de vehículo, fechas y reducción de fricción.",
     image: portfolioImages.transvip.appDesktop,
     tags: ["Mobility", "Premium", "Mobile"],
-    metrics: [
-      { label: "Tiempo reserva", value: "-40%" },
-      { label: "Conversión", value: "+25%" },
-    ],
   },
   {
     id: "karri-calculadora",
@@ -61,10 +60,6 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "Simulador de ingresos con benchmark BOOSMAP/ZUBALE para transparencia del modelo de ganancias.",
     image: portfolioImages.karri.boosmapBenchmark,
     tags: ["Shoppers", "Benchmark", "Mobile"],
-    metrics: [
-      { label: "Activación", value: "+35%" },
-      { label: "Comprensión", value: "92%" },
-    ],
   },
   {
     id: "karri-notificaciones",
@@ -74,10 +69,6 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "Centro unificado de notificaciones y onboarding simplificado para shoppers.",
     image: portfolioImages.karri.deliveryBrand,
     tags: ["Notifications", "Onboarding", "IA"],
-    metrics: [
-      { label: "Engagement", value: "+58%" },
-      { label: "Abandono", value: "-42%" },
-    ],
   },
   {
     id: "karri-design-sprint",
@@ -87,13 +78,14 @@ export function getFeaturedCaseStudies(): CaseStudyCardData[] {
       "3 sesiones: brief colaborativo, journey map (24 touchpoints) y OKRs con 3 MVPs priorizados.",
     image: portfolioImages.karri.okrsBoard,
     tags: ["Design Sprint", "OKRs", "Facilitation"],
-    metrics: [
-      { label: "Touchpoints", value: "24" },
-      { label: "MVPs", value: "3" },
-    ],
   },
   ];
+
+  return cards.map((card) => ({
+    ...card,
+    metrics: getProjectHeadlineMetrics(card.id, language),
+  }));
 }
 
-/** Snapshot al cargar el módulo; en runtime preferir getFeaturedCaseStudies() */
+/** Snapshot al cargar el módulo; en runtime preferir getFeaturedCaseStudies(language) */
 export const featuredCaseStudies = getFeaturedCaseStudies();

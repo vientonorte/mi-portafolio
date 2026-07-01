@@ -4,12 +4,18 @@ import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 
+interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
 interface ProjectCardProps {
   name: string;
   description: string;
   period: string;
   tags: string[];
   processCount: number;
+  metrics?: ProjectMetric[];
   thumbnail?: string;
   onClick: () => void;
   index?: number;
@@ -22,6 +28,7 @@ export function ProjectCard({
   period,
   tags,
   processCount,
+  metrics,
   thumbnail,
   onClick,
   index = 0,
@@ -99,6 +106,21 @@ export function ProjectCard({
               </Badge>
             )}
           </div>
+
+          {metrics && metrics.length > 0 && (
+            <div className="mb-4 flex gap-3 border-t border-border/50 pt-3">
+              {metrics.slice(0, 2).map((metric) => (
+                <div key={metric.label} className="min-w-0 flex-1 text-center">
+                  <div className="text-lg font-bold tabular-nums text-primary">
+                    {metric.value}
+                  </div>
+                  <div className="truncate text-xs text-muted-foreground">
+                    {metric.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* CTA */}
           <Button
