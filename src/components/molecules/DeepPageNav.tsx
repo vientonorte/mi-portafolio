@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
 import { ROUTES, isProcessPath } from "../../lib/routes";
+import { useProcessNavLabel } from "../../lib/process-label-experiment";
+import { BOTTOM_NAV_BASE_CLASS, BOTTOM_NAV_DOCK_CLASS } from "./bottom-nav-classes";
 
 const items = [
   {
@@ -38,17 +40,24 @@ export function DeepPageNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
+  const { label: processLabel, variant: processLabelVariant } = useProcessNavLabel(language);
   const path = location.pathname.replace(/\/+$/, "") || "/";
 
   return (
     <nav
-      className="deep-page-nav fixed bottom-0 left-0 right-0 z-[60] border-t border-border/70 bg-background/95 shadow-[0_-4px_18px_rgba(15,23,42,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-background/85 md:hidden"
+      className={`deep-page-nav bottom-nav-mobile ${BOTTOM_NAV_BASE_CLASS} ${BOTTOM_NAV_DOCK_CLASS}`}
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={language === "es" ? "Navegación rápida" : "Quick navigation"}
+      data-process-label-variant={processLabelVariant}
     >
       <ul className="bottom-nav-mobile__list">
         {items.map((item) => {
-          const label = language === "es" ? item.labelEs : item.labelEn;
+          const label =
+            item.id === "proceso"
+              ? processLabel
+              : language === "es"
+                ? item.labelEs
+                : item.labelEn;
           return (
             <li key={item.id} className="bottom-nav-mobile__item">
               <NavTabItem

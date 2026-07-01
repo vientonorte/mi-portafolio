@@ -11,6 +11,7 @@ import { LogoMark } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
+import { useProcessNavLabel } from "../../lib/process-label-experiment";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -30,6 +31,7 @@ export function Navigation({
   const [isScrolled, setIsScrolled] = useState(false);
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const { label: processLabel, variant: processLabelVariant } = useProcessNavLabel(language);
   const location = useLocation();
   const navigate = useNavigate();
   const pendingScroll = useRef<string | null>(null);
@@ -37,10 +39,10 @@ export function Navigation({
   const primaryNavItems: NavItem[] = useMemo(
     () => [
       { href: "proyectos", label: t.nav.projects, type: "route" },
-      { href: "proceso", label: t.nav.process, type: "route" },
+      { href: "proceso", label: processLabel, type: "route" },
       { href: "#contacto", label: t.nav.contact, type: "anchor" },
     ],
-    [t.nav.projects, t.nav.process, t.nav.contact]
+    [processLabel, t.nav.projects, t.nav.contact]
   );
 
   const moreNavItems: NavItem[] = useMemo(
@@ -271,7 +273,8 @@ export function Navigation({
             className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            aria-label="Inicio — Rodrigo Gaete · UX Architect"
+            aria-label="Inicio — Rodrigo Gaete · UX Design Ops"
+            data-process-label-variant={processLabelVariant}
           >
             <LogoMark size={32} />
           </motion.a>

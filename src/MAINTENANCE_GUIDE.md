@@ -423,7 +423,7 @@ const navigate = useNavigate();
 
 <Projects
   onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
-  onNavigateToCaseStudies={() => navigate('/cases')}
+  onNavigateToCaseStudies={() => navigate('/proceso')}
 />
 
 // En componente hijo

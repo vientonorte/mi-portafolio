@@ -1,4 +1,3 @@
-import { useId } from "react";
 import { motion } from "motion/react";
 import { useLanguage } from "../../lib/LanguageContext";
 
@@ -10,21 +9,26 @@ interface LogoProps {
 
 const sizes = {
   sm: { mark: 28, text: "text-base", role: "text-[10px]", spacing: "gap-2" },
-  md: { mark: 36, text: "text-xl", role: "text-xs", spacing: "gap-2.5" },
+  md: { mark: 36, text: "text-xl", role: "text-[11px]", spacing: "gap-2.5" },
   lg: { mark: 48, text: "text-3xl", role: "text-sm", spacing: "gap-3" },
 } as const;
 
 interface LogoMarkSvgProps {
   size: number;
-  gradientId: string;
   className?: string;
   labelled?: boolean;
 }
 
-/** Isologo minimalista RG — marco arquitectónico + acento de marca (10%). */
+const LOGO_CENTER = 20;
+const LOGO_RING_RADIUS = 13;
+const LOGO_RING_STROKE = 5;
+const LOGO_RING_DASH = "70 16";
+const LOGO_RING_ROTATION = -106;
+const LOGO_DOT_RADIUS = 5.2;
+
+/** Isologo circular — variante principal del sistema de marca 2026. */
 export function LogoMarkSvg({
   size,
-  gradientId,
   className,
   labelled = false,
 }: LogoMarkSvgProps) {
@@ -38,61 +42,31 @@ export function LogoMarkSvg({
       className={className}
       role={labelled ? "img" : undefined}
       aria-hidden={labelled ? undefined : true}
-      aria-label={labelled ? "Rodrigo Gaete · UX Architect" : undefined}
+      aria-label={labelled ? "Rodrigo Gaete · UX Design Ops" : undefined}
     >
-      <defs>
-        <linearGradient id={gradientId} x1="6" y1="36" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF1D25" />
-          <stop offset="1" stopColor="#FF931E" />
-        </linearGradient>
-      </defs>
-      <rect
-        x="5"
-        y="5"
-        width="30"
-        height="30"
-        rx="7"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        className="text-foreground/85"
-      />
-      <path
-        d="M9 33.5H31"
-        stroke={`url(#${gradientId})`}
-        strokeWidth="2"
+      <circle
+        cx={LOGO_CENTER}
+        cy={LOGO_CENTER}
+        r={LOGO_RING_RADIUS}
+        fill="none"
+        stroke="#FF5A1F"
+        strokeWidth={LOGO_RING_STROKE}
         strokeLinecap="round"
+        strokeDasharray={LOGO_RING_DASH}
+        transform={`rotate(${LOGO_RING_ROTATION} ${LOGO_CENTER} ${LOGO_CENTER})`}
       />
-      <path
-        d="M31 9V15"
-        stroke={`url(#${gradientId})`}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <text
-        x="20"
-        y="23.5"
-        textAnchor="middle"
-        fill="currentColor"
-        fontFamily="system-ui, -apple-system, 'Segoe UI', sans-serif"
-        fontSize="12.5"
-        fontWeight="700"
-        letterSpacing="-0.06em"
-        className="text-foreground"
-      >
-        RG
-      </text>
+      <circle cx={LOGO_CENTER} cy={LOGO_CENTER} r={LOGO_DOT_RADIUS} fill="#FF5A1F" />
     </svg>
   );
 }
 
 export function Logo({ size = "md", showText = true, animated = false }: LogoProps) {
   const { language } = useLanguage();
-  const gradientId = useId();
   const { mark, text, role, spacing } = sizes[size];
-  const roleLabel = language === "es" ? "Arquitecto UX" : "UX Architect";
+  const roleLabel = language === "es" ? "UX Design Ops" : "UX Design Ops";
 
   const markNode = (
-    <LogoMarkSvg size={mark} gradientId={gradientId} labelled={!showText} />
+    <LogoMarkSvg size={mark} labelled={!showText} />
   );
 
   const content = (
@@ -115,7 +89,7 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
             Rodrigo Gaete
           </span>
           <span
-            className={`${role} font-mono uppercase tracking-[0.18em] text-muted-foreground mt-1`}
+            className={`${role} font-mono uppercase tracking-[0.24em] text-muted-foreground mt-1`}
           >
             {roleLabel}
           </span>
@@ -128,12 +102,9 @@ export function Logo({ size = "md", showText = true, animated = false }: LogoPro
 }
 
 export function LogoMark({ size = 36 }: { size?: number }) {
-  const gradientId = useId();
-
   return (
     <LogoMarkSvg
       size={size}
-      gradientId={gradientId}
       labelled
       className="shrink-0"
     />
