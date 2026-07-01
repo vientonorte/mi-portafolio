@@ -152,6 +152,8 @@ export function MobileMenu({
         onNavigateToAuditoria?.();
       } else if (item.href === "proyectos") {
         navigate("/proyectos");
+      } else if (item.href === "proceso") {
+        navigate("/proceso");
       } else if (item.href === "sobre-mi") {
         navigate("/sobre-mi");
       }

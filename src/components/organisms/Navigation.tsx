@@ -12,6 +12,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
+import { ROUTES } from "../../lib/routes";
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
@@ -146,7 +147,10 @@ export function Navigation({
             onNavigateToAuditoria?.();
             break;
           case "proyectos":
-            navigate("/proyectos");
+            navigate(ROUTES.projects);
+            break;
+          case "proceso":
+            navigate(ROUTES.process);
             break;
           case "sobre-mi":
             navigate("/sobre-mi");
