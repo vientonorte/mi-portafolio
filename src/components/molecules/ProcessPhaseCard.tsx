@@ -8,6 +8,10 @@ interface ProcessPhaseCardProps {
   description: string;
   index: number;
   accentColor?: string;
+  company?: string;
+  metric?: string;
+  metricLabel?: string;
+  viewLabel?: string;
   onClick?: () => void;
 }
 
@@ -17,6 +21,10 @@ export function ProcessPhaseCard({
   description,
   index,
   accentColor = "primary",
+  company,
+  metric,
+  metricLabel,
+  viewLabel,
   onClick,
 }: ProcessPhaseCardProps) {
   return (
@@ -67,10 +75,22 @@ export function ProcessPhaseCard({
             {description}
           </p>
 
+          {company && metric && (
+            <div className="mb-4 rounded-lg border border-primary/20 bg-primary/5 p-3">
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <span className="text-xs font-semibold uppercase tracking-wide text-primary">{company}</span>
+                <span className="text-lg font-black text-primary">{metric}</span>
+              </div>
+              {metricLabel && (
+                <p className="text-xs text-muted-foreground">{metricLabel}</p>
+              )}
+            </div>
+          )}
+
           {/* Click indicator */}
           {onClick && (
             <div className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-              Click para ver más →
+              {viewLabel ?? "Ver aplicación →"}
             </div>
           )}
 

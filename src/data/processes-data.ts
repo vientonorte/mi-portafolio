@@ -31,6 +31,12 @@ export interface ProcessDetailData {
     projectName: string;
     projectNameEN: string;
   }[];
+  evidence: {
+    company: string;
+    metric: string;
+    metricLabel: string;
+    metricLabelEN: string;
+  };
   benefits: string[];
   benefitsEN: string[];
 }
@@ -101,6 +107,12 @@ export const processesData: Record<string, ProcessDetailData> = {
         projectNameEN: "Premium Passenger App Redesign",
       },
     ],
+    evidence: {
+      company: "SURA",
+      metric: "−40%",
+      metricLabel: "abandono en onboarding",
+      metricLabelEN: "onboarding drop-off",
+    },
     benefits: [
       "Decisiones basadas en data real, no suposiciones",
       "Identificación proactiva de problemas antes de que escalen",
@@ -180,6 +192,12 @@ export const processesData: Record<string, ProcessDetailData> = {
         projectNameEN: "Karri - Earnings Calculator",
       },
     ],
+    evidence: {
+      company: "SURA",
+      metric: "NPS 72",
+      metricLabel: "plataforma inversiones",
+      metricLabelEN: "investments platform",
+    },
     benefits: [
       "Comprensión profunda de necesidades reales",
       "Validación de hipótesis con usuarios finales",
@@ -266,6 +284,12 @@ export const processesData: Record<string, ProcessDetailData> = {
         projectNameEN: "Karri - Notifications + Onboarding",
       },
     ],
+    evidence: {
+      company: "Karri",
+      metric: "+35%",
+      metricLabel: "activación shoppers",
+      metricLabelEN: "shopper activation",
+    },
     benefits: [
       "Soluciones visuales alineadas con research",
       "Prototipos testeables antes de desarrollo",
@@ -352,6 +376,12 @@ export const processesData: Record<string, ProcessDetailData> = {
         projectNameEN: "Karri - Product Strategy Workshop",
       },
     ],
+    evidence: {
+      company: "SURA",
+      metric: "8",
+      metricLabel: "prototipos testeados pre-dev",
+      metricLabelEN: "prototypes tested pre-dev",
+    },
     benefits: [
       "Validación de soluciones antes de invertir en desarrollo",
       "Detección temprana de errores de UX",
@@ -438,6 +468,12 @@ export const processesData: Record<string, ProcessDetailData> = {
         projectNameEN: "Karri - Notifications + Onboarding",
       },
     ],
+    evidence: {
+      company: "Karri",
+      metric: "+58%",
+      metricLabel: "engagement notificaciones",
+      metricLabelEN: "notification engagement",
+    },
     benefits: [
       "Producto en constante evolución",
       "Detección temprana de nuevos problemas",

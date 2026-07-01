@@ -11,6 +11,7 @@ export const translations = {
       contact: 'Contacto',
       designSystem: 'Design System',
       caseStudies: 'Casos de Estudio',
+      process: 'Proceso',
     },
     
     seo: {
@@ -87,7 +88,7 @@ export const translations = {
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
         primary: 'Ver proyectos',
-        secondary: 'Casos de estudio',
+        secondary: 'Proceso UX',
       },
       scroll: 'Explorar',
       resultsLabel: 'Resultados',
@@ -289,9 +290,10 @@ export const translations = {
     // Case Studies
     caseStudies: {
       hero: {
-        badge: 'Metodología',
+        badge: 'Método en producción',
         title: 'Proceso UX basado en mejora continua',
-        description: 'Framework de diseño de producto estructurado en 5 macroprocesos que priorizan decisiones basadas en data y validación con usuarios reales.',
+        description: '5 macroprocesos aplicados en entornos reales — SURA, Transvip y Karri — con resultados medibles en onboarding, activación y NPS.',
+        metricsTitle: 'Resultados en producción',
         stats: {
           processes: 'Macroprocesos',
           experience: 'Años de experiencia',
@@ -324,6 +326,7 @@ export const translations = {
         title: 'Los 5 macroprocesos',
         flowTitle: 'Flujo de Mejora Continua',
         description: 'Cada fase está pensada para agregar valor mediante mejora continua y validación constante.',
+        viewApplication: 'Ver aplicación',
         phases: {
           analytics: {
             title: 'UX Analytics',
@@ -379,12 +382,17 @@ export const translations = {
           development: 'Sprint Desarrollo',
         },
       },
+      bridge: {
+        badge: 'De método a resultado',
+        title: 'Cada fase, un resultado medible',
+        description: 'El framework no vive en slides: se aplica en sprints reales y se valida con métricas de negocio.',
+      },
       cta: {
         viewProjects: 'Ver proyectos reales',
         backToPortfolio: 'Volver al portfolio',
         sectionLabel: 'Proyectos Reales',
         title: '¿Quieres ver este framework en acción?',
-        description: 'Explora proyectos reales donde apliqué esta metodología en empresas como SURA y Transvip',
+        description: 'Explora los proyectos completos donde apliqué esta metodología en SURA, Transvip y Karri.',
       },
     },
 
@@ -465,7 +473,7 @@ export const translations = {
         mobility: 'Mobility',
       },
       noResults: 'No se encontraron proyectos en esta categoría',
-      viewFullCases: 'Ver Casos de Estudio Completos',
+      viewFullCases: 'Ver método y resultados',
     },
 
     projectsHub: {
@@ -544,6 +552,7 @@ export const translations = {
       contact: 'Contact',
       designSystem: 'Design System',
       caseStudies: 'Case Studies',
+      process: 'Process',
     },
     
     seo: {
@@ -620,7 +629,7 @@ export const translations = {
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
         primary: 'View projects',
-        secondary: 'Case studies',
+        secondary: 'UX Process',
       },
       scroll: 'Explore',
       resultsLabel: 'Results',
@@ -842,9 +851,10 @@ export const translations = {
     // Case Studies
     caseStudies: {
       hero: {
-        badge: 'Methodology',
+        badge: 'Method in production',
         title: 'UX Process based on continuous improvement',
-        description: 'Product design framework structured in 5 macro-processes that prioritize data-driven decisions and validation with real users.',
+        description: '5 macro-processes applied in real environments — SURA, Transvip, and Karri — with measurable results in onboarding, activation, and NPS.',
+        metricsTitle: 'Production results',
         stats: {
           processes: 'Macro-processes',
           experience: 'Years of experience',
@@ -877,6 +887,7 @@ export const translations = {
         title: 'The 5 macro-processes',
         flowTitle: 'Continuous Improvement Flow',
         description: 'Each phase is designed to add value through continuous improvement and constant validation.',
+        viewApplication: 'View application',
         phases: {
           analytics: {
             title: 'UX Analytics',
@@ -932,12 +943,17 @@ export const translations = {
           development: 'Development Sprint',
         },
       },
+      bridge: {
+        badge: 'From method to result',
+        title: 'Every phase, a measurable outcome',
+        description: 'The framework doesn\'t live in slides: it runs in real sprints and validates with business metrics.',
+      },
       cta: {
         viewProjects: 'View real projects',
         backToPortfolio: 'Back to portfolio',
         sectionLabel: 'Real Projects',
         title: 'Want to see this framework in action?',
-        description: 'Explore real projects where I applied this methodology at companies like SURA and Transvip',
+        description: 'Explore the full projects where I applied this methodology at SURA, Transvip, and Karri.',
       },
     },
 
@@ -1018,7 +1034,7 @@ export const translations = {
         mobility: 'Mobility',
       },
       noResults: 'No projects found in this category',
-      viewFullCases: 'View Full Case Studies',
+      viewFullCases: 'View method & results',
     },
 
     projectsHub: {

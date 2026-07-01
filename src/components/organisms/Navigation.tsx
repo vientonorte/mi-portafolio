@@ -36,7 +36,7 @@ export function Navigation({
   const navItems = [
     { href: "#sobre-mi", label: t.nav.about, type: "anchor" as const },
     { href: "#proyectos", label: t.nav.projects, type: "anchor" as const },
-    { href: "cases", label: language === "es" ? "Casos" : "Cases", type: "route" as const },
+    { href: "cases", label: t.nav.process, type: "route" as const },
     { href: "design-system", label: "Design System", type: "route" as const },
     { href: "#experiencia", label: t.nav.experience, type: "anchor" as const },
     { href: "#contacto", label: t.nav.contact, type: "anchor" as const },

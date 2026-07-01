@@ -17,8 +17,8 @@ const items = [
   },
   {
     id: "cases",
-    labelEs: "Casos",
-    labelEn: "Cases",
+    labelEs: "Proceso",
+    labelEn: "Process",
     icon: FolderOpen,
     type: "route" as const,
     target: "/cases",

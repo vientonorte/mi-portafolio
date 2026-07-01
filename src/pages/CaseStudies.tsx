@@ -3,7 +3,6 @@ import { BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDo
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { SectionHeader } from "../components/molecules/SectionHeader";
 import { ProcessPhaseCard } from "../components/molecules/ProcessPhaseCard";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
@@ -14,6 +13,9 @@ import { SEOHead } from "../components/atoms/SEOHead";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { canonicalFromPath } from "../lib/seo";
 import { FlagshipCaseStudy } from "../components/organisms/FlagshipCaseStudy";
+import { processesData } from "../data/processes-data";
+
+const processIds = ["ux-analytics", "ux-research", "ux-ui-design", "ux-testing", "refinamiento"] as const;
 
 interface CaseStudiesProps {
   onBack: () => void;
@@ -31,38 +33,39 @@ export default function CaseStudies({
   const { language } = useLanguage();
   const t = useTranslation(language);
 
-  const processes = [
-    {
-      id: "ux-analytics",
-      icon: BarChart3,
-      title: t.caseStudies.process.phases.analytics.title,
-      description: t.caseStudies.process.phases.analytics.description,
-    },
-    {
-      id: "ux-research",
-      icon: Search,
-      title: t.caseStudies.process.phases.research.title,
-      description: t.caseStudies.process.phases.research.description,
-    },
-    {
-      id: "ux-ui-design",
-      icon: Palette,
-      title: t.caseStudies.process.phases.design.title,
-      description: t.caseStudies.process.phases.design.description,
-    },
-    {
-      id: "ux-testing",
-      icon: TestTube,
-      title: t.caseStudies.process.phases.testing.title,
-      description: t.caseStudies.process.phases.testing.description,
-    },
-    {
-      id: "refinamiento",
-      icon: RefreshCw,
-      title: t.caseStudies.process.phases.refinement.title,
-      description: t.caseStudies.process.phases.refinement.description,
-    },
-  ];
+  const phaseContent = {
+    "ux-analytics": t.caseStudies.process.phases.analytics,
+    "ux-research": t.caseStudies.process.phases.research,
+    "ux-ui-design": t.caseStudies.process.phases.design,
+    "ux-testing": t.caseStudies.process.phases.testing,
+    refinamiento: t.caseStudies.process.phases.refinement,
+  };
+
+  const processes = processIds.map((id) => {
+    const data = processesData[id];
+    const evidence = data.evidence;
+    return {
+      id,
+      icon: data.icon,
+      title: phaseContent[id].title,
+      description: phaseContent[id].description,
+      company: evidence.company,
+      metric: evidence.metric,
+      metricLabel: language === "es" ? evidence.metricLabel : evidence.metricLabelEN,
+      viewLabel: t.caseStudies.process.viewApplication,
+    };
+  });
+
+  const heroMetrics = processIds.slice(0, 4).map((id) => {
+    const evidence = processesData[id].evidence;
+    return {
+      id,
+      phase: phaseContent[id].title,
+      company: evidence.company,
+      metric: evidence.metric,
+      label: language === "es" ? evidence.metricLabel : evidence.metricLabelEN,
+    };
+  });
 
   const navigationSections = [
     { id: "hero", label: t.caseStudies.navigation.hero, number: "00" },
@@ -131,9 +134,35 @@ export default function CaseStudies({
               <GradientHeading as="span">{t.caseStudies.hero.title}</GradientHeading>
             </h1>
             
-            <p className="subpage-hero__lead text-muted-foreground mb-10 px-2">
+            <p className="subpage-hero__lead text-muted-foreground mb-8 px-2">
               {t.caseStudies.hero.description}
             </p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="max-w-5xl mx-auto mb-10"
+            >
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                {t.caseStudies.hero.metricsTitle}
+              </p>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                {heroMetrics.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => onNavigateToProcess?.(item.id)}
+                    className="rounded-xl border-2 border-primary/20 bg-background/80 p-4 text-left transition-all hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    <span className="text-xs font-semibold uppercase tracking-wide text-primary">{item.company}</span>
+                    <div className="text-2xl md:text-3xl font-black text-foreground mt-1">{item.metric}</div>
+                    <p className="text-xs text-muted-foreground mt-1 leading-snug">{item.label}</p>
+                    <p className="text-xs text-primary/70 mt-2 font-medium">{item.phase}</p>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
 
             {/* Scroll indicator */}
             <motion.div
@@ -535,9 +564,37 @@ export default function CaseStudies({
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Bridge + CTA Section */}
       <section id="cta" className="py-16 md:py-24 px-4 scroll-mt-20">
-        <div className="container max-w-7xl mx-auto text-center">
+        <div className="container max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <Badge variant="outline" className="mb-4">{t.caseStudies.bridge.badge}</Badge>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">{t.caseStudies.bridge.title}</h2>
+            <p className="text-muted-foreground max-w-2xl mb-8">{t.caseStudies.bridge.description}</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {processes.map((process) => (
+                <button
+                  key={process.id}
+                  type="button"
+                  onClick={() => onNavigateToProcess?.(process.id)}
+                  className="rounded-xl border-2 border-border hover:border-primary/30 bg-card p-4 text-left transition-all hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-sm font-bold">{process.title}</span>
+                    <span className="text-lg font-black text-primary">{process.metric}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{process.company} · {process.metricLabel}</p>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="text-center">
           <SectionDivider number="05" label={t.caseStudies.cta.sectionLabel} />
 
           <motion.div
@@ -580,6 +637,7 @@ export default function CaseStudies({
               </Button>
             </div>
           </motion.div>
+          </div>
         </div>
       </section>
     </div>

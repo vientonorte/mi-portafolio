@@ -23,7 +23,8 @@ export function ImpactStats() {
       description: language === "es" ? "SURA Ecosistema — 7-11 min vs 15+" : "SURA Ecosystem — 7-11 min vs 15+",
       color: "text-blue-600 dark:text-blue-400",
       bgColor: "bg-blue-50 dark:bg-blue-950/20",
-      link: "/#/cases",
+      link: "/#/cases/process/ux-analytics",
+      processId: "ux-analytics",
       company: "SURA",
     },
     {
@@ -33,7 +34,8 @@ export function ImpactStats() {
       description: language === "es" ? "+25 pts sobre baseline" : "+25 pts above baseline",
       color: "text-amber-600 dark:text-amber-400",
       bgColor: "bg-amber-50 dark:bg-amber-950/20",
-      link: "/#/cases",
+      link: "/#/cases/process/ux-research",
+      processId: "ux-research",
       company: "SURA",
     },
     {
@@ -43,7 +45,8 @@ export function ImpactStats() {
       description: language === "es" ? "Calculadora de ganancias" : "Earnings calculator",
       color: "text-rose-600 dark:text-rose-400",
       bgColor: "bg-rose-50 dark:bg-rose-950/20",
-      link: "/#/cases",
+      link: "/#/cases/process/ux-ui-design",
+      processId: "ux-ui-design",
       company: "Karri",
     },
     {
@@ -53,17 +56,18 @@ export function ImpactStats() {
       description: language === "es" ? "Hub centralizado Karri" : "Karri centralized hub",
       color: "text-violet-600 dark:text-violet-400",
       bgColor: "bg-violet-50 dark:bg-violet-950/20",
-      link: "/#/cases",
+      link: "/#/cases/process/refinamiento",
+      processId: "refinamiento",
       company: "Karri",
     },
   ];
 
   const handleStatClick = (stat: typeof stats[0]) => {
     analytics.viewImpactStat(stat.value, stat.company);
-    navigate("/cases");
+    navigate(`/cases/process/${stat.processId}`);
   };
 
-  const ctaLabel = language === "es" ? "Ver caso de estudio" : "View case study";
+  const ctaLabel = language === "es" ? "Ver aplicación del método" : "View method in action";
 
   return (
     <section
@@ -108,7 +112,7 @@ export function ImpactStats() {
                       {stat.description}
                     </p>
                     <p className="text-xs text-primary/60 mt-2">
-                      {language === "es" ? "Ver caso →" : "View case →"}
+                      {language === "es" ? "Ver aplicación →" : "View application →"}
                     </p>
                   </a>
                 </Card>
