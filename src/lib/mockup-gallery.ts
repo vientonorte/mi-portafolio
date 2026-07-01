@@ -1,16 +1,42 @@
 import type { MockupItem } from "../components/molecules/MockupGallery";
 import type { Language } from "./LanguageContext";
+import { useTranslation } from "./i18n";
+
+type MockupStrings = ReturnType<typeof useTranslation>["mockups"];
+
+function fill(template: string, values: Record<string, string>): string {
+  return Object.entries(values).reduce(
+    (text, [key, value]) => text.replaceAll(`{${key}}`, value),
+    template
+  );
+}
+
+export function mockupItemLabel(
+  strings: MockupStrings,
+  projectName: string,
+  index: number,
+  total: number
+): string {
+  return fill(strings.itemLabel, {
+    project: projectName,
+    current: String(index + 1),
+    total: String(total),
+  });
+}
 
 export function buildMockupItems(
   sources: string[],
   context: { projectName: string; companyName: string },
-  options?: { withLabel?: boolean }
+  strings: MockupStrings,
+  options?: { labels?: string[] }
 ): MockupItem[] {
+  const total = sources.length;
   return sources.map((src, index) => ({
     src,
-    alt: `${context.projectName} — ${context.companyName}`,
-    ...(options?.withLabel ? { label: context.projectName } : {}),
-    order: index,
+    alt: `${context.projectName} — ${context.companyName} (${index + 1}/${total})`,
+    label:
+      options?.labels?.[index] ??
+      mockupItemLabel(strings, context.projectName, index, total),
   }));
 }
 
@@ -19,16 +45,14 @@ export function flattenProjectMockups(
     projectName: string;
     details?: { mockups?: string[] };
   }>,
-  companyName: string
+  companyName: string,
+  strings: MockupStrings
 ): MockupItem[] {
   const items = projects.flatMap((project) =>
     buildMockupItems(
       project.details?.mockups ?? [],
-      {
-        projectName: project.projectName,
-        companyName,
-      },
-      { withLabel: true }
+      { projectName: project.projectName, companyName },
+      strings
     )
   );
   return dedupeMockupItems(items);
@@ -43,20 +67,18 @@ export function dedupeMockupItems(items: MockupItem[]): MockupItem[] {
   });
 }
 
+export function companyGalleryTitle(name: string, language: Language): string {
+  const strings = useTranslation(language).mockups;
+  return fill(strings.companyTitle, { name });
+}
+
 export function projectGalleryCopy(
   projectName: string,
   language: Language
 ): { title: string; description: string } {
-  if (language === "es") {
-    return {
-      title: `Evidencias — ${projectName}`,
-      description:
-        "Capturas y prototipos de alta fidelidad del trabajo de diseño UX/UI en este proyecto.",
-    };
-  }
+  const strings = useTranslation(language).mockups;
   return {
-    title: `Evidence — ${projectName}`,
-    description:
-      "High-fidelity captures and prototypes from the UX/UI design work on this project.",
+    title: fill(strings.projectTitle, { name: projectName }),
+    description: strings.projectDescription,
   };
 }

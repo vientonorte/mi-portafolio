@@ -16,7 +16,7 @@ import {
   TrendingDown
 } from "lucide-react";
 import { MockupGallery } from "../components/molecules/MockupGallery";
-import { flattenProjectMockups } from "../lib/mockup-gallery";
+import { companyGalleryTitle, flattenProjectMockups } from "../lib/mockup-gallery";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { CompanyHub } from "../data/projects-data";
@@ -49,7 +49,7 @@ export default function CompanyDetail({
   const t = useTranslation(language);
   const companyDescription = localized(company.description, language);
   const shouldReduceMotion = useReducedMotion();
-  const galleryMockups = flattenProjectMockups(company.projects, company.name);
+  const galleryMockups = flattenProjectMockups(company.projects, company.name, t.mockups);
 
   const processes = [
     {
@@ -519,7 +519,7 @@ export default function CompanyDetail({
         {galleryMockups.length > 0 && (
           <MockupGallery
             mockups={galleryMockups}
-            title={company.gallery.title[language]}
+            title={companyGalleryTitle(company.name, language)}
             description={company.gallery.description[language]}
             language={language}
             sectionId="evidence"

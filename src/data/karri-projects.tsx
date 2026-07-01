@@ -14,8 +14,6 @@ import {
   karriDeliveryPhoto,
   karriZubaleDocuments,
   karriOkrsBoard,
-  karriSprintBrief1,
-  karriSprintBrief2,
   transvipProductVision,
 } from "./project-images";
 
@@ -296,7 +294,8 @@ export const karriDesignSprintProject = {
   details: {
     challenge: "Información dispersa y falta de consenso sobre la visión del producto Karri.",
     solution: "3 talleres: brief colaborativo, journey map (24 touchpoints) y OKRs con 3 MVPs priorizados.",
-    mockups: [karriSprintBrief1, karriSprintBrief2, karriOkrsBoard],
+    // Evidencias en pestañas designComponents; sin mockups PNG duplicados
+    mockups: [],
   },
   tags: ["Design Sprint", "Facilitation", "Product Strategy", "Journey Mapping", "OKR Planning"],
   challenge: {

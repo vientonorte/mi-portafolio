@@ -128,10 +128,11 @@ export default function ProjectDetail({
     : project.details?.mockups;
   const projectMockups =
     projectMockupSources && projectMockupSources.length > 0
-      ? buildMockupItems(projectMockupSources, {
-          projectName,
-          companyName: hubName,
-        })
+      ? buildMockupItems(
+          projectMockupSources,
+          { projectName, companyName: hubName },
+          t.mockups
+        )
       : undefined;
   const mockupCopy = projectGalleryCopy(projectName, language);
   const hasProcess = isEnhanced
@@ -695,11 +696,9 @@ export default function ProjectDetail({
                 className="mt-12"
               >
                 <SectionHeader
-                  badge={language === "es" ? "Benchmark" : "Benchmark"}
-                  title={language === "es" ? "Análisis de competencia" : "Competitive Analysis"}
-                  description={language === "es"
-                    ? "Evaluación heurística de aplicaciones similares para identificar mejores prácticas y oportunidades de mejora."
-                    : "Heuristic evaluation of similar applications to identify best practices and improvement opportunities."}
+                  badge={t.mockups.badge}
+                  title={t.mockups.designTitle}
+                  description={t.mockups.designDescription}
                 />
 
                 <div className="mt-12">

@@ -306,6 +306,14 @@ export const translations = {
       badge: 'Evidencias',
       defaultTitle: 'Evidencias visuales del proyecto',
       defaultDescription: 'Mockups de alta fidelidad del diseño UX/UI implementado',
+      companyTitle: 'Evidencias — {name}',
+      projectTitle: 'Evidencias — {name}',
+      projectDescription:
+        'Capturas y prototipos de alta fidelidad del trabajo de diseño UX/UI en este proyecto.',
+      itemLabel: '{project} · Vista {current} de {total}',
+      designTitle: 'Artefactos de diseño',
+      designDescription:
+        'Pantallas, diagramas y entregables visuales del proceso de investigación y diseño.',
       swipeHint: 'Desliza para explorar · Toca para ampliar',
       expand: 'Ampliar imagen',
       galleryAria: 'Galería de mockups, desliza horizontalmente',
@@ -469,6 +477,14 @@ export const translations = {
       badge: 'Visual evidence',
       defaultTitle: 'Project visual evidence',
       defaultDescription: 'High-fidelity mockups of the implemented UX/UI design',
+      companyTitle: 'Evidence — {name}',
+      projectTitle: 'Evidence — {name}',
+      projectDescription:
+        'High-fidelity captures and prototypes from the UX/UI design work on this project.',
+      itemLabel: '{project} · View {current} of {total}',
+      designTitle: 'Design artifacts',
+      designDescription:
+        'Screens, diagrams, and visual deliverables from the research and design process.',
       swipeHint: 'Swipe to explore · Tap to zoom',
       expand: 'Expand image',
       galleryAria: 'Mockup gallery, swipe horizontally',
