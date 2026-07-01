@@ -14,7 +14,6 @@ import {
   karriDeliveryPhoto,
   karriZubaleDocuments,
   karriOkrsBoard,
-  transvipProductVision,
 } from "./project-images";
 
 export const karriCalculadoraProject = {
