@@ -15,15 +15,23 @@ export const translations = {
     
     // Hero
     hero: {
-      greeting: 'Hola, soy',
-      role: 'Lead UX Designer',
-      tagline: 'Transformo ideas complejas en experiencias digitales simples y efectivas',
-      description: 'Especializado en Design Thinking, sistemas de diseño enterprise y experiencia usuaria para productos financieros y de movilidad.',
+      label: 'Lead UX · Fintech & Mobility',
+      headlineLead: 'Diseño de producto para',
+      headlineFocus: 'fintech y movilidad enterprise.',
+      valueProp:
+        'Onboarding digital, design systems y research en entornos regulados. +6 años liderando equipos en SURA Investments, Transvip y Karri — con métricas verificables.',
+      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'UX Research', 'Mobility'],
       cta: {
         primary: 'Ver proyectos',
-        secondary: 'Descargar CV',
+        secondary: 'Casos de Estudio',
       },
       scroll: 'Explorar',
+      resultsLabel: 'Resultados',
+      resultCards: [
+        { metric: '−40%', description: 'tiempo en onboarding digital', company: 'SURA Investments' },
+        { metric: 'NPS 72', description: '+25 pts sobre baseline', company: 'SURA Inversiones' },
+        { metric: '+35%', description: 'activación de shoppers', company: 'Karri' },
+      ],
     },
     
     // About
@@ -352,15 +360,23 @@ export const translations = {
     
     // Hero
     hero: {
-      greeting: 'Hi, I\'m',
-      role: 'Lead UX Designer',
-      tagline: 'I transform complex ideas into simple, effective digital experiences',
-      description: 'Specialized in Design Thinking, enterprise design systems, and user experience for financial and mobility products.',
+      label: 'Lead UX · Fintech & Mobility',
+      headlineLead: 'Product design for',
+      headlineFocus: 'enterprise fintech & mobility.',
+      valueProp:
+        'Digital onboarding, design systems, and research in regulated environments. +6 years leading teams at SURA Investments, Transvip, and Karri — with measurable outcomes.',
+      specialties: ['Fintech', 'Onboarding', 'Design Systems', 'UX Research', 'Mobility'],
       cta: {
         primary: 'View projects',
-        secondary: 'Download CV',
+        secondary: 'Case Studies',
       },
       scroll: 'Explore',
+      resultsLabel: 'Results',
+      resultCards: [
+        { metric: '−40%', description: 'digital onboarding time', company: 'SURA Investments' },
+        { metric: 'NPS 72', description: '+25 pts above baseline', company: 'SURA Investments' },
+        { metric: '+35%', description: 'shopper activation', company: 'Karri' },
+      ],
     },
     
     // About

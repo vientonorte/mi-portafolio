@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import { ArrowRight, FileText } from "lucide-react";
-import { useRef, useMemo } from "react";
+import { useRef } from "react";
 import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { HeroResultCard } from "../atoms/HeroResultCard";
 
@@ -10,12 +12,6 @@ interface HeroProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
 }
-
-const resultCards = [
-  { metric: "−40%", desc: "abandono en onboarding", company: "SURA Investments" },
-  { metric: "NPS 72", desc: "+25 pts sobre baseline", company: "SURA Inversiones" },
-  { metric: "+35%", desc: "activación de shoppers", company: "Karri" },
-];
 
 export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
@@ -30,31 +26,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const y = useTransform(scrollYProgress, [0, 0.6], [0, 60]);
 
   const { language } = useLanguage();
-
-  const content = useMemo(() => ({
-    es: {
-      label:        "Lead UX Designer",
-      valueProp:    "6 años liderando UX\nen fintech y mobility",
-      h1a:          "Diseño que",
-      h1b:          "reduce el ruido.",
-      ctaPrimary:   "Ver proyectos",
-      ctaSecondary: "Casos de Estudio",
-      scroll:       "Explorar",
-      resultados:   "Resultados",
-    },
-    en: {
-      label:        "Lead UX Designer",
-      valueProp:    "6 years leading UX\nin fintech & mobility",
-      h1a:          "Design that",
-      h1b:          "cuts the noise.",
-      ctaPrimary:   "View projects",
-      ctaSecondary: "Case Studies",
-      scroll:       "Explore",
-      resultados:   "Results",
-    },
-  }), []);
-
-  const t = content[language];
+  const t = useTranslation(language).hero;
 
   const scrollToProjects = () => {
     analytics.clickViewProjects();
@@ -64,12 +36,12 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
   const containerVariants = {
-    hidden:  { opacity: 0 },
+    hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   };
 
   const itemVariants = {
-    hidden:  { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
   };
 
@@ -80,7 +52,6 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
       className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 sm:pt-24"
       aria-labelledby="hero-heading"
     >
-      {/* Ambient arc — top-right */}
       <div
         className="pointer-events-none absolute right-0 rounded-full"
         style={{
@@ -101,13 +72,8 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
         initial={prefersReducedMotion ? false : "hidden"}
         animate={prefersReducedMotion ? false : "visible"}
       >
-        {/* Split grid: texto izquierda | cards derecha */}
         <div className="hero-split">
-
-          {/* ── Left column ── */}
           <div className="hero-left">
-
-            {/* Eyebrow */}
             <motion.p
               variants={itemVariants}
               className="font-mono text-sm uppercase text-primary"
@@ -116,7 +82,6 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               {t.label}
             </motion.p>
 
-            {/* H1 */}
             <motion.h1
               id="hero-heading"
               variants={itemVariants}
@@ -124,29 +89,41 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
             >
               <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.7 }}>
-                {t.h1a}
+                {t.headlineLead}
               </span>
-              <span className="block text-foreground">
-                {t.h1b}
-              </span>
+              <span className="block text-foreground">{t.headlineFocus}</span>
             </motion.h1>
 
-            {/* Value proposition */}
             <motion.p
               variants={itemVariants}
-              className="text-muted-foreground"
+              className="text-muted-foreground max-w-lg"
               style={{
                 fontSize: "clamp(15px, 1.4vw, 18px)",
                 fontWeight: 300,
-                lineHeight: 1.5,
-                marginBottom: "2.5rem",
-                whiteSpace: "pre-line",
+                lineHeight: 1.6,
+                marginBottom: "1.5rem",
               }}
             >
               {t.valueProp}
             </motion.p>
 
-            {/* CTAs */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap gap-2"
+              style={{ marginBottom: "2.5rem" }}
+              aria-label={language === "es" ? "Especialización" : "Specialization"}
+            >
+              {t.specialties.map((specialty) => (
+                <Badge
+                  key={specialty}
+                  variant="outline"
+                  className="border-primary/25 bg-primary/5 text-xs font-medium text-foreground"
+                >
+                  {specialty}
+                </Badge>
+              ))}
+            </motion.div>
+
             <motion.div
               variants={itemVariants}
               className="flex items-center gap-3 flex-wrap"
@@ -157,7 +134,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 onClick={scrollToProjects}
                 className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
               >
-                {t.ctaPrimary}
+                {t.cta.primary}
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </Button>
 
@@ -171,11 +148,10 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
                 className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
               >
                 <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t.ctaSecondary}
+                {t.cta.secondary}
               </Button>
             </motion.div>
 
-            {/* Scroll indicator */}
             <motion.div variants={itemVariants}>
               <motion.button
                 animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
@@ -199,19 +175,17 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             </motion.div>
           </div>
 
-          {/* ── Right column — result cards ── */}
-          <div className="hero-right" aria-label={t.resultados} role="list">
-            {resultCards.map((card, i) => (
+          <div className="hero-right" aria-label={t.resultsLabel} role="list">
+            {t.resultCards.map((card, i) => (
               <HeroResultCard
                 key={card.metric}
                 metric={card.metric}
-                description={card.desc}
+                description={card.description}
                 company={card.company}
                 index={i}
               />
             ))}
           </div>
-
         </div>
       </motion.div>
     </section>

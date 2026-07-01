@@ -38,7 +38,6 @@
     "src/imports/**/*",
     "src/test/**/*",
     "src/types/versioned-modules.d 2.ts",
-    "src/components/organisms/Hero.tsx",
     "src/components/ui/calendar.tsx",
     "src/components/ui/carousel.tsx",
     "src/components/ui/chart.tsx",

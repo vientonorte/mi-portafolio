@@ -14,8 +14,8 @@ const Home = () => {
   return (
     <>
       <SEOHead 
-        title="Portfolio Lead UX"
-        description="Rodrigo Gaete — UX Lead / Senior Product Designer especializado en experiencia de usuario, design systems y research. Casos: SURA, Transvip, Karri."
+        title="Rodrigo Gaete — UX Lead Fintech & Mobility"
+        description="UX Lead especializado en fintech y movilidad enterprise: onboarding digital, design systems y research en entornos regulados. Casos verificables en SURA, Transvip y Karri."
       />
       <Hero
         onNavigateToCaseStudies={() => navigate('/cases')}
