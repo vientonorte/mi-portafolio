@@ -15,26 +15,7 @@ import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { GradientHeading } from "../components/atoms/GradientHeading";
-
-interface CompanyContext {
-  id: string;
-  name: string;
-  logo?: string;
-  period: string;
-  challenge: {
-    title: string;
-    problem: string;
-    solution: string;
-  };
-  projects: {
-    id: string;
-    name: string;
-    description: string;
-    period: string;
-    tags: string[];
-    processCount: number;
-  }[];
-}
+import { getFrameworkCompanyContexts } from "../lib/framework-applications";
 
 interface FrameworkDetailProps {
   onBack: () => void;
@@ -91,84 +72,7 @@ export default function FrameworkDetail({ onBack, onNavigateToProject, onNavigat
     },
   ];
 
-  const companyContexts: CompanyContext[] = [
-    {
-      id: "transvip",
-      name: "Transvip",
-      period: "2021 - 2024",
-      challenge: {
-        title: language === "es" 
-          ? "De procesos ambiguos a framework estructurado" 
-          : "From ambiguous processes to structured framework",
-        problem: language === "es"
-          ? "Anteriormente, el proceso de diseño no contaba con tareas definidas y se sustentaba en dos estados durante los sprints: \"Diseño en progreso\" y \"Diseño en aprobación\". Esto generaba confusión en estimaciones, difícil trazabilidad del trabajo y falta de documentación estructurada."
-          : "Previously, the design process had no defined tasks and relied on two states during sprints: \"Design in progress\" and \"Design in approval\". This created confusion in estimations, difficult work traceability, and lack of structured documentation.",
-        solution: language === "es"
-          ? "Implementé un framework de 5 macroprocesos que estructura cada fase del diseño UX, facilitando la estimación de esfuerzos, el registro del trabajo y la documentación. Cada macroproceso tiene actividades claras, entregables definidos y métricas de éxito."
-          : "I implemented a 5 macro-process framework that structures each UX design phase, facilitating effort estimation, work logging, and documentation. Each macro-process has clear activities, defined deliverables, and success metrics.",
-      },
-      projects: [
-        {
-          id: "karri-calculadora",
-          name: "Karri - Calculadora de Ganancias",
-          description: language === "es"
-            ? "Sistema de simulación de ingresos para shoppers que permite calcular ganancias proyectadas basadas en parámetros reales."
-            : "Income simulation system for shoppers that calculates projected earnings based on real parameters.",
-          period: "2022-2023",
-          tags: ["Figma", "React Native", "UX Research", "Mobile First", "Design System"],
-          processCount: 5,
-        },
-        {
-          id: "karri-notificaciones",
-          name: "Karri - Sistema de Notificaciones + Onboarding",
-          description: language === "es"
-            ? "Hub centralizado de notificaciones y flujo de autenticación para shoppers. Reduce la carga cognitiva y mejora la retención."
-            : "Centralized notification hub and authentication flow for shoppers. Reduces cognitive load and improves retention.",
-          period: "2022-2023",
-          tags: ["Figma", "React Native", "Information Architecture", "Mobile UX", "Accessibility"],
-          processCount: 5,
-        },
-      ],
-    },
-    {
-      id: "sura",
-      name: "SURA Investments",
-      period: "2024",
-      challenge: {
-        title: language === "es"
-          ? "Modernización de experiencia financiera enterprise"
-          : "Enterprise financial experience modernization",
-        problem: language === "es"
-          ? "[Placeholder] Describe el desafío específico en SURA Investments"
-          : "[Placeholder] Describe the specific challenge at SURA Investments",
-        solution: language === "es"
-          ? "[Placeholder] Describe cómo aplicaste el framework en SURA"
-          : "[Placeholder] Describe how you applied the framework at SURA",
-      },
-      projects: [
-        // Se llenarán con datos de SURA
-      ],
-    },
-    {
-      id: "otros",
-      name: language === "es" ? "Otros Proyectos" : "Other Projects",
-      period: "2019 - 2024",
-      challenge: {
-        title: language === "es"
-          ? "Versatilidad del framework en diversos contextos"
-          : "Framework versatility across diverse contexts",
-        problem: language === "es"
-          ? "Cada proyecto presenta desafíos únicos que requieren adaptar la metodología sin perder su esencia."
-          : "Each project presents unique challenges requiring methodology adaptation without losing its essence.",
-        solution: language === "es"
-          ? "El framework se adapta escalando procesos según complejidad: proyectos pequeños priorizan fases críticas, mientras proyectos enterprise implementan todos los macroprocesos."
-          : "The framework adapts by scaling processes based on complexity: small projects prioritize critical phases, while enterprise projects implement all macro-processes.",
-      },
-      projects: [
-        // Se llenarán con datos del CV
-      ],
-    },
-  ];
+  const companyContexts = getFrameworkCompanyContexts(language);
 
   const navigationSections = [
     { 

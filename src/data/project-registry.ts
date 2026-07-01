@@ -1,6 +1,5 @@
 import {
   companyHubs,
-  frameworkProject,
   individualProjects,
   type CompanyHub,
   type EnhancedProject,
@@ -51,10 +50,6 @@ export function getProjectById(projectId: string): ProjectLookupResult | undefin
   const individual = individualProjects.find((p) => p.id === projectId);
   if (individual) {
     return { project: individual };
-  }
-
-  if (projectId === frameworkProject.id) {
-    return { project: frameworkProject };
   }
 
   return undefined;

@@ -12,7 +12,6 @@ import {
   transvipMobile,
   transvipProductVision,
   karriLogo,
-  uxSprintDiagram,
   uxProcessDiagram,
   uxValueChain,
 } from "./project-images";
@@ -654,61 +653,6 @@ export const transvipHub: CompanyHub = {
 };
 
 // ============================================
-// FRAMEWORK PROPIO
-// ============================================
-
-export const frameworkProject: EnhancedProject = {
-  id: "framework",
-  company: "Framework Propio",
-  role: "Lead UX | Metodología",
-  period: "2022 - Presente",
-  projectName: "Framework UX - Discovery & Product Design",
-  description: "Desarrollo de framework de UX completo: Analytics, Research, UI Design y Testing. Metodología para MVPs y desarrollo evolutivo.",
-  image: uxValueChain,
-  tags: ["UX Process", "Framework", "Methodology", "Best Practices"],
-  
-  processes: [
-    {
-      name: "UX Analytics",
-      description: "Framework de análisis de datos cuantitativos y cualitativos para informar decisiones de diseño.",
-      tools: ["Google Analytics", "Hotjar", "Mixpanel"],
-    },
-    {
-      name: "Discovery Activo",
-      description: "Metodología de discovery continuo con research de usuarios y validación constante de hipótesis.",
-      tools: ["User Research", "Prototyping", "Testing"],
-    },
-    {
-      name: "Product Design",
-      description: "Proceso end-to-end desde ideación hasta handoff, con énfasis en diseño iterativo y colaboración.",
-      tools: ["Design Sprints", "Figma", "Agile UX"],
-    },
-    {
-      name: "Testing & Iteration",
-      description: "Framework de testing de usabilidad y métricas de éxito para iteración basada en datos.",
-      tools: ["Usability Testing", "A/B Testing", "User Feedback"],
-    },
-  ],
-  teamSize: "Framework personal aplicado en equipos de 3-10 personas",
-  
-  details: {
-    challenge: "Crear metodología flexible que funcione tanto para MVPs rápidos como para productos enterprise complejos.",
-    solution: "Framework modular adaptable a diferentes contextos, con énfasis en discovery activo y validación continua. Balance entre velocidad y profundidad.",
-    metrics: [
-      "Aplicado exitosamente en 8+ proyectos",
-      "Reducción de 30% en re-trabajo de diseño",
-      "Mayor alineación entre diseño, producto y desarrollo",
-    ],
-    learnings: [
-      "No existe una metodología única para todos los contextos",
-      "El discovery activo previene errores costosos",
-      "La documentación del proceso facilita la escalabilidad",
-    ],
-    mockups: [uxValueChain, uxProcessDiagram, uxSprintDiagram],
-  },
-};
-
-// ============================================
 // EXPORT COMBINADO
 // ============================================
 
@@ -759,15 +703,11 @@ const uxToolsProject: EnhancedProject = {
 };
 
 // Proyectos individuales (no agrupados por empresa)
-export const individualProjects: EnhancedProject[] = [
-  frameworkProject,
-  uxToolsProject,
-];
+export const individualProjects: EnhancedProject[] = [uxToolsProject];
 
 // Todos los proyectos para backward compatibility
 export const allProjects = [
   ...suraHub.projects,
   ...transvipHub.projects,
-  frameworkProject,
   uxToolsProject,
 ];

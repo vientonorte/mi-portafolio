@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
+import { BarChart3, Search, Palette, TestTube, RefreshCw, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
