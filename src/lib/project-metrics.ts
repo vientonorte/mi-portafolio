@@ -101,10 +101,57 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
   },
 };
 
+const PROJECT_SEO_KEYWORDS: Record<string, Record<Language, string>> = {
+  "sura-ux-enterprise": {
+    es: "UX enterprise, design thinking, fintech regional, lineamientos UX, SURA",
+    en: "enterprise UX, design thinking, regional fintech, UX guidelines, SURA",
+  },
+  "sura-inversiones-dashboard": {
+    es: "dashboard inversiones, fintech UX, progressive disclosure, NPS, SURA",
+    en: "investment dashboard, fintech UX, progressive disclosure, NPS, SURA",
+  },
+  "sura-ecosistema-digital": {
+    es: "design system, onboarding digital, CMS, cumplimiento, SURA",
+    en: "design system, digital onboarding, CMS, compliance, SURA",
+  },
+  "sura-ria-us": {
+    es: "RIA platform, onboarding multi-rol, fintech US, autenticación, SURA",
+    en: "RIA platform, multi-role onboarding, US fintech, authentication, SURA",
+  },
+  "transvip-app-premium": {
+    es: "mobility premium, reserva ejecutiva, conversión, UX móvil, Transvip",
+    en: "premium mobility, executive booking, conversion, mobile UX, Transvip",
+  },
+  "karri-calculadora": {
+    es: "shopper UX, calculadora ingresos, activación, benchmark, Karri",
+    en: "shopper UX, earnings calculator, activation, benchmark, Karri",
+  },
+  "karri-notificaciones": {
+    es: "hub notificaciones, onboarding shoppers, engagement, Karri",
+    en: "notification hub, shopper onboarding, engagement, Karri",
+  },
+  "karri-design-sprint": {
+    es: "design sprint, OKRs, journey map, estrategia producto, Karri",
+    en: "design sprint, OKRs, journey map, product strategy, Karri",
+  },
+  "ux-tools": {
+    es: "herramientas UX, recursos diseño, curación, comunidad",
+    en: "UX tools, design resources, curation, community",
+  },
+};
+
 export function getProjectHeadlineMetrics(
   projectId: string | undefined,
   language: Language
 ): ProjectMetric[] {
   if (!projectId) return [];
   return PROJECT_HEADLINE_METRICS[projectId]?.[language] ?? [];
+}
+
+export function getProjectSeoKeywords(
+  projectId: string | undefined,
+  language: Language
+): string | undefined {
+  if (!projectId) return undefined;
+  return PROJECT_SEO_KEYWORDS[projectId]?.[language];
 }

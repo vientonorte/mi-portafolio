@@ -13,14 +13,21 @@ import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { GradientHeading } from "../components/atoms/GradientHeading";
 import { canonicalFromPath } from "../lib/seo";
+import { FlagshipCaseStudy } from "../components/organisms/FlagshipCaseStudy";
 
 interface CaseStudiesProps {
   onBack: () => void;
   onNavigateToProcess?: (processId: string) => void;
   onNavigateToFramework?: () => void;
+  onNavigateToProject?: (projectId: string) => void;
 }
 
-export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToFramework }: CaseStudiesProps) {
+export default function CaseStudies({
+  onBack,
+  onNavigateToProcess,
+  onNavigateToFramework,
+  onNavigateToProject,
+}: CaseStudiesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language);
 
@@ -59,10 +66,11 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
 
   const navigationSections = [
     { id: "hero", label: t.caseStudies.navigation.hero, number: "00" },
-    { id: "challenge", label: t.caseStudies.navigation.challenge, number: "01" },
-    { id: "process", label: t.caseStudies.navigation.process, number: "02" },
-    { id: "valueChain", label: t.caseStudies.navigation.valueChain, number: "03" },
-    { id: "cta", label: t.caseStudies.navigation.cta, number: "04" },
+    { id: "flagship", label: t.flagshipCaseStudy.badge, number: "01" },
+    { id: "challenge", label: t.caseStudies.navigation.challenge, number: "02" },
+    { id: "process", label: t.caseStudies.navigation.process, number: "03" },
+    { id: "valueChain", label: t.caseStudies.navigation.valueChain, number: "04" },
+    { id: "cta", label: t.caseStudies.navigation.cta, number: "05" },
   ];
 
   return (
@@ -152,10 +160,14 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
         </div>
       </section>
 
+      {onNavigateToProject && (
+        <FlagshipCaseStudy onReadCase={onNavigateToProject} />
+      )}
+
       {/* Challenge Section */}
       <section id="challenge" className="py-16 md:py-24 px-4 bg-muted/30 scroll-mt-20">
         <div className="container max-w-7xl mx-auto">
-          <SectionDivider number="01" label={t.caseStudies.challenge.badge} />
+          <SectionDivider number="02" label={t.caseStudies.challenge.badge} />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -269,7 +281,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
       {/* Process Section */}
       <section id="process" className="py-16 md:py-24 px-4 scroll-mt-20">
         <div className="container max-w-7xl mx-auto">
-          <SectionDivider number="02" label={t.caseStudies.process.badge} />
+          <SectionDivider number="03" label={t.caseStudies.process.badge} />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -304,7 +316,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
             transition={{ duration: 0.8 }}
           >
             <Card className="p-8 bg-gradient-to-br from-muted/50 to-muted/20 border-2">
-              <h4 className="font-bold text-xl mb-6 text-center">{t.caseStudies.process.flowTitle}</h4>
+              <h3 className="font-bold text-xl mb-6 text-center">{t.caseStudies.process.flowTitle}</h3>
               
               <div className="flex flex-wrap items-center justify-center gap-4">
                 {processes.map((process, idx) => (
@@ -339,7 +351,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
       {/* Value Chain Section */}
       <section id="valueChain" className="py-16 md:py-24 px-4 bg-muted/30 scroll-mt-20">
         <div className="container max-w-7xl mx-auto">
-          <SectionDivider number="03" label={t.caseStudies.valueChain.badge} />
+          <SectionDivider number="04" label={t.caseStudies.valueChain.badge} />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -463,7 +475,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
             viewport={{ once: true }}
           >
             <Card className="p-8 bg-background">
-              <h4 className="font-bold text-xl mb-8 text-center">{t.caseStudies.valueChain.diagramTitle}</h4>
+              <h3 className="font-bold text-xl mb-8 text-center">{t.caseStudies.valueChain.diagramTitle}</h3>
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Discovery Activo */}
@@ -472,9 +484,9 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
                   className="flex-1 w-full"
                 >
                   <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/30 rounded-xl p-6">
-                    <h5 className="font-bold text-center mb-4 text-blue-600">
+                    <h4 className="font-bold text-center mb-4 text-blue-600">
                       {t.caseStudies.valueChain.phases.discovery}
-                    </h5>
+                    </h4>
                     <div className="space-y-2">
                       <div className="bg-background/50 rounded p-3 text-sm text-center">UX Analytics</div>
                       <div className="bg-background/50 rounded p-3 text-sm text-center">UX Research</div>
@@ -490,9 +502,9 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
                   className="flex-1 w-full"
                 >
                   <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/30 rounded-xl p-6">
-                    <h5 className="font-bold text-center mb-4 text-green-600">
+                    <h4 className="font-bold text-center mb-4 text-green-600">
                       {t.caseStudies.valueChain.phases.productDesign}
-                    </h5>
+                    </h4>
                     <div className="space-y-2">
                       <div className="bg-background/50 rounded p-3 text-sm text-center">UX/UI Design</div>
                       <div className="bg-background/50 rounded p-3 text-sm text-center">UX Testing</div>
@@ -508,9 +520,9 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
                   className="flex-1 w-full"
                 >
                   <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/30 rounded-xl p-6">
-                    <h5 className="font-bold text-center mb-4 text-purple-600">
+                    <h4 className="font-bold text-center mb-4 text-purple-600">
                       {t.caseStudies.valueChain.phases.development}
-                    </h5>
+                    </h4>
                     <div className="space-y-2">
                       <div className="bg-background/50 rounded p-3 text-sm text-center">{t.caseStudies.valueChain.diagramMvp}</div>
                       <div className="bg-background/50 rounded p-3 text-sm text-center">{t.caseStudies.valueChain.diagramRefinement}</div>
@@ -526,7 +538,7 @@ export default function CaseStudies({ onBack, onNavigateToProcess, onNavigateToF
       {/* CTA Section */}
       <section id="cta" className="py-16 md:py-24 px-4 scroll-mt-20">
         <div className="container max-w-7xl mx-auto text-center">
-          <SectionDivider number="04" label={t.caseStudies.cta.sectionLabel} />
+          <SectionDivider number="05" label={t.caseStudies.cta.sectionLabel} />
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

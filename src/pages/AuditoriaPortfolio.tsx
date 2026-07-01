@@ -16,10 +16,10 @@ export default function AuditoriaPortfolio() {
     { id: 2, task: "Implementar schema.org/Person + CreativeWork", category: "SEO", status: "completed" },
     { id: 3, task: "Optimizar meta title y description", category: "SEO", status: "completed" },
     { id: 4, task: "Agregar métricas cuantificables en proyectos", category: "Contenido", status: "completed" },
-    { id: 5, task: "Desarrollar 1 case study completo con framework", category: "Contenido", status: "pending" },
-    { id: 6, task: "Incluir 3 testimonios con validación social", category: "Credibilidad", status: "pending" },
-    { id: 7, task: "Agregar keywords estratégicas en proyectos", category: "SEO", status: "pending" },
-    { id: 8, task: "Implementar estructura semántica H1-H6", category: "Accesibilidad", status: "pending" }
+    { id: 5, task: "Desarrollar 1 case study completo con framework", category: "Contenido", status: "completed" },
+    { id: 6, task: "Incluir 3 testimonios con validación social", category: "Credibilidad", status: "completed" },
+    { id: 7, task: "Agregar keywords estratégicas en proyectos", category: "SEO", status: "completed" },
+    { id: 8, task: "Implementar estructura semántica H1-H6", category: "Accesibilidad", status: "completed" }
   ]);
 
   const handleStatusChange = (id: number) => {

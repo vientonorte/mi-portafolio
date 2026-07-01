@@ -5,6 +5,7 @@ import { ImpactStats } from '../components/organisms/ImpactStats';
 import { About } from '../components/organisms/About';
 import { Projects } from '../components/organisms/Projects';
 import { Experience } from '../components/organisms/Experience';
+import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { StructuredData } from '../components/atoms/StructuredData';
@@ -43,6 +44,7 @@ const Home = () => {
       />
       <About />
       <Experience />
+      <Testimonials />
       <Contact />
       <BackToTop />
     </>

@@ -53,6 +53,7 @@ function CaseStudiesPage() {
       onBack={() => navigate('/proyectos')}
       onNavigateToProcess={(id) => navigate(`/cases/process/${id}`)}
       onNavigateToFramework={() => navigate('/framework')}
+      onNavigateToProject={(id) => navigate(`/proyecto/${id}`)}
     />
   );
 }

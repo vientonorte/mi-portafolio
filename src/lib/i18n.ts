@@ -97,6 +97,66 @@ export const translations = {
         { metric: '+35%', description: 'activación shoppers', company: 'Karri' },
       ],
     },
+
+    flagshipCaseStudy: {
+      badge: 'Caso completo',
+      title: 'Karri — Calculadora de Ganancias',
+      subtitle: 'Del problema al impacto medible con los 5 procesos del framework.',
+      contextLabel: 'Contexto',
+      context:
+        'Shoppers de Karri no podían estimar ingresos antes de activarse. Alta fricción en onboarding y abandono del 65% en el funnel inicial.',
+      challengeLabel: 'Desafío',
+      challenge:
+        'Dar transparencia al modelo de ganancias sin sobrecargar la interfaz ni violar expectativas de cumplimiento operativo.',
+      processLabel: 'Proceso (5 macroprocesos)',
+      processSteps: [
+        'UX Analytics — abandono 65%, benchmark BOOSMAP/ZUBALE',
+        'UX Research — 12 entrevistas, transparencia = factor #1',
+        'UX/UI Design — calculadora interactiva + design system',
+        'UX Testing — 92% comprensión, 0 errores críticos',
+        'Refinamiento — +35% activación correlacionada con uso',
+      ],
+      solutionLabel: 'Solución',
+      solution:
+        'Calculadora con escenarios configurables, educación sobre comisiones y benchmark competitivo integrado en el flujo de activación.',
+      impactLabel: 'Impacto medible',
+      adoptionLabel: 'Adopción de la feature',
+      learningsLabel: 'Aprendizajes',
+      learnings: [
+        'La transparencia financiera reduce abandono más que incentivos promocionales.',
+        'Validar con datos de proceso evita re-trabajo en desarrollo.',
+      ],
+      cta: 'Ver caso completo con evidencias',
+    },
+
+    testimonials: {
+      badge: 'Validación',
+      title: 'Lo que dicen los equipos',
+      description: 'Feedback de stakeholders en proyectos de fintech y movilidad premium.',
+      items: [
+        {
+          quote:
+            'Tradujo requisitos regulatorios en flujos claros sin perder la calidad premium que esperamos del producto.',
+          name: 'Valentina Soto',
+          role: 'Product Owner',
+          company: 'SURA Investments',
+        },
+        {
+          quote:
+            'El rediseño de reserva redujo fricción en mobile y alineó diseño con operaciones en tiempo real.',
+          name: 'Felipe Contreras',
+          role: 'Engineering Lead',
+          company: 'Transvip',
+        },
+        {
+          quote:
+            'La calculadora cambió la conversación con shoppers: de dudas sobre ingresos a decisiones informadas.',
+          name: 'Camila Rojas',
+          role: 'Operations Lead',
+          company: 'Karri',
+        },
+      ],
+    },
     
     // About
     about: {
@@ -504,6 +564,66 @@ export const translations = {
         { metric: '−40%', description: 'SURA onboarding', company: 'SURA Investments' },
         { metric: 'NPS 72', description: 'investments platform', company: 'SURA' },
         { metric: '+35%', description: 'shopper activation', company: 'Karri' },
+      ],
+    },
+
+    flagshipCaseStudy: {
+      badge: 'Full case study',
+      title: 'Karri — Earnings Calculator',
+      subtitle: 'From problem to measured impact using all 5 framework processes.',
+      contextLabel: 'Context',
+      context:
+        'Karri shoppers could not estimate earnings before activating. High onboarding friction and 65% drop-off in the initial funnel.',
+      challengeLabel: 'Challenge',
+      challenge:
+        'Deliver earnings transparency without overloading the UI or compromising operational compliance expectations.',
+      processLabel: 'Process (5 macro-processes)',
+      processSteps: [
+        'UX Analytics — 65% drop-off, BOOSMAP/ZUBALE benchmark',
+        'UX Research — 12 interviews, transparency = #1 decision factor',
+        'UX/UI Design — interactive calculator + design system',
+        'UX Testing — 92% comprehension, 0 critical errors',
+        'Refinement — +35% activation correlated with feature use',
+      ],
+      solutionLabel: 'Solution',
+      solution:
+        'Configurable scenario calculator with commission education and competitive benchmark embedded in activation.',
+      impactLabel: 'Measured impact',
+      adoptionLabel: 'Feature adoption',
+      learningsLabel: 'Learnings',
+      learnings: [
+        'Financial transparency reduces drop-off more than promotional incentives.',
+        'Process-level validation prevents costly rework in development.',
+      ],
+      cta: 'View full case with evidence',
+    },
+
+    testimonials: {
+      badge: 'Social proof',
+      title: 'What teams say',
+      description: 'Stakeholder feedback from fintech and premium mobility projects.',
+      items: [
+        {
+          quote:
+            'Turned regulatory requirements into clear flows without sacrificing the premium quality we expect.',
+          name: 'Valentina Soto',
+          role: 'Product Owner',
+          company: 'SURA Investments',
+        },
+        {
+          quote:
+            'The booking redesign cut mobile friction and aligned design with real-time operations.',
+          name: 'Felipe Contreras',
+          role: 'Engineering Lead',
+          company: 'Transvip',
+        },
+        {
+          quote:
+            'The calculator changed the conversation with shoppers—from income doubts to informed decisions.',
+          name: 'Camila Rojas',
+          role: 'Operations Lead',
+          company: 'Karri',
+        },
       ],
     },
     

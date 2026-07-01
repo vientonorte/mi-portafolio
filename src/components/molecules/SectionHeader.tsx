@@ -8,6 +8,7 @@ interface SectionHeaderProps {
   title: string;
   description: string;
   align?: "left" | "center";
+  titleId?: string;
 }
 
 export function SectionHeader({ 
@@ -15,7 +16,8 @@ export function SectionHeader({
   badgeIcon,
   title, 
   description,
-  align = "center"
+  align = "center",
+  titleId,
 }: SectionHeaderProps) {
   const prefersReducedMotion = useReducedMotion();
   const alignClass = align === "center" ? "text-center" : "text-left";
@@ -39,6 +41,7 @@ export function SectionHeader({
       )}
       
       <motion.h2
+        id={titleId}
         {...fadeUp}
         transition={{ duration: 0.6, delay: 0.1 }}
         className={`${alignClass} relative`}

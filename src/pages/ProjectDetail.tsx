@@ -21,6 +21,7 @@ import { ResponsiveDesignFrame } from "../components/molecules/ResponsiveDesignF
 import { CompanyLogo } from "../components/atoms/CompanyLogo";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, projectPageSeo } from "../lib/seo";
+import { getProjectSeoKeywords } from "../lib/project-metrics";
 
 interface ProcessApplied {
   id: string;
@@ -176,7 +177,7 @@ export default function ProjectDetail({
       {projectId && (
         <SEOHead
           {...pageSeo}
-          keywords={t.seo.keywords}
+          keywords={getProjectSeoKeywords(projectId, language) ?? t.seo.keywords}
           url={canonicalFromPath(`/proyecto/${projectId}`)}
         />
       )}
