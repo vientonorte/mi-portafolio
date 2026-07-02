@@ -174,7 +174,6 @@ export const translations = {
     // Hero
     hero: {
       label: 'Design Ops en productos regulados',
-      metricsLine: '−40% onboarding SURA · NPS 72 · +35% activación Karri',
       headlineLead: 'Diseño que',
       headlineFocus: 'reduce el ruido.',
       valueProp: 'Menos fricción y más claridad en fintech y mobility.',
@@ -838,7 +837,6 @@ export const translations = {
     // Hero
     hero: {
       label: 'Design Ops for regulated products',
-      metricsLine: '−40% SURA onboarding · NPS 72 · +35% Karri activation',
       headlineLead: 'Design that',
       headlineFocus: 'cuts the noise.',
       valueProp: 'Less friction and more clarity in fintech and mobility.',

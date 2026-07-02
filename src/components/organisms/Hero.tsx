@@ -125,17 +125,9 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               <motion.p
                 variants={itemVariants}
                 className="max-w-md text-base font-light leading-snug text-muted-foreground md:text-lg"
-                style={{ marginBottom: "0.75rem" }}
-              >
-                {t.valueProp}
-              </motion.p>
-
-              <motion.p
-                variants={itemVariants}
-                className="max-w-md font-mono text-sm font-medium text-foreground/90"
                 style={{ marginBottom: "1.25rem" }}
               >
-                {t.metricsLine}
+                {t.valueProp}
               </motion.p>
 
               <motion.div
