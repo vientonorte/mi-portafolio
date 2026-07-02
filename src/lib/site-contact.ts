@@ -24,3 +24,5 @@ export function getCvDownloadUrl(): string {
 export function getContactMailtoUrl(): string {
   return `mailto:${PUBLIC_CONTACT_EMAIL}`;
 }
+
+export const buildContactMailtoUrl = getContactMailtoUrl;

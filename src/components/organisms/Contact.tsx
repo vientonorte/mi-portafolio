@@ -9,12 +9,11 @@ import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
-import {
-  SITE_CONTACT,
-  CONTACT_API_URL,
-  getContactMailtoUrl,
-} from "../../lib/site-contact";
+import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
+import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
+import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
 
 const contactInfo = [
   {
@@ -39,6 +38,9 @@ const socialLinks = [
 ];
 
 export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -93,44 +95,57 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
     }
 
     if (!validateForm()) {
-      toast.error("Por favor corrige los errores en el formulario");
+      toast.error(t.contact.form.validationError);
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(CONTACT_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          message: formData.message.trim(),
-          _gotcha: formData._gotcha,
-        }),
+      const result = await submitContactMessage({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        _gotcha: formData._gotcha,
       });
 
-      const result = (await response.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
-
-      if (response.ok && result.ok) {
+      if (result.ok) {
         analytics.submitContactForm(true);
-        toast.success("¡Mensaje enviado correctamente! Te responderé pronto.");
+        toast.success(
+          result.channel === "formsubmit"
+            ? t.contact.form.successFallback
+            : t.contact.form.success
+        );
         setFormData({ name: "", email: "", message: "", _gotcha: "" });
         setErrors({});
-      } else {
-        analytics.submitContactForm(false);
-        throw new Error(result.error || "Error en el envío");
+        return;
       }
+
+      if (result.mailtoUrl) {
+        analytics.submitContactForm(false);
+        toast.error(t.contact.form.mailtoFallback, {
+          description: t.contact.form.mailtoFallbackDesc,
+          duration: 12000,
+          action: {
+            label: t.contact.form.mailtoAction,
+            onClick: () => {
+              window.location.href = result.mailtoUrl!;
+            },
+          },
+        });
+        return;
+      }
+
+      analytics.submitContactForm(false);
+      toast.error(t.contact.form.mailtoFallback, {
+        description: `${SITE_CONTACT.email} · LinkedIn`,
+      });
     } catch (error) {
       console.error("Form submission error:", error);
       analytics.submitContactForm(false);
-      toast.error(
-        `No se pudo enviar el mensaje. Escríbeme a ${SITE_CONTACT.email} o usa LinkedIn.`,
-      );
+      toast.error(t.contact.form.mailtoFallback, {
+        description: t.contact.form.mailtoFallbackDesc,
+      });
     } finally {
       setIsSubmitting(false);
     }
