@@ -43,7 +43,7 @@ const Contacto = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/contacto')}
       />
-      <Contact initialMessage={initialMessage} />
+      <Contact key={initialMessage} initialMessage={initialMessage} />
     </PageShell>
   );
 };

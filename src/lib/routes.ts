@@ -7,6 +7,7 @@ export const ROUTES = {
   project: (projectId: string) => `/proyecto/${projectId}`,
   company: (companyId: string) => `/empresa/${companyId}`,
   contact: '/contacto',
+  privacy: '/privacy',
   designSystem: '/design-system',
   consulting: '/consultoria',
   audit: '/auditoria',

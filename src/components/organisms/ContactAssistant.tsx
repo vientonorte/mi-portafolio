@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowLeft, Bot, Send, Shield, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
-import { Checkbox } from "../ui/checkbox";
+import { ContactConsentField } from "../molecules/ContactConsentField";
 import { Badge } from "../ui/badge";
 import { toast } from "sonner@2.0.3";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -116,10 +116,6 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [gotcha, setGotcha] = useState("");
 
-  useEffect(() => {
-    if (initialMessage) setGoal(initialMessage);
-  }, [initialMessage]);
-
   const pushHistory = (role: "assistant" | "user", text: string) => {
     setHistory((prev) => [...prev, { role, text }]);
   };
@@ -135,12 +131,6 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
     }),
     [intent, recruiterMode, packageId, industry, timeline, goal]
   );
-
-  useEffect(() => {
-    if (step === "review" && intent) {
-      setMessage(buildAssistantContactMessage(language, draft));
-    }
-  }, [step, intent, language, draft]);
 
   const selectIntent = (value: ContactIntent) => {
     setIntent(value);
@@ -190,6 +180,9 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
     }
     pushHistory("user", `${name.trim()} · ${email.trim()}`);
     pushHistory("assistant", a.steps.review);
+    if (intent) {
+      setMessage(buildAssistantContactMessage(language, draft));
+    }
     setStep("review");
   };
 
@@ -469,18 +462,14 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 p-3">
-                <Checkbox
-                  id="assistant-consent"
-                  checked={consent}
-                  onCheckedChange={(v) => setConsent(v === true)}
-                  aria-invalid={!!errors.consent}
-                />
-                <Label htmlFor="assistant-consent" className="text-sm font-normal leading-snug cursor-pointer">
-                  {t.form.consent}
-                </Label>
-              </div>
-              {errors.consent && <p className="text-sm text-destructive">{errors.consent}</p>}
+              <ContactConsentField
+                id="assistant-consent"
+                checked={consent}
+                onCheckedChange={setConsent}
+                consentText={t.form.consent}
+                privacyLinkLabel={t.form.consentPrivacyLink}
+                error={errors.consent}
+              />
 
               <p className="flex items-start gap-2 text-xs text-muted-foreground">
                 <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />

@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
 import { BarChart3, TrendingDown, TrendingUp, Zap, ArrowRight } from "lucide-react";
@@ -12,6 +13,7 @@ import { Button } from "../ui/button";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
 import { getPortfolioImages } from "../../lib/image-overrides";
+import { cn } from "../ui/utils";
 
 const STAT_STYLES = [
   { color: "text-stat-tint-blue", bgColor: "bg-stat-tint-blue", icon: TrendingDown },
@@ -26,6 +28,12 @@ export function ImpactStats() {
   const t = useTranslation(language).impactStats;
   const prefersReducedMotion = useReducedMotion();
   const featuredImage = getPortfolioImages().sura.riaOnboarding;
+  const [expandedStats, setExpandedStats] = useState<Set<string>>(new Set());
+
+  const isTouchPrimary = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  }, []);
 
   const fadeUp = (delay = 0) =>
     prefersReducedMotion
@@ -74,15 +82,25 @@ export function ImpactStats() {
                 whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
                 className="h-full"
               >
-                <Card className="metric-card-interactive h-full p-0 overflow-hidden">
+                <Card
+                  className={cn(
+                    "metric-card-interactive h-full p-0 overflow-hidden",
+                    expandedStats.has(stat.processId) && "metric-card-expanded"
+                  )}
+                >
                   <a
                     href={link}
                     onClick={(e) => {
                       e.preventDefault();
+                      if (isTouchPrimary() && !expandedStats.has(stat.processId)) {
+                        setExpandedStats((prev) => new Set(prev).add(stat.processId));
+                        return;
+                      }
                       handleStatClick(stat.value, stat.company, stat.processId);
                     }}
                     className="metric-card-body h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                     aria-label={`${stat.label}: ${stat.value}. ${stat.spoiler}`}
+                    aria-expanded={expandedStats.has(stat.processId)}
                   >
                     <div className="flex items-center justify-between gap-3 mb-3 w-full">
                       <div
@@ -97,8 +115,10 @@ export function ImpactStats() {
                     <h3 className="metric-card-label">{stat.label}</h3>
                     <p className="metric-card-meta">{stat.description}</p>
 
-                    <p className="metric-card-spoiler" aria-hidden="true">
-                      {stat.spoiler}
+                    <p className="metric-card-spoiler">{stat.spoiler}</p>
+
+                    <p className="metric-card-tap-hint" aria-hidden="true">
+                      {expandedStats.has(stat.processId) ? t.tapNavigate : t.tapHint}
                     </p>
 
                     <p className="metric-card-phase">

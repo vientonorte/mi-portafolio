@@ -5,10 +5,10 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
-import { Checkbox } from "../ui/checkbox";
+import { ContactConsentField } from "../molecules/ContactConsentField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ContactAssistant } from "./ContactAssistant";
@@ -37,12 +37,6 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
     consent: false,
     _gotcha: "",
   });
-
-  useEffect(() => {
-    if (initialMessage) {
-      setFormData((prev) => ({ ...prev, message: initialMessage }));
-    }
-  }, [initialMessage]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -117,8 +111,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
       toast.error(t.form.mailtoFallback, {
         description: `${SITE_CONTACT.email} · LinkedIn`,
       });
-    } catch (error) {
-      console.error("Form submission error:", error);
+    } catch {
       analytics.submitContactForm(false);
       toast.error(t.form.mailtoFallback, {
         description: t.form.mailtoFallbackDesc,
@@ -334,22 +327,16 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                         )}
                       </div>
 
-                      <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 p-3">
-                        <Checkbox
-                          id="consent"
-                          checked={formData.consent}
-                          onCheckedChange={(checked) =>
-                            setFormData((prev) => ({ ...prev, consent: checked === true }))
-                          }
-                          aria-invalid={!!errors.consent}
-                        />
-                        <Label htmlFor="consent" className="text-sm font-normal leading-snug cursor-pointer">
-                          {t.form.consent}
-                        </Label>
-                      </div>
-                      {errors.consent && (
-                        <p className="text-sm text-destructive">{errors.consent}</p>
-                      )}
+                      <ContactConsentField
+                        id="consent"
+                        checked={formData.consent}
+                        onCheckedChange={(checked) =>
+                          setFormData((prev) => ({ ...prev, consent: checked }))
+                        }
+                        consentText={t.form.consent}
+                        privacyLinkLabel={t.form.consentPrivacyLink}
+                        error={errors.consent}
+                      />
 
                       <p className="flex items-start gap-2 text-xs text-muted-foreground">
                         <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />

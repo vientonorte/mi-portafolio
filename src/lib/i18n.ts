@@ -234,6 +234,8 @@ export const translations = {
       description:
         'Cada KPI nace de un macroproceso aplicado en producción. Pasa el cursor para el spoiler del caso — o entra directo a la fase del framework.',
       viewPhase: 'Ver fase',
+      tapHint: 'Toca para ver contexto',
+      tapNavigate: 'Toca de nuevo para abrir la fase',
       stats: [
         {
           value: '−40%',
@@ -513,6 +515,7 @@ export const translations = {
         sending: 'Enviando...',
         consent:
           'Acepto que mis datos se usen solo para responder esta consulta (Ley 21.719).',
+        consentPrivacyLink: 'política de privacidad',
         consentRequired: 'Debes aceptar el tratamiento de datos para enviar',
         validationError: 'Por favor corrige los errores en el formulario',
         success: '¡Mensaje enviado! Te responderé en menos de 24 horas.',
@@ -808,6 +811,35 @@ export const translations = {
       notFound: 'No encontrado',
     },
 
+    privacyPage: {
+      title: 'Política de Privacidad',
+      updated: 'Última actualización: julio 2026',
+      analytics: {
+        title: 'Navegación y analytics',
+        body:
+          'Este sitio puede registrar eventos anónimos de navegación (páginas visitadas, clics en CTAs) solo si activas analytics en producción. No usamos cookies publicitarias ni vendemos datos.',
+      },
+      contact: {
+        title: 'Formulario de contacto',
+        body:
+          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a un servicio de correo transaccional (FormSubmit) que reenvía el mensaje para responderte. No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
+      },
+      retention: {
+        title: 'Conservación',
+        body:
+          'Los mensajes de contacto se conservan en el correo del responsable el tiempo necesario para responder y dar seguimiento comercial o profesional (máximo 12 meses salvo obligación legal).',
+      },
+      rights: {
+        title: 'Tus derechos',
+        body:
+          'Puedes solicitar acceso, rectificación o eliminación de los datos que nos enviaste escribiendo a',
+      },
+      controller: {
+        title: 'Responsable',
+        body: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
+      },
+    },
+
     footer: {
       contact: 'Contacto',
       linkedin: 'LinkedIn',
@@ -1095,6 +1127,8 @@ export const translations = {
       description:
         'Every KPI comes from a macro-process shipped in production. Hover for the case spoiler — or jump straight into the framework phase.',
       viewPhase: 'View phase',
+      tapHint: 'Tap to see context',
+      tapNavigate: 'Tap again to open phase',
       stats: [
         {
           value: '−40%',
@@ -1374,6 +1408,7 @@ export const translations = {
         sending: 'Sending...',
         consent:
           'I agree my data is used only to reply to this inquiry (Chile Data Protection Law).',
+        consentPrivacyLink: 'privacy policy',
         consentRequired: 'You must accept data processing to send',
         validationError: 'Please fix the errors in the form',
         success: 'Message sent! I\'ll reply within 24 hours.',
@@ -1687,6 +1722,35 @@ export const translations = {
       autosuggest: 'Autosuggest Funds',
       admin: 'Photo admin',
       notFound: 'Not found',
+    },
+
+    privacyPage: {
+      title: 'Privacy Policy',
+      updated: 'Last updated: July 2026',
+      analytics: {
+        title: 'Navigation and analytics',
+        body:
+          'This site may record anonymous navigation events (pages visited, CTA clicks) only if analytics is enabled in production. We do not use advertising cookies or sell data.',
+      },
+      contact: {
+        title: 'Contact form',
+        body:
+          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to a transactional email service (FormSubmit) that forwards the message so we can reply. We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
+      },
+      retention: {
+        title: 'Retention',
+        body:
+          'Contact messages are kept in the controller\'s inbox as long as needed to reply and follow up professionally (up to 12 months unless legally required otherwise).',
+      },
+      rights: {
+        title: 'Your rights',
+        body:
+          'You may request access, correction, or deletion of data you sent us by writing to',
+      },
+      controller: {
+        title: 'Controller',
+        body: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
+      },
     },
 
     footer: {
