@@ -1,128 +1,108 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
-import { BarChart3, TrendingDown, TrendingUp, Zap } from "lucide-react";
+import { BarChart3, TrendingDown, TrendingUp, Zap, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
+import { ResponsiveImage } from "../atoms/ResponsiveImage";
+import { SectionHeader } from "../molecules/SectionHeader";
+import { Button } from "../ui/button";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
+import { getPortfolioImages } from "../../lib/image-overrides";
+
+const STAT_STYLES = [
+  { color: "text-stat-tint-blue", bgColor: "bg-stat-tint-blue", icon: TrendingDown },
+  { color: "text-stat-tint-amber", bgColor: "bg-stat-tint-amber", icon: BarChart3 },
+  { color: "text-stat-tint-rose", bgColor: "bg-stat-tint-rose", icon: TrendingUp },
+  { color: "text-stat-tint-violet", bgColor: "bg-stat-tint-violet", icon: Zap },
+] as const;
 
 export function ImpactStats() {
   const navigate = useNavigate();
   const { language } = useLanguage();
+  const t = useTranslation(language).impactStats;
   const prefersReducedMotion = useReducedMotion();
+  const featuredImage = getPortfolioImages().sura.riaOnboarding;
 
   const fadeUp = (delay = 0) =>
     prefersReducedMotion
       ? {}
-      : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true as const }, transition: { duration: 0.5, delay } };
+      : {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true as const },
+          transition: { duration: 0.5, delay },
+        };
 
-  const stats = [
-    {
-      icon: TrendingDown,
-      value: "-40%",
-      label: language === "es" ? "Abandono en onboarding" : "Onboarding drop-off",
-      description: language === "es" ? "SURA Ecosistema — 7-11 min vs 15+" : "SURA Ecosystem — 7-11 min vs 15+",
-      color: "text-stat-tint-blue",
-      bgColor: "bg-stat-tint-blue",
-      link: `/#${ROUTES.processPhase("ux-analytics")}`,
-      processId: "ux-analytics",
-      company: "SURA",
-    },
-    {
-      icon: BarChart3,
-      value: "NPS 72",
-      label: language === "es" ? "Plataforma inversiones SURA" : "SURA investments platform",
-      description: language === "es" ? "+25 pts sobre baseline" : "+25 pts above baseline",
-      color: "text-stat-tint-amber",
-      bgColor: "bg-stat-tint-amber",
-      link: `/#${ROUTES.processPhase("ux-research")}`,
-      processId: "ux-research",
-      company: "SURA",
-    },
-    {
-      icon: TrendingUp,
-      value: "+35%",
-      label: language === "es" ? "Activación shoppers Karri" : "Karri shopper activation",
-      description: language === "es" ? "Calculadora de ganancias" : "Earnings calculator",
-      color: "text-stat-tint-rose",
-      bgColor: "bg-stat-tint-rose",
-      link: `/#${ROUTES.processPhase("ux-ui-design")}`,
-      processId: "ux-ui-design",
-      company: "Karri",
-    },
-    {
-      icon: Zap,
-      value: "+58%",
-      label: language === "es" ? "Engagement notificaciones" : "Notification engagement",
-      description: language === "es" ? "Hub centralizado Karri" : "Karri centralized hub",
-      color: "text-stat-tint-violet",
-      bgColor: "bg-stat-tint-violet",
-      link: `/#${ROUTES.processPhase("refinamiento")}`,
-      processId: "refinamiento",
-      company: "Karri",
-    },
-  ];
-
-  const handleStatClick = (stat: typeof stats[0]) => {
-    analytics.viewImpactStat(stat.value, stat.company);
-    navigate(ROUTES.processPhase(stat.processId));
+  const handleStatClick = (value: string, company: string, processId: string) => {
+    analytics.viewImpactStat(value, company);
+    navigate(ROUTES.processPhase(processId));
   };
 
-  const ctaLabel = language === "es" ? "Ver aplicación del método" : "View method in action";
+  const openFeaturedCase = () => {
+    navigate(ROUTES.project(t.featured.projectId));
+  };
 
   return (
     <section
+      id="impacto"
       className="py-12 md:py-16 px-4 bg-surface-section"
       aria-labelledby="impact-stats-heading"
     >
       <div className="container max-w-7xl mx-auto">
-        <h2 id="impact-stats-heading" className="sr-only">
-          {language === "es" ? "Métricas de impacto" : "Impact metrics"}
-        </h2>
+        <SectionHeader
+          badge={t.badge}
+          badgeIcon={BarChart3}
+          title={t.title}
+          description={t.description}
+          titleId="impact-stats-heading"
+        />
 
         <div className="metric-card-grid">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
+          {t.stats.map((stat, index) => {
+            const style = STAT_STYLES[index] ?? STAT_STYLES[0];
+            const Icon = style.icon;
+            const link = `/#${ROUTES.processPhase(stat.processId)}`;
+
             return (
               <motion.div
-                key={stat.value}
-                {...fadeUp(index * 0.1)}
+                key={stat.processId}
+                {...fadeUp(index * 0.08)}
                 whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
                 className="h-full"
               >
                 <Card className="metric-card-interactive h-full p-0 overflow-hidden">
                   <a
-                    href={stat.link}
+                    href={link}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleStatClick(stat);
+                      handleStatClick(stat.value, stat.company, stat.processId);
                     }}
                     className="metric-card-body h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-                    aria-label={`${stat.label}: ${stat.value}. ${ctaLabel}`}
+                    aria-label={`${stat.label}: ${stat.value}. ${stat.spoiler}`}
                   >
-                    <div className="flex items-center justify-between gap-3 mb-3">
-                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bgColor} flex items-center justify-center`}>
-                        <Icon className={`h-6 w-6 md:h-7 md:w-7 ${stat.color}`} aria-hidden="true" />
+                    <div className="flex items-center justify-between gap-3 mb-3 w-full">
+                      <div
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${style.bgColor} flex items-center justify-center`}
+                      >
+                        <Icon className={`h-6 w-6 md:h-7 md:w-7 ${style.color}`} aria-hidden="true" />
                       </div>
-                      <CompanyLogoFromName
-                        company={stat.company}
-                        size="wordmark-sm"
-                        flat
-                      />
+                      <CompanyLogoFromName company={stat.company} size="wordmark-sm" flat />
                     </div>
-                    <div className={`metric-card-value ${stat.color}`}>
-                      {stat.value}
-                    </div>
-                    <h3 className="metric-card-label">
-                      {stat.label}
-                    </h3>
-                    <p className="metric-card-meta">
-                      {stat.description}
+
+                    <div className={`metric-card-value ${style.color}`}>{stat.value}</div>
+                    <h3 className="metric-card-label">{stat.label}</h3>
+                    <p className="metric-card-meta">{stat.description}</p>
+
+                    <p className="metric-card-spoiler" aria-hidden="true">
+                      {stat.spoiler}
                     </p>
-                    <p className="text-xs text-primary/60 mt-2">
-                      {language === "es" ? "Ver aplicación →" : "View application →"}
+
+                    <p className="metric-card-phase">
+                      {t.viewPhase} · {stat.phase} →
                     </p>
                   </a>
                 </Card>
@@ -131,58 +111,84 @@ export function ImpactStats() {
           })}
         </div>
 
-        {/* Feature Highlight - RIA SURA Project */}
-        <motion.div
-          {...fadeUp(0.4)}
-          className="mt-12 md:mt-16"
-        >
-          <Card className="border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated overflow-hidden hover:border-primary/25 transition-colors duration-500 shadow-none">
+        <motion.div {...fadeUp(0.35)} className="mt-12 md:mt-16">
+          <Card className="group border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-none">
             <CardContent className="p-0">
               <div className="grid md:grid-cols-5 gap-0">
-                <div className="md:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col justify-between min-h-[200px]">
+                <button
+                  type="button"
+                  onClick={openFeaturedCase}
+                  className="md:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col justify-between min-h-[220px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                >
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] mb-4 w-fit">
                     <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-primary">
-                      {language === "es" ? "Proyecto Destacado" : "Featured Project"}
-                    </span>
+                    <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
                   </div>
+
                   <div className="space-y-3">
                     <CompanyLogoFromName company="SURA Investments" size="md" />
-                    <h3 className="text-2xl md:text-3xl font-bold leading-tight">
-                      RIA SURA Investments US
+                    <h3 className="text-2xl md:text-3xl font-bold leading-tight group-hover:text-primary transition-colors">
+                      {t.featured.title}
                     </h3>
-                    <p className="text-muted-foreground">
-                      {language === "es" ? "Plataforma RIA para mercado estadounidense" : "RIA Platform for US market"}
+                    <p className="text-muted-foreground">{t.featured.subtitle}</p>
+                    <p className="text-sm text-foreground/80 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                      {t.featured.spoiler}
                     </p>
                   </div>
+                </button>
 
-                </div>
+                <div className="md:col-span-3 flex flex-col">
+                  <button
+                    type="button"
+                    onClick={openFeaturedCase}
+                    className="relative overflow-hidden min-h-[160px] md:min-h-[200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                    aria-label={t.featured.cta}
+                  >
+                    <ResponsiveImage
+                      src={featuredImage}
+                      alt={t.featured.title}
+                      fit="cover"
+                      aspectRatio="16 / 9"
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                      className="h-full min-h-[160px] md:min-h-[200px]"
+                      imgClassName="group-hover:scale-[1.03] transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent pointer-events-none" />
+                  </button>
 
-                <div className="md:col-span-3 p-6 md:p-8 flex flex-col justify-between gap-6">
-                  <div className="flex flex-wrap gap-3">
-                    {[
-                      language === "es" ? "8 prototipos interactivos" : "8 interactive prototypes",
-                      language === "es" ? "-40% tiempo onboarding" : "-40% onboarding time",
-                      language === "es" ? "3 flujos de autenticación" : "3 auth flows",
-                    ].map((metric) => (
-                      <span
-                        key={metric}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] text-sm font-medium text-primary"
-                      >
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
-                        {metric}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="pt-4 border-t flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">{language === "es" ? "Empresa:" : "Company:"}</span>{" "}
-                      <span className="font-semibold">SURA Investments</span>
+                  <div className="p-6 md:p-8 flex flex-col justify-between gap-6 flex-1">
+                    <div className="flex flex-wrap gap-3">
+                      {t.featured.highlights.map((highlight) => (
+                        <span
+                          key={highlight}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] text-sm font-medium text-primary"
+                        >
+                          <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+                          {highlight}
+                        </span>
+                      ))}
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">{language === "es" ? "Rol:" : "Role:"}</span>{" "}
-                      <span className="font-semibold">{SEO_SITE.role}</span>
+
+                    <div className="pt-4 border-t flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
+                        <div>
+                          <span className="text-muted-foreground">{t.featured.companyLabel}:</span>{" "}
+                          <span className="font-semibold">SURA Investments</span>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">{t.featured.roleLabel}:</span>{" "}
+                          <span className="font-semibold">{SEO_SITE.role}</span>
+                        </div>
+                      </div>
+
+                      <Button
+                        size="sm"
+                        className="bg-brand-gradient hover:opacity-90 shrink-0"
+                        onClick={openFeaturedCase}
+                      >
+                        {t.featured.cta}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 </div>

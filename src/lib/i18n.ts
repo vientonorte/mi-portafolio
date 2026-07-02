@@ -171,6 +171,72 @@ export const translations = {
       },
     },
 
+    impactStats: {
+      badge: 'Resultados',
+      title: 'Métricas con método detrás',
+      description:
+        'Cada KPI nace de un macroproceso aplicado en producción. Pasa el cursor para el spoiler del caso — o entra directo a la fase del framework.',
+      viewPhase: 'Ver fase',
+      stats: [
+        {
+          value: '−40%',
+          label: 'Abandono en onboarding',
+          description: 'SURA Ecosistema — 7-11 min vs 15+',
+          spoiler:
+            'Analytics de abandono paso a paso en el funnel "Hazte cliente": de 15+ min a 7-11 con 6 casos de error documentados.',
+          phase: 'UX Analytics',
+          processId: 'ux-analytics',
+          company: 'SURA',
+        },
+        {
+          value: 'NPS 72',
+          label: 'Plataforma inversiones SURA',
+          description: '+25 pts sobre baseline',
+          spoiler:
+            '12 entrevistas + testing con retail e institucionales: transparencia y progressive disclosure como drivers de confianza.',
+          phase: 'UX Research',
+          processId: 'ux-research',
+          company: 'SURA',
+        },
+        {
+          value: '+35%',
+          label: 'Activación shoppers Karri',
+          description: 'Calculadora de ganancias',
+          spoiler:
+            'Benchmark BOOSMAP/ZUBALE → prototipo interactivo: 92% comprensión en testing y correlación directa con activación.',
+          phase: 'UX/UI Design',
+          processId: 'ux-ui-design',
+          company: 'Karri',
+        },
+        {
+          value: '+58%',
+          label: 'Engagement notificaciones',
+          description: 'Hub centralizado Karri',
+          spoiler:
+            'El 40% de shoppers no encontraba avisos críticos: hub unificado + onboarding simplificado en refinamiento continuo.',
+          phase: 'Refinamiento',
+          processId: 'refinamiento',
+          company: 'Karri',
+        },
+      ],
+      featured: {
+        badge: 'Proyecto Destacado',
+        title: 'RIA SURA Investments US',
+        subtitle: 'Plataforma RIA para mercado estadounidense',
+        spoiler:
+          'Onboarding multi-perfil para asesores USA: prototipos navegables, auth regulatorio y dashboard de inversiones con progressive disclosure.',
+        highlights: [
+          '8 prototipos interactivos',
+          '3 flujos de autenticación',
+          'Mercado USA · multi-perfil',
+        ],
+        companyLabel: 'Empresa',
+        roleLabel: 'Rol',
+        cta: 'Ver caso completo',
+        projectId: 'sura-ria-us',
+      },
+    },
+
     // Hero
     hero: {
       label: 'Design Ops en productos regulados',
@@ -831,6 +897,72 @@ export const translations = {
         reset: 'Reset',
         previewOnly: 'Preview',
         cta: 'Continue with this bundle',
+      },
+    },
+
+    impactStats: {
+      badge: 'Results',
+      title: 'Metrics backed by method',
+      description:
+        'Every KPI comes from a macro-process shipped in production. Hover for the case spoiler — or jump straight into the framework phase.',
+      viewPhase: 'View phase',
+      stats: [
+        {
+          value: '−40%',
+          label: 'Onboarding drop-off',
+          description: 'SURA Ecosystem — 7-11 min vs 15+',
+          spoiler:
+            'Step-by-step drop-off analytics in the "Become a client" funnel: from 15+ min to 7-11 with 6 documented error cases.',
+          phase: 'UX Analytics',
+          processId: 'ux-analytics',
+          company: 'SURA',
+        },
+        {
+          value: 'NPS 72',
+          label: 'SURA investments platform',
+          description: '+25 pts above baseline',
+          spoiler:
+            '12 interviews + testing with retail and institutional users: transparency and progressive disclosure as trust drivers.',
+          phase: 'UX Research',
+          processId: 'ux-research',
+          company: 'SURA',
+        },
+        {
+          value: '+35%',
+          label: 'Karri shopper activation',
+          description: 'Earnings calculator',
+          spoiler:
+            'BOOSMAP/ZUBALE benchmark → interactive prototype: 92% comprehension in testing with direct activation correlation.',
+          phase: 'UX/UI Design',
+          processId: 'ux-ui-design',
+          company: 'Karri',
+        },
+        {
+          value: '+58%',
+          label: 'Notification engagement',
+          description: 'Karri centralized hub',
+          spoiler:
+            '40% of shoppers missed critical alerts: unified hub + simplified onboarding through continuous refinement.',
+          phase: 'Refinement',
+          processId: 'refinamiento',
+          company: 'Karri',
+        },
+      ],
+      featured: {
+        badge: 'Featured Project',
+        title: 'RIA SURA Investments US',
+        subtitle: 'RIA platform for the US market',
+        spoiler:
+          'Multi-profile onboarding for US advisors: navigable prototypes, regulatory auth, and investment dashboard with progressive disclosure.',
+        highlights: [
+          '8 interactive prototypes',
+          '3 authentication flows',
+          'US market · multi-profile',
+        ],
+        companyLabel: 'Company',
+        roleLabel: 'Role',
+        cta: 'View full case',
+        projectId: 'sura-ria-us',
       },
     },
 

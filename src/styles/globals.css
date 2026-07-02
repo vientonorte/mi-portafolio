@@ -389,6 +389,41 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .metric-card-spoiler {
+    margin-top: 0.5rem;
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    color: var(--foreground);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      opacity 0.25s ease,
+      max-height 0.35s ease,
+      margin-top 0.25s ease;
+  }
+
+  .metric-card-interactive:hover .metric-card-spoiler,
+  .metric-card-interactive:focus-within .metric-card-spoiler {
+    opacity: 0.88;
+    max-height: 5rem;
+    margin-top: 0.5rem;
+  }
+
+  .metric-card-phase {
+    margin-top: 0.75rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--primary) 75%, transparent);
+  }
+
+  .metric-card-interactive:hover .metric-card-phase,
+  .metric-card-interactive:focus-within .metric-card-phase {
+    color: var(--primary);
+  }
 }
 
 /* Superficies mate reutilizables */
