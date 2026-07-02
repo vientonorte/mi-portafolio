@@ -10,6 +10,10 @@ export interface ContactPayload {
   email: string;
   message: string;
   _gotcha?: string;
+  source?: "assistant" | "form";
+  intent?: string;
+  consent?: boolean;
+  language?: "es" | "en";
 }
 
 export type ContactSubmitChannel = "worker" | "formsubmit" | "mailto";
@@ -109,6 +113,10 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
       email: payload.email.trim(),
       message: payload.message.trim(),
       _gotcha: payload._gotcha ?? "",
+      source: payload.source ?? "form",
+      intent: payload.intent ?? "",
+      consent: payload.consent === true,
+      language: payload.language ?? "es",
     }),
   });
 

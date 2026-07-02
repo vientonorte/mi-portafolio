@@ -8,6 +8,7 @@ Reenvía el formulario de contacto a tu Gmail **sin publicar** `gaete.gaona@gmai
 |------|---------------------|----------------|
 | Sitio | `contacto@vientonorte.cl` | — |
 | Formulario → Worker | POST al relay | Email en Gmail con `Reply-To` del visitante |
+| Confirmación al visitante | Solo con consentimiento explícito | Correo mínimo de acuse (sin marketing) |
 | Email Routing (opcional) | mailto al alias | Reenvío directo a Gmail |
 
 ## Setup (una vez)
@@ -30,6 +31,9 @@ npx wrangler email sending enable vientonorte.cl
 ```bash
 cd worker
 npm install
+# Opción A — var en wrangler.toml (ya configurado):
+# CONTACT_INBOX = "gaete.gaona@gmail.com"
+# Opción B — secret (override):
 npx wrangler secret put CONTACT_INBOX
 # Pegar: gaete.gaona@gmail.com
 

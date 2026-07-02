@@ -5,29 +5,18 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
-import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
+import { ContactAssistant } from "./ContactAssistant";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-
-const contactInfo = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: SITE_CONTACT.email,
-    href: getContactMailtoUrl(),
-  },
-  {
-    icon: MapPin,
-    label: "Modalidad",
-    value: "Remoto / Híbrido",
-  },
-];
 
 const socialLinks = [
   {
@@ -39,13 +28,14 @@ const socialLinks = [
 
 export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
   const { language } = useLanguage();
-  const t = useTranslation(language);
+  const t = useTranslation(language).contact;
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: initialMessage,
-    _gotcha: "", // Honeypot field for spam protection
+    consent: false,
+    _gotcha: "",
   });
 
   useEffect(() => {
@@ -53,34 +43,26 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
       setFormData((prev) => ({ ...prev, message: initialMessage }));
     }
   }, [initialMessage]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const validateEmail = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "El nombre es requerido";
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "El nombre debe tener al menos 2 caracteres";
-    }
+    if (!formData.name.trim()) newErrors.name = t.form.errors.nameRequired;
+    else if (formData.name.trim().length < 2) newErrors.name = t.form.errors.nameMin;
 
-    if (!formData.email.trim()) {
-      newErrors.email = "El email es requerido";
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = "Por favor ingresa un email válido";
-    }
+    if (!formData.email.trim()) newErrors.email = t.form.errors.emailRequired;
+    else if (!validateEmail(formData.email)) newErrors.email = t.form.errors.emailInvalid;
 
-    if (!formData.message.trim()) {
-      newErrors.message = "El mensaje es requerido";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "El mensaje debe tener al menos 10 caracteres";
-    }
+    if (!formData.message.trim()) newErrors.message = t.form.errors.messageRequired;
+    else if (formData.message.trim().length < 10) newErrors.message = t.form.errors.messageMin;
+
+    if (!formData.consent) newErrors.consent = t.form.consentRequired;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -88,14 +70,10 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Check honeypot - if filled, it's a bot
-    if (formData._gotcha) {
-      return;
-    }
+    if (formData._gotcha) return;
 
     if (!validateForm()) {
-      toast.error(t.contact.form.validationError);
+      toast.error(t.form.validationError);
       return;
     }
 
@@ -107,27 +85,28 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
         email: formData.email,
         message: formData.message,
         _gotcha: formData._gotcha,
+        source: "form",
+        consent: formData.consent,
+        language,
       });
 
       if (result.ok) {
         analytics.submitContactForm(true);
         toast.success(
-          result.channel === "formsubmit"
-            ? t.contact.form.successFallback
-            : t.contact.form.success
+          result.channel === "formsubmit" ? t.form.successFallback : t.form.success
         );
-        setFormData({ name: "", email: "", message: "", _gotcha: "" });
+        setFormData({ name: "", email: "", message: "", consent: false, _gotcha: "" });
         setErrors({});
         return;
       }
 
       if (result.mailtoUrl) {
         analytics.submitContactForm(false);
-        toast.error(t.contact.form.mailtoFallback, {
-          description: t.contact.form.mailtoFallbackDesc,
+        toast.error(t.form.mailtoFallback, {
+          description: t.form.mailtoFallbackDesc,
           duration: 12000,
           action: {
-            label: t.contact.form.mailtoAction,
+            label: t.form.mailtoAction,
             onClick: () => {
               window.location.href = result.mailtoUrl!;
             },
@@ -137,14 +116,14 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
       }
 
       analytics.submitContactForm(false);
-      toast.error(t.contact.form.mailtoFallback, {
+      toast.error(t.form.mailtoFallback, {
         description: `${SITE_CONTACT.email} · LinkedIn`,
       });
     } catch (error) {
       console.error("Form submission error:", error);
       analytics.submitContactForm(false);
-      toast.error(t.contact.form.mailtoFallback, {
-        description: t.contact.form.mailtoFallbackDesc,
+      toast.error(t.form.mailtoFallback, {
+        description: t.form.mailtoFallbackDesc,
       });
     } finally {
       setIsSubmitting(false);
@@ -169,19 +148,19 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
       <div className="container max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <SectionHeader
-            badge="Hablemos"
+            badge={t.badge}
             badgeIcon={Send}
-            title="Conversemos"
-            description="Disponible para proyectos freelance y oportunidades full-time"
+            title={t.title}
+            description={t.description}
+            titleId="contact-heading"
           />
           <Badge variant="secondary" className="mt-4">
             <Clock className="mr-2 h-3 w-3" />
-            Respuesta típica: menos de 24h
+            {t.responseBadge}
           </Badge>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
-          {/* Contact Info */}
           <div className="space-y-4 md:space-y-6">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -191,58 +170,51 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
             >
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg md:text-xl">
-                    Información de Contacto
-                  </CardTitle>
-                  <CardDescription>
-                    Disponible para proyectos freelance y oportunidades full-time
-                  </CardDescription>
+                  <CardTitle className="text-lg md:text-xl">{t.info.title}</CardTitle>
+                  <CardDescription>{t.info.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={info.label}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <info.icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm text-muted-foreground">{info.label}</p>
-                        {info.href ? (
-                          <a 
-                            href={info.href}
-                            className="hover:text-primary transition-colors break-all"
-                          >
-                            {info.value}
-                          </a>
-                        ) : (
-                          <p className="break-words">{info.value}</p>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Mail className="h-5 w-5 text-primary" aria-hidden />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm text-muted-foreground">{t.info.email}</p>
+                      <a
+                        href={getContactMailtoUrl()}
+                        className="hover:text-primary transition-colors break-all"
+                      >
+                        {SITE_CONTACT.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <MapPin className="h-5 w-5 text-primary" aria-hidden />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">{t.info.modality}</p>
+                      <p>{t.info.modalityValue}</p>
+                    </div>
+                  </div>
 
                   <div className="pt-4 border-t">
-                    <p className="text-sm text-muted-foreground mb-3">Sígueme en</p>
+                    <p className="text-sm text-muted-foreground mb-3">{t.info.follow}</p>
                     <div className="flex gap-2">
                       {socialLinks.map((social) => (
-                        <Button 
+                        <Button
                           key={social.label}
-                          variant="outline" 
+                          variant="outline"
                           size="icon"
                           asChild
                           className="hover:border-primary hover:text-primary transition-all"
                         >
-                          <a 
+                          <a
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`Visitar perfil de ${social.label}`}
+                            aria-label={`LinkedIn`}
                           >
                             <social.icon className="h-4 w-4" />
                           </a>
@@ -253,10 +225,8 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                 </CardContent>
               </Card>
             </motion.div>
-
           </div>
 
-          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -265,110 +235,152 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
             className="lg:col-span-2"
           >
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg md:text-xl">
-                  Envíame un mensaje
-                </CardTitle>
-                <CardDescription>
-                  Completa el formulario y te responderé en menos de 24 horas
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                  <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">
-                        Nombre <span className="text-destructive" aria-label="requerido">*</span>
-                      </Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        placeholder="Tu nombre"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        aria-required="true"
-                        aria-invalid={!!errors.name}
-                        aria-describedby={errors.name ? "name-error" : undefined}
-                        className={`transition-all focus:ring-2 focus:ring-primary ${errors.name ? "border-destructive" : ""}`}
-                      />
-                      {errors.name && (
-                        <p id="name-error" className="text-sm text-destructive mt-1">
-                          {errors.name}
-                        </p>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">
-                        Email <span className="text-destructive" aria-label="requerido">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="tu@email.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        aria-required="true"
-                        aria-invalid={!!errors.email}
-                        aria-describedby={errors.email ? "email-error" : undefined}
-                        className={`transition-all focus:ring-2 focus:ring-primary ${errors.email ? "border-destructive" : ""}`}
-                      />
-                      {errors.email && (
-                        <p id="email-error" className="text-sm text-destructive mt-1">
-                          {errors.email}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+              <CardContent className="pt-6">
+                <Tabs defaultValue="assistant" className="w-full">
+                  <TabsList className="mb-6 w-full sm:w-auto">
+                    <TabsTrigger value="assistant" className="gap-2">
+                      <Bot className="h-4 w-4" />
+                      {t.tabs.assistant}
+                    </TabsTrigger>
+                    <TabsTrigger value="form" className="gap-2">
+                      <PenLine className="h-4 w-4" />
+                      {t.tabs.form}
+                    </TabsTrigger>
+                  </TabsList>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message">
-                      Mensaje <span className="text-destructive" aria-label="requerido">*</span>
-                    </Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="Cuéntame sobre tu proyecto o necesidad..."
-                      rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      aria-required="true"
-                      aria-invalid={!!errors.message}
-                      aria-describedby={errors.message ? "message-error" : undefined}
-                      className={`transition-all focus:ring-2 focus:ring-primary resize-none ${errors.message ? "border-destructive" : ""}`}
-                    />
-                    {errors.message && (
-                      <p id="message-error" className="text-sm text-destructive mt-1">
-                        {errors.message}
+                  <TabsContent value="assistant" className="mt-0">
+                    <ContactAssistant initialMessage={initialMessage} />
+                  </TabsContent>
+
+                  <TabsContent value="form" className="mt-0 space-y-6">
+                    <div>
+                      <h3 className="text-lg font-semibold md:text-xl">{t.form.title}</h3>
+                      <p className="text-sm text-muted-foreground">{t.form.description}</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                      <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">
+                            {t.form.name}{" "}
+                            <span className="text-destructive" aria-hidden>*</span>
+                          </Label>
+                          <Input
+                            id="name"
+                            name="name"
+                            placeholder={t.form.namePlaceholder}
+                            value={formData.name}
+                            onChange={handleChange}
+                            autoComplete="name"
+                            aria-required
+                            aria-invalid={!!errors.name}
+                            aria-describedby={errors.name ? "name-error" : undefined}
+                            className={errors.name ? "border-destructive" : ""}
+                          />
+                          {errors.name && (
+                            <p id="name-error" className="text-sm text-destructive">
+                              {errors.name}
+                            </p>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">
+                            {t.form.email}{" "}
+                            <span className="text-destructive" aria-hidden>*</span>
+                          </Label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder={t.form.emailPlaceholder}
+                            value={formData.email}
+                            onChange={handleChange}
+                            autoComplete="email"
+                            aria-required
+                            aria-invalid={!!errors.email}
+                            aria-describedby={errors.email ? "email-error" : "email-hint"}
+                            className={errors.email ? "border-destructive" : ""}
+                          />
+                          <p id="email-hint" className="text-xs text-muted-foreground">
+                            {t.form.emailHint}
+                          </p>
+                          {errors.email && (
+                            <p id="email-error" className="text-sm text-destructive">
+                              {errors.email}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="message">
+                          {t.form.message}{" "}
+                          <span className="text-destructive" aria-hidden>*</span>
+                        </Label>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          placeholder={t.form.messagePlaceholder}
+                          rows={6}
+                          value={formData.message}
+                          onChange={handleChange}
+                          aria-required
+                          aria-invalid={!!errors.message}
+                          aria-describedby={errors.message ? "message-error" : undefined}
+                          className={`resize-none ${errors.message ? "border-destructive" : ""}`}
+                        />
+                        {errors.message && (
+                          <p id="message-error" className="text-sm text-destructive">
+                            {errors.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 p-3">
+                        <Checkbox
+                          id="consent"
+                          checked={formData.consent}
+                          onCheckedChange={(checked) =>
+                            setFormData((prev) => ({ ...prev, consent: checked === true }))
+                          }
+                          aria-invalid={!!errors.consent}
+                        />
+                        <Label htmlFor="consent" className="text-sm font-normal leading-snug cursor-pointer">
+                          {t.form.consent}
+                        </Label>
+                      </div>
+                      {errors.consent && (
+                        <p className="text-sm text-destructive">{errors.consent}</p>
+                      )}
+
+                      <p className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                        {t.assistant.privacyNote}
                       </p>
-                    )}
-                  </div>
 
-                  {/* Honeypot field - hidden from users, for spam protection */}
-                  <input
-                    type="text"
-                    name="_gotcha"
-                    value={formData._gotcha}
-                    onChange={handleChange}
-                    style={{ display: "none" }}
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                  />
+                      <input
+                        type="text"
+                        name="_gotcha"
+                        value={formData._gotcha}
+                        onChange={handleChange}
+                        className="hidden"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden
+                      />
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full bg-brand-gradient hover:opacity-90 transition-opacity"
-                  >
-                    {isSubmitting ? "Enviando..." : "Enviar mensaje"}
-                    <Send className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={isSubmitting}
+                        className="w-full bg-brand-gradient hover:opacity-90 transition-opacity"
+                      >
+                        {isSubmitting ? t.form.sending : t.form.submit}
+                        <Send className="ml-2 h-4 w-4" />
+                      </Button>
+                    </form>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </motion.div>
