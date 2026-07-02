@@ -36,8 +36,9 @@ async function sendViaFormSubmit(inbox, payload) {
 
   if (!response.ok) return { ok: false, error: `formsubmit ${response.status}` };
   const data = await response.json().catch(() => ({}));
-  if (data.success === 'true' || data.success === true) return { ok: true };
+  if (data.success === 'true' || data.success === true) return { ok: true, channel: 'formsubmit' };
   const message = typeof data.message === 'string' ? data.message : 'formsubmit rejected';
+  console.warn('[contact] formsubmit rejected:', message);
   if (/activation/i.test(message)) return { ok: false, error: 'pending_activation', message };
   return { ok: false, error: message };
 }
@@ -64,12 +65,15 @@ async function sendContactEmail(env, payload) {
     html: payload.html,
   };
 
+  // FormSubmit primero: dominio vientonorte.cl aún no está en Email Sending.
+  const formsubmit = await sendViaFormSubmit(payload.inbox, payload);
+  if (formsubmit.ok) return { ok: true, channel: 'formsubmit' };
+
   const sent = await deliverEmail(env, adminMessage);
   if (sent.ok) return { ok: true, channel: sent.channel };
 
-  const fallback = await sendViaFormSubmit(payload.inbox, payload);
-  if (fallback.ok) return { ok: true, channel: 'formsubmit' };
-  return fallback;
+  console.warn('[contact] all channels failed. formsubmit:', formsubmit.error);
+  return formsubmit;
 }
 
 async function sendVisitorConfirmation(env, payload) {
@@ -88,11 +92,9 @@ async function sendVisitorConfirmation(env, payload) {
     html: confirmation.html,
   };
 
-  try {
-    const sent = await deliverEmail(env, message);
-    if (sent.ok) return;
-  } catch (err) {
-    console.warn('[contact] visitor confirmation failed:', err?.message || err);
+  const sent = await deliverEmail(env, message);
+  if (!sent.ok) {
+    console.warn('[contact] visitor confirmation skipped (email sending unavailable)');
   }
 }
 

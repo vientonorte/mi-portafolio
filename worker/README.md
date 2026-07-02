@@ -22,9 +22,14 @@ En Cloudflare Dashboard → **Email** → **Email Routing** (zona `vientonorte.c
 
 ### 2. Email Sending — dominio para enviar desde el Worker
 
+**Requisito:** la zona `vientonorte.cl` debe existir en tu cuenta Cloudflare.
+
 ```bash
 npx wrangler email sending enable vientonorte.cl
 ```
+
+Sin esto, el Worker usa FormSubmit como fallback (puede devolver 429 desde IPs de Cloudflare).
+El sitio también tiene fallback en el navegador vía iframe.
 
 ### 3. Secretos del Worker
 
