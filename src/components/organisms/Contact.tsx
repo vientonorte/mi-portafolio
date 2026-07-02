@@ -6,7 +6,7 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { Mail, Link, MapPin, Send, Clock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner@2.0.3";
 import { SectionHeader } from "../molecules/SectionHeader";
 import {
@@ -38,13 +38,19 @@ const socialLinks = [
   },
 ];
 
-export function Contact() {
+export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: "",
+    message: initialMessage,
     _gotcha: "", // Honeypot field for spam protection
   });
+
+  useEffect(() => {
+    if (initialMessage) {
+      setFormData((prev) => ({ ...prev, message: initialMessage }));
+    }
+  }, [initialMessage]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 

@@ -1,14 +1,18 @@
-import { Calendar, User, Sparkles, Download, CheckCircle2, Circle, Clock } from 'lucide-react';
+import { Calendar, User, Download, CheckCircle2, Circle, Clock } from 'lucide-react';
 import { auditData } from '../data/audit-data';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { SITE_CONTACT } from '../lib/site-contact';
 import { PageShell } from '../components/layout/PageShell';
+import { PremiumUxAuditBanner } from '../components/organisms/PremiumUxAuditBanner';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
-import { canonicalFromPath } from '../lib/seo';
+import { canonicalFromPath, SEO_SITE } from '../lib/seo';
+import { ROUTES } from '../lib/routes';
 
 export default function AuditoriaPortfolio() {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language);
   const [checklistItems, setChecklistItems] = useState([
@@ -51,67 +55,45 @@ export default function AuditoriaPortfolio() {
         url={canonicalFromPath('/auditoria')}
         type="article"
       />
-      {/* Hero */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-orange-500/5">
-        <div className="absolute inset-0 bg-brand-gradient opacity-5"></div>
+      <PremiumUxAuditBanner
+        variant="hero"
+        onStartConsulting={() => navigate(ROUTES.consulting)}
+        onViewSampleAudit={() => document.getElementById("audit-sample")?.scrollIntoView({ behavior: "smooth" })}
+      />
 
-        <div className="relative max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-0 min-h-[70vh]">
-            {/* Left - Content */}
-            <div className="flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-24">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-sm w-fit mb-8">
-                <Sparkles className="w-3 h-3 text-primary" />
-                <span className="text-primary font-medium">Análisis Real</span>
+      <header
+        id="audit-sample"
+        className="border-b border-border/60 bg-background px-4 py-8 no-print"
+      >
+        <div className="container mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {auditData.meta.title}
+            </h1>
+            <p className="max-w-2xl text-sm text-muted-foreground">{auditData.meta.subtitle}</p>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-2">
+                <User className="h-4 w-4 text-primary" aria-hidden />
+                {auditData.meta.author} · {SEO_SITE.role}
               </span>
-
-              <h1 className="text-4xl lg:text-5xl font-medium mb-6 leading-tight">
-                Auditoría Portfolio <span className="text-brand-gradient">UX/UI</span>
-              </h1>
-
-              <p className="text-lg text-muted-foreground mb-8 max-w-md">
-                {auditData.meta.subtitle}
-              </p>
-
-              <div className="flex flex-wrap gap-3 mb-8">
-                <button
-                  onClick={handleDownload}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-gradient text-white rounded-lg font-medium hover:shadow-xl transition-all duration-300"
-                >
-                  <Download className="w-4 h-4" />
-                  Descargar PDF
-                </button>
-              </div>
-
-              <div className="flex flex-col gap-3 text-sm pt-8 border-t border-border">
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-primary" />
-                  <span className="text-brand-gradient font-medium">{auditData.meta.author}</span>
-                  <span className="text-muted-foreground">· Lead UX Designer</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-primary" />
-                  <span className="text-muted-foreground">
-                    {new Date(auditData.meta.date).toLocaleDateString('es-ES', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    })}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right - Image */}
-            <div className="relative lg:block hidden no-print">
-              <div className="absolute inset-0 bg-brand-gradient opacity-10"></div>
-              <img
-                src="https://images.unsplash.com/photo-1621111848501-8d3634f82336?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                alt="UX Design Workspace"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+              <span className="inline-flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" aria-hidden />
+                {new Date(auditData.meta.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
             </div>
           </div>
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-gradient px-5 py-2.5 text-sm font-medium text-white hover:opacity-90"
+          >
+            <Download className="h-4 w-4" aria-hidden />
+            {language === "es" ? "Descargar PDF" : "Download PDF"}
+          </button>
         </div>
       </header>
 
@@ -499,7 +481,7 @@ export default function AuditoriaPortfolio() {
           <div className="text-center space-y-4">
             <div>
               <p className="text-2xl font-medium text-brand-gradient mb-1">{auditData.meta.author}</p>
-              <p className="text-sm text-muted-foreground">Lead UX Designer</p>
+              <p className="text-sm text-muted-foreground">{SEO_SITE.role}</p>
             </div>
             <div className="flex items-center justify-center gap-6 text-sm">
               <a

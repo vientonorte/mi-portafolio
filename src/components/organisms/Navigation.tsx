@@ -57,8 +57,9 @@ export function Navigation({
   const moreNavItems: NavItem[] = useMemo(
     () => [
       { href: "sobre-mi", label: t.nav.about, type: "route" },
+      { href: "consultoria", label: language === "es" ? "Consultoría ✦" : "Consulting ✦", type: "route" },
       { href: "design-system", label: t.nav.designSystem, type: "route" },
-      { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" },
+      { href: "auditoria", label: language === "es" ? "Auditoría" : "Audit", type: "route" },
       {
         href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html",
         label: language === "es" ? "Investigación" : "Research",
@@ -166,6 +167,9 @@ export function Navigation({
           case "sobre-mi":
             navigate("/sobre-mi");
             break;
+          case "consultoria":
+            navigate(ROUTES.consulting);
+            break;
           case "sobre-mi-experiencia":
             navigateToPageSection(navigate, "/sobre-mi", "experiencia", location.pathname);
             break;
@@ -209,7 +213,8 @@ export function Navigation({
           location.pathname.startsWith("/cases")
         );
       }
-      if (href === "auditoria") return location.pathname === "/auditoria";
+      if (href === "auditoria") return location.pathname === ROUTES.audit;
+      if (href === "consultoria") return location.pathname === ROUTES.consulting;
       if (href === "sobre-mi" || href === "sobre-mi-experiencia") {
         return location.pathname === "/sobre-mi";
       }

@@ -47,7 +47,8 @@ function isNavItemActive(item: NavItem, pathname: string): boolean {
       return pathname === "/sobre-mi";
     }
     if (item.href === "design-system") return pathname === "/design-system";
-    if (item.href === "auditoria") return pathname === "/auditoria";
+    if (item.href === "auditoria") return pathname === ROUTES.audit;
+    if (item.href === "consultoria") return pathname === ROUTES.consulting;
     return pathname === `/${item.href}`;
   }
   if (item.type === "anchor" && item.href === "#inicio") {
@@ -186,6 +187,8 @@ export function MobileMenu({
         onNavigateToCaseStudies?.();
       } else if (item.href === "auditoria") {
         onNavigateToAuditoria?.();
+      } else if (item.href === "consultoria") {
+        navigate(ROUTES.consulting);
       } else if (item.href === "proyectos") {
         navigate("/proyectos");
       } else if (item.href === "proceso") {

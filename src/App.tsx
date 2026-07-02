@@ -28,6 +28,7 @@ const Grafo = lazy(() => import('./pages/Grafo'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
+const ConsultoriaVientoNorte = lazy(() => import('./pages/ConsultoriaVientoNorte'));
 const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
 const CompanyDetail = lazy(() => import('./pages/CompanyDetail'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -197,6 +198,7 @@ function AppRoutes() {
             <Route path="/empresa/:companyId" element={<CompanyDetailPage />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
+            <Route path="/consultoria" element={<ConsultoriaVientoNorte />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>

@@ -74,6 +74,11 @@ export const translations = {
           description:
             'Auditoría estratégica UX/UI: riesgos, quick wins SEO y plan de mentoría en 3 sesiones.',
         },
+        consultoria: {
+          title: 'Consultoría UX · Viento Norte',
+          description:
+            'Bolsas Radar, Marco y Ops: auditorías UX, mentoría y Design Ops con entregables medibles.',
+        },
         grafo: {
           title: 'Red de fricción institucional',
           description: 'Grafo de relaciones y fricción institucional — investigación territorial.',
@@ -101,6 +106,57 @@ export const translations = {
       title: 'Casos en preparación',
       description: 'Evidencia visual y métricas en curso para ampliar el hub de negocios.',
       status: 'Evidencia en curso',
+    },
+
+    uxAuditBanner: {
+      badge: 'Viento Norte · Consultoría UX',
+      titleLead: 'Auditorías UX con',
+      titleAccent: 'evidencia medible',
+      description:
+        'Bolsas consultoría para portfolios, productos digitales y equipos. De hallazgo a plan de acción priorizado.',
+      highlights: ['Heurísticas Nielsen', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
+      ctaPrimary: 'Elegir bolsa consultoría',
+      ctaSecondary: 'Ver auditoría de ejemplo',
+      metrics: {
+        a11y: 'Accesibilidad',
+        priority: 'Prioridad',
+        recruiter: 'Test reclutador',
+      },
+      panelNote: 'Entregable ejecutivo + quick wins listos para implementar.',
+    },
+
+    consultoria: {
+      progressLabel: 'Onboarding',
+      recommended: 'Recomendada',
+      back: 'Atrás',
+      next: 'Continuar',
+      steps: {
+        welcome: 'Bienvenida · Viento Norte',
+        package: 'Elige tu bolsa',
+        context: 'Contexto del proyecto',
+        summary: 'Resumen y contacto',
+      },
+      welcome: {
+        title: 'Bolsas consultoría Viento Norte',
+        description:
+          'Onboarding en 4 pasos para definir alcance, bolsa y mensaje de contacto prearmado.',
+        points: [
+          'Bolsa Radar, Marco u Ops según madurez y urgencia',
+          'Rodrigo Gaete · UX Lead — fintech, mobility y Design Ops',
+          'Kickoff en menos de 24 h hábiles tras tu solicitud',
+        ],
+      },
+      context: {
+        industry: 'Industria',
+        timeline: 'Plazo deseado',
+        goal: 'Objetivo principal',
+        goalPlaceholder: 'Ej.: mejorar conversión del portfolio, auditar app regulada, estructurar Design Ops…',
+        goalHint: 'Mínimo 20 caracteres para continuar.',
+      },
+      summary: {
+        note: 'Al confirmar, te llevamos a contacto con el mensaje listo para enviar.',
+        cta: 'Ir a contacto',
+      },
     },
 
     // Hero
@@ -530,6 +586,7 @@ export const translations = {
       privacy: 'Privacidad',
       designSystem: 'Design System',
       audit: 'Auditoría',
+      consulting: 'Consultoría',
       grafo: 'Grafo',
       autosuggest: 'Autosuggest Fondos',
       admin: 'Admin fotos',
@@ -663,6 +720,11 @@ export const translations = {
           description:
             'Strategic UX/UI audit: risks, SEO quick wins, and a 3-session mentorship plan.',
         },
+        consultoria: {
+          title: 'UX Consulting · Viento Norte',
+          description:
+            'Radar, Marco, and Ops bundles: UX audits, mentorship, and Design Ops with measurable deliverables.',
+        },
         grafo: {
           title: 'Institutional friction network',
           description: 'Graph of institutional relationships and friction — territorial research.',
@@ -690,6 +752,57 @@ export const translations = {
       title: 'Cases in progress',
       description: 'Visual evidence and metrics being added to the business hub.',
       status: 'Evidence in progress',
+    },
+
+    uxAuditBanner: {
+      badge: 'Viento Norte · UX Consulting',
+      titleLead: 'UX audits with',
+      titleAccent: 'measurable evidence',
+      description:
+        'Consulting bundles for portfolios, digital products, and teams. From findings to a prioritized action plan.',
+      highlights: ['Nielsen heuristics', 'WCAG 2.2 AA', 'SEO/AEO', 'P0–P2 plan'],
+      ctaPrimary: 'Choose a consulting bundle',
+      ctaSecondary: 'View sample audit',
+      metrics: {
+        a11y: 'Accessibility',
+        priority: 'Priority',
+        recruiter: 'Recruiter test',
+      },
+      panelNote: 'Executive deliverable + quick wins ready to implement.',
+    },
+
+    consultoria: {
+      progressLabel: 'Onboarding',
+      recommended: 'Recommended',
+      back: 'Back',
+      next: 'Continue',
+      steps: {
+        welcome: 'Welcome · Viento Norte',
+        package: 'Choose your bundle',
+        context: 'Project context',
+        summary: 'Summary & contact',
+      },
+      welcome: {
+        title: 'Viento Norte consulting bundles',
+        description:
+          '4-step onboarding to define scope, bundle, and a pre-filled contact message.',
+        points: [
+          'Radar, Marco, or Ops bundle by maturity and urgency',
+          'Rodrigo Gaete · UX Lead — fintech, mobility, and Design Ops',
+          'Kickoff within 24 business hours after your request',
+        ],
+      },
+      context: {
+        industry: 'Industry',
+        timeline: 'Desired timeline',
+        goal: 'Primary goal',
+        goalPlaceholder: 'E.g. improve portfolio conversion, audit regulated app, structure Design Ops…',
+        goalHint: 'At least 20 characters to continue.',
+      },
+      summary: {
+        note: 'On confirm, we take you to contact with the message ready to send.',
+        cta: 'Go to contact',
+      },
     },
 
     // Hero
@@ -1139,6 +1252,7 @@ export const translations = {
       privacy: 'Privacy',
       designSystem: 'Design System',
       audit: 'Audit',
+      consulting: 'Consulting',
       grafo: 'Graph',
       autosuggest: 'Autosuggest Funds',
       admin: 'Photo admin',

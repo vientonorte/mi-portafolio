@@ -8,6 +8,8 @@ export const ROUTES = {
   company: (companyId: string) => `/empresa/${companyId}`,
   contact: '/contacto',
   designSystem: '/design-system',
+  consulting: '/consultoria',
+  audit: '/auditoria',
 } as const;
 
 /** Alias legacy — solo redirects 301-equivalent (HashRouter replace). */

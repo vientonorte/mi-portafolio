@@ -4,7 +4,7 @@ export const auditData = {
     title: "Auditoría Portfolio UX/UI + Plan de Mentoría",
     subtitle: "Análisis estratégico preliminar del portfolio Webflow de Laura",
     author: "Rodrigo Gaete",
-    role: "Lead UX Designer",
+    role: "UX Lead",
     date: "2026-05-19"
   },
 

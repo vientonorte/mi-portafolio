@@ -6,6 +6,8 @@ import { AboutTeaser } from '../components/organisms/AboutTeaser';
 import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
+import { PremiumUxAuditBanner } from '../components/organisms/PremiumUxAuditBanner';
+import { ROUTES } from '../lib/routes';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { StructuredData } from '../components/atoms/StructuredData';
 import { BackToTop } from '../components/molecules/BackToTop';
@@ -13,7 +15,6 @@ import { useLanguage } from '../lib/LanguageContext';
 import { buildPortfolioStructuredData } from '../lib/structured-data';
 import { canonicalFromPath } from '../lib/seo';
 import { useTranslation } from '../lib/i18n';
-import { ROUTES } from '../lib/routes';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,6 +42,11 @@ const Home = () => {
       <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
       <AboutTeaser />
       <Testimonials />
+      <PremiumUxAuditBanner
+        variant="compact"
+        onStartConsulting={() => navigate(ROUTES.consulting)}
+        onViewSampleAudit={() => navigate(ROUTES.audit)}
+      />
       <Contact />
       <BackToTop />
     </>
