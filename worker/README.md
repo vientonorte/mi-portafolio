@@ -8,7 +8,7 @@ Reenvía el formulario de contacto a tu Gmail **sin publicar** `gaete.gaona@gmai
 |------|---------------------|----------------|
 | Sitio | `contacto@vientonorte.cl` | — |
 | **Formulario → FormSubmit** (canal principal) | POST vía iframe en el navegador | Email en `gaete.gaona@gmail.com` con `Reply-To` del visitante |
-| Formulario → Worker (opcional) | POST al relay | Mismo inbox si Email Sending está activo |
+| Formulario → Worker (respaldo silencioso) | Solo si FormSubmit falla | Mismo inbox si Email Sending está activo |
 | Email Routing (opcional) | mailto al alias | Reenvío directo a Gmail |
 
 ## Setup (una vez)

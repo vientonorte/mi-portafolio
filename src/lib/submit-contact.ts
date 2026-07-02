@@ -1,4 +1,5 @@
 import {
+  CONTACT_API_URL,
   FORM_SUBMIT_INBOX,
   PUBLIC_CONTACT_EMAIL,
   SITE_CONTACT,
@@ -16,7 +17,7 @@ export interface ContactPayload {
   language?: "es" | "en";
 }
 
-export type ContactSubmitChannel = "formsubmit" | "mailto";
+export type ContactSubmitChannel = "formsubmit" | "worker" | "mailto";
 
 export interface ContactSubmitResult {
   ok: boolean;
@@ -111,9 +112,39 @@ function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult
   });
 }
 
+async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitResult> {
+  const response = await fetch(CONTACT_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      name: payload.name.trim(),
+      email: payload.email.trim(),
+      message: formatOutboundMessage(payload),
+      _gotcha: payload._gotcha ?? "",
+      source: payload.source ?? "form",
+      intent: payload.intent ?? "",
+      consent: payload.consent === true,
+      language: payload.language ?? "es",
+    }),
+  });
+
+  const result = (await response.json().catch(() => ({}))) as {
+    ok?: boolean;
+    error?: string;
+  };
+
+  if (response.ok && result.ok) {
+    return { ok: true, channel: "worker" };
+  }
+
+  return {
+    ok: false,
+    error: result.error || `Relay HTTP ${response.status}`,
+  };
+}
+
 /**
- * Envía contacto: FormSubmit (navegador) → mailto preparado.
- * GitHub Pages no envía email; el Worker es opcional y no bloquea este flujo.
+ * Envía contacto: FormSubmit (navegador) → Worker (respaldo silencioso) → mailto.
  */
 export async function submitContactMessage(
   payload: ContactPayload
@@ -129,6 +160,14 @@ export async function submitContactMessage(
     } catch (error) {
       console.warn("[contact] formsubmit failed:", error);
     }
+  }
+
+  try {
+    const workerResult = await submitViaWorker(payload);
+    if (workerResult.ok) return workerResult;
+    console.warn("[contact] worker backup failed:", workerResult.error);
+  } catch (error) {
+    console.warn("[contact] worker backup unreachable:", error);
   }
 
   const mailtoUrl = buildMailtoUrl(payload);
