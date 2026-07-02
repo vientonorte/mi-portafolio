@@ -30,7 +30,7 @@ describe('Logo', () => {
 
   it('applies correct size classes for sm', () => {
     const { container } = renderWithLanguage(<Logo size="sm" />);
-    expect(container.firstChild).toHaveClass('gap-2');
+    expect(container.firstChild).toHaveClass('gap-2.5');
   });
 
   it('applies correct size classes for lg', () => {

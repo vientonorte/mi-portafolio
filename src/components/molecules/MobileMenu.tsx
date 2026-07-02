@@ -235,7 +235,7 @@ export function MobileMenu({
             id="mobile-menu"
           >
             <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-background px-4 py-4">
-              <Logo size="sm" />
+              <Logo size="sm" interactive />
               <Button
                 ref={firstFocusableRef}
                 variant="ghost"

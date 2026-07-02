@@ -453,6 +453,43 @@
   .logo-mark {
     color: var(--logo-accent);
   }
+
+  .logo-mark-plate {
+    fill: var(--logo-surface);
+    stroke: var(--logo-surface-border);
+    stroke-width: 1;
+  }
+
+  .logo-mark-track {
+    fill: none;
+    stroke: var(--foreground);
+    stroke-opacity: 0.12;
+  }
+
+  .logo-mark-arc {
+    fill: none;
+  }
+
+  .logo-mark-arc-group {
+    transform-origin: 20px 20px;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .logo-mark--interactive:hover .logo-mark-arc-group,
+  .logo-mark--interactive:focus-visible .logo-mark-arc-group {
+    transform: rotate(22deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-mark-arc-group {
+      transition: none;
+    }
+
+    .logo-mark--interactive:hover .logo-mark-arc-group,
+    .logo-mark--interactive:focus-visible .logo-mark-arc-group {
+      transform: none;
+    }
+  }
 }
 
 /* Utilities para gradiente de marca */

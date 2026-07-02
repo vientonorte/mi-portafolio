@@ -299,10 +299,10 @@ export function Navigation({
             data-process-label-variant={processLabelVariant}
           >
             <span className="sm:hidden">
-              <LogoMark size={32} />
+              <LogoMark size={32} interactive />
             </span>
             <span className="hidden sm:block">
-              <Logo size="sm" />
+              <Logo size="sm" interactive />
             </span>
           </motion.a>
 

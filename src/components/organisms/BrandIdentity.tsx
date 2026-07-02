@@ -14,8 +14,8 @@ const copy = {
     description:
       "Isologo minimalista para lectura rápida (<10s) y coherencia con evidencia medible, prueba social y superficies mate del landing.",
     variantsTitle: "Variantes",
-    markOnly: "Solo isologo — navegación y favicon",
-    full: "Marca completa — presentaciones y hero",
+    markOnly: "Isologo con plato mate — nav, toolbar y favicon",
+    full: "Lockup Chillax + rol — header desktop y menú móvil",
     usageTitle: "Uso en producto",
     usageLead:
       "El gradiente de marca aparece solo en acentos (≈10%). Métricas y logos de cliente usan superficies mate.",
@@ -42,8 +42,8 @@ const copy = {
     description:
       "Minimal mark for fast scanning (<10s), aligned with measurable evidence, social proof, and matte landing surfaces.",
     variantsTitle: "Variants",
-    markOnly: "Mark only — navigation and favicon",
-    full: "Full lockup — decks and hero",
+    markOnly: "Mark on matte plate — nav, toolbar, and favicon",
+    full: "Chillax lockup + role — desktop header and mobile menu",
     usageTitle: "In-product usage",
     usageLead:
       "Brand gradient is reserved for accents (~10%). Client logos and metrics sit on matte surfaces.",
@@ -89,10 +89,10 @@ export function BrandIdentity() {
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="flex items-center gap-4">
-                <LogoMark size={32} />
+                <LogoMark size={40} interactive />
                 <p className="text-sm text-muted-foreground">{t.markOnly}</p>
               </div>
-              <Logo size="md" />
+              <Logo size="md" interactive />
               <p className="text-sm text-muted-foreground">{t.full}</p>
             </CardContent>
           </Card>

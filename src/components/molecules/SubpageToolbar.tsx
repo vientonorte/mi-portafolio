@@ -49,7 +49,7 @@ export function SubpageToolbar({
                 className="shrink-0 rounded-lg p-1.5 transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 aria-label={language === "es" ? "Inicio" : "Home"}
               >
-                <LogoMark size={28} />
+                <LogoMark size={28} interactive />
               </button>
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />
