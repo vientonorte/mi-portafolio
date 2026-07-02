@@ -42,6 +42,10 @@ npm install
 npx wrangler secret put CONTACT_INBOX
 # Pegar: gaete.gaona@gmail.com
 
+# Relay de contacto (sin bindings R2/KV admin):
+npm run deploy:contact
+
+# Worker completo (requiere R2 habilitado en la cuenta):
 npx wrangler deploy
 ```
 
