@@ -2,9 +2,8 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Hero } from '../components/organisms/Hero';
 import { ImpactStats } from '../components/organisms/ImpactStats';
-import { About } from '../components/organisms/About';
+import { AboutTeaser } from '../components/organisms/AboutTeaser';
 import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
-import { Experience } from '../components/organisms/Experience';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
 import { SEOHead } from '../components/atoms/SEOHead';
@@ -40,8 +39,7 @@ const Home = () => {
       />
       <ImpactStats />
       <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
-      <About />
-      <Experience />
+      <AboutTeaser />
       <Testimonials />
       <Contact />
       <BackToTop />

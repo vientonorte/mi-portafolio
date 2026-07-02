@@ -20,9 +20,9 @@ export const translations = {
       badge: 'Negocios',
       title: 'Impacto por empresa',
       description:
-        'Tres casos destacados en fintech y mobility. El hub completo incluye métricas, proceso y evidencia visual.',
+        'SURA, Transvip y Karri en fintech y mobility. Design system, discovery y métricas en el hub completo.',
       ctaNegocios: 'Ver todos los negocios',
-      ctaProceso: 'Ver método UX',
+      ctaProceso: 'Ver proceso UX',
     },
     
     seo: {
@@ -89,17 +89,31 @@ export const translations = {
       },
     },
 
+    aboutTeaser: {
+      title: 'UX Lead regional · Fintech & Mobility',
+      lead: 'UX Lead en SURA Investments. Design Ops como método en productos regulados y mobility.',
+      detail: 'Trayectoria en Transvip/Karri, docencia en Desafío Latam y agencias (Havas/Claro, Walmart).',
+      cta: 'Ver perfil completo',
+    },
+
+    upcomingCases: {
+      badge: 'Próximamente',
+      title: 'Casos en preparación',
+      description: 'Evidencia visual y métricas en curso para ampliar el hub de negocios.',
+      status: 'Evidencia en curso',
+    },
+
     // Hero
     hero: {
       label: 'Design Ops en productos regulados',
+      metricsLine: '−40% onboarding SURA · NPS 72 · +35% activación Karri',
       headlineLead: 'Diseño que',
       headlineFocus: 'reduce el ruido.',
-      valueProp:
-        'Menos fricción, más claridad — donde el cumplimiento y la excelencia no compiten.',
+      valueProp: 'Menos fricción y más claridad en fintech y mobility.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
         primary: 'Ver negocios',
-        secondary: 'Proceso UX',
+        secondary: 'Ver proceso UX',
       },
       scroll: 'Explorar',
       resultsLabel: 'Resultados',
@@ -258,8 +272,10 @@ export const translations = {
       badge: 'Trayectoria',
       title: 'Experiencia Profesional',
       description: 'Mi camino desde Product Designer hasta Lead UX en empresas tech y finance.',
-      current: 'Actual',
+      current: 'Actualidad',
       yearsAbbr: 'a',
+      viewCases: 'Ver casos y evidencias',
+      achievementsLabel: 'Logros principales',
     },
     
     // Skills
@@ -457,8 +473,8 @@ export const translations = {
         title: 'App Pasajeros Premium',
         company: 'Transvip',
         description:
-          'Rediseño del flujo de reserva ejecutiva con selección de vehículo, fechas y reducción de fricción.',
-        tags: ['Mobility', 'Premium', 'Mobile'],
+          'Design system + discovery activo: −40% tiempo de reserva, +25% conversión y NPS 82 en mobility premium.',
+        tags: ['Mobility', 'Design System', 'Premium'],
       },
       'karri-calculadora': {
         title: 'Calculadora de Ganancias',
@@ -533,7 +549,9 @@ export const translations = {
       companyNotFound: 'No encontramos esa empresa.',
       projectNotFound: 'No encontramos ese proyecto.',
       processNotFound: 'Proceso no encontrado',
+      pageNotFound: 'No encontramos esta página.',
       backToProjects: 'Volver a negocios',
+      backToHome: 'Volver al inicio',
       back: 'Volver',
     },
 
@@ -591,7 +609,7 @@ export const translations = {
       badge: 'Business',
       title: 'Impact by company',
       description:
-        'Three featured cases in fintech and mobility. The full hub includes metrics, process, and visual evidence.',
+        'SURA, Transvip, and Karri in fintech and mobility. Design system, discovery, and metrics in the full hub.',
       ctaNegocios: 'View all business',
       ctaProceso: 'View UX process',
     },
@@ -660,17 +678,31 @@ export const translations = {
       },
     },
 
+    aboutTeaser: {
+      title: 'Regional UX Lead · Fintech & Mobility',
+      lead: 'UX Lead at SURA Investments. Design Ops as a method in regulated products and mobility.',
+      detail: 'Background at Transvip/Karri, teaching at Desafío Latam, and agencies (Havas/Claro, Walmart).',
+      cta: 'View full profile',
+    },
+
+    upcomingCases: {
+      badge: 'Coming soon',
+      title: 'Cases in progress',
+      description: 'Visual evidence and metrics being added to the business hub.',
+      status: 'Evidence in progress',
+    },
+
     // Hero
     hero: {
       label: 'Design Ops for regulated products',
+      metricsLine: '−40% SURA onboarding · NPS 72 · +35% Karri activation',
       headlineLead: 'Design that',
       headlineFocus: 'cuts the noise.',
-      valueProp:
-        'Less friction, more clarity — where compliance and excellence don’t compete.',
+      valueProp: 'Less friction and more clarity in fintech and mobility.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
         primary: 'View business',
-        secondary: 'UX Process',
+        secondary: 'View UX process',
       },
       scroll: 'Explore',
       resultsLabel: 'Results',
@@ -829,8 +861,10 @@ export const translations = {
       badge: 'Career',
       title: 'Professional Experience',
       description: 'My journey from Product Designer to Lead UX in tech and finance companies.',
-      current: 'Current',
+      current: 'Present',
       yearsAbbr: 'y',
+      viewCases: 'View cases and evidence',
+      achievementsLabel: 'Key achievements',
     },
     
     // Skills
@@ -1048,8 +1082,8 @@ export const translations = {
         title: 'Premium Passenger App',
         company: 'Transvip',
         description:
-          'Executive booking flow redesign with vehicle selection, dates, and reduced friction.',
-        tags: ['Mobility', 'Premium', 'Mobile'],
+          'Design system + active discovery: −40% booking time, +25% conversion, and NPS 82 in premium mobility.',
+        tags: ['Mobility', 'Design System', 'Premium'],
       },
       'karri-calculadora': {
         title: 'Earnings Calculator',
@@ -1124,7 +1158,9 @@ export const translations = {
       companyNotFound: 'We could not find that company.',
       projectNotFound: 'We could not find that project.',
       processNotFound: 'Process not found',
+      pageNotFound: 'We could not find this page.',
       backToProjects: 'Back to business',
+      backToHome: 'Back to home',
       back: 'Back',
     },
     

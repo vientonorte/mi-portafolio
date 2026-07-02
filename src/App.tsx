@@ -154,6 +154,21 @@ function ProjectDetailPage() {
   );
 }
 
+function GlobalNotFoundPage() {
+  const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
+  return (
+    <NotFoundPage
+      message={t.errors.pageNotFound}
+      backLabel={t.errors.backToHome}
+      onBack={() => navigate(ROUTES.home)}
+      crumbLabel={t.breadcrumbs.notFound}
+    />
+  );
+}
+
 function AppRoutes() {
   const isDeepPage = isDeepPortfolioPage(useLocation().pathname);
 
@@ -183,6 +198,7 @@ function AppRoutes() {
             <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
+            <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>
       </main>

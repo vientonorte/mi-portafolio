@@ -1,4 +1,4 @@
-import { Home, Briefcase, FolderOpen } from "lucide-react";
+import { Home, Briefcase, FolderOpen, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
@@ -33,6 +33,14 @@ const items = [
     icon: FolderOpen,
     route: ROUTES.process,
     match: (path: string) => isProcessPath(path),
+  },
+  {
+    id: "sobre-mi",
+    labelEs: "Sobre mí",
+    labelEn: "About",
+    icon: User,
+    route: "/sobre-mi",
+    match: (path: string) => path === "/sobre-mi",
   },
 ] as const;
 

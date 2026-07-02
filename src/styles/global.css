@@ -25,10 +25,7 @@ html {
     box-sizing: inherit;
 }
 
-:focus-visible {
-    outline: 2px solid #0A2540;
-    outline-offset: 2px;
-}
+/* Focus ring: definido en globals.css (*:focus-visible → outline-primary) */
 
 img {
     max-width: 100%;

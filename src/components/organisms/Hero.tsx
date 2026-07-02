@@ -8,6 +8,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { HeroResultCard } from "../atoms/HeroResultCard";
+import { SEO_SITE } from "../../lib/seo";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -91,9 +92,21 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             <div className="hero-left">
               <motion.p
                 variants={itemVariants}
-                className="font-mono text-sm uppercase text-primary"
-                style={{ letterSpacing: "0.22em", marginBottom: "1.5rem" }}
+                className="text-lg font-semibold tracking-tight text-foreground sm:text-xl"
+                style={{ marginBottom: "0.75rem" }}
               >
+                {SEO_SITE.brand} · {SEO_SITE.role}
+              </motion.p>
+
+              <motion.p
+                variants={itemVariants}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-matte-elevated px-3 py-1.5 font-mono text-xs uppercase text-foreground"
+                style={{ letterSpacing: "0.18em", marginBottom: "1.25rem" }}
+              >
+                <span
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden="true"
+                />
                 {t.label}
               </motion.p>
 
@@ -111,10 +124,18 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
               <motion.p
                 variants={itemVariants}
-                className="max-w-md text-muted-foreground text-base md:text-lg font-light leading-snug"
-                style={{ marginBottom: "1.25rem" }}
+                className="max-w-md text-base font-light leading-snug text-muted-foreground md:text-lg"
+                style={{ marginBottom: "0.75rem" }}
               >
                 {t.valueProp}
+              </motion.p>
+
+              <motion.p
+                variants={itemVariants}
+                className="max-w-md font-mono text-sm font-medium text-foreground/90"
+                style={{ marginBottom: "1.25rem" }}
+              >
+                {t.metricsLine}
               </motion.p>
 
               <motion.div
@@ -186,14 +207,25 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
             </div>
 
             <div className="hero-right" aria-label={t.resultsLabel} role="list">
+              {t.resultCards.slice(0, 1).map((card, i) => (
+                <div key={card.metric} className="md:hidden">
+                  <HeroResultCard
+                    metric={card.metric}
+                    description={card.description}
+                    company={card.company}
+                    index={i}
+                  />
+                </div>
+              ))}
               {t.resultCards.map((card, i) => (
-                <HeroResultCard
-                  key={card.metric}
-                  metric={card.metric}
-                  description={card.description}
-                  company={card.company}
-                  index={i}
-                />
+                <div key={`${card.metric}-desktop`} className="hidden md:block">
+                  <HeroResultCard
+                    metric={card.metric}
+                    description={card.description}
+                    company={card.company}
+                    index={i}
+                  />
+                </div>
               ))}
             </div>
           </div>

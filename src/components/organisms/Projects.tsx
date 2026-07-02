@@ -10,6 +10,7 @@ import { getFeaturedCaseStudies } from "../../data/case-study-cards";
 import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { UpcomingCaseCards } from "./UpcomingCaseCards";
 
 export function Projects({
   onNavigateToCaseStudies,
@@ -98,6 +99,8 @@ export function Projects({
           ))}
         </div>
       </div>
+
+      <UpcomingCaseCards />
     </section>
   );
 }

@@ -1,0 +1,9 @@
+participant_id,date,language,task_id,task_description,success,time_seconds,clicks,notes
+P01,YYYY-MM-DD,es,T1,Identificar rol y nombre del candidato en los primeros 5 segundos,,,,
+P01,YYYY-MM-DD,es,T2,Encontrar caso SURA con métrica de onboarding,,,,
+P01,YYYY-MM-DD,es,T3,Encontrar caso Transvip (mobility premium),,,,
+P01,YYYY-MM-DD,es,T4,Encontrar trayectoria LinkedIn / experiencia,,,,
+P01,YYYY-MM-DD,es,T5,Abrir página de proceso UX,,,,
+P01,YYYY-MM-DD,es,T6,Contactar o localizar CTA de contacto,,,,
+P01,YYYY-MM-DD,es,T7,Navegar desde subpágina (404 o proyecto) de vuelta al inicio,,,,
+P01,YYYY-MM-DD,es,T8,Cambiar idioma ES/EN y verificar coherencia de rol,,,,

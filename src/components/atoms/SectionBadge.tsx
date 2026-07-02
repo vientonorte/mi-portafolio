@@ -21,7 +21,7 @@ export function SectionBadge({ icon: Icon, children }: SectionBadgeProps) {
         <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
       )}
       
-      <span className="text-sm font-medium text-primary">
+      <span className="text-sm font-medium text-foreground">
         {children}
       </span>
     </motion.div>
