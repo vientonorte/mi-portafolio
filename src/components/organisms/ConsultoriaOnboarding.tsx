@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +22,24 @@ import { cn } from "../../lib/utils";
 const STEPS = ["welcome", "package", "context", "summary"] as const;
 type StepId = (typeof STEPS)[number];
 
-export function ConsultoriaOnboarding() {
+interface ConsultoriaOnboardingProps {
+  initialPackageId?: ConsultingPackageId;
+}
+
+export function ConsultoriaOnboarding({ initialPackageId }: ConsultoriaOnboardingProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria;
   const prefersReducedMotion = useReducedMotion();
 
   const [stepIndex, setStepIndex] = useState(0);
-  const [selectedPackage, setSelectedPackage] = useState<ConsultingPackageId>("marco");
+  const [selectedPackage, setSelectedPackage] = useState<ConsultingPackageId>(
+    initialPackageId ?? "marco"
+  );
+
+  useEffect(() => {
+    if (initialPackageId) setSelectedPackage(initialPackageId);
+  }, [initialPackageId]);
   const [industry, setIndustry] = useState(CONSULTING_INDUSTRIES[language][0]);
   const [timeline, setTimeline] = useState(CONSULTING_TIMELINES[language][1]);
   const [goal, setGoal] = useState("");

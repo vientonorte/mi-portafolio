@@ -159,6 +159,16 @@ export const translations = {
         note: 'Al confirmar, te llevamos a contacto con el mensaje listo para enviar.',
         cta: 'Ir a contacto',
       },
+      treePreview: {
+        badge: 'Árbol de respuestas',
+        title: 'Preview · encuentra tu bolsa',
+        description:
+          'Responde 1–2 preguntas y ve la bolsa recomendada antes del onboarding completo. Sin precios — solo alcance.',
+        pathLabel: 'Ruta seleccionada',
+        reset: 'Reiniciar',
+        previewOnly: 'Vista previa',
+        cta: 'Continuar con esta bolsa',
+      },
     },
 
     // Hero
@@ -806,6 +816,16 @@ export const translations = {
       summary: {
         note: 'On confirm, we take you to contact with the message ready to send.',
         cta: 'Go to contact',
+      },
+      treePreview: {
+        badge: 'Answer tree',
+        title: 'Preview · find your bundle',
+        description:
+          'Answer 1–2 questions and see the recommended bundle before full onboarding. No pricing — scope only.',
+        pathLabel: 'Selected path',
+        reset: 'Reset',
+        previewOnly: 'Preview',
+        cta: 'Continue with this bundle',
       },
     },
 
