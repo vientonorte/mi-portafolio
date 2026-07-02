@@ -7,7 +7,6 @@ export interface ConsultingPackage {
   name: Record<Language, string>;
   tagline: Record<Language, string>;
   duration: Record<Language, string>;
-  priceHint: Record<Language, string>;
   deliverables: Record<Language, string[]>;
   featured?: boolean;
 }
@@ -21,7 +20,6 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
       en: "Express UX audit with prioritized P0–P2 findings.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
-    priceHint: { es: "Desde USD 890", en: "From USD 890" },
     deliverables: {
       es: [
         "Heurísticas Nielsen + contraste WCAG 2.2 AA",
@@ -44,7 +42,6 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
       en: "Full audit + 3 implementation mentorship sessions.",
     },
     duration: { es: "3–4 semanas", en: "3–4 weeks" },
-    priceHint: { es: "Desde USD 2.400", en: "From USD 2,400" },
     deliverables: {
       es: [
         "Todo Radar + case study template",
@@ -66,7 +63,6 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
       en: "Design Ops for teams: framework, estimation, measurable handoff.",
     },
     duration: { es: "4–6 semanas", en: "4–6 weeks" },
-    priceHint: { es: "Cotización por equipo", en: "Team-based quote" },
     deliverables: {
       es: [
         "5 macroprocesos UX aplicados al producto",

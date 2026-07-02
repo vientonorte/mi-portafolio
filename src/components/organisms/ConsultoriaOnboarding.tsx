@@ -101,7 +101,10 @@ export function ConsultoriaOnboarding() {
                   <CardTitle>{t.welcome.title}</CardTitle>
                   <CardDescription>{t.welcome.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-4">
+                  <p className="rounded-lg border border-dashed border-border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                    {t.previewNote}
+                  </p>
                   <ul className="space-y-3" role="list">
                     {t.welcome.points.map((point) => (
                       <li key={point} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -143,8 +146,11 @@ export function ConsultoriaOnboarding() {
                         )}
                       </div>
                       <p className="mt-2 text-sm text-muted-foreground">{item.tagline[language]}</p>
-                      <p className="mt-3 font-mono text-xs text-foreground/80">
-                        {item.duration[language]} · {item.priceHint[language]}
+                      <p className="mt-3 flex flex-wrap items-center gap-2 font-mono text-xs text-foreground/80">
+                        <span>{item.duration[language]}</span>
+                        <Badge variant="outline" className="font-sans text-[10px] uppercase tracking-wide">
+                          {t.previewOnly}
+                        </Badge>
                       </p>
                       <ul className="mt-4 space-y-1.5" role="list">
                         {item.deliverables[language].map((d) => (

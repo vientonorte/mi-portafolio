@@ -127,6 +127,8 @@ export const translations = {
 
     consultoria: {
       progressLabel: 'Onboarding',
+      previewOnly: 'Vista previa',
+      previewNote: 'Alcance y propuesta personalizada en el kickoff — sin precios públicos.',
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
@@ -773,6 +775,8 @@ export const translations = {
 
     consultoria: {
       progressLabel: 'Onboarding',
+      previewOnly: 'Preview',
+      previewNote: 'Scope and tailored proposal at kickoff — no public pricing.',
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
