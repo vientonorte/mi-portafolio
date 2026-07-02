@@ -23,7 +23,7 @@ const Contacto = () => {
     const params = new URLSearchParams(location.search);
     if (params.get('sent') !== '1') return;
 
-    toast.success(t.contact.form.successFallback);
+    toast.success(t.contact.form.success);
     params.delete('sent');
     const nextSearch = params.toString();
     navigate(

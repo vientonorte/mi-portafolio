@@ -220,7 +220,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
 
       if (result.ok) {
         analytics.submitContactForm(true);
-        toast.success(result.channel === "formsubmit" ? t.form.successFallback : a.success);
+        toast.success(a.success);
         onSuccess?.();
         return;
       }

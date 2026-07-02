@@ -1,5 +1,5 @@
 import {
-  CONTACT_API_URL,
+  FORM_SUBMIT_INBOX,
   PUBLIC_CONTACT_EMAIL,
   SITE_CONTACT,
   buildContactMailtoUrl,
@@ -16,7 +16,7 @@ export interface ContactPayload {
   language?: "es" | "en";
 }
 
-export type ContactSubmitChannel = "worker" | "formsubmit" | "mailto";
+export type ContactSubmitChannel = "formsubmit" | "mailto";
 
 export interface ContactSubmitResult {
   ok: boolean;
@@ -25,8 +25,6 @@ export interface ContactSubmitResult {
   mailtoUrl?: string;
 }
 
-const FORM_SUBMIT_ACTION = `https://formsubmit.co/${encodeURIComponent(PUBLIC_CONTACT_EMAIL)}`;
-
 function buildMailtoUrl(payload: ContactPayload): string {
   const subject = encodeURIComponent(`Portfolio · mensaje de ${payload.name.trim()}`);
   const body = encodeURIComponent(
@@ -34,13 +32,20 @@ function buildMailtoUrl(payload: ContactPayload): string {
       `Nombre: ${payload.name.trim()}`,
       `Email: ${payload.email.trim()}`,
       "",
-      payload.message.trim(),
+      formatOutboundMessage(payload),
     ].join("\n")
   );
   return `${buildContactMailtoUrl()}?subject=${subject}&body=${body}`;
 }
 
-/** FormSubmit clásico (POST) — evita CORS del endpoint AJAX. */
+function formatOutboundMessage(payload: ContactPayload): string {
+  const lines = [payload.message.trim()];
+  if (payload.intent?.trim()) lines.push("", `Motivo: ${payload.intent.trim()}`);
+  if (payload.source) lines.push(`Canal: ${payload.source}`);
+  return lines.join("\n");
+}
+
+/** FormSubmit clásico (POST vía iframe) — canal principal, sin CORS ni Worker. */
 function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult> {
   return new Promise((resolve) => {
     const frameName = "contact-formsubmit-frame";
@@ -57,15 +62,17 @@ function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = FORM_SUBMIT_ACTION;
+    form.action = `https://formsubmit.co/${encodeURIComponent(FORM_SUBMIT_INBOX)}`;
     form.target = frameName;
     form.style.display = "none";
 
     const fields: Record<string, string> = {
       name: payload.name.trim(),
       email: payload.email.trim(),
-      message: payload.message.trim(),
-      _subject: `Portfolio · mensaje de ${payload.name.trim()}`,
+      message: formatOutboundMessage(payload),
+      _subject: payload.intent
+        ? `Portfolio · ${payload.intent} · ${payload.name.trim()}`
+        : `Portfolio · mensaje de ${payload.name.trim()}`,
       _replyto: payload.email.trim(),
       _captcha: "false",
       _template: "table",
@@ -104,53 +111,15 @@ function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult
   });
 }
 
-async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitResult> {
-  const response = await fetch(CONTACT_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      name: payload.name.trim(),
-      email: payload.email.trim(),
-      message: payload.message.trim(),
-      _gotcha: payload._gotcha ?? "",
-      source: payload.source ?? "form",
-      intent: payload.intent ?? "",
-      consent: payload.consent === true,
-      language: payload.language ?? "es",
-    }),
-  });
-
-  const result = (await response.json().catch(() => ({}))) as {
-    ok?: boolean;
-    error?: string;
-  };
-
-  if (response.ok && result.ok) {
-    return { ok: true, channel: "worker" };
-  }
-
-  return {
-    ok: false,
-    error: result.error || `Relay HTTP ${response.status}`,
-  };
-}
-
 /**
- * Envía contacto: Worker → FormSubmit (POST) → mailto preparado.
- * El formulario nunca debe terminar en error sin alternativa accionable.
+ * Envía contacto: FormSubmit (navegador) → mailto preparado.
+ * GitHub Pages no envía email; el Worker es opcional y no bloquea este flujo.
  */
 export async function submitContactMessage(
   payload: ContactPayload
 ): Promise<ContactSubmitResult> {
   if (payload._gotcha) {
-    return { ok: true, channel: "worker" };
-  }
-
-  try {
-    const workerResult = await submitViaWorker(payload);
-    if (workerResult.ok) return workerResult;
-  } catch (error) {
-    console.warn("[contact] worker unreachable:", error);
+    return { ok: true, channel: "formsubmit" };
   }
 
   if (typeof document !== "undefined") {
@@ -158,7 +127,7 @@ export async function submitContactMessage(
       const formResult = await submitViaFormPost(payload);
       if (formResult.ok) return formResult;
     } catch (error) {
-      console.warn("[contact] formsubmit fallback failed:", error);
+      console.warn("[contact] formsubmit failed:", error);
     }
   }
 
@@ -174,4 +143,4 @@ export function openContactMailto(payload: ContactPayload) {
   window.location.href = buildMailtoUrl(payload);
 }
 
-export { SITE_CONTACT };
+export { SITE_CONTACT, PUBLIC_CONTACT_EMAIL };

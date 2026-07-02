@@ -92,9 +92,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
 
       if (result.ok) {
         analytics.submitContactForm(true);
-        toast.success(
-          result.channel === "formsubmit" ? t.form.successFallback : t.form.success
-        );
+        toast.success(t.form.success);
         setFormData({ name: "", email: "", message: "", consent: false, _gotcha: "" });
         setErrors({});
         return;

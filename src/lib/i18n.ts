@@ -512,11 +512,11 @@ export const translations = {
         submit: 'Enviar mensaje',
         sending: 'Enviando...',
         consent:
-          'Acepto que mis datos se usen solo para responder esta consulta (Ley 21.719). Recibiré un correo de confirmación.',
+          'Acepto que mis datos se usen solo para responder esta consulta (Ley 21.719).',
         consentRequired: 'Debes aceptar el tratamiento de datos para enviar',
         validationError: 'Por favor corrige los errores en el formulario',
-        success: '¡Mensaje enviado! Revisa tu bandeja — te enviamos confirmación.',
-        successFallback: 'Mensaje enviado. Te responderé pronto.',
+        success: '¡Mensaje enviado! Te responderé en menos de 24 horas.',
+        successFallback: '¡Mensaje enviado! Te responderé en menos de 24 horas.',
         mailtoFallback: 'No pudimos enviar por el formulario',
         mailtoFallbackDesc: 'Abre tu cliente de correo con el mensaje listo para enviar.',
         mailtoAction: 'Abrir correo',
@@ -575,7 +575,7 @@ export const translations = {
         editMessage: 'Puedes editar el mensaje antes de enviar',
         privacyNote:
           'Tus datos se usan solo para responder esta consulta. Confirmación por email — sin marketing.',
-        success: '¡Listo! Revisa tu bandeja — te enviamos confirmación.',
+        success: '¡Listo! Te responderé en menos de 24 horas.',
       },
       social: {
         title: 'O escríbeme directamente',
@@ -1373,11 +1373,11 @@ export const translations = {
         submit: 'Send message',
         sending: 'Sending...',
         consent:
-          'I agree my data is used only to reply to this inquiry (Chile Data Protection Law). I will receive a confirmation email.',
+          'I agree my data is used only to reply to this inquiry (Chile Data Protection Law).',
         consentRequired: 'You must accept data processing to send',
         validationError: 'Please fix the errors in the form',
-        success: 'Message sent! Check your inbox — we sent a confirmation.',
-        successFallback: 'Message sent. I\'ll get back to you soon.',
+        success: 'Message sent! I\'ll reply within 24 hours.',
+        successFallback: 'Message sent! I\'ll reply within 24 hours.',
         mailtoFallback: 'We couldn\'t send via the form',
         mailtoFallbackDesc: 'Open your email client with the message ready to send.',
         mailtoAction: 'Open email',
@@ -1436,7 +1436,7 @@ export const translations = {
         editMessage: 'You can edit the message before sending',
         privacyNote:
           'Your data is used only to reply to this inquiry. Email confirmation — no marketing.',
-        success: 'Done! Check your inbox — we sent a confirmation.',
+        success: 'Done! I\'ll reply within 24 hours.',
       },
       social: {
         title: 'Or write me directly',
