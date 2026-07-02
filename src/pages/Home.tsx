@@ -6,7 +6,7 @@ import { AboutTeaser } from '../components/organisms/AboutTeaser';
 import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
-import { PremiumUxAuditBanner } from '../components/organisms/PremiumUxAuditBanner';
+import { ValueCarouselBanner } from '../components/organisms/ValueCarouselBanner';
 import { ROUTES } from '../lib/routes';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { StructuredData } from '../components/atoms/StructuredData';
@@ -40,13 +40,12 @@ const Home = () => {
       />
       <ImpactStats />
       <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
-      <AboutTeaser />
-      <Testimonials />
-      <PremiumUxAuditBanner
-        variant="compact"
+      <ValueCarouselBanner
         onStartConsulting={() => navigate(ROUTES.consulting)}
         onViewSampleAudit={() => navigate(ROUTES.audit)}
       />
+      <AboutTeaser />
+      <Testimonials />
       <Contact />
       <BackToTop />
     </>

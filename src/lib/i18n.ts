@@ -125,6 +125,63 @@ export const translations = {
       panelNote: 'Entregable ejecutivo + quick wins listos para implementar.',
     },
 
+    valueCarousel: {
+      sectionBadge: 'Contenido de valor',
+      prevSlide: 'Anterior',
+      nextSlide: 'Siguiente',
+      slideOf: 'Diapositiva {current} de {total}',
+      slides: [
+        {
+          id: 'audit',
+          badge: 'Auditoría UX',
+          title: 'Hallazgos priorizados',
+          titleAccent: 'listos para ejecutar',
+          description:
+            'Heurísticas Nielsen, WCAG 2.2 AA y test reclutador en menos de 10 s. Entregable ejecutivo con plan P0–P2.',
+          highlights: ['Heurísticas Nielsen', 'WCAG 2.2 AA', 'Plan P0–P2'],
+          metrics: [
+            { value: 'WCAG 2.2', label: 'Accesibilidad' },
+            { value: 'P0–P2', label: 'Prioridad' },
+            { value: '<10 s', label: 'Test reclutador' },
+          ],
+          cta: 'Ver auditoría de ejemplo',
+          ctaSecondary: 'Elegir bolsa consultoría',
+        },
+        {
+          id: 'sura-case',
+          badge: 'Caso en producción',
+          title: 'RIA SURA US',
+          titleAccent: '−40% onboarding',
+          description:
+            'Onboarding multi-perfil para asesores USA: 8 prototipos navegables, 3 flujos de auth y progressive disclosure.',
+          highlights: ['Fintech regulado', '8 prototipos', 'Mercado USA'],
+          metrics: [
+            { value: '−40%', label: 'Tiempo onboarding' },
+            { value: '8', label: 'Prototipos' },
+            { value: 'NPS 72', label: 'Plataforma' },
+          ],
+          cta: 'Ver caso completo',
+          ctaSecondary: 'Ver fase UX Analytics',
+        },
+        {
+          id: 'consultoria',
+          badge: 'Viento Norte',
+          title: 'Encuentra tu bolsa',
+          titleAccent: 'en 2 preguntas',
+          description:
+            'Árbol de decisión + onboarding en 4 pasos. Sin precios públicos — alcance y propuesta en el kickoff.',
+          highlights: ['Radar · Marco · Ops', 'Mensaje prearmado', 'Kickoff <24 h'],
+          metrics: [
+            { value: '3', label: 'Bolsas' },
+            { value: '4', label: 'Pasos' },
+            { value: '<24 h', label: 'Respuesta' },
+          ],
+          cta: 'Iniciar onboarding',
+          ctaSecondary: 'Probar árbol de decisión',
+        },
+      ],
+    },
+
     consultoria: {
       progressLabel: 'Onboarding',
       previewOnly: 'Vista previa',
@@ -852,6 +909,63 @@ export const translations = {
         recruiter: 'Recruiter test',
       },
       panelNote: 'Executive deliverable + quick wins ready to implement.',
+    },
+
+    valueCarousel: {
+      sectionBadge: 'Value content',
+      prevSlide: 'Previous',
+      nextSlide: 'Next',
+      slideOf: 'Slide {current} of {total}',
+      slides: [
+        {
+          id: 'audit',
+          badge: 'UX Audit',
+          title: 'Prioritized findings',
+          titleAccent: 'ready to execute',
+          description:
+            'Nielsen heuristics, WCAG 2.2 AA, and recruiter test in under 10 s. Executive deliverable with P0–P2 plan.',
+          highlights: ['Nielsen heuristics', 'WCAG 2.2 AA', 'P0–P2 plan'],
+          metrics: [
+            { value: 'WCAG 2.2', label: 'Accessibility' },
+            { value: 'P0–P2', label: 'Priority' },
+            { value: '<10 s', label: 'Recruiter test' },
+          ],
+          cta: 'View sample audit',
+          ctaSecondary: 'Choose consulting bundle',
+        },
+        {
+          id: 'sura-case',
+          badge: 'Production case',
+          title: 'RIA SURA US',
+          titleAccent: '−40% onboarding',
+          description:
+            'Multi-profile onboarding for US advisors: 8 navigable prototypes, 3 auth flows, and progressive disclosure.',
+          highlights: ['Regulated fintech', '8 prototypes', 'US market'],
+          metrics: [
+            { value: '−40%', label: 'Onboarding time' },
+            { value: '8', label: 'Prototypes' },
+            { value: 'NPS 72', label: 'Platform' },
+          ],
+          cta: 'View full case',
+          ctaSecondary: 'View UX Analytics phase',
+        },
+        {
+          id: 'consultoria',
+          badge: 'Viento Norte',
+          title: 'Find your bundle',
+          titleAccent: 'in 2 questions',
+          description:
+            'Decision tree + 4-step onboarding. No public pricing — scope and proposal at kickoff.',
+          highlights: ['Radar · Marco · Ops', 'Pre-filled message', 'Kickoff <24 h'],
+          metrics: [
+            { value: '3', label: 'Bundles' },
+            { value: '4', label: 'Steps' },
+            { value: '<24 h', label: 'Response' },
+          ],
+          cta: 'Start onboarding',
+          ctaSecondary: 'Try decision tree',
+        },
+      ],
     },
 
     consultoria: {

@@ -57,7 +57,8 @@ export function ConsultoriaTreePreview({
 
   return (
     <section
-      className="border-y border-border/60 bg-muted/20 px-4 py-12 md:py-16"
+      id="arbol"
+      className="border-y border-border/60 bg-muted/20 px-4 py-12 md:py-16 scroll-mt-24"
       aria-labelledby="consultoria-tree-heading"
     >
       <div className="container mx-auto max-w-3xl">
