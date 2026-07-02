@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { ThemeToggle } from "../atoms/ThemeToggle";
+import { Logo } from "../atoms/Logo";
 import { X } from "lucide-react";
 import {
   MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
@@ -12,6 +13,7 @@ import { cn } from "../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { SEO_SITE } from "../../lib/seo";
+import { ROUTES } from "../../lib/routes";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -22,6 +24,33 @@ interface MobileMenuProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   onNavigateToAuditoria?: () => void;
+}
+
+function isNavItemActive(item: NavItem, pathname: string): boolean {
+  if (item.type === "route") {
+    if (item.href === "proyectos") {
+      return (
+        pathname === "/proyectos" ||
+        pathname.startsWith("/proyecto/") ||
+        pathname.startsWith("/empresa/")
+      );
+    }
+    if (item.href === "proceso") {
+      return (
+        pathname === ROUTES.process ||
+        pathname.startsWith(`${ROUTES.process}/`) ||
+        pathname.startsWith("/cases")
+      );
+    }
+    if (item.href === "sobre-mi") return pathname === "/sobre-mi";
+    if (item.href === "design-system") return pathname === "/design-system";
+    if (item.href === "auditoria") return pathname === "/auditoria";
+    return pathname === `/${item.href}`;
+  }
+  if (item.type === "anchor" && item.href === "#inicio") {
+    return pathname === "/";
+  }
+  return false;
 }
 
 export function MobileMenu({
@@ -40,14 +69,12 @@ export function MobileMenu({
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
   const pendingScroll = useRef<string | null>(null);
 
-  // Handle click outside
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   }, [onClose]);
 
-  // Focus trap and keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
 
@@ -55,14 +82,13 @@ export function MobileMenu({
       firstFocusableRef.current?.focus();
     });
 
-    // Handle Tab key for focus trap
     const handleTab = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
-      
+
       const focusableElements = menuRef.current?.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
-      
+
       if (!focusableElements || focusableElements.length === 0) return;
 
       const firstElement = focusableElements[0] as HTMLElement;
@@ -160,7 +186,7 @@ export function MobileMenu({
       } else if (item.href === "proyectos") {
         navigate("/proyectos");
       } else if (item.href === "proceso") {
-        navigate("/proceso");
+        navigate(ROUTES.process);
       } else if (item.href === "sobre-mi") {
         navigate("/sobre-mi");
       }
@@ -180,34 +206,31 @@ export function MobileMenu({
     <AnimatePresence mode="wait">
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-0 right-0 bottom-0 top-[var(--header-height)] bg-foreground/25 backdrop-blur-sm z-[105] dark:bg-black/60 lg:z-[55]"
+            className="fixed bottom-0 left-0 right-0 top-[var(--header-height)] z-[105] bg-foreground/25 backdrop-blur-sm dark:bg-black/60 lg:z-[55]"
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
-          
-          {/* Menu Panel */}
+
           <motion.div
             ref={menuRef}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl z-[110] top-[var(--header-height)] bottom-[var(--bottom-nav-total)] md:bottom-0"
+            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl md:bottom-0"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
             role="dialog"
             aria-label="Menú de navegación móvil"
             aria-modal="true"
             id="mobile-menu"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-border/40 bg-background p-6">
-              <h2 className="text-xl font-semibold text-foreground">Navegación</h2>
+            <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-background px-4 py-4">
+              <Logo size="sm" />
               <Button
                 ref={firstFocusableRef}
                 variant="ghost"
@@ -220,41 +243,48 @@ export function MobileMenu({
               </Button>
             </div>
 
-            {/* Navigation Items */}
-            <nav className="flex-1 overflow-y-auto p-6" aria-label="Menú móvil">
-              <ul className="space-y-2" role="list">
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    {moreDividerLabel && moreStartIndex === index && (
-                      <p className="px-3 pt-4 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        {moreDividerLabel}
-                      </p>
-                    )}
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-lg min-h-[44px] h-12 text-foreground hover:bg-primary/10 hover:text-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:hover:bg-primary/15"
-                      onClick={() => handleNavClick(item)}
+            <nav className="flex-1 overflow-y-auto p-4" aria-label="Menú móvil">
+              <ul className="space-y-1" role="list">
+                {navItems.map((item, index) => {
+                  const active = isNavItemActive(item, location.pathname);
+                  return (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.04 }}
                     >
-                      {item.label}
-                    </Button>
-                  </motion.li>
-                ))}
+                      {moreDividerLabel && moreStartIndex === index && (
+                        <p className="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {moreDividerLabel}
+                        </p>
+                      )}
+                      <Button
+                        variant="ghost"
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "h-12 min-h-[44px] w-full justify-start text-lg transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                          active
+                            ? "bg-primary/10 font-semibold text-primary"
+                            : "text-foreground hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/15"
+                        )}
+                        onClick={() => handleNavClick(item)}
+                      >
+                        {item.label}
+                      </Button>
+                    </motion.li>
+                  );
+                })}
               </ul>
             </nav>
 
-            {/* Footer - Optional CTA or Info */}
-            <div className="space-y-4 border-t border-border/40 bg-muted/30 p-6 dark:bg-muted/20">
+            <div className="space-y-3 border-t border-border/40 bg-muted/30 p-4 dark:bg-muted/20">
               <div className="flex items-center justify-center gap-3">
                 <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
                 <LanguageToggle />
               </div>
-              <p className="text-sm text-muted-foreground text-center font-mono uppercase tracking-widest">
-                {SEO_SITE.role}
+              <p className="text-center text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground">
+                {SEO_SITE.brand} · {SEO_SITE.role}
               </p>
             </div>
           </motion.div>

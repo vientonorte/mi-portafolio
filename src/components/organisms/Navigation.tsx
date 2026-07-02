@@ -68,8 +68,12 @@ export function Navigation({
   );
 
   const mobileNavItems = useMemo(
-    () => [...primaryNavItems, ...moreNavItems],
-    [primaryNavItems, moreNavItems]
+    () => [
+      { href: "#inicio", label: t.nav.home, type: "anchor" as const },
+      ...primaryNavItems,
+      ...moreNavItems,
+    ],
+    [primaryNavItems, moreNavItems, t.nav.home]
   );
 
   useEffect(() => {
@@ -349,7 +353,7 @@ export function Navigation({
         onClose={closeMenu}
         navItems={mobileNavItems}
         moreDividerLabel={t.nav.more}
-        moreStartIndex={primaryNavItems.length}
+        moreStartIndex={primaryNavItems.length + 1}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
         onNavigateToAuditoria={onNavigateToAuditoria}

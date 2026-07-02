@@ -4,6 +4,7 @@ export const translations = {
   es: {
     // Navigation
     nav: {
+      home: 'Inicio',
       about: 'Sobre mí',
       projects: 'Negocios',
       experience: 'Experiencia',
@@ -574,6 +575,7 @@ export const translations = {
   en: {
     // Navigation
     nav: {
+      home: 'Home',
       about: 'About',
       projects: 'Business',
       experience: 'Experience',
