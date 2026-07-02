@@ -2,6 +2,7 @@ import { Home, Briefcase, FolderOpen, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
+import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { ROUTES, isProcessPath } from "../../lib/routes";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { BOTTOM_NAV_BASE_CLASS, BOTTOM_NAV_DOCK_CLASS } from "./bottom-nav-classes";
@@ -35,11 +36,12 @@ const items = [
     match: (path: string) => isProcessPath(path),
   },
   {
-    id: "sobre-mi",
-    labelEs: "Sobre mí",
-    labelEn: "About",
+    id: "experiencia",
+    labelEs: "Experiencia",
+    labelEn: "Experience",
     icon: User,
-    route: "/sobre-mi",
+    pathname: "/sobre-mi",
+    sectionId: "experiencia",
     match: (path: string) => path === "/sobre-mi",
   },
 ] as const;
@@ -72,7 +74,18 @@ export function DeepPageNav() {
                 icon={item.icon}
                 label={label}
                 active={item.match(path)}
-                onClick={() => navigate(item.route)}
+                onClick={() => {
+                  if (item.id === "experiencia") {
+                    navigateToPageSection(
+                      navigate,
+                      item.pathname,
+                      item.sectionId,
+                      location.pathname
+                    );
+                    return;
+                  }
+                  navigate(item.route);
+                }}
               />
             </li>
           );

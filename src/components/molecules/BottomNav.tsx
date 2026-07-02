@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, Briefcase, FolderOpen, Mail } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Mail, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { NavTabItem } from "../atoms/NavTabItem";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { ROUTES } from "../../lib/routes";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { BOTTOM_NAV_BASE_CLASS, BOTTOM_NAV_DOCK_CLASS } from "./bottom-nav-classes";
@@ -26,6 +27,15 @@ const items = [
     type: "route" as const,
     target: "/proyectos",
     route: "/proyectos",
+  },
+  {
+    id: "experiencia",
+    labelEs: "Experiencia",
+    labelEn: "Experience",
+    icon: User,
+    type: "section" as const,
+    pathname: "/sobre-mi",
+    sectionId: "experiencia",
   },
   {
     id: "proceso",
@@ -86,6 +96,10 @@ export function BottomNav() {
       navigate(item.route);
       return;
     }
+    if (item.type === "section") {
+      navigateToPageSection(navigate, item.pathname, item.sectionId, location.pathname);
+      return;
+    }
     if (location.pathname !== "/") {
       pendingScroll.current = item.target;
       navigate("/");
@@ -95,6 +109,7 @@ export function BottomNav() {
   };
 
   const isActive = (item: typeof items[0]) => {
+    if (item.id === "experiencia") return location.pathname === "/sobre-mi";
     if (item.type === "route") {
       if (item.id === "negocios") {
         return (

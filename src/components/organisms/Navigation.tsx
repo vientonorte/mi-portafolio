@@ -47,16 +47,16 @@ export function Navigation({
   const primaryNavItems: NavItem[] = useMemo(
     () => [
       { href: "proyectos", label: t.nav.projects, type: "route" },
+      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" },
       { href: "proceso", label: processLabel, type: "route" },
       { href: "#contacto", label: t.nav.contact, type: "anchor" },
     ],
-    [processLabel, t.nav.projects, t.nav.contact]
+    [processLabel, t.nav.projects, t.nav.experience, t.nav.contact]
   );
 
   const moreNavItems: NavItem[] = useMemo(
     () => [
       { href: "sobre-mi", label: t.nav.about, type: "route" },
-      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" },
       { href: "design-system", label: t.nav.designSystem, type: "route" },
       { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" },
       {
