@@ -36,7 +36,8 @@
 - **Proyectos** — 3 case studies detallados (SURA, Transvip, Karri)
 - **Experiencia** — Timeline profesional
 - **Diseño de Sistema** — Documentación de tokens y componentes
-- **Contacto** — Formulario y enlaces sociales
+- **Contacto** — Asistente guiado, formulario directo, consentimiento Ley 21.719
+- **Privacidad** — Política bilingüe en `/privacy`
 - **Investigación** — Análisis etnográfico y citas ATTAC
 
 ## 📊 Métricas del Proyecto
@@ -70,7 +71,11 @@ cp .env.example .env.local
 
 2. Edita `.env.local` con tus valores reales:
    - `VITE_GA_MEASUREMENT_ID`: ID de Google Analytics 4 (opcional)
-   - `VITE_FORMSPREE_ENDPOINT`: Endpoint de FormSpree para formulario de contacto (opcional)
+   - `VITE_GTM_ID`: ID de Google Tag Manager (opcional)
+   - `VITE_FORM_SUBMIT_INBOX`: Inbox FormSubmit (opcional; default en `site-contact.ts`)
+   - `VITE_CONTACT_API_URL`: URL del Worker de respaldo (opcional)
+
+Ver runbook completo: **[docs/CONTACT_AND_PRIVACY.md](./docs/CONTACT_AND_PRIVACY.md)**
 
 ⚠️ **Nunca commitees archivos `.env` con valores reales.**
 
@@ -140,6 +145,8 @@ Los archivos optimizados se generan en `/dist`.
 
 ## 📚 Documentación
 
+- **[docs/CONTACT_AND_PRIVACY.md](./docs/CONTACT_AND_PRIVACY.md)** — Contacto, FormSubmit, privacidad y troubleshooting
+- **[worker/README.md](./worker/README.md)** — Deploy del Worker de respaldo
 - **[MOBILE_QA.md](./MOBILE_QA.md)** — Checklist y guía de QA mobile completo
 - **[HANDOFF_SPRINT.md](./HANDOFF_SPRINT.md)** — Sprint de estabilización y handoff
 - **[CHANGELOG.md](./CHANGELOG.md)** — Historial de cambios (Keep a Changelog format)

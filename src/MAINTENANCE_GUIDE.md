@@ -11,6 +11,7 @@
 - [Agregar Nuevo Proceso UX](#agregar-nuevo-proceso-ux)
 - [Modificar Design System](#modificar-design-system)
 - [Actualizar Traducciones](#actualizar-traducciones)
+- [Contacto y privacidad](#contacto-y-privacidad)
 - [Troubleshooting](#troubleshooting)
 
 ---
@@ -403,6 +404,37 @@ const projectMap: Record<string, { data: any; parentCompany: string }> = {
 }
 ```
 
+## 📬 Contacto y privacidad
+
+Runbook completo: [`docs/CONTACT_AND_PRIVACY.md`](../docs/CONTACT_AND_PRIVACY.md)
+
+### Cambiar email público
+
+Editar `src/lib/site-contact.ts`:
+
+- `PUBLIC_CONTACT_EMAIL` — lo que ve el visitante (`contacto@vientonorte.cl`)
+- `FORM_SUBMIT_INBOX` — inbox real de FormSubmit (o `VITE_FORM_SUBMIT_INBOX`)
+
+### Cambiar textos del formulario / asistente
+
+Traducciones en `src/lib/i18n.ts` → `contact.form`, `contact.assistant`, `privacyPage`.
+
+Componentes:
+
+- `src/components/organisms/Contact.tsx`
+- `src/components/organisms/ContactAssistant.tsx`
+- `src/components/molecules/ContactConsentField.tsx`
+
+### Cadena de envío
+
+Lógica en `src/lib/submit-contact.ts`: **FormSubmit (navegador) → Worker → mailto**. No invertir el orden sin actualizar el runbook.
+
+### Activar FormSubmit (producción)
+
+Tras el primer envío, abrir el enlace de activación en `gaete.gaona@gmail.com`. Sin esto el formulario falla aunque el deploy esté OK.
+
+---
+
 ### Imágenes no se muestran
 
 **Causa:** Ruta incorrecta o imagen no existe en `/public/`
@@ -488,6 +520,6 @@ Si tienes dudas o encuentras bugs:
 
 **🎯 Mantener el código limpio es mantener la cordura**
 
-Documentación actualizada: Noviembre 2025
+Documentación actualizada: Julio 2026
 
 </div>

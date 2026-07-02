@@ -7,8 +7,8 @@ Reenvía el formulario de contacto a tu Gmail **sin publicar** `gaete.gaona@gmai
 | Capa | Qué ve el visitante | Qué recibes tú |
 |------|---------------------|----------------|
 | Sitio | `contacto@vientonorte.cl` | — |
-| **Formulario → FormSubmit** (canal principal) | POST vía iframe en el navegador | Email en `gaete.gaona@gmail.com` con `Reply-To` del visitante |
-| Formulario → Worker (respaldo silencioso) | Solo si FormSubmit falla | Mismo inbox si Email Sending está activo |
+| **Formulario → FormSubmit** (canal principal, opción A) | POST vía iframe en el navegador | Email en `gaete.gaona@gmail.com` con `Reply-To` del visitante |
+| Formulario → Worker (respaldo silencioso) | Solo si FormSubmit en navegador falla | Email Sending si dominio en CF; si no, FormSubmit server-side (puede 429) |
 | Email Routing (opcional) | mailto al alias | Reenvío directo a Gmail |
 
 ## Setup (una vez)
@@ -59,11 +59,17 @@ En `wrangler.toml`, añadir a `ALLOWED_ORIGIN`:
 ALLOWED_ORIGIN = "https://vientonorte.github.io,http://localhost:3000"
 ```
 
-## Fallback automático
+## Activación FormSubmit (obligatorio)
 
-Si Email Sending del dominio no está activo, el Worker usa **FormSubmit** como relay
-(server-side). La primera vez, FormSubmit envía un correo de **activación** a
-`CONTACT_INBOX` — debes abrir el enlace para confirmar.
+La primera vez que el **navegador** envía a FormSubmit, llega un correo de **activación** a
+`CONTACT_INBOX` (`gaete.gaona@gmail.com`) — debes abrir el enlace para confirmar.
+
+Runbook completo del sitio: [`docs/CONTACT_AND_PRIVACY.md`](../docs/CONTACT_AND_PRIVACY.md)
+
+## Fallback en el Worker
+
+Si Email Sending del dominio no está activo, el Worker intenta **FormSubmit** server-side.
+Desde IPs de Cloudflare puede devolver 429; no afecta al canal principal del navegador.
 
 ## QA
 

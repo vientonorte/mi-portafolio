@@ -23,6 +23,7 @@ desktop.ini
 .idea/
 .history/
 .env*
+!.env.example
 .npmrc
 .yarnrc
 
@@ -97,5 +98,6 @@ build/
 *.local
 .env
 .env.*
+!.env.example
 V2/antropologia-corrupcion/
 *.make

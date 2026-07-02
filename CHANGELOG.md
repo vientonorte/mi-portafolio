@@ -5,6 +5,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-02] — Contacto, privacidad y valor
+
+### Added
+- **Asistente de contacto guiado** (`ContactAssistant`): flujo intent → detalle → datos → revisión.
+- **ContactConsentField**: checkbox de consentimiento + enlace a política de privacidad (formulario y asistente).
+- **Política de privacidad bilingüe** (`/privacy`): copy Ley 21.719, FormSubmit, derechos ARCO (ES/EN).
+- **ValueCarouselBanner**: carrusel de propuesta de valor en home.
+- **ImpactStats**: narrativa, spoilers en hover y tap-to-expand en móvil.
+- **Runbook** `docs/CONTACT_AND_PRIVACY.md` y `.env.example`.
+
+### Changed
+- **Canal de contacto (opción A):** FormSubmit en navegador como primario; Worker Cloudflare como respaldo silencioso; `mailto` como último recurso.
+- Email público unificado: `contacto@vientonorte.cl` (inbox real vía FormSubmit, no expuesto en UI).
+- Hero: eliminada línea duplicada de métricas (−40% · NPS · Karri).
+
+### Fixed
+- **TypeScript carousel:** re-export default de `embla-carousel-react@8.6.0` en `versioned-modules.d.ts`.
+- **ESLint:** setState en effects de contacto → inicialización por props / transición a review.
+
+---
+
 ## [Unreleased] — Sprint 20-05-2026
 
 ### Added

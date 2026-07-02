@@ -6,9 +6,10 @@ Use this checklist to ensure everything is ready before deploying to production.
 
 ### Phase 1: Configuration ✅
 
-- [ ] `.env` file created from `.env.example`
-- [ ] `VITE_FORMSPREE_ID` configured (or form runs in demo mode)
+- [ ] `.env.local` created from `.env.example` (opcional en CI)
+- [ ] FormSubmit activado en inbox (`gaete.gaona@gmail.com` — enlace de confirmación)
 - [ ] `VITE_GA_MEASUREMENT_ID` configured (optional)
+- [ ] `VITE_GTM_ID` configured (optional)
 - [ ] GA4 script uncommented in `index.html` (if using analytics)
 
 ### Phase 2: Assets ✅
@@ -44,8 +45,11 @@ Run preview: `npm run preview` and verify:
   - [ ] Name field requires min 2 characters
   - [ ] Email field validates format
   - [ ] Message field requires min 10 characters
+  - [ ] Consent checkbox required (Ley 21.719)
   - [ ] Error messages display correctly
-- [ ] Contact form submits successfully (if FormSpree configured)
+- [ ] Contact assistant flow works (intent → review → send)
+- [ ] Contact form submits successfully (FormSubmit → Gmail)
+- [ ] `/privacy` loads in ES and EN
 - [ ] CV download button exists and is clickable
 - [ ] Projects filtering works (All/Featured/Fintech/Mobility)
 - [ ] Impact stats are clickable
