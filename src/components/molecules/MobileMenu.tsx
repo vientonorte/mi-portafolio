@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { SEO_SITE } from "../../lib/seo";
 import { ROUTES } from "../../lib/routes";
+import { navigateToPageSection } from "../../lib/navigate-to-section";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -42,7 +43,9 @@ function isNavItemActive(item: NavItem, pathname: string): boolean {
         pathname.startsWith("/cases")
       );
     }
-    if (item.href === "sobre-mi") return pathname === "/sobre-mi";
+    if (item.href === "sobre-mi" || item.href === "sobre-mi-experiencia") {
+      return pathname === "/sobre-mi";
+    }
     if (item.href === "design-system") return pathname === "/design-system";
     if (item.href === "auditoria") return pathname === "/auditoria";
     return pathname === `/${item.href}`;
@@ -189,6 +192,8 @@ export function MobileMenu({
         navigate(ROUTES.process);
       } else if (item.href === "sobre-mi") {
         navigate("/sobre-mi");
+      } else if (item.href === "sobre-mi-experiencia") {
+        navigateToPageSection(navigate, "/sobre-mi", "experiencia", location.pathname);
       }
       return;
     }

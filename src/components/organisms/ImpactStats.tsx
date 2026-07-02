@@ -6,6 +6,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
 import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
 import { ROUTES } from "../../lib/routes";
+import { SEO_SITE } from "../../lib/seo";
 
 export function ImpactStats() {
   const navigate = useNavigate();
@@ -181,7 +182,7 @@ export function ImpactStats() {
                     </div>
                     <div>
                       <span className="text-muted-foreground">{language === "es" ? "Rol:" : "Role:"}</span>{" "}
-                      <span className="font-semibold">Lead UX/UI Designer</span>
+                      <span className="font-semibold">{SEO_SITE.role}</span>
                     </div>
                   </div>
                 </div>

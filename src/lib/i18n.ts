@@ -201,7 +201,7 @@ export const translations = {
       badge: 'Sobre mí',
       title: 'Diseñador de Experiencias',
       subtitle: 'Idea + Cuerpo',
-      description: 'Lead UX Designer con +3 años transformando ideas en productos digitales. Mi enfoque combina pensamiento estratégico (Idea) con ejecución impecable (Cuerpo), creando experiencias que conectan con usuarios reales.',
+      description: 'UX Lead con +3 años transformando ideas en productos digitales. Mi enfoque combina pensamiento estratégico (Idea) con ejecución impecable (Cuerpo), creando experiencias que conectan con usuarios reales.',
       philosophy: {
         idea: {
           title: 'Idea',
@@ -541,7 +541,7 @@ export const translations = {
       linkedin: 'LinkedIn',
       privacy: 'Privacidad',
       research: 'Investigación',
-      copyright: 'Rodrigo Gaete Gaona · Lead UX Designer',
+      copyright: 'Rodrigo Gaete Gaona · UX Lead',
       tagline: 'Diseñado con atención al detalle y accesibilidad.',
     },
 
@@ -790,7 +790,7 @@ export const translations = {
       badge: 'About',
       title: 'Experience Designer',
       subtitle: 'Idea + Body',
-      description: 'Lead UX Designer with +3 years transforming ideas into digital products. My approach combines strategic thinking (Idea) with flawless execution (Body), creating experiences that connect with real users.',
+      description: 'UX Lead with +3 years transforming ideas into digital products. My approach combines strategic thinking (Idea) with flawless execution (Body), creating experiences that connect with real users.',
       philosophy: {
         idea: {
           title: 'Idea',
@@ -1150,7 +1150,7 @@ export const translations = {
       linkedin: 'LinkedIn',
       privacy: 'Privacy',
       research: 'Research',
-      copyright: 'Rodrigo Gaete Gaona · Lead UX Designer',
+      copyright: 'Rodrigo Gaete Gaona · UX Lead',
       tagline: 'Designed with attention to detail and accessibility.',
     },
 

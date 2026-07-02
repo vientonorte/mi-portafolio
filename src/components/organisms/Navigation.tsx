@@ -14,6 +14,7 @@ import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
+import { navigateToPageSection } from "../../lib/navigate-to-section";
 import {
   MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
   MOBILE_HEADER_CONTROL_CLASS,
@@ -55,7 +56,7 @@ export function Navigation({
   const moreNavItems: NavItem[] = useMemo(
     () => [
       { href: "sobre-mi", label: t.nav.about, type: "route" },
-      { href: "#experiencia", label: t.nav.experience, type: "anchor" },
+      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" },
       { href: "design-system", label: t.nav.designSystem, type: "route" },
       { href: "auditoria", label: language === "es" ? "Auditoría ✦" : "Audit ✦", type: "route" },
       {
@@ -165,6 +166,9 @@ export function Navigation({
           case "sobre-mi":
             navigate("/sobre-mi");
             break;
+          case "sobre-mi-experiencia":
+            navigateToPageSection(navigate, "/sobre-mi", "experiencia", location.pathname);
+            break;
         }
         return;
       }
@@ -206,7 +210,9 @@ export function Navigation({
         );
       }
       if (href === "auditoria") return location.pathname === "/auditoria";
-      if (href === "sobre-mi") return location.pathname === "/sobre-mi";
+      if (href === "sobre-mi" || href === "sobre-mi-experiencia") {
+        return location.pathname === "/sobre-mi";
+      }
       if (href === "proyectos") {
         return (
           location.pathname === "/proyectos" ||

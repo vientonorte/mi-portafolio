@@ -11,7 +11,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { ROUTES } from "../../lib/routes";
 
-const TEASER_IDS = ["sura-ria-us", "transvip-app-premium", "karri-calculadora"] as const;
+const TEASER_IDS = ["sura-ecosistema-digital", "transvip-app-premium", "karri-calculadora"] as const;
 
 export function ProjectsTeaser({
   onNavigateToCaseStudies,

@@ -6,13 +6,23 @@ import { PageShell } from '../components/layout/PageShell';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { withHomeCrumb } from '../lib/breadcrumb-helpers';
+import { runPendingSectionScroll, type SectionScrollState } from '../lib/navigate-to-section';
 
 const SobreMi = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
+
+  useEffect(() => {
+    const scrollTo = (location.state as SectionScrollState | null)?.scrollTo;
+    if (!scrollTo) return;
+    runPendingSectionScroll(scrollTo);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate]);
 
   return (
     <PageShell
