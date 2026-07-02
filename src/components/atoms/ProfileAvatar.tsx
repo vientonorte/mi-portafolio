@@ -13,7 +13,7 @@ interface ProfileAvatarProps {
 export function ProfileAvatar({
   className,
   initials = "RG",
-  alt = "Rodrigo Gaete, Design Ops",
+  alt = "Rodrigo Gaete, UX Lead",
 }: ProfileAvatarProps) {
   useImageManifestVersion();
   const [hasPhoto, setHasPhoto] = useState(true);

@@ -29,12 +29,12 @@ export const translations = {
         'Design Ops, UX Lead, cumplimiento regulatorio, experiencias premium, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
-          title: 'Rodrigo Gaete · Design Ops',
+          title: 'Rodrigo Gaete · UX Lead',
           description:
-            'Diseño que reduce el ruido: cumplimiento regulatorio y experiencias premium. Casos en SURA, Transvip y Karri.',
+            'UX Lead con Design Ops como método: productos regulados y mobility. Casos en SURA, Transvip y Karri.',
         },
         proyectos: {
-          title: 'Negocios · Design Ops',
+          title: 'Negocios · UX Lead',
           description:
             'Casos con evidencia y métricas en SURA Investments, Transvip y Karri. Fintech, mobility y enterprise.',
         },
@@ -51,7 +51,7 @@ export const translations = {
         about: {
           title: 'Sobre mí',
           description:
-            'Rodrigo Gaete, Design Ops en fintech y mobility. Research, design systems y Design Thinking en SURA, Transvip y Karri.',
+            'Rodrigo Gaete, UX Lead en fintech y mobility. Design Ops, research, design systems y casos en SURA, Transvip y Karri.',
         },
         contact: {
           title: 'Contacto',
@@ -90,7 +90,7 @@ export const translations = {
 
     // Hero
     hero: {
-      label: 'UX Lead · Compliance & Premium',
+      label: 'Design Ops en productos regulados',
       headlineLead: 'Diseño que',
       headlineFocus: 'reduce el ruido.',
       valueProp:
@@ -599,12 +599,12 @@ export const translations = {
         'Design Ops, UX Lead, regulatory compliance, premium experiences, fintech, mobility, SURA, Transvip, Karri',
       pages: {
         home: {
-          title: 'Rodrigo Gaete · Design Ops',
+          title: 'Rodrigo Gaete · UX Lead',
           description:
-            'Design that cuts the noise: regulatory compliance and premium experiences. Cases at SURA, Transvip, and Karri.',
+            'UX Lead using Design Ops as a method: regulated products and mobility. Cases at SURA, Transvip, and Karri.',
         },
         proyectos: {
-          title: 'Business · Design Ops',
+          title: 'Business · UX Lead',
           description:
             'Case studies with evidence and metrics at SURA Investments, Transvip, and Karri. Fintech, mobility, enterprise.',
         },
@@ -621,7 +621,7 @@ export const translations = {
         about: {
           title: 'About',
           description:
-            'Rodrigo Gaete, Design Ops in fintech & mobility. Research, design systems, and Design Thinking at SURA, Transvip, Karri.',
+            'Rodrigo Gaete, UX Lead in fintech & mobility. Design Ops, research, design systems, and cases at SURA, Transvip, Karri.',
         },
         contact: {
           title: 'Contact',
@@ -660,7 +660,7 @@ export const translations = {
 
     // Hero
     hero: {
-      label: 'Lead UX · Compliance & Premium',
+      label: 'Design Ops for regulated products',
       headlineLead: 'Design that',
       headlineFocus: 'cuts the noise.',
       valueProp:

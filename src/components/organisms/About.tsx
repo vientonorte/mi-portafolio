@@ -10,12 +10,12 @@ import { analytics } from "../../lib/analytics";
 import { getCvDownloadUrl } from "../../lib/site-contact";
 
 const roles = [
-  "Head UX",
-  "Lead UX",
+  "UX Lead",
+  "Design Ops",
   "Product Designer",
-  "UI Designer",
-  "User Research",
-  "Design Thinking Facilitator",
+  "Design Systems",
+  "Design Thinking",
+  "Docencia UX · UI",
 ];
 
 export function About() {
@@ -28,8 +28,8 @@ export function About() {
       : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true as const }, transition: { duration: 0.6, delay } };
 
   const bio = language === "es"
-    ? "Lead UX con 3+ años implementando UX/UI para productos financieros (SURA, 5+ países) y de movilidad (Transvip/Karri). Combino research, Design Sprints y arquitectura de información para entregar soluciones con resultados medibles."
-    : "Lead UX with 3+ years implementing UX/UI for financial products (SURA, 5+ countries) and mobility (Transvip/Karri). I combine research, Design Sprints, and information architecture to deliver solutions with measurable results.";
+    ? "UX Lead en SURA Investments (Estrategia Digital, Wealth Management regional). Aplico Design Ops como método: research, design systems y handoff medible en productos regulados y mobility. Antes lideré UX en Transvip/Karri; también docencia en Desafío Latam y trayectoria en agencias y retail (Havas/Claro, Walmart Chile)."
+    : "UX Lead at SURA Investments (Digital Strategy, regional Wealth Management). I use Design Ops as a method: research, design systems, and measurable handoff in regulated products and mobility. Previously led UX at Transvip/Karri; also taught at Desafío Latam with agency and retail experience (Havas/Claro, Walmart Chile).";
 
   const handleDownloadCV = () => {
     analytics.downloadCV();
@@ -46,7 +46,7 @@ export function About() {
         <SectionHeader
           badge={language === "es" ? "Sobre mí" : "About me"}
           badgeIcon={User}
-          title={language === "es" ? "3+ años. 2 verticales. Impacto regional." : "3+ years. 2 verticals. Regional impact."}
+          title={language === "es" ? "UX Lead regional · Fintech & Mobility" : "Regional UX Lead · Fintech & Mobility"}
           description=""
         />
 
@@ -65,8 +65,8 @@ export function About() {
                 <ProfileAvatar
                   alt={
                     language === "es"
-                      ? "Rodrigo Gaete, Design Ops"
-                      : "Rodrigo Gaete, Design Ops"
+                      ? "Rodrigo Gaete, UX Lead"
+                      : "Rodrigo Gaete, UX Lead"
                   }
                 />
               </div>
