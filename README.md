@@ -21,7 +21,7 @@
 ## ✨ Características
 
 - ♿ **WCAG 2.1 AA/AAA Compliant** — Auditoría automática con Pa11y en CI
-- 📱 **Mobile-First Responsive** — Optimizado para 5 breakpoints (320px-1024px+)
+- 📱 **Mobile-First Responsive** — Dock `< lg`, `PageSection`, scroll con offset header
 - ⚡ **Performance Optimizado** — Bundle <750KB, lazy loading, code splitting
 - 🎨 **Sistema de Diseño Completo** — 117+ componentes reutilizables
 - 🔍 **SEO Ready** — Meta tags, canonical URLs, sitemap
@@ -120,9 +120,8 @@ Este proyecto está optimizado para dispositivos móviles. Ver [MOBILE_QA.md](./
 - Herramientas de testing automatizado
 
 **Viewports clave:**
-- 📱 **Mobile:** 320px - 767px (botones full-width, tipo responsive)
-- 📱 **Tablet:** 768px - 1023px (layout híbrido)
-- 💻 **Desktop:** 1024px+ (layout completo)
+- 📱 **Mobile / tablet:** `< 1024px` — bottom nav + header compacto
+- 💻 **Desktop:** `≥ 1024px` — nav en header, sin dock
 
 ## 🚀 Deploy
 
@@ -145,6 +144,8 @@ Los archivos optimizados se generan en `/dist`.
 
 ## 📚 Documentación
 
+- **[docs/NAV_AND_SECTIONS.md](./docs/NAV_AND_SECTIONS.md)** — Nav responsive, PageSection, atomic design (2026-07-03)
+- **[MOBILE_FIRST.md](./MOBILE_FIRST.md)** — Patrón mobile, dock, checklist QA
 - **[docs/CONTACT_AND_PRIVACY.md](./docs/CONTACT_AND_PRIVACY.md)** — Contacto, FormSubmit, privacidad y troubleshooting
 - **[worker/README.md](./worker/README.md)** — Deploy del Worker de respaldo
 - **[MOBILE_QA.md](./MOBILE_QA.md)** — Checklist y guía de QA mobile completo

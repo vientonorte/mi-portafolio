@@ -5,6 +5,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-03] — Nav responsive, secciones y branding
+
+### Added
+- **`NavDock`** organism unificado (`home` / `deep`) y **`nav-config.ts`** como fuente única del dock.
+- **`PageSection`** (`layout/`) con tokens de padding, ancho, tono y `scroll-mt` para anclas.
+- **`LanguageToggle` compact** para header mobile y subpage toolbar.
+- Documentación: **`docs/NAV_AND_SECTIONS.md`**.
+
+### Changed
+- Bottom nav **solo `< lg`**; desktop navega por header (sin dock redundante).
+- **5 destinos** en home y subpáginas (Contacto → `/contacto` fuera de home).
+- Scroll unificado vía **`scrollToSection`** (Navigation, MobileMenu, Hero).
+- Hero: `100dvh`, padding inferior para dock, CTAs por audiencia (`HeroAudienceCta`).
+- Secciones home migradas a `PageSection`: About, Experience, Contact, teasers, stats, testimonios.
+- Experience: timeline visible en móvil.
+- SubpageToolbar: **ThemeToggle** + idioma compacto.
+- Avatar/logos: encuadre 4:5, logos por tema (SURA/Transvip/Karri), `plate` floating en nav.
+- Foto perfil: retoque sutil frente (`profile-photo.jpg?v=20260703b`).
+
+### Fixed
+- Drawer mobile no solapa dock en tablet (`lg:bottom-0` en lugar de `md:bottom-0`).
+- `PageShell` sin `md:pb-0` que dejaba contenido bajo el dock.
+- `BackToTop` / `StickyCTA` offset con `max-lg` alineado al dock.
+
+---
+
 ## [2026-07-02] — Contacto, privacidad y valor
 
 ### Added

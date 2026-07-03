@@ -138,6 +138,58 @@ Incluye:
 
 ---
 
+## Sprint 3 — Mobile UI + Atomic design ✅ CERRADO
+
+**Sprint Goal:** Nav y secciones responsive con atomic design, branding coherente y foto de perfil lista para producción.
+
+**Duración:** 2026-07-03  
+**Estado:** ✅ **Completado**
+
+### Entregables
+
+| ID | Entrega | Estado |
+|----|---------|--------|
+| S3-1 | Nav dock unificado (`NavDock` + `nav-config`) | ✅ |
+| S3-2 | Bottom nav solo mobile/tablet (`< lg`) | ✅ |
+| S3-3 | Primitivo `PageSection` + migración secciones home | ✅ |
+| S3-4 | Scroll anclas con offset header | ✅ |
+| S3-5 | Hero responsive + CTAs audiencia | ✅ |
+| S3-6 | Branding: avatar, logos tema, foto perfil | ✅ |
+| S3-7 | Documentación `docs/NAV_AND_SECTIONS.md` | ✅ |
+
+### Commits en `main`
+
+```
+833f3aee  Hero CTAs audiencia (cards)
+6e99735c  Avatar, logos tema, branding
+bb00eb59  Retoque foto perfil
+ce4d9e8b  Nav + PageSection responsive
+```
+
+### DoD Sprint 3
+
+- [x] Push a `main` → deploy GitHub Pages
+- [x] Nav 5 ítems consistente home / subpáginas
+- [x] Secciones home con spacing unificado
+- [x] Documentación actualizada (MOBILE_FIRST, CHANGELOG, NAV_AND_SECTIONS)
+- [ ] CI local verde (npm no disponible en entorno agente; verificar en máquina dev)
+- [ ] Smoke `scripts/qa-production.sh` post-deploy
+
+### Pendiente opcional (backlog)
+
+- Migrar `ValueCarouselBanner` y páginas detalle a `PageSection`
+- Centralizar `Navigation` items en `nav-config` (hoy solo dock)
+- Eliminar `Header.tsx` legacy
+- Breadcrumbs touch targets ≥ 44px
+
+### Referencia rápida
+
+- Arquitectura: **[docs/NAV_AND_SECTIONS.md](./docs/NAV_AND_SECTIONS.md)**
+- Mobile QA: **[MOBILE_FIRST.md](./MOBILE_FIRST.md)**
+- Producción: **https://vientonorte.github.io/mi-portafolio/**
+
+---
+
 ## Comandos DevOps
 
 ```bash
