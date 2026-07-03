@@ -20,6 +20,12 @@
   --brand-orange: #FF931E;
   --brand-gradient: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%);
   --logo-accent: var(--brand-red);
+  --logo-track-opacity: 0.14;
+  --logo-shine-opacity: 0.48;
+  --logo-plate-shadow: 0 1px 2px rgba(23, 23, 23, 0.07);
+  --profile-focus-x: 50%;
+  --profile-focus-y: 28%;
+  --profile-focus-scale: 1.08;
   
   /* 70% - Neutros dominantes */
   --brand-dark: #333333;
@@ -100,6 +106,11 @@
 
 .dark {
   --logo-accent: var(--brand-orange);
+  --logo-track-opacity: 0.3;
+  --logo-shine-opacity: 0.2;
+  --logo-plate-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
+  --profile-focus-y: 30%;
+  --profile-focus-scale: 1.06;
 
   /* 70% - Neutros dominantes dark */
   --background: #0a0a0a;
@@ -458,12 +469,22 @@
     fill: var(--logo-surface);
     stroke: var(--logo-surface-border);
     stroke-width: 1;
+    filter: drop-shadow(var(--logo-plate-shadow));
+  }
+
+  .logo-mark-plate--floating {
+    fill: var(--surface-matte-elevated);
+    stroke: var(--logo-surface-border);
   }
 
   .logo-mark-track {
     fill: none;
     stroke: var(--foreground);
-    stroke-opacity: 0.12;
+    stroke-opacity: var(--logo-track-opacity);
+  }
+
+  .logo-mark-core-shine {
+    opacity: var(--logo-shine-opacity);
   }
 
   .logo-mark-arc {
@@ -492,16 +513,49 @@
   }
 }
 
-/* Foto de perfil — filtros editoriales alineados a la marca */
+/* Foto de perfil — encuadre y filtros editoriales alineados a la marca */
 @layer components {
+  .profile-avatar-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid var(--logo-surface-border);
+    background: var(--logo-surface);
+    box-shadow:
+      0 1px 2px rgba(23, 23, 23, 0.05),
+      0 8px 24px rgba(23, 23, 23, 0.06);
+  }
+
+  .profile-avatar-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 2;
+    width: 100%;
+    height: 3px;
+    background: var(--brand-gradient);
+    pointer-events: none;
+  }
+
+  .dark .profile-avatar-frame {
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.35),
+      0 10px 28px rgba(0, 0, 0, 0.28);
+  }
+
   .profile-avatar__image {
+    object-position: var(--profile-focus-x) var(--profile-focus-y);
+    transform: scale(var(--profile-focus-scale));
+    transform-origin: var(--profile-focus-x) var(--profile-focus-y);
     filter: contrast(1.06) saturate(0.88) brightness(1.03);
-    transition: filter 0.45s ease;
+    transition: filter 0.45s ease, transform 0.45s ease;
   }
 
   .group:hover .profile-avatar__image,
-  .profile-avatar:hover .profile-avatar__image {
+  .profile-avatar:hover .profile-avatar__image,
+  .profile-avatar-frame:hover .profile-avatar__image {
     filter: contrast(1.09) saturate(0.94) brightness(1.05);
+    transform: scale(calc(var(--profile-focus-scale) * 1.02));
   }
 
   .profile-avatar__warmth {
@@ -553,6 +607,32 @@
       transparent 48%,
       rgba(0, 0, 0, 0.3) 100%
     );
+  }
+
+  .company-logo--sura {
+    opacity: 0.92;
+  }
+
+  .dark .company-logo--sura {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  .company-logo--transvip {
+    opacity: 0.95;
+  }
+
+  .dark .company-logo--transvip {
+    filter: brightness(1.2) saturate(1.15);
+    opacity: 1;
+  }
+
+  .company-logo--karri {
+    filter: none;
+  }
+
+  .dark .company-logo--karri {
+    filter: brightness(1.1) contrast(1.05);
   }
 
   @media (prefers-reduced-motion: reduce) {

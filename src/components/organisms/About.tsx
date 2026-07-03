@@ -58,12 +58,12 @@ export function About() {
           >
             {/* Profile Photo - Add actual photo to public folder */}
             <motion.div
-              whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
-              className="flex-shrink-0 mx-auto md:mx-0"
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.01 }}
+              className="group flex-shrink-0 mx-auto md:mx-0"
             >
-              <div className="group relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-lg">
+              <div className="profile-avatar-frame relative aspect-[4/5] w-36 md:w-44">
                 <div
-                  className="pointer-events-none absolute -inset-1 -z-10 rounded-2xl bg-brand-gradient opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-25"
+                  className="pointer-events-none absolute -inset-1 -z-10 rounded-2xl bg-brand-gradient opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-20"
                   aria-hidden="true"
                 />
                 <ProfileAvatar

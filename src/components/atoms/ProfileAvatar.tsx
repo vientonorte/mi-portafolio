@@ -40,7 +40,7 @@ export function ProfileAvatar({
       <img
         src={getPortfolioImages().branding.profilePhoto}
         alt={alt}
-        className="profile-avatar__image h-full w-full object-cover object-top"
+        className="profile-avatar__image h-full w-full object-cover"
         onError={() => setHasPhoto(false)}
       />
       <div className="profile-avatar__warmth pointer-events-none absolute inset-0" aria-hidden="true" />

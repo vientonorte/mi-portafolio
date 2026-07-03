@@ -4,11 +4,14 @@ import { SEO_SITE } from "../../lib/seo";
 import { BRAND_GRADIENT_STOPS, BRAND_MARK } from "../../lib/brand-mark";
 import { cn } from "../../lib/utils";
 
+export type LogoPlateVariant = "default" | "floating";
+
 interface LogoProps {
   size?: "sm" | "md" | "lg";
   showText?: boolean;
   animated?: boolean;
   interactive?: boolean;
+  plate?: LogoPlateVariant;
 }
 
 const sizes = {
@@ -23,6 +26,7 @@ interface LogoMarkSvgProps {
   labelled?: boolean;
   interactive?: boolean;
   showPlate?: boolean;
+  plate?: LogoPlateVariant;
 }
 
 /** Isologo RG — plato mate, arco focal y núcleo (reduce el ruido · foco). */
@@ -32,6 +36,7 @@ export function LogoMarkSvg({
   labelled = false,
   interactive = false,
   showPlate = true,
+  plate = "default",
 }: LogoMarkSvgProps) {
   const uid = useId().replace(/:/g, "");
   const gradientId = `rg-grad-${uid}`;
@@ -69,7 +74,10 @@ export function LogoMarkSvg({
 
       {showPlate && (
         <circle
-          className="logo-mark-plate"
+          className={cn(
+            "logo-mark-plate",
+            plate === "floating" && "logo-mark-plate--floating"
+          )}
           cx={center}
           cy={center}
           r={plateRadius}
@@ -121,6 +129,7 @@ export function Logo({
   showText = true,
   animated = false,
   interactive = false,
+  plate = "default",
 }: LogoProps) {
   const { mark, text, role, spacing } = sizes[size];
   const roleLabel = SEO_SITE.role;
@@ -130,6 +139,7 @@ export function Logo({
       size={mark}
       labelled={!showText}
       interactive={interactive}
+      plate={plate}
     />
   );
 
@@ -178,15 +188,18 @@ export function Logo({
 export function LogoMark({
   size = 36,
   interactive = false,
+  plate = "default",
 }: {
   size?: number;
   interactive?: boolean;
+  plate?: LogoPlateVariant;
 }) {
   return (
     <LogoMarkSvg
       size={size}
       labelled
       interactive={interactive}
+      plate={plate}
     />
   );
 }

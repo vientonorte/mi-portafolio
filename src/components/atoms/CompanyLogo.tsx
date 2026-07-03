@@ -1,6 +1,14 @@
 import { Building2 } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { cn } from "../../lib/utils";
+import { resolveCompanyBrand, type CompanyBrand } from "../../lib/company-logos";
+
+function resolveBrandFromSrc(src: string): CompanyBrand | null {
+  if (/sura\/logo/i.test(src)) return "sura";
+  if (/transvip\/logo/i.test(src)) return "transvip";
+  if (/karri\/logo/i.test(src)) return "karri";
+  return null;
+}
 
 const SIZES = {
   /** Wordmarks horizontales en cards compactas (hero, métricas). */
@@ -58,6 +66,15 @@ export function CompanyLogo({
   const styles = SIZES[size];
   const isWordmark =
     wordmark ?? (size === "wordmark-sm" || (src ? isWordmarkLogo(src) : false));
+  const brand = src ? (resolveCompanyBrand(alt) ?? resolveBrandFromSrc(src)) : null;
+  const brandClass =
+    brand === "sura"
+      ? "company-logo--sura"
+      : brand === "transvip"
+        ? "company-logo--transvip"
+        : brand === "karri"
+          ? "company-logo--karri"
+          : undefined;
 
   if (!src) {
     return (
@@ -91,7 +108,7 @@ export function CompanyLogo({
         className={cn(
           "h-full w-full object-contain object-center",
           isWordmark && styles.wordmark,
-          /sura\/logo/i.test(src) && "dark:invert"
+          brandClass
         )}
       />
     </div>

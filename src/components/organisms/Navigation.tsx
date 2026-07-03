@@ -303,7 +303,11 @@ export function Navigation({
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
-            <Logo size="sm" interactive />
+            <Logo
+              size="sm"
+              interactive
+              plate={isScrolled || isMenuOpen ? "default" : "floating"}
+            />
           </motion.a>
 
           <div className="hidden lg:flex items-center gap-6">
