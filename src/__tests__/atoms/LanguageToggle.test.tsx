@@ -19,9 +19,16 @@ describe('LanguageToggle', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('has aria-label for accessibility', () => {
+  it('has descriptive aria-label for accessibility', () => {
     render(<LanguageToggle />);
-    expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Toggle language');
+    expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Cambiar a English');
+  });
+
+  it('compact mode renders language code in icon button', () => {
+    render(<LanguageToggle compact />);
+    const button = screen.getByRole('button');
+    expect(button).toHaveTextContent('es');
+    expect(button).toHaveAttribute('aria-label', 'Cambiar a English');
   });
 
   it('calls setLanguage with "en" when current is "es"', () => {
