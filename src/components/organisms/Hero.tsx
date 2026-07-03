@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { Button } from "../ui/button";
-import { ArrowRight, ClipboardList, Sparkles, Users } from "lucide-react";
+import { ClipboardList, Sparkles, Users } from "lucide-react";
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -8,6 +7,7 @@ import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
+import { HeroAudienceCta } from "../molecules/HeroAudienceCta";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -51,6 +51,34 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
     navigate(ROUTES.audit);
   };
 
+  const audienceOptions = [
+    {
+      id: "recruiters",
+      icon: Users,
+      title: t.cta.recruiters.title,
+      hint: t.cta.recruiters.hint,
+      badge: t.cta.recruiters.badge,
+      featured: true,
+      onClick: goToRecruiters,
+    },
+    {
+      id: "audit-leads",
+      icon: ClipboardList,
+      title: t.cta.auditLeads.title,
+      hint: t.cta.auditLeads.hint,
+      badge: t.cta.auditLeads.badge,
+      onClick: goToAuditLeads,
+    },
+    {
+      id: "free-audit",
+      icon: Sparkles,
+      title: t.cta.freeAuditB2b.title,
+      hint: t.cta.freeAuditB2b.hint,
+      badge: t.cta.freeAuditB2b.badge,
+      onClick: goToFreeAudit,
+    },
+  ];
+
   const scrollToTeaser = () => {
     document.getElementById("negocios")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -87,13 +115,6 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
         aria-hidden="true"
       />
 
-      {/*
-        El fade/desplazamiento ligado al scroll (style={{ opacity, y }}) y la animación
-        de entrada (variants/animate) deben vivir en elementos motion.div separados:
-        si ambos controlan `opacity` en el mismo nodo, framer-motion y Safari pueden
-        pintar dos estados de opacidad en conflicto, produciendo un efecto "fantasma"
-        (texto duplicado) durante el scroll en Safari/macOS.
-      */}
       <motion.div
         className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
         style={{ opacity, y, paddingBottom: "5rem" }}
@@ -103,7 +124,7 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
           initial={prefersReducedMotion ? false : "hidden"}
           animate={prefersReducedMotion ? false : "visible"}
         >
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             <motion.p
               variants={itemVariants}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-matte-elevated px-3 py-1.5 font-mono text-xs uppercase text-foreground"
@@ -136,42 +157,8 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
               {t.valueProp}
             </motion.p>
 
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col gap-3 sm:flex-row sm:flex-wrap"
-              style={{ marginBottom: "3rem" }}
-              role="group"
-              aria-label={language === "es" ? "Acciones por audiencia" : "Audience actions"}
-            >
-              <Button
-                size="lg"
-                onClick={goToRecruiters}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold w-full sm:w-auto"
-              >
-                <Users className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t.cta.recruiters}
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={goToAuditLeads}
-                className="border-2 hover:border-primary hover:bg-primary/5 transition-all w-full sm:w-auto"
-              >
-                <ClipboardList className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t.cta.auditLeads}
-              </Button>
-
-              <Button
-                size="lg"
-                variant="ghost"
-                onClick={goToFreeAudit}
-                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all w-full sm:w-auto"
-              >
-                <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t.cta.freeAuditB2b}
-              </Button>
+            <motion.div variants={itemVariants} style={{ marginBottom: "3rem" }}>
+              <HeroAudienceCta label={t.cta.groupLabel} options={audienceOptions} />
             </motion.div>
 
             <motion.div variants={itemVariants}>

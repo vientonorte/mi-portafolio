@@ -304,9 +304,22 @@ export const translations = {
       valueProp: 'Menos fricción y más claridad en fintech y mobility.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
-        recruiters: 'Reclutadores',
-        auditLeads: 'Leads auditorías',
-        freeAuditB2b: 'Auditoría gratuita B2B',
+        groupLabel: '¿Por dónde entras?',
+        recruiters: {
+          title: 'Reclutadores',
+          hint: 'Perfil, CV y casos medibles en menos de 10 s',
+          badge: 'CV listo',
+        },
+        auditLeads: {
+          title: 'Leads auditorías',
+          hint: 'Bolsas Radar, Marco y Ops con entregables ejecutivos',
+          badge: 'Viento Norte',
+        },
+        freeAuditB2b: {
+          title: 'Auditoría gratuita B2B',
+          hint: 'Muestra real con hallazgos P0–P2 y WCAG 2.2 AA',
+          badge: 'Sin costo',
+        },
       },
       scroll: 'Explorar',
       resultsLabel: 'Resultados',
@@ -1198,9 +1211,22 @@ export const translations = {
       valueProp: 'Less friction and more clarity in fintech and mobility.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
-        recruiters: 'Recruiters',
-        auditLeads: 'Audit leads',
-        freeAuditB2b: 'Free B2B audit',
+        groupLabel: 'Where are you coming from?',
+        recruiters: {
+          title: 'Recruiters',
+          hint: 'Profile, CV, and measurable cases in under 10 s',
+          badge: 'CV ready',
+        },
+        auditLeads: {
+          title: 'Audit leads',
+          hint: 'Radar, Marco, and Ops bundles with executive deliverables',
+          badge: 'Viento Norte',
+        },
+        freeAuditB2b: {
+          title: 'Free B2B audit',
+          hint: 'Live sample with P0–P2 findings and WCAG 2.2 AA',
+          badge: 'No cost',
+        },
       },
       scroll: 'Explore',
       resultsLabel: 'Results',

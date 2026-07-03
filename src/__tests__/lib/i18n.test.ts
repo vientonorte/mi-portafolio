@@ -23,9 +23,11 @@ describe('translations', () => {
         expect(hero).toHaveProperty('label');
         expect(hero).toHaveProperty('headlineLead');
         expect(hero).toHaveProperty('headlineFocus');
-        expect(hero.cta).toHaveProperty('recruiters');
-        expect(hero.cta).toHaveProperty('auditLeads');
-        expect(hero.cta).toHaveProperty('freeAuditB2b');
+        expect(hero.cta).toHaveProperty('groupLabel');
+        expect(hero.cta.recruiters).toHaveProperty('title');
+        expect(hero.cta.recruiters).toHaveProperty('hint');
+        expect(hero.cta.auditLeads).toHaveProperty('title');
+        expect(hero.cta.freeAuditB2b).toHaveProperty('title');
       });
 
       it('has about section with required keys', () => {
