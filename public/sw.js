@@ -1,7 +1,7 @@
 // Service Worker for PWA capabilities
 // This is a basic service worker that provides offline capabilities
 
-const CACHE_NAME = 'rg-portfolio-v2';
+const CACHE_NAME = 'rg-portfolio-v3';
 const RUNTIME_CACHE = 'rg-runtime';
 
 // Assets to cache on install

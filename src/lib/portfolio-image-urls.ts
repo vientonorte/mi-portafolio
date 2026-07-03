@@ -38,6 +38,6 @@ export const portfolioImages = {
   },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),
-    profilePhoto: `${base}profile-photo.jpg?v=20260703`,
+    profilePhoto: `${base}profile-photo.jpg?v=20260703b`,
   },
 } as const;

@@ -547,7 +547,7 @@
     object-position: var(--profile-focus-x) var(--profile-focus-y);
     transform: scale(var(--profile-focus-scale));
     transform-origin: var(--profile-focus-x) var(--profile-focus-y);
-    filter: contrast(1.06) saturate(0.88) brightness(1.03);
+    filter: contrast(1.03) saturate(0.86) brightness(1.03);
     transition: filter 0.45s ease, transform 0.45s ease;
   }
 
