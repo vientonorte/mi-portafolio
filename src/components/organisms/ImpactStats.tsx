@@ -8,6 +8,7 @@ import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Button } from "../ui/button";
 import { ROUTES } from "../../lib/routes";
@@ -55,12 +56,13 @@ export function ImpactStats() {
   };
 
   return (
-    <section
+    <PageSection
       id="impacto"
-      className="py-12 md:py-16 px-4 bg-surface-section"
+      padding="compact"
+      width="wide"
+      tone="section"
       aria-labelledby="impact-stats-heading"
     >
-      <div className="container max-w-7xl mx-auto">
         <SectionHeader
           badge={t.badge}
           badgeIcon={BarChart3}
@@ -216,7 +218,6 @@ export function ImpactStats() {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

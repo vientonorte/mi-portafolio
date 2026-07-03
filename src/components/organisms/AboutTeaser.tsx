@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -22,12 +23,13 @@ export function AboutTeaser() {
       };
 
   return (
-    <section
+    <PageSection
       id="sobre-mi"
-      className="bg-muted/30 px-4 py-12 md:py-16"
+      padding="compact"
+      width="narrow"
+      tone="muted"
       aria-labelledby="about-teaser-heading"
     >
-      <div className="container mx-auto max-w-4xl">
         <SectionHeader
           badge={language === "es" ? "Sobre mí" : "About me"}
           badgeIcon={User}
@@ -52,7 +54,6 @@ export function AboutTeaser() {
             />
           </Button>
         </motion.div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { User, Download } from "lucide-react";
 import { ProfileAvatar } from "../atoms/ProfileAvatar";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
@@ -37,12 +38,13 @@ export function About() {
   };
 
   return (
-    <section
+    <PageSection
       id="sobre-mi"
-      className="py-12 md:py-16 px-4 bg-muted/30"
+      padding="compact"
+      width="narrow"
+      tone="muted"
       aria-labelledby="about-heading"
     >
-      <div className="container max-w-4xl mx-auto">
         <SectionHeader
           badge={language === "es" ? "Sobre mí" : "About me"}
           badgeIcon={User}
@@ -119,7 +121,6 @@ export function About() {
             </Card>
           </motion.div>
         </div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

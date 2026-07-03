@@ -2,6 +2,7 @@ import { ArrowRight, Briefcase } from "lucide-react";
 import { FileText } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useNavigate } from "react-router-dom";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { CaseStudyCard } from "../molecules/CaseStudyCard";
 import { Button } from "../ui/button";
@@ -38,12 +39,13 @@ export function ProjectsTeaser({
   };
 
   return (
-    <section
+    <PageSection
       id="negocios"
-      className="py-16 md:py-24 px-4 bg-surface-matte"
+      padding="spacious"
+      width="wide"
+      tone="matte"
       aria-labelledby="negocios-teaser-heading"
     >
-      <div className="container max-w-7xl mx-auto">
         <SectionHeader
           badge={t.homeTeaser.badge}
           badgeIcon={Briefcase}
@@ -98,7 +100,6 @@ export function ProjectsTeaser({
             {t.homeTeaser.ctaProceso}
           </Button>
         </motion.div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

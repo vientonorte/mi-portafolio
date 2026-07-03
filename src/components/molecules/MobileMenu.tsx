@@ -15,6 +15,7 @@ import type { NavItem } from "../../lib/nav-types";
 import { SEO_SITE } from "../../lib/seo";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -115,30 +116,6 @@ export function MobileMenu({
     };
   }, [isOpen]);
 
-  const getNavHeight = useCallback(() => {
-    const header = document.querySelector('header[role="banner"]');
-    if (header instanceof HTMLElement) {
-      return header.offsetHeight;
-    }
-    return 80;
-  }, []);
-
-  const scrollToAnchor = useCallback((selector: string) => {
-    requestAnimationFrame(() => {
-      const element = document.querySelector(selector);
-      if (!element) return;
-
-      const navHeight = getNavHeight();
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    });
-  }, [getNavHeight]);
-
   useEffect(() => {
     if (location.pathname !== "/" || !pendingScroll.current) return;
 
@@ -150,7 +127,7 @@ export function MobileMenu({
     const tryScroll = () => {
       const element = document.querySelector(target);
       if (element) {
-        scrollToAnchor(target);
+        scrollToSection(target);
         if (pendingScroll.current === target) {
           pendingScroll.current = null;
         }
@@ -170,7 +147,7 @@ export function MobileMenu({
         cancelAnimationFrame(frameId);
       }
     };
-  }, [location.pathname, scrollToAnchor]);
+  }, [location.pathname]);
 
   const handleNavClick = useCallback((item: NavItem) => {
     onClose();
@@ -207,8 +184,8 @@ export function MobileMenu({
       return;
     }
 
-    scrollToAnchor(item.href);
-  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria, scrollToAnchor]);
+    scrollToSection(item.href);
+  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
   return (
     <AnimatePresence mode="wait">
@@ -230,7 +207,7 @@ export function MobileMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl md:bottom-0"
+            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl lg:bottom-0"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
             role="dialog"
             aria-label="Menú de navegación móvil"

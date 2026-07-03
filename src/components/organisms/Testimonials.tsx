@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Quote } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -10,12 +11,13 @@ export function Testimonials() {
   const t = useTranslation(language).testimonials;
 
   return (
-    <section
+    <PageSection
       id="testimonios"
-      className="py-16 md:py-24 px-4 bg-surface-matte"
+      padding="spacious"
+      width="wide"
+      tone="matte"
       aria-labelledby="testimonials-heading"
     >
-      <div className="container max-w-7xl mx-auto">
         <SectionHeader
           badge={t.badge}
           title={t.title}
@@ -23,7 +25,7 @@ export function Testimonials() {
           titleId="testimonials-heading"
         />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {t.items.map((item, index) => (
             <motion.article
               key={item.author}
@@ -56,7 +58,6 @@ export function Testimonials() {
             </motion.article>
           ))}
         </div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

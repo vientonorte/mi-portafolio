@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Briefcase, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { getExperiences } from "../../data/experience-data";
 import { CompanyLogo } from "../atoms/CompanyLogo";
@@ -17,12 +18,13 @@ export function Experience() {
   const experiences = getExperiences(language);
 
   return (
-    <section
+    <PageSection
       id="experiencia"
-      className="py-12 md:py-16 px-4 bg-surface-section"
+      padding="compact"
+      width="wide"
+      tone="section"
       aria-labelledby="experience-heading"
     >
-      <div className="container max-w-7xl mx-auto">
         <SectionHeader
           badge={t.badge}
           badgeIcon={Briefcase}
@@ -31,8 +33,8 @@ export function Experience() {
           titleId="experience-heading"
         />
 
-        <div className="space-y-5 md:space-y-8 relative">
-          <div className="absolute left-6 md:left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent hidden sm:block" />
+        <div className="relative space-y-5 pl-5 sm:space-y-8 sm:pl-0 md:space-y-8">
+          <div className="absolute left-2 top-8 bottom-8 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent sm:left-6 md:left-8" />
 
           {experiences.map((exp, index) => (
             <motion.article
@@ -55,7 +57,7 @@ export function Experience() {
                           alt={`${exp.company} logo`}
                           size="md"
                         />
-                        <div className="absolute -left-[1.85rem] md:-left-[2.1rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background hidden sm:block z-10" />
+                        <div className="absolute -left-[1.35rem] top-1/2 z-10 h-3 w-3 -translate-y-1/2 rounded-full border-[3px] border-background bg-primary sm:-left-[1.85rem] sm:h-4 sm:w-4 sm:border-4 md:-left-[2.1rem]" />
                       </div>
 
                       <div className="space-y-1 flex-1">
@@ -125,7 +127,6 @@ export function Experience() {
             </motion.article>
           ))}
         </div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

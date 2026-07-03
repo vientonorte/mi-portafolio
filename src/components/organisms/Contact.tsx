@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner@2.0.3";
+import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ContactAssistant } from "./ContactAssistant";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
@@ -131,12 +132,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
   };
 
   return (
-    <section
-      id="contacto"
-      className="py-12 md:py-16 px-4"
-      aria-labelledby="contact-heading"
-    >
-      <div className="container max-w-7xl mx-auto">
+    <PageSection id="contacto" padding="compact" width="wide" aria-labelledby="contact-heading">
         <div className="text-center mb-8">
           <SectionHeader
             badge={t.badge}
@@ -370,7 +366,6 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
             </Card>
           </motion.div>
         </div>
-      </div>
-    </section>
+    </PageSection>
   );
 }

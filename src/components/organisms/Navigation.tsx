@@ -15,6 +15,7 @@ import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
+import { scrollToSection } from "../../lib/scroll-to-section";
 import {
   MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
   MOBILE_HEADER_CONTROL_CLASS,
@@ -83,20 +84,7 @@ export function Navigation({
   }, [isMenuOpen]);
 
   const scrollToAnchor = useCallback((selector: string) => {
-    requestAnimationFrame(() => {
-      const element = document.querySelector(selector);
-      if (!element) return;
-
-      const header = document.querySelector('header[role="banner"]');
-      const navHeight = header instanceof HTMLElement ? header.offsetHeight : 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    });
+    scrollToSection(selector);
   }, []);
 
   useEffect(() => {
@@ -333,7 +321,8 @@ export function Navigation({
             </div>
           </div>
 
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
             <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
             <Button
               variant="ghost"

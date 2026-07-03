@@ -7,6 +7,7 @@ import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
+import { scrollToSection } from "../../lib/scroll-to-section";
 import { HeroAudienceCta } from "../molecules/HeroAudienceCta";
 
 interface HeroProps {
@@ -35,7 +36,7 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
     analytics.clickHeroRecruiters();
     const onHome = (location.pathname.replace(/\/+$/, "") || "/") === "/";
     if (onHome) {
-      document.getElementById("sobre-mi")?.scrollIntoView({ behavior: "smooth" });
+      scrollToSection("#sobre-mi");
       return;
     }
     navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
@@ -80,7 +81,7 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
   ];
 
   const scrollToTeaser = () => {
-    document.getElementById("negocios")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("#negocios");
   };
 
   const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -99,7 +100,7 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 sm:pt-24"
+      className="relative flex min-h-[100dvh] items-center overflow-hidden bg-background pt-[var(--header-height)]"
       aria-labelledby="hero-heading"
     >
       <div
@@ -116,8 +117,8 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
       />
 
       <motion.div
-        className="container max-w-6xl mx-auto relative z-10 px-6 md:px-10"
-        style={{ opacity, y, paddingBottom: "5rem" }}
+        className="container relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 pb-[calc(var(--bottom-nav-total)+2rem)] lg:pb-16"
+        style={{ opacity, y }}
       >
         <motion.div
           variants={containerVariants}

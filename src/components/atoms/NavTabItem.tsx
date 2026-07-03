@@ -32,7 +32,7 @@ export function NavTabItem({ icon: Icon, label, active = false, onClick }: NavTa
       />
       <span
         className={cn(
-          "max-w-full truncate text-[11px] leading-none",
+          "max-w-full truncate text-[10px] leading-none sm:text-[11px]",
           active ? "font-semibold" : "font-normal"
         )}
         style={{ letterSpacing: "0.01em" }}

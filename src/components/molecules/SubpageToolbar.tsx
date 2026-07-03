@@ -3,6 +3,8 @@ import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { LanguageToggle } from "../atoms/LanguageToggle";
+import { ThemeToggle } from "../atoms/ThemeToggle";
+import { MOBILE_HEADER_CONTROL_CLASS } from "./mobile-header-classes";
 import { LogoMark } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { cn } from "../../lib/utils";
@@ -54,9 +56,10 @@ export function SubpageToolbar({
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             {trailing}
-            <LanguageToggle />
+            <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
+            <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
           </div>
         </div>
       </div>
