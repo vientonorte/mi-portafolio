@@ -1,14 +1,11 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
 import { ArrowRight, FileText } from "lucide-react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
-import { HeroResultCard } from "../atoms/HeroResultCard";
-import { SEO_SITE } from "../../lib/seo";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -88,138 +85,88 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
           initial={prefersReducedMotion ? false : "hidden"}
           animate={prefersReducedMotion ? false : "visible"}
         >
-          <div className="hero-split">
-            <div className="hero-left">
-              <motion.p
-                variants={itemVariants}
-                className="text-lg font-semibold tracking-tight text-foreground sm:text-xl"
-                style={{ marginBottom: "0.75rem" }}
-              >
-                {SEO_SITE.brand} · {SEO_SITE.role}
-              </motion.p>
+          <div className="max-w-2xl">
+            <motion.p
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-matte-elevated px-3 py-1.5 font-mono text-xs uppercase text-foreground"
+              style={{ letterSpacing: "0.18em", marginBottom: "1.25rem" }}
+            >
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                aria-hidden="true"
+              />
+              {t.label}
+            </motion.p>
 
-              <motion.p
-                variants={itemVariants}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-matte-elevated px-3 py-1.5 font-mono text-xs uppercase text-foreground"
-                style={{ letterSpacing: "0.18em", marginBottom: "1.25rem" }}
-              >
-                <span
-                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                  aria-hidden="true"
-                />
-                {t.label}
-              </motion.p>
+            <motion.h1
+              id="hero-heading"
+              variants={itemVariants}
+              className="font-black tracking-tighter max-w-xl"
+              style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
+            >
+              <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.7 }}>
+                {t.headlineLead}
+              </span>
+              <span className="block text-foreground">{t.headlineFocus}</span>
+            </motion.h1>
 
-              <motion.h1
-                id="hero-heading"
-                variants={itemVariants}
-                className="font-black tracking-tighter max-w-xl"
-                style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.92, marginBottom: "1.5rem" }}
+            <motion.p
+              variants={itemVariants}
+              className="max-w-md text-base font-light leading-snug text-muted-foreground md:text-lg"
+              style={{ marginBottom: "2rem" }}
+            >
+              {t.valueProp}
+            </motion.p>
+
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center gap-3 flex-wrap"
+              style={{ marginBottom: "3rem" }}
+            >
+              <Button
+                size="lg"
+                onClick={goToNegocios}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
               >
-                <span className="block text-foreground" style={{ fontWeight: 300, opacity: 0.7 }}>
-                  {t.headlineLead}
+                {t.cta.primary}
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Button>
+
+              <Button
+                size="lg"
+                variant="ghost"
+                onClick={() => {
+                  analytics.clickCaseStudies();
+                  onNavigateToCaseStudies?.();
+                }}
+                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
+              >
+                <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
+                {t.cta.secondary}
+              </Button>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <motion.button
+                animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
+                style={{ color: "var(--muted-foreground)", opacity: 0.7 }}
+                onClick={scrollToTeaser}
+                aria-label={t.scroll}
+              >
+                <span className="font-mono text-sm uppercase" style={{ letterSpacing: "0.2em" }}>
+                  {t.scroll}
                 </span>
-                <span className="block text-foreground">{t.headlineFocus}</span>
-              </motion.h1>
-
-              <motion.p
-                variants={itemVariants}
-                className="max-w-md text-base font-light leading-snug text-muted-foreground md:text-lg"
-                style={{ marginBottom: "1.25rem" }}
-              >
-                {t.valueProp}
-              </motion.p>
-
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-wrap gap-2"
-                style={{ marginBottom: "2rem" }}
-                aria-label={language === "es" ? "Especialización" : "Specialization"}
-              >
-                {t.specialties.map((specialty) => (
-                  <Badge
-                    key={specialty}
-                    variant="outline"
-                    className="border-primary/25 bg-primary/5 text-xs font-medium text-foreground"
-                  >
-                    {specialty}
-                  </Badge>
-                ))}
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                className="flex items-center gap-3 flex-wrap"
-                style={{ marginBottom: "3rem" }}
-              >
-                <Button
-                  size="lg"
-                  onClick={goToNegocios}
-                  className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
-                >
-                  {t.cta.primary}
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </Button>
-
-                <Button
-                  size="lg"
-                  variant="ghost"
-                  onClick={() => {
-                    analytics.clickCaseStudies();
-                    onNavigateToCaseStudies?.();
-                  }}
-                  className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
-                >
-                  <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {t.cta.secondary}
-                </Button>
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <motion.button
-                  animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                  className="inline-flex flex-col items-start gap-2 transition-colors cursor-pointer"
-                  style={{ color: "var(--muted-foreground)", opacity: 0.7 }}
-                  onClick={scrollToTeaser}
-                  aria-label={t.scroll}
-                >
-                  <span className="font-mono text-sm uppercase" style={{ letterSpacing: "0.2em" }}>
-                    {t.scroll}
-                  </span>
-                  <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
-                    <motion.div
-                      className="w-1 h-2 bg-current rounded-full"
-                      animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  </div>
-                </motion.button>
-              </motion.div>
-            </div>
-
-            <div className="hero-right" aria-label={t.resultsLabel} role="list">
-              {t.resultCards.slice(0, 1).map((card, i) => (
-                <div key={card.metric} className="md:hidden">
-                  <HeroResultCard
-                    metric={card.metric}
-                    description={card.description}
-                    company={card.company}
-                    index={i}
+                <div className="w-5 h-8 border border-current rounded-full flex items-start justify-center p-1">
+                  <motion.div
+                    className="w-1 h-2 bg-current rounded-full"
+                    animate={!prefersReducedMotion ? { y: [0, 10, 0] } : undefined}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                   />
                 </div>
-              ))}
-              {t.resultCards.map((card, i) => (
-                <div key={`${card.metric}-desktop`} className="hidden md:block">
-                  <HeroResultCard
-                    metric={card.metric}
-                    description={card.description}
-                    company={card.company}
-                    index={i}
-                  />
-                </div>
-              ))}
-            </div>
+              </motion.button>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>

@@ -389,61 +389,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-  .metric-card-spoiler {
-    margin-top: 0.5rem;
-    font-size: 0.6875rem;
-    line-height: 1.45;
-    color: var(--foreground);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition:
-      opacity 0.25s ease,
-      max-height 0.35s ease,
-      margin-top 0.25s ease;
-  }
-
-  .metric-card-interactive:hover .metric-card-spoiler,
-  .metric-card-interactive:focus-within .metric-card-spoiler,
-  .metric-card-interactive.metric-card-expanded .metric-card-spoiler {
-    opacity: 0.88;
-    max-height: 5rem;
-    margin-top: 0.5rem;
-  }
-
-  .metric-card-tap-hint {
-    margin-top: 0.5rem;
-    font-size: 0.625rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--muted-foreground);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .metric-card-tap-hint {
-      display: none;
-    }
-  }
-
-  .metric-card-interactive.metric-card-expanded .metric-card-tap-hint,
-  .metric-card-interactive:hover .metric-card-tap-hint {
-    display: none;
-  }
-
-  .metric-card-phase {
-    margin-top: 0.75rem;
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--primary) 75%, transparent);
-  }
-
-  .metric-card-interactive:hover .metric-card-phase,
-  .metric-card-interactive:focus-within .metric-card-phase {
-    color: var(--primary);
-  }
 }
 
 /* Superficies mate reutilizables */
@@ -543,6 +488,77 @@
     .logo-mark--interactive:hover .logo-mark-arc-group,
     .logo-mark--interactive:focus-visible .logo-mark-arc-group {
       transform: none;
+    }
+  }
+}
+
+/* Foto de perfil — filtros editoriales alineados a la marca */
+@layer components {
+  .profile-avatar__image {
+    filter: contrast(1.06) saturate(0.88) brightness(1.03);
+    transition: filter 0.45s ease;
+  }
+
+  .group:hover .profile-avatar__image,
+  .profile-avatar:hover .profile-avatar__image {
+    filter: contrast(1.09) saturate(0.94) brightness(1.05);
+  }
+
+  .profile-avatar__warmth {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 29, 37, 0.12) 0%,
+      rgba(255, 147, 30, 0.08) 50%,
+      transparent 100%
+    );
+    mix-blend-mode: soft-light;
+    opacity: 0.6;
+    transition: opacity 0.45s ease;
+  }
+
+  .group:hover .profile-avatar__warmth,
+  .profile-avatar:hover .profile-avatar__warmth {
+    opacity: 0.75;
+  }
+
+  .profile-avatar__vignette {
+    background: radial-gradient(
+      ellipse 88% 88% at 50% 40%,
+      transparent 52%,
+      rgba(23, 23, 23, 0.12) 100%
+    );
+  }
+
+  .dark .profile-avatar__image {
+    filter: contrast(1.04) saturate(0.84) brightness(0.95);
+  }
+
+  .dark .group:hover .profile-avatar__image,
+  .dark .profile-avatar:hover .profile-avatar__image {
+    filter: contrast(1.07) saturate(0.9) brightness(0.98);
+  }
+
+  .dark .profile-avatar__warmth {
+    opacity: 0.45;
+  }
+
+  .dark .group:hover .profile-avatar__warmth,
+  .dark .profile-avatar:hover .profile-avatar__warmth {
+    opacity: 0.58;
+  }
+
+  .dark .profile-avatar__vignette {
+    background: radial-gradient(
+      ellipse 88% 88% at 50% 40%,
+      transparent 48%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-avatar__image,
+    .profile-avatar__warmth {
+      transition: none;
     }
   }
 }
