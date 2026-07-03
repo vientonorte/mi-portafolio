@@ -1,20 +1,23 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "../ui/button";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, ClipboardList, Sparkles, Users } from "lucide-react";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
+import { ROUTES } from "../../lib/routes";
+import { navigateToPageSection } from "../../lib/navigate-to-section";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
 }
 
-export function Hero({ onNavigateToCaseStudies }: HeroProps) {
+export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const location = useLocation();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,9 +31,24 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const { language } = useLanguage();
   const t = useTranslation(language).hero;
 
-  const goToNegocios = () => {
-    analytics.clickViewProjects();
-    navigate("/proyectos");
+  const goToRecruiters = () => {
+    analytics.clickHeroRecruiters();
+    const onHome = (location.pathname.replace(/\/+$/, "") || "/") === "/";
+    if (onHome) {
+      document.getElementById("sobre-mi")?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
+  };
+
+  const goToAuditLeads = () => {
+    analytics.clickHeroAuditLeads();
+    navigate(ROUTES.consulting);
+  };
+
+  const goToFreeAudit = () => {
+    analytics.clickHeroFreeAudit();
+    navigate(ROUTES.audit);
   };
 
   const scrollToTeaser = () => {
@@ -120,29 +138,39 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
             <motion.div
               variants={itemVariants}
-              className="flex items-center gap-3 flex-wrap"
+              className="flex flex-col gap-3 sm:flex-row sm:flex-wrap"
               style={{ marginBottom: "3rem" }}
+              role="group"
+              aria-label={language === "es" ? "Acciones por audiencia" : "Audience actions"}
             >
               <Button
                 size="lg"
-                onClick={goToNegocios}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold"
+                onClick={goToRecruiters}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group shadow-md hover:shadow-lg font-semibold w-full sm:w-auto"
               >
-                {t.cta.primary}
+                <Users className="mr-2 h-4 w-4" aria-hidden="true" />
+                {t.cta.recruiters}
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </Button>
 
               <Button
                 size="lg"
-                variant="ghost"
-                onClick={() => {
-                  analytics.clickCaseStudies();
-                  onNavigateToCaseStudies?.();
-                }}
-                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all"
+                variant="outline"
+                onClick={goToAuditLeads}
+                className="border-2 hover:border-primary hover:bg-primary/5 transition-all w-full sm:w-auto"
               >
-                <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
-                {t.cta.secondary}
+                <ClipboardList className="mr-2 h-4 w-4" aria-hidden="true" />
+                {t.cta.auditLeads}
+              </Button>
+
+              <Button
+                size="lg"
+                variant="ghost"
+                onClick={goToFreeAudit}
+                className="text-muted-foreground hover:text-foreground hover:bg-transparent border border-border transition-all w-full sm:w-auto"
+              >
+                <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
+                {t.cta.freeAuditB2b}
               </Button>
             </motion.div>
 

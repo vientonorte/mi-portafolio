@@ -43,6 +43,21 @@ export const analytics = {
     category: "engagement",
     label: "Navigation"
   }),
+
+  clickHeroRecruiters: () => trackEvent("click_hero_recruiters", {
+    category: "conversion",
+    label: "Hero CTA — Recruiters",
+  }),
+
+  clickHeroAuditLeads: () => trackEvent("click_hero_audit_leads", {
+    category: "conversion",
+    label: "Hero CTA — Audit leads",
+  }),
+
+  clickHeroFreeAudit: () => trackEvent("click_hero_free_audit", {
+    category: "conversion",
+    label: "Hero CTA — Free B2B audit",
+  }),
   
   clickDesignSystem: () => trackEvent("click_design_system", {
     category: "engagement",

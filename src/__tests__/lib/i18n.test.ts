@@ -23,8 +23,9 @@ describe('translations', () => {
         expect(hero).toHaveProperty('label');
         expect(hero).toHaveProperty('headlineLead');
         expect(hero).toHaveProperty('headlineFocus');
-        expect(hero.cta).toHaveProperty('primary');
-        expect(hero.cta).toHaveProperty('secondary');
+        expect(hero.cta).toHaveProperty('recruiters');
+        expect(hero.cta).toHaveProperty('auditLeads');
+        expect(hero.cta).toHaveProperty('freeAuditB2b');
       });
 
       it('has about section with required keys', () => {

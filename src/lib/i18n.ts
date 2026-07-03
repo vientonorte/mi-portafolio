@@ -304,8 +304,9 @@ export const translations = {
       valueProp: 'Menos fricción y más claridad en fintech y mobility.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       cta: {
-        primary: 'Ver negocios',
-        secondary: 'Ver proceso UX',
+        recruiters: 'Reclutadores',
+        auditLeads: 'Leads auditorías',
+        freeAuditB2b: 'Auditoría gratuita B2B',
       },
       scroll: 'Explorar',
       resultsLabel: 'Resultados',
@@ -1197,8 +1198,9 @@ export const translations = {
       valueProp: 'Less friction and more clarity in fintech and mobility.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       cta: {
-        primary: 'View business',
-        secondary: 'View UX process',
+        recruiters: 'Recruiters',
+        auditLeads: 'Audit leads',
+        freeAuditB2b: 'Free B2B audit',
       },
       scroll: 'Explore',
       resultsLabel: 'Results',
