@@ -15,11 +15,20 @@ describe("pickBestResult", () => {
     expect(pickBestResult(results)?.channel).toBe("google_forms");
   });
 
-  it("falls back to formsubmit when google_forms failed", () => {
+  it("falls back to worker when google_forms failed", () => {
     const results: ContactSubmitResult[] = [
       { ok: false, channel: "google_forms", error: "timeout" },
       { ok: true, channel: "formsubmit" },
       { ok: true, channel: "worker" },
+    ];
+    expect(pickBestResult(results)?.channel).toBe("worker");
+  });
+
+  it("falls back to formsubmit when google_forms and worker failed", () => {
+    const results: ContactSubmitResult[] = [
+      { ok: false, channel: "google_forms", error: "timeout" },
+      { ok: true, channel: "formsubmit" },
+      { ok: false, channel: "worker", error: "pending_activation" },
     ];
     expect(pickBestResult(results)?.channel).toBe("formsubmit");
   });
