@@ -1,7 +1,7 @@
 // Service Worker for PWA capabilities
 
-const CACHE_NAME = 'rg-portfolio-v7';
-const RUNTIME_CACHE = 'rg-runtime-v7';
+const CACHE_NAME = 'rg-portfolio-v8';
+const RUNTIME_CACHE = 'rg-runtime-v8';
 
 const PRECACHE_URLS = [
   '/mi-portafolio/manifest.json',
@@ -13,6 +13,10 @@ function isNavigationRequest(request) {
 
 function isHashedAsset(url) {
   return /\/assets\/.*\.[a-f0-9]{6,}\.(js|css)$/i.test(url.pathname);
+}
+
+function isPortfolioImage(url) {
+  return /\/images\//i.test(url.pathname);
 }
 
 self.addEventListener('install', (event) => {
@@ -43,7 +47,8 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   const url = new URL(event.request.url);
-  const networkFirst = isNavigationRequest(event.request) || isHashedAsset(url);
+  const networkFirst =
+    isNavigationRequest(event.request) || isHashedAsset(url) || isPortfolioImage(url);
 
   if (networkFirst) {
     event.respondWith(

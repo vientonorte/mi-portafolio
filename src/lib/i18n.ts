@@ -615,17 +615,6 @@ export const translations = {
       achievementsLabel: 'Logros principales',
     },
 
-    mentorship: {
-      badge: 'Mentorías',
-      title: 'Mentorías y voluntariado',
-      description:
-        'Programas de acompañamiento vocacional y mentorías en educación secundaria, en alianza con fundaciones.',
-      current: 'Actualidad',
-      cause: 'Causa',
-      viaPartner: 'A través de {partner}',
-      achievementsLabel: 'Actividades principales',
-    },
-    
     // Skills
     skills: {
       badge: 'Habilidades',
@@ -1674,17 +1663,6 @@ export const translations = {
       achievementsLabel: 'Key achievements',
     },
 
-    mentorship: {
-      badge: 'Mentorship',
-      title: 'Mentorship & volunteering',
-      description:
-        'Vocational guidance and mentorship programs in secondary education, in partnership with foundations.',
-      current: 'Present',
-      cause: 'Cause',
-      viaPartner: 'Through {partner}',
-      achievementsLabel: 'Key activities',
-    },
-    
     // Skills
     skills: {
       badge: 'Skills',

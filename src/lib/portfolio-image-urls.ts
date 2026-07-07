@@ -3,14 +3,17 @@
  * Generadas por scripts/sync-semantic-images.sh
  */
 const base = import.meta.env.BASE_URL;
+/** Invalida caché del SW/navegador tras actualizar logos (p. ej. Karri KARRI vs KLAP). */
+const LOGO_ASSET_VERSION = "20260707";
 
-function img(path: string) {
-  return `${base}images/${path}`;
+function img(path: string, bustCache = false) {
+  const url = `${base}images/${path}`;
+  return bustCache ? `${url}?v=${LOGO_ASSET_VERSION}` : url;
 }
 
 export const portfolioImages = {
   sura: {
-    logo: img("sura/logo.svg"),
+    logo: img("sura/logo.svg", true),
     riaOnboarding: img("sura/ria-onboarding.png"),
     webPrototype: img("sura/web-prototype.png"),
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
@@ -22,13 +25,13 @@ export const portfolioImages = {
     uxProcess: img("sura/ux-process.png"),
   },
   transvip: {
-    logo: img("transvip/logo.svg"),
+    logo: img("transvip/logo.svg", true),
     appDesktop: img("transvip/app-desktop.png"),
     appMobile: img("transvip/app-mobile.png"),
     productVision: img("transvip/product-vision.png"),
   },
   karri: {
-    logo: img("karri/logo.png"),
+    logo: img("karri/logo.png", true),
     boosmapBenchmark: img("karri/boosmap-benchmark.png"),
     deliveryBrand: img("karri/delivery-brand.png"),
     okrsBoard: img("karri/okrs-board.png"),

@@ -4,19 +4,20 @@ import { cn } from "../../lib/utils";
 import { resolveCompanyBrand, type CompanyBrand } from "../../lib/company-logos";
 
 function resolveBrandFromSrc(src: string): CompanyBrand | null {
-  if (/sura\/logo/i.test(src)) return "sura";
-  if (/transvip\/logo/i.test(src)) return "transvip";
-  if (/karri\/logo/i.test(src)) return "karri";
+  const path = src.split("?")[0] ?? src;
+  if (/sura\/logo/i.test(path)) return "sura";
+  if (/transvip\/logo/i.test(path)) return "transvip";
+  if (/karri\/logo/i.test(path)) return "karri";
   return null;
 }
 
 const SIZES = {
   /** Wordmarks horizontales en cards compactas (hero, métricas). */
   "wordmark-sm": {
-    box: "h-8 w-[5.5rem] rounded-lg",
-    pad: "px-2 py-1",
+    box: "h-9 w-[6.75rem] rounded-lg",
+    pad: "px-2.5 py-1",
     icon: "h-4 w-4",
-    wordmark: "scale-100",
+    wordmark: "scale-[1.06]",
   },
   sm: {
     box: "h-9 w-9 rounded-lg",
@@ -42,7 +43,8 @@ export type CompanyLogoSize = keyof typeof SIZES;
 
 /** Logos horizontales (p. ej. Karri) necesitan más escala para igualar el peso visual de Transvip. */
 export function isWordmarkLogo(src: string): boolean {
-  return /karri\/logo|karriLogo|sura\/logo|transvip\/logo/i.test(src);
+  const path = src.split("?")[0] ?? src;
+  return /karri\/logo|karriLogo|sura\/logo|transvip\/logo/i.test(path);
 }
 
 interface CompanyLogoProps {
