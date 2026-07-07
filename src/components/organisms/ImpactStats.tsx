@@ -119,13 +119,15 @@ export function ImpactStats() {
             <div className="border-b border-[color:var(--logo-surface-border)] bg-featured-matte p-6 md:p-8">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                 <div className="space-y-4 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--logo-surface-border)] bg-[var(--featured-matte-accent)] px-4 py-2 w-fit">
-                    <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--logo-surface-border)] bg-[var(--featured-matte-accent)] px-4 py-2">
+                      <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
+                      <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
+                    </div>
+                    <CompanyLogoFromName company="SURA Investments" size="wordmark-md" flat />
                   </div>
 
                   <div className="space-y-2">
-                    <CompanyLogoFromName company="SURA Investments" size="md" />
                     <h3 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
                       {t.featured.title}
                     </h3>
@@ -150,19 +152,19 @@ export function ImpactStats() {
             <button
               type="button"
               onClick={openFeaturedCase}
-              className="relative block w-full overflow-hidden min-h-[180px] md:min-h-[220px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+              className="relative block w-full overflow-hidden bg-[#0a0a0a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
               aria-label={t.featured.title}
             >
               <ResponsiveImage
                 src={featuredImage}
                 alt={t.featured.title}
-                fit="cover"
-                aspectRatio="21 / 9"
+                fit="contain"
+                aspectRatio="16 / 9"
                 sizes="100vw"
-                className="h-full min-h-[180px] md:min-h-[220px]"
-                imgClassName="group-hover:scale-[1.02] transition-transform duration-700"
+                className="w-full"
+                imgClassName="group-hover:scale-[1.01] transition-transform duration-700 motion-reduce:transition-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent pointer-events-none" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background/90 to-transparent" />
             </button>
 
             <div className="p-6 md:p-8">

@@ -19,6 +19,13 @@ const SIZES = {
     icon: "h-4 w-4",
     wordmark: "scale-[1.06]",
   },
+  /** Wordmark en headers (proyecto destacado, hero cards). */
+  "wordmark-md": {
+    box: "h-10 w-[8.5rem] rounded-xl",
+    pad: "px-3 py-1.5",
+    icon: "h-5 w-5",
+    wordmark: "scale-[1.08]",
+  },
   sm: {
     box: "h-9 w-9 rounded-lg",
     pad: "p-1",
@@ -67,7 +74,8 @@ export function CompanyLogo({
 }: CompanyLogoProps) {
   const styles = SIZES[size];
   const isWordmark =
-    wordmark ?? (size === "wordmark-sm" || (src ? isWordmarkLogo(src) : false));
+    wordmark ??
+    (size === "wordmark-sm" || size === "wordmark-md" || (src ? isWordmarkLogo(src) : false));
   const brand = src ? (resolveCompanyBrand(alt) ?? resolveBrandFromSrc(src)) : null;
   const brandClass =
     brand === "sura"

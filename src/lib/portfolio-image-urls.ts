@@ -14,7 +14,7 @@ function img(path: string, bustCache = false) {
 export const portfolioImages = {
   sura: {
     logo: img("sura/logo.svg", true),
-    riaOnboarding: img("sura/ria-onboarding.png"),
+    riaOnboarding: img("sura/ria-onboarding.png", true),
     webPrototype: img("sura/web-prototype.png"),
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
     analyticsGa4: img("sura/analytics-ga4.png"),
