@@ -57,6 +57,8 @@ desktop.ini
 *.psd
 *.xcf
 *.sketch
+*.fig
+*.deck
 *.zip
 *.tar
 *.gz

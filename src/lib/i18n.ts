@@ -85,7 +85,8 @@ export const translations = {
         },
         autosuggest: {
           title: 'Autosuggest fondos',
-          description: 'Caso SURA: autosuggest de fondos de inversión — detalle próximamente.',
+          description:
+            'Caso SURA: búsqueda predictiva de fondos de inversión con progressive disclosure, accesibilidad y testing con inversores retail e institucionales.',
         },
         admin: {
           title: 'Admin fotos',
@@ -437,9 +438,45 @@ export const translations = {
 
     autosuggestPage: {
       title: 'Autosuggest de fondos',
-      body: 'Caso SURA en la plataforma de inversiones: búsqueda predictiva de fondos con progressive disclosure. El detalle completo vive en el estudio de la plataforma.',
+      badge: 'Caso SURA · Plataforma de inversiones',
+      subtitle:
+        'Búsqueda predictiva de fondos con progressive disclosure para inversores retail e institucionales.',
+      intro:
+        'Diseñé el flujo de autosuggest dentro del rediseño de la plataforma de inversiones: reducir fricción al encontrar fondos, mantener profundidad de datos financieros y cumplir expectativas de accesibilidad y compliance.',
+      metrics: [
+        { value: '−45%', label: 'Tiempo de consulta de información' },
+        { value: '+30%', label: 'Engagement usuarios retail' },
+        { value: 'NPS 72', label: 'Mejora de 25 puntos vs. baseline' },
+      ],
+      sections: {
+        challenge: {
+          title: 'El desafío',
+          body:
+            'Los inversores necesitaban localizar fondos rápidamente sin perder contexto regulatorio ni métricas de riesgo. Un buscador genérico generaba abandono; un listado exhaustivo abrumaba.',
+        },
+        approach: {
+          title: 'Enfoque UX',
+          body: 'Combiné autosuggest semántico con capas de información progresiva:',
+          items: [
+            'Sugerencias por nombre, ISIN y categoría con estados vacío, carga y sin resultados',
+            'Progressive disclosure: resumen en lista, detalle en panel lateral',
+            'Jerarquía visual para riesgo, rentabilidad y horizonte sin saturar el primer pantallazo',
+            'Teclado y lector de pantalla: navegación por flechas, aria-live en resultados',
+          ],
+        },
+        outcomes: {
+          title: 'Resultados',
+          items: [
+            'Menor tiempo hasta la primera acción de inversión',
+            'Mayor confianza percibida en usuarios retail',
+            'Handoff claro a desarrollo con estados de error y validación documentados',
+          ],
+        },
+      },
       cta: 'Ver plataforma de inversiones',
+      ctaSecondary: 'Explorar proceso UX Analytics',
       relatedProjectId: 'sura-inversiones-dashboard',
+      processId: 'ux-analytics',
     },
     
     // About
@@ -790,6 +827,13 @@ export const translations = {
           'Dashboard de inversiones con progressive disclosure, IA reestructurada y testing con usuarios retail e institucionales.',
         tags: ['Fintech', 'Dashboard', 'Research'],
       },
+      'sura-ia-automation-dashboard': {
+        title: 'Dashboard de Análisis con IA',
+        company: 'SURA Investments',
+        description:
+          'POC de automatización y análisis con IA: flujos de orquestación, métricas operativas y validación humana en contexto enterprise.',
+        tags: ['AI', 'Automation', 'POC', 'Enterprise'],
+      },
       'sura-ecosistema-digital': {
         title: 'Ecosistema Digital & Onboarding',
         company: 'SURA Investments',
@@ -1036,7 +1080,8 @@ export const translations = {
         },
         autosuggest: {
           title: 'Fund autosuggest',
-          description: 'SURA case: investment fund autosuggest — full detail coming soon.',
+          description:
+            'SURA case: predictive investment fund search with progressive disclosure, accessibility, and testing with retail and institutional investors.',
         },
         admin: {
           title: 'Photo admin',
@@ -1388,9 +1433,45 @@ export const translations = {
 
     autosuggestPage: {
       title: 'Fund autosuggest',
-      body: 'SURA case on the investment platform: predictive fund search with progressive disclosure. Full detail lives in the platform case study.',
+      badge: 'SURA case · Investment platform',
+      subtitle:
+        'Predictive fund search with progressive disclosure for retail and institutional investors.',
+      intro:
+        'I designed the autosuggest flow within the investment platform redesign: reduce friction when finding funds, preserve financial data depth, and meet accessibility and compliance expectations.',
+      metrics: [
+        { value: '−45%', label: 'Time to find information' },
+        { value: '+30%', label: 'Retail user engagement' },
+        { value: 'NPS 72', label: '25-point lift vs. baseline' },
+      ],
+      sections: {
+        challenge: {
+          title: 'The challenge',
+          body:
+            'Investors needed to locate funds quickly without losing regulatory context or risk metrics. A generic search caused drop-off; exhaustive listings overwhelmed users.',
+        },
+        approach: {
+          title: 'UX approach',
+          body: 'Combined semantic autosuggest with progressive information layers:',
+          items: [
+            'Suggestions by name, ISIN, and category with empty, loading, and no-results states',
+            'Progressive disclosure: summary in list, detail in side panel',
+            'Visual hierarchy for risk, return, and horizon without cluttering the first view',
+            'Keyboard and screen reader support: arrow navigation, aria-live on results',
+          ],
+        },
+        outcomes: {
+          title: 'Outcomes',
+          items: [
+            'Shorter time to first investment action',
+            'Higher perceived confidence among retail users',
+            'Clear dev handoff with documented error and validation states',
+          ],
+        },
+      },
       cta: 'View investment platform',
+      ctaSecondary: 'Explore UX Analytics process',
       relatedProjectId: 'sura-inversiones-dashboard',
+      processId: 'ux-analytics',
     },
     
     // About
@@ -1760,6 +1841,13 @@ export const translations = {
         description:
           'Investment dashboard with progressive disclosure, restructured IA, and testing with retail and institutional users.',
         tags: ['Fintech', 'Dashboard', 'Research'],
+      },
+      'sura-ia-automation-dashboard': {
+        title: 'AI Analysis Dashboard',
+        company: 'SURA Investments',
+        description:
+          'AI automation and analysis POC: orchestration flows, operational metrics, and human validation in an enterprise context.',
+        tags: ['AI', 'Automation', 'POC', 'Enterprise'],
       },
       'sura-ecosistema-digital': {
         title: 'Digital Ecosystem & Onboarding',

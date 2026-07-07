@@ -16,6 +16,7 @@ const FEATURED_CASE_STUDY_IDS = [
   "sura-ux-enterprise",
   "sura-ria-us",
   "sura-inversiones-dashboard",
+  "sura-ia-automation-dashboard",
   "sura-ecosistema-digital",
   "transvip-app-premium",
   "karri-calculadora",
@@ -34,6 +35,8 @@ function imageForProject(
       return images.sura.riaOnboarding;
     case "sura-inversiones-dashboard":
       return images.sura.webPrototype;
+    case "sura-ia-automation-dashboard":
+      return images.sura.iaAutomationDashboard;
     case "sura-ecosistema-digital":
       return images.sura.benchmarkNavigation;
     case "transvip-app-premium":

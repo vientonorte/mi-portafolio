@@ -15,6 +15,7 @@ export const portfolioImages = {
     webPrototype: img("sura/web-prototype.png"),
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
     analyticsGa4: img("sura/analytics-ga4.png"),
+    iaAutomationDashboard: img("sura/ia-automation-dashboard.png"),
     hotjarDashboard: img("sura/hotjar-dashboard.png"),
     bookingFlowchart: img("sura/booking-flowchart.png"),
     onboardingFlags: img("sura/onboarding-flags.png"),
