@@ -1071,6 +1071,7 @@ export const translations = {
       realCases: 'Casos reales',
       relatedSubtitle: 'Proyectos donde apliqué {process} con resultados medibles',
       viewAllProjects: 'Ver todos los negocios',
+      viewExternalProof: 'Ver evidencia externa',
     },
   },
   
@@ -2142,6 +2143,7 @@ export const translations = {
       realCases: 'Real cases',
       relatedSubtitle: 'Projects where I applied {process} with measurable results',
       viewAllProjects: 'View all business',
+      viewExternalProof: 'View external proof',
     },
   },
 };
