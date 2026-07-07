@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Card, CardContent } from "../ui/card";
-import { BarChart3, TrendingDown, TrendingUp, Zap, ArrowRight } from "lucide-react";
+import { BarChart3, TrendingDown, TrendingUp, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -10,8 +10,8 @@ import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { Button } from "../ui/button";
 import { ROUTES } from "../../lib/routes";
+import { FeaturedCaseNavigator } from "../molecules/FeaturedCaseNavigator";
 import { SEO_SITE } from "../../lib/seo";
 import { getPortfolioImages } from "../../lib/image-overrides";
 import { cn } from "../ui/utils";
@@ -136,82 +136,61 @@ export function ImpactStats() {
         <motion.div {...fadeUp(0.35)} className="mt-12 md:mt-16">
           <Card className="group border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-none">
             <CardContent className="p-0">
-              <div className="grid md:grid-cols-5 gap-0">
-                <button
-                  type="button"
-                  onClick={openFeaturedCase}
-                  className="md:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col justify-between min-h-[220px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-                >
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] mb-4 w-fit">
+              <div className="grid lg:grid-cols-5 gap-0">
+                <div className="lg:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col gap-6 min-h-[220px]">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] w-fit">
                     <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
                     <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
                   </div>
 
                   <div className="space-y-3">
                     <CompanyLogoFromName company="SURA Investments" size="md" />
-                    <h3 className="text-2xl md:text-3xl font-bold leading-tight group-hover:text-primary transition-colors">
+                    <h3 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
                       {t.featured.title}
                     </h3>
                     <p className="text-muted-foreground">{t.featured.subtitle}</p>
-                    <p className="text-sm text-foreground/80 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                    <p className="text-sm text-foreground/80 leading-relaxed">
                       {t.featured.spoiler}
                     </p>
                   </div>
-                </button>
 
-                <div className="md:col-span-3 flex flex-col">
+                  <div className="mt-auto flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm pt-2 border-t border-[color:var(--logo-surface-border)]">
+                    <div>
+                      <span className="text-muted-foreground">{t.featured.companyLabel}:</span>{" "}
+                      <span className="font-semibold">SURA Investments</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">{t.featured.roleLabel}:</span>{" "}
+                      <span className="font-semibold">{SEO_SITE.role}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-3 flex flex-col border-t lg:border-t-0 lg:border-l border-[color:var(--logo-surface-border)]">
                   <button
                     type="button"
                     onClick={openFeaturedCase}
                     className="relative overflow-hidden min-h-[160px] md:min-h-[200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-                    aria-label={t.featured.cta}
+                    aria-label={t.featured.paths[0]?.title ?? t.featured.title}
                   >
                     <ResponsiveImage
                       src={featuredImage}
                       alt={t.featured.title}
                       fit="cover"
                       aspectRatio="16 / 9"
-                      sizes="(max-width: 768px) 100vw, 60vw"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
                       className="h-full min-h-[160px] md:min-h-[200px]"
                       imgClassName="group-hover:scale-[1.03] transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent pointer-events-none" />
                   </button>
 
-                  <div className="p-6 md:p-8 flex flex-col justify-between gap-6 flex-1">
-                    <div className="flex flex-wrap gap-3">
-                      {t.featured.highlights.map((highlight) => (
-                        <span
-                          key={highlight}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] text-sm font-medium text-primary"
-                        >
-                          <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="pt-4 border-t flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
-                        <div>
-                          <span className="text-muted-foreground">{t.featured.companyLabel}:</span>{" "}
-                          <span className="font-semibold">SURA Investments</span>
-                        </div>
-                        <div>
-                          <span className="text-muted-foreground">{t.featured.roleLabel}:</span>{" "}
-                          <span className="font-semibold">{SEO_SITE.role}</span>
-                        </div>
-                      </div>
-
-                      <Button
-                        size="sm"
-                        className="bg-brand-gradient hover:opacity-90 shrink-0"
-                        onClick={openFeaturedCase}
-                      >
-                        {t.featured.cta}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </div>
+                  <div className="p-6 md:p-8 border-t border-[color:var(--logo-surface-border)]">
+                    <FeaturedCaseNavigator
+                      label={t.featured.pathsLabel}
+                      paths={t.featured.paths}
+                      projectId={t.featured.projectId}
+                    />
                   </div>
                 </div>
               </div>
