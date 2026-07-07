@@ -9,6 +9,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ### Added
 - **`HeroIntelligentSearch`**: buscador con autosuggest, 3 líneas de negocio (tabs) y CTAs post-search — alineado con nav.
+- **Consultoría X | CMS**: CTA principal → Figma Sites (`pouch-growl-74881457.figma.site`); secundario → Figma Make.
+
+### Changed
+- Preview embebido en `/consultoria#consultoria-demo` usa el sitio publicado, no el embed de Make.
 
 ## [2026-07-07] — Hero, impacto por audiencia, contenido SURA
 

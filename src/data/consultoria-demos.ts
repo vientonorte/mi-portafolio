@@ -2,6 +2,9 @@
 
 export const CONSULTORIA_DEMO_X_CMS = {
   id: "x-cms-n2n",
+  /** Sitio publicado navegable (CTA principal) */
+  figmaSitesUrl: "https://pouch-growl-74881457.figma.site",
+  /** Archivo editable en Figma Make (CTA secundario) */
   figmaMakeUrl:
     "https://www.figma.com/make/nHrKYiEtbE0gYnTFB4Ast6/X-%7C-CMS",
   embedUrl:

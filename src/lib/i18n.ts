@@ -234,14 +234,16 @@ export const translations = {
         badge: 'Demo consultoría',
         title: 'Diseño N2N · Design Thinking + Sprint',
         description:
-          'Proyecto demo X | CMS en Figma Make: referencia de cómo aplico método completo (discovery → prototipo) en contexto CMS — alineado a bolsas Marco y Ops.',
+          'Proyecto demo X | CMS publicado en Figma Sites: referencia de método completo (discovery → prototipo) en contexto CMS — alineado a bolsas Marco y Ops.',
         projectName: 'X | CMS',
         approach:
           'Diseño needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff.',
-        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Make'],
-        cta: 'Abrir demo en Figma Make',
-        ctaSecondary: 'Ver prototipo interactivo',
-        embedTitle: 'Demo X | CMS — Figma Make',
+        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+        cta: 'Abrir demo publicada',
+        ctaSecondary: 'Abrir en Figma Make',
+        ctaMakeLink: 'Ver archivo editable en Figma Make',
+        previewCta: 'Abrir sitio completo',
+        embedTitle: 'Demo X | CMS — Figma Sites',
       },
     },
 
@@ -420,6 +422,14 @@ export const translations = {
             title: 'Consultoría Viento Norte',
             hint: 'Bolsas Radar, Marco y Ops con entregables medibles.',
             keywords: ['consultoría', 'bolsa', 'mentoría', 'viento norte', 'design ops'],
+            href: 'route/consultoria',
+          },
+          {
+            id: 'auditoria-x-cms',
+            category: 'auditorias',
+            title: 'Demo X | CMS',
+            hint: 'Prototipo N2N publicado — Design Thinking y Sprint en contexto CMS.',
+            keywords: ['x cms', 'cms', 'demo', 'figma sites', 'consultoría'],
             href: 'route/consultoria',
           },
           {
@@ -1331,14 +1341,16 @@ export const translations = {
         badge: 'Consulting demo',
         title: 'N2N design · Design Thinking + Sprint',
         description:
-          'X | CMS demo on Figma Make: reference for full-method work (discovery → prototype) in a CMS context — aligned with Marco and Ops bundles.',
+          'X | CMS demo published on Figma Sites: reference for full-method work (discovery → prototype) in a CMS context — aligned with Marco and Ops bundles.',
         projectName: 'X | CMS',
         approach:
           'Needle-to-needle design: Design Thinking ideation, Design Sprint validation, and navigable prototype for handoff.',
-        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Make'],
-        cta: 'Open demo in Figma Make',
-        ctaSecondary: 'View interactive prototype',
-        embedTitle: 'X | CMS demo — Figma Make',
+        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+        cta: 'Open published demo',
+        ctaSecondary: 'Open in Figma Make',
+        ctaMakeLink: 'View editable file in Figma Make',
+        previewCta: 'Open full site',
+        embedTitle: 'X | CMS demo — Figma Sites',
       },
     },
 
@@ -1517,6 +1529,14 @@ export const translations = {
             title: 'Viento Norte consulting',
             hint: 'Radar, Marco, and Ops bundles with measurable deliverables.',
             keywords: ['consulting', 'bundle', 'mentoring', 'design ops'],
+            href: 'route/consultoria',
+          },
+          {
+            id: 'auditoria-x-cms',
+            category: 'auditorias',
+            title: 'X | CMS demo',
+            hint: 'Published N2N prototype — Design Thinking and Sprint in a CMS context.',
+            keywords: ['x cms', 'cms', 'demo', 'figma sites', 'consulting'],
             href: 'route/consultoria',
           },
           {
