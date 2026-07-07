@@ -19,6 +19,7 @@ describe('translations', () => {
       });
 
       it('has hero section with required keys', () => {
+        const nav = translations[lang].nav;
         const hero = translations[lang].hero;
         expect(hero).toHaveProperty('label');
         expect(hero).toHaveProperty('headlineLead');

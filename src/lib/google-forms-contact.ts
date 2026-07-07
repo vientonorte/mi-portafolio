@@ -51,6 +51,7 @@ export function parseFbzxFromHtml(html: string): string | null {
   const patterns = [
     /"fbzx"\s*:\s*"(-?\d+)"/,
     /name="fbzx"\s+value="(-?\d+)"/,
+    /FB_PUBLIC_LOAD_DATA_\s*=\s*\[null,null,"(-?\d+)"\]/,
     /FB_PUBLIC_LOAD_DATA_\s*=\s*\[[\s\S]*?\[null,null,"(-?\d+)"\]/,
   ];
 
