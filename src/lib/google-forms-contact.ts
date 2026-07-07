@@ -42,6 +42,38 @@ export function getGoogleFormsConfig(): GoogleFormsContactConfig | null {
   };
 }
 
+export function getGoogleFormsViewUrl(actionUrl: string): string {
+  return actionUrl.replace(/\/formResponse$/, "/viewform");
+}
+
+/** Token anti-spam requerido por Google Forms en muchos envíos programáticos. */
+export function parseFbzxFromHtml(html: string): string | null {
+  const patterns = [
+    /"fbzx"\s*:\s*"(-?\d+)"/,
+    /name="fbzx"\s+value="(-?\d+)"/,
+    /FB_PUBLIC_LOAD_DATA_\s*=\s*\[[\s\S]*?\[null,null,"(-?\d+)"\]/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return null;
+}
+
+export async function fetchGoogleFormsFbzx(actionUrl: string): Promise<string | null> {
+  try {
+    const viewUrl = getGoogleFormsViewUrl(actionUrl);
+    const response = await fetch(viewUrl, { mode: "cors", credentials: "omit" });
+    if (!response.ok) return null;
+    const html = await response.text();
+    return parseFbzxFromHtml(html);
+  } catch {
+    return null;
+  }
+}
+
 export function buildGoogleFormsFields(
   payload: ContactPayload,
   entries: GoogleFormsEntryIds

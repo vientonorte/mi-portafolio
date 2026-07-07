@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { buildGoogleFormsFields } from "@/lib/google-forms-contact";
+import {
+  buildGoogleFormsFields,
+  getGoogleFormsViewUrl,
+  parseFbzxFromHtml,
+} from "@/lib/google-forms-contact";
 
 describe("buildGoogleFormsFields", () => {
   it("maps payload to Google Forms entry keys", () => {
@@ -29,5 +33,20 @@ describe("buildGoogleFormsFields", () => {
     expect(fields["entry.1004"]).toBe("Consultoría");
     expect(fields["entry.1005"]).toBe("assistant");
     expect(fields["entry.1006"]).toBe("es");
+  });
+});
+
+describe("parseFbzxFromHtml", () => {
+  it("extracts fbzx from embedded JSON", () => {
+    const html = `var FB_PUBLIC_LOAD_DATA_ = [null,null,"-6981626200310159864"];`;
+    expect(parseFbzxFromHtml(html)).toBe("-6981626200310159864");
+  });
+
+  it("builds viewform URL from formResponse action", () => {
+    expect(
+      getGoogleFormsViewUrl(
+        "https://docs.google.com/forms/d/e/ABC123/formResponse"
+      )
+    ).toBe("https://docs.google.com/forms/d/e/ABC123/viewform");
   });
 });

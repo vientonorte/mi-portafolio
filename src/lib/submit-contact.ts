@@ -1,5 +1,6 @@
 import {
   buildGoogleFormsFields,
+  fetchGoogleFormsFbzx,
   getGoogleFormsConfig,
 } from "./google-forms-contact";
 import {
@@ -51,11 +52,13 @@ function formatOutboundMessage(payload: ContactPayload): string {
 }
 
 /** Google Forms (POST vía iframe) — copia al respondente + notificación al dueño del form. */
-function submitViaGoogleForms(payload: ContactPayload): Promise<ContactSubmitResult> {
+async function submitViaGoogleForms(payload: ContactPayload): Promise<ContactSubmitResult> {
   const config = getGoogleFormsConfig();
   if (!config) {
-    return Promise.resolve({ ok: false, error: "google_forms_not_configured" });
+    return { ok: false, error: "google_forms_not_configured" };
   }
+
+  const fbzx = await fetchGoogleFormsFbzx(config.actionUrl);
 
   return new Promise((resolve) => {
     const frameName = "contact-google-forms-frame";
@@ -77,7 +80,14 @@ function submitViaGoogleForms(payload: ContactPayload): Promise<ContactSubmitRes
     form.style.display = "none";
 
     const fields = buildGoogleFormsFields(payload, config.entries);
-    for (const [key, value] of Object.entries(fields)) {
+    const hiddenFields: Record<string, string> = {
+      ...fields,
+      fvv: "1",
+      pageHistory: "0",
+    };
+    if (fbzx) hiddenFields.fbzx = fbzx;
+
+    for (const [key, value] of Object.entries(hiddenFields)) {
       const input = document.createElement("input");
       input.type = "hidden";
       input.name = key;
@@ -206,8 +216,27 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
   };
 }
 
+const CHANNEL_PRIORITY: ContactSubmitChannel[] = [
+  "google_forms",
+  "formsubmit",
+  "worker",
+];
+
+function pickBestResult(results: ContactSubmitResult[]): ContactSubmitResult | null {
+  const okResults = results.filter((result) => result.ok);
+  if (okResults.length === 0) return null;
+
+  for (const channel of CHANNEL_PRIORITY) {
+    const match = okResults.find((result) => result.channel === channel);
+    if (match) return match;
+  }
+
+  return okResults[0] ?? null;
+}
+
 /**
- * Envía contacto: Google Forms (si configurado) → FormSubmit → Worker → mailto.
+ * Envía contacto en paralelo: Google Forms + FormSubmit (si hay DOM),
+ * luego Worker → mailto. FormSubmit corre siempre como respaldo de email.
  */
 export async function submitContactMessage(
   payload: ContactPayload
@@ -217,20 +246,24 @@ export async function submitContactMessage(
   }
 
   if (typeof document !== "undefined") {
+    const parallelTasks: Promise<ContactSubmitResult>[] = [submitViaFormPost(payload)];
+
     if (getGoogleFormsConfig()) {
-      try {
-        const googleResult = await submitViaGoogleForms(payload);
-        if (googleResult.ok) return googleResult;
-      } catch (error) {
-        console.warn("[contact] google forms failed:", error);
-      }
+      parallelTasks.push(submitViaGoogleForms(payload));
     }
 
-    try {
-      const formResult = await submitViaFormPost(payload);
-      if (formResult.ok) return formResult;
-    } catch (error) {
-      console.warn("[contact] formsubmit failed:", error);
+    const parallelResults = await Promise.allSettled(parallelTasks);
+    const settled = parallelResults
+      .map((result) => (result.status === "fulfilled" ? result.value : null))
+      .filter((result): result is ContactSubmitResult => Boolean(result));
+
+    const best = pickBestResult(settled);
+    if (best) return best;
+
+    for (const result of parallelResults) {
+      if (result.status === "rejected") {
+        console.warn("[contact] parallel submit failed:", result.reason);
+      }
     }
   }
 
