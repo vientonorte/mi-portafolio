@@ -136,25 +136,25 @@ export function ImpactStats() {
         <motion.div {...fadeUp(0.35)} className="mt-12 md:mt-16">
           <Card className="group border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-none">
             <CardContent className="p-0">
-              <div className="grid lg:grid-cols-5 gap-0">
-                <div className="lg:col-span-2 relative bg-featured-matte p-6 md:p-8 flex flex-col gap-6 min-h-[220px]">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--featured-matte-accent)] border border-[color:var(--logo-surface-border)] w-fit">
-                    <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
+              <div className="border-b border-[color:var(--logo-surface-border)] bg-featured-matte p-6 md:p-8">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--logo-surface-border)] bg-[var(--featured-matte-accent)] px-4 py-2 w-fit">
+                      <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
+                      <span className="text-sm font-semibold text-primary">{t.featured.badge}</span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <CompanyLogoFromName company="SURA Investments" size="md" />
+                      <h3 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
+                        {t.featured.title}
+                      </h3>
+                      <p className="text-muted-foreground">{t.featured.subtitle}</p>
+                      <p className="text-sm text-foreground/80 leading-relaxed">{t.featured.spoiler}</p>
+                    </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <CompanyLogoFromName company="SURA Investments" size="md" />
-                    <h3 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
-                      {t.featured.title}
-                    </h3>
-                    <p className="text-muted-foreground">{t.featured.subtitle}</p>
-                    <p className="text-sm text-foreground/80 leading-relaxed">
-                      {t.featured.spoiler}
-                    </p>
-                  </div>
-
-                  <div className="mt-auto flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm pt-2 border-t border-[color:var(--logo-surface-border)]">
+                  <div className="flex flex-col gap-2 text-sm lg:min-w-[220px] lg:pt-12">
                     <div>
                       <span className="text-muted-foreground">{t.featured.companyLabel}:</span>{" "}
                       <span className="font-semibold">SURA Investments</span>
@@ -165,34 +165,33 @@ export function ImpactStats() {
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="lg:col-span-3 flex flex-col border-t lg:border-t-0 lg:border-l border-[color:var(--logo-surface-border)]">
-                  <button
-                    type="button"
-                    onClick={openFeaturedCase}
-                    className="relative overflow-hidden min-h-[160px] md:min-h-[200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-                    aria-label={t.featured.paths[0]?.title ?? t.featured.title}
-                  >
-                    <ResponsiveImage
-                      src={featuredImage}
-                      alt={t.featured.title}
-                      fit="cover"
-                      aspectRatio="16 / 9"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="h-full min-h-[160px] md:min-h-[200px]"
-                      imgClassName="group-hover:scale-[1.03] transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent pointer-events-none" />
-                  </button>
+              <button
+                type="button"
+                onClick={openFeaturedCase}
+                className="relative block w-full overflow-hidden min-h-[180px] md:min-h-[220px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                aria-label={t.featured.title}
+              >
+                <ResponsiveImage
+                  src={featuredImage}
+                  alt={t.featured.title}
+                  fit="cover"
+                  aspectRatio="21 / 9"
+                  sizes="100vw"
+                  className="h-full min-h-[180px] md:min-h-[220px]"
+                  imgClassName="group-hover:scale-[1.02] transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent pointer-events-none" />
+              </button>
 
-                  <div className="p-6 md:p-8 border-t border-[color:var(--logo-surface-border)]">
-                    <FeaturedCaseNavigator
-                      label={t.featured.pathsLabel}
-                      paths={t.featured.paths}
-                      projectId={t.featured.projectId}
-                    />
-                  </div>
-                </div>
+              <div className="p-6 md:p-8">
+                <FeaturedCaseNavigator
+                  label={t.featured.pathsLabel}
+                  paths={t.featured.paths}
+                  projectId={t.featured.projectId}
+                  layout="equal"
+                />
               </div>
             </CardContent>
           </Card>

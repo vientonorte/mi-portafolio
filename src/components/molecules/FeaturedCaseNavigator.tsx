@@ -1,13 +1,6 @@
-import {
-  FileText,
-  Layers,
-  LayoutDashboard,
-  Search,
-  Shield,
-  Users,
-} from "lucide-react";
+import { Briefcase, ClipboardCheck, FileText, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HeroAudienceCta, type HeroAudienceOption } from "./HeroAudienceCta";
 import { navigateFeaturedPath } from "../../lib/featured-path-routes";
 import { trackEvent } from "../../lib/analytics";
@@ -22,22 +15,26 @@ export interface FeaturedCasePath {
 }
 
 const PATH_ICONS: Record<string, LucideIcon> = {
-  "full-case": FileText,
-  onboarding: Users,
-  "auth-flows": Shield,
-  prototypes: Layers,
-  dashboard: LayoutDashboard,
-  "ux-research": Search,
+  reclutadores: User,
+  leads: Briefcase,
+  auditoria: ClipboardCheck,
 };
 
 interface FeaturedCaseNavigatorProps {
   label: string;
   paths: FeaturedCasePath[];
   projectId: string;
+  layout?: "stacked" | "equal";
 }
 
-export function FeaturedCaseNavigator({ label, paths, projectId }: FeaturedCaseNavigatorProps) {
+export function FeaturedCaseNavigator({
+  label,
+  paths,
+  projectId,
+  layout = "equal",
+}: FeaturedCaseNavigatorProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const options: HeroAudienceOption[] = paths.map((path) => ({
     id: path.id,
@@ -51,10 +48,11 @@ export function FeaturedCaseNavigator({ label, paths, projectId }: FeaturedCaseN
         path_id: path.id,
         href: path.href,
         project_id: projectId,
+        layout,
       });
-      navigateFeaturedPath(navigate, path.href);
+      navigateFeaturedPath(navigate, path.href, location.pathname);
     },
   }));
 
-  return <HeroAudienceCta label={label} options={options} />;
+  return <HeroAudienceCta label={label} options={options} layout={layout} />;
 }

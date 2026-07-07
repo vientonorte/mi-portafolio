@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-07] — Hero, impacto por audiencia, contenido SURA
+
+### Changed
+- **Proyecto destacado** (`#impacto`): layout en columna (header → imagen → 3 caminos) alineado con hero.
+- Rutas por audiencia: Reclutadores → caso RIA · Leads → dashboard · Auditoría freemium → `/auditoria`.
+
 ## [2026-07-07] — Hero, contenido SURA, paths y assets
 
 ### Added

@@ -1,9 +1,15 @@
 import type { NavigateFunction } from "react-router-dom";
 import { ROUTES } from "./routes";
+import { navigateToPageSection } from "./navigate-to-section";
 
-/** `project/sura-ria-us` · `process/ux-research` · `company/sura-investments` */
-export function navigateFeaturedPath(navigate: NavigateFunction, href: string) {
-  const [kind, id] = href.split("/");
+/** `project/sura-ria-us` · `process/ux-research` · `route/auditoria` · `section/sobre-mi/experiencia` */
+export function navigateFeaturedPath(
+  navigate: NavigateFunction,
+  href: string,
+  currentPath = "/"
+) {
+  const [kind, ...rest] = href.split("/");
+  const id = rest.join("/");
 
   switch (kind) {
     case "project":
@@ -15,6 +21,17 @@ export function navigateFeaturedPath(navigate: NavigateFunction, href: string) {
     case "company":
       navigate(ROUTES.company(id));
       break;
+    case "route":
+      if (id === "auditoria") navigate(ROUTES.audit);
+      else if (id === "consultoria") navigate(ROUTES.consulting);
+      else if (id === "contacto") navigate(ROUTES.contact);
+      else navigate(ROUTES.home);
+      break;
+    case "section": {
+      const [page, sectionId] = rest;
+      navigateToPageSection(navigate, `/${page}`, sectionId, currentPath);
+      break;
+    }
     default:
       navigate(ROUTES.home);
   }

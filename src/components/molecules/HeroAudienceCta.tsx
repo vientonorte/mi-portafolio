@@ -16,6 +16,8 @@ export interface HeroAudienceOption {
 interface HeroAudienceCtaProps {
   label: string;
   options: HeroAudienceOption[];
+  /** `stacked`: 1 destacado + grid · `equal`: misma jerarquía (3 caminos) */
+  layout?: "stacked" | "equal";
 }
 
 function AudienceCard({
@@ -24,8 +26,9 @@ function AudienceCard({
   hint,
   badge,
   featured = false,
+  stacked = false,
   onClick,
-}: Omit<HeroAudienceOption, "id">) {
+}: Omit<HeroAudienceOption, "id"> & { stacked?: boolean }) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -35,7 +38,8 @@ function AudienceCard({
       whileHover={prefersReducedMotion ? undefined : { y: featured ? -3 : -2 }}
       whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
       className={cn(
-        "group relative flex w-full min-h-[4.75rem] items-center gap-4 rounded-2xl border p-4 text-left transition-[border-color,box-shadow,background-color] duration-300",
+        "group relative flex w-full rounded-2xl border p-4 text-left transition-[border-color,box-shadow,background-color] duration-300",
+        stacked ? "h-full min-h-[11rem] flex-col items-start gap-3" : "min-h-[4.75rem] items-center gap-4",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         featured
           ? "border-primary/25 bg-featured-matte shadow-md hover:border-primary/40 hover:shadow-lg"
@@ -84,7 +88,8 @@ function AudienceCard({
         className={cn(
           "h-4 w-4 shrink-0 text-muted-foreground transition-all duration-300",
           "group-hover:translate-x-0.5 group-hover:text-primary",
-          featured && "group-hover:text-primary"
+          featured && "group-hover:text-primary",
+          stacked && "mt-auto"
         )}
         aria-hidden="true"
       />
@@ -92,7 +97,7 @@ function AudienceCard({
   );
 }
 
-export function HeroAudienceCta({ label, options }: HeroAudienceCtaProps) {
+export function HeroAudienceCta({ label, options, layout = "stacked" }: HeroAudienceCtaProps) {
   const featured = options.find((option) => option.featured);
   const secondary = options.filter((option) => !option.featured);
 
@@ -105,34 +110,55 @@ export function HeroAudienceCta({ label, options }: HeroAudienceCtaProps) {
         {label}
       </p>
 
-      <div className="flex flex-col gap-2.5" aria-labelledby="hero-audience-label">
-        {featured && (
-          <AudienceCard
-            icon={featured.icon}
-            title={featured.title}
-            hint={featured.hint}
-            badge={featured.badge}
-            featured
-            onClick={featured.onClick}
-          />
-        )}
+      {layout === "equal" ? (
+        <ul
+          className="grid gap-3 sm:grid-cols-3"
+          role="list"
+          aria-labelledby="hero-audience-label"
+        >
+          {options.map((option) => (
+            <li key={option.id} className="h-full">
+              <AudienceCard
+                icon={option.icon}
+                title={option.title}
+                hint={option.hint}
+                badge={option.badge}
+                stacked
+                onClick={option.onClick}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="flex flex-col gap-2.5" aria-labelledby="hero-audience-label">
+          {featured && (
+            <AudienceCard
+              icon={featured.icon}
+              title={featured.title}
+              hint={featured.hint}
+              badge={featured.badge}
+              featured
+              onClick={featured.onClick}
+            />
+          )}
 
-        {secondary.length > 0 && (
-          <ul className="grid gap-2.5 sm:grid-cols-2" role="list">
-            {secondary.map((option) => (
-              <li key={option.id}>
-                <AudienceCard
-                  icon={option.icon}
-                  title={option.title}
-                  hint={option.hint}
-                  badge={option.badge}
-                  onClick={option.onClick}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+          {secondary.length > 0 && (
+            <ul className="grid gap-2.5 sm:grid-cols-2" role="list">
+              {secondary.map((option) => (
+                <li key={option.id}>
+                  <AudienceCard
+                    icon={option.icon}
+                    title={option.title}
+                    hint={option.hint}
+                    badge={option.badge}
+                    onClick={option.onClick}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }
