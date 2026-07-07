@@ -218,8 +218,8 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
 
 const CHANNEL_PRIORITY: ContactSubmitChannel[] = [
   "google_forms",
-  "formsubmit",
   "worker",
+  "formsubmit",
 ];
 
 export function pickBestResult(results: ContactSubmitResult[]): ContactSubmitResult | null {
@@ -249,8 +249,8 @@ function collectParallelResults(
 }
 
 /**
- * Envía contacto en paralelo: Google Forms + FormSubmit + Worker (si hay DOM),
- * luego mailto. FormSubmit corre siempre como respaldo de email.
+ * Envía contacto en paralelo: Google Forms + Worker (si hay DOM).
+ * FormSubmit solo como último respaldo (emails con sponsor en plan free).
  */
 export async function submitContactMessage(
   payload: ContactPayload
@@ -262,10 +262,7 @@ export async function submitContactMessage(
   let lastWorkerError: string | undefined;
 
   if (typeof document !== "undefined") {
-    const parallelTasks: Promise<ContactSubmitResult>[] = [
-      submitViaFormPost(payload),
-      submitViaWorker(payload),
-    ];
+    const parallelTasks: Promise<ContactSubmitResult>[] = [submitViaWorker(payload)];
 
     if (getGoogleFormsConfig()) {
       parallelTasks.push(submitViaGoogleForms(payload));
@@ -280,6 +277,13 @@ export async function submitContactMessage(
 
     const best = pickBestResult(settled);
     if (best) return best;
+
+    try {
+      const formsubmitResult = await submitViaFormPost(payload);
+      if (formsubmitResult.ok) return formsubmitResult;
+    } catch (error) {
+      console.warn("[contact] formsubmit fallback failed:", error);
+    }
   } else {
     try {
       const workerResult = await submitViaWorker(payload);
