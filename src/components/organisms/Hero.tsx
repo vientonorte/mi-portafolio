@@ -7,10 +7,8 @@ import { analytics } from "../../lib/analytics";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
-import {
-  HeroUnifiedBanner,
-  type HeroBannerCategory,
-} from "../molecules/HeroUnifiedBanner";
+import { HeroIntelligentSearch } from "../molecules/HeroIntelligentSearch";
+import type { HeroBannerCategory } from "../molecules/HeroUnifiedBanner";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
@@ -146,10 +144,15 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
           </div>
 
           <motion.div variants={itemVariants} className="w-full">
-            <HeroUnifiedBanner
+            <HeroIntelligentSearch
               groupLabel={t.unifiedBanner.groupLabel}
+              searchPlaceholder={t.unifiedBanner.searchPlaceholder}
+              searchAriaLabel={t.unifiedBanner.searchAriaLabel}
+              suggestionsLabel={t.unifiedBanner.suggestionsLabel}
+              noResults={t.unifiedBanner.noResults}
               tabs={t.unifiedBanner.tabs}
               panels={t.unifiedBanner.panels}
+              suggestions={t.unifiedBanner.suggestions}
               onPrimaryAction={handlePrimaryAction}
               onSecondaryAction={handleSecondaryAction}
             />

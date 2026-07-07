@@ -25,7 +25,13 @@ export function navigateFeaturedPath(
       if (id === "auditoria") navigate(ROUTES.audit);
       else if (id === "consultoria") navigate(ROUTES.consulting);
       else if (id === "contacto") navigate(ROUTES.contact);
+      else if (id === "proyectos") navigate(ROUTES.projects);
+      else if (id === "proceso") navigate(ROUTES.process);
+      else if (id === "sobre-mi") navigate("/sobre-mi");
       else navigate(ROUTES.home);
+      break;
+    case "path":
+      navigate(`/${id}`);
       break;
     case "section": {
       const [page, sectionId] = rest;

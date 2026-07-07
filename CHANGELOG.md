@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-07] — Hero buscador inteligente, impacto por audiencia
+
+### Added
+- **`HeroIntelligentSearch`**: buscador con autosuggest, 3 líneas de negocio (tabs) y CTAs post-search — alineado con nav.
+
 ## [2026-07-07] — Hero, impacto por audiencia, contenido SURA
 
 ### Changed

@@ -13,4 +13,16 @@ describe("navigateFeaturedPath", () => {
     expect(navigate).toHaveBeenNthCalledWith(2, "/proceso/fase/ux-research");
     expect(navigate).toHaveBeenNthCalledWith(3, "/empresa/sura-investments");
   });
+
+  it("routes hero search destinations", () => {
+    const navigate = vi.fn();
+
+    navigateFeaturedPath(navigate, "route/proyectos");
+    navigateFeaturedPath(navigate, "route/sobre-mi");
+    navigateFeaturedPath(navigate, "path/proyectos/autosuggest-fondos");
+
+    expect(navigate).toHaveBeenNthCalledWith(1, "/proyectos");
+    expect(navigate).toHaveBeenNthCalledWith(2, "/sobre-mi");
+    expect(navigate).toHaveBeenNthCalledWith(3, "/proyectos/autosuggest-fondos");
+  });
 });
