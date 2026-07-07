@@ -1,6 +1,7 @@
 import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
 import { Experience } from '../components/organisms/Experience';
+import { Contact } from '../components/organisms/Contact';
 
 import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
@@ -39,6 +40,7 @@ const SobreMi = () => {
       <About />
       <Skills />
       <Experience />
+      <Contact />
     </PageShell>
   );
 };
