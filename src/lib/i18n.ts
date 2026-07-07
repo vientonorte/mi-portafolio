@@ -303,22 +303,62 @@ export const translations = {
       headlineFocus: 'reduce el ruido.',
       valueProp: 'Menos fricción y más claridad en fintech y mobility.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
-      cta: {
-        groupLabel: '¿Por dónde entras?',
-        recruiters: {
-          title: 'Reclutadores',
-          hint: 'Perfil, CV y casos medibles en menos de 10 s',
-          badge: 'CV listo',
+      unifiedBanner: {
+        groupLabel: '¿Qué buscas?',
+        tabs: {
+          negocios: 'Negocios',
+          contacto: 'Contacto',
+          auditorias: 'Auditorías UX',
         },
-        auditLeads: {
-          title: 'Leads auditorías',
-          hint: 'Bolsas Radar, Marco y Ops con entregables ejecutivos',
-          badge: 'Viento Norte',
-        },
-        freeAuditB2b: {
-          title: 'Auditoría gratuita B2B',
-          hint: 'Muestra real con hallazgos P0–P2 y WCAG 2.2 AA',
-          badge: 'Sin costo',
+        panels: {
+          negocios: {
+            badge: 'Casos en producción',
+            title: 'Métricas con',
+            titleAccent: 'método detrás',
+            description:
+              'SURA, Transvip y Karri — fintech y mobility con Design Ops aplicado en producción.',
+            highlights: ['Fintech regulado', 'Mobility premium', 'Design Ops'],
+            metrics: [
+              { value: '−40%', label: 'Onboarding SURA' },
+              { value: 'NPS 72', label: 'Inversiones' },
+              { value: '+35%', label: 'Karri' },
+            ],
+            ctaPrimary: 'Ver negocios',
+            ctaSecondary: 'Proceso UX',
+          },
+          contacto: {
+            badge: 'Perfil y contacto',
+            title: 'Conectemos',
+            titleAccent: 'sin fricción',
+            description:
+              'Incluye sobre mí, CV y canal directo — todo en un flujo de contacto unificado.',
+            lead: 'UX Lead en SURA Investments. Design Ops como método en productos regulados y mobility.',
+            highlights: ['CV descargable', 'Remoto / Híbrido', 'Respuesta <24 h'],
+            metrics: [
+              { value: 'CV', label: 'Listo' },
+              { value: '3+', label: 'Años UX Lead' },
+              { value: '5+', label: 'Países SURA' },
+            ],
+            ctaPrimary: 'Ir a contacto',
+            ctaSecondary: 'Ver perfil completo',
+          },
+          auditorias: {
+            badge: 'Viento Norte · Consultoría',
+            title: 'Auditorías UX',
+            titleAccent: 'con evidencia',
+            description:
+              'Mentorías, bolsas de consultoría y onboarding automatizado freemium con accesibilidad, seguridad y privacidad por diseño.',
+            highlights: ['WCAG 2.2 AA', 'Privacy by design', 'Onboarding ético'],
+            privacyNote:
+              'Formularios vía relay propio — no almacenamos tus datos en servidores de terceros.',
+            metrics: [
+              { value: 'Freemium', label: 'Auditoría OB' },
+              { value: '3', label: 'Bolsas' },
+              { value: 'P0–P2', label: 'Prioridad' },
+            ],
+            ctaPrimary: 'Auditoría gratuita',
+            ctaSecondary: 'Elegir bolsa consultoría',
+          },
         },
       },
       scroll: 'Explorar',
@@ -1210,22 +1250,62 @@ export const translations = {
       headlineFocus: 'cuts the noise.',
       valueProp: 'Less friction and more clarity in fintech and mobility.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
-      cta: {
-        groupLabel: 'Where are you coming from?',
-        recruiters: {
-          title: 'Recruiters',
-          hint: 'Profile, CV, and measurable cases in under 10 s',
-          badge: 'CV ready',
+      unifiedBanner: {
+        groupLabel: 'What are you looking for?',
+        tabs: {
+          negocios: 'Business',
+          contacto: 'Contact',
+          auditorias: 'UX Audits',
         },
-        auditLeads: {
-          title: 'Audit leads',
-          hint: 'Radar, Marco, and Ops bundles with executive deliverables',
-          badge: 'Viento Norte',
-        },
-        freeAuditB2b: {
-          title: 'Free B2B audit',
-          hint: 'Live sample with P0–P2 findings and WCAG 2.2 AA',
-          badge: 'No cost',
+        panels: {
+          negocios: {
+            badge: 'Live case studies',
+            title: 'Metrics with',
+            titleAccent: 'method behind',
+            description:
+              'SURA, Transvip, and Karri — fintech and mobility with Design Ops in production.',
+            highlights: ['Regulated fintech', 'Premium mobility', 'Design Ops'],
+            metrics: [
+              { value: '−40%', label: 'SURA onboarding' },
+              { value: 'NPS 72', label: 'Investments' },
+              { value: '+35%', label: 'Karri' },
+            ],
+            ctaPrimary: 'View business cases',
+            ctaSecondary: 'UX process',
+          },
+          contacto: {
+            badge: 'Profile and contact',
+            title: 'Let’s connect',
+            titleAccent: 'without friction',
+            description:
+              'Includes about me, CV, and a direct channel — unified in one contact flow.',
+            lead: 'UX Lead at SURA Investments. Design Ops as a method in regulated products and mobility.',
+            highlights: ['Downloadable CV', 'Remote / Hybrid', 'Reply <24 h'],
+            metrics: [
+              { value: 'CV', label: 'Ready' },
+              { value: '3+', label: 'Years UX Lead' },
+              { value: '5+', label: 'SURA countries' },
+            ],
+            ctaPrimary: 'Go to contact',
+            ctaSecondary: 'Full profile',
+          },
+          auditorias: {
+            badge: 'Viento Norte · Consulting',
+            title: 'UX audits',
+            titleAccent: 'with evidence',
+            description:
+              'Mentoring, consulting bundles, and freemium automated onboarding with accessibility, security, and privacy by design.',
+            highlights: ['WCAG 2.2 AA', 'Privacy by design', 'Ethical onboarding'],
+            privacyNote:
+              'Forms via proprietary relay — we do not store your data on third-party servers.',
+            metrics: [
+              { value: 'Freemium', label: 'Audit OB' },
+              { value: '3', label: 'Bundles' },
+              { value: 'P0–P2', label: 'Priority' },
+            ],
+            ctaPrimary: 'Free audit',
+            ctaSecondary: 'Choose consulting bundle',
+          },
         },
       },
       scroll: 'Explore',

@@ -99,6 +99,16 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
       { label: "Community", value: "Public" },
     ],
   },
+  "sura-ia-automation-dashboard": {
+    es: [
+      { label: "POC", value: "Figma Sites" },
+      { label: "Flujos IA", value: "Mapeados" },
+    ],
+    en: [
+      { label: "POC", value: "Figma Sites" },
+      { label: "AI flows", value: "Mapped" },
+    ],
+  },
 };
 
 const PROJECT_SEO_KEYWORDS: Record<string, Record<Language, string>> = {
@@ -137,6 +147,10 @@ const PROJECT_SEO_KEYWORDS: Record<string, Record<Language, string>> = {
   "ux-tools": {
     es: "herramientas UX, recursos diseño, curación, comunidad",
     en: "UX tools, design resources, curation, community",
+  },
+  "sura-ia-automation-dashboard": {
+    es: "IA enterprise, automatización procesos, dashboard análisis, POC, SURA",
+    en: "enterprise AI, process automation, analysis dashboard, POC, SURA",
   },
 };
 

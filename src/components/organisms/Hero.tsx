@@ -1,5 +1,4 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { ClipboardList, Sparkles, Users } from "lucide-react";
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -8,14 +7,17 @@ import { analytics } from "../../lib/analytics";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
-import { HeroAudienceCta } from "../molecules/HeroAudienceCta";
+import {
+  HeroUnifiedBanner,
+  type HeroBannerCategory,
+} from "../molecules/HeroUnifiedBanner";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
 }
 
-export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: HeroProps) {
+export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const location = useLocation();
@@ -32,53 +34,48 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
   const { language } = useLanguage();
   const t = useTranslation(language).hero;
 
-  const goToRecruiters = () => {
-    analytics.clickHeroRecruiters();
-    const onHome = (location.pathname.replace(/\/+$/, "") || "/") === "/";
-    if (onHome) {
-      scrollToSection("#sobre-mi");
-      return;
+  const onHome = (location.pathname.replace(/\/+$/, "") || "/") === "/";
+
+  const handlePrimaryAction = (category: HeroBannerCategory) => {
+    switch (category) {
+      case "negocios":
+        analytics.clickViewProjects();
+        navigate(ROUTES.projects);
+        break;
+      case "contacto":
+        analytics.clickContact();
+        if (onHome) {
+          scrollToSection("#contacto");
+        } else {
+          navigate(ROUTES.contact);
+        }
+        break;
+      case "auditorias":
+        analytics.clickHeroFreeAudit();
+        navigate(ROUTES.audit);
+        break;
     }
-    navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
   };
 
-  const goToAuditLeads = () => {
-    analytics.clickHeroAuditLeads();
-    navigate(ROUTES.consulting);
+  const handleSecondaryAction = (category: HeroBannerCategory) => {
+    switch (category) {
+      case "negocios":
+        analytics.clickCaseStudies();
+        onNavigateToCaseStudies?.();
+        break;
+      case "contacto":
+        if (onHome) {
+          scrollToSection("#sobre-mi");
+        } else {
+          navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
+        }
+        break;
+      case "auditorias":
+        analytics.clickHeroAuditLeads();
+        navigate(ROUTES.consulting);
+        break;
+    }
   };
-
-  const goToFreeAudit = () => {
-    analytics.clickHeroFreeAudit();
-    navigate(ROUTES.audit);
-  };
-
-  const audienceOptions = [
-    {
-      id: "recruiters",
-      icon: Users,
-      title: t.cta.recruiters.title,
-      hint: t.cta.recruiters.hint,
-      badge: t.cta.recruiters.badge,
-      featured: true,
-      onClick: goToRecruiters,
-    },
-    {
-      id: "audit-leads",
-      icon: ClipboardList,
-      title: t.cta.auditLeads.title,
-      hint: t.cta.auditLeads.hint,
-      badge: t.cta.auditLeads.badge,
-      onClick: goToAuditLeads,
-    },
-    {
-      id: "free-audit",
-      icon: Sparkles,
-      title: t.cta.freeAuditB2b.title,
-      hint: t.cta.freeAuditB2b.hint,
-      badge: t.cta.freeAuditB2b.badge,
-      onClick: goToFreeAudit,
-    },
-  ];
 
   const scrollToTeaser = () => {
     scrollToSection("#negocios");
@@ -124,8 +121,9 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
           variants={containerVariants}
           initial={prefersReducedMotion ? false : "hidden"}
           animate={prefersReducedMotion ? false : "visible"}
+          className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12"
         >
-          <div className="max-w-3xl">
+          <div>
             <motion.p
               variants={itemVariants}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-matte-elevated px-3 py-1.5 font-mono text-xs uppercase text-foreground"
@@ -158,10 +156,6 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
               {t.valueProp}
             </motion.p>
 
-            <motion.div variants={itemVariants} style={{ marginBottom: "3rem" }}>
-              <HeroAudienceCta label={t.cta.groupLabel} options={audienceOptions} />
-            </motion.div>
-
             <motion.div variants={itemVariants}>
               <motion.button
                 animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}
@@ -184,6 +178,16 @@ export function Hero({ onNavigateToCaseStudies: _onNavigateToCaseStudies }: Hero
               </motion.button>
             </motion.div>
           </div>
+
+          <motion.div variants={itemVariants} className="w-full">
+            <HeroUnifiedBanner
+              groupLabel={t.unifiedBanner.groupLabel}
+              tabs={t.unifiedBanner.tabs}
+              panels={t.unifiedBanner.panels}
+              onPrimaryAction={handlePrimaryAction}
+              onSecondaryAction={handleSecondaryAction}
+            />
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>

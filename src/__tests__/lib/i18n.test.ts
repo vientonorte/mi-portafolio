@@ -23,11 +23,13 @@ describe('translations', () => {
         expect(hero).toHaveProperty('label');
         expect(hero).toHaveProperty('headlineLead');
         expect(hero).toHaveProperty('headlineFocus');
-        expect(hero.cta).toHaveProperty('groupLabel');
-        expect(hero.cta.recruiters).toHaveProperty('title');
-        expect(hero.cta.recruiters).toHaveProperty('hint');
-        expect(hero.cta.auditLeads).toHaveProperty('title');
-        expect(hero.cta.freeAuditB2b).toHaveProperty('title');
+        expect(hero.unifiedBanner).toHaveProperty('groupLabel');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('negocios');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('contacto');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('auditorias');
+        expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.panels.auditorias).toHaveProperty('privacyNote');
       });
 
       it('has about section with required keys', () => {
