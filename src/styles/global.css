@@ -5,6 +5,7 @@
   --bottom-nav-height: 4rem;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --bottom-nav-total: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+  --back-to-top-offset: calc(var(--bottom-nav-total) + 1rem);
 }
 
 @media (min-width: 640px) {
@@ -16,6 +17,7 @@
 html {
     box-sizing: border-box;
     scroll-padding-top: var(--header-height);
+    scroll-padding-bottom: var(--bottom-nav-total);
 }
 
 *,
@@ -67,25 +69,10 @@ img {
   }
 }
 
-/* Bottom nav — mobile y tablet (< lg); en desktop vive en el header */
+/* Bottom nav — dock fijo en todos los breakpoints */
 .bottom-nav-mobile {
+  display: block;
   width: 100%;
-}
-
-@media (max-width: 1023px) {
-  .bottom-nav-mobile {
-    display: block;
-  }
-
-  html {
-    scroll-padding-bottom: var(--bottom-nav-total);
-  }
-}
-
-@media (min-width: 1024px) {
-  .bottom-nav-mobile {
-    display: none;
-  }
 }
 
 .bottom-nav-mobile__list {
@@ -139,12 +126,10 @@ html[data-nav="subpage"] [id].scroll-mt-20 {
   }
 }
 
-@media (max-width: 1023px) {
-  html[data-nav="subpage"] .page-shell,
-  html[data-nav="subpage"] .site-footer,
-  .site-footer {
-    padding-bottom: var(--bottom-nav-total);
-  }
+html[data-nav="subpage"] .page-shell,
+html[data-nav="subpage"] .site-footer,
+.site-footer {
+  padding-bottom: var(--bottom-nav-total);
 }
 
 /* Títulos con gradiente — webkit completo (Safari) */

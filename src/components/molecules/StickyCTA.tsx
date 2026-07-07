@@ -59,7 +59,7 @@ export function StickyCTA({
             damping: 30,
             duration: shouldReduceMotion ? 0 : undefined
           }}
-          className="fixed bottom-8 left-1/2 z-40 max-lg:bottom-[calc(var(--bottom-nav-total)+0.75rem)] -translate-x-1/2"
+          className="fixed bottom-[var(--back-to-top-offset)] left-1/2 z-40 -translate-x-1/2"
         >
           <div className="relative">
             {/* Glow effect */}

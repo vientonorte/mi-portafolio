@@ -207,7 +207,7 @@ export function MobileMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl lg:bottom-0"
+            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
             role="dialog"
             aria-label="Menú de navegación móvil"

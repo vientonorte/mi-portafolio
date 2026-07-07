@@ -108,7 +108,7 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
       />
 
       <motion.div
-        className="container relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 pb-[calc(var(--bottom-nav-total)+2rem)] lg:pb-16"
+        className="container relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 pb-[calc(var(--bottom-nav-total)+2rem)]"
         style={{ opacity, y }}
       >
         <motion.div
