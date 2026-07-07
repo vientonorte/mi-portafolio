@@ -80,10 +80,26 @@ El alias público **contacto@vientonorte.cl** sigue siendo el que muestra el sit
 #### Obtener `entry.XXXXX` y action URL
 
 1. En el formulario: **⋮** → **Obtener enlace prellenado**.
-2. Rellena cada campo con un valor de prueba → **Obtener enlace**.
-3. Del URL copia los `entry.123456789` de cada campo.
-4. La action URL es: `https://docs.google.com/forms/d/e/FORM_ID/formResponse`  
-   (mismo `FORM_ID` del enlace de envío, terminando en `/formResponse`).
+2. Rellena cada campo con un valor **único** (recomendado):
+   - Nombre → `test-nombre`
+   - Email → `test-email`
+   - Mensaje → `test-mensaje`
+   - Motivo → `test-motivo` (si existe)
+   - Canal → `test-canal` (si existe)
+   - Idioma → `test-idioma` (si existe)
+3. **Obtener enlace** y ejecuta en el repo:
+
+```bash
+./scripts/google-form-env-from-prefill.sh 'PEGAR_URL_PRELLENADA'
+```
+
+4. Copia la salida a `.env.local` (dev) o GitHub Secrets (prod), asignando cada `entry.XXX` al nombre correcto.
+5. La action URL es: `https://docs.google.com/forms/d/e/FORM_ID/formResponse`.
+
+#### Respuestas en hoja (backup automático)
+
+En el formulario → pestaña **Respuestas** → icono **Google Sheets** → **Crear hoja de cálculo**.  
+Cada envío del portfolio queda en la hoja sin código extra.
 
 #### Variables (local + GitHub Secrets)
 
