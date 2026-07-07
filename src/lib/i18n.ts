@@ -14,6 +14,9 @@ export const translations = {
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
       more: 'Más',
+      consulting: 'Consultoría ✦',
+      audit: 'Auditoría UX',
+      research: 'Investigación',
     },
 
     homeTeaser: {
@@ -362,9 +365,8 @@ export const translations = {
         panels: {
           negocios: {
             badge: 'Casos en producción',
-            title: 'Explorar',
-            titleAccent: 'negocios',
-            description: 'Casos con proceso documentado, evidencia visual y resultados medibles.',
+            composerHint: 'Casos con proceso documentado, evidencia visual y resultados medibles.',
+            description: 'Fintech regulado, mobility premium y Design Ops con métricas en producción.',
             highlights: ['Fintech regulado', 'Mobility premium', 'Design Ops'],
             metrics: [],
             ctaPrimary: 'Ver negocios',
@@ -372,10 +374,9 @@ export const translations = {
           },
           contacto: {
             badge: 'Perfil y contacto',
-            title: 'Conectemos',
-            titleAccent: 'directo',
-            description: 'Sobre mí, CV y canal de contacto en un solo flujo.',
-            lead: 'UX Lead · remoto o híbrido · respuesta en menos de 24 h.',
+            composerHint: 'Sobre mí, CV y canal de contacto en un solo flujo.',
+            description: 'UX Lead · remoto o híbrido · respuesta en menos de 24 h.',
+            lead: 'Perfil completo, experiencia y formulario unificado.',
             highlights: ['CV descargable', 'Remoto / Híbrido', 'Contacto unificado'],
             metrics: [],
             ctaPrimary: 'Ir a contacto',
@@ -383,10 +384,9 @@ export const translations = {
           },
           auditorias: {
             badge: 'Viento Norte · Consultoría',
-            title: 'Auditorías UX',
-            titleAccent: 'con evidencia',
+            composerHint: 'Mentorías, bolsas de consultoría y auditoría gratuita con evidencia.',
             description:
-              'Mentorías, bolsas de consultoría y onboarding freemium con accesibilidad y privacidad por diseño.',
+              'Onboarding freemium con accesibilidad WCAG 2.2 AA y privacidad por diseño.',
             highlights: ['WCAG 2.2 AA', 'Privacy by design', 'Freemium OB'],
             privacyNote:
               'Formularios vía relay propio — no almacenamos tus datos en servidores de terceros.',
@@ -396,7 +396,6 @@ export const translations = {
           },
         },
       },
-      scroll: 'Explorar',
       resultsLabel: 'Resultados',
       resultCards: [
         { metric: '−40%', description: 'onboarding SURA', company: 'SURA Investments' },
@@ -1043,6 +1042,9 @@ export const translations = {
       caseStudies: 'Case Studies',
       process: 'Process',
       more: 'More',
+      consulting: 'Consulting ✦',
+      audit: 'UX Audits',
+      research: 'Research',
     },
 
     homeTeaser: {
@@ -1391,9 +1393,8 @@ export const translations = {
         panels: {
           negocios: {
             badge: 'Live case studies',
-            title: 'Explore',
-            titleAccent: 'business cases',
-            description: 'Cases with documented process, visual evidence, and measurable outcomes.',
+            composerHint: 'Cases with documented process, visual evidence, and measurable outcomes.',
+            description: 'Regulated fintech, premium mobility, and Design Ops with production metrics.',
             highlights: ['Regulated fintech', 'Premium mobility', 'Design Ops'],
             metrics: [],
             ctaPrimary: 'View business cases',
@@ -1401,10 +1402,9 @@ export const translations = {
           },
           contacto: {
             badge: 'Profile and contact',
-            title: 'Let’s connect',
-            titleAccent: 'directly',
-            description: 'About me, CV, and contact in one flow.',
-            lead: 'UX Lead · remote or hybrid · reply within 24 h.',
+            composerHint: 'About me, CV, and contact in one flow.',
+            description: 'UX Lead · remote or hybrid · reply within 24 h.',
+            lead: 'Full profile, experience, and unified contact form.',
             highlights: ['Downloadable CV', 'Remote / Hybrid', 'Unified contact'],
             metrics: [],
             ctaPrimary: 'Go to contact',
@@ -1412,10 +1412,9 @@ export const translations = {
           },
           auditorias: {
             badge: 'Viento Norte · Consulting',
-            title: 'UX audits',
-            titleAccent: 'with evidence',
+            composerHint: 'Mentoring, consulting bundles, and free audit with evidence.',
             description:
-              'Mentoring, consulting bundles, and freemium onboarding with accessibility and privacy by design.',
+              'Freemium onboarding with WCAG 2.2 AA accessibility and privacy by design.',
             highlights: ['WCAG 2.2 AA', 'Privacy by design', 'Freemium OB'],
             privacyNote:
               'Forms via proprietary relay — we do not store your data on third-party servers.',
@@ -1425,7 +1424,6 @@ export const translations = {
           },
         },
       },
-      scroll: 'Explore',
       resultsLabel: 'Results',
       resultCards: [
         { metric: '−40%', description: 'SURA onboarding', company: 'SURA Investments' },

@@ -27,9 +27,13 @@ describe('translations', () => {
         expect(hero.unifiedBanner.tabs).toHaveProperty('negocios');
         expect(hero.unifiedBanner.tabs).toHaveProperty('contacto');
         expect(hero.unifiedBanner.tabs).toHaveProperty('auditorias');
+        expect(hero.unifiedBanner.panels.negocios).toHaveProperty('composerHint');
         expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.auditorias).toHaveProperty('privacyNote');
+        expect(nav).toHaveProperty('consulting');
+        expect(nav).toHaveProperty('audit');
+        expect(nav).toHaveProperty('research');
       });
 
       it('has about section with required keys', () => {

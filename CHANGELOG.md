@@ -18,6 +18,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 - Log de sesión: **`docs/SESSION-2026-07-07.md`**.
 
 ### Changed
+- Hero: layout **una columna** (headline + banner ancho); eliminado scroll «Explorar» que competía con «¿Qué buscas?».
+- Composer del banner: `composerHint` por tab (sin duplicar «Explorar negocios»).
+- Nav: `consulting` / `audit` / `research` en i18n; menú móvil alineado con tabs del hero (Negocios · Contacto · Auditorías UX).
 - Hero: eliminado `valueProp` visible y métricas SURA/Karri del panel Negocios.
 - Dependabot: lucide 1.23, tailwind/vite 4.3.2, react+react-dom 19.2.7 alineados (#78 cerrado).
 - `.gitignore`: `*.fig`, `*.deck`.

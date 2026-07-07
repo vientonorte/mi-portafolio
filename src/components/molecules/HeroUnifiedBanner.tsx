@@ -21,8 +21,7 @@ export interface HeroBannerMetric {
 
 export interface HeroBannerPanelCopy {
   badge: string;
-  title: string;
-  titleAccent: string;
+  composerHint: string;
   description: string;
   lead?: string;
   highlights: string[];
@@ -83,9 +82,10 @@ export function HeroUnifiedBanner({
           aria-live="polite"
         >
           <ActiveIcon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-          <p className="min-w-0 flex-1 text-sm text-foreground sm:text-base">
-            <span className="font-medium">{panel.title}</span>{" "}
-            <span className="text-brand-gradient">{panel.titleAccent}</span>
+          <p className="min-w-0 flex-1 text-sm text-muted-foreground sm:text-base">
+            <span className="font-medium text-foreground">{tabs[active]}</span>
+            <span aria-hidden="true"> · </span>
+            <span>{panel.composerHint}</span>
           </p>
         </div>
       </div>

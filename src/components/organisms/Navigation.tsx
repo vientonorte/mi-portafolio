@@ -55,28 +55,39 @@ export function Navigation({
     [processLabel, t.nav.projects, t.nav.experience, t.nav.contact]
   );
 
+  const heroAlignedNavItems: NavItem[] = useMemo(
+    () => [
+      { href: "proyectos", label: t.nav.projects, type: "route" },
+      { href: "#contacto", label: t.nav.contact, type: "anchor" },
+      { href: "auditoria", label: t.nav.audit, type: "route" },
+    ],
+    [t.nav.audit, t.nav.projects, t.nav.contact]
+  );
+
   const moreNavItems: NavItem[] = useMemo(
     () => [
       { href: "sobre-mi", label: t.nav.about, type: "route" },
-      { href: "consultoria", label: language === "es" ? "Consultoría ✦" : "Consulting ✦", type: "route" },
+      { href: "consultoria", label: t.nav.consulting, type: "route" },
+      { href: "auditoria", label: t.nav.audit, type: "route" },
       { href: "design-system", label: t.nav.designSystem, type: "route" },
-      { href: "auditoria", label: language === "es" ? "Auditoría" : "Audit", type: "route" },
       {
         href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html",
-        label: language === "es" ? "Investigación" : "Research",
+        label: t.nav.research,
         type: "external",
       },
     ],
-    [t.nav.about, t.nav.experience, t.nav.designSystem, language]
+    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.research]
   );
 
   const mobileNavItems = useMemo(
     () => [
       { href: "#inicio", label: t.nav.home, type: "anchor" as const },
-      ...primaryNavItems,
-      ...moreNavItems,
+      ...heroAlignedNavItems,
+      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" as const },
+      { href: "proceso", label: processLabel, type: "route" as const },
+      ...moreNavItems.filter((item) => item.href !== "auditoria"),
     ],
-    [primaryNavItems, moreNavItems, t.nav.home]
+    [heroAlignedNavItems, moreNavItems, processLabel, t.nav.experience, t.nav.home]
   );
 
   useEffect(() => {
@@ -352,7 +363,7 @@ export function Navigation({
         onClose={closeMenu}
         navItems={mobileNavItems}
         moreDividerLabel={t.nav.more}
-        moreStartIndex={primaryNavItems.length + 1}
+        moreStartIndex={1 + heroAlignedNavItems.length + 2}
         onNavigateToDesignSystem={onNavigateToDesignSystem}
         onNavigateToCaseStudies={onNavigateToCaseStudies}
         onNavigateToAuditoria={onNavigateToAuditoria}
