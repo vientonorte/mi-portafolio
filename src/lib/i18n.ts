@@ -132,6 +132,30 @@ export const translations = {
       panelNote: 'Entregable ejecutivo + quick wins listos para implementar.',
     },
 
+    valueArsenal: {
+      badge: 'Contenido de valor',
+      title: 'Prototipos y evidencia navegable',
+      description:
+        'Explora método real antes de reservar bolsa horaria — POCs publicados, prototipos interactivos, casos en producción y auditorías con entregable ejecutivo.',
+      filterAriaLabel: 'Filtrar evidencia',
+      filters: {
+        all: 'Todo',
+        prototype: 'Prototipos',
+        poc: 'POCs',
+        audit: 'Auditorías',
+        case: 'Casos',
+      },
+      viewProof: 'Ver evidencia',
+      bundleFit: 'Bolsa',
+      bundleStripTitle: 'Bolsas consultoría Viento Norte',
+      bundleStripDescription:
+        'Radar, Marco u Ops según profundidad — kickoff en menos de 24 h hábiles. Sin precios públicos; alcance en la primera sesión.',
+      bundleStripBadge: 'SEM · SEO ready',
+      bundleCta: 'Reservar bolsa horaria',
+      treeCta: 'Encontrar mi bolsa',
+      recommended: 'Recomendada',
+    },
+
     valueCarousel: {
       sectionBadge: 'Contenido de valor',
       prevSlide: 'Anterior',
@@ -1178,6 +1202,30 @@ export const translations = {
         recruiter: 'Recruiter test',
       },
       panelNote: 'Executive deliverable + quick wins ready to implement.',
+    },
+
+    valueArsenal: {
+      badge: 'Value content',
+      title: 'Navigable prototypes and evidence',
+      description:
+        'Explore real method before booking hourly bundles — published POCs, interactive prototypes, production cases, and audits with executive deliverables.',
+      filterAriaLabel: 'Filter evidence',
+      filters: {
+        all: 'All',
+        prototype: 'Prototypes',
+        poc: 'POCs',
+        audit: 'Audits',
+        case: 'Cases',
+      },
+      viewProof: 'View evidence',
+      bundleFit: 'Bundle',
+      bundleStripTitle: 'Viento Norte consulting bundles',
+      bundleStripDescription:
+        'Radar, Marco, or Ops by depth — kickoff within 24 business hours. No public pricing; scope defined in the first session.',
+      bundleStripBadge: 'SEM · SEO ready',
+      bundleCta: 'Book hourly bundle',
+      treeCta: 'Find my bundle',
+      recommended: 'Recommended',
     },
 
     valueCarousel: {

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Hero } from '../components/organisms/Hero';
 import { ImpactStats } from '../components/organisms/ImpactStats';
+import { ValueContentArsenal } from '../components/organisms/ValueContentArsenal';
 import { AboutTeaser } from '../components/organisms/AboutTeaser';
 import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
 import { Testimonials } from '../components/organisms/Testimonials';
@@ -38,6 +39,7 @@ const Home = () => {
         onNavigateToDesignSystem={() => navigate(ROUTES.designSystem)}
       />
       <ImpactStats />
+      <ValueContentArsenal />
       <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
       <AboutTeaser />
       <Testimonials />

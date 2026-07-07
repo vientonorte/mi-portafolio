@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
-import { PremiumUxAuditBanner } from "../components/organisms/PremiumUxAuditBanner";
+import { ValueContentArsenal } from "../components/organisms/ValueContentArsenal";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
@@ -17,6 +17,10 @@ import {
 } from "../lib/navigate-to-section";
 import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
 
+type ConsultoriaLocationState = SectionScrollState & {
+  recommendedPackage?: ConsultingPackageId;
+};
+
 export default function ConsultoriaVientoNorte() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,9 +29,13 @@ export default function ConsultoriaVientoNorte() {
   const [recommendedPackage, setRecommendedPackage] = useState<ConsultingPackageId | undefined>();
 
   useEffect(() => {
+    const state = location.state as ConsultoriaLocationState | null;
+    if (state?.recommendedPackage) {
+      setRecommendedPackage(state.recommendedPackage);
+    }
+
     const scrollTo =
-      (location.state as SectionScrollState | null)?.scrollTo ??
-      consumePendingSectionScroll(location.pathname);
+      state?.scrollTo ?? consumePendingSectionScroll(location.pathname);
 
     if (!scrollTo) return;
 
@@ -35,7 +43,8 @@ export default function ConsultoriaVientoNorte() {
     navigate(location.pathname, { replace: true, state: null });
   }, [location.pathname, location.state, navigate]);
 
-  const scrollToOnboarding = () => {
+  const scrollToOnboarding = (packageId?: ConsultingPackageId) => {
+    if (packageId) setRecommendedPackage(packageId);
     document.getElementById("consultoria-onboarding")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -50,15 +59,11 @@ export default function ConsultoriaVientoNorte() {
         keywords={t.seo.keywords}
         url={canonicalFromPath("/consultoria")}
       />
-      <PremiumUxAuditBanner
-        variant="compact"
-        onStartConsulting={scrollToOnboarding}
-        onViewSampleAudit={() => navigate("/auditoria")}
-      />
+      <ValueContentArsenal onStartOnboarding={scrollToOnboarding} />
       <ConsultoriaDemoShowcase />
       <ConsultoriaTreePreview
         onRecommendPackage={setRecommendedPackage}
-        onStartOnboarding={scrollToOnboarding}
+        onStartOnboarding={() => scrollToOnboarding()}
       />
       <div id="consultoria-onboarding">
         <ConsultoriaOnboarding initialPackageId={recommendedPackage} />
