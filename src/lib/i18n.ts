@@ -104,7 +104,7 @@ export const translations = {
     aboutTeaser: {
       title: 'UX Lead regional · Fintech & Mobility',
       lead: 'UX Lead en SURA Investments. Design Ops como método en productos regulados y mobility.',
-      detail: 'Trayectoria en Transvip/Karri, docencia en Desafío Latam y agencias (Havas/Claro, Walmart).',
+      detail: 'Trayectoria en Transvip/Karri, docencia en Desafío Latam y agencias (Havas/Claro, Maraña, Walmart).',
       cta: 'Ver perfil completo',
     },
 
@@ -1177,7 +1177,7 @@ export const translations = {
     aboutTeaser: {
       title: 'Regional UX Lead · Fintech & Mobility',
       lead: 'UX Lead at SURA Investments. Design Ops as a method in regulated products and mobility.',
-      detail: 'Background at Transvip/Karri, teaching at Desafío Latam, and agencies (Havas/Claro, Walmart).',
+      detail: 'Background at Transvip/Karri, teaching at Desafío Latam, and agencies (Havas/Claro, Maraña, Walmart).',
       cta: 'View full profile',
     },
 
