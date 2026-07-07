@@ -8,6 +8,10 @@ import type { ConsultingPackageId } from "./vientonorte-consulting";
 export const TRANSVIP_APP_FIGMA_URL =
   "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip";
 
+/** Figma · prototipo interactivo App Cliente Transvip. */
+export const TRANSVIP_APP_PROTO_URL =
+  "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu?node-id=0-1";
+
 export type ValueProofKind = "prototype" | "poc" | "audit" | "case";
 
 export interface ValueProofItem {
@@ -209,21 +213,21 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "transvip-mobile",
     kind: "prototype",
     imagePath: img((i) => i.transvip.appMobile),
-    href: TRANSVIP_APP_FIGMA_URL,
+    href: TRANSVIP_APP_PROTO_URL,
     external: true,
     bundleId: "marco",
     copy: {
       es: {
-        kindLabel: "Prototipo móvil",
+        kindLabel: "Prototipo interactivo",
         title: "Reserva premium · mobile-first",
-        outcome: "Flujos de reserva en Figma — −40% tiempo y +25% conversión.",
-        metric: "Figma live",
+        outcome: "Proto navegable en Figma — flujos de reserva −40% tiempo y +25% conversión.",
+        metric: "Proto live",
       },
       en: {
-        kindLabel: "Mobile prototype",
+        kindLabel: "Interactive prototype",
         title: "Premium booking · mobile-first",
-        outcome: "Booking flows in Figma — −40% time and +25% conversion.",
-        metric: "Live Figma",
+        outcome: "Navigable Figma proto — booking flows −40% time and +25% conversion.",
+        metric: "Live proto",
       },
     },
   },
@@ -529,7 +533,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
-  "transvip-mobile": TRANSVIP_APP_FIGMA_URL,
+  "transvip-mobile": TRANSVIP_APP_PROTO_URL,
   "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
 };
 
