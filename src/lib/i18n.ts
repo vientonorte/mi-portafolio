@@ -721,8 +721,8 @@ export const translations = {
         consentPrivacyLink: 'política de privacidad',
         consentRequired: 'Debes aceptar el tratamiento de datos para enviar',
         validationError: 'Por favor corrige los errores en el formulario',
-        success: '¡Mensaje enviado! Te responderé en menos de 24 horas.',
-        successFallback: '¡Mensaje enviado! Te responderé en menos de 24 horas.',
+        success: '¡Mensaje enviado! Revisa tu email por la copia — respuesta en menos de 24 h.',
+        successFallback: '¡Mensaje enviado! Revisa tu email por la copia — respuesta en menos de 24 h.',
         mailtoFallback: 'No pudimos enviar por el formulario',
         mailtoFallbackDesc: 'Abre tu cliente de correo con el mensaje listo para enviar.',
         mailtoAction: 'Abrir correo',
@@ -780,7 +780,7 @@ export const translations = {
         sending: 'Enviando…',
         editMessage: 'Puedes editar el mensaje antes de enviar',
         privacyNote:
-          'Tus datos se usan solo para responder esta consulta. Confirmación por email — sin marketing.',
+          'Tus datos van a Google Forms (Viento Norte). Recibes copia por email; nos llega a contacto@vientonorte.cl — sin marketing.',
         success: '¡Listo! Te responderé en menos de 24 horas.',
       },
       social: {
@@ -1032,7 +1032,7 @@ export const translations = {
       contact: {
         title: 'Formulario de contacto',
         body:
-          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a un servicio de correo transaccional (FormSubmit) que reenvía el mensaje para responderte. No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
+          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a Google Forms (cuenta Viento Norte). Google puede enviarte copia de tu respuesta y notificarnos en contacto@vientonorte.cl (reenvío a gaete.gaona@gmail.com). No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
       },
       retention: {
         title: 'Conservación',
@@ -1828,8 +1828,8 @@ export const translations = {
         consentPrivacyLink: 'privacy policy',
         consentRequired: 'You must accept data processing to send',
         validationError: 'Please fix the errors in the form',
-        success: 'Message sent! I\'ll reply within 24 hours.',
-        successFallback: 'Message sent! I\'ll reply within 24 hours.',
+        success: 'Message sent! Check your email for a copy — reply within 24 h.',
+        successFallback: 'Message sent! Check your email for a copy — reply within 24 h.',
         mailtoFallback: 'We couldn\'t send via the form',
         mailtoFallbackDesc: 'Open your email client with the message ready to send.',
         mailtoAction: 'Open email',
@@ -1887,7 +1887,7 @@ export const translations = {
         sending: 'Sending…',
         editMessage: 'You can edit the message before sending',
         privacyNote:
-          'Your data is used only to reply to this inquiry. Email confirmation — no marketing.',
+          'Your data goes to Google Forms (Viento Norte). You get an email copy; we receive it at contacto@vientonorte.cl — no marketing.',
         success: 'Done! I\'ll reply within 24 hours.',
       },
       social: {
@@ -2159,7 +2159,7 @@ export const translations = {
       contact: {
         title: 'Contact form',
         body:
-          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to a transactional email service (FormSubmit) that forwards the message so we can reply. We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
+          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to Google Forms (Viento Norte account). Google may email you a copy of your response and notify us at contacto@vientonorte.cl (forwarded to gaete.gaona@gmail.com). We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
       },
       retention: {
         title: 'Retention',

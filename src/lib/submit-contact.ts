@@ -1,4 +1,8 @@
 import {
+  buildGoogleFormsFields,
+  getGoogleFormsConfig,
+} from "./google-forms-contact";
+import {
   CONTACT_API_URL,
   FORM_SUBMIT_INBOX,
   PUBLIC_CONTACT_EMAIL,
@@ -17,7 +21,7 @@ export interface ContactPayload {
   language?: "es" | "en";
 }
 
-export type ContactSubmitChannel = "formsubmit" | "worker" | "mailto";
+export type ContactSubmitChannel = "google_forms" | "formsubmit" | "worker" | "mailto";
 
 export interface ContactSubmitResult {
   ok: boolean;
@@ -46,7 +50,66 @@ function formatOutboundMessage(payload: ContactPayload): string {
   return lines.join("\n");
 }
 
-/** FormSubmit clásico (POST vía iframe) — canal principal, sin CORS ni Worker. */
+/** Google Forms (POST vía iframe) — copia al respondente + notificación al dueño del form. */
+function submitViaGoogleForms(payload: ContactPayload): Promise<ContactSubmitResult> {
+  const config = getGoogleFormsConfig();
+  if (!config) {
+    return Promise.resolve({ ok: false, error: "google_forms_not_configured" });
+  }
+
+  return new Promise((resolve) => {
+    const frameName = "contact-google-forms-frame";
+    let frame = document.querySelector<HTMLIFrameElement>(`iframe[name="${frameName}"]`);
+
+    if (!frame) {
+      frame = document.createElement("iframe");
+      frame.name = frameName;
+      frame.title = "Contact Google Forms relay";
+      frame.setAttribute("aria-hidden", "true");
+      frame.style.cssText = "display:none;width:0;height:0;border:0";
+      document.body.appendChild(frame);
+    }
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = config.actionUrl;
+    form.target = frameName;
+    form.style.display = "none";
+
+    const fields = buildGoogleFormsFields(payload, config.entries);
+    for (const [key, value] of Object.entries(fields)) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    const cleanup = () => {
+      form.remove();
+      clearTimeout(timer);
+    };
+
+    const timer = window.setTimeout(() => {
+      cleanup();
+      resolve({ ok: true, channel: "google_forms" });
+    }, 1800);
+
+    frame.addEventListener(
+      "load",
+      () => {
+        cleanup();
+        resolve({ ok: true, channel: "google_forms" });
+      },
+      { once: true }
+    );
+
+    document.body.appendChild(form);
+    form.submit();
+  });
+}
+
+/** FormSubmit clásico (POST vía iframe) — respaldo, sin CORS ni Worker. */
 function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult> {
   return new Promise((resolve) => {
     const frameName = "contact-formsubmit-frame";
@@ -144,16 +207,25 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
 }
 
 /**
- * Envía contacto: FormSubmit (navegador) → Worker (respaldo silencioso) → mailto.
+ * Envía contacto: Google Forms (si configurado) → FormSubmit → Worker → mailto.
  */
 export async function submitContactMessage(
   payload: ContactPayload
 ): Promise<ContactSubmitResult> {
   if (payload._gotcha) {
-    return { ok: true, channel: "formsubmit" };
+    return { ok: true, channel: getGoogleFormsConfig() ? "google_forms" : "formsubmit" };
   }
 
   if (typeof document !== "undefined") {
+    if (getGoogleFormsConfig()) {
+      try {
+        const googleResult = await submitViaGoogleForms(payload);
+        if (googleResult.ok) return googleResult;
+      } catch (error) {
+        console.warn("[contact] google forms failed:", error);
+      }
+    }
+
     try {
       const formResult = await submitViaFormPost(payload);
       if (formResult.ok) return formResult;

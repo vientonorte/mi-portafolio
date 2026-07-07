@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-07] — Contacto Google Forms, hero buscador
+
+### Added
+- **Contacto → Google Forms**: front sin cambios; POST vía iframe con copia al remitente (config en el form) y notificación a `gaete.gaona@gmail.com` / alias `contacto@vientonorte.cl`. FormSubmit queda como respaldo.
+
 ## [2026-07-07] — Hero buscador inteligente, impacto por audiencia
 
 ### Added
