@@ -7,6 +7,7 @@ import './styles/globals.css';
 import './styles/global.css';
 import './styles/design-system.css';
 import { ErrorBoundary } from './components/organisms/ErrorBoundary';
+import { normalizeDoubleHashUrl } from './lib/normalize-hash-url';
 
 function bootstrapTheme() {
   try {
@@ -20,6 +21,7 @@ function bootstrapTheme() {
 }
 
 bootstrapTheme();
+normalizeDoubleHashUrl();
 
 const rootEl = document.getElementById('root');
 if (!rootEl) {

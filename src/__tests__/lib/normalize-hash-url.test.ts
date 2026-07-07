@@ -1,0 +1,76 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  consumePendingSectionScroll,
+  normalizeDoubleHashUrl,
+} from "@/lib/normalize-hash-url";
+
+describe("normalizeDoubleHashUrl", () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+    vi.stubGlobal("history", {
+      replaceState: vi.fn(),
+    });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("rewrites double-hash URLs and stores pending scroll", () => {
+    vi.stubGlobal("location", {
+      hash: "#/consultoria#consultoria-demo",
+      pathname: "/mi-portafolio/",
+      search: "",
+    });
+
+    normalizeDoubleHashUrl();
+
+    expect(history.replaceState).toHaveBeenCalledWith(
+      null,
+      "",
+      "/mi-portafolio/#/consultoria"
+    );
+    expect(sessionStorage.getItem("rg-pending-section-scroll")).toBe(
+      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+    );
+  });
+
+  it("ignores valid single-hash URLs", () => {
+    vi.stubGlobal("location", {
+      hash: "#/consultoria",
+      pathname: "/mi-portafolio/",
+      search: "",
+    });
+
+    normalizeDoubleHashUrl();
+
+    expect(history.replaceState).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem("rg-pending-section-scroll")).toBeNull();
+  });
+});
+
+describe("consumePendingSectionScroll", () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+
+  it("returns section id when route matches and clears storage", () => {
+    sessionStorage.setItem(
+      "rg-pending-section-scroll",
+      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+    );
+
+    expect(consumePendingSectionScroll("/consultoria")).toBe("consultoria-demo");
+    expect(sessionStorage.getItem("rg-pending-section-scroll")).toBeNull();
+  });
+
+  it("returns undefined when route does not match", () => {
+    sessionStorage.setItem(
+      "rg-pending-section-scroll",
+      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+    );
+
+    expect(consumePendingSectionScroll("/auditoria")).toBeUndefined();
+    expect(sessionStorage.getItem("rg-pending-section-scroll")).not.toBeNull();
+  });
+});

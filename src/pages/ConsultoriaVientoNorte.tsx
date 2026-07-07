@@ -11,8 +11,11 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { canonicalFromPath } from "../lib/seo";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
-
-type ConsultoriaLocationState = { scrollTo?: string };
+import {
+  runPendingSectionScroll,
+  type SectionScrollState,
+} from "../lib/navigate-to-section";
+import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
 
 export default function ConsultoriaVientoNorte() {
   const navigate = useNavigate();
@@ -22,15 +25,14 @@ export default function ConsultoriaVientoNorte() {
   const [recommendedPackage, setRecommendedPackage] = useState<ConsultingPackageId | undefined>();
 
   useEffect(() => {
-    const scrollTo = (location.state as ConsultoriaLocationState | null)?.scrollTo;
-    if (scrollTo !== "arbol") return;
+    const scrollTo =
+      (location.state as SectionScrollState | null)?.scrollTo ??
+      consumePendingSectionScroll(location.pathname);
 
-    const timer = window.setTimeout(() => {
-      document.getElementById("arbol")?.scrollIntoView({ behavior: "smooth" });
-    }, 120);
+    if (!scrollTo) return;
 
+    runPendingSectionScroll(scrollTo);
     navigate(location.pathname, { replace: true, state: null });
-    return () => window.clearTimeout(timer);
   }, [location.pathname, location.state, navigate]);
 
   const scrollToOnboarding = () => {

@@ -359,7 +359,7 @@ export const translations = {
             hint: 'Caso N2N publicado — Design Thinking y Sprint para campañas SEM y SEO.',
             badge: 'Demo',
             keywords: ['demo', 'negocios', 'cms', 'sem', 'seo', 'caso', 'x cms', 'consultoría'],
-            href: 'path/consultoria#consultoria-demo',
+            href: 'section/consultoria/consultoria-demo',
           },
           {
             id: 'contacto-perfil',
@@ -1405,7 +1405,7 @@ export const translations = {
             hint: 'Published N2N case — Design Thinking and Sprint for SEM and SEO campaigns.',
             badge: 'Demo',
             keywords: ['demo', 'business', 'cms', 'sem', 'seo', 'case', 'x cms', 'consulting'],
-            href: 'path/consultoria#consultoria-demo',
+            href: 'section/consultoria/consultoria-demo',
           },
           {
             id: 'contacto-perfil',

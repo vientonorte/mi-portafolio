@@ -9,7 +9,7 @@ const suggestions = [
     hint: "Caso N2N",
     badge: "Demo",
     keywords: ["demo", "sem", "seo"],
-    href: "path/consultoria#consultoria-demo",
+    href: "section/consultoria/consultoria-demo",
   },
   {
     id: "contacto-perfil",
