@@ -1,3 +1,5 @@
+import type { HeroSearchSuggestion } from './hero-search';
+
 export type Language = 'es' | 'en';
 
 export const translations = {
@@ -380,7 +382,7 @@ export const translations = {
             keywords: ['auditoría', 'audit', 'freemium', 'leads', 'negocios', 'wcag', 'gratis'],
             href: 'route/auditoria',
           },
-        ],
+        ] satisfies HeroSearchSuggestion[],
         panels: {
           negocios: {
             badge: 'Casos en producción',
@@ -1428,7 +1430,7 @@ export const translations = {
             keywords: ['audit', 'freemium', 'leads', 'business', 'wcag', 'free'],
             href: 'route/auditoria',
           },
-        ],
+        ] satisfies HeroSearchSuggestion[],
         panels: {
           negocios: {
             badge: 'Live case studies',
