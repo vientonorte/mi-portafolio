@@ -4,6 +4,10 @@ import { ROUTES } from "../lib/routes";
 import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
+/** Figma · System Design App Cliente Transvip (handoff navegable). */
+export const TRANSVIP_APP_FIGMA_URL =
+  "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip";
+
 export type ValueProofKind = "prototype" | "poc" | "audit" | "case";
 
 export interface ValueProofItem {
@@ -205,20 +209,43 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "transvip-mobile",
     kind: "prototype",
     imagePath: img((i) => i.transvip.appMobile),
-    href: ROUTES.project("transvip-app-premium"),
+    href: TRANSVIP_APP_FIGMA_URL,
+    external: true,
     bundleId: "marco",
     copy: {
       es: {
         kindLabel: "Prototipo móvil",
         title: "Reserva premium · mobile-first",
-        outcome: "Flujos de reserva optimizados — −40% tiempo y +25% conversión.",
-        metric: "−40% tiempo",
+        outcome: "Flujos de reserva en Figma — −40% tiempo y +25% conversión.",
+        metric: "Figma live",
       },
       en: {
         kindLabel: "Mobile prototype",
         title: "Premium booking · mobile-first",
-        outcome: "Optimized booking flows — −40% time and +25% conversion.",
-        metric: "−40% time",
+        outcome: "Booking flows in Figma — −40% time and +25% conversion.",
+        metric: "Live Figma",
+      },
+    },
+  },
+  {
+    id: "transvip-design-system",
+    kind: "prototype",
+    imagePath: img((i) => i.transvip.appDesktop),
+    href: TRANSVIP_APP_FIGMA_URL,
+    external: true,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Design System",
+        title: "System Design · App Cliente Transvip",
+        outcome: "Figma navegable — componentes, patrones y handoff listo para desarrollo.",
+        metric: "Figma live",
+      },
+      en: {
+        kindLabel: "Design System",
+        title: "System Design · Transvip Client App",
+        outcome: "Navigable Figma — components, patterns, and dev-ready handoff.",
+        metric: "Live Figma",
       },
     },
   },
@@ -502,6 +529,8 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
+  "transvip-mobile": TRANSVIP_APP_FIGMA_URL,
+  "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
 };
 
 export function getValueProofItems(language: Language) {

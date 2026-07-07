@@ -1,4 +1,5 @@
 import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
+import { TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
   suraRiaOnboarding,
@@ -625,6 +626,7 @@ export const transvipHub: CompanyHub = {
       description: "Rediseño completo de la aplicación de pasajeros de Transvip, enfocada en simplificar el proceso de reserva de traslados al aeropuerto y mejorar la experiencia de usuarios premium.",
       descriptionEN: "Complete redesign of the Transvip passenger app, focused on simplifying airport transfer booking and improving the premium user experience.",
       image: transvipDesktop,
+      externalLink: TRANSVIP_APP_FIGMA_URL,
       tags: ["Mobility", "Premium Service", "Mobile App", "UX Research"],
       processes: [
         {
