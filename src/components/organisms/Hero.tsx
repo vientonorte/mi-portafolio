@@ -148,14 +148,6 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               <span className="block text-foreground">{t.headlineFocus}</span>
             </motion.h1>
 
-            <motion.p
-              variants={itemVariants}
-              className="max-w-md text-base font-light leading-snug text-muted-foreground md:text-lg"
-              style={{ marginBottom: "2rem" }}
-            >
-              {t.valueProp}
-            </motion.p>
-
             <motion.div variants={itemVariants}>
               <motion.button
                 animate={!prefersReducedMotion ? { y: [0, 6, 0] } : undefined}

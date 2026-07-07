@@ -5,12 +5,10 @@ import {
   Briefcase,
   ClipboardCheck,
   Mail,
-  Shield,
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
 import { cn } from "../../lib/utils";
 import { trackEvent } from "../../lib/analytics";
 
@@ -60,6 +58,7 @@ export function HeroUnifiedBanner({
   const [active, setActive] = useState<HeroBannerCategory>("negocios");
   const prefersReducedMotion = useReducedMotion();
   const panel = panels[active];
+  const ActiveIcon = CATEGORY_ICONS[active];
 
   const selectCategory = (category: HeroBannerCategory) => {
     setActive(category);
@@ -68,22 +67,32 @@ export function HeroUnifiedBanner({
 
   return (
     <div
-      className="w-full rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-md"
+      className="w-full overflow-hidden rounded-3xl border border-border/80 bg-card/80 shadow-lg backdrop-blur-sm"
       role="region"
       aria-label={groupLabel}
     >
-      <div className="h-1 bg-brand-gradient rounded-t-2xl" aria-hidden="true" />
-
-      <div className="p-4 sm:p-5 md:p-6">
+      <div className="border-b border-border/60 px-4 py-3 sm:px-5">
         <p
-          className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+          className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
           id="hero-unified-label"
         >
           {groupLabel}
         </p>
-
         <div
-          className="mb-5 flex flex-wrap gap-2"
+          className="mt-3 flex items-center gap-3 rounded-2xl border border-border/70 bg-muted/30 px-3.5 py-3 sm:px-4"
+          aria-live="polite"
+        >
+          <ActiveIcon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+          <p className="min-w-0 flex-1 text-sm text-foreground sm:text-base">
+            <span className="font-medium">{panel.title}</span>{" "}
+            <span className="text-brand-gradient">{panel.titleAccent}</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="px-4 py-3 sm:px-5">
+        <div
+          className="flex flex-wrap gap-2"
           role="tablist"
           aria-labelledby="hero-unified-label"
         >
@@ -101,114 +110,94 @@ export function HeroUnifiedBanner({
                 aria-controls={`hero-panel-${category}`}
                 onClick={() => selectCategory(category)}
                 className={cn(
-                  "inline-flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm font-medium transition-all duration-200",
+                  "inline-flex min-h-10 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium transition-all duration-200",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   isActive
-                    ? "border-primary/30 bg-primary/10 text-foreground shadow-sm"
-                    : "border-border bg-background/60 text-muted-foreground hover:border-primary/20 hover:bg-surface-matte hover:text-foreground"
+                    ? "border-primary/35 bg-primary/10 text-foreground shadow-sm"
+                    : "border-border/80 bg-background/70 text-muted-foreground hover:border-primary/25 hover:bg-surface-matte hover:text-foreground"
                 )}
               >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 {tabs[category]}
               </button>
             );
           })}
         </div>
+      </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            id={`hero-panel-${active}`}
-            role="tabpanel"
-            aria-labelledby={`hero-tab-${active}`}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-            animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
-            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-4"
-          >
-            <Badge
-              variant="outline"
-              className="border-primary/25 bg-background/80 text-foreground"
-            >
-              <Sparkles className="mr-1.5 h-3 w-3 text-primary" aria-hidden="true" />
-              {panel.badge}
-            </Badge>
-
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-                {panel.title}{" "}
-                <span className="text-brand-gradient">{panel.titleAccent}</span>
-              </h2>
-              <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          id={`hero-panel-${active}`}
+          role="tabpanel"
+          aria-labelledby={`hero-tab-${active}`}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 6 }}
+          animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+          exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="space-y-4 border-t border-border/60 px-4 py-4 sm:px-5 sm:py-5"
+        >
+          <div className="flex items-start gap-2">
+            <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-white">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+            <div className="min-w-0 space-y-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {panel.badge}
+              </p>
+              <p className="text-sm leading-relaxed text-foreground sm:text-[15px]">
                 {panel.description}
               </p>
               {panel.lead && (
-                <p className="text-sm leading-relaxed text-muted-foreground/90">{panel.lead}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{panel.lead}</p>
               )}
             </div>
+          </div>
 
-            <ul className="flex flex-wrap gap-2" role="list">
+          {panel.highlights.length > 0 && (
+            <ul className="flex flex-wrap gap-2 pl-9 sm:pl-9" role="list">
               {panel.highlights.map((item) => (
                 <li key={item}>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/80 px-2.5 py-1 text-xs font-medium text-foreground">
-                    <Shield className="h-3 w-3 text-primary" aria-hidden="true" />
+                  <span className="inline-flex rounded-full border border-border/80 bg-muted/40 px-2.5 py-1 text-xs font-medium text-foreground">
                     {item}
                   </span>
                 </li>
               ))}
             </ul>
+          )}
 
-            {panel.metrics.length > 0 && (
-              <div className="grid grid-cols-3 gap-2">
-                {panel.metrics.map((metric) => (
-                  <div
-                    key={metric.label}
-                    className="rounded-xl border border-border bg-background/70 px-3 py-2.5 text-center"
-                  >
-                    <p className="text-base font-bold tracking-tight text-foreground sm:text-lg">
-                      {metric.value}
-                    </p>
-                    <p className="mt-0.5 text-[10px] uppercase tracking-wide text-muted-foreground sm:text-xs">
-                      {metric.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
+          {panel.privacyNote && (
+            <p className="rounded-xl border border-border/70 bg-muted/30 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
+              {panel.privacyNote}
+            </p>
+          )}
 
-            {panel.privacyNote && (
-              <p className="rounded-lg border border-border/80 bg-muted/40 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
-                {panel.privacyNote}
-              </p>
-            )}
-
-            <div className="flex flex-wrap gap-2.5 pt-1">
-              <Button
-                size="default"
-                className="bg-brand-gradient font-semibold hover:opacity-90"
-                onClick={() => {
-                  trackEvent("hero_banner_cta", { category: active, action: "primary" });
-                  onPrimaryAction(active);
-                }}
-              >
-                {panel.ctaPrimary}
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
-              <Button
-                size="default"
-                variant="outline"
-                onClick={() => {
-                  trackEvent("hero_banner_cta", { category: active, action: "secondary" });
-                  onSecondaryAction(active);
-                }}
-              >
-                {panel.ctaSecondary}
-              </Button>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+          <div className="flex flex-wrap gap-2.5 pt-1">
+            <Button
+              size="default"
+              className="rounded-full bg-brand-gradient font-semibold hover:opacity-90"
+              onClick={() => {
+                trackEvent("hero_banner_cta", { category: active, action: "primary" });
+                onPrimaryAction(active);
+              }}
+            >
+              {panel.ctaPrimary}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Button>
+            <Button
+              size="default"
+              variant="outline"
+              className="rounded-full"
+              onClick={() => {
+                trackEvent("hero_banner_cta", { category: active, action: "secondary" });
+                onSecondaryAction(active);
+              }}
+            >
+              {panel.ctaSecondary}
+            </Button>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
