@@ -67,15 +67,24 @@ img {
   }
 }
 
-/* Bottom nav — mobile y tablet (< lg) */
+/* Bottom nav — mobile y tablet (< lg); en desktop vive en el header */
 .bottom-nav-mobile {
-  display: block;
   width: 100%;
 }
 
 @media (max-width: 1023px) {
+  .bottom-nav-mobile {
+    display: block;
+  }
+
   html {
     scroll-padding-bottom: var(--bottom-nav-total);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bottom-nav-mobile {
+    display: none;
   }
 }
 
