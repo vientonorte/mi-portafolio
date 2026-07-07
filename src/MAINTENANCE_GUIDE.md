@@ -9,9 +9,13 @@
 - [Agregar Nueva Empresa](#agregar-nueva-empresa)
 - [Agregar Nuevo Proyecto](#agregar-nuevo-proyecto)
 - [Agregar Nuevo Proceso UX](#agregar-nuevo-proceso-ux)
+- [Pipeline de imágenes y POCs](#pipeline-de-imágenes-y-pocs)
+- [Hero y rutas interactivas](#hero-y-rutas-interactivas)
+- [Assets Figma (FigJam / Slides)](#assets-figma-figjam--slides)
 - [Modificar Design System](#modificar-design-system)
 - [Actualizar Traducciones](#actualizar-traducciones)
 - [Contacto y privacidad](#contacto-y-privacidad)
+- [Logs de sesión y QA](#logs-de-sesión-y-qa)
 - [Troubleshooting](#troubleshooting)
 
 ---
@@ -263,6 +267,94 @@ const processes = [
 
 ---
 
+## 🖼 Pipeline de imágenes y POCs
+
+### Imágenes semánticas (`public/images/`)
+
+1. Export Figma → `src/assets/<hash>.png` (Vite empaqueta).
+2. Sincronizar nombres legibles: `npm run sync:images` → `scripts/sync-semantic-images.sh`.
+3. Registrar URL en `src/lib/portfolio-image-urls.ts`.
+4. Opcional: entrada en `src/data/image-registry.ts` (admin fotos).
+5. Grid destacado: `FEATURED_CASE_STUDY_IDS` + `featuredCaseStudies` en `src/lib/i18n.ts` + `imageForProject()` en `src/data/case-study-cards.ts`.
+
+### POC con URL externa (Figma Sites)
+
+En `src/data/projects-data.ts` dentro del hub SURA:
+
+```typescript
+{
+  id: "sura-ia-automation-dashboard",
+  externalLink: "https://badge-sweet-21070688.figma.site",
+  image: portfolioImages.sura.iaAutomationDashboard,
+  // ...
+}
+```
+
+Captura reproducible del POC:
+
+```bash
+bash scripts/capture-ia-poc-screenshot.sh
+```
+
+### Binarios pesados
+
+- `*.fig`, `*.deck` están en `.gitignore` — no versionar.
+- Exportar PNG/WebP a `public/images/` con nombre semántico.
+
+---
+
+## 🧭 Hero y rutas interactivas
+
+### Banner unificado (home)
+
+| Archivo | Rol |
+|---------|-----|
+| `src/components/organisms/Hero.tsx` | Layout 2 columnas, scroll a `#negocios` |
+| `src/components/molecules/HeroUnifiedBanner.tsx` | Tabs + composer + panel |
+| `src/lib/i18n.ts` → `hero.unifiedBanner` | Copy ES/EN por panel |
+
+**Regla:** métricas de casos (NPS, −40%, etc.) viven en `#impacto` y `/proyectos`, no en el hero.
+
+### Proyecto destacado RIA (`#impacto`)
+
+| Archivo | Rol |
+|---------|-----|
+| `src/components/organisms/ImpactStats.tsx` | Card + métricas clicables |
+| `src/components/molecules/FeaturedCaseNavigator.tsx` | Paths reutilizando `HeroAudienceCta` |
+| `src/lib/featured-path-routes.ts` | `project/`, `process/`, `company/` |
+| `src/lib/i18n.ts` → `impactStats.featured.paths` | Rutas y copy |
+
+Añadir un path:
+
+```typescript
+// i18n impactStats.featured.paths[]
+{
+  id: 'mi-path',
+  title: 'Título',
+  hint: 'Descripción breve',
+  href: 'project/sura-ria-us', // o process/ux-research, company/sura-investments
+  featured: false,
+}
+```
+
+Icono: mapear `id` en `PATH_ICONS` de `FeaturedCaseNavigator.tsx`.
+
+---
+
+## 📎 Assets Figma (FigJam / Slides)
+
+**No embeder sin validar permisos públicos.** Slides a menudo exigen login.
+
+| Asset | Uso recomendado | Dónde |
+|-------|-----------------|-------|
+| FigJam crítica de diseño | Playbook de taller | `/proceso/fase/ux-testing` |
+| FigJam PORTAFOLIO | Auditoría ejemplo | `/auditoria` (ya integrado) |
+| Slides tutoría asesor CO | Enablement regional | `/proyecto/sura-ux-enterprise` |
+
+Patrón futuro: campo opcional `playbook` en `processes-data.ts` + componente `FigJamEmbed` (ver `AuditoriaPortfolio.tsx`).
+
+---
+
 ## 🎨 Modificar Design System
 
 ### Cambiar Colores del Brand
@@ -404,6 +496,27 @@ const projectMap: Record<string, { data: any; parentCompany: string }> = {
 }
 ```
 
+## 📋 Logs de sesión y QA
+
+### Buenas prácticas
+
+1. **Un log por sesión de deploy relevante:** `docs/SESSION-YYYY-MM-DD.md`
+2. **CHANGELOG raíz** (`/CHANGELOG.md`): entrada datada con Added/Changed/Fixed
+3. **QA manual:** checklist en el log de sesión; marcar bloqueantes antes de cerrar
+4. **Issues:** backlog trazable (#97 POCs, #98 Grafo, #99 assets `.fig`)
+5. **Producción:** verificar con incógnito tras push a `main` (SW v4)
+
+Plantilla: `docs/SESSION-2026-07-07.md`
+
+### Comandos QA
+
+```bash
+npm run ci          # lint + types + test + build
+npm run qa:production  # smoke producción (si configurado)
+```
+
+---
+
 ## 📬 Contacto y privacidad
 
 Runbook completo: [`docs/CONTACT_AND_PRIVACY.md`](../docs/CONTACT_AND_PRIVACY.md)
@@ -434,6 +547,15 @@ Lógica en `src/lib/submit-contact.ts`: **FormSubmit (navegador) → Worker → 
 Tras el primer envío, abrir el enlace de activación en `gaete.gaona@gmail.com`. Sin esto el formulario falla aunque el deploy esté OK.
 
 ---
+
+### Cambios no visibles en GitHub Pages
+
+**Causa:** Service worker cache o deploy cancelado por push seguido
+
+**Solución:**
+1. Incógnito o DevTools → Application → Unregister service worker
+2. Hard refresh (`Cmd+Shift+R`)
+3. Confirmar workflow **Deploy to GitHub Pages** success en Actions
 
 ### Imágenes no se muestran
 
@@ -520,6 +642,6 @@ Si tienes dudas o encuentras bugs:
 
 **🎯 Mantener el código limpio es mantener la cordura**
 
-Documentación actualizada: Julio 2026
+Documentación actualizada: 2026-07-07 — ver `docs/SESSION-2026-07-07.md`
 
 </div>

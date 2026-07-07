@@ -5,6 +5,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-07] — Hero, contenido SURA, paths y assets
+
+### Added
+- **`HeroUnifiedBanner`**: tabs Negocios / Contacto / Auditorías UX (layout tipo composer + chips).
+- **POC IA** `sura-ia-automation-dashboard` en grid destacado + captura real DEI (`scripts/capture-ia-poc-screenshot.sh`).
+- **`FeaturedCaseNavigator`**: 6 rutas de valor en proyecto destacado RIA (`#impacto`).
+- **Autosuggest Fondos** completo (`PageSection`, métricas, CTAs); SEO sin `noIndex`.
+- **`featured-path-routes.ts`**, entrada `sura.iaAutomationDashboard` en `image-registry`.
+- Labels/issues backlog: #97–#99; #96 cerrado.
+- Log de sesión: **`docs/SESSION-2026-07-07.md`**.
+
+### Changed
+- Hero: eliminado `valueProp` visible y métricas SURA/Karri del panel Negocios.
+- Dependabot: lucide 1.23, tailwind/vite 4.3.2, react+react-dom 19.2.7 alineados (#78 cerrado).
+- `.gitignore`: `*.fig`, `*.deck`.
+
+### Fixed
+- Service worker v4 network-first para deploys frescos en GitHub Pages.
+- Placeholder POC IA reemplazado por screenshot Figma Sites.
+
+### Documented (pendiente implementación)
+- FigJam [crítica de diseño](https://www.figma.com/board/WQ3yWzgIrOSZXTuExwRzS9/) → fase UX Testing.
+- Figma Slides [tutoría asesor Colombia](https://www.figma.com/slides/xxKiHNAOPDpxmfuqyE7N72/) → `sura-ux-enterprise`.
+
+---
+
 ## [2026-07-03] — Nav responsive, secciones y branding
 
 ### Added

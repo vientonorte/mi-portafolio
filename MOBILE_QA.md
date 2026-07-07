@@ -190,6 +190,18 @@ Before marking Hero Section mobile QA as complete:
 
 ---
 
-**Last Updated:** 2026-05-19  
-**Reviewer:** Automated + Manual QA  
-**Status:** In Progress
+---
+
+## Sesión 2026-07-07 — QA focalizado
+
+Checklist completo con URLs de producción: **[docs/SESSION-2026-07-07.md](docs/SESSION-2026-07-07.md)**
+
+Prioridad móvil esta sesión:
+- [ ] Hero: banner ¿Qué buscas? (chips + panel, sin métricas KPI)
+- [ ] `#impacto`: 6 paths RIA — touch targets y navegación
+- [ ] Grid POC IA + imagen DEI en card
+- [ ] Autosuggest: scroll, CTAs, contraste
+
+**Last Updated:** 2026-07-07  
+**Reviewer:** Rö (manual) + CI GitHub Actions  
+**Status:** QA en curso — ver log de sesión
