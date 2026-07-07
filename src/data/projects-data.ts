@@ -13,6 +13,7 @@ import {
   transvipDesktop,
   transvipMobile,
   transvipProductVision,
+  transvipFigmaPrototype,
   karriLogo,
   uxProcessDiagram,
   uxValueChain,
@@ -163,7 +164,7 @@ export const suraHub: CompanyHub = {
       "AI POC: analysis dashboard and process automation",
     ],
   },
-  image: suraWebPrototype,
+  image: suraRiaOnboarding,
   challenge: {
     title: {
       es: "Modernización de experiencia financiera enterprise",
@@ -253,12 +254,12 @@ export const suraHub: CompanyHub = {
       id: "sura-inversiones-dashboard",
       company: "SURA Investments",
       companyLogo: suraRiaOnboarding,
-      role: "Lead UX | Product Design",
+      role: "Lead UX | Asociado Estrategia Digital",
       period: "2023 - 2024",
       projectName: "Rediseño Plataforma de Inversiones Digital",
-      description: "Mejora de experiencia usuaria en plataforma de inversiones para clientes institucionales y retail, enfocada en accesibilidad de información financiera compleja.",
-      descriptionEN: "Improved user experience on the investment platform for institutional and retail clients, focused on accessible complex financial information.",
-      image: suraWebPrototype,
+      description: "Mejora de experiencia usuaria en plataforma de inversiones y RIA para clientes institucionales y retail — progressive disclosure, dashboards y onboarding multi-perfil.",
+      descriptionEN: "Improved UX on the investment platform and RIA for institutional and retail clients — progressive disclosure, dashboards, and multi-profile onboarding.",
+      image: suraRiaOnboarding,
       tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
       
       processes: [
@@ -298,7 +299,7 @@ export const suraHub: CompanyHub = {
           "Progressive disclosure es clave para audiencias heterogéneas",
           "Las visualizaciones deben ser configurables para diferentes perfiles",
         ],
-        mockups: [suraWebPrototype, suraComponentPipeline],
+        mockups: [suraRiaOnboarding, suraComponentPipeline],
       },
     },
     {
@@ -364,13 +365,7 @@ export const suraHub: CompanyHub = {
           "Proceso iterativo de 3 semanas permite ajustes ágiles en contexto enterprise",
           "Regulaciones financieras requieren casos de error específicos (cumplimiento, bloqueos)",
         ],
-        mockups: [
-          suraOnboardingFlags,
-          suraAnalyticsGa4,
-          suraBenchmarkNavigation,
-          suraHotjarDashboard,
-          suraBookingFlowchart,
-        ],
+        mockups: [suraOnboardingFlags, suraRiaOnboarding, suraComponentPipeline],
       },
     },
     {
@@ -656,6 +651,7 @@ export const transvipHub: CompanyHub = {
         mockups: [
           transvipMobile,
           transvipDesktop,
+          transvipFigmaPrototype,
           transvipProductVision,
         ],
       },

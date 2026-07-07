@@ -123,11 +123,7 @@ export function ValueContentArsenal({
         ))}
       </div>
 
-      <p className="mb-6 text-center text-sm text-muted-foreground">
-        {t.evidenceCount.replace("{count}", String(items.length))}
-      </p>
-
-      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" role="list">
+      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
         {filtered.map((item, index) => {
           const bundle = CONSULTING_PACKAGES.find((pkg) => pkg.id === item.bundleId);
           const href = VALUE_PROOF_EXTERNAL_URLS[item.id] ?? item.href;

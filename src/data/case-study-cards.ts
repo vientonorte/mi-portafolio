@@ -34,7 +34,7 @@ function imageForProject(
     case "sura-ria-us":
       return images.sura.riaOnboarding;
     case "sura-inversiones-dashboard":
-      return images.sura.webPrototype;
+      return images.sura.riaOnboarding;
     case "sura-ia-automation-dashboard":
       return images.sura.iaAutomationDashboard;
     case "sura-ecosistema-digital":

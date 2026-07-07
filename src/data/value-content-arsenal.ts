@@ -107,7 +107,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "sura-inversiones-dashboard",
     kind: "prototype",
-    imagePath: img((i) => i.sura.webPrototype),
+    imagePath: img((i) => i.sura.riaOnboarding),
     href: ROUTES.project("sura-inversiones-dashboard"),
     bundleId: "marco",
     copy: {
@@ -510,7 +510,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "sura-booking-flow",
     kind: "prototype",
-    imagePath: img((i) => i.sura.bookingFlowchart),
+    imagePath: img((i) => i.sura.onboardingFlags),
     href: ROUTES.project("sura-ecosistema-digital"),
     bundleId: "ops",
     copy: {

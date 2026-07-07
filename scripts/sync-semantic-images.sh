@@ -19,7 +19,8 @@ echo "→ Sincronizando imágenes semánticas a public/images/"
 
 echo "SURA"
 copy "4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png" "$DST/sura/ria-onboarding.png"
-copy "84a772361fb8479f9e7f68a945694e700b7f7321.png" "$DST/sura/web-prototype.png"
+copy "4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png" "$DST/sura/web-prototype.png"
+copy "84a772361fb8479f9e7f68a945694e700b7f7321.png" "$DST/sura/component-pipeline.png"
 copy "8f110ae182ecb20cb32d266577a4411e4215f9a8.png" "$DST/sura/benchmark-navigation.png"
 copy "70518d704593e324e05fed17928549e0e0e5fbd0.png" "$DST/sura/analytics-ga4.png"
 # ia-automation-dashboard.png: captura del POC (scripts/capture-ia-poc-screenshot.sh)
@@ -31,6 +32,7 @@ copy "0ddc6d387f6fec8fd73c93778e82ff34a1b1e8cd.png" "$DST/sura/ux-process.png"
 echo "Transvip"
 copy "ca7a4a167c789c951e4e08b0ba00177a6fc58634.png" "$DST/transvip/app-desktop.png"
 copy "0a0ed13a8f1836aed4325be4398240085ee9c5be.png" "$DST/transvip/app-mobile.png"
+copy "d1ab9c8c94b2a7e89d137d276bf558f69f930bbc.png" "$DST/transvip/figma-prototype.png"
 copy "a071203af6e3a2f88489671218e31f4f1b63c06a.png" "$DST/transvip/product-vision.png"
 
 echo "Karri"

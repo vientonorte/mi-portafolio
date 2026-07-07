@@ -7,8 +7,8 @@
 // —— SURA Investments ——
 /** Laptop mockup: onboarding RIA SURA EE.UU. (asesor local/USA) */
 export { default as suraRiaOnboarding } from "figma:asset/4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png";
-/** Figma: prototipo web SURA en navegador (abr 2023) */
-export { default as suraWebPrototype } from "figma:asset/84a772361fb8479f9e7f68a945694e700b7f7321.png";
+/** Prototipo web SURA — plataforma inversiones / RIA (mismo mockup laptop) */
+export { default as suraWebPrototype } from "figma:asset/4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png";
 /** GA4: usuarios nuevos vs recurrentes — analytics de adquisición */
 export { default as suraAnalyticsGa4 } from "figma:asset/70518d704593e324e05fed17928549e0e0e5fbd0.png";
 /** Hotjar: dashboard transvip.cl — heatmaps y clicks (research cuantitativo) */
@@ -19,8 +19,10 @@ export { default as suraBenchmarkNavigation } from "figma:asset/8f110ae182ecb20c
 export { default as suraBookingFlowchart } from "figma:asset/77b107e97d12e770619a89e345639f0bc08f5202.png";
 /** Onboarding paso 1: banderas + hero (ecosistema digital) */
 export { default as suraOnboardingFlags } from "figma:asset/d7cad0e13be7a40071ccaec70eb93d0304f2b679.png";
-/** Componentes MVP: Explorar → Refinar → Documentar → Implementar */
-export { default as suraComponentPipeline } from "figma:asset/d1ab9c8c94b2a7e89d137d276bf558f69f930bbc.png";
+/** Pipeline componentes MVP: Explorar → Refinar → Documentar → Implementar */
+export { default as suraComponentPipeline } from "figma:asset/84a772361fb8479f9e7f68a945694e700b7f7321.png";
+/** Captura Figma: prototipo mobile diseño web Transvip */
+export { default as transvipFigmaPrototype } from "figma:asset/d1ab9c8c94b2a7e89d137d276bf558f69f930bbc.png";
 
 // —— Transvip ——
 /** MacBook: flujo reserva web — Elige tu Transvip (desktop) */

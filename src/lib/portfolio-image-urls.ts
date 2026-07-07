@@ -16,6 +16,7 @@ export const portfolioImages = {
     logo: img("sura/logo.svg", true),
     riaOnboarding: img("sura/ria-onboarding.png", true),
     webPrototype: img("sura/web-prototype.png"),
+    componentPipeline: img("sura/component-pipeline.png"),
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
     analyticsGa4: img("sura/analytics-ga4.png"),
     iaAutomationDashboard: img("sura/ia-automation-dashboard.png"),
@@ -28,6 +29,7 @@ export const portfolioImages = {
     logo: img("transvip/logo.svg", true),
     appDesktop: img("transvip/app-desktop.png"),
     appMobile: img("transvip/app-mobile.png"),
+    figmaPrototype: img("transvip/figma-prototype.png"),
     productVision: img("transvip/product-vision.png"),
   },
   karri: {
