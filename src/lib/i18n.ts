@@ -16,6 +16,7 @@ export const translations = {
       more: 'Más',
       consulting: 'Consultoría ✦',
       audit: 'Auditoría UX',
+      uxtools: 'UX Tools',
       research: 'Investigación',
     },
 
@@ -993,6 +994,7 @@ export const translations = {
       contact: 'Contacto',
       linkedin: 'LinkedIn',
       privacy: 'Privacidad',
+      uxtools: 'UX Tools',
       research: 'Investigación',
       copyright: 'Rodrigo Gaete Gaona · UX Lead',
       tagline: 'Diseñado con atención al detalle y accesibilidad.',
@@ -1062,6 +1064,7 @@ export const translations = {
       more: 'More',
       consulting: 'Consulting ✦',
       audit: 'UX Audits',
+      uxtools: 'UX Tools',
       research: 'Research',
     },
 
@@ -2059,6 +2062,7 @@ export const translations = {
       contact: 'Contact',
       linkedin: 'LinkedIn',
       privacy: 'Privacy',
+      uxtools: 'UX Tools',
       research: 'Research',
       copyright: 'Rodrigo Gaete Gaona · UX Lead',
       tagline: 'Designed with attention to detail and accessibility.',

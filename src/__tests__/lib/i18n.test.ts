@@ -35,6 +35,7 @@ describe('translations', () => {
         expect(hero.unifiedBanner.panels.auditorias).toHaveProperty('privacyNote');
         expect(nav).toHaveProperty('consulting');
         expect(nav).toHaveProperty('audit');
+        expect(nav).toHaveProperty('uxtools');
         expect(nav).toHaveProperty('research');
       });
 

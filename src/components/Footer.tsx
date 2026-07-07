@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import { SITE_CONTACT, getContactMailtoUrl } from '../lib/site-contact';
+import { VIENTO_NORTE_LINKS } from '../lib/viento-norte-links';
 import { useLanguage } from '../lib/LanguageContext';
 import { useTranslation } from '../lib/i18n';
-
-const RESEARCH_URL =
-  'https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html';
 
 const Footer = () => {
   const { language } = useLanguage();
@@ -51,7 +49,20 @@ const Footer = () => {
           </li>
           <li>
             <a
-              href={RESEARCH_URL}
+              href={VIENTO_NORTE_LINKS.uxtools}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-white/90"
+            >
+              {t.uxtools}
+            </a>
+          </li>
+          <li aria-hidden className="text-white/40">
+            ·
+          </li>
+          <li>
+            <a
+              href={VIENTO_NORTE_LINKS.research}
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-white/90"

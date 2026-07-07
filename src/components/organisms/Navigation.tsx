@@ -13,6 +13,7 @@ import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
+import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 import { SEO_SITE } from "../../lib/seo";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
@@ -71,12 +72,17 @@ export function Navigation({
       { href: "auditoria", label: t.nav.audit, type: "route" },
       { href: "design-system", label: t.nav.designSystem, type: "route" },
       {
-        href: "https://vientonorte.github.io/antropologia-corrupcion/zuboff-archivo.html",
+        href: VIENTO_NORTE_LINKS.uxtools,
+        label: t.nav.uxtools,
+        type: "external",
+      },
+      {
+        href: VIENTO_NORTE_LINKS.research,
         label: t.nav.research,
         type: "external",
       },
     ],
-    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.research]
+    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.research, t.nav.uxtools]
   );
 
   const mobileNavItems = useMemo(
