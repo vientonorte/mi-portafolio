@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
+import { lazyWithRetry } from './lib/lazy-with-retry';
 import { HashRouter as Router, Routes, Route, useNavigate, useParams, useLocation, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './lib/LanguageContext';
 import { AnalyticsProvider } from './vn-core/analytics/react';
@@ -19,21 +20,21 @@ import { useTranslation } from './lib/i18n';
 import Home from './pages/Home';
 
 // Lazy load secondary pages for better performance
-const Proyectos = lazy(() => import('./pages/Proyectos'));
-const AutosuggestFondos = lazy(() => import('./pages/AutosuggestFondos'));
-const SobreMi = lazy(() => import('./pages/SobreMi'));
-const Contacto = lazy(() => import('./pages/Contacto'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const Grafo = lazy(() => import('./pages/Grafo'));
-const DesignSystem = lazy(() => import('./pages/DesignSystem'));
-const CaseStudies = lazy(() => import('./pages/CaseStudies'));
-const AuditoriaPortfolio = lazy(() => import('./pages/AuditoriaPortfolio'));
-const ConsultoriaVientoNorte = lazy(() => import('./pages/ConsultoriaVientoNorte'));
-const ProcessDetail = lazy(() => import('./pages/ProcessDetail'));
-const CompanyDetail = lazy(() => import('./pages/CompanyDetail'));
-const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
-const AdminPhotos = lazy(() => import('./pages/AdminPhotos'));
-const FrameworkDetail = lazy(() => import('./pages/FrameworkDetail'));
+const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
+const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
+const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
+const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
+const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
+const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
+const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
+const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
+const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
+const ConsultoriaVientoNorte = lazyWithRetry(() => import('./pages/ConsultoriaVientoNorte'));
+const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
+const CompanyDetail = lazyWithRetry(() => import('./pages/CompanyDetail'));
+const ProjectDetail = lazyWithRetry(() => import('./pages/ProjectDetail'));
+const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
+const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
 
 function LegacyCasesProcessRedirect() {
   const { processId } = useParams<{ processId: string }>();

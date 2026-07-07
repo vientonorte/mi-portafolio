@@ -1,6 +1,9 @@
 import { Component, ReactNode } from "react";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { Button } from "../ui/button";
+import { isChunkLoadError } from "../../lib/lazy-with-retry";
+
+const CHUNK_RELOAD_KEY = "rg-chunk-reload";
 
 interface Props {
   children: ReactNode;
@@ -33,6 +36,15 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
+    if (isChunkLoadError(error) && !sessionStorage.getItem(CHUNK_RELOAD_KEY)) {
+      try {
+        sessionStorage.setItem(CHUNK_RELOAD_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+      window.location.reload();
+    }
+
     return { hasError: true, error };
   }
 

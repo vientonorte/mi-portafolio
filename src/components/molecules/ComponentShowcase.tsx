@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useState } from "react";
 import { Button } from '../ui/button';
 import { Copy, Check } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface ComponentShowcaseProps {
   title: string;

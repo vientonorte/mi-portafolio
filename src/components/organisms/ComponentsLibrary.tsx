@@ -11,7 +11,9 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Package, Info } from "lucide-react";
 import { Logo } from "../atoms/Logo";
+import { BarChart3 } from "lucide-react";
 import { HeroResultCard } from "../atoms/HeroResultCard";
+import { ImpactMetricCard } from "../molecules/ImpactMetricCard";
 import { useLanguage } from "../../lib/LanguageContext";
 
 const componentExamples = {
@@ -44,6 +46,41 @@ const componentExamples = {
   metric="−40%"
   description="onboarding SURA"
   company="SURA Investments"
+/>`,
+  },
+  {
+    title: "KPI interactivo (Impacto)",
+    description: "Spoiler en hover/tap + enlace a fase del framework",
+    preview: (
+      <div className="max-w-sm w-full">
+        <ImpactMetricCard
+          value="−40%"
+          label="Abandono en onboarding"
+          description="SURA Ecosistema — 7-11 min vs 15+"
+          spoiler="Analytics de abandono paso a paso en el funnel Hazte cliente."
+          phase="UX Analytics"
+          company="SURA"
+          processId="ux-analytics"
+          icon={BarChart3}
+          valueColor="text-stat-tint-blue"
+          iconBg="bg-stat-tint-blue"
+          viewPhaseLabel="Ver fase"
+          tapHint="Toca para ver contexto"
+          tapNavigate="Toca de nuevo para abrir la fase"
+          expanded={false}
+          href="#/proceso/fase/ux-analytics"
+          onActivate={() => undefined}
+        />
+      </div>
+    ),
+    code: `<ImpactMetricCard
+  value="−40%"
+  label="Abandono en onboarding"
+  spoiler="…"
+  phase="UX Analytics"
+  company="SURA"
+  href="#/proceso/fase/ux-analytics"
+  onActivate={handleOpenPhase}
 />`,
   },
   {
@@ -209,6 +246,41 @@ const componentExamples = {
   metric="−40%"
   description="SURA onboarding"
   company="SURA Investments"
+/>`,
+  },
+  {
+    title: "Interactive KPI (Impact)",
+    description: "Spoiler on hover/tap + link to framework phase",
+    preview: (
+      <div className="max-w-sm w-full">
+        <ImpactMetricCard
+          value="−40%"
+          label="Onboarding drop-off"
+          description="SURA Ecosystem — 7-11 min vs 15+"
+          spoiler="Step-by-step abandonment analytics in the signup funnel."
+          phase="UX Analytics"
+          company="SURA"
+          processId="ux-analytics"
+          icon={BarChart3}
+          valueColor="text-stat-tint-blue"
+          iconBg="bg-stat-tint-blue"
+          viewPhaseLabel="View phase"
+          tapHint="Tap to see context"
+          tapNavigate="Tap again to open phase"
+          expanded={false}
+          href="#/proceso/fase/ux-analytics"
+          onActivate={() => undefined}
+        />
+      </div>
+    ),
+    code: `<ImpactMetricCard
+  value="−40%"
+  label="Onboarding drop-off"
+  spoiler="…"
+  phase="UX Analytics"
+  company="SURA"
+  href="#/proceso/fase/ux-analytics"
+  onActivate={handleOpenPhase}
 />`,
   },
   {
