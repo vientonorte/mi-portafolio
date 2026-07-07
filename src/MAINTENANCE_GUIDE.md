@@ -296,6 +296,22 @@ Captura reproducible del POC:
 bash scripts/capture-ia-poc-screenshot.sh
 ```
 
+### Backlog para nuevos POCs (#97)
+
+Cuando Rö entregue nuevos links de POC, seguir este patrón mínimo:
+
+1. `src/data/projects-data.ts` → crear/actualizar proyecto con `id` semántico + `externalLink`.
+2. `src/lib/project-metrics.ts` → agregar KPIs headline (`PROJECT_HEADLINE_METRICS`) y keywords SEO (`PROJECT_SEO_KEYWORDS`).
+3. Opcional para grid destacado: `src/data/case-study-cards.ts` + `featuredCaseStudies` ES/EN en `src/lib/i18n.ts`.
+4. Guardar screenshot semántico en `public/images/` y mapearlo en `src/lib/portfolio-image-urls.ts` (si corresponde).
+
+Checklist por POC:
+
+- [ ] ID semántico
+- [ ] `externalLink`
+- [ ] Screenshot en `public/images/`
+- [ ] Copy ES/EN
+
 ### Binarios pesados
 
 - `*.fig`, `*.deck` están en `.gitignore` — no versionar.
