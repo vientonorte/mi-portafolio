@@ -227,6 +227,19 @@ export const translations = {
         previewOnly: 'Vista previa',
         cta: 'Continuar con esta bolsa',
       },
+      demo: {
+        badge: 'Demo consultoría',
+        title: 'Diseño N2N · Design Thinking + Sprint',
+        description:
+          'Proyecto demo X | CMS en Figma Make: referencia de cómo aplico método completo (discovery → prototipo) en contexto CMS — alineado a bolsas Marco y Ops.',
+        projectName: 'X | CMS',
+        approach:
+          'Diseño needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff.',
+        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Make'],
+        cta: 'Abrir demo en Figma Make',
+        ctaSecondary: 'Ver prototipo interactivo',
+        embedTitle: 'Demo X | CMS — Figma Make',
+      },
     },
 
     impactStats: {
@@ -1242,6 +1255,19 @@ export const translations = {
         reset: 'Reset',
         previewOnly: 'Preview',
         cta: 'Continue with this bundle',
+      },
+      demo: {
+        badge: 'Consulting demo',
+        title: 'N2N design · Design Thinking + Sprint',
+        description:
+          'X | CMS demo on Figma Make: reference for full-method work (discovery → prototype) in a CMS context — aligned with Marco and Ops bundles.',
+        projectName: 'X | CMS',
+        approach:
+          'Needle-to-needle design: Design Thinking ideation, Design Sprint validation, and navigable prototype for handoff.',
+        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Make'],
+        cta: 'Open demo in Figma Make',
+        ctaSecondary: 'View interactive prototype',
+        embedTitle: 'X | CMS demo — Figma Make',
       },
     },
 

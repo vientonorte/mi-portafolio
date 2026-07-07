@@ -8,6 +8,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 ## [2026-07-07] — Hero, contenido SURA, paths y assets
 
 ### Added
+- **Consultoría demo** `X | CMS` (Figma Make): N2N · Design Thinking + Design Sprint en `/consultoria`.
 - **`HeroUnifiedBanner`**: tabs Negocios / Contacto / Auditorías UX (layout tipo composer + chips).
 - **POC IA** `sura-ia-automation-dashboard` en grid destacado + captura real DEI (`scripts/capture-ia-poc-screenshot.sh`).
 - **`FeaturedCaseNavigator`**: 6 rutas de valor en proyecto destacado RIA (`#impacto`).

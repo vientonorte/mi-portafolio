@@ -353,6 +353,16 @@ Icono: mapear `id` en `PATH_ICONS` de `FeaturedCaseNavigator.tsx`.
 
 Patrón futuro: campo opcional `playbook` en `processes-data.ts` + componente `FigJamEmbed` (ver `AuditoriaPortfolio.tsx`).
 
+### Demos consultoría (Figma Make)
+
+| Archivo | Rol |
+|---------|-----|
+| `src/data/consultoria-demos.ts` | URL pública + embed |
+| `src/components/organisms/ConsultoriaDemoShowcase.tsx` | Sección en `/consultoria` |
+| `src/lib/i18n.ts` → `consultoria.demo` | Copy ES/EN |
+
+Añadir demo: extender `consultoria-demos.ts` y copy en i18n; montar en `ConsultoriaVientoNorte.tsx`.
+
 ---
 
 ## 🎨 Modificar Design System

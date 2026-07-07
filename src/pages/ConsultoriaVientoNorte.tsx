@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { PremiumUxAuditBanner } from "../components/organisms/PremiumUxAuditBanner";
+import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
 import type { ConsultingPackageId } from "../data/vientonorte-consulting";
@@ -52,6 +53,7 @@ export default function ConsultoriaVientoNorte() {
         onStartConsulting={scrollToOnboarding}
         onViewSampleAudit={() => navigate("/auditoria")}
       />
+      <ConsultoriaDemoShowcase />
       <ConsultoriaTreePreview
         onRecommendPackage={setRecommendedPackage}
         onStartOnboarding={scrollToOnboarding}
