@@ -937,6 +937,10 @@ export const translations = {
     processDetail: {
       methodology: 'Metodología',
       methods: 'Métodos aplicados',
+      toolCategories: 'Categorías',
+      toolCategoriesTitle: 'Herramientas y enfoques de análisis',
+      toolCategoriesSubtitle:
+        'Taxonomía por categoría y subcategoría: cuantitativo, cualitativo, etnográfico, plataformas y IA asistida.',
       tools: 'Herramientas',
       benefits: 'Beneficios',
       relatedProjects: 'Proyectos donde apliqué esto',
@@ -1884,6 +1888,10 @@ export const translations = {
     processDetail: {
       methodology: 'Methodology',
       methods: 'Methods applied',
+      toolCategories: 'Categories',
+      toolCategoriesTitle: 'Analysis tools and approaches',
+      toolCategoriesSubtitle:
+        'Category → subcategory taxonomy: quantitative, qualitative, ethnographic, platforms, and AI-assisted.',
       tools: 'Tools',
       benefits: 'Benefits',
       relatedProjects: 'Projects where I applied this',
