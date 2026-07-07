@@ -9,7 +9,7 @@ import { ContactConsentField } from "../molecules/ContactConsentField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ContactAssistant } from "./ContactAssistant";
@@ -86,7 +86,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
       });
 
       if (result.ok) {
-        analytics.submitContactForm(true);
+        analytics.submitContactForm(true, result.channel);
         toast.success(t.form.success);
         setFormData({ name: "", email: "", message: "", consent: false, _gotcha: "" });
         setErrors({});
@@ -245,7 +245,12 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                       <p className="text-sm text-muted-foreground">{t.form.description}</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                    <form
+                      onSubmit={handleSubmit}
+                      className="space-y-6"
+                      noValidate
+                      aria-busy={isSubmitting}
+                    >
                       <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
                           <Label htmlFor="name">
@@ -354,6 +359,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                         type="submit"
                         size="lg"
                         disabled={isSubmitting}
+                        aria-disabled={isSubmitting}
                         className="w-full bg-brand-gradient hover:opacity-90 transition-opacity"
                       >
                         {isSubmitting ? t.form.sending : t.form.submit}

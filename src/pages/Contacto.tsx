@@ -7,7 +7,7 @@ import { useTranslation } from '../lib/i18n';
 import { canonicalFromPath } from '../lib/seo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { withHomeCrumb } from '../lib/breadcrumb-helpers';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 type ContactDraftState = { contactDraft?: { message?: string } };
 

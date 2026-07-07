@@ -52,6 +52,12 @@ export function ImpactMetricCard({
           event.preventDefault();
           onActivate();
         }}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onActivate();
+          }
+        }}
         className="metric-card-body h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
         aria-label={`${label}: ${value}. ${spoiler}`}
         aria-expanded={expanded}

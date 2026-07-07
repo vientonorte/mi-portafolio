@@ -135,10 +135,12 @@ export const analytics = {
   }),
   
   // ===== Form Events =====
-  submitContactForm: (success: boolean) => trackEvent("submit_contact_form", {
-    category: "conversion",
-    success: success
-  }),
+  submitContactForm: (success: boolean, channel?: string) =>
+    trackEvent("submit_contact_form", {
+      category: "conversion",
+      success,
+      ...(channel ? { channel } : {}),
+    }),
   
   // ===== External Links =====
   clickExternalLink: (url: string, label?: string) => trackEvent("click_external_link", {

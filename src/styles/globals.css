@@ -423,6 +423,20 @@
     opacity: 1;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .metric-card-spoiler {
+      margin-top: 0.75rem;
+      max-height: none;
+      opacity: 1;
+      overflow: visible;
+      transition: none;
+    }
+
+    .metric-card-tap-hint {
+      display: none;
+    }
+  }
+
   .metric-card-tap-hint {
     margin-top: 0.5rem;
     font-size: 0.6875rem;

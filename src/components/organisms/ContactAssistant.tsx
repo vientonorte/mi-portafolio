@@ -7,7 +7,7 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { ContactConsentField } from "../molecules/ContactConsentField";
 import { Badge } from "../ui/badge";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import {
@@ -212,7 +212,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
       });
 
       if (result.ok) {
-        analytics.submitContactForm(true);
+        analytics.submitContactForm(true, result.channel);
         toast.success(a.success);
         onSuccess?.();
         return;
@@ -494,7 +494,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
           )}
 
           {step === "review" && (
-            <div className="space-y-4">
+            <div className="space-y-4" aria-busy={isSubmitting}>
               <p className="text-sm text-muted-foreground">{a.editMessage}</p>
               <Textarea
                 value={message}
@@ -507,6 +507,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                 size="lg"
                 className="w-full bg-brand-gradient hover:opacity-90"
                 disabled={isSubmitting}
+                aria-disabled={isSubmitting}
                 onClick={handleSubmit}
               >
                 {isSubmitting ? a.sending : a.send}

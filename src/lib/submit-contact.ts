@@ -222,7 +222,7 @@ const CHANNEL_PRIORITY: ContactSubmitChannel[] = [
   "worker",
 ];
 
-function pickBestResult(results: ContactSubmitResult[]): ContactSubmitResult | null {
+export function pickBestResult(results: ContactSubmitResult[]): ContactSubmitResult | null {
   const okResults = results.filter((result) => result.ok);
   if (okResults.length === 0) return null;
 
@@ -234,9 +234,23 @@ function pickBestResult(results: ContactSubmitResult[]): ContactSubmitResult | n
   return okResults[0] ?? null;
 }
 
+function collectParallelResults(
+  parallelResults: PromiseSettledResult<ContactSubmitResult>[]
+): ContactSubmitResult[] {
+  for (const result of parallelResults) {
+    if (result.status === "rejected") {
+      console.warn("[contact] parallel submit failed:", result.reason);
+    }
+  }
+
+  return parallelResults
+    .map((result) => (result.status === "fulfilled" ? result.value : null))
+    .filter((result): result is ContactSubmitResult => Boolean(result));
+}
+
 /**
- * Envía contacto en paralelo: Google Forms + FormSubmit (si hay DOM),
- * luego Worker → mailto. FormSubmit corre siempre como respaldo de email.
+ * Envía contacto en paralelo: Google Forms + FormSubmit + Worker (si hay DOM),
+ * luego mailto. FormSubmit corre siempre como respaldo de email.
  */
 export async function submitContactMessage(
   payload: ContactPayload
@@ -245,40 +259,42 @@ export async function submitContactMessage(
     return { ok: true, channel: getGoogleFormsConfig() ? "google_forms" : "formsubmit" };
   }
 
+  let lastWorkerError: string | undefined;
+
   if (typeof document !== "undefined") {
-    const parallelTasks: Promise<ContactSubmitResult>[] = [submitViaFormPost(payload)];
+    const parallelTasks: Promise<ContactSubmitResult>[] = [
+      submitViaFormPost(payload),
+      submitViaWorker(payload),
+    ];
 
     if (getGoogleFormsConfig()) {
       parallelTasks.push(submitViaGoogleForms(payload));
     }
 
     const parallelResults = await Promise.allSettled(parallelTasks);
-    const settled = parallelResults
-      .map((result) => (result.status === "fulfilled" ? result.value : null))
-      .filter((result): result is ContactSubmitResult => Boolean(result));
+    const settled = collectParallelResults(parallelResults);
+    const workerResult = settled.find((result) => result.channel === "worker");
+    if (workerResult && !workerResult.ok) {
+      lastWorkerError = workerResult.error;
+    }
 
     const best = pickBestResult(settled);
     if (best) return best;
-
-    for (const result of parallelResults) {
-      if (result.status === "rejected") {
-        console.warn("[contact] parallel submit failed:", result.reason);
-      }
+  } else {
+    try {
+      const workerResult = await submitViaWorker(payload);
+      if (workerResult.ok) return workerResult;
+      lastWorkerError = workerResult.error;
+      console.warn("[contact] worker failed:", workerResult.error);
+    } catch (error) {
+      console.warn("[contact] worker unreachable:", error);
     }
-  }
-
-  try {
-    const workerResult = await submitViaWorker(payload);
-    if (workerResult.ok) return workerResult;
-    console.warn("[contact] worker backup failed:", workerResult.error);
-  } catch (error) {
-    console.warn("[contact] worker backup unreachable:", error);
   }
 
   const mailtoUrl = buildMailtoUrl(payload);
   return {
     ok: false,
-    error: "relay_unavailable",
+    error: lastWorkerError || "relay_unavailable",
     mailtoUrl,
   };
 }
