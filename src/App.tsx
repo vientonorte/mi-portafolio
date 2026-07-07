@@ -189,7 +189,7 @@ function AppRoutes() {
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/grafo" element={<Grafo />} />
+            <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />
             <Route path="/proceso/fase/:processId" element={<ProcessDetailPage />} />
