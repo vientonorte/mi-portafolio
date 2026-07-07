@@ -85,6 +85,7 @@ export function CompanyLogo({
         : brand === "karri"
           ? "company-logo--karri"
           : undefined;
+  const usesLogoPlate = flat || isWordmark;
 
   if (!src) {
     return (
@@ -104,9 +105,9 @@ export function CompanyLogo({
     <div
       className={cn(
         "flex shrink-0 items-center justify-center overflow-hidden shadow-none",
-        flat
-          ? "border border-[color:var(--logo-surface-border)] bg-transparent"
-          : "bg-logo-surface",
+        usesLogoPlate
+          ? "border border-[color:var(--logo-plate-border)] bg-logo-plate"
+          : "border border-[color:var(--logo-surface-border)] bg-logo-surface",
         styles.box,
         styles.pad,
         className

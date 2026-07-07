@@ -92,6 +92,9 @@
   --surface-section: #ebe8e3;
   --logo-surface: #e8e5df;
   --logo-surface-border: rgba(23, 23, 23, 0.07);
+  /** Placa de legibilidad para wordmarks (siempre tono claro, también en dark UI). */
+  --logo-plate: #e8e5df;
+  --logo-plate-border: rgba(23, 23, 23, 0.1);
   --stat-tint-blue: #e4eaf0;
   --stat-tint-blue-fg: #4a6578;
   --stat-tint-amber: #ede8df;
@@ -157,6 +160,8 @@
   --surface-section: #161514;
   --logo-surface: #2c2a27;
   --logo-surface-border: rgba(250, 250, 250, 0.07);
+  --logo-plate: #ebe6de;
+  --logo-plate-border: rgba(23, 23, 23, 0.14);
   --stat-tint-blue: #1c2228;
   --stat-tint-blue-fg: #8da8be;
   --stat-tint-amber: #24211c;
@@ -477,6 +482,11 @@
     border: 1px solid var(--logo-surface-border);
   }
 
+  .bg-logo-plate {
+    background-color: var(--logo-plate);
+    border: 1px solid var(--logo-plate-border);
+  }
+
   .bg-stat-tint-blue {
     background-color: var(--stat-tint-blue);
     color: var(--stat-tint-blue-fg);
@@ -665,30 +675,11 @@
     );
   }
 
-  .company-logo--sura {
-    opacity: 0.92;
-  }
-
-  .dark .company-logo--sura {
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-  }
-
-  .company-logo--transvip {
-    opacity: 0.95;
-  }
-
-  .dark .company-logo--transvip {
-    filter: brightness(1.2) saturate(1.15);
-    opacity: 1;
-  }
-
+  .company-logo--sura,
+  .company-logo--transvip,
   .company-logo--karri {
     filter: none;
-  }
-
-  .dark .company-logo--karri {
-    filter: brightness(1.1) contrast(1.05);
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {

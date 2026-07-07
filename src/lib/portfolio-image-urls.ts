@@ -4,7 +4,7 @@
  */
 const base = import.meta.env.BASE_URL;
 /** Invalida caché del SW/navegador tras actualizar logos (p. ej. Karri KARRI vs KLAP). */
-const LOGO_ASSET_VERSION = "20260707";
+const LOGO_ASSET_VERSION = "20260708";
 
 function img(path: string, bustCache = false) {
   const url = `${base}images/${path}`;
