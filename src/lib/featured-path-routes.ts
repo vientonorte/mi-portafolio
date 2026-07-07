@@ -30,9 +30,11 @@ export function navigateFeaturedPath(
       else if (id === "sobre-mi") navigate("/sobre-mi");
       else navigate(ROUTES.home);
       break;
-    case "path":
-      navigate(`/${id}`);
+    case "path": {
+      const [pathname, hash] = id.split("#");
+      navigate(hash ? { pathname: `/${pathname}`, hash: `#${hash}` } : `/${id}`);
       break;
+    }
     case "section": {
       const [page, sectionId] = rest;
       navigateToPageSection(navigate, `/${page}`, sectionId, currentPath);

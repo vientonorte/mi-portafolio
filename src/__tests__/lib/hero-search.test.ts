@@ -1,37 +1,50 @@
 import { describe, expect, it } from "vitest";
-import { filterHeroSuggestions, type HeroSearchSuggestion } from "@/lib/hero-search";
+import { filterHeroSuggestions } from "@/lib/hero-search";
 
-const suggestions: HeroSearchSuggestion[] = [
+const suggestions = [
   {
-    id: "negocios-ria",
-    category: "negocios",
-    title: "RIA SURA",
-    hint: "Onboarding US",
-    keywords: ["ria", "sura"],
-    href: "project/sura-ria-us",
+    id: "negocios-demo",
+    category: "negocios" as const,
+    title: "Demo X | CMS",
+    hint: "Caso N2N",
+    badge: "Demo",
+    keywords: ["demo", "sem", "seo"],
+    href: "path/consultoria#consultoria-demo",
   },
   {
-    id: "contacto-form",
-    category: "contacto",
-    title: "Contacto",
-    hint: "Formulario",
-    keywords: ["contacto", "email"],
-    href: "route/contacto",
+    id: "contacto-perfil",
+    category: "contacto" as const,
+    title: "Perfil · UX Lead",
+    hint: "CV y experiencia",
+    badge: "Perfil",
+    keywords: ["perfil", "linkedin", "reclutadores"],
+    href: "section/sobre-mi/experiencia",
+  },
+  {
+    id: "auditoria-freemium",
+    category: "auditorias" as const,
+    title: "Auditoría UX gratuita",
+    hint: "Freemium",
+    badge: "Auditoría UX",
+    keywords: ["auditoría", "leads", "negocios"],
+    href: "route/auditoria",
   },
 ];
 
 describe("filterHeroSuggestions", () => {
-  it("filters by active business line", () => {
-    const result = filterHeroSuggestions(suggestions, { category: "contacto" });
-    expect(result).toHaveLength(1);
-    expect(result[0]?.id).toBe("contacto-form");
+  it("returns one suggestion per business line by default", () => {
+    const result = filterHeroSuggestions(suggestions);
+    expect(result).toHaveLength(3);
+    expect(result.map((item) => item.id)).toEqual([
+      "negocios-demo",
+      "contacto-perfil",
+      "auditoria-freemium",
+    ]);
   });
 
-  it("matches query against keywords", () => {
-    const result = filterHeroSuggestions(suggestions, {
-      category: "negocios",
-      query: "ria",
-    });
-    expect(result[0]?.id).toBe("negocios-ria");
+  it("filters lines by query while keeping one case per line", () => {
+    const result = filterHeroSuggestions(suggestions, { query: "linkedin" });
+    expect(result).toHaveLength(1);
+    expect(result[0]?.id).toBe("contacto-perfil");
   });
 });

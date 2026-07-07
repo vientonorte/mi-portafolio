@@ -20,9 +20,14 @@ describe("navigateFeaturedPath", () => {
     navigateFeaturedPath(navigate, "route/proyectos");
     navigateFeaturedPath(navigate, "route/sobre-mi");
     navigateFeaturedPath(navigate, "path/proyectos/autosuggest-fondos");
+    navigateFeaturedPath(navigate, "path/consultoria#consultoria-demo");
 
     expect(navigate).toHaveBeenNthCalledWith(1, "/proyectos");
     expect(navigate).toHaveBeenNthCalledWith(2, "/sobre-mi");
     expect(navigate).toHaveBeenNthCalledWith(3, "/proyectos/autosuggest-fondos");
+    expect(navigate).toHaveBeenNthCalledWith(4, {
+      pathname: "/consultoria",
+      hash: "#consultoria-demo",
+    });
   });
 });

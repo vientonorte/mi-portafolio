@@ -28,7 +28,7 @@ describe('translations', () => {
         expect(hero.unifiedBanner.tabs).toHaveProperty('contacto');
         expect(hero.unifiedBanner.tabs).toHaveProperty('auditorias');
         expect(hero.unifiedBanner).toHaveProperty('searchPlaceholder');
-        expect(hero.unifiedBanner.suggestions.length).toBeGreaterThan(0);
+        expect(hero.unifiedBanner.suggestions).toHaveLength(3);
         expect(hero.unifiedBanner.panels.negocios).toHaveProperty('composerHint');
         expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');
