@@ -22,6 +22,10 @@ interface ChecklistItem {
   status: ChecklistStatus;
 }
 
+const ADPLIST_SESSION_WIDGET_URL =
+  "https://adplist.org/widgets/single-session?src=rodrigo-gaete&session=25718-craft-your-portfolio";
+const ADPLIST_MENTOR_URL = "https://adplist.org/mentors/rodrigo-gaete";
+
 const SEO_ITEMS = [
   {
     title: "Schema Markup",
@@ -405,6 +409,38 @@ export default function AuditoriaPortfolio() {
                 </div>
               </article>
             ))}
+          </div>
+
+          <div className="mt-12 space-y-4">
+            <div className="text-center">
+              <h3 className="text-xl font-medium text-foreground">{copy.sections.adpListBooking}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{copy.sections.adpListBookingSubtitle}</p>
+            </div>
+            <p id="audit-adplist-description" className="sr-only">
+              {copy.sections.adpListEmbedDescription}
+            </p>
+            <div className="mx-auto w-full max-w-[650px] overflow-hidden rounded-2xl shadow-[0_4px_19px_rgba(142,151,158,0.15)] no-print">
+              <iframe
+                src={ADPLIST_SESSION_WIDGET_URL}
+                title={copy.sections.adpListEmbedTitle}
+                aria-describedby="audit-adplist-description"
+                width="100%"
+                height="496"
+                loading="lazy"
+                className="h-[496px] w-full border-0"
+              />
+            </div>
+            <p className="text-center text-xs text-muted-foreground">
+              <a
+                href={ADPLIST_MENTOR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
+                aria-label={externalLinkLabel(copy.sections.adpListOpen)}
+              >
+                {copy.sections.adpListOpen} →
+              </a>
+            </p>
           </div>
         </section>
 

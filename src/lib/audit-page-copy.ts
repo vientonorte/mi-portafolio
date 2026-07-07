@@ -20,6 +20,11 @@ export interface AuditPageCopy {
     quickWinsSubtitle: string;
     mentorship: string;
     mentorshipSubtitle: string;
+    adpListBooking: string;
+    adpListBookingSubtitle: string;
+    adpListEmbedTitle: string;
+    adpListEmbedDescription: string;
+    adpListOpen: string;
     deliverables: string;
     kpis: string;
     figjam: string;
@@ -75,6 +80,12 @@ const COPY: Record<Language, AuditPageCopy> = {
       quickWinsSubtitle: "Implementación inmediata",
       mentorship: "Plan de mentoría",
       mentorshipSubtitle: "3 sesiones estratégicas",
+      adpListBooking: "Reserva tu sesión",
+      adpListBookingSubtitle: "Craft Your Portfolio — mentoría 1:1 vía ADPList",
+      adpListEmbedTitle: "Craft Your Portfolio — reserva de sesión ADPList",
+      adpListEmbedDescription:
+        "Widget de reserva para agendar una sesión de mentoría sobre portfolio UX. Si el embed no carga, abre ADPList en una nueva pestaña.",
+      adpListOpen: "Abrir en ADPList",
       deliverables: "Entregables",
       kpis: "KPIs de éxito",
       figjam: "FigJam board",
@@ -128,6 +139,12 @@ const COPY: Record<Language, AuditPageCopy> = {
       quickWinsSubtitle: "Immediate implementation",
       mentorship: "Mentorship plan",
       mentorshipSubtitle: "3 strategic sessions",
+      adpListBooking: "Book your session",
+      adpListBookingSubtitle: "Craft Your Portfolio — 1:1 mentorship via ADPList",
+      adpListEmbedTitle: "Craft Your Portfolio — ADPList session booking",
+      adpListEmbedDescription:
+        "Booking widget to schedule a UX portfolio mentorship session. If the embed does not load, open ADPList in a new tab.",
+      adpListOpen: "Open on ADPList",
       deliverables: "Deliverables",
       kpis: "Success KPIs",
       figjam: "FigJam board",
