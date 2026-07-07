@@ -12,6 +12,10 @@ export const TRANSVIP_APP_FIGMA_URL =
 export const TRANSVIP_APP_PROTO_URL =
   "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu?node-id=0-1";
 
+/** Figma · AVEM landing (Valuesite / AquiVoy Express). */
+export const VALUESITE_AVEM_PROTO_URL =
+  "https://www.figma.com/proto/xqCj0eIocn9cG6pbPKu6Vy/AVEM-Prototipo-Landing-Page?node-id=5-104&starting-point-node-id=5%3A104&page-id=0%3A1";
+
 export type ValueProofKind = "prototype" | "poc" | "audit" | "case";
 
 export interface ValueProofItem {
@@ -250,6 +254,28 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
         title: "System Design · Transvip Client App",
         outcome: "Navigable Figma — components, patterns, and dev-ready handoff.",
         metric: "Live Figma",
+      },
+    },
+  },
+  {
+    id: "valuesite-avem-landing",
+    kind: "prototype",
+    imagePath: img((i) => i.sura.componentPipeline),
+    href: VALUESITE_AVEM_PROTO_URL,
+    external: true,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Prototipo interactivo",
+        title: "AVEM · Landing Page",
+        outcome: "Proto Figma navegable — Valuesite, AquiVoy Express y KIT UI bajo design system.",
+        metric: "Proto live",
+      },
+      en: {
+        kindLabel: "Interactive prototype",
+        title: "AVEM · Landing Page",
+        outcome: "Navigable Figma proto — Valuesite, AquiVoy Express, and KIT UI design system.",
+        metric: "Live proto",
       },
     },
   },
@@ -535,6 +561,7 @@ export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
   "transvip-mobile": TRANSVIP_APP_PROTO_URL,
   "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
+  "valuesite-avem-landing": VALUESITE_AVEM_PROTO_URL,
 };
 
 export function getValueProofItems(language: Language) {
