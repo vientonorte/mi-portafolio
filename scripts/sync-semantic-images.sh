@@ -22,7 +22,7 @@ copy "4ba4d92eaa293e4c6c9e1d685912cc0f04035e80.png" "$DST/sura/ria-onboarding.pn
 copy "84a772361fb8479f9e7f68a945694e700b7f7321.png" "$DST/sura/web-prototype.png"
 copy "8f110ae182ecb20cb32d266577a4411e4215f9a8.png" "$DST/sura/benchmark-navigation.png"
 copy "70518d704593e324e05fed17928549e0e0e5fbd0.png" "$DST/sura/analytics-ga4.png"
-copy "70518d704593e324e05fed17928549e0e0e5fbd0.png" "$DST/sura/ia-automation-dashboard.png"
+# ia-automation-dashboard.png: captura del POC (scripts/capture-ia-poc-screenshot.sh)
 copy "351998f57aeca5a0721f29366c3e661a468847b6.png" "$DST/sura/hotjar-dashboard.png"
 copy "77b107e97d12e770619a89e345639f0bc08f5202.png" "$DST/sura/booking-flowchart.png"
 copy "d7cad0e13be7a40071ccaec70eb93d0304f2b679.png" "$DST/sura/onboarding-flags.png"

@@ -28,6 +28,14 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("sura.webPrototype", "SURA", "Prototipo web", "sura/web-prototype.png", portfolioImages.sura.webPrototype, "Prototipo web SURA"),
   entry("sura.benchmarkNavigation", "SURA", "Benchmark navegación", "sura/benchmark-navigation.png", portfolioImages.sura.benchmarkNavigation, "Benchmark de navegación"),
   entry("sura.analyticsGa4", "SURA", "Analytics GA4", "sura/analytics-ga4.png", portfolioImages.sura.analyticsGa4, "Dashboard GA4"),
+  entry(
+    "sura.iaAutomationDashboard",
+    "SURA",
+    "POC IA · DEI Dashboard",
+    "sura/ia-automation-dashboard.png",
+    portfolioImages.sura.iaAutomationDashboard,
+    "DEI Dashboard — análisis de especificación de inversión con IA (POC Figma Sites)"
+  ),
   entry("sura.hotjarDashboard", "Transvip", "Hotjar transvip.cl", "sura/hotjar-dashboard.png", portfolioImages.sura.hotjarDashboard, "Dashboard Hotjar — heatmaps transvip.cl"),
   entry("sura.bookingFlowchart", "Transvip", "Flujo reserva ACT-504", "sura/booking-flowchart.png", portfolioImages.sura.bookingFlowchart, "Flowchart ACT-504 — reserva programada vs inmediata Transvip"),
   entry("sura.onboardingFlags", "SURA", "Onboarding flags", "sura/onboarding-flags.png", portfolioImages.sura.onboardingFlags, "Flags de onboarding"),

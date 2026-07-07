@@ -828,11 +828,11 @@ export const translations = {
         tags: ['Fintech', 'Dashboard', 'Research'],
       },
       'sura-ia-automation-dashboard': {
-        title: 'Dashboard de Análisis con IA',
+        title: 'DEI Dashboard · Análisis con IA',
         company: 'SURA Investments',
         description:
-          'POC de automatización y análisis con IA: flujos de orquestación, métricas operativas y validación humana en contexto enterprise.',
-        tags: ['AI', 'Automation', 'POC', 'Enterprise'],
+          'POC Figma Sites: carga local de PDF, análisis DEI y flujos de automatización con estados de confianza para equipos de estrategia digital.',
+        tags: ['AI', 'DEI', 'POC', 'Enterprise'],
       },
       'sura-ecosistema-digital': {
         title: 'Ecosistema Digital & Onboarding',
@@ -1843,11 +1843,11 @@ export const translations = {
         tags: ['Fintech', 'Dashboard', 'Research'],
       },
       'sura-ia-automation-dashboard': {
-        title: 'AI Analysis Dashboard',
+        title: 'DEI Dashboard · AI Analysis',
         company: 'SURA Investments',
         description:
-          'AI automation and analysis POC: orchestration flows, operational metrics, and human validation in an enterprise context.',
-        tags: ['AI', 'Automation', 'POC', 'Enterprise'],
+          'Figma Sites POC: local PDF upload, DEI analysis, and automation flows with confidence states for digital strategy teams.',
+        tags: ['AI', 'DEI', 'POC', 'Enterprise'],
       },
       'sura-ecosistema-digital': {
         title: 'Digital Ecosystem & Onboarding',

@@ -1,4 +1,5 @@
 import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
+import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
   suraRiaOnboarding,
   suraWebPrototype,
@@ -463,7 +464,7 @@ export const suraHub: CompanyHub = {
         "POC inicial de dashboard para análisis y automatización de procesos con IA — exploración de flujos, métricas operativas y orquestación de tareas en contexto enterprise.",
       descriptionEN:
         "Initial POC dashboard for AI-driven analysis and process automation — workflow exploration, operational metrics, and task orchestration in an enterprise context.",
-      image: suraHotjarDashboard,
+      image: portfolioImages.sura.iaAutomationDashboard,
       tags: ["AI", "Automation", "Dashboard", "POC", "Process Design", "Enterprise"],
       externalLink: "https://badge-sweet-21070688.figma.site",
       processes: [
@@ -502,7 +503,7 @@ export const suraHub: CompanyHub = {
           "Los dashboards de automatización deben priorizar acciones sobre volumen de datos",
           "Un POC en Figma Sites acelera alineación con stakeholders antes de desarrollo",
         ],
-        mockups: [suraHotjarDashboard, suraAnalyticsGa4],
+        mockups: [portfolioImages.sura.iaAutomationDashboard],
       },
     },
   ],
