@@ -136,7 +136,7 @@ export const translations = {
       badge: 'Contenido de valor',
       title: 'Prototipos y evidencia navegable',
       description:
-        'Explora método real antes de reservar bolsa horaria — POCs publicados, prototipos interactivos, casos en producción y auditorías con entregable ejecutivo.',
+        'Demos Figma, POCs live, casos SURA/Transvip/Karri, método UX y auditoría navegables. Explora antes de reservar bolsa horaria.',
       filterAriaLabel: 'Filtrar evidencia',
       filters: {
         all: 'Todo',
@@ -145,6 +145,7 @@ export const translations = {
         audit: 'Auditorías',
         case: 'Casos',
       },
+      evidenceCount: '{count} piezas listas para revisar',
       viewProof: 'Ver evidencia',
       bundleFit: 'Bolsa',
       bundleStripTitle: 'Bolsas consultoría Viento Norte',
@@ -1208,7 +1209,7 @@ export const translations = {
       badge: 'Value content',
       title: 'Navigable prototypes and evidence',
       description:
-        'Explore real method before booking hourly bundles — published POCs, interactive prototypes, production cases, and audits with executive deliverables.',
+        'Figma demos, live POCs, SURA/Transvip/Karri cases, UX method, and navigable audits. Explore before booking an hourly bundle.',
       filterAriaLabel: 'Filter evidence',
       filters: {
         all: 'All',
@@ -1217,6 +1218,7 @@ export const translations = {
         audit: 'Audits',
         case: 'Cases',
       },
+      evidenceCount: '{count} pieces ready to review',
       viewProof: 'View evidence',
       bundleFit: 'Bundle',
       bundleStripTitle: 'Viento Norte consulting bundles',

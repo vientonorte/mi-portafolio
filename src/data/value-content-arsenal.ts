@@ -30,34 +30,13 @@ function img(
   return resolver;
 }
 
+/** Arsenal completo: demos, POCs, casos flagship, método y auditoría. */
 export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
-  {
-    id: "ria-us",
-    kind: "prototype",
-    imagePath: img((i) => i.sura.riaOnboarding),
-    href: ROUTES.project("sura-ria-us"),
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Prototipo interactivo",
-        title: "RIA SURA Investments US",
-        outcome: "8 prototipos navegables · onboarding multi-perfil y auth regulatorio.",
-        metric: "−40% tiempo",
-      },
-      en: {
-        kindLabel: "Interactive prototype",
-        title: "RIA SURA Investments US",
-        outcome: "8 navigable prototypes · multi-profile onboarding and regulatory auth.",
-        metric: "−40% time",
-      },
-    },
-  },
   {
     id: "x-cms-demo",
     kind: "prototype",
     imagePath: img((i) => i.sura.webPrototype),
     href: `${ROUTES.consulting}#consultoria-demo`,
-    external: false,
     bundleId: "marco",
     copy: {
       es: {
@@ -75,6 +54,27 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     },
   },
   {
+    id: "ria-us",
+    kind: "prototype",
+    imagePath: img((i) => i.sura.riaOnboarding),
+    href: ROUTES.project("sura-ria-us"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Prototipo interactivo",
+        title: "RIA SURA Investments US",
+        outcome: "8 prototipos navegables · onboarding multi-perfil y auth regulatorio.",
+        metric: "8 prototipos",
+      },
+      en: {
+        kindLabel: "Interactive prototype",
+        title: "RIA SURA Investments US",
+        outcome: "8 navigable prototypes · multi-profile onboarding and regulatory auth.",
+        metric: "8 prototypes",
+      },
+    },
+  },
+  {
     id: "poc-ia-dei",
     kind: "poc",
     imagePath: img((i) => i.sura.iaAutomationDashboard),
@@ -85,35 +85,77 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "POC con IA",
         title: "DEI Dashboard · análisis automatizado",
-        outcome: "POC navegable en Figma Sites — métricas operativas y orquestación enterprise.",
+        outcome: "POC navegable en Figma Sites — PDF local, análisis DEI y estados de confianza.",
         metric: "POC live",
       },
       en: {
         kindLabel: "AI POC",
         title: "DEI Dashboard · automated analysis",
-        outcome: "Navigable POC on Figma Sites — operational metrics and enterprise orchestration.",
+        outcome: "Navigable Figma Sites POC — local PDF, DEI analysis, and confidence states.",
         metric: "Live POC",
+      },
+    },
+  },
+  {
+    id: "sura-inversiones-dashboard",
+    kind: "prototype",
+    imagePath: img((i) => i.sura.webPrototype),
+    href: ROUTES.project("sura-inversiones-dashboard"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Dashboard fintech",
+        title: "Plataforma de inversiones SURA",
+        outcome: "Progressive disclosure, IA reestructurada y testing retail/institucional.",
+        metric: "NPS 72",
+      },
+      en: {
+        kindLabel: "Fintech dashboard",
+        title: "SURA investments platform",
+        outcome: "Progressive disclosure, restructured IA, and retail/institutional testing.",
+        metric: "NPS 72",
       },
     },
   },
   {
     id: "ecosistema-sura",
     kind: "case",
-    imagePath: img((i) => i.sura.analyticsGa4),
+    imagePath: img((i) => i.sura.benchmarkNavigation),
     href: ROUTES.project("sura-ecosistema-digital"),
     bundleId: "marco",
     copy: {
       es: {
         kindLabel: "Caso en producción",
         title: "Ecosistema digital SURA",
-        outcome: "Analytics de funnel, 6 errores documentados y reducción de abandono en onboarding.",
+        outcome: "+20 sitios unificados, CMS, Design System y funnel «Hazte cliente».",
         metric: "−40% abandono",
       },
       en: {
         kindLabel: "Production case",
         title: "SURA digital ecosystem",
-        outcome: "Funnel analytics, 6 documented errors, and reduced onboarding drop-off.",
+        outcome: "20+ unified sites, CMS, Design System, and client onboarding funnel.",
         metric: "−40% drop-off",
+      },
+    },
+  },
+  {
+    id: "sura-ux-enterprise",
+    kind: "case",
+    imagePath: img((i) => i.sura.uxProcess),
+    href: ROUTES.project("sura-ux-enterprise"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "UX Enterprise",
+        title: "Implementación regional SURA",
+        outcome: "Design Thinking escalable en 5+ países — lineamientos UX/UI y governance.",
+        metric: "5+ países",
+      },
+      en: {
+        kindLabel: "UX Enterprise",
+        title: "SURA regional rollout",
+        outcome: "Scalable Design Thinking across 5+ countries — UX/UI guidelines and governance.",
+        metric: "5+ countries",
       },
     },
   },
@@ -127,14 +169,204 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Flujo fintech",
         title: "Autosuggest de fondos",
-        outcome: "Progressive disclosure y búsqueda semántica en plataforma de inversiones.",
-        metric: "Fintech",
+        outcome: "Búsqueda semántica y progressive disclosure en plataforma de inversiones.",
+        metric: "Compliance",
       },
       en: {
         kindLabel: "Fintech flow",
         title: "Fund autosuggest",
-        outcome: "Progressive disclosure and semantic search on the investments platform.",
-        metric: "Fintech",
+        outcome: "Semantic search and progressive disclosure on the investments platform.",
+        metric: "Compliance",
+      },
+    },
+  },
+  {
+    id: "transvip-app-premium",
+    kind: "case",
+    imagePath: img((i) => i.transvip.appDesktop),
+    href: ROUTES.project("transvip-app-premium"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Mobility premium",
+        title: "App pasajeros Transvip",
+        outcome: "Design system + discovery activo en reserva premium.",
+        metric: "NPS 82",
+      },
+      en: {
+        kindLabel: "Premium mobility",
+        title: "Transvip passenger app",
+        outcome: "Design system + active discovery on premium booking.",
+        metric: "NPS 82",
+      },
+    },
+  },
+  {
+    id: "transvip-mobile",
+    kind: "prototype",
+    imagePath: img((i) => i.transvip.appMobile),
+    href: ROUTES.project("transvip-app-premium"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Prototipo móvil",
+        title: "Reserva premium · mobile-first",
+        outcome: "Flujos de reserva optimizados — −40% tiempo y +25% conversión.",
+        metric: "−40% tiempo",
+      },
+      en: {
+        kindLabel: "Mobile prototype",
+        title: "Premium booking · mobile-first",
+        outcome: "Optimized booking flows — −40% time and +25% conversion.",
+        metric: "−40% time",
+      },
+    },
+  },
+  {
+    id: "karri-calculadora",
+    kind: "prototype",
+    imagePath: img((i) => i.karri.boosmapBenchmark),
+    href: ROUTES.project("karri-calculadora"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Simulador interactivo",
+        title: "Calculadora de ganancias Karri",
+        outcome: "Benchmark BOOSMAP/ZUBALE — 92% comprensión en testing con shoppers.",
+        metric: "+35% activación",
+      },
+      en: {
+        kindLabel: "Interactive simulator",
+        title: "Karri earnings calculator",
+        outcome: "BOOSMAP/ZUBALE benchmark — 92% comprehension in shopper testing.",
+        metric: "+35% activation",
+      },
+    },
+  },
+  {
+    id: "karri-notificaciones",
+    kind: "case",
+    imagePath: img((i) => i.karri.deliveryBrand),
+    href: ROUTES.project("karri-notificaciones"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Hub shoppers",
+        title: "Centro de notificaciones Karri",
+        outcome: "Hub unificado y onboarding simplificado — avisos críticos visibles.",
+        metric: "+58% engagement",
+      },
+      en: {
+        kindLabel: "Shopper hub",
+        title: "Karri notification center",
+        outcome: "Unified hub and simplified onboarding — critical alerts surfaced.",
+        metric: "+58% engagement",
+      },
+    },
+  },
+  {
+    id: "karri-design-sprint",
+    kind: "case",
+    imagePath: img((i) => i.karri.okrsBoard),
+    href: ROUTES.project("karri-design-sprint"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Design Sprint",
+        title: "Workshop estrategia de producto",
+        outcome: "Journey map 24 touchpoints, OKRs y 3 MVPs priorizados en 3 sesiones.",
+        metric: "3 MVPs",
+      },
+      en: {
+        kindLabel: "Design Sprint",
+        title: "Product strategy workshop",
+        outcome: "24-touchpoint journey map, OKRs, and 3 prioritized MVPs in 3 sessions.",
+        metric: "3 MVPs",
+      },
+    },
+  },
+  {
+    id: "proceso-ux",
+    kind: "case",
+    imagePath: img((i) => i.framework.uxValueChain),
+    href: ROUTES.process,
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Método documentado",
+        title: "5 macroprocesos UX",
+        outcome: "Framework aplicado en fintech y mobility — de analytics a refinamiento.",
+        metric: "5 fases",
+      },
+      en: {
+        kindLabel: "Documented method",
+        title: "5 UX macro-processes",
+        outcome: "Framework applied in fintech and mobility — from analytics to refinement.",
+        metric: "5 phases",
+      },
+    },
+  },
+  {
+    id: "design-system",
+    kind: "prototype",
+    imagePath: img((i) => i.sura.onboardingFlags),
+    href: ROUTES.designSystem,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Design System",
+        title: "Tokens, componentes y patrones",
+        outcome: "Sistema vivo del portafolio — accesible, documentado y listo para handoff.",
+        metric: "WCAG AA",
+      },
+      en: {
+        kindLabel: "Design System",
+        title: "Tokens, components, and patterns",
+        outcome: "Living portfolio system — accessible, documented, and handoff-ready.",
+        metric: "WCAG AA",
+      },
+    },
+  },
+  {
+    id: "uxtools-suite",
+    kind: "poc",
+    imagePath: img((i) => i.framework.uxValueChain),
+    href: "https://vientonorte.github.io/uxtools/",
+    external: true,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Herramienta UX",
+        title: "UX Tools Suite",
+        outcome: "Utilidades open para auditoría rápida, contraste y checklist de entregables.",
+        metric: "Open tools",
+      },
+      en: {
+        kindLabel: "UX tool",
+        title: "UX Tools Suite",
+        outcome: "Open utilities for quick audits, contrast checks, and deliverable checklists.",
+        metric: "Open tools",
+      },
+    },
+  },
+  {
+    id: "sura-ia-case",
+    kind: "poc",
+    imagePath: img((i) => i.sura.analyticsGa4),
+    href: ROUTES.project("sura-ia-automation-dashboard"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Caso + POC",
+        title: "Automatización con IA · estudio",
+        outcome: "Documentación del POC DEI: flujos, métricas y link al sitio navegable.",
+        metric: "Case study",
+      },
+      en: {
+        kindLabel: "Case + POC",
+        title: "AI automation · case study",
+        outcome: "DEI POC documentation: flows, metrics, and link to the live site.",
+        metric: "Case study",
       },
     },
   },
@@ -148,14 +380,120 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Auditoría UX",
         title: "Portfolio audit · evidencia WCAG",
-        outcome: "Heurísticas Nielsen, contraste AA y plan P0–P2 listo para ejecutar.",
+        outcome: "Heurísticas Nielsen, contraste AA, FigJam de ejemplo y plan P0–P2.",
         metric: "WCAG 2.2",
       },
       en: {
         kindLabel: "UX audit",
         title: "Portfolio audit · WCAG evidence",
-        outcome: "Nielsen heuristics, AA contrast, and P0–P2 plan ready to execute.",
+        outcome: "Nielsen heuristics, AA contrast, sample FigJam, and P0–P2 plan.",
         metric: "WCAG 2.2",
+      },
+    },
+  },
+  {
+    id: "figjam-audit-board",
+    kind: "audit",
+    imagePath: img((i) => i.sura.hotjarDashboard),
+    href: "https://www.figma.com/board/lEGDG3EDlNI3OOUCucTyyx/PORTAFOLIO?node-id=2-41",
+    external: true,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "FigJam interactivo",
+        title: "Tablero de auditoría portfolio",
+        outcome: "Análisis heurístico navegable — hallazgos, priorización y quick wins.",
+        metric: "FigJam live",
+      },
+      en: {
+        kindLabel: "Interactive FigJam",
+        title: "Portfolio audit board",
+        outcome: "Navigable heuristic analysis — findings, prioritization, and quick wins.",
+        metric: "Live FigJam",
+      },
+    },
+  },
+  {
+    id: "consultoria-arbol",
+    kind: "prototype",
+    imagePath: img((i) => i.framework.uxValueChain),
+    href: `${ROUTES.consulting}#arbol`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Herramienta interactiva",
+        title: "Árbol de decisión consultoría",
+        outcome: "3 rutas según necesidad — portfolio, producto o equipo — con bolsa recomendada.",
+        metric: "3 rutas",
+      },
+      en: {
+        kindLabel: "Interactive tool",
+        title: "Consulting decision tree",
+        outcome: "3 paths by need — portfolio, product, or team — with a recommended bundle.",
+        metric: "3 paths",
+      },
+    },
+  },
+  {
+    id: "ux-analytics",
+    kind: "case",
+    imagePath: img((i) => i.sura.analyticsGa4),
+    href: ROUTES.processPhase("ux-analytics"),
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Método documentado",
+        title: "UX Analytics · taxonomía",
+        outcome: "Cuantitativo, cualitativo, etnográfico y asistido por IA — categorías y subcategorías.",
+        metric: "4 familias",
+      },
+      en: {
+        kindLabel: "Documented method",
+        title: "UX Analytics · taxonomy",
+        outcome: "Quantitative, qualitative, ethnographic, and AI-assisted — categories and subcategories.",
+        metric: "4 families",
+      },
+    },
+  },
+  {
+    id: "transvip-product-vision",
+    kind: "case",
+    imagePath: img((i) => i.transvip.productVision),
+    href: ROUTES.project("transvip-app-premium"),
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Estrategia de producto",
+        title: "Visión premium Transvip",
+        outcome: "Product vision y discovery activo — alineación stakeholders antes del design system.",
+        metric: "Mobility",
+      },
+      en: {
+        kindLabel: "Product strategy",
+        title: "Transvip premium vision",
+        outcome: "Product vision and active discovery — stakeholder alignment before the design system.",
+        metric: "Mobility",
+      },
+    },
+  },
+  {
+    id: "sura-booking-flow",
+    kind: "prototype",
+    imagePath: img((i) => i.sura.bookingFlowchart),
+    href: ROUTES.project("sura-ecosistema-digital"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Flujo documentado",
+        title: "Funnel «Hazte cliente» SURA",
+        outcome: "Flowchart de reserva y onboarding — −40% abandono en ecosistema unificado.",
+        metric: "−40% abandono",
+      },
+      en: {
+        kindLabel: "Documented flow",
+        title: "SURA «Become a client» funnel",
+        outcome: "Booking and onboarding flowchart — −40% drop-off in the unified ecosystem.",
+        metric: "−40% drop-off",
       },
     },
   },
@@ -163,6 +501,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
+  "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
 };
 
 export function getValueProofItems(language: Language) {
