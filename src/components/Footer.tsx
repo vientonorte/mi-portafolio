@@ -57,19 +57,6 @@ const Footer = () => {
               {t.uxtools}
             </a>
           </li>
-          <li aria-hidden className="text-white/40">
-            ·
-          </li>
-          <li>
-            <a
-              href={VIENTO_NORTE_LINKS.research}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white/90"
-            >
-              {t.research}
-            </a>
-          </li>
         </ul>
       </nav>
       <p className="mt-2 text-sm text-white/90">

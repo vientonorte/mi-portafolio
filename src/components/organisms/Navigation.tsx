@@ -76,13 +76,8 @@ export function Navigation({
         label: t.nav.uxtools,
         type: "external",
       },
-      {
-        href: VIENTO_NORTE_LINKS.research,
-        label: t.nav.research,
-        type: "external",
-      },
     ],
-    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.research, t.nav.uxtools]
+    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.uxtools]
   );
 
   const mobileNavItems = useMemo(

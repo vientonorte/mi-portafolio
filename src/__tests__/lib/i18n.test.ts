@@ -37,7 +37,6 @@ describe('translations', () => {
         expect(nav).toHaveProperty('consulting');
         expect(nav).toHaveProperty('audit');
         expect(nav).toHaveProperty('uxtools');
-        expect(nav).toHaveProperty('research');
       });
 
       it('has about section with required keys', () => {
