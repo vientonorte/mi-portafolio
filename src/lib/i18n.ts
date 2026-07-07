@@ -82,7 +82,7 @@ export const translations = {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Bolsas Radar, Marco y Ops: auditorías UX, mentoría y Design Ops con entregables medibles.',
+            'Consultoría Viento Norte: diagnóstico express, estrategia guiada y proceso de equipo con entregables medibles.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -119,9 +119,9 @@ export const translations = {
       titleLead: 'Auditorías UX con',
       titleAccent: 'evidencia medible',
       description:
-        'Bolsas consultoría para portfolios, productos digitales y equipos. De hallazgo a plan de acción priorizado.',
+        'Consultoría para portfolios, productos digitales y equipos. De hallazgo a plan de acción priorizado.',
       highlights: ['Heurísticas Nielsen', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
-      ctaPrimary: 'Elegir bolsa consultoría',
+      ctaPrimary: 'Elegir consultoría',
       ctaSecondary: 'Ver auditoría de ejemplo',
       metrics: {
         a11y: 'Accesibilidad',
@@ -135,7 +135,7 @@ export const translations = {
       badge: 'Contenido de valor',
       title: 'Prototipos y evidencia navegable',
       description:
-        'Demos Figma, POCs live, casos SURA/Transvip/Karri, método UX y auditoría navegables. Explora antes de reservar bolsa horaria.',
+        'Demos Figma, POCs live, casos SURA/Transvip/Karri, método UX y auditoría navegables. Explora antes de reservar consultoría.',
       filterAriaLabel: 'Filtrar evidencia',
       filters: {
         all: 'Todo',
@@ -146,13 +146,13 @@ export const translations = {
       },
       evidenceCount: '{count} piezas listas para revisar',
       viewProof: 'Ver evidencia',
-      bundleFit: 'Bolsa',
-      bundleStripTitle: 'Bolsas consultoría Viento Norte',
+      bundleFit: 'Modalidad',
+      bundleStripTitle: 'Consultoría Viento Norte',
       bundleStripDescription:
-        'Radar, Marco u Ops según profundidad — kickoff en menos de 24 h hábiles. Sin precios públicos; alcance en la primera sesión.',
+        'Diagnóstico express, estrategia guiada o proceso de equipo — kickoff en menos de 24 h hábiles. Sin precios públicos; alcance en la primera sesión.',
       bundleStripBadge: 'SEM · SEO ready',
-      bundleCta: 'Reservar bolsa horaria',
-      treeCta: 'Encontrar mi bolsa',
+      bundleCta: 'Reservar consultoría',
+      treeCta: 'Encontrar modalidad',
       recommended: 'Recomendada',
     },
 
@@ -176,7 +176,7 @@ export const translations = {
             { value: '<10 s', label: 'Test reclutador' },
           ],
           cta: 'Ver auditoría de ejemplo',
-          ctaSecondary: 'Elegir bolsa consultoría',
+          ctaSecondary: 'Elegir consultoría',
         },
         {
           id: 'sura-case',
@@ -197,13 +197,13 @@ export const translations = {
         {
           id: 'consultoria',
           badge: 'Viento Norte',
-          title: 'Encuentra tu bolsa',
+          title: 'Encuentra tu modalidad',
           titleAccent: 'en 2 preguntas',
           description:
             'Árbol de decisión + onboarding en 4 pasos. Sin precios públicos — alcance y propuesta en el kickoff.',
-          highlights: ['Radar · Marco · Ops', 'Mensaje prearmado', 'Kickoff <24 h'],
+          highlights: ['Diagnóstico · Estrategia · Equipo', 'Mensaje prearmado', 'Kickoff <24 h'],
           metrics: [
-            { value: '3', label: 'Bolsas' },
+            { value: '3', label: 'Modalidades' },
             { value: '4', label: 'Pasos' },
             { value: '<24 h', label: 'Respuesta' },
           ],
@@ -222,16 +222,16 @@ export const translations = {
       next: 'Continuar',
       steps: {
         welcome: 'Bienvenida · Viento Norte',
-        package: 'Elige tu bolsa',
+        package: 'Elige modalidad',
         context: 'Contexto del proyecto',
         summary: 'Resumen y contacto',
       },
       welcome: {
-        title: 'Bolsas consultoría Viento Norte',
+        title: 'Consultoría Viento Norte',
         description:
-          'Onboarding en 4 pasos para definir alcance, bolsa y mensaje de contacto prearmado.',
+          'Onboarding en 4 pasos para definir alcance, modalidad y mensaje de contacto prearmado.',
         points: [
-          'Bolsa Radar, Marco u Ops según madurez y urgencia',
+          'Diagnóstico express, estrategia guiada o proceso de equipo según madurez y urgencia',
           'Rodrigo Gaete · UX Lead — fintech, mobility y Design Ops',
           'Kickoff en menos de 24 h hábiles tras tu solicitud',
         ],
@@ -249,19 +249,19 @@ export const translations = {
       },
       treePreview: {
         badge: 'Árbol de respuestas',
-        title: 'Preview · encuentra tu bolsa',
+        title: 'Preview · encuentra tu modalidad',
         description:
-          'Responde 1–2 preguntas y ve la bolsa recomendada antes del onboarding completo. Sin precios — solo alcance.',
+          'Responde 1–2 preguntas y ve la modalidad recomendada antes del onboarding completo. Sin precios — solo alcance.',
         pathLabel: 'Ruta seleccionada',
         reset: 'Reiniciar',
         previewOnly: 'Vista previa',
-        cta: 'Continuar con esta bolsa',
+        cta: 'Continuar con esta modalidad',
       },
       demo: {
         badge: 'Demo consultoría',
         title: 'Diseño N2N · Design Thinking + Sprint',
         description:
-          'Proyecto demo X | CMS publicado en Figma Sites: referencia de método completo (discovery → prototipo) en contexto CMS — alineado a bolsas Marco y Ops.',
+          'Proyecto demo X | CMS publicado en Figma Sites: referencia de método completo (discovery → prototipo) en contexto CMS — alineado a estrategia guiada y proceso de equipo.',
         projectName: 'X | CMS',
         approach:
           'Diseño needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff.',
@@ -429,7 +429,7 @@ export const translations = {
           },
           auditorias: {
             badge: 'Revisión UX',
-            composerHint: 'Checklist de accesibilidad y bolsas de consultoría con evidencia.',
+            composerHint: 'Checklist de accesibilidad y modalidades de consultoría con evidencia.',
             description:
               'Auditoría sin costo con WCAG 2.2 AA y privacidad por diseño.',
             highlights: ['WCAG 2.2 AA', 'Privacidad por diseño', 'Checklist incluida'],
@@ -1153,7 +1153,7 @@ export const translations = {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Radar, Marco, and Ops bundles: UX audits, mentorship, and Design Ops with measurable deliverables.',
+            'Viento Norte consulting: express diagnostic, guided strategy, and team process with measurable deliverables.',
         },
         grafo: {
           title: 'Institutional friction network',
@@ -1190,9 +1190,9 @@ export const translations = {
       titleLead: 'UX audits with',
       titleAccent: 'measurable evidence',
       description:
-        'Consulting bundles for portfolios, digital products, and teams. From findings to a prioritized action plan.',
+        'Consulting for portfolios, digital products, and teams. From findings to a prioritized action plan.',
       highlights: ['Nielsen heuristics', 'WCAG 2.2 AA', 'SEO/AEO', 'P0–P2 plan'],
-      ctaPrimary: 'Choose a consulting bundle',
+      ctaPrimary: 'Choose consulting',
       ctaSecondary: 'View sample audit',
       metrics: {
         a11y: 'Accessibility',
@@ -1206,7 +1206,7 @@ export const translations = {
       badge: 'Value content',
       title: 'Navigable prototypes and evidence',
       description:
-        'Figma demos, live POCs, SURA/Transvip/Karri cases, UX method, and navigable audits. Explore before booking an hourly bundle.',
+        'Figma demos, live POCs, SURA/Transvip/Karri cases, UX method, and navigable audits. Explore before booking consulting.',
       filterAriaLabel: 'Filter evidence',
       filters: {
         all: 'All',
@@ -1217,13 +1217,13 @@ export const translations = {
       },
       evidenceCount: '{count} pieces ready to review',
       viewProof: 'View evidence',
-      bundleFit: 'Bundle',
-      bundleStripTitle: 'Viento Norte consulting bundles',
+      bundleFit: 'Format',
+      bundleStripTitle: 'Viento Norte consulting',
       bundleStripDescription:
-        'Radar, Marco, or Ops by depth — kickoff within 24 business hours. No public pricing; scope defined in the first session.',
+        'Express diagnostic, guided strategy, or team process — kickoff within 24 business hours. No public pricing; scope defined in the first session.',
       bundleStripBadge: 'SEM · SEO ready',
-      bundleCta: 'Book hourly bundle',
-      treeCta: 'Find my bundle',
+      bundleCta: 'Book consulting',
+      treeCta: 'Find the right fit',
       recommended: 'Recommended',
     },
 
@@ -1247,7 +1247,7 @@ export const translations = {
             { value: '<10 s', label: 'Recruiter test' },
           ],
           cta: 'View sample audit',
-          ctaSecondary: 'Choose consulting bundle',
+          ctaSecondary: 'Choose consulting',
         },
         {
           id: 'sura-case',
@@ -1268,13 +1268,13 @@ export const translations = {
         {
           id: 'consultoria',
           badge: 'Viento Norte',
-          title: 'Find your bundle',
+          title: 'Find your format',
           titleAccent: 'in 2 questions',
           description:
             'Decision tree + 4-step onboarding. No public pricing — scope and proposal at kickoff.',
-          highlights: ['Radar · Marco · Ops', 'Pre-filled message', 'Kickoff <24 h'],
+          highlights: ['Diagnostic · Strategy · Team', 'Pre-filled message', 'Kickoff <24 h'],
           metrics: [
-            { value: '3', label: 'Bundles' },
+            { value: '3', label: 'Formats' },
             { value: '4', label: 'Steps' },
             { value: '<24 h', label: 'Response' },
           ],
@@ -1293,16 +1293,16 @@ export const translations = {
       next: 'Continue',
       steps: {
         welcome: 'Welcome · Viento Norte',
-        package: 'Choose your bundle',
+        package: 'Choose format',
         context: 'Project context',
         summary: 'Summary & contact',
       },
       welcome: {
-        title: 'Viento Norte consulting bundles',
+        title: 'Viento Norte consulting',
         description:
-          '4-step onboarding to define scope, bundle, and a pre-filled contact message.',
+          '4-step onboarding to define scope, format, and a pre-filled contact message.',
         points: [
-          'Radar, Marco, or Ops bundle by maturity and urgency',
+          'Express diagnostic, guided strategy, or team process by maturity and urgency',
           'Rodrigo Gaete · UX Lead — fintech, mobility, and Design Ops',
           'Kickoff within 24 business hours after your request',
         ],
@@ -1320,19 +1320,19 @@ export const translations = {
       },
       treePreview: {
         badge: 'Answer tree',
-        title: 'Preview · find your bundle',
+        title: 'Preview · find your format',
         description:
-          'Answer 1–2 questions and see the recommended bundle before full onboarding. No pricing — scope only.',
+          'Answer 1–2 questions and see the recommended format before full onboarding. No pricing — scope only.',
         pathLabel: 'Selected path',
         reset: 'Reset',
         previewOnly: 'Preview',
-        cta: 'Continue with this bundle',
+        cta: 'Continue with this format',
       },
       demo: {
         badge: 'Consulting demo',
         title: 'N2N design · Design Thinking + Sprint',
         description:
-          'X | CMS demo published on Figma Sites: reference for full-method work (discovery → prototype) in a CMS context — aligned with Marco and Ops bundles.',
+          'X | CMS demo published on Figma Sites: reference for full-method work (discovery → prototype) in a CMS context — aligned with guided strategy and team process.',
         projectName: 'X | CMS',
         approach:
           'Needle-to-needle design: Design Thinking ideation, Design Sprint validation, and navigable prototype for handoff.',
@@ -1500,7 +1500,7 @@ export const translations = {
           },
           auditorias: {
             badge: 'UX review',
-            composerHint: 'Accessibility checklist and consulting bundles with evidence.',
+            composerHint: 'Accessibility checklist and consulting formats with evidence.',
             description:
               'No-cost audit with WCAG 2.2 AA and privacy by design.',
             highlights: ['WCAG 2.2 AA', 'Privacy by design', 'Checklist included'],
