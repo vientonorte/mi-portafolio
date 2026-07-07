@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { ProcessMethodCard } from "../components/molecules/ProcessMethodCard";
+import { ProcessToolCategories } from "../components/molecules/ProcessToolCategories";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { processesData, ProcessDetailData } from "../data/processes-data";
@@ -189,8 +190,37 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
         </div>
       </section>
 
-      {/* Methods Section (solo si hay métodos) */}
-      {methods.length > 0 && (
+      {/* Categorías de herramientas (taxonomía) */}
+      {processData.toolCategories && processData.toolCategories.length > 0 && (
+        <section className="py-16 md:py-24 px-4" aria-labelledby="process-tool-categories">
+          <div className="container max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <Badge variant="outline" className="mb-4">
+                {t.processDetail.toolCategories}
+              </Badge>
+              <h2 id="process-tool-categories" className="text-4xl md:text-5xl font-black mb-4">
+                {t.processDetail.toolCategoriesTitle}
+              </h2>
+              <p className="max-w-3xl text-muted-foreground text-lg">
+                {t.processDetail.toolCategoriesSubtitle}
+              </p>
+            </motion.div>
+
+            <ProcessToolCategories
+              categories={processData.toolCategories}
+              language={language}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Methods Section (solo si hay métodos y no hay taxonomía) */}
+      {methods.length > 0 && !processData.toolCategories?.length && (
         <section className="py-16 md:py-24 px-4">
           <div className="container max-w-7xl mx-auto">
             <motion.div

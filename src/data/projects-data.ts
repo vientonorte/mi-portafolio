@@ -140,7 +140,7 @@ export const suraHub: CompanyHub = {
   logo: suraRiaOnboarding,
   industry: "Fintech",
   period: "2023 - Presente",
-  totalProjects: 4,
+  totalProjects: 5,
   description: {
     es: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
     en: "Led UX Enterprise implementation for digital financial products across the region, applying Design Thinking adapted to corporate contexts and sector regulations.",
@@ -151,12 +151,14 @@ export const suraHub: CompanyHub = {
       "Dashboard de inversiones con +45% mejora en consultas",
       "Ecosistema digital: +20 sitios unificados con CMS",
       "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
+      "POC IA: dashboard de análisis y automatización de procesos",
     ],
     en: [
       "UX Enterprise framework implemented in 5+ countries",
       "Investment dashboard with +45% query improvement",
       "Digital ecosystem: 20+ unified sites with CMS",
       "Onboarding: -40% time (7-11 min vs 15+ min) + 6 error cases",
+      "AI POC: analysis dashboard and process automation",
     ],
   },
   image: suraWebPrototype,
@@ -180,8 +182,8 @@ export const suraHub: CompanyHub = {
       en: "UX initiatives in financial services",
     },
     description: {
-      es: "Cuatro proyectos que aplican el framework de diseño en contextos enterprise: estrategia regional, inversiones, ecosistema digital y plataforma RIA en EE.UU.",
-      en: "Four projects applying the design framework in enterprise contexts: regional strategy, investments, digital ecosystem, and RIA platform in the US.",
+      es: "Cinco proyectos que aplican el framework de diseño en contextos enterprise: estrategia regional, inversiones, ecosistema digital, plataforma RIA en EE.UU. e IA para automatización de procesos.",
+      en: "Five projects applying the design framework in enterprise contexts: regional strategy, investments, digital ecosystem, US RIA platform, and AI process automation.",
     },
   },
   gallery: {
@@ -448,6 +450,59 @@ export const suraHub: CompanyHub = {
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
         mockups: [suraRiaOnboarding],
+      },
+    },
+    {
+      id: "sura-ia-automation-dashboard",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "Lead UX · Estrategia Digital",
+      period: "2025 - Presente",
+      projectName: "Dashboard de Análisis con IA",
+      description:
+        "POC inicial de dashboard para análisis y automatización de procesos con IA — exploración de flujos, métricas operativas y orquestación de tareas en contexto enterprise.",
+      descriptionEN:
+        "Initial POC dashboard for AI-driven analysis and process automation — workflow exploration, operational metrics, and task orchestration in an enterprise context.",
+      image: suraHotjarDashboard,
+      tags: ["AI", "Automation", "Dashboard", "POC", "Process Design", "Enterprise"],
+      externalLink: "https://badge-sweet-21070688.figma.site",
+      processes: [
+        {
+          name: "Discovery & Process Mapping",
+          description:
+            "Mapeo de procesos candidatos a automatización y definición de métricas de análisis para equipos de estrategia digital.",
+          tools: ["Service Blueprint", "Journey Mapping", "Stakeholder Interviews"],
+        },
+        {
+          name: "AI Workflow UX",
+          description:
+            "Diseño de flujos de orquestación IA: entradas, validaciones humanas, salidas accionables y estados de confianza.",
+          tools: ["Figma", "Prototyping", "Flow Diagrams"],
+        },
+        {
+          name: "Dashboard & Analytics UX",
+          description:
+            "POC de dashboard con jerarquía visual para análisis operativo, alertas y seguimiento de automatizaciones.",
+          tools: ["Figma Sites", "Data Visualization", "Design Tokens"],
+        },
+      ],
+      teamSize: "Exploración individual · validación con stakeholders",
+      details: {
+        challenge:
+          "Explorar cómo integrar IA y automatización de procesos en operaciones enterprise sin sacrificar trazabilidad, cumplimiento ni claridad para equipos no técnicos.",
+        solution:
+          "POC navegable en Figma Sites con dashboard de análisis, estados de automatización y flujos de validación humana — base para iteración con estrategia digital.",
+        metrics: [
+          "POC funcional publicado en Figma Sites",
+          "Flujos de automatización mapeados con estados de confianza",
+          "Dashboard de análisis con jerarquía visual para métricas operativas",
+        ],
+        learnings: [
+          "La IA en enterprise requiere estados de confianza visibles y puntos de validación humana",
+          "Los dashboards de automatización deben priorizar acciones sobre volumen de datos",
+          "Un POC en Figma Sites acelera alineación con stakeholders antes de desarrollo",
+        ],
+        mockups: [suraHotjarDashboard, suraAnalyticsGa4],
       },
     },
   ],

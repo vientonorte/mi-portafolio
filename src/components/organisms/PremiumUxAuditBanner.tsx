@@ -8,12 +8,15 @@ import { useTranslation } from "../../lib/i18n";
 
 interface PremiumUxAuditBannerProps {
   variant?: "hero" | "compact";
+  /** Use `p` when the page already exposes an `h1` above this banner (heading order). */
+  titleTag?: "h2" | "p";
   onStartConsulting?: () => void;
   onViewSampleAudit?: () => void;
 }
 
 export function PremiumUxAuditBanner({
   variant = "hero",
+  titleTag = "h2",
   onStartConsulting,
   onViewSampleAudit,
 }: PremiumUxAuditBannerProps) {
@@ -45,16 +48,31 @@ export function PremiumUxAuditBanner({
         </Badge>
 
         <div className="space-y-3">
-          <h2
-            className={
-              variant === "hero"
-                ? "text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl"
-                : "text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
-            }
-          >
-            {t.titleLead}{" "}
-            <span className="text-brand-gradient">{t.titleAccent}</span>
-          </h2>
+          {titleTag === "h2" ? (
+            <h2
+              id="ux-audit-banner-heading"
+              className={
+                variant === "hero"
+                  ? "text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl"
+                  : "text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+              }
+            >
+              {t.titleLead}{" "}
+              <span className="text-primary">{t.titleAccent}</span>
+            </h2>
+          ) : (
+            <p
+              id="ux-audit-banner-heading"
+              className={
+                variant === "hero"
+                  ? "text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl"
+                  : "text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+              }
+            >
+              {t.titleLead}{" "}
+              <span className="text-primary">{t.titleAccent}</span>
+            </p>
+          )}
           <p className="max-w-xl text-base text-muted-foreground md:text-lg">{t.description}</p>
         </div>
 
@@ -148,9 +166,6 @@ export function PremiumUxAuditBanner({
               : undefined
           }
         >
-          <span id="ux-audit-banner-heading" className="sr-only">
-            {t.titleLead} {t.titleAccent}
-          </span>
           {content}
         </div>
       </div>

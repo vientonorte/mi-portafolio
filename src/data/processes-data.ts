@@ -8,6 +8,24 @@ export interface ProcessMethod {
   tools?: string[];
 }
 
+export interface ProcessToolSubcategory {
+  id: string;
+  name: string;
+  nameEN: string;
+  description: string;
+  descriptionEN: string;
+  tools?: string[];
+}
+
+export interface ProcessToolCategory {
+  id: string;
+  name: string;
+  nameEN: string;
+  description?: string;
+  descriptionEN?: string;
+  subcategories: ProcessToolSubcategory[];
+}
+
 export interface ProcessDetailData {
   id: string;
   icon: any;
@@ -24,6 +42,8 @@ export interface ProcessDetailData {
     stepsEN: string[];
   };
   methods: ProcessMethod[];
+  /** Taxonomía categoría → subcategoría (p. ej. análisis cualitativo → Grounded Theory). */
+  toolCategories?: ProcessToolCategory[];
   tools: string[];
   relatedProjects: {
     projectId: string;
@@ -49,24 +69,26 @@ export const processesData: Record<string, ProcessDetailData> = {
     titleEN: "UX Analytics",
     question: "¿Hay errores?",
     questionEN: "Are there errors?",
-    description: "Análisis cuantitativo de comportamiento de usuarios mediante herramientas de analytics. Identificación de puntos de fricción y oportunidades de mejora basadas en data real.",
-    descriptionEN: "Quantitative analysis of user behavior through analytics tools. Identifying friction points and improvement opportunities based on real data.",
+    description:
+      "Análisis cuantitativo y cualitativo del comportamiento y contexto de uso: desde funnels y heatmaps hasta Grounded Theory, etnografía, CRM/CMS y asistencia con LLM.",
+    descriptionEN:
+      "Quantitative and qualitative analysis of behavior and usage context: from funnels and heatmaps to Grounded Theory, ethnography, CRM/CMS, and LLM-assisted synthesis.",
     methodology: {
       title: "Análisis de datos + Benchmark → Hipótesis",
       titleEN: "Data Analysis + Benchmark → Hypothesis",
       steps: [
-        "Configurar tracking de eventos críticos",
-        "Analizar funnels de conversión y abandono",
-        "Identificar patrones de comportamiento anómalos",
-        "Realizar benchmark con competencia",
-        "Generar hipótesis basadas en data",
+        "Configurar tracking de eventos críticos y fuentes CRM/CMS",
+        "Analizar funnels, heatmaps y sesiones (cuantitativo)",
+        "Codificar evidencia cualitativa (Grounded Theory, focus groups, cartografías)",
+        "Complementar con análisis etnográfico en contexto real",
+        "Sintetizar con LLM asistido y validar hipótesis con humanos",
       ],
       stepsEN: [
-        "Set up critical event tracking",
-        "Analyze conversion and drop-off funnels",
-        "Identify anomalous behavior patterns",
-        "Benchmark against competition",
-        "Generate data-driven hypotheses",
+        "Set up critical event tracking and CRM/CMS sources",
+        "Analyze funnels, heatmaps, and sessions (quantitative)",
+        "Code qualitative evidence (Grounded Theory, focus groups, mapping)",
+        "Complement with ethnographic analysis in real context",
+        "Synthesize with assisted LLM and validate hypotheses with humans",
       ],
     },
     methods: [
@@ -92,7 +114,178 @@ export const processesData: Record<string, ProcessDetailData> = {
         tools: ["Mixpanel", "Google Analytics 4"],
       },
     ],
-    tools: ["Hotjar", "Mixpanel", "Google Analytics 4", "Microsoft Clarity", "FullStory"],
+    toolCategories: [
+      {
+        id: "quantitative",
+        name: "Análisis cuantitativo",
+        nameEN: "Quantitative analysis",
+        description:
+          "Métricas de producto, funnels y comportamiento en producción para priorizar fricción con evidencia.",
+        descriptionEN:
+          "Product metrics, funnels, and in-production behavior to prioritize friction with evidence.",
+        subcategories: [
+          {
+            id: "heatmaps",
+            name: "Heatmaps y mapas de scroll",
+            nameEN: "Heatmaps and scroll maps",
+            description: "Visualización de clics, atención y zonas muertas en interfaces reales.",
+            descriptionEN: "Visualization of clicks, attention, and dead zones on live interfaces.",
+            tools: ["Hotjar", "Microsoft Clarity"],
+          },
+          {
+            id: "session-recordings",
+            name: "Session recordings",
+            nameEN: "Session recordings",
+            description: "Revisión de sesiones para detectar errores, loops y abandono no evidente en métricas agregadas.",
+            descriptionEN: "Session review to detect errors, loops, and drop-off not visible in aggregate metrics.",
+            tools: ["Hotjar", "FullStory"],
+          },
+          {
+            id: "funnels",
+            name: "Funnels y eventos",
+            nameEN: "Funnels and events",
+            description: "Medición paso a paso de conversión y eventos críticos del journey.",
+            descriptionEN: "Step-by-step conversion and critical journey event measurement.",
+            tools: ["Google Analytics 4", "Mixpanel"],
+          },
+        ],
+      },
+      {
+        id: "qualitative",
+        name: "Análisis cualitativo",
+        nameEN: "Qualitative analysis",
+        description:
+          "Interpretación de patrones, motivaciones y significados a partir de datos no numéricos.",
+        descriptionEN:
+          "Interpretation of patterns, motivations, and meaning from non-numeric data.",
+        subcategories: [
+          {
+            id: "grounded-theory",
+            name: "Grounded Theory",
+            nameEN: "Grounded Theory",
+            description:
+              "Codificación abierta → axial → selectiva para construir categorías ancladas en evidencia empírica.",
+            descriptionEN:
+              "Open → axial → selective coding to build categories grounded in empirical evidence.",
+            tools: ["Atlas.ti", "NVivo", "Miro"],
+          },
+          {
+            id: "focus-groups",
+            name: "Focus groups",
+            nameEN: "Focus groups",
+            description:
+              "Dinámicas grupales facilitadas para explorar percepciones, lenguaje y tensiones de uso.",
+            descriptionEN:
+              "Facilitated group sessions to explore perceptions, language, and usage tensions.",
+            tools: ["Zoom", "FigJam", "Notion"],
+          },
+          {
+            id: "participatory-mapping",
+            name: "Cartografías participativas",
+            nameEN: "Participatory mapping",
+            description:
+              "Mapas co-creados con usuarios y stakeholders para hacer visible territorio, flujos y fricción institucional.",
+            descriptionEN:
+              "Co-created maps with users and stakeholders to surface territory, flows, and institutional friction.",
+            tools: ["Miro", "FigJam", "Kumu"],
+          },
+        ],
+      },
+      {
+        id: "ethnographic",
+        name: "Análisis etnográfico",
+        nameEN: "Ethnographic analysis",
+        description:
+          "Comprensión del uso en contexto real: prácticas, ritualidades y restricciones del entorno.",
+        descriptionEN:
+          "Understanding use in real context: practices, rituals, and environmental constraints.",
+        subcategories: [
+          {
+            id: "field-observation",
+            name: "Observación en campo",
+            nameEN: "Field observation",
+            description: "Shadowing y observación participante para capturar comportamiento situado.",
+            descriptionEN: "Shadowing and participant observation to capture situated behavior.",
+            tools: ["Notion", "Dovetail"],
+          },
+          {
+            id: "contextual-inquiry",
+            name: "Contextual inquiry",
+            nameEN: "Contextual inquiry",
+            description: "Entrevistas en el lugar de uso para alinear diseño con práctica real.",
+            descriptionEN: "In-context interviews to align design with actual practice.",
+            tools: ["Zoom", "Lookback"],
+          },
+        ],
+      },
+      {
+        id: "platforms",
+        name: "Plataformas de datos y contenido",
+        nameEN: "Data and content platforms",
+        description:
+          "Fuentes enterprise que conectan comportamiento digital con relación, contenido y operación.",
+        descriptionEN:
+          "Enterprise sources connecting digital behavior with relationship, content, and operations.",
+        subcategories: [
+          {
+            id: "crm",
+            name: "CRM",
+            nameEN: "CRM",
+            description:
+              "Lectura de ciclo de vida del cliente, tickets y segmentación para cruzar UX con negocio.",
+            descriptionEN:
+              "Customer lifecycle, tickets, and segmentation to cross UX signals with business context.",
+            tools: ["Salesforce", "HubSpot"],
+          },
+          {
+            id: "cms",
+            name: "CMS",
+            nameEN: "CMS",
+            description:
+              "Gobierno de contenido, arquitectura editorial y métricas de consumo en ecosistemas multi-sitio.",
+            descriptionEN:
+              "Content governance, editorial architecture, and consumption metrics across multi-site ecosystems.",
+            tools: ["Headless CMS", "Contentful", "SharePoint"],
+          },
+        ],
+      },
+      {
+        id: "ai-assisted",
+        name: "IA aplicada al análisis",
+        nameEN: "AI-assisted analysis",
+        description:
+          "Asistencia con LLM bajo protocolo humano: síntesis, tagging y triage — sin reemplazar validación.",
+        descriptionEN:
+          "LLM assistance under human protocol: synthesis, tagging, and triage — not a substitute for validation.",
+        subcategories: [
+          {
+            id: "llm-synthesis",
+            name: "LLM",
+            nameEN: "LLM",
+            description:
+              "Síntesis de entrevistas, clustering preliminar y redacción de insights con trazabilidad a fuente.",
+            descriptionEN:
+              "Interview synthesis, preliminary clustering, and insight drafting with source traceability.",
+            tools: ["Claude", "ChatGPT", "NotebookLM"],
+          },
+        ],
+      },
+    ],
+    tools: [
+      "Google Analytics 4",
+      "Hotjar",
+      "Mixpanel",
+      "Microsoft Clarity",
+      "FullStory",
+      "Grounded Theory",
+      "Focus groups",
+      "Cartografías participativas",
+      "CRM",
+      "CMS",
+      "LLM",
+      "Miro",
+      "Notion",
+    ],
     relatedProjects: [
       {
         projectId: "sura-inversiones-dashboard",
