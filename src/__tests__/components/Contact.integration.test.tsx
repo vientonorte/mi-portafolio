@@ -50,8 +50,21 @@ function getTabPanel(tabName: RegExp) {
   return within(panel);
 }
 
+function getFormPanelElement() {
+  const formTab = screen.getByRole("tab", { name: /Escribir directo/i });
+  const tabPanelId = formTab.getAttribute("aria-controls");
+  if (!tabPanelId) throw new Error("Form tab missing aria-controls");
+  const panel = document.getElementById(tabPanelId);
+  if (!panel) throw new Error(`Tab panel ${tabPanelId} not found`);
+  return panel;
+}
+
 function getFormPanel() {
-  return getTabPanel(/Escribir directo/i);
+  return within(getFormPanelElement());
+}
+
+function setControlledInputValue(input: HTMLInputElement | HTMLTextAreaElement, value: string) {
+  fireEvent.change(input, { target: { name: input.name, value } });
 }
 
 function getAssistantPanel() {
@@ -145,16 +158,13 @@ describe("Contact integration — persist debounce", () => {
 
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
-    const form = getFormPanel();
-    fireEvent.change(form.getByPlaceholderText("Tu nombre"), {
-      target: { name: "name", value: "Ana" },
-    });
-    fireEvent.change(form.getByPlaceholderText("tu@email.com"), {
-      target: { name: "email", value: "ana@example.com" },
-    });
-    fireEvent.change(form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i), {
-      target: { name: "message", value: "Consulta de integración" },
-    });
+    const panel = getFormPanelElement();
+    setControlledInputValue(panel.querySelector("#name") as HTMLInputElement, "Ana");
+    setControlledInputValue(panel.querySelector("#email") as HTMLInputElement, "ana@example.com");
+    setControlledInputValue(
+      panel.querySelector("#message") as HTMLTextAreaElement,
+      "Consulta de integración"
+    );
 
     await waitFor(
       () => {
@@ -194,9 +204,11 @@ describe("Contact integration — clear on submit", () => {
     const user = userEvent.setup();
     renderContact();
 
-    const form = getFormPanel();
-    fireEvent.click(form.getByText(/Acepto que mis datos se usen/i));
-    const formEl = form.getByRole("button", { name: /Enviar mensaje/i }).closest("form");
+    const panel = getFormPanelElement();
+    const consentLabel = panel.querySelector('label[for="consent"]');
+    if (!consentLabel) throw new Error("Consent label not found");
+    await user.click(consentLabel);
+    const formEl = panel.querySelector("form");
     if (!formEl) throw new Error("Contact form element not found");
     fireEvent.submit(formEl);
 
