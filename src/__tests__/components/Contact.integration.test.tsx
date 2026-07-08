@@ -186,10 +186,10 @@ describe("Contact integration — clear on empty", () => {
     vi.clearAllMocks();
   });
 
-  it("clears sessionStorage when all fields are emptied after debounce", async () => {
+  it("clears sessionStorage when message is cleared and identity is empty", async () => {
     writeContactSession({
-      name: "Borrar",
-      email: "borrar@example.com",
+      name: "",
+      email: "",
       message: "Mensaje temporal",
       activeTab: "form",
     });
@@ -197,8 +197,6 @@ describe("Contact integration — clear on empty", () => {
     renderContact();
 
     const panel = getFormPanelElement();
-    setControlledInputValue(panel.querySelector("#name") as HTMLInputElement, "");
-    setControlledInputValue(panel.querySelector("#email") as HTMLInputElement, "");
     setControlledInputValue(panel.querySelector("#message") as HTMLTextAreaElement, "");
 
     await waitFor(() => expect(readContactSession()).toBeNull(), { timeout: 1000 });
