@@ -9,7 +9,6 @@ import Footer from './components/Footer';
 import { BottomNav } from './components/molecules/BottomNav';
 import { DeepPageNav } from './components/molecules/DeepPageNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
-import { getCompanyById, getProjectById } from './data/project-registry';
 import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { NotFoundPage } from './components/layout/NotFoundPage';
@@ -17,9 +16,9 @@ import { isDeepPortfolioPage } from './lib/page-depth';
 import { ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
-import Home from './pages/Home';
 
-// Lazy load secondary pages for better performance
+// Lazy load pages — evita project-registry y assets pesados en el chunk inicial
+const Home = lazyWithRetry(() => import('./pages/Home'));
 const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
@@ -31,8 +30,8 @@ const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
 const ConsultoriaVientoNorte = lazyWithRetry(() => import('./pages/ConsultoriaVientoNorte'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
-const CompanyDetail = lazyWithRetry(() => import('./pages/CompanyDetail'));
-const ProjectDetail = lazyWithRetry(() => import('./pages/ProjectDetail'));
+const CompanyDetailRoute = lazyWithRetry(() => import('./pages/CompanyDetailRoute'));
+const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRoute'));
 const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
 
@@ -81,76 +80,12 @@ function ProcessDetailPage() {
   );
 }
 
-function CompanyDetailPage() {
-  const { companyId } = useParams<{ companyId: string }>();
-  const navigate = useNavigate();
-  const { language } = useLanguage();
-  const t = useTranslation(language);
-  const company = getCompanyById(companyId || '');
-
-  if (!company) {
-    return (
-      <NotFoundPage
-        message={t.errors.companyNotFound}
-        backLabel={t.errors.backToProjects}
-        onBack={() => navigate(ROUTES.projects)}
-        crumbLabel={t.breadcrumbs.notFound}
-      />
-    );
-  }
-
-  return (
-    <CompanyDetail
-      company={company}
-      onBack={() => navigate(ROUTES.projects)}
-      onNavigateToProject={(id) => navigate(ROUTES.project(id))}
-      onNavigateToProcess={(id) => navigate(ROUTES.processPhase(id))}
-    />
-  );
-}
-
 function FrameworkDetailPage() {
   const navigate = useNavigate();
   return (
     <FrameworkDetail
       onBack={() => navigate(ROUTES.process)}
       onNavigateToProject={(id) => navigate(ROUTES.project(id))}
-      onNavigateToProcess={(id) => navigate(ROUTES.processPhase(id))}
-    />
-  );
-}
-
-function ProjectDetailPage() {
-  const { projectId } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
-  const { language } = useLanguage();
-  const t = useTranslation(language);
-
-  if (projectId === 'framework') {
-    return <Navigate to="/framework" replace />;
-  }
-
-  const result = getProjectById(projectId || '');
-
-  if (!result) {
-    return (
-      <NotFoundPage
-        message={t.errors.projectNotFound}
-        backLabel={t.errors.backToProjects}
-        onBack={() => navigate(ROUTES.projects)}
-        crumbLabel={t.breadcrumbs.notFound}
-      />
-    );
-  }
-
-  return (
-    <ProjectDetail
-      project={result.project}
-      companyName={result.companyName}
-      onBack={() => navigate(ROUTES.projects)}
-      onBackToCompany={() =>
-        result.companyId ? navigate(ROUTES.company(result.companyId)) : navigate(ROUTES.projects)
-      }
       onNavigateToProcess={(id) => navigate(ROUTES.processPhase(id))}
     />
   );
@@ -189,15 +124,15 @@ function AppRoutes() {
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/grafo" element={<Grafo />} />
+            <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />
             <Route path="/proceso/fase/:processId" element={<ProcessDetailPage />} />
             <Route path="/cases" element={<Navigate to={ROUTES.process} replace />} />
             <Route path="/cases/process/:processId" element={<LegacyCasesProcessRedirect />} />
             <Route path="/framework" element={<FrameworkDetailPage />} />
-            <Route path="/empresa/:companyId" element={<CompanyDetailPage />} />
-            <Route path="/proyecto/:projectId" element={<ProjectDetailPage />} />
+            <Route path="/empresa/:companyId" element={<CompanyDetailRoute />} />
+            <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
             <Route path="/consultoria" element={<ConsultoriaVientoNorte />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />

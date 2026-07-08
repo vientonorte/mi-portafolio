@@ -1,24 +1,32 @@
-import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
-import { TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
-import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
-  suraRiaOnboarding,
-  suraWebPrototype,
-  suraAnalyticsGa4,
-  suraHotjarDashboard,
-  suraBenchmarkNavigation,
-  suraBookingFlowchart,
-  suraOnboardingFlags,
-  suraComponentPipeline,
-  transvipDesktop,
-  transvipMobile,
-  transvipProductVision,
-  transvipFigmaPrototype,
-  karriLogo,
-  uxProcessDiagram,
-  uxValueChain,
-  uxSprintDiagram,
-} from "./project-images";
+  karriCalculadoraStub,
+  karriDesignSprintStub,
+  karriNotificacionesStub,
+} from "./karri-project-stubs";
+import { RIA_US_PROTO_URL, TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
+import { portfolioImages } from "../lib/portfolio-image-urls";
+
+const {
+  sura: suraImg,
+  transvip: transvipImg,
+  framework: frameworkImg,
+} = portfolioImages;
+
+const suraRiaOnboarding = suraImg.riaOnboarding;
+const suraWebPrototype = suraImg.webPrototype;
+const suraAnalyticsGa4 = suraImg.analyticsGa4;
+const suraHotjarDashboard = suraImg.hotjarDashboard;
+const suraBenchmarkNavigation = suraImg.benchmarkNavigation;
+const suraBookingFlowchart = suraImg.bookingFlowchart;
+const suraOnboardingFlags = suraImg.onboardingFlags;
+const suraComponentPipeline = suraImg.componentPipeline;
+const transvipDesktop = transvipImg.appDesktop;
+const transvipMobile = transvipImg.appMobile;
+const transvipProductVision = transvipImg.productVision;
+const transvipFigmaPrototype = transvipImg.figmaPrototype;
+const uxProcessDiagram = suraImg.uxProcess;
+const uxValueChain = frameworkImg.uxValueChain;
+const uxSprintDiagram = suraImg.uxProcess;
 
 export interface Process {
   name: string;
@@ -375,10 +383,11 @@ export const suraHub: CompanyHub = {
       companyLogo: suraRiaOnboarding,
       role: "Lead UX/UI Designer",
       period: "2024 - 2025",
+      externalLink: RIA_US_PROTO_URL,
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
       descriptionEN: "End-to-end UX/UI design for SURA's RIA (Registered Investment Advisor) platform in the United States: information architecture, authentication, advisor onboarding, investment dashboard, and communications.",
-      image: suraRiaOnboarding,
+      image: portfolioImages.sura.celulaEvolutivaFlow,
       tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
       
       processes: [
@@ -446,7 +455,7 @@ export const suraHub: CompanyHub = {
           "El diseño de casos de error es crítico en plataformas financieras",
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
-        mockups: [suraRiaOnboarding],
+        mockups: [portfolioImages.sura.celulaEvolutivaFlow, suraRiaOnboarding],
       },
     },
     {
@@ -656,9 +665,9 @@ export const transvipHub: CompanyHub = {
         ],
       },
     },
-    karriCalculadoraProject as unknown as EnhancedProject,
-    karriNotificacionesProject as unknown as EnhancedProject,
-    karriDesignSprintProject as unknown as EnhancedProject,
+    karriCalculadoraStub,
+    karriNotificacionesStub,
+    karriDesignSprintStub,
   ],
   // Datos específicos de metodología por empresa
   methodologyStats: {

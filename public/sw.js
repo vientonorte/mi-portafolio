@@ -1,7 +1,7 @@
 // Service Worker for PWA capabilities
 
-const CACHE_NAME = 'rg-portfolio-v12';
-const RUNTIME_CACHE = 'rg-runtime-v12';
+const CACHE_NAME = 'rg-portfolio-v13';
+const RUNTIME_CACHE = 'rg-runtime-v13';
 
 const PRECACHE_URLS = [
   '/mi-portafolio/manifest.json',
