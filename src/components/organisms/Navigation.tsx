@@ -7,7 +7,7 @@ import { MobileMenu } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
-import { Logo, LogoMark } from "../atoms/Logo";
+import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
@@ -76,8 +76,13 @@ export function Navigation({
         label: t.nav.uxtools,
         type: "external",
       },
+      {
+        href: VIENTO_NORTE_LINKS.research,
+        label: t.nav.research,
+        type: "external",
+      },
     ],
-    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.uxtools]
+    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.research, t.nav.uxtools]
   );
 
   const mobileNavItems = useMemo(
@@ -303,20 +308,11 @@ export function Navigation({
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
-            <span className="sm:hidden">
-              <LogoMark
-                size={32}
-                interactive
-                plate={isScrolled || isMenuOpen ? "default" : "floating"}
-              />
-            </span>
-            <span className="hidden sm:block">
-              <Logo
-                size="sm"
-                interactive
-                plate={isScrolled || isMenuOpen ? "default" : "floating"}
-              />
-            </span>
+            <Logo
+              size="sm"
+              interactive
+              plate={isScrolled || isMenuOpen ? "default" : "floating"}
+            />
           </motion.a>
 
           <div className="hidden lg:flex items-center gap-6">

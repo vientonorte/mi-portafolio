@@ -72,7 +72,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "ria-us",
     kind: "prototype",
-    imagePath: img((i) => i.sura.celulaEvolutivaFlow),
+    imagePath: img((i) => i.sura.riaOnboarding),
     href: RIA_US_PROTO_URL,
     external: true,
     bundleId: "marco",
@@ -80,14 +80,35 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Prototipo interactivo",
         title: "RIA SURA Investments US",
-        outcome: "8 prototipos navegables · onboarding multi-perfil y auth regulatorio.",
-        metric: "8 prototipos",
+        outcome: "Proto Figma navegable — onboarding multi-perfil, auth regulatorio y dashboard US.",
+        metric: "Proto live",
       },
       en: {
         kindLabel: "Interactive prototype",
         title: "RIA SURA Investments US",
-        outcome: "8 navigable prototypes · multi-profile onboarding and regulatory auth.",
-        metric: "8 prototypes",
+        outcome: "Navigable Figma proto — multi-profile onboarding, regulatory auth, and US dashboard.",
+        metric: "Live proto",
+      },
+    },
+  },
+  {
+    id: "ria-celula-evolutiva",
+    kind: "case",
+    imagePath: img((i) => i.sura.celulaEvolutivaFlow),
+    href: ROUTES.project("sura-ria-us"),
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Proceso de equipo",
+        title: "Célula Evolutiva · RIA",
+        outcome: "Flujo end-to-end documentado — pre-planning, refinamiento, dev/QA y showcase.",
+        metric: "6 etapas",
+      },
+      en: {
+        kindLabel: "Team process",
+        title: "Evolutionary Cell · RIA",
+        outcome: "Documented end-to-end flow — pre-planning, refinement, dev/QA, and showcase.",
+        metric: "6 stages",
       },
     },
   },
@@ -179,7 +200,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "autosuggest",
     kind: "case",
-    imagePath: img((i) => i.sura.benchmarkNavigation),
+    imagePath: img((i) => i.sura.webPrototype),
     href: "/proyectos/autosuggest-fondos",
     bundleId: "ops",
     copy: {
@@ -243,7 +264,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "transvip-design-system",
     kind: "prototype",
-    imagePath: img((i) => i.transvip.appDesktop),
+    imagePath: img((i) => i.transvip.figmaPrototype),
     href: TRANSVIP_APP_FIGMA_URL,
     external: true,
     bundleId: "marco",
@@ -265,7 +286,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "valuesite-avem-landing",
     kind: "prototype",
-    imagePath: img((i) => i.sura.componentPipeline),
+    imagePath: img((i) => i.sura.onboardingFlags),
     href: VALUESITE_AVEM_PROTO_URL,
     external: true,
     bundleId: "marco",
@@ -371,7 +392,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "design-system",
     kind: "prototype",
-    imagePath: img((i) => i.sura.onboardingFlags),
+    imagePath: img((i) => i.sura.componentPipeline),
     href: ROUTES.designSystem,
     bundleId: "marco",
     copy: {
@@ -414,7 +435,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "sura-ia-case",
     kind: "poc",
-    imagePath: img((i) => i.sura.analyticsGa4),
+    imagePath: img((i) => i.sura.iaAutomationDashboard),
     href: ROUTES.project("sura-ia-automation-dashboard"),
     bundleId: "ops",
     copy: {
@@ -435,7 +456,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "auditoria-ejemplo",
     kind: "audit",
-    imagePath: img((i) => i.sura.hotjarDashboard),
+    imagePath: img((i) => i.sura.analyticsGa4),
     href: ROUTES.audit,
     bundleId: "radar",
     copy: {
@@ -485,13 +506,13 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Herramienta interactiva",
         title: "Árbol de decisión consultoría",
-        outcome: "3 rutas según necesidad — portfolio, producto o equipo — con bolsa recomendada.",
+        outcome: "3 rutas según necesidad — portfolio, producto o equipo — con modalidad recomendada.",
         metric: "3 rutas",
       },
       en: {
         kindLabel: "Interactive tool",
         title: "Consulting decision tree",
-        outcome: "3 paths by need — portfolio, product, or team — with a recommended bundle.",
+        outcome: "3 paths by need — portfolio, product, or team — with a recommended format.",
         metric: "3 paths",
       },
     },
@@ -568,6 +589,8 @@ export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "transvip-mobile": TRANSVIP_APP_PROTO_URL,
   "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
   "valuesite-avem-landing": VALUESITE_AVEM_PROTO_URL,
+  "figjam-audit-board":
+    "https://www.figma.com/board/lEGDG3EDlNI3OOUCucTyyx/PORTAFOLIO?node-id=2-41",
 };
 
 export function getValueProofItems(language: Language) {

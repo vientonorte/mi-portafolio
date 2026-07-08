@@ -21,7 +21,7 @@ export const upcomingCases: UpcomingCase[] = [
       es: "Diseño de servicios y flujos para clientes enterprise en agencia y operador.",
       en: "Service design and flows for enterprise clients at agency and carrier.",
     },
-    period: "Nov 2021 — Abr 2022",
+    period: "2019 — 2021",
     tags: ["Agency", "Telecom", "B2B"],
   },
   {

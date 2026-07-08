@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { ExternalLink, TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { useEffect } from "react";
@@ -62,7 +62,6 @@ interface ProjectData {
     icon: React.ComponentType<{ className?: string }>;
   }[];
   details?: Pick<ProjectDetails, "mockups">;
-  externalLink?: string;
 }
 
 // SURA enhanced project structure
@@ -93,7 +92,6 @@ interface EnhancedProject {
   processes?: Process[];
   teamSize?: string;
   details: ProjectDetails;
-  externalLink?: string;
 }
 
 interface ProjectDetailProps {
@@ -154,7 +152,6 @@ export default function ProjectDetail({
     : Boolean(project.results && project.results.length > 0);
   const hasEvidence = hasDesignArtifacts || hasMockupTiles;
   const projectId = project.id;
-  const externalLink = "externalLink" in project ? project.externalLink : undefined;
   const pageSeo = projectPageSeo(projectName, hubName, project.description, language);
 
   const navigationSections = buildProjectNavSections(language, {
@@ -323,33 +320,6 @@ export default function ProjectDetail({
                   </Badge>
                 ))}
               </motion.div>
-
-              {externalLink && (
-                <motion.div
-                  variants={fadeInVariant}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                  className="mt-8 flex justify-center"
-                >
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="border-primary/30 bg-primary/5 hover:bg-primary/10"
-                  >
-                    <a
-                      href={externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${t.processDetail.viewExternalProof} (${language === "es" ? "se abre en nueva pestaña" : "opens in a new tab"})`}
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" aria-hidden />
-                      {t.processDetail.viewExternalProof}
-                    </a>
-                  </Button>
-                </motion.div>
-              )}
             </motion.div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { ArrowRight, Calendar, User, Download, CheckCircle2, Circle, Clock, Sparkles } from "lucide-react";
+import { Calendar, User, Download, CheckCircle2, Circle, Clock } from "lucide-react";
 import { auditData } from "../data/audit-data";
 import { useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +12,6 @@ import { getAuditPageCopy } from "../lib/audit-page-copy";
 import { canonicalFromPath, SEO_SITE } from "../lib/seo";
 import { ROUTES } from "../lib/routes";
 import { cn } from "../lib/utils";
-import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
-import { getConsultingPackage } from "../data/vientonorte-consulting";
 
 type ChecklistStatus = "pending" | "in_progress" | "completed";
 
@@ -24,6 +21,10 @@ interface ChecklistItem {
   category: string;
   status: ChecklistStatus;
 }
+
+const ADPLIST_SESSION_WIDGET_URL =
+  "https://adplist.org/widgets/single-session?src=rodrigo-gaete&session=25718-craft-your-portfolio";
+const ADPLIST_MENTOR_URL = "https://adplist.org/mentors/rodrigo-gaete";
 
 const SEO_ITEMS = [
   {
@@ -130,14 +131,6 @@ export default function AuditoriaPortfolio() {
 
   const handleDownload = () => {
     window.print();
-  };
-
-  const recommendedPackage = getConsultingPackage("marco");
-
-  const handleStartConsulting = () => {
-    navigate(ROUTES.consulting, {
-      state: { recommendedPackage: "marco", scrollTo: "consultoria-onboarding" },
-    });
   };
 
   const externalLinkLabel = (label: string) => `${label} (${copy.opensNewTab})`;
@@ -418,61 +411,37 @@ export default function AuditoriaPortfolio() {
             ))}
           </div>
 
-          {recommendedPackage && (
-            <div className="mt-12 space-y-6 no-print">
-              <div className="text-center">
-                <h3 className="text-xl font-medium text-foreground">
-                  {copy.sections.consultingCtaTitle}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {copy.sections.consultingCtaSubtitle}
-                </p>
-              </div>
-              <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm">
-                <Badge
-                  variant="outline"
-                  className="border-primary/25 bg-surface-matte-elevated text-foreground"
-                >
-                  <Sparkles className="mr-1.5 h-3.5 w-3.5 text-primary" aria-hidden />
-                  {copy.sections.consultingCtaPackageLabel}
-                </Badge>
-                <h4 className="mt-4 text-2xl font-semibold text-foreground">
-                  {recommendedPackage.name[language]}
-                </h4>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {recommendedPackage.tagline[language]}
-                </p>
-                <p className="mt-1 text-xs font-medium text-primary">
-                  {recommendedPackage.duration[language]}
-                </p>
-                <ul className="mt-6 space-y-2" role="list">
-                  {recommendedPackage.deliverables[language].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-sm text-muted-foreground"
-                    >
-                      <CheckCircle2
-                        className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary"
-                        aria-hidden
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  size="lg"
-                  className="mt-8 w-full bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
-                  onClick={handleStartConsulting}
-                >
-                  {copy.sections.consultingCtaPrimary}
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Button>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  {copy.sections.consultingCtaNote}
-                </p>
-              </div>
+          <div className="mt-12 space-y-4">
+            <div className="text-center">
+              <h3 className="text-xl font-medium text-foreground">{copy.sections.adpListBooking}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{copy.sections.adpListBookingSubtitle}</p>
             </div>
-          )}
+            <p id="audit-adplist-description" className="sr-only">
+              {copy.sections.adpListEmbedDescription}
+            </p>
+            <div className="mx-auto w-full max-w-[650px] overflow-hidden rounded-2xl shadow-[0_4px_19px_rgba(142,151,158,0.15)] no-print">
+              <iframe
+                src={ADPLIST_SESSION_WIDGET_URL}
+                title={copy.sections.adpListEmbedTitle}
+                aria-describedby="audit-adplist-description"
+                width="100%"
+                height="496"
+                loading="lazy"
+                className="h-[496px] w-full border-0"
+              />
+            </div>
+            <p className="text-center text-xs text-muted-foreground">
+              <a
+                href={ADPLIST_MENTOR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
+                aria-label={externalLinkLabel(copy.sections.adpListOpen)}
+              >
+                {copy.sections.adpListOpen} →
+              </a>
+            </p>
+          </div>
         </section>
 
         <section className="relative" aria-labelledby="audit-kpis">

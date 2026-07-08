@@ -14,10 +14,10 @@ export interface ConsultingPackage {
 export const CONSULTING_PACKAGES: ConsultingPackage[] = [
   {
     id: "radar",
-    name: { es: "Diagnóstico express", en: "Express diagnostic" },
+    name: { es: "Bolsa Radar", en: "Radar Bundle" },
     tagline: {
-      es: "Auditoría UX rápida con hallazgos priorizados y quick wins.",
-      en: "Fast UX audit with prioritized findings and quick wins.",
+      es: "Auditoría UX express con hallazgos priorizados P0–P2.",
+      en: "Express UX audit with prioritized P0–P2 findings.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
     deliverables: {
@@ -36,20 +36,20 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
   {
     id: "marco",
     featured: true,
-    name: { es: "Estrategia guiada", en: "Guided strategy" },
+    name: { es: "Bolsa Marco", en: "Marco Bundle" },
     tagline: {
-      es: "Diagnóstico completo + mentoría en 3 sesiones de implementación.",
-      en: "Full diagnostic + 3 implementation mentorship sessions.",
+      es: "Auditoría completa + mentoría en 3 sesiones de implementación.",
+      en: "Full audit + 3 implementation mentorship sessions.",
     },
     duration: { es: "3–4 semanas", en: "3–4 weeks" },
     deliverables: {
       es: [
-        "Incluye diagnóstico express + plantilla de case study",
+        "Todo Radar + case study template",
         "3 sesiones: posicionamiento, arquitectura, validación",
         "Schema SEO/AEO y checklist de lanzamiento",
       ],
       en: [
-        "Includes express diagnostic + case study template",
+        "Everything in Radar + case study template",
         "3 sessions: positioning, architecture, validation",
         "SEO/AEO schema and launch checklist",
       ],
@@ -57,7 +57,7 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
   },
   {
     id: "ops",
-    name: { es: "Proceso de equipo", en: "Team process" },
+    name: { es: "Bolsa Ops", en: "Ops Bundle" },
     tagline: {
       es: "Design Ops para equipos: framework, estimación y handoff medible.",
       en: "Design Ops for teams: framework, estimation, measurable handoff.",
@@ -103,7 +103,7 @@ export function buildConsultingContactMessage(
     return [
       "Hola Rodrigo — solicitud vía onboarding Viento Norte.",
       "",
-      `Modalidad: ${pkg.name.es}`,
+      `Bolsa: ${pkg.name.es}`,
       `Industria: ${industry}`,
       `Plazo: ${timeline}`,
       "",
@@ -116,7 +116,7 @@ export function buildConsultingContactMessage(
   return [
     "Hi Rodrigo — request via Viento Norte onboarding.",
     "",
-    `Format: ${pkg.name.en}`,
+    `Bundle: ${pkg.name.en}`,
     `Industry: ${industry}`,
     `Timeline: ${timeline}`,
     "",

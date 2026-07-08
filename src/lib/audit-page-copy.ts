@@ -20,11 +20,11 @@ export interface AuditPageCopy {
     quickWinsSubtitle: string;
     mentorship: string;
     mentorshipSubtitle: string;
-    consultingCtaTitle: string;
-    consultingCtaSubtitle: string;
-    consultingCtaPrimary: string;
-    consultingCtaNote: string;
-    consultingCtaPackageLabel: string;
+    adpListBooking: string;
+    adpListBookingSubtitle: string;
+    adpListEmbedTitle: string;
+    adpListEmbedDescription: string;
+    adpListOpen: string;
     deliverables: string;
     kpis: string;
     figjam: string;
@@ -80,13 +80,12 @@ const COPY: Record<Language, AuditPageCopy> = {
       quickWinsSubtitle: "Implementación inmediata",
       mentorship: "Plan de mentoría",
       mentorshipSubtitle: "3 sesiones estratégicas",
-      consultingCtaTitle: "Iniciar estrategia guiada",
-      consultingCtaSubtitle:
-        "Onboarding Viento Norte — mismo plan de mentoría, sin intermediarios. Kickoff en menos de 24 h hábiles.",
-      consultingCtaPrimary: "Reservar consultoría",
-      consultingCtaNote:
-        "Sin precios públicos. Alcance y modalidad se confirman en la primera sesión.",
-      consultingCtaPackageLabel: "Modalidad recomendada",
+      adpListBooking: "Reserva tu sesión",
+      adpListBookingSubtitle: "Craft Your Portfolio — mentoría 1:1 vía ADPList",
+      adpListEmbedTitle: "Craft Your Portfolio — reserva de sesión ADPList",
+      adpListEmbedDescription:
+        "Widget de reserva para agendar una sesión de mentoría sobre portfolio UX. Si el embed no carga, abre ADPList en una nueva pestaña.",
+      adpListOpen: "Abrir en ADPList",
       deliverables: "Entregables",
       kpis: "KPIs de éxito",
       figjam: "FigJam board",
@@ -140,13 +139,12 @@ const COPY: Record<Language, AuditPageCopy> = {
       quickWinsSubtitle: "Immediate implementation",
       mentorship: "Mentorship plan",
       mentorshipSubtitle: "3 strategic sessions",
-      consultingCtaTitle: "Start guided strategy",
-      consultingCtaSubtitle:
-        "Viento Norte onboarding — same mentorship plan, no third-party booking. Kickoff in under 24 business hours.",
-      consultingCtaPrimary: "Book consulting",
-      consultingCtaNote:
-        "No public pricing. Scope and format are confirmed in the first session.",
-      consultingCtaPackageLabel: "Recommended format",
+      adpListBooking: "Book your session",
+      adpListBookingSubtitle: "Craft Your Portfolio — 1:1 mentorship via ADPList",
+      adpListEmbedTitle: "Craft Your Portfolio — ADPList session booking",
+      adpListEmbedDescription:
+        "Booking widget to schedule a UX portfolio mentorship session. If the embed does not load, open ADPList in a new tab.",
+      adpListOpen: "Open on ADPList",
       deliverables: "Deliverables",
       kpis: "Success KPIs",
       figjam: "FigJam board",

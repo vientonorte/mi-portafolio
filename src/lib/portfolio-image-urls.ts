@@ -4,7 +4,7 @@
  */
 const base = import.meta.env.BASE_URL;
 /** Invalida caché del SW/navegador tras actualizar logos (p. ej. Karri KARRI vs KLAP). */
-const LOGO_ASSET_VERSION = "20260709";
+const LOGO_ASSET_VERSION = "20260708";
 
 function img(path: string, bustCache = false) {
   const url = `${base}images/${path}`;
@@ -24,7 +24,6 @@ export const portfolioImages = {
     bookingFlowchart: img("sura/booking-flowchart.png"),
     onboardingFlags: img("sura/onboarding-flags.png"),
     uxProcess: img("sura/ux-process.png"),
-    celulaEvolutivaFlow: img("sura/celula-evolutiva-flow.png"),
   },
   transvip: {
     logo: img("transvip/logo.svg", true),
@@ -42,9 +41,6 @@ export const portfolioImages = {
   },
   framework: {
     uxValueChain: img("framework/ux-value-chain.png"),
-  },
-  consultoria: {
-    xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
   },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),

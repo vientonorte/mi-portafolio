@@ -32,7 +32,7 @@ function imageForProject(
     case "sura-ux-enterprise":
       return images.sura.uxProcess;
     case "sura-ria-us":
-      return images.sura.celulaEvolutivaFlow;
+      return images.sura.riaOnboarding;
     case "sura-inversiones-dashboard":
       return images.sura.riaOnboarding;
     case "sura-ia-automation-dashboard":
