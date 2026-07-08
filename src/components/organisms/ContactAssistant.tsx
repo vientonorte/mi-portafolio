@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { ArrowLeft, Bot, Send, Shield, User } from "lucide-react";
+import { ArrowLeft, Bot, CheckCircle2, Send, Shield, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -14,16 +14,29 @@ import {
   buildAssistantContactMessage,
   type ContactIntent,
 } from "../../lib/build-contact-message";
+import {
+  draftBannerKey,
+  mergeContactMessage,
+  resolveAssistantInitialStep,
+  shouldSkipAssistantWizard,
+  type ContactAssistantStep,
+  type ContactDraft,
+  type ContactSharedIdentity,
+} from "../../lib/contact-draft";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { SITE_CONTACT } from "../../lib/site-contact";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 import { cn } from "../ui/utils";
 
-type StepId = "intent" | "detail" | "contact" | "review";
-
 interface ContactAssistantProps {
-  initialMessage?: string;
+  contactDraft?: ContactDraft | null;
+  sharedIdentity: ContactSharedIdentity;
+  onIdentityChange: (patch: Partial<ContactSharedIdentity>) => void;
+  sharedMessage: string;
+  onMessageChange: (message: string) => void;
+  gotcha: string;
+  onGotchaChange: (value: string) => void;
   onSuccess?: () => void;
 }
 
@@ -81,7 +94,7 @@ function OptionButton({
       type="button"
       variant={selected ? "default" : "outline"}
       className={cn(
-        "h-auto min-h-11 justify-start whitespace-normal px-4 py-3 text-left text-sm",
+        "h-auto min-h-11 w-full justify-start whitespace-normal px-4 py-3 text-left text-sm sm:w-auto",
         selected && "bg-brand-gradient border-transparent"
       )}
       onClick={onClick}
@@ -91,7 +104,16 @@ function OptionButton({
   );
 }
 
-export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssistantProps) {
+export function ContactAssistant({
+  contactDraft = null,
+  sharedIdentity,
+  onIdentityChange,
+  sharedMessage,
+  onMessageChange,
+  gotcha,
+  onGotchaChange,
+  onSuccess,
+}: ContactAssistantProps) {
   const { language } = useLanguage();
   const translations = useTranslation(language);
   const t = translations.contact;
@@ -99,22 +121,33 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
   const ctx = translations.consultoria.context;
   const prefersReducedMotion = useReducedMotion();
 
-  const [step, setStep] = useState<StepId>("intent");
-  const [intent, setIntent] = useState<ContactIntent | null>(null);
-  const [recruiterMode, setRecruiterMode] = useState("");
-  const [consultingQ1, setConsultingQ1] = useState("");
-  const [packageId, setPackageId] = useState<ConsultingPackageId | undefined>();
-  const [industry, setIndustry] = useState(a.industries[0]);
-  const [timeline, setTimeline] = useState(a.timelines[1]);
-  const [goal, setGoal] = useState(initialMessage);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [history, setHistory] = useState<Array<{ role: "assistant" | "user"; text: string }>>([]);
+  const skipWizard = shouldSkipAssistantWizard(contactDraft);
+  const bannerKey = draftBannerKey(contactDraft);
+
+  const [step, setStep] = useState<ContactAssistantStep>(() =>
+    resolveAssistantInitialStep(contactDraft)
+  );
+  const [intent, setIntent] = useState<ContactIntent | null>(contactDraft?.intent ?? null);
+  const [recruiterMode, setRecruiterMode] = useState(contactDraft?.recruiterMode ?? "");
+  const [consultingQ1, setConsultingQ1] = useState(contactDraft?.consultingQ1 ?? "");
+  const [packageId, setPackageId] = useState<ConsultingPackageId | undefined>(
+    contactDraft?.packageId
+  );
+  const [industry, setIndustry] = useState(
+    contactDraft?.industry ?? a.industries[0]
+  );
+  const [timeline, setTimeline] = useState(
+    contactDraft?.timeline ?? a.timelines[1]
+  );
+  const [goal, setGoal] = useState("");
+  const [history, setHistory] = useState<Array<{ role: "assistant" | "user"; text: string }>>(
+    () => {
+      if (!skipWizard || !bannerKey) return [];
+      return [{ role: "assistant", text: a.draftBanner[bannerKey] }];
+    }
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [gotcha, setGotcha] = useState("");
 
   const pushHistory = (role: "assistant" | "user", text: string) => {
     setHistory((prev) => [...prev, { role, text }]);
@@ -132,14 +165,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
     [intent, recruiterMode, packageId, industry, timeline, goal]
   );
 
-  const selectIntent = (value: ContactIntent) => {
-    setIntent(value);
-    pushHistory("user", a.intents[value]);
-    pushHistory("assistant", stepQuestion("detail", value));
-    setStep("detail");
-  };
-
-  const stepQuestion = (targetStep: StepId, currentIntent?: ContactIntent | null): string => {
+  const stepQuestion = (targetStep: ContactAssistantStep, currentIntent?: ContactIntent | null): string => {
     const i = currentIntent ?? intent;
     if (targetStep === "intent") return a.steps.intent;
     if (targetStep === "detail") {
@@ -148,8 +174,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
       if (i === "freelance") return a.steps.freelance;
       return a.steps.other;
     }
-    if (targetStep === "contact") return a.steps.contact;
-    return a.steps.review;
+    return a.steps.compose;
   };
 
   const resolveConsultingPackage = (q1: string, q2: string): ConsultingPackageId => {
@@ -158,42 +183,47 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
     return q2 === "iterate" ? "radar" : "marco";
   };
 
-  const finishDetail = () => {
-    pushHistory("assistant", a.steps.contact);
-    setStep("contact");
+  const enterCompose = (options?: { generatedMessage?: string }) => {
+    const generated =
+      options?.generatedMessage ??
+      (intent ? buildAssistantContactMessage(language, draft) : "");
+
+    if (generated) {
+      onMessageChange(mergeContactMessage(sharedMessage, generated, { preferCurrent: true }));
+    }
+
+    pushHistory("assistant", a.steps.compose);
+    setStep("compose");
   };
 
-  const validateContact = () => {
+  const selectIntent = (value: ContactIntent) => {
+    setIntent(value);
+    pushHistory("user", a.intents[value]);
+    pushHistory("assistant", stepQuestion("detail", value));
+    setStep("detail");
+  };
+
+  const validateCompose = () => {
     const next: Record<string, string> = {};
-    if (!name.trim() || name.trim().length < 2) next.name = t.form.errors.nameMin;
-    if (!email.trim()) next.email = t.form.errors.emailRequired;
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = t.form.errors.emailInvalid;
-    if (!consent) next.consent = t.form.consentRequired;
+    if (!sharedIdentity.name.trim() || sharedIdentity.name.trim().length < 2) {
+      next.name = t.form.errors.nameMin;
+    }
+    if (!sharedIdentity.email.trim()) next.email = t.form.errors.emailRequired;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sharedIdentity.email)) {
+      next.email = t.form.errors.emailInvalid;
+    }
+    if (!sharedMessage.trim() || sharedMessage.trim().length < 10) {
+      next.message = t.form.errors.messageMin;
+    }
+    if (!sharedIdentity.consent) next.consent = t.form.consentRequired;
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
-  const goToReview = () => {
-    if (!validateContact()) {
-      toast.error(t.form.validationError);
-      return;
-    }
-    pushHistory("user", `${name.trim()} · ${email.trim()}`);
-    pushHistory("assistant", a.steps.review);
-    if (intent) {
-      setMessage(buildAssistantContactMessage(language, draft));
-    }
-    setStep("review");
-  };
-
   const handleSubmit = async () => {
     if (gotcha) return;
-    if (!message.trim() || message.trim().length < 10) {
-      toast.error(t.form.errors.messageMin);
-      return;
-    }
-    if (!consent) {
-      toast.error(t.form.consentRequired);
+    if (!validateCompose()) {
+      toast.error(t.form.validationError);
       return;
     }
 
@@ -201,9 +231,9 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
     try {
       const intentLabel = intent ? a.intents[intent] : "";
       const result = await submitContactMessage({
-        name: name.trim(),
-        email: email.trim(),
-        message: message.trim(),
+        name: sharedIdentity.name.trim(),
+        email: sharedIdentity.email.trim(),
+        message: sharedMessage.trim(),
         _gotcha: gotcha,
         source: "assistant",
         intent: intentLabel,
@@ -222,7 +252,12 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
         analytics.submitContactForm(false);
         toast.error(t.form.mailtoFallback, {
           description: t.form.mailtoFallbackDesc,
-          action: { label: t.form.mailtoAction, onClick: () => { window.location.href = result.mailtoUrl!; } },
+          action: {
+            label: t.form.mailtoAction,
+            onClick: () => {
+              window.location.href = result.mailtoUrl!;
+            },
+          },
         });
         return;
       }
@@ -238,11 +273,8 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
   };
 
   const goBack = () => {
-    if (step === "review") {
-      setStep("contact");
-      return;
-    }
-    if (step === "contact") {
+    if (step === "compose") {
+      if (skipWizard) return;
       setStep("detail");
       return;
     }
@@ -250,37 +282,53 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
       setStep("intent");
       setIntent(null);
       setConsultingQ1("");
-      setPackageId(undefined);
+      setPackageId(contactDraft?.packageId);
       setHistory([]);
     }
   };
 
+  const showBack = step !== "intent" && !(step === "compose" && skipWizard);
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-lg font-semibold">{a.title}</h3>
-          <p className="text-sm text-muted-foreground">{a.description}</p>
+          <p className="text-sm text-muted-foreground">
+            {skipWizard ? a.descriptionReady : a.description}
+          </p>
         </div>
-        {step !== "intent" && (
-          <Button type="button" variant="ghost" size="sm" onClick={goBack}>
+        {showBack && (
+          <Button type="button" variant="ghost" size="sm" className="min-h-11 self-start" onClick={goBack}>
             <ArrowLeft className="mr-1 h-4 w-4" />
             {a.back}
           </Button>
         )}
       </div>
 
-      <div
-        className="max-h-[280px] space-y-4 overflow-y-auto rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte/50 p-4"
-        aria-live="polite"
-      >
-        <ChatBubble role="assistant">{a.steps.intent}</ChatBubble>
-        {history.map((line, i) => (
-          <ChatBubble key={`${line.role}-${i}`} role={line.role}>
-            {line.text}
-          </ChatBubble>
-        ))}
-      </div>
+      {!skipWizard && (
+        <div
+          className="max-h-[240px] space-y-4 overflow-y-auto rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte/50 p-4 sm:max-h-[280px]"
+          aria-live="polite"
+        >
+          <ChatBubble role="assistant">{a.steps.intent}</ChatBubble>
+          {history.map((line, i) => (
+            <ChatBubble key={`${line.role}-${i}`} role={line.role}>
+              {line.text}
+            </ChatBubble>
+          ))}
+        </div>
+      )}
+
+      {skipWizard && bannerKey && (
+        <div
+          className="flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4"
+          role="status"
+        >
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+          <p className="text-sm leading-relaxed">{a.draftBanner[bannerKey]}</p>
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -292,7 +340,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
           className="space-y-4"
         >
           {step === "intent" && (
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {(Object.keys(a.intents) as ContactIntent[]).map((key) => (
                 <OptionButton key={key} onClick={() => selectIntent(key)}>
                   {a.intents[key]}
@@ -302,27 +350,30 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
           )}
 
           {step === "detail" && intent === "recruiter" && (
-            <div className="space-y-3">
-              <div className="grid gap-2">
-                {Object.entries(a.recruiterModes).map(([key, label]) => (
-                  <OptionButton
-                    key={key}
-                    selected={recruiterMode === label}
-                    onClick={() => {
-                      setRecruiterMode(label);
-                      pushHistory("user", label);
-                      finishDetail();
-                    }}
-                  >
-                    {label}
-                  </OptionButton>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 gap-2">
+              {Object.entries(a.recruiterModes).map(([key, label]) => (
+                <OptionButton
+                  key={key}
+                  selected={recruiterMode === label}
+                  onClick={() => {
+                    setRecruiterMode(label);
+                    pushHistory("user", label);
+                    enterCompose({
+                      generatedMessage: buildAssistantContactMessage(language, {
+                        intent: "recruiter",
+                        recruiterMode: label,
+                      }),
+                    });
+                  }}
+                >
+                  {label}
+                </OptionButton>
+              ))}
             </div>
           )}
 
           {step === "detail" && intent === "consulting" && !consultingQ1 && (
-            <div className="grid gap-2">
+            <div className="grid grid-cols-1 gap-2">
               {[
                 { id: "portfolio", label: a.consultingPaths.portfolio },
                 { id: "product", label: a.consultingPaths.product },
@@ -348,7 +399,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
           )}
 
           {step === "detail" && intent === "consulting" && consultingQ1 && consultingQ1 !== "team" && !packageId && (
-            <div className="grid gap-2">
+            <div className="grid grid-cols-1 gap-2">
               {(consultingQ1 === "portfolio"
                 ? [
                     { id: "auditOnly", label: a.consultingPaths.auditOnly },
@@ -395,7 +446,7 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                   return;
                 }
                 pushHistory("user", goal.trim().slice(0, 120) + (goal.length > 120 ? "…" : ""));
-                finishDetail();
+                enterCompose();
               }}
               continueLabel={a.continue}
             />
@@ -422,21 +473,56 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                   return;
                 }
                 pushHistory("user", goal.trim().slice(0, 120) + (goal.length > 120 ? "…" : ""));
-                finishDetail();
+                enterCompose();
               }}
               continueLabel={a.continue}
             />
           )}
 
-          {step === "contact" && (
-            <div className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
+          {step === "compose" && (
+            <div className="space-y-5" aria-busy={isSubmitting}>
+              <div>
+                <h4 className="text-base font-semibold">{a.composeTitle}</h4>
+                <p className="text-sm text-muted-foreground">{a.composeDescription}</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="assistant-message">
+                  {t.form.message}{" "}
+                  <span className="text-destructive" aria-hidden>*</span>
+                </Label>
+                <Textarea
+                  id="assistant-message"
+                  value={sharedMessage}
+                  onChange={(e) => {
+                    onMessageChange(e.target.value);
+                    setErrors((prev) => ({ ...prev, message: "" }));
+                  }}
+                  rows={7}
+                  className={`min-h-[160px] resize-y font-mono text-sm ${errors.message ? "border-destructive" : ""}`}
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "assistant-message-error" : "assistant-message-hint"}
+                />
+                <p id="assistant-message-hint" className="text-xs text-muted-foreground">
+                  {a.editMessage}
+                </p>
+                {errors.message && (
+                  <p id="assistant-message-error" className="text-sm text-destructive">
+                    {errors.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="assistant-name">{t.form.name}</Label>
                   <Input
                     id="assistant-name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={sharedIdentity.name}
+                    onChange={(e) => {
+                      onIdentityChange({ name: e.target.value });
+                      setErrors((prev) => ({ ...prev, name: "" }));
+                    }}
                     placeholder={t.form.namePlaceholder}
                     autoComplete="name"
                     aria-invalid={!!errors.name}
@@ -448,10 +534,14 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                   <Input
                     id="assistant-email"
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={sharedIdentity.email}
+                    onChange={(e) => {
+                      onIdentityChange({ email: e.target.value });
+                      setErrors((prev) => ({ ...prev, email: "" }));
+                    }}
                     placeholder={t.form.emailPlaceholder}
                     autoComplete="email"
+                    inputMode="email"
                     aria-invalid={!!errors.email}
                     aria-describedby="assistant-email-hint"
                   />
@@ -464,8 +554,11 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
 
               <ContactConsentField
                 id="assistant-consent"
-                checked={consent}
-                onCheckedChange={setConsent}
+                checked={sharedIdentity.consent}
+                onCheckedChange={(checked) => {
+                  onIdentityChange({ consent: checked });
+                  setErrors((prev) => ({ ...prev, consent: "" }));
+                }}
                 consentText={t.form.consent}
                 privacyLinkLabel={t.form.consentPrivacyLink}
                 error={errors.consent}
@@ -480,32 +573,16 @@ export function ContactAssistant({ initialMessage = "", onSuccess }: ContactAssi
                 type="text"
                 name="_gotcha"
                 value={gotcha}
-                onChange={(e) => setGotcha(e.target.value)}
+                onChange={(e) => onGotchaChange(e.target.value)}
                 className="hidden"
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden
               />
 
-              <Button size="lg" className="w-full bg-brand-gradient hover:opacity-90" onClick={goToReview}>
-                {a.continue}
-              </Button>
-            </div>
-          )}
-
-          {step === "review" && (
-            <div className="space-y-4" aria-busy={isSubmitting}>
-              <p className="text-sm text-muted-foreground">{a.editMessage}</p>
-              <Textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                rows={8}
-                className="resize-none font-mono text-sm"
-                aria-label={t.form.message}
-              />
               <Button
                 size="lg"
-                className="w-full bg-brand-gradient hover:opacity-90"
+                className="w-full min-h-12 bg-brand-gradient hover:opacity-90"
                 disabled={isSubmitting}
                 aria-disabled={isSubmitting}
                 onClick={handleSubmit}
@@ -563,7 +640,7 @@ function DetailFields({
             <Badge
               key={item}
               variant={industry === item ? "default" : "outline"}
-              className="cursor-pointer px-3 py-1.5"
+              className="cursor-pointer px-3 py-2 min-h-9"
               onClick={() => onIndustry(item)}
             >
               {item}
@@ -578,7 +655,7 @@ function DetailFields({
             <Badge
               key={item}
               variant={timeline === item ? "default" : "outline"}
-              className="cursor-pointer px-3 py-1.5"
+              className="cursor-pointer px-3 py-2 min-h-9"
               onClick={() => onTimeline(item)}
             >
               {item}
@@ -594,11 +671,11 @@ function DetailFields({
           onChange={(e) => onGoal(e.target.value)}
           placeholder={goalPlaceholder}
           rows={4}
-          className="resize-none"
+          className="min-h-[120px] resize-y"
         />
         <p className="text-xs text-muted-foreground">{goalHint}</p>
       </div>
-      <Button size="lg" className="w-full" onClick={onContinue}>
+      <Button size="lg" className="w-full min-h-12" onClick={onContinue}>
         {continueLabel}
       </Button>
     </div>

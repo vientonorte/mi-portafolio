@@ -18,6 +18,13 @@ import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import {
+  emptyContactIdentity,
+  resolveInitialContactTab,
+  type ContactDraft,
+  type ContactSharedIdentity,
+  type ContactTab,
+} from "../../lib/contact-draft";
 
 const socialLinks = [
   {
@@ -27,47 +34,47 @@ const socialLinks = [
   },
 ];
 
-export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
+export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft | null }) {
   const { language } = useLanguage();
   const t = useTranslation(language).contact;
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: initialMessage,
-    consent: false,
-    _gotcha: "",
-  });
-
+  const [activeTab, setActiveTab] = useState<ContactTab>(() =>
+    resolveInitialContactTab(contactDraft)
+  );
+  const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(
+    emptyContactIdentity
+  );
+  const [sharedMessage, setSharedMessage] = useState(contactDraft?.message ?? "");
+  const [gotcha, setGotcha] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const validateForm = (): boolean => {
+  const validateDirectForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) newErrors.name = t.form.errors.nameRequired;
-    else if (formData.name.trim().length < 2) newErrors.name = t.form.errors.nameMin;
+    if (!sharedIdentity.name.trim()) newErrors.name = t.form.errors.nameRequired;
+    else if (sharedIdentity.name.trim().length < 2) newErrors.name = t.form.errors.nameMin;
 
-    if (!formData.email.trim()) newErrors.email = t.form.errors.emailRequired;
-    else if (!validateEmail(formData.email)) newErrors.email = t.form.errors.emailInvalid;
+    if (!sharedIdentity.email.trim()) newErrors.email = t.form.errors.emailRequired;
+    else if (!validateEmail(sharedIdentity.email)) newErrors.email = t.form.errors.emailInvalid;
 
-    if (!formData.message.trim()) newErrors.message = t.form.errors.messageRequired;
-    else if (formData.message.trim().length < 10) newErrors.message = t.form.errors.messageMin;
+    if (!sharedMessage.trim()) newErrors.message = t.form.errors.messageRequired;
+    else if (sharedMessage.trim().length < 10) newErrors.message = t.form.errors.messageMin;
 
-    if (!formData.consent) newErrors.consent = t.form.consentRequired;
+    if (!sharedIdentity.consent) newErrors.consent = t.form.consentRequired;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleDirectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData._gotcha) return;
+    if (gotcha) return;
 
-    if (!validateForm()) {
+    if (!validateDirectForm()) {
       toast.error(t.form.validationError);
       return;
     }
@@ -76,19 +83,21 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
 
     try {
       const result = await submitContactMessage({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        _gotcha: formData._gotcha,
+        name: sharedIdentity.name,
+        email: sharedIdentity.email,
+        message: sharedMessage,
+        _gotcha: gotcha,
         source: "form",
-        consent: formData.consent,
+        consent: sharedIdentity.consent,
         language,
       });
 
       if (result.ok) {
         analytics.submitContactForm(true, result.channel);
         toast.success(t.form.success);
-        setFormData({ name: "", email: "", message: "", consent: false, _gotcha: "" });
+        setSharedIdentity(emptyContactIdentity());
+        setSharedMessage("");
+        setGotcha("");
         setErrors({});
         return;
       }
@@ -122,13 +131,27 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
     }
   };
 
-  const handleChange = (
+  const updateIdentity = (patch: Partial<ContactSharedIdentity>) => {
+    setSharedIdentity((prev) => ({ ...prev, ...patch }));
+    if (patch.name !== undefined) setErrors((e) => ({ ...e, name: "" }));
+    if (patch.email !== undefined) setErrors((e) => ({ ...e, email: "" }));
+    if (patch.consent !== undefined) setErrors((e) => ({ ...e, consent: "" }));
+  };
+
+  const handleFieldChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    if (name === "name" || name === "email") {
+      updateIdentity({ [name]: value });
+      return;
+    }
+    if (name === "message") {
+      setSharedMessage(value);
+      setErrors((prev) => ({ ...prev, message: "" }));
+      return;
+    }
+    if (name === "_gotcha") setGotcha(value);
   };
 
   return (
@@ -223,35 +246,55 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
           >
             <Card>
               <CardContent className="pt-6">
-                <Tabs defaultValue="assistant" className="w-full">
-                  <TabsList className="mb-6 w-full sm:w-auto">
-                    <TabsTrigger value="assistant" className="gap-2">
+                <Tabs
+                  value={activeTab}
+                  onValueChange={(value) => setActiveTab(value as ContactTab)}
+                  className="w-full"
+                >
+                  <TabsList className="mb-6 grid w-full grid-cols-2 sm:w-auto sm:inline-flex">
+                    <TabsTrigger value="assistant" className="gap-2 min-h-11">
                       <Bot className="h-4 w-4" />
                       {t.tabs.assistant}
                     </TabsTrigger>
-                    <TabsTrigger value="form" className="gap-2">
+                    <TabsTrigger value="form" className="gap-2 min-h-11">
                       <PenLine className="h-4 w-4" />
                       {t.tabs.form}
                     </TabsTrigger>
                   </TabsList>
 
-                  <TabsContent value="assistant" className="mt-0">
-                    <ContactAssistant initialMessage={initialMessage} />
+                  <TabsContent
+                    value="assistant"
+                    className="mt-0 data-[state=inactive]:hidden"
+                    forceMount
+                  >
+                    <ContactAssistant
+                      contactDraft={contactDraft}
+                      sharedIdentity={sharedIdentity}
+                      onIdentityChange={updateIdentity}
+                      sharedMessage={sharedMessage}
+                      onMessageChange={setSharedMessage}
+                      gotcha={gotcha}
+                      onGotchaChange={setGotcha}
+                    />
                   </TabsContent>
 
-                  <TabsContent value="form" className="mt-0 space-y-6">
+                  <TabsContent
+                    value="form"
+                    className="mt-0 space-y-6 data-[state=inactive]:hidden"
+                    forceMount
+                  >
                     <div>
                       <h3 className="text-lg font-semibold md:text-xl">{t.form.title}</h3>
                       <p className="text-sm text-muted-foreground">{t.form.description}</p>
                     </div>
 
                     <form
-                      onSubmit={handleSubmit}
+                      onSubmit={handleDirectSubmit}
                       className="space-y-6"
                       noValidate
                       aria-busy={isSubmitting}
                     >
-                      <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
                           <Label htmlFor="name">
                             {t.form.name}{" "}
@@ -261,8 +304,8 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                             id="name"
                             name="name"
                             placeholder={t.form.namePlaceholder}
-                            value={formData.name}
-                            onChange={handleChange}
+                            value={sharedIdentity.name}
+                            onChange={handleFieldChange}
                             autoComplete="name"
                             aria-required
                             aria-invalid={!!errors.name}
@@ -285,9 +328,10 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                             name="email"
                             type="email"
                             placeholder={t.form.emailPlaceholder}
-                            value={formData.email}
-                            onChange={handleChange}
+                            value={sharedIdentity.email}
+                            onChange={handleFieldChange}
                             autoComplete="email"
+                            inputMode="email"
                             aria-required
                             aria-invalid={!!errors.email}
                             aria-describedby={errors.email ? "email-error" : "email-hint"}
@@ -314,12 +358,12 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                           name="message"
                           placeholder={t.form.messagePlaceholder}
                           rows={6}
-                          value={formData.message}
-                          onChange={handleChange}
+                          value={sharedMessage}
+                          onChange={handleFieldChange}
                           aria-required
                           aria-invalid={!!errors.message}
                           aria-describedby={errors.message ? "message-error" : undefined}
-                          className={`resize-none ${errors.message ? "border-destructive" : ""}`}
+                          className={`resize-none min-h-[140px] ${errors.message ? "border-destructive" : ""}`}
                         />
                         {errors.message && (
                           <p id="message-error" className="text-sm text-destructive">
@@ -330,10 +374,8 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
 
                       <ContactConsentField
                         id="consent"
-                        checked={formData.consent}
-                        onCheckedChange={(checked) =>
-                          setFormData((prev) => ({ ...prev, consent: checked }))
-                        }
+                        checked={sharedIdentity.consent}
+                        onCheckedChange={(checked) => updateIdentity({ consent: checked })}
                         consentText={t.form.consent}
                         privacyLinkLabel={t.form.consentPrivacyLink}
                         error={errors.consent}
@@ -347,8 +389,8 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                       <input
                         type="text"
                         name="_gotcha"
-                        value={formData._gotcha}
-                        onChange={handleChange}
+                        value={gotcha}
+                        onChange={handleFieldChange}
                         className="hidden"
                         tabIndex={-1}
                         autoComplete="off"
@@ -360,7 +402,7 @@ export function Contact({ initialMessage = "" }: { initialMessage?: string }) {
                         size="lg"
                         disabled={isSubmitting}
                         aria-disabled={isSubmitting}
-                        className="w-full bg-brand-gradient hover:opacity-90 transition-opacity"
+                        className="w-full min-h-12 bg-brand-gradient hover:opacity-90 transition-opacity"
                       >
                         {isSubmitting ? t.form.sending : t.form.submit}
                         <Send className="ml-2 h-4 w-4" />

@@ -778,8 +778,15 @@ export default {
       },
       assistant: {
         title: 'Asistente Viento Norte',
-        description: 'Te guío en 4 pasos para armar tu mensaje con contexto.',
+        description: 'Te guío paso a paso para armar tu mensaje con contexto.',
+        descriptionReady: 'Tu solicitud ya está armada. Confirma tus datos y envía.',
         typing: 'Escribiendo…',
+        composeTitle: 'Revisa y envía',
+        composeDescription: 'Edita el mensaje si quieres y confirma cómo contactarte.',
+        draftBanner: {
+          onboarding: 'Tu solicitud de consultoría está lista. Solo confirma nombre, email y consentimiento.',
+          quoter: 'Tu cotización está lista. Solo confirma nombre, email y consentimiento.',
+        },
         steps: {
           intent: '¿Qué te gustaría conversar?',
           recruiter: '¿Qué tipo de oportunidad?',
@@ -789,6 +796,7 @@ export default {
           other: '¿En qué puedo ayudarte?',
           contact: '¿Cómo te contacto?',
           review: 'Revisa tu mensaje antes de enviar',
+          compose: 'Revisa tu mensaje, confirma tus datos y envía',
         },
         intents: {
           recruiter: 'Oportunidad laboral',

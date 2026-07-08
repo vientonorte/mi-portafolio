@@ -1,4 +1,4 @@
-import { memo, useCallback, useId, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
@@ -41,8 +41,13 @@ const CATEGORY_ICONS: Record<HeroSearchCategory, LucideIcon> = {
   auditorias: ClipboardCheck,
 };
 
+export function heroSuggestionOptionId(listboxId: string, suggestionId: string): string {
+  return `${listboxId}-option-${suggestionId}`;
+}
+
 interface SuggestionsListProps {
   listboxId: string;
+  suggestionsLabelId: string;
   suggestionsLabel: string;
   noResults: string;
   filtered: HeroSearchSuggestion[];
@@ -54,6 +59,7 @@ interface SuggestionsListProps {
 
 const SuggestionsList = memo(function SuggestionsList({
   listboxId,
+  suggestionsLabelId,
   suggestionsLabel,
   noResults,
   filtered,
@@ -63,19 +69,34 @@ const SuggestionsList = memo(function SuggestionsList({
   maxHeightClass = "max-h-[min(16rem,50dvh)]",
 }: SuggestionsListProps) {
   return (
-    <div className={cn("overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-xl backdrop-blur-md", className)}>
-      <p className="border-b border-border/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+    <div
+      className={cn(
+        "overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-xl backdrop-blur-md",
+        className
+      )}
+    >
+      <p
+        id={suggestionsLabelId}
+        className="border-b border-border/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
+      >
         {suggestionsLabel}
       </p>
       {filtered.length > 0 ? (
-        <ul id={listboxId} role="listbox" className={cn(maxHeightClass, "overflow-y-auto py-1")}>
+        <ul
+          id={listboxId}
+          role="listbox"
+          aria-labelledby={suggestionsLabelId}
+          className={cn(maxHeightClass, "overflow-y-auto py-1")}
+        >
           {filtered.map((suggestion, index) => {
             const Icon = CATEGORY_ICONS[suggestion.category];
             const isHighlighted = index === highlightIndex;
+            const optionId = heroSuggestionOptionId(listboxId, suggestion.id);
 
             return (
               <li key={suggestion.id} role="presentation">
                 <button
+                  id={optionId}
                   type="button"
                   role="option"
                   aria-selected={isHighlighted}
@@ -83,6 +104,7 @@ const SuggestionsList = memo(function SuggestionsList({
                   onClick={() => onSelect(suggestion)}
                   className={cn(
                     "flex w-full min-h-[44px] items-start gap-3 px-4 py-3 text-left transition-colors",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     isHighlighted ? "bg-primary/10" : "hover:bg-muted/50"
                   )}
                 >
@@ -108,7 +130,9 @@ const SuggestionsList = memo(function SuggestionsList({
           })}
         </ul>
       ) : (
-        <p className="px-4 py-3 text-sm text-muted-foreground">{noResults}</p>
+        <p role="status" className="px-4 py-3 text-sm text-muted-foreground">
+          {noResults}
+        </p>
       )}
     </div>
   );
@@ -135,7 +159,11 @@ export function HeroIntelligentSearch({
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
   const listboxId = useId();
+  const suggestionsLabelId = useId();
+  const searchDescriptionId = useId();
+  const liveRegionId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const inlineListRef = useRef<HTMLDivElement>(null);
   const isSmDown = useIsSmDown();
 
   const panel = selectedCategory ? panels[selectedCategory] : null;
@@ -144,6 +172,27 @@ export function HeroIntelligentSearch({
   const listboxActive = showInlineSuggestions || showDropdown;
 
   const filtered = useMemo(() => filterHeroSuggestions(suggestions, { query }), [query, suggestions]);
+
+  const activeOptionId =
+    listboxActive && filtered[highlightIndex]
+      ? heroSuggestionOptionId(listboxId, filtered[highlightIndex].id)
+      : undefined;
+
+  const liveStatusMessage = useMemo(() => {
+    if (!listboxActive) return "";
+    if (filtered.length === 0) return noResults;
+    const active = filtered[highlightIndex];
+    if (!active) return `${filtered.length} sugerencias disponibles`;
+    return `${filtered.length} sugerencias. ${active.title}, ${active.hint}`;
+  }, [filtered, highlightIndex, listboxActive, noResults]);
+
+  useEffect(() => {
+    if (!showInlineSuggestions) return;
+    const frame = requestAnimationFrame(() => {
+      inlineListRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [showInlineSuggestions, filtered.length, highlightIndex]);
 
   const selectSuggestion = useCallback((suggestion: HeroSearchSuggestion) => {
     setSelectedCategory(suggestion.category);
@@ -205,14 +254,22 @@ export function HeroIntelligentSearch({
           />
           <Input
             ref={inputRef}
-            type="search"
+            type="text"
+            inputMode="search"
+            enterKeyHint="search"
+            name="portfolio-hero-search"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
             value={query}
             role="combobox"
+            aria-haspopup="listbox"
             aria-expanded={listboxActive}
             aria-controls={listboxActive ? listboxId : undefined}
+            aria-activedescendant={activeOptionId}
             aria-autocomplete="list"
             aria-labelledby="hero-search-label"
-            aria-label={searchAriaLabel}
+            aria-describedby={searchDescriptionId}
             placeholder={searchPlaceholder}
             className="h-11 min-h-[44px] rounded-2xl border-border/70 bg-muted/30 pl-10 pr-3 text-base shadow-none sm:h-12 sm:pl-11 sm:pr-4"
             onChange={(event) => {
@@ -245,14 +302,27 @@ export function HeroIntelligentSearch({
               } else if (event.key === "ArrowUp") {
                 event.preventDefault();
                 setHighlightIndex((prev) => Math.max(prev - 1, 0));
+              } else if (event.key === "Home") {
+                event.preventDefault();
+                setHighlightIndex(0);
+              } else if (event.key === "End") {
+                event.preventDefault();
+                setHighlightIndex(Math.max(filtered.length - 1, 0));
               } else if (event.key === "Enter") {
                 event.preventDefault();
                 handleSubmit();
               } else if (event.key === "Escape") {
+                event.preventDefault();
                 setIsOpen(false);
               }
             }}
           />
+          <p id={searchDescriptionId} className="sr-only">
+            {searchAriaLabel}
+          </p>
+          <p id={liveRegionId} aria-live="polite" aria-atomic="true" className="sr-only">
+            {liveStatusMessage}
+          </p>
 
           <AnimatePresence>
             {showDropdown && (
@@ -265,6 +335,7 @@ export function HeroIntelligentSearch({
               >
                 <SuggestionsList
                   listboxId={listboxId}
+                  suggestionsLabelId={suggestionsLabelId}
                   suggestionsLabel={suggestionsLabel}
                   noResults={noResults}
                   filtered={filtered}
@@ -277,9 +348,10 @@ export function HeroIntelligentSearch({
         </div>
 
         {showInlineSuggestions && (
-          <div className="mt-3">
+          <div ref={inlineListRef} className="mt-3">
             <SuggestionsList
               listboxId={listboxId}
+              suggestionsLabelId={suggestionsLabelId}
               suggestionsLabel={suggestionsLabel}
               noResults={noResults}
               filtered={filtered}

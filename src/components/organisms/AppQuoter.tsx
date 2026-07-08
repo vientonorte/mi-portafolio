@@ -68,7 +68,16 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
       t.fit[quote.fit],
       t.tiers[quote.affordableTierId].label
     );
-    navigate(ROUTES.contact, { state: { contactDraft: { message } } });
+    navigate(ROUTES.contact, {
+      state: {
+        contactDraft: {
+          message,
+          source: "quoter",
+          intent: "consulting",
+          packageId: quote.recommendedPackage,
+        },
+      },
+    });
   };
 
   return (

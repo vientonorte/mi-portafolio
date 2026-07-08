@@ -778,8 +778,15 @@ export default {
       },
       assistant: {
         title: 'Viento Norte Assistant',
-        description: 'I guide you in 4 steps to build your message with context.',
+        description: 'I guide you step by step to build your message with context.',
+        descriptionReady: 'Your request is ready. Confirm your details and send.',
         typing: 'Typing…',
+        composeTitle: 'Review and send',
+        composeDescription: 'Edit the message if you want and confirm how to reach you.',
+        draftBanner: {
+          onboarding: 'Your consulting request is ready. Just confirm name, email, and consent.',
+          quoter: 'Your quote is ready. Just confirm name, email, and consent.',
+        },
         steps: {
           intent: 'What would you like to discuss?',
           recruiter: 'What type of opportunity?',
@@ -789,6 +796,7 @@ export default {
           other: 'How can I help?',
           contact: 'How can I reach you?',
           review: 'Review your message before sending',
+          compose: 'Review your message, confirm your details, and send',
         },
         intents: {
           recruiter: 'Job opportunity',

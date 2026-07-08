@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Contact } from '../components/organisms/Contact';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
@@ -8,16 +8,17 @@ import { canonicalFromPath } from '../lib/seo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { withHomeCrumb } from '../lib/breadcrumb-helpers';
 import { toast } from 'sonner';
-
-type ContactDraftState = { contactDraft?: { message?: string } };
+import { parseContactDraftFromState } from '../lib/contact-draft';
 
 const Contacto = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const initialMessage =
-    (location.state as ContactDraftState | null)?.contactDraft?.message ?? "";
+  const contactDraft = useMemo(
+    () => parseContactDraftFromState(location.state),
+    [location.state]
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -30,7 +31,7 @@ const Contacto = () => {
       { pathname: location.pathname, search: nextSearch ? `?${nextSearch}` : '' },
       { replace: true }
     );
-  }, [location.pathname, location.search, navigate, t.contact.form.successFallback]);
+  }, [location.pathname, location.search, navigate, t.contact.form.success]);
 
   return (
     <PageShell
@@ -43,7 +44,7 @@ const Contacto = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/contacto')}
       />
-      <Contact key={initialMessage} initialMessage={initialMessage} />
+      <Contact key={contactDraft?.message ?? 'empty'} contactDraft={contactDraft} />
     </PageShell>
   );
 };

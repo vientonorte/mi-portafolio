@@ -5,63 +5,31 @@ import { cn } from "../../lib/utils";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { ROUTES } from "../../lib/routes";
-import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
 import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
+import { matchNavItemActive, type ResolvedNavItem } from "../../lib/nav-config";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   navItems: NavItem[];
+  resolvedItems: ResolvedNavItem[];
   moreDividerLabel?: string;
   moreStartIndex?: number;
-  onNavigateToDesignSystem?: () => void;
-  onNavigateToCaseStudies?: () => void;
-  onNavigateToAuditoria?: () => void;
-}
-
-function isNavItemActive(item: NavItem, pathname: string): boolean {
-  if (item.type === "route") {
-    if (item.href === "proyectos") {
-      return (
-        pathname === "/proyectos" ||
-        pathname.startsWith("/proyecto/") ||
-        pathname.startsWith("/empresa/")
-      );
-    }
-    if (item.href === "proceso") {
-      return (
-        pathname === ROUTES.process ||
-        pathname.startsWith(`${ROUTES.process}/`) ||
-        pathname.startsWith("/cases")
-      );
-    }
-    if (item.href === "sobre-mi" || item.href === "sobre-mi-experiencia") {
-      return pathname === "/sobre-mi";
-    }
-    if (item.href === "design-system") return pathname === "/design-system";
-    if (item.href === "auditoria") return pathname === ROUTES.audit;
-    if (item.href === "consultoria") return pathname === ROUTES.consulting;
-    return pathname === `/${item.href}`;
-  }
-  if (item.type === "anchor" && item.href === "#inicio") {
-    return pathname === "/";
-  }
-  return false;
+  onNavigate: (item: ResolvedNavItem) => void;
 }
 
 export function MobileMenu({
   isOpen,
   onClose,
   navItems,
+  resolvedItems,
   moreDividerLabel,
   moreStartIndex,
-  onNavigateToDesignSystem,
-  onNavigateToCaseStudies,
-  onNavigateToAuditoria,
+  onNavigate,
 }: MobileMenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,7 +82,7 @@ export function MobileMenu({
   }, [isOpen]);
 
   useEffect(() => {
-    if (location.pathname !== "/" || !pendingScroll.current) return;
+    if (location.pathname !== ROUTES.home || !pendingScroll.current) return;
 
     const target = pendingScroll.current;
     const maxAttempts = 60;
@@ -146,43 +114,15 @@ export function MobileMenu({
     };
   }, [location.pathname]);
 
-  const handleNavClick = useCallback((item: NavItem) => {
-    onClose();
-
-    if (item.type === "external") {
-      window.open(item.href, "_blank", "noopener,noreferrer");
-      return;
-    }
-
-    if (item.type === "route") {
-      if (item.href === "design-system") {
-        onNavigateToDesignSystem?.();
-      } else if (item.href === "cases") {
-        onNavigateToCaseStudies?.();
-      } else if (item.href === "auditoria") {
-        onNavigateToAuditoria?.();
-      } else if (item.href === "consultoria") {
-        navigate(ROUTES.consulting);
-      } else if (item.href === "proyectos") {
-        navigate("/proyectos");
-      } else if (item.href === "proceso") {
-        navigate(ROUTES.process);
-      } else if (item.href === "sobre-mi") {
-        navigate("/sobre-mi");
-      } else if (item.href === "sobre-mi-experiencia") {
-        navigateToPageSection(navigate, "/sobre-mi", "experiencia", location.pathname);
-      }
-      return;
-    }
-
-    if (location.pathname !== "/") {
-      pendingScroll.current = item.href;
-      navigate("/");
-      return;
-    }
-
-    scrollToSection(item.href);
-  }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
+  const handleNavClick = useCallback(
+    (index: number) => {
+      const resolved = resolvedItems[index];
+      if (!resolved) return;
+      onClose();
+      onNavigate(resolved);
+    },
+    [onClose, onNavigate, resolvedItems]
+  );
 
   const quickLinksLabel = language === "es" ? "Enlaces rápidos" : "Quick links";
 
@@ -222,10 +162,16 @@ export function MobileMenu({
             >
               <ul className="flex w-full flex-col gap-0.5" role="list">
                 {navItems.map((item, index) => {
-                  const active = isNavItemActive(item, location.pathname);
+                  const resolved = resolvedItems[index];
+                  const active = resolved
+                    ? matchNavItemActive(resolved, location.pathname, {
+                        isOnHome: location.pathname === ROUTES.home,
+                      })
+                    : false;
+
                   return (
                     <motion.li
-                      key={item.href}
+                      key={resolved?.id ?? item.href}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.04 }}
@@ -245,7 +191,7 @@ export function MobileMenu({
                             ? "bg-primary/10 font-semibold text-primary"
                             : "text-foreground hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/15"
                         )}
-                        onClick={() => handleNavClick(item)}
+                        onClick={() => handleNavClick(index)}
                       >
                         {item.label}
                       </Button>

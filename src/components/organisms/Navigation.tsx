@@ -10,13 +10,20 @@ import { LanguageToggle } from "../atoms/LanguageToggle";
 import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import type { NavItem } from "../../lib/nav-types";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
-import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 import { SEO_SITE } from "../../lib/seo";
-import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import {
+  executeNavAction,
+  getHeaderMoreNavItems,
+  getHeaderPrimaryNavItems,
+  getMobileDrawerNavItems,
+  getMobileMoreDividerIndex,
+  matchNavItemActive,
+  resolvedNavToMenuItem,
+  type ResolvedNavItem,
+} from "../../lib/nav-config";
 import {
   MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
   MOBILE_HEADER_CONTROL_CLASS,
@@ -46,66 +53,61 @@ export function Navigation({
   const navigate = useNavigate();
   const pendingScroll = useRef<string | null>(null);
 
-  const primaryNavItems: NavItem[] = useMemo(
-    () => [
-      { href: "proyectos", label: t.nav.projects, type: "route" },
-      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" },
-      { href: "proceso", label: processLabel, type: "route" },
-      { href: "#contacto", label: t.nav.contact, type: "anchor" },
-    ],
-    [processLabel, t.nav.projects, t.nav.experience, t.nav.contact]
+  const navLabels = useMemo(
+    () => ({
+      home: t.nav.home,
+      projects: t.nav.projects,
+      experience: t.nav.experience,
+      consulting: t.nav.consulting,
+      audit: t.nav.audit,
+      contact: t.nav.contact,
+      about: t.nav.about,
+      designSystem: t.nav.designSystem,
+      uxtools: t.nav.uxtools,
+      more: t.nav.more,
+    }),
+    [t.nav]
   );
 
-  const heroAlignedNavItems: NavItem[] = useMemo(
-    () => [
-      { href: "proyectos", label: t.nav.projects, type: "route" },
-      { href: "#contacto", label: t.nav.contact, type: "anchor" },
-      { href: "auditoria", label: t.nav.audit, type: "route" },
-    ],
-    [t.nav.audit, t.nav.projects, t.nav.contact]
+  const primaryNavItems = useMemo(
+    () => getHeaderPrimaryNavItems(navLabels, processLabel),
+    [navLabels, processLabel]
   );
 
-  const moreNavItems: NavItem[] = useMemo(
-    () => [
-      { href: "sobre-mi", label: t.nav.about, type: "route" },
-      { href: "consultoria", label: t.nav.consulting, type: "route" },
-      { href: "auditoria", label: t.nav.audit, type: "route" },
-      { href: "design-system", label: t.nav.designSystem, type: "route" },
-      {
-        href: VIENTO_NORTE_LINKS.uxtools,
-        label: t.nav.uxtools,
-        type: "external",
-      },
-    ],
-    [t.nav.about, t.nav.audit, t.nav.consulting, t.nav.designSystem, t.nav.uxtools]
+  const moreNavItems = useMemo(
+    () => getHeaderMoreNavItems(navLabels, processLabel),
+    [navLabels, processLabel]
   );
 
   const mobileNavItems = useMemo(
-    () => [
-      { href: "#inicio", label: t.nav.home, type: "anchor" as const },
-      ...heroAlignedNavItems,
-      { href: "sobre-mi-experiencia", label: t.nav.experience, type: "route" as const },
-      { href: "proceso", label: processLabel, type: "route" as const },
-      ...moreNavItems.filter((item) => item.href !== "auditoria"),
-    ],
-    [heroAlignedNavItems, moreNavItems, processLabel, t.nav.experience, t.nav.home]
+    () => getMobileDrawerNavItems(navLabels, processLabel, location.pathname),
+    [location.pathname, navLabels, processLabel]
+  );
+
+  const mobileMenuItems = useMemo(
+    () => mobileNavItems.map(resolvedNavToMenuItem),
+    [mobileNavItems]
+  );
+
+  const navCallbacks = useMemo(
+    () => ({
+      onNavigateToDesignSystem,
+      onNavigateToCaseStudies,
+      onNavigateToAuditoria,
+    }),
+    [onNavigateToAuditoria, onNavigateToCaseStudies, onNavigateToDesignSystem]
   );
 
   useEffect(() => {
     isMenuOpenRef.current = isMenuOpen;
   }, [isMenuOpen]);
 
-  const scrollToAnchor = useCallback((selector: string) => {
-    scrollToSection(selector);
-  }, []);
-
   useEffect(() => {
-    if (location.pathname !== "/" || !pendingScroll.current) return;
-
+    if (location.pathname !== ROUTES.home || !pendingScroll.current) return;
     const target = pendingScroll.current;
     pendingScroll.current = null;
-    scrollToAnchor(target);
-  }, [location.pathname, scrollToAnchor]);
+    scrollToSection(target);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -141,93 +143,23 @@ export function Navigation({
   });
 
   const runNavAction = useCallback(
-    (item: NavItem) => {
-      if (item.type === "external") {
-        window.open(item.href, "_blank", "noopener,noreferrer");
-        return;
-      }
-
-      if (item.type === "route") {
-        switch (item.href) {
-          case "design-system":
-            onNavigateToDesignSystem?.();
-            break;
-          case "cases":
-            onNavigateToCaseStudies?.();
-            break;
-          case "auditoria":
-            onNavigateToAuditoria?.();
-            break;
-          case "proyectos":
-            navigate(ROUTES.projects);
-            break;
-          case "proceso":
-            navigate(ROUTES.process);
-            break;
-          case "sobre-mi":
-            navigate("/sobre-mi");
-            break;
-          case "consultoria":
-            navigate(ROUTES.consulting);
-            break;
-          case "sobre-mi-experiencia":
-            navigateToPageSection(navigate, "/sobre-mi", "experiencia", location.pathname);
-            break;
-        }
-        return;
-      }
-
-      if (location.pathname !== "/") {
-        pendingScroll.current = item.href;
-        navigate("/");
-        return;
-      }
-
-      scrollToAnchor(item.href);
+    (item: ResolvedNavItem) => {
+      executeNavAction(item, {
+        pathname: location.pathname,
+        navigate,
+        pendingScrollRef: pendingScroll,
+        callbacks: navCallbacks,
+      });
     },
-    [
-      location.pathname,
-      navigate,
-      onNavigateToAuditoria,
-      onNavigateToCaseStudies,
-      onNavigateToDesignSystem,
-      scrollToAnchor,
-    ]
+    [location.pathname, navigate, navCallbacks]
   );
 
   const handleNavClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
+    (e: React.MouseEvent<HTMLAnchorElement>, item: ResolvedNavItem) => {
       e.preventDefault();
       runNavAction(item);
     },
     [runNavAction]
-  );
-
-  const isRouteActive = useCallback(
-    (href: string) => {
-      if (href === "design-system") return location.pathname === "/design-system";
-      if (href === "proceso") {
-        return (
-          location.pathname === "/proceso" ||
-          location.pathname.startsWith("/proceso/") ||
-          location.pathname.startsWith("/cases")
-        );
-      }
-      if (href === "auditoria") return location.pathname === ROUTES.audit;
-      if (href === "consultoria") return location.pathname === ROUTES.consulting;
-      if (href === "sobre-mi" || href === "sobre-mi-experiencia") {
-        return location.pathname === "/sobre-mi";
-      }
-      if (href === "proyectos") {
-        return (
-          location.pathname === "/proyectos" ||
-          location.pathname.startsWith("/proyecto/") ||
-          location.pathname.startsWith("/empresa/")
-        );
-      }
-      return false;
-    },
-    [location.pathname]
   );
 
   const toggleMenu = useCallback(() => {
@@ -238,39 +170,41 @@ export function Navigation({
     setIsMenuOpen(false);
   }, []);
 
-  const renderPrimaryItem = (item: NavItem) => {
-    const isActive = item.type === "route" && isRouteActive(item.href);
+  const renderPrimaryItem = (item: ResolvedNavItem) => {
+    const isActive = matchNavItemActive(item, location.pathname);
 
-    if (item.type === "route") {
+    if (item.action.kind === "anchor") {
       return (
-        <Button
-          variant="ghost"
-          className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
-            isActive ? "text-primary bg-primary/10" : ""
-          }`}
-          onClick={() => runNavAction(item)}
-        >
-          {item.label}
-          {isActive && (
-            <motion.div
-              layoutId="activeNavIndicator"
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-              initial={false}
-              transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            />
-          )}
+        <Button variant="ghost" asChild className="hover:text-primary hover:bg-primary/10 transition-all">
+          <a href={item.action.target} onClick={(e) => handleNavClick(e, item)}>
+            {item.label}
+          </a>
         </Button>
       );
     }
 
     return (
-      <Button variant="ghost" asChild className="hover:text-primary hover:bg-primary/10 transition-all">
-        <a href={item.href} onClick={(e) => handleNavClick(e, item)}>
-          {item.label}
-        </a>
+      <Button
+        variant="ghost"
+        className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
+          isActive ? "text-primary bg-primary/10" : ""
+        }`}
+        onClick={() => runNavAction(item)}
+      >
+        {item.label}
+        {isActive && (
+          <motion.div
+            layoutId="activeNavIndicator"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+            initial={false}
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+          />
+        )}
       </Button>
     );
   };
+
+  const inicioItem = mobileNavItems.find((item) => item.id === "inicio");
 
   return (
     <>
@@ -296,7 +230,7 @@ export function Navigation({
         >
           <motion.a
             href="#inicio"
-            onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" })}
+            onClick={(e) => inicioItem && handleNavClick(e, inicioItem)}
             className="flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -323,13 +257,16 @@ export function Navigation({
           <div className="hidden lg:flex items-center gap-6">
             <ul className="flex items-center gap-1" role="list">
               {primaryNavItems.map((item) => (
-                <li key={item.href}>{renderPrimaryItem(item)}</li>
+                <li key={item.id}>{renderPrimaryItem(item)}</li>
               ))}
               <li>
                 <NavMoreMenu
-                  label={t.nav.more}
-                  items={moreNavItems}
-                  onSelect={runNavAction}
+                  label={navLabels.more}
+                  items={moreNavItems.map(resolvedNavToMenuItem)}
+                  onSelect={(menuItem) => {
+                    const resolved = moreNavItems.find((entry) => entry.menuHref === menuItem.href);
+                    if (resolved) runNavAction(resolved);
+                  }}
                 />
               </li>
             </ul>
@@ -372,12 +309,11 @@ export function Navigation({
       <MobileMenu
         isOpen={isMenuOpen}
         onClose={closeMenu}
-        navItems={mobileNavItems}
-        moreDividerLabel={t.nav.more}
-        moreStartIndex={1 + heroAlignedNavItems.length + 2}
-        onNavigateToDesignSystem={onNavigateToDesignSystem}
-        onNavigateToCaseStudies={onNavigateToCaseStudies}
-        onNavigateToAuditoria={onNavigateToAuditoria}
+        navItems={mobileMenuItems}
+        resolvedItems={mobileNavItems}
+        moreDividerLabel={navLabels.more}
+        moreStartIndex={getMobileMoreDividerIndex()}
+        onNavigate={runNavAction}
       />
     </>
   );

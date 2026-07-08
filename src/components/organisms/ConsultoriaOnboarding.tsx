@@ -67,7 +67,18 @@ export function ConsultoriaOnboarding({ initialPackageId }: ConsultoriaOnboardin
 
   const finish = () => {
     const message = buildConsultingContactMessage(language, pkg, industry, goal, timeline);
-    navigate(ROUTES.contact, { state: { contactDraft: { message } } });
+    navigate(ROUTES.contact, {
+      state: {
+        contactDraft: {
+          message,
+          source: "onboarding",
+          intent: "consulting",
+          packageId: selectedPackage,
+          industry,
+          timeline,
+        },
+      },
+    });
   };
 
   const stepTitle = t.steps[step];

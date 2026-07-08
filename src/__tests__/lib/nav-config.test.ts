@@ -1,0 +1,86 @@
+import { describe, expect, it } from "vitest";
+import {
+  NAV_SURFACE,
+  getDockNavAction,
+  getHeaderPrimaryNavItems,
+  getMobileDrawerNavItems,
+  getMobileMoreDividerIndex,
+  matchNavItemActive,
+} from "@/lib/nav-config";
+
+const labels = {
+  home: "Inicio",
+  projects: "Negocios",
+  experience: "Experiencia",
+  consulting: "Consultoría ✦",
+  audit: "Auditoría UX",
+  contact: "Contacto",
+  about: "Sobre mí",
+  designSystem: "Design System",
+  uxtools: "UX Tools",
+  more: "Más",
+};
+
+describe("NAV_SURFACE", () => {
+  it("keeps strategic order aligned across header and mobile", () => {
+    const sharedPrefix = ["negocios", "experiencia", "consultoria"] as const;
+    for (const id of sharedPrefix) {
+      expect(NAV_SURFACE.headerPrimary).toContain(id);
+      expect(NAV_SURFACE.mobileDrawer).toContain(id);
+    }
+    expect(NAV_SURFACE.headerPrimary.indexOf("consultoria")).toBeGreaterThan(
+      NAV_SURFACE.headerPrimary.indexOf("experiencia")
+    );
+    expect(NAV_SURFACE.mobileDrawer.indexOf("auditoria")).toBeGreaterThan(
+      NAV_SURFACE.mobileDrawer.indexOf("consultoria")
+    );
+  });
+
+  it("places mobile more divider at sobre-mi", () => {
+    expect(getMobileMoreDividerIndex()).toBe(NAV_SURFACE.mobileDrawer.indexOf("sobre-mi"));
+  });
+});
+
+describe("getHeaderPrimaryNavItems", () => {
+  it("includes consultoria in desktop primary nav", () => {
+    const items = getHeaderPrimaryNavItems(labels, "Proceso");
+    expect(items.map((item) => item.id)).toEqual([
+      "negocios",
+      "experiencia",
+      "consultoria",
+      "proceso",
+      "contacto",
+    ]);
+  });
+});
+
+describe("getMobileDrawerNavItems", () => {
+  it("follows hero-aligned order before more section", () => {
+    const items = getMobileDrawerNavItems(labels, "Proceso");
+    expect(items.slice(0, 7).map((item) => item.id)).toEqual([
+      "inicio",
+      "negocios",
+      "experiencia",
+      "consultoria",
+      "auditoria",
+      "proceso",
+      "contacto",
+    ]);
+  });
+});
+
+describe("getDockNavAction", () => {
+  it("uses anchor contact on home and route on deep pages", () => {
+    expect(getDockNavAction("contacto", "home").kind).toBe("anchor");
+    expect(getDockNavAction("contacto", "deep").kind).toBe("contact");
+  });
+});
+
+describe("matchNavItemActive", () => {
+  it("marks negocios active across project routes", () => {
+    const negocios = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
+    expect(matchNavItemActive(negocios, "/proyectos")).toBe(true);
+    expect(matchNavItemActive(negocios, "/proyecto/sura")).toBe(true);
+    expect(matchNavItemActive(negocios, "/")).toBe(false);
+  });
+});
