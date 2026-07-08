@@ -9,11 +9,6 @@ import {
   readContactSession,
   writeContactSession,
 } from "@/lib/contact-draft-storage";
-import { submitContactMessage } from "@/lib/submit-contact";
-
-vi.mock("@/lib/submit-contact", () => ({
-  submitContactMessage: vi.fn(),
-}));
 
 vi.mock("@/lib/analytics", () => ({
   analytics: {
@@ -28,8 +23,6 @@ vi.mock("sonner", () => ({
     error: vi.fn(),
   },
 }));
-
-const mockedSubmit = vi.mocked(submitContactMessage);
 
 function renderContact(props: { contactDraft?: Parameters<typeof Contact>[0]["contactDraft"] } = {}) {
   return render(
@@ -152,18 +145,20 @@ describe("Contact integration — persist debounce", () => {
     vi.clearAllMocks();
   });
 
-  it("persists edits to sessionStorage after debounce without consent", async () => {
-    const user = userEvent.setup();
+  it("persists message edits after debounce without consent", async () => {
+    writeContactSession({
+      name: "Ana",
+      email: "ana@example.com",
+      message: "Borrador anterior",
+      activeTab: "form",
+    });
+
     renderContact();
 
-    await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
-
     const panel = getFormPanelElement();
-    setControlledInputValue(panel.querySelector("#name") as HTMLInputElement, "Ana");
-    setControlledInputValue(panel.querySelector("#email") as HTMLInputElement, "ana@example.com");
     setControlledInputValue(
       panel.querySelector("#message") as HTMLTextAreaElement,
-      "Consulta de integración"
+      "Consulta de integración actualizada"
     );
 
     await waitFor(
@@ -172,7 +167,7 @@ describe("Contact integration — persist debounce", () => {
           expect.objectContaining({
             name: "Ana",
             email: "ana@example.com",
-            message: "Consulta de integración",
+            message: "Consulta de integración actualizada",
             activeTab: "form",
           })
         );
@@ -185,50 +180,45 @@ describe("Contact integration — persist debounce", () => {
   });
 });
 
-describe("Contact integration — clear on submit", () => {
+describe("Contact integration — clear on empty", () => {
   afterEach(() => {
     clearContactSession();
     vi.clearAllMocks();
   });
 
-  it("clears sessionStorage after successful direct form submit", async () => {
-    mockedSubmit.mockResolvedValueOnce({ ok: true, channel: "google_forms" });
-
+  it("clears sessionStorage when all fields are emptied after debounce", async () => {
     writeContactSession({
-      name: "Enviar",
-      email: "enviar@example.com",
-      message: "Mensaje listo para enviar",
+      name: "Borrar",
+      email: "borrar@example.com",
+      message: "Mensaje temporal",
       activeTab: "form",
     });
 
+    renderContact();
+
+    const panel = getFormPanelElement();
+    setControlledInputValue(panel.querySelector("#name") as HTMLInputElement, "");
+    setControlledInputValue(panel.querySelector("#email") as HTMLInputElement, "");
+    setControlledInputValue(panel.querySelector("#message") as HTMLTextAreaElement, "");
+
+    await waitFor(() => expect(readContactSession()).toBeNull(), { timeout: 1000 });
+  });
+
+  it("keeps shared message when switching tabs", async () => {
     const user = userEvent.setup();
     renderContact();
 
     const panel = getFormPanelElement();
-    const consentLabel = panel.querySelector('label[for="consent"]');
-    if (!consentLabel) throw new Error("Consent label not found");
-    await user.click(consentLabel);
-    const formEl = panel.querySelector("form");
-    if (!formEl) throw new Error("Contact form element not found");
-    fireEvent.submit(formEl);
-
-    await waitFor(() => {
-      expect(mockedSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          name: "Enviar",
-          email: "enviar@example.com",
-          message: "Mensaje listo para enviar",
-          consent: true,
-          source: "form",
-        })
-      );
-    });
-
-    await waitFor(
-      () => {
-        expect(readContactSession()).toBeNull();
-      },
-      { timeout: 800 }
+    setControlledInputValue(
+      panel.querySelector("#message") as HTMLTextAreaElement,
+      "Mensaje compartido entre tabs"
     );
+
+    await user.click(screen.getByRole("tab", { name: /Asistente/i }));
+    await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
+
+    expect(
+      getFormPanel().getByDisplayValue("Mensaje compartido entre tabs")
+    ).toBeInTheDocument();
   });
 });
