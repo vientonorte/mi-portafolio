@@ -139,7 +139,7 @@ export function HeroIntelligentSearch({
   const isSmDown = useIsSmDown();
 
   const panel = selectedCategory ? panels[selectedCategory] : null;
-  const showInlineSuggestions = isSmDown && !selectedCategory;
+  const showInlineSuggestions = isSmDown && !selectedCategory && isOpen;
   const showDropdown = !isSmDown && isOpen;
   const listboxActive = showInlineSuggestions || showDropdown;
 
@@ -235,7 +235,7 @@ export function HeroIntelligentSearch({
               if (!listboxActive) {
                 if (event.key === "ArrowDown" || event.key === "Enter") {
                   setHighlightIndex(0);
-                  if (!isSmDown) setIsOpen(true);
+                  setIsOpen(true);
                 }
                 return;
               }

@@ -163,8 +163,19 @@ async function checkHeroMobileSuggestions(browser) {
   try {
     await mPage.goto(hashUrl('/'), { waitUntil: 'domcontentloaded', timeout: 45000 });
     await mPage.waitForSelector('#hero-search-label', { timeout: 25000 });
-    const visible = await mPage.getByRole('option').first().isVisible();
-    return { label: 'Hero mobile sugerencias', ok: visible, errors: visible ? [] : ['sugerencias no visibles en mobile'] };
+    const searchInput = mPage.locator('input[role="combobox"][aria-labelledby="hero-search-label"]');
+    const visibleOnLoad = await mPage.getByRole('option').first().isVisible().catch(() => false);
+    if (visibleOnLoad) {
+      return { label: 'Hero mobile sugerencias', ok: false, errors: ['sugerencias visibles sin interacción'] };
+    }
+    await searchInput.focus();
+    await mPage.waitForTimeout(200);
+    const visibleAfterFocus = await mPage.getByRole('option').first().isVisible();
+    return {
+      label: 'Hero mobile sugerencias',
+      ok: visibleAfterFocus,
+      errors: visibleAfterFocus ? [] : ['sugerencias no visibles tras focus en mobile'],
+    };
   } catch (err) {
     return { label: 'Hero mobile sugerencias', ok: false, errors: [err.message.split('\n')[0]] };
   } finally {
