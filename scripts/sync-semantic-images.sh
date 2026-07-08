@@ -28,6 +28,7 @@ copy "351998f57aeca5a0721f29366c3e661a468847b6.png" "$DST/sura/hotjar-dashboard.
 copy "77b107e97d12e770619a89e345639f0bc08f5202.png" "$DST/sura/booking-flowchart.png"
 copy "d7cad0e13be7a40071ccaec70eb93d0304f2b679.png" "$DST/sura/onboarding-flags.png"
 copy "0ddc6d387f6fec8fd73c93778e82ff34a1b1e8cd.png" "$DST/sura/ux-process.png"
+# celula-evolutiva-flow.png: flujo RIA Célula Evolutiva (captura dedicada en public/images/sura/)
 
 echo "Transvip"
 copy "ca7a4a167c789c951e4e08b0ba00177a6fc58634.png" "$DST/transvip/app-desktop.png"
@@ -41,6 +42,9 @@ copy "deca6bc1a3a2801577b021b134a72cf71a3c5753.png" "$DST/karri/boosmap-benchmar
 copy "8b2d0de2ad888eef0501080acb3db66b4d75ba53.png" "$DST/karri/delivery-brand.png"
 copy "87f8a6e7a81d96e3e86411d762aae491d3952734.png" "$DST/karri/okrs-board.png"
 copy "a633e31e4ce4652b6a54e3d62bc05ce3b6921232.png" "$DST/karri/sprint-brief-1.png"
+
+echo "Consultoría"
+# x-cms-dashboard.png: mockup X | CMS (captura dedicada en public/images/consultoria/)
 
 echo "Framework"
 copy "d875ff7cbc9428b37b29af656c4f765e8cb8b779.png" "$DST/framework/ux-value-chain.png"

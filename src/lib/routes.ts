@@ -11,6 +11,8 @@ export const ROUTES = {
   designSystem: '/design-system',
   consulting: '/consultoria',
   audit: '/auditoria',
+  /** Grafo de fricción institucional — mantenido con noIndex hasta nueva decisión de visibilidad. */
+  grafo: '/grafo',
 } as const;
 
 /** Alias legacy — solo redirects 301-equivalent (HashRouter replace). */

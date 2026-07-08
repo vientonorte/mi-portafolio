@@ -95,8 +95,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "ops",
       title: {
-        es: "Recomendación: Bolsa Ops",
-        en: "Recommendation: Ops Bundle",
+        es: "Recomendación: Proceso de equipo",
+        en: "Recommendation: Team process",
       },
       summary: {
         es: "Framework de 5 macroprocesos, workshops y playbook medible para tu equipo.",
@@ -109,8 +109,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "radar",
       title: {
-        es: "Recomendación: Bolsa Radar",
-        en: "Recommendation: Radar Bundle",
+        es: "Recomendación: Diagnóstico express",
+        en: "Recommendation: Express diagnostic",
       },
       summary: {
         es: "Auditoría express con hallazgos P0–P2, WCAG 2.2 y test reclutador.",
@@ -123,8 +123,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "marco",
       title: {
-        es: "Recomendación: Bolsa Marco",
-        en: "Recommendation: Marco Bundle",
+        es: "Recomendación: Estrategia guiada",
+        en: "Recommendation: Guided strategy",
       },
       summary: {
         es: "Auditoría completa + 3 sesiones para posicionamiento, arquitectura y validación.",
@@ -137,8 +137,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "ops",
       title: {
-        es: "Recomendación: Bolsa Ops",
-        en: "Recommendation: Ops Bundle",
+        es: "Recomendación: Proceso de equipo",
+        en: "Recommendation: Team process",
       },
       summary: {
         es: "Design Ops con estimación, handoff y adopción medible en el equipo.",

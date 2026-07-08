@@ -532,15 +532,15 @@
   }
 
   .logo-mark-plate {
-    fill: var(--logo-surface);
-    stroke: var(--logo-surface-border);
+    fill: var(--logo-plate);
+    stroke: var(--logo-plate-border);
     stroke-width: 1;
     filter: drop-shadow(var(--logo-plate-shadow));
   }
 
   .logo-mark-plate--floating {
-    fill: var(--surface-matte-elevated);
-    stroke: var(--logo-surface-border);
+    fill: var(--logo-plate);
+    stroke: var(--logo-plate-border);
   }
 
   .logo-mark-track {
