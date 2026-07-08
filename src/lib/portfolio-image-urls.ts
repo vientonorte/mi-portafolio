@@ -42,6 +42,9 @@ export const portfolioImages = {
   framework: {
     uxValueChain: img("framework/ux-value-chain.png"),
   },
+  consultoria: {
+    xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
+  },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),
     profilePhoto: `${base}profile-photo.jpg?v=20260703b`,

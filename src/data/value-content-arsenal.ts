@@ -47,7 +47,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "x-cms-demo",
     kind: "prototype",
-    imagePath: img((i) => i.sura.webPrototype),
+    imagePath: img((i) => i.consultoria.xCmsDashboard),
     href: `${ROUTES.consulting}#consultoria-demo`,
     bundleId: "marco",
     copy: {

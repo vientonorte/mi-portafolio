@@ -51,6 +51,14 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("karri.okrsBoard", "Karri", "OKRs board", "karri/okrs-board.png", portfolioImages.karri.okrsBoard, "Tablero OKRs"),
   entry("karri.sprintBrief1", "Karri", "Sprint brief 1", "karri/sprint-brief-1.png", portfolioImages.karri.sprintBrief1, "Sprint brief Karri"),
   entry("framework.uxValueChain", "Framework", "UX value chain", "framework/ux-value-chain.png", portfolioImages.framework.uxValueChain, "Cadena de valor UX"),
+  entry(
+    "consultoria.xCmsDashboard",
+    "Consultoría",
+    "X | CMS dashboard",
+    "consultoria/x-cms-dashboard.png",
+    portfolioImages.consultoria.xCmsDashboard,
+    "X CMS DATA-FIRST — dashboard principal (demo N2N publicada)"
+  ),
 ];
 
 export const IMAGE_REGISTRY_BY_ID = Object.fromEntries(
