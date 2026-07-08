@@ -10,6 +10,7 @@ import { getExperiences } from "../../data/experience-data";
 import { CompanyLogo } from "../atoms/CompanyLogo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { cn } from "../../lib/utils";
 
 export function Experience() {
   const navigate = useNavigate();
@@ -25,108 +26,131 @@ export function Experience() {
       tone="section"
       aria-labelledby="experience-heading"
     >
-        <SectionHeader
-          badge={t.badge}
-          badgeIcon={Briefcase}
-          title={t.title}
-          description=""
-          titleId="experience-heading"
-        />
+      <SectionHeader
+        badge={t.badge}
+        badgeIcon={Briefcase}
+        title={t.title}
+        description=""
+        titleId="experience-heading"
+      />
 
-        <div className="relative space-y-5 pl-5 sm:space-y-8 sm:pl-0 md:space-y-8">
-          <div className="absolute left-2 top-8 bottom-8 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent sm:left-6 md:left-8" />
+      <ol className="space-y-0" role="list" aria-label={t.title}>
+        {experiences.map((exp, index) => {
+          const isLast = index === experiences.length - 1;
 
-          {experiences.map((exp, index) => (
-            <motion.article
+          return (
+            <li
               key={`${exp.company}-${exp.period}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="relative"
+              className={cn("flex gap-4 sm:gap-5", !isLast && "pb-8 sm:pb-10")}
             >
-              <Card
-                className={`hover:shadow-lg transition-shadow ${exp.isCurrent ? "border-primary/50 border-2 bg-primary/5" : ""}`}
+              <div
+                className="relative flex w-4 shrink-0 flex-col items-center self-stretch sm:w-5"
+                aria-hidden="true"
               >
-                <CardHeader>
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                    <div className="flex items-start gap-4 flex-1">
-                      <div className="relative flex-shrink-0">
+                <div
+                  className={cn(
+                    "relative z-10 size-3.5 shrink-0 rounded-full border-[3px] border-background sm:size-4 sm:border-4",
+                    exp.isCurrent
+                      ? "bg-primary ring-2 ring-primary/30"
+                      : "bg-primary/90 ring-1 ring-primary/20"
+                  )}
+                />
+                {!isLast && (
+                  <div className="absolute left-1/2 top-4 bottom-0 w-px -translate-x-1/2 bg-gradient-to-b from-primary via-primary/55 to-primary/25 sm:top-5" />
+                )}
+              </div>
+
+              <motion.article
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="min-w-0 flex-1"
+              >
+                <Card
+                  className={cn(
+                    "transition-shadow hover:shadow-lg",
+                    exp.isCurrent && "border-2 border-primary/50 bg-primary/5"
+                  )}
+                >
+                  <CardHeader>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex flex-1 items-start gap-4">
                         <CompanyLogo
                           src={exp.logo}
                           alt={`${exp.company} logo`}
                           size="md"
                         />
-                        <div className="absolute -left-[1.35rem] top-1/2 z-10 h-3 w-3 -translate-y-1/2 rounded-full border-[3px] border-background bg-primary sm:-left-[1.85rem] sm:h-4 sm:w-4 sm:border-4 md:-left-[2.1rem]" />
-                      </div>
 
-                      <div className="space-y-1 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <CardTitle>{exp.position}</CardTitle>
-                          {exp.isCurrent && (
-                            <Badge className="bg-green-500 hover:bg-green-600 text-white">
-                              {t.current}
-                            </Badge>
-                          )}
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <CardTitle>{exp.position}</CardTitle>
+                            {exp.isCurrent && (
+                              <Badge className="bg-green-500 text-white hover:bg-green-600">
+                                {t.current}
+                              </Badge>
+                            )}
+                          </div>
+                          <CardDescription>{exp.company}</CardDescription>
                         </div>
-                        <CardDescription>{exp.company}</CardDescription>
                       </div>
+                      <Badge variant="secondary" className="self-start whitespace-nowrap">
+                        {exp.period}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="self-start whitespace-nowrap">
-                      {exp.period}
-                    </Badge>
-                  </div>
-                  <p className="text-sm font-medium text-foreground/90 mt-1">{exp.summary}</p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-1.5" role="list" aria-label={t.achievementsLabel}>
-                    {exp.achievements.map((achievement, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 + i * 0.05 }}
-                        className="flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1 flex-shrink-0" aria-hidden="true">
-                          •
-                        </span>
-                        <span className="text-sm text-muted-foreground">{achievement}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </CardContent>
-
-                {exp.tools && (
-                  <CardContent className="pt-0">
-                    <div className="flex flex-wrap gap-2">
-                      {exp.tools.map((tool) => (
-                        <Badge key={tool} variant="secondary" className="text-xs">
-                          {tool}
-                        </Badge>
+                    <p className="mt-1 text-sm font-medium text-foreground/90">{exp.summary}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-1.5" role="list" aria-label={t.achievementsLabel}>
+                      {exp.achievements.map((achievement, i) => (
+                        <motion.li
+                          key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.1 + i * 0.05 }}
+                          className="flex items-start gap-2"
+                        >
+                          <span className="mt-1 shrink-0 text-primary" aria-hidden="true">
+                            •
+                          </span>
+                          <span className="text-sm text-muted-foreground">{achievement}</span>
+                        </motion.li>
                       ))}
-                    </div>
+                    </ul>
                   </CardContent>
-                )}
 
-                {exp.companyId && (
-                  <CardContent className="pt-0">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="gap-1 px-0 text-primary hover:text-primary"
-                      onClick={() => navigate(`/empresa/${exp.companyId}`)}
-                    >
-                      {t.viewCases}
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                )}
-              </Card>
-            </motion.article>
-          ))}
-        </div>
+                  {exp.tools && (
+                    <CardContent className="pt-0">
+                      <div className="flex flex-wrap gap-2">
+                        {exp.tools.map((tool) => (
+                          <Badge key={tool} variant="secondary" className="text-xs">
+                            {tool}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  )}
+
+                  {exp.companyId && (
+                    <CardContent className="pt-0">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="gap-1 px-0 text-primary hover:text-primary"
+                        onClick={() => navigate(`/empresa/${exp.companyId}`)}
+                      >
+                        {t.viewCases}
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  )}
+                </Card>
+              </motion.article>
+            </li>
+          );
+        })}
+      </ol>
     </PageSection>
   );
 }
