@@ -203,19 +203,24 @@ export function MobileMenu({
 
           <motion.div
             ref={menuRef}
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 bottom-[var(--bottom-nav-total)] top-[var(--header-height)] z-[110] flex w-full max-w-sm flex-col border-l border-border bg-background shadow-2xl"
-            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+            initial={{ opacity: 0, x: "12%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "12%" }}
+            transition={{ type: "spring", damping: 32, stiffness: 320 }}
+            className="fixed inset-x-0 bottom-0 top-[var(--header-height)] z-[110] flex w-full max-w-none flex-col bg-background shadow-2xl"
+            style={{
+              paddingLeft: "max(1rem, env(safe-area-inset-left, 0px))",
+              paddingRight: "max(1rem, env(safe-area-inset-right, 0px))",
+            }}
             role="dialog"
             aria-label="Menú de navegación móvil"
             aria-modal="true"
             id="mobile-menu"
           >
-            <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-background px-4 py-4">
-              <Logo size="sm" interactive />
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/40 bg-background py-3">
+              <div className="min-w-0 flex-1">
+                <Logo size="sm" interactive showRole={false} />
+              </div>
               <Button
                 ref={firstFocusableRef}
                 variant="ghost"
@@ -228,8 +233,11 @@ export function MobileMenu({
               </Button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto p-4" aria-label="Menú móvil">
-              <ul className="space-y-1" role="list">
+            <nav
+              className="flex min-h-0 flex-1 flex-col overflow-y-auto py-2"
+              aria-label="Menú móvil"
+            >
+              <ul className="flex w-full flex-col gap-0.5" role="list">
                 {navItems.map((item, index) => {
                   const active = isNavItemActive(item, location.pathname);
                   return (
@@ -240,7 +248,7 @@ export function MobileMenu({
                       transition={{ delay: index * 0.04 }}
                     >
                       {moreDividerLabel && moreStartIndex === index && (
-                        <p className="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        <p className="px-4 pb-1 pt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           {moreDividerLabel}
                         </p>
                       )}
@@ -248,7 +256,7 @@ export function MobileMenu({
                         variant="ghost"
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "h-12 min-h-[44px] w-full justify-start text-lg transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                          "h-14 min-h-[48px] w-full justify-start rounded-xl px-4 text-lg transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                           active
                             ? "bg-primary/10 font-semibold text-primary"
                             : "text-foreground hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/15"
@@ -263,7 +271,10 @@ export function MobileMenu({
               </ul>
             </nav>
 
-            <div className="space-y-3 border-t border-border/40 bg-muted/30 p-4 dark:bg-muted/20">
+            <div
+              className="shrink-0 space-y-3 border-t border-border/40 bg-muted/30 px-0 py-4 dark:bg-muted/20"
+              style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 0px))" }}
+            >
               <div className="flex items-center justify-center gap-3">
                 <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
                 <LanguageToggle />
