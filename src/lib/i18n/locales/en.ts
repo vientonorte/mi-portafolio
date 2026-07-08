@@ -448,6 +448,8 @@ export default {
         searchAriaLabel: 'Intelligent portfolio search',
         suggestionsLabel: 'Suggestions',
         noResults: 'No matches — try another term or switch business line.',
+        liveSuggestionsCount: '{{count}} suggestions available',
+        liveSuggestionsActive: '{{count}} suggestions. {{title}}, {{hint}}',
         tabs: {
           negocios: 'Business',
           contacto: 'Contact',

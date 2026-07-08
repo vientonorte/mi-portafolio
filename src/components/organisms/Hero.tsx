@@ -150,6 +150,8 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
               searchAriaLabel={t.unifiedBanner.searchAriaLabel}
               suggestionsLabel={t.unifiedBanner.suggestionsLabel}
               noResults={t.unifiedBanner.noResults}
+              liveSuggestionsCount={t.unifiedBanner.liveSuggestionsCount}
+              liveSuggestionsActive={t.unifiedBanner.liveSuggestionsActive}
               tabs={t.unifiedBanner.tabs}
               panels={t.unifiedBanner.panels}
               suggestions={t.unifiedBanner.suggestions}

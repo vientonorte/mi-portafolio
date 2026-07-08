@@ -20,7 +20,6 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import {
   emptyContactIdentity,
-  resolveInitialContactTab,
   type ContactDraft,
   type ContactSharedIdentity,
   type ContactTab,
@@ -45,7 +44,7 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
 
   const sessionSnapshot = readContactSession();
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    contactDraft ? resolveInitialContactTab(contactDraft) : (sessionSnapshot?.activeTab ?? resolveInitialContactTab(null))
+    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
   );
   const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
     name: sessionSnapshot?.name ?? "",

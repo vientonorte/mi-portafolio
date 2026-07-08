@@ -65,6 +65,8 @@ function renderSearch() {
         searchAriaLabel="Buscador inteligente del portafolio"
         suggestionsLabel="Sugerencias"
         noResults="Sin coincidencias"
+        liveSuggestionsCount="{{count}} sugerencias disponibles"
+        liveSuggestionsActive="{{count}} sugerencias. {{title}}, {{hint}}"
         tabs={{ negocios: "Negocios", contacto: "Contacto", auditorias: "Auditorías" }}
         panels={panels}
         suggestions={suggestions}

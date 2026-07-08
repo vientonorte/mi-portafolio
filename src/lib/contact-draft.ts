@@ -69,11 +69,6 @@ export function shouldSkipAssistantWizard(draft: ContactDraft | null): boolean {
   return draft.source === "onboarding" || draft.source === "quoter";
 }
 
-export function resolveInitialContactTab(draft: ContactDraft | null): ContactTab {
-  if (shouldSkipAssistantWizard(draft)) return "assistant";
-  return "assistant";
-}
-
 export function resolveAssistantInitialStep(draft: ContactDraft | null): ContactAssistantStep {
   if (shouldSkipAssistantWizard(draft)) return "compose";
   return "intent";

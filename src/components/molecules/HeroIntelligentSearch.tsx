@@ -45,6 +45,13 @@ export function heroSuggestionOptionId(listboxId: string, suggestionId: string):
   return `${listboxId}-option-${suggestionId}`;
 }
 
+function fillLiveTemplate(template: string, vars: Record<string, string | number>): string {
+  return Object.entries(vars).reduce(
+    (acc, [key, value]) => acc.replaceAll(`{{${key}}}`, String(value)),
+    template
+  );
+}
+
 interface SuggestionsListProps {
   listboxId: string;
   suggestionsLabelId: string;
@@ -144,6 +151,8 @@ export function HeroIntelligentSearch({
   searchAriaLabel,
   suggestionsLabel,
   noResults,
+  liveSuggestionsCount,
+  liveSuggestionsActive,
   tabs,
   panels,
   suggestions,
@@ -182,9 +191,22 @@ export function HeroIntelligentSearch({
     if (!listboxActive) return "";
     if (filtered.length === 0) return noResults;
     const active = filtered[highlightIndex];
-    if (!active) return `${filtered.length} sugerencias disponibles`;
-    return `${filtered.length} sugerencias. ${active.title}, ${active.hint}`;
-  }, [filtered, highlightIndex, listboxActive, noResults]);
+    if (!active) {
+      return fillLiveTemplate(liveSuggestionsCount, { count: filtered.length });
+    }
+    return fillLiveTemplate(liveSuggestionsActive, {
+      count: filtered.length,
+      title: active.title,
+      hint: active.hint,
+    });
+  }, [
+    filtered,
+    highlightIndex,
+    listboxActive,
+    liveSuggestionsActive,
+    liveSuggestionsCount,
+    noResults,
+  ]);
 
   useEffect(() => {
     if (!showInlineSuggestions) return;

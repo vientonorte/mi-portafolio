@@ -41,7 +41,8 @@ El **front** (formulario + asistente) no cambia; solo el destino del POST.
 | `src/lib/google-forms-contact.ts` | Config y mapeo de campos → entry IDs |
 | `src/lib/submit-contact.ts` | Cadena Google Forms → FormSubmit → Worker → mailto |
 | `src/components/organisms/Contact.tsx` | Tabs: asistente + formulario directo |
-| `src/components/organisms/ContactAssistant.tsx` | Flujo guiado en 4 pasos |
+| `src/components/organisms/ContactAssistant.tsx` | Flujo guiado en 3 pasos (intent → detail → compose) |
+| `src/lib/contact-draft-storage.ts` | Borrador en `sessionStorage` (nombre, email, mensaje, tab); sin consent |
 | `src/components/molecules/ContactConsentField.tsx` | Checkbox + link a privacidad |
 | `src/pages/Privacy.tsx` | Política de privacidad (i18n) |
 | `src/pages/Contacto.tsx` | Toast `?sent=1` tras redirect FormSubmit |
@@ -173,7 +174,8 @@ Copia `.env.example` → `.env.local` para desarrollo. **No commitear** valores 
 
 ## Privacidad y consentimiento (Ley 21.719)
 
-- Checkbox obligatorio antes de enviar (formulario y asistente).
+- Checkbox obligatorio antes de enviar (formulario y asistente). **No** se persiste en `sessionStorage` — el usuario debe reconfirmar en cada envío.
+- Borrador de contacto solo en `sessionStorage` (`vn-contact-session-v1`): se borra al cerrar la pestaña; se limpia tras envío exitoso.
 - Texto i18n: `contact.form.consent` + enlace `consentPrivacyLink` → `/privacy`.
 - Página `/privacy`: sin cookies de tracking; describe Google Forms + respaldo FormSubmit, retención, derechos ARCO y responsable del tratamiento.
 - Traducciones en `src/lib/i18n.ts` → `privacyPage` (ES/EN).
@@ -197,8 +199,9 @@ Copia `.env.example` → `.env.local` para desarrollo. **No commitear** valores 
 
 ### Asistente guiado
 
-- [ ] Flujo intent → detail → contact → review
-- [ ] Mensaje generado editable en review
+- [ ] Flujo intent → detail → compose
+- [ ] Mensaje generado editable en compose
+- [ ] Recargar pestaña restaura borrador; consent sigue desmarcado
 - [ ] Consentimiento requerido
 - [ ] Envío OK → toast `assistant.success`
 

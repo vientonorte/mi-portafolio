@@ -448,6 +448,8 @@ export default {
         searchAriaLabel: 'Buscador inteligente del portafolio',
         suggestionsLabel: 'Sugerencias',
         noResults: 'Sin coincidencias — prueba otra palabra o cambia de línea.',
+        liveSuggestionsCount: '{{count}} sugerencias disponibles',
+        liveSuggestionsActive: '{{count}} sugerencias. {{title}}, {{hint}}',
         tabs: {
           negocios: 'Negocios',
           contacto: 'Contacto',
