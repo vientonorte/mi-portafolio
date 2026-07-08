@@ -1,6 +1,7 @@
 # Node, Vite, y frontend
 node_modules/
 dist/
+preview-root/
 coverage/
 build/
 .parcel-cache/
