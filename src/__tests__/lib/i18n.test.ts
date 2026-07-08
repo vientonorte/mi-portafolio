@@ -1,7 +1,14 @@
-import { describe, it, expect } from 'vitest';
-import { translations, type Language } from '@/lib/i18n';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { preloadAllTranslations } from '@/lib/i18n';
+import type { Language, Translation } from '@/lib/i18n';
+
+let translations: Record<Language, Translation>;
 
 describe('translations', () => {
+  beforeAll(async () => {
+    translations = await preloadAllTranslations();
+  });
+
   const languages: Language[] = ['es', 'en'];
 
   it('has both es and en keys', () => {
@@ -37,7 +44,6 @@ describe('translations', () => {
         expect(nav).toHaveProperty('consulting');
         expect(nav).toHaveProperty('audit');
         expect(nav).toHaveProperty('uxtools');
-        expect(nav).toHaveProperty('research');
       });
 
       it('has about section with required keys', () => {

@@ -1,8 +1,7 @@
 import type { MockupItem } from "../components/molecules/MockupGallery";
-import type { Language } from "./i18n";
-import { useTranslation } from "./i18n";
+import { getTranslationSync, type Language, type Translation } from "./i18n";
 
-type MockupStrings = ReturnType<typeof useTranslation>["mockups"];
+type MockupStrings = Translation["mockups"];
 
 function fill(template: string, values: Record<string, string>): string {
   return Object.entries(values).reduce(
@@ -68,7 +67,7 @@ export function dedupeMockupItems(items: MockupItem[]): MockupItem[] {
 }
 
 export function companyGalleryTitle(name: string, language: Language): string {
-  const strings = useTranslation(language).mockups;
+  const strings = getTranslationSync(language).mockups;
   return fill(strings.companyTitle, { name });
 }
 
@@ -76,7 +75,7 @@ export function projectGalleryCopy(
   projectName: string,
   language: Language
 ): { title: string; description: string } {
-  const strings = useTranslation(language).mockups;
+  const strings = getTranslationSync(language).mockups;
   return {
     title: fill(strings.projectTitle, { name: projectName }),
     description: strings.projectDescription,

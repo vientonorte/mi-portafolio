@@ -1,6 +1,6 @@
 import { getFeaturedCaseStudies } from "../data/case-study-cards";
 import type { Language } from "./i18n";
-import { useTranslation } from "./i18n";
+import { getTranslationSync } from "./i18n";
 import { SITE_CONTACT } from "./site-contact";
 import { SEO_SITE } from "./seo";
 
@@ -20,7 +20,7 @@ function absoluteImageUrl(image: string): string {
 }
 
 export function buildPortfolioStructuredData(language: Language) {
-  const t = useTranslation(language);
+  const t = getTranslationSync(language);
   const hero = t.hero;
   const caseStudies = getFeaturedCaseStudies(language);
 

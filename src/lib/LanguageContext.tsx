@@ -1,5 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Language } from './i18n';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import type { Language } from './i18n/types';
+import { loadTranslation } from './i18n/loader';
+import type { Translation } from './i18n/types';
+import { TranslationProvider } from './i18n/TranslationContext';
 
 interface LanguageContextType {
   language: Language;
@@ -8,25 +11,53 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('es');
-
-  // Load language from localStorage on mount
-  useEffect(() => {
+function readStoredLanguage(): Language {
+  try {
     const saved = localStorage.getItem('language') as Language;
-    if (saved && (saved === 'es' || saved === 'en')) {
-      setLanguageState(saved);
-    }
-  }, []);
+    if (saved === 'es' || saved === 'en') return saved;
+  } catch {
+    /* localStorage blocked */
+  }
+  return 'es';
+}
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(readStoredLanguage);
+  const [dictionary, setDictionary] = useState<Translation | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadTranslation(language).then((dict) => {
+      if (!cancelled) setDictionary(dict);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('language', lang);
+    try {
+      localStorage.setItem('language', lang);
+    } catch {
+      /* ignore */
+    }
   };
+
+  if (!dictionary) {
+    return (
+      <div
+        className="min-h-screen bg-background"
+        role="status"
+        aria-live="polite"
+        aria-label={language === 'es' ? 'Cargando idioma…' : 'Loading language…'}
+      />
+    );
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
-      {children}
+      <TranslationProvider dictionary={dictionary}>{children}</TranslationProvider>
     </LanguageContext.Provider>
   );
 }

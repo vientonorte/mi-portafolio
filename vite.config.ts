@@ -97,6 +97,8 @@
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (id.includes('/src/lib/i18n/locales/es')) return 'i18n-es';
+            if (id.includes('/src/lib/i18n/locales/en')) return 'i18n-en';
             if (['react', 'react-dom', 'react-router-dom'].some(p => id.includes(`/node_modules/${p}/`))) {
               return 'vendor-react';
             }

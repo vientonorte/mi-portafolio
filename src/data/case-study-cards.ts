@@ -1,5 +1,5 @@
 import { getPortfolioImages } from "../lib/image-overrides";
-import { translations, type Language } from "../lib/i18n";
+import { getTranslationSync, type Language } from "../lib/i18n";
 import { getProjectHeadlineMetrics } from "../lib/project-metrics";
 
 export interface CaseStudyCardData {
@@ -53,7 +53,7 @@ function imageForProject(
 /** Casos destacados para grid visual en /proyectos */
 export function getFeaturedCaseStudies(language: Language = "es"): CaseStudyCardData[] {
   const portfolioImages = getPortfolioImages();
-  const copy = translations[language].featuredCaseStudies;
+  const copy = getTranslationSync(language).featuredCaseStudies;
 
   return FEATURED_CASE_STUDY_IDS.map((id) => {
     const localized = copy[id];
