@@ -1,7 +1,7 @@
 // Service Worker for PWA capabilities
 
-const CACHE_NAME = 'rg-portfolio-v10';
-const RUNTIME_CACHE = 'rg-runtime-v10';
+const CACHE_NAME = 'rg-portfolio-v12';
+const RUNTIME_CACHE = 'rg-runtime-v12';
 
 const PRECACHE_URLS = [
   '/mi-portafolio/manifest.json',
@@ -25,6 +25,12 @@ self.addEventListener('install', (event) => {
       .then((cache) => cache.addAll(PRECACHE_URLS))
       .then(() => self.skipWaiting())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', (event) => {
@@ -52,7 +58,7 @@ self.addEventListener('fetch', (event) => {
 
   if (networkFirst) {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-store' })
         .then((response) => {
           if (response.status === 200) {
             const copy = response.clone();
@@ -60,7 +66,15 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/mi-portafolio/index.html')))
+        .catch(() =>
+          caches.match(event.request).then((cached) => {
+            if (cached) return cached;
+            if (isNavigationRequest(event.request)) {
+              return caches.match('/mi-portafolio/index.html');
+            }
+            return undefined;
+          })
+        )
     );
     return;
   }

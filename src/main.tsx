@@ -29,6 +29,32 @@ try {
   /* ignore */
 }
 
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  const base = import.meta.env.BASE_URL;
+  let reloadedForSw = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloadedForSw) return;
+    reloadedForSw = true;
+    window.location.reload();
+  });
+
+  navigator.serviceWorker
+    .register(`${base}sw.js`, { scope: base })
+    .then((registration) => {
+      registration.addEventListener('updatefound', () => {
+        const worker = registration.installing;
+        worker?.addEventListener('statechange', () => {
+          if (worker.state === 'activated') {
+            worker.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+    })
+    .catch(() => {
+      /* SW opcional — el sitio funciona sin él */
+    });
+}
+
 const rootEl = document.getElementById('root');
 if (!rootEl) {
   throw new Error('No se encontró #root en index.html');
