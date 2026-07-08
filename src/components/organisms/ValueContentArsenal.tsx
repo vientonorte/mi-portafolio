@@ -23,6 +23,9 @@ import { cn } from "../../lib/utils";
 
 type FilterId = "all" | ValueProofKind;
 
+const INITIAL_VISIBLE_COUNT = 3;
+const LOAD_MORE_INCREMENT = 3;
+
 interface ValueContentArsenalProps {
   showBundleStrip?: boolean;
   onStartOnboarding?: (packageId?: ConsultingPackageId) => void;
@@ -36,6 +39,7 @@ export function ValueContentArsenal({
   const { language } = useLanguage();
   const t = useTranslation(language).valueArsenal;
   const [filter, setFilter] = useState<FilterId>("all");
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
 
   const items = useMemo(() => getValueProofItems(language), [language]);
 
@@ -43,6 +47,18 @@ export function ValueContentArsenal({
     () => (filter === "all" ? items : items.filter((item) => item.kind === filter)),
     [filter, items]
   );
+
+  const visibleItems = useMemo(
+    () => filtered.slice(0, visibleCount),
+    [filtered, visibleCount]
+  );
+
+  const hasMore = visibleCount < filtered.length;
+
+  const handleFilterChange = (id: FilterId) => {
+    setFilter(id);
+    setVisibleCount(INITIAL_VISIBLE_COUNT);
+  };
 
   const filters: { id: FilterId; label: string }[] = [
     { id: "all", label: t.filters.all },
@@ -73,6 +89,10 @@ export function ValueContentArsenal({
       return;
     }
     navigate(ROUTES.consulting, { state: { recommendedPackage: bundleId, scrollTo: "consultoria-onboarding" } });
+  };
+
+  const loadMore = () => {
+    setVisibleCount((count) => Math.min(count + LOAD_MORE_INCREMENT, filtered.length));
   };
 
   const scrollToOnboarding = () => {
@@ -110,7 +130,7 @@ export function ValueContentArsenal({
             type="button"
             role="tab"
             aria-selected={filter === item.id}
-            onClick={() => setFilter(item.id)}
+            onClick={() => handleFilterChange(item.id)}
             className={cn(
               "min-h-[44px] rounded-full border px-4 py-2 text-sm font-medium transition-colors",
               filter === item.id
@@ -123,9 +143,14 @@ export function ValueContentArsenal({
         ))}
       </div>
 
+      <p className="mb-6 text-center text-sm text-muted-foreground" aria-live="polite">
+        {t.showingCount
+          .replace("{visible}", String(visibleItems.length))
+          .replace("{total}", String(filtered.length))}
+      </p>
+
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
-        {filtered.map((item, index) => {
-          const bundle = CONSULTING_PACKAGES.find((pkg) => pkg.id === item.bundleId);
+        {visibleItems.map((item, index) => {
           const href = VALUE_PROOF_EXTERNAL_URLS[item.id] ?? item.href;
 
           return (
@@ -137,16 +162,28 @@ export function ValueContentArsenal({
                 outcome={item.outcome}
                 metric={item.metric}
                 image={item.image}
-                bundleLabel={`${t.bundleFit}: ${bundle?.name[language] ?? item.bundleId}`}
                 viewLabel={t.viewProof}
                 index={index}
                 onView={() => openProof(item.id, href, item.external)}
-                onBundle={() => startBundle(item.bundleId, item.id)}
               />
             </li>
           );
         })}
       </ul>
+
+      {hasMore && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            className="min-w-[12rem] border-primary/25"
+            onClick={loadMore}
+          >
+            {t.loadMore}
+          </Button>
+        </div>
+      )}
 
       {showBundleStrip && (
         <div className="mt-12 md:mt-16 overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8">

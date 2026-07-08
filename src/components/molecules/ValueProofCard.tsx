@@ -18,11 +18,9 @@ export interface ValueProofCardProps {
   outcome: string;
   metric?: string;
   image: string;
-  bundleLabel: string;
   viewLabel: string;
   index?: number;
   onView: () => void;
-  onBundle: () => void;
 }
 
 export function ValueProofCard({
@@ -32,11 +30,9 @@ export function ValueProofCard({
   outcome,
   metric,
   image,
-  bundleLabel,
   viewLabel,
   index = 0,
   onView,
-  onBundle,
 }: ValueProofCardProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -83,22 +79,14 @@ export function ValueProofCard({
           <p className="text-sm leading-relaxed text-muted-foreground">{outcome}</p>
         </div>
 
-        <div className="mt-auto flex flex-col gap-2 sm:flex-row">
+        <div className="mt-auto">
           <Button
             size="sm"
-            className="w-full bg-brand-gradient font-semibold hover:opacity-90 sm:flex-1"
+            className="w-full bg-brand-gradient font-semibold hover:opacity-90"
             onClick={onView}
           >
             {viewLabel}
             <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            className="w-full sm:w-auto"
-            onClick={onBundle}
-          >
-            {bundleLabel}
           </Button>
         </div>
       </div>
