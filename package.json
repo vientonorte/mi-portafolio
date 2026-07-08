@@ -98,6 +98,7 @@
     "qa:css": "bash scripts/qa-css-smoke.sh",
     "qa:production": "bash scripts/qa-production.sh",
     "qa:routes": "node scripts/qa-routes.mjs",
+    "qa:prototypes": "node scripts/qa-prototypes.mjs",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",
     "reset": "npm run clean && npm install",

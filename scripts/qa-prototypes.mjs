@@ -1,0 +1,372 @@
+#!/usr/bin/env node
+/**
+ * QA de prototipos, POCs y enlaces Figma en producción.
+ * Sincroniza URLs desde src/data/*.ts y valida presencia en DOM + clicks arsenal.
+ *
+ * Uso: node scripts/qa-prototypes.mjs [baseUrl]
+ */
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { chromium } from 'playwright';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const BASE = (process.argv[2] || 'https://vientonorte.github.io/mi-portafolio').replace(/\/$/, '');
+
+/** Documentado en CHANGELOG — aún sin ruta pública en el portfolio */
+const BACKLOG_PROTOTYPES = [
+  {
+    id: 'figjam-ux-testing',
+    label: 'FigJam · Template crítica de diseño',
+    url: 'https://www.figma.com/board/WQ3yWzgIrOSZXTuExwRzS9/Template-cr%C3%ADtica-de-dise%C3%B1o',
+    target: '/proceso/fase/ux-testing',
+    ref: 'CHANGELOG / SESSION-2026-07-07',
+  },
+  {
+    id: 'figma-slides-colombia',
+    label: 'Figma Slides · Tutoría SURA Asesor Colombia',
+    url: 'https://www.figma.com/slides/xxKiHNAOPDpxmfuqyE7N72/PPT-TUTORIA-SURA-ASESOR-COLOMBIA',
+    target: '/proyecto/sura-ux-enterprise',
+    ref: 'CHANGELOG / SESSION-2026-07-07',
+  },
+  {
+    id: 'poc-backlog-97',
+    label: 'Nuevos POCs sin externalLink en repo',
+    note: 'Issue #97 — seguir patrón en MAINTENANCE_GUIDE § Backlog POCs',
+    ref: 'MAINTENANCE_GUIDE',
+  },
+];
+
+function hashUrl(path) {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  return `${BASE}/#${clean}`;
+}
+
+function readSrc(relPath) {
+  return readFileSync(join(ROOT, relPath), 'utf8');
+}
+
+function parseQuotedUrls(ts) {
+  const urls = {};
+  const constRe = /export const (\w+)\s*=\s*\n?\s*"([^"]+)"/g;
+  for (const match of ts.matchAll(constRe)) {
+    urls[match[1]] = match[2];
+  }
+  return urls;
+}
+
+function parseValueProofExternalUrls(arsenalTs, demosTs) {
+  const block = arsenalTs.match(/export const VALUE_PROOF_EXTERNAL_URLS[\s\S]*?=\s*\{([\s\S]*?)\};/);
+  if (!block) return {};
+
+  const urls = {};
+  const constUrls = parseQuotedUrls(arsenalTs);
+  const consultoria = parseConsultoriaDemos(demosTs);
+  const body = block[1];
+
+  const entryRe =
+    /"([^"]+)":\s*(?:"([^"]+)"|(CONSULTORIA_DEMO_X_CMS\.figmaSitesUrl)|([A-Z][A-Z0-9_]+))/g;
+  for (const match of body.matchAll(entryRe)) {
+    const [, id, quoted, consultoriaRef, constRef] = match;
+    if (quoted) urls[id] = quoted;
+    else if (consultoriaRef) urls[id] = consultoria.figmaSitesUrl;
+    else if (constRef && constUrls[constRef]) urls[id] = constUrls[constRef];
+  }
+
+  for (const match of body.matchAll(/"([^"]+)":\s*\n\s*"([^"]+)"/g)) {
+    urls[match[1]] = match[2];
+  }
+
+  return urls;
+}
+
+function parseArsenalTitlesEs(ts) {
+  const titles = {};
+  const itemRe = /id:\s*"([^"]+)"[\s\S]*?es:\s*\{[\s\S]*?title:\s*"([^"]+)"/g;
+  for (const match of ts.matchAll(itemRe)) {
+    titles[match[1]] = match[2];
+  }
+  return titles;
+}
+
+function parseConsultoriaDemos(ts) {
+  const sites = ts.match(/figmaSitesUrl:\s*"([^"]+)"/)?.[1];
+  const make = ts.match(/figmaMakeUrl:\s*\n?\s*"([^"]+)"/)?.[1];
+  return { figmaSitesUrl: sites, figmaMakeUrl: make };
+}
+
+function parseProjectExternalLinks(ts, constUrls) {
+  const projects = [];
+  const chunks = ts.split(/\n\s*\{/);
+  for (const chunk of chunks) {
+    const id = chunk.match(/^\s*id:\s*"([^"]+)"/m)?.[1];
+    const external = chunk.match(/externalLink:\s*("([^"]+)"|([A-Z_]+))/m);
+    if (!id || !external) continue;
+    const url = external[2] || constUrls[external[3]];
+    if (url) projects.push({ id, path: `/proyecto/${id}`, url });
+  }
+  return projects;
+}
+
+function urlNeedle(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname.endsWith('figma.site')) return u.hostname.split('.')[0];
+    return u.pathname.split('/').filter(Boolean).slice(-2).join('/') || u.hostname;
+  } catch {
+    return url.slice(0, 24);
+  }
+}
+
+function loadManifest() {
+  const arsenalTs = readSrc('src/data/value-content-arsenal.ts');
+  const demosTs = readSrc('src/data/consultoria-demos.ts');
+  const projectsTs = readSrc('src/data/projects-data.ts');
+
+  const constUrls = parseQuotedUrls(arsenalTs);
+  const consultoria = parseConsultoriaDemos(demosTs);
+  const arsenalExternal = parseValueProofExternalUrls(arsenalTs, demosTs);
+  const arsenalTitles = parseArsenalTitlesEs(arsenalTs);
+  const projects = parseProjectExternalLinks(projectsTs, constUrls).filter((p) =>
+    /figma\.(com|site)/.test(p.url)
+  );
+
+  return { arsenalExternal, arsenalTitles, consultoria, projects, constUrls };
+}
+
+async function checkFigmaSites(urls) {
+  const results = [];
+  const unique = [...new Set(urls.filter((u) => u.includes('figma.site')))];
+  for (const url of unique) {
+    try {
+      const res = await fetch(url, { method: 'GET', redirect: 'follow', signal: AbortSignal.timeout(20000) });
+      results.push({ label: `HTTP ${url}`, ok: res.ok, errors: res.ok ? [] : [`status ${res.status}`] });
+    } catch (err) {
+      results.push({ label: `HTTP ${url}`, ok: false, errors: [err.message] });
+    }
+  }
+  return results;
+}
+
+async function visit(page, path, waitMs = 3500) {
+  await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForSelector('#main', { timeout: 30000 });
+  await page.waitForTimeout(waitMs);
+}
+
+async function collectHrefAndIframeSrc(page) {
+  const links = await page.locator('a[href]').evaluateAll((els) =>
+    els.map((e) => e.getAttribute('href')).filter(Boolean)
+  );
+  const iframes = await page.locator('iframe[src]').evaluateAll((els) =>
+    els.map((e) => e.getAttribute('src')).filter(Boolean)
+  );
+  return [...links, ...iframes];
+}
+
+async function checkPageNeedles(page, { path, needles, label }) {
+  await visit(page, path);
+  const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
+  const missing = needles.filter((n) => !haystack.includes(n));
+  return {
+    label,
+    ok: missing.length === 0,
+    errors: missing.length ? [`falta en DOM: ${missing.join(', ')}`] : [],
+  };
+}
+
+async function checkConsultoriaDemo(page, consultoria) {
+  await visit(page, '/consultoria');
+  await page.locator('#consultoria-demo').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+
+  const errors = [];
+  const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
+  if (!haystack.includes(urlNeedle(consultoria.figmaSitesUrl))) {
+    errors.push('iframe/link Figma Sites ausente');
+  }
+
+  const primary = page.getByRole('button', { name: /demo publicada|published demo|abrir demo|open demo/i });
+  if ((await primary.count()) === 0) errors.push('CTA principal demo no encontrado');
+
+  const secondary = page.getByRole('button', { name: /figma make/i });
+  if ((await secondary.count()) === 0) errors.push('CTA secundario Figma Make no encontrado');
+
+  if (errors.length === 0) {
+    await page.evaluate(() => {
+      window.__openedUrls = [];
+      window.open = (url) => {
+        window.__openedUrls.push(String(url));
+        return null;
+      };
+    });
+    await secondary.first().click();
+    await page.waitForTimeout(300);
+    const opened = await page.evaluate(() => window.__openedUrls ?? []);
+    if (!opened.some((u) => u.includes('figma.com/make'))) {
+      errors.push('click Figma Make no abrió URL esperada');
+    }
+  }
+
+  return { label: 'Consultoría X | CMS demo', ok: errors.length === 0, errors };
+}
+
+async function expandArsenal(page) {
+  await visit(page, '/consultoria');
+  await page.locator('#valor').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(600);
+
+  const loadMore = page.getByRole('button', { name: /cargar más|load more/i });
+  for (let i = 0; i < 12; i++) {
+    if (!(await loadMore.isVisible().catch(() => false))) break;
+    await loadMore.click();
+    await page.waitForTimeout(350);
+  }
+}
+
+async function checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles) {
+  await page.addInitScript(() => {
+    window.__openedUrls = [];
+    const orig = window.open;
+    window.open = (url, ...args) => {
+      window.__openedUrls.push(String(url));
+      return orig.call(window, 'about:blank', ...args.slice(1));
+    };
+  });
+
+  await expandArsenal(page);
+
+  const results = [];
+  for (const [id, url] of Object.entries(arsenalExternal)) {
+    const title = arsenalTitles[id];
+    const label = `Arsenal click · ${id}`;
+    if (!title) {
+      results.push({ label, ok: false, errors: ['título ES no parseado'] });
+      continue;
+    }
+
+    await page.evaluate(() => {
+      window.__openedUrls = [];
+    });
+
+    const article = page.locator('article').filter({
+      has: page.getByRole('heading', { name: title, level: 3 }),
+    });
+    if ((await article.count()) === 0) {
+      results.push({ label, ok: false, errors: [`card no visible: "${title}"`] });
+      continue;
+    }
+
+    await article.first().getByRole('button').first().click();
+    await page.waitForTimeout(400);
+    const opened = await page.evaluate(() => window.__openedUrls ?? []);
+    const needle = urlNeedle(url);
+    const ok = opened.some((u) => u.includes(needle) || u === url);
+    results.push({
+      label,
+      ok,
+      errors: ok ? [] : [`esperaba ${url}, abrió: ${opened.join(' | ') || '(vacío)'}`],
+    });
+  }
+  return results;
+}
+
+async function checkBacklogNotWired(page) {
+  const results = [];
+  for (const item of BACKLOG_PROTOTYPES) {
+    if (!item.target) {
+      results.push({ label: `Backlog · ${item.id}`, ok: true, skipped: true, note: item.note });
+      continue;
+    }
+    await visit(page, item.target, 2000);
+    const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
+    const wired = item.url && haystack.includes(urlNeedle(item.url));
+    results.push({
+      label: `Backlog · ${item.id}`,
+      ok: !wired,
+      skipped: true,
+      errors: wired ? [`ya cableado en ${item.target} — mover a manifest activo`] : [],
+      note: wired ? undefined : `pendiente (${item.ref})`,
+    });
+  }
+  return results;
+}
+
+function logResult(r) {
+  if (r.skipped) {
+    const note = r.note ? ` — ${r.note}` : '';
+    console.log(r.ok ? `⏭️  ${r.label}${note}` : `⚠️  ${r.label} — ${r.errors?.join('; ')}`);
+    return;
+  }
+  console.log(r.ok ? `✅ ${r.label}` : `❌ ${r.label} — ${r.errors.join('; ')}`);
+}
+
+async function main() {
+  const manifest = loadManifest();
+  const { arsenalExternal, arsenalTitles, consultoria, projects } = manifest;
+
+  console.log(`\n🔬 QA prototipos — ${BASE}\n`);
+  console.log(`Arsenal externo: ${Object.keys(arsenalExternal).length} · Proyectos externalLink: ${projects.length}\n`);
+
+  const results = [];
+
+  const siteUrls = [
+    consultoria.figmaSitesUrl,
+    ...Object.values(arsenalExternal),
+    ...projects.map((p) => p.url),
+  ].filter(Boolean);
+
+  for (const r of await checkFigmaSites(siteUrls)) {
+    results.push(r);
+    logResult(r);
+  }
+
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({ serviceWorkers: 'block' });
+  const page = await context.newPage();
+
+  for (const project of projects) {
+    const r = await checkPageNeedles(page, {
+      path: project.path,
+      needles: [urlNeedle(project.url)],
+      label: `Proyecto · ${project.id}`,
+    });
+    results.push(r);
+    logResult(r);
+  }
+
+  const auditoria = await checkPageNeedles(page, {
+    path: '/auditoria',
+    needles: ['lEGDG3EDlNI3OOUCucTyyx', 'embed.figma.com/board'],
+    label: 'Auditoría · FigJam embed',
+  });
+  results.push(auditoria);
+  logResult(auditoria);
+
+  const consultoriaCheck = await checkConsultoriaDemo(page, consultoria);
+  results.push(consultoriaCheck);
+  logResult(consultoriaCheck);
+
+  console.log('\n🎯 Arsenal — clicks externos\n');
+  for (const r of await checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles)) {
+    results.push(r);
+    logResult(r);
+  }
+
+  console.log('\n📋 Backlog documentado (no bloquea CI)\n');
+  for (const r of await checkBacklogNotWired(page)) {
+    logResult(r);
+  }
+
+  await browser.close();
+
+  const failed = results.filter((r) => !r.ok && !r.skipped);
+  const passed = results.filter((r) => r.ok && !r.skipped);
+  console.log(`\n---\nActivos: ${results.length} | OK: ${passed.length} | FAIL: ${failed.length}\n`);
+  process.exit(failed.length ? 1 : 0);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

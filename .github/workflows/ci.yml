@@ -153,6 +153,7 @@ jobs:
           fi
 
           node scripts/qa-routes.mjs http://127.0.0.1:4173/mi-portafolio
+          node scripts/qa-prototypes.mjs http://127.0.0.1:4173/mi-portafolio
 
   a11y:
     name: Accesibilidad WCAG AA
