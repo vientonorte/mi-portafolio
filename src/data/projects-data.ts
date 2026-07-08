@@ -1,5 +1,5 @@
 import { karriCalculadoraProject, karriNotificacionesProject, karriDesignSprintProject } from "./karri-projects";
-import { TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
+import { RIA_US_PROTO_URL, TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
   suraRiaOnboarding,
@@ -375,6 +375,7 @@ export const suraHub: CompanyHub = {
       companyLogo: suraRiaOnboarding,
       role: "Lead UX/UI Designer",
       period: "2024 - 2025",
+      externalLink: RIA_US_PROTO_URL,
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
       descriptionEN: "End-to-end UX/UI design for SURA's RIA (Registered Investment Advisor) platform in the United States: information architecture, authentication, advisor onboarding, investment dashboard, and communications.",

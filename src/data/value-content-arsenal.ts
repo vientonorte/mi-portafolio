@@ -16,6 +16,10 @@ export const TRANSVIP_APP_PROTO_URL =
 export const VALUESITE_AVEM_PROTO_URL =
   "https://www.figma.com/proto/xqCj0eIocn9cG6pbPKu6Vy/AVEM-Prototipo-Landing-Page?node-id=5-104&starting-point-node-id=5%3A104&page-id=0%3A1";
 
+/** Figma · prototipo interactivo RIA SURA US. */
+export const RIA_US_PROTO_URL =
+  "https://www.figma.com/proto/MOhbYMwUtCSZ8IuJxG41ho/RIA?node-id=311-11144&starting-point-node-id=311%3A11144&page-id=311%3A11143&scaling=min-zoom&content-scaling=fixed";
+
 export type ValueProofKind = "prototype" | "poc" | "audit" | "case";
 
 export interface ValueProofItem {
@@ -69,7 +73,8 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "ria-us",
     kind: "prototype",
     imagePath: img((i) => i.sura.celulaEvolutivaFlow),
-    href: ROUTES.project("sura-ria-us"),
+    href: RIA_US_PROTO_URL,
+    external: true,
     bundleId: "marco",
     copy: {
       es: {
@@ -558,6 +563,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
+  "ria-us": RIA_US_PROTO_URL,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
   "transvip-mobile": TRANSVIP_APP_PROTO_URL,
   "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
