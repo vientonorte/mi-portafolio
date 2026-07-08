@@ -16,6 +16,24 @@ Este hallazgo proviene de research que indica que recruiters toman decisiones r�
 
 ---
 
+## Design thinking aplicado
+
+| Fase | Hipótesis | Cómo la valida este protocolo |
+|------|-----------|-------------------------------|
+| **Empatizar** | Recruiters deciden en <10 s con señales de rol + industria | Fase 1 — first impression sin scroll |
+| **Definir** | Deben llegar a evidencia de negocio sin fricción | Fase 2 — time to `/proyectos` <30 s |
+| **Idear** | Nav unificado: Negocios primero; hero para intención; Consultoría en header | Observar uso de dock vs hamburger vs buscador hero |
+| **Prototipar** | Portfolio en GitHub Pages con nav `nav-config.ts` | URL fija de producción |
+| **Testear** | Fintech + Mobility reconocibles; NPS ≥7 | Fases 3 y métricas cuantitativas |
+
+**Métricas nav (añadir en hoja de registro):**
+
+- ¿Usó el buscador «¿Qué buscas?»? (Sí/No)
+- ¿Encontró Consultoría sin abrir «Más»? (Sí/No — desktop)
+- Primera superficie tocada: dock / header / hero / hamburger
+
+---
+
 ## 👥 Perfil de Participantes
 
 **Total:** 5 participantes

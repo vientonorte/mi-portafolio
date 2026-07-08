@@ -88,7 +88,7 @@ export default {
         autosuggest: {
           title: 'Autosuggest fondos',
           description:
-            'Caso SURA: búsqueda predictiva de fondos de inversión con progressive disclosure, accesibilidad y testing con inversores retail e institucionales.',
+            'Patrón UX en SURA Inversiones: búsqueda predictiva de fondos con progressive disclosure y WCAG 2.2 AA — evidencia de producto, no case study.',
         },
         admin: {
           title: 'Admin fotos',
@@ -591,11 +591,11 @@ export default {
 
     autosuggestPage: {
       title: 'Autosuggest de fondos',
-      badge: 'Caso SURA · Plataforma de inversiones',
+      badge: 'Patrón UX · SURA Inversiones',
       subtitle:
-        'Búsqueda predictiva de fondos con progressive disclosure para inversores retail e institucionales.',
+        'Evidencia de producto — patrón de búsqueda predictiva, no un case study independiente.',
       intro:
-        'Diseñé el flujo de autosuggest dentro del rediseño de la plataforma de inversiones: reducir fricción al encontrar fondos, mantener profundidad de datos financieros y cumplir expectativas de accesibilidad y compliance.',
+        'Documento el patrón de autosuggest dentro del rediseño de SURA Inversiones: reducir fricción al encontrar fondos, mantener profundidad de datos financieros y cumplir WCAG 2.2 AA y compliance CMF.',
       metrics: [
         { value: '−45%', label: 'Tiempo de consulta de información' },
         { value: '+30%', label: 'Engagement usuarios retail' },

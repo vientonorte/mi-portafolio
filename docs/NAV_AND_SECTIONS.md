@@ -1,6 +1,6 @@
 # Navegación, secciones y atomic design
 
-> Última actualización: 2026-07-03 · Commits: `6e99735c` (branding) · `bb00eb59` (perfil) · `ce4d9e8b` (nav responsive)
+> Última actualización: 2026-07-08 · Nav unificado (`nav-config.ts` + `NAV_SURFACE`)
 
 Guía de referencia para mantener el chrome de navegación y las secciones del portafolio alineadas con mobile UI y atomic design.
 
@@ -11,8 +11,9 @@ Guía de referencia para mantener el chrome de navegación y las secciones del p
 | Área | Decisión |
 |------|----------|
 | **Breakpoints nav** | Dock inferior `< lg` (1024px); header completo `≥ lg` |
-| **Config nav** | Una fuente: `src/lib/nav-config.ts` |
+| **Config nav** | Una fuente: `src/lib/nav-config.ts` (`NAV_SURFACE`, `executeNavAction`) |
 | **Dock** | `NavDock` organism con variantes `home` \| `deep` |
+| **QA nav** | `npm run qa:nav` — valida orden estratégico y matchers |
 | **Secciones** | Primitivo `PageSection` en `layout/` |
 | **Scroll anclas** | `scrollToSection()` respeta `--header-height` |
 | **Subpáginas** | `SubpageToolbar` + `DeepPageNav` (mismos 5 destinos que home) |
@@ -23,7 +24,7 @@ Guía de referencia para mantener el chrome de navegación y las secciones del p
 
 ```
 lib/
-  nav-config.ts          ← ítems del dock (ids, rutas, matchers)
+  nav-config.ts          ← NAV_REGISTRY + NAV_SURFACE (header, dock, mobile)
   scroll-to-section.ts   ← scroll con offset de header
   routes.ts              ← rutas canónicas
 
@@ -69,9 +70,17 @@ layout/
 | `< lg` | Logo + idioma + tema + hamburger | 5 tabs fijos | `MobileMenu` drawer |
 | `≥ lg` | Logo + nav primaria + Más + tema + idioma | oculto | — |
 
-**Dock home** (`DOCK_NAV_HOME`): Inicio · Negocios · Experiencia · Proceso · Contacto  
-- Inicio / Contacto → anclas `#inicio` / `#contacto` con scroll spy en home.  
+**Dock** (`NAV_SURFACE.dock`): Inicio · Negocios · Experiencia · Proceso · Contacto  
+- Design decision: Auditoría y Consultoría **no** van en dock (5 slots = jobs críticos).  
+- Consultoría ✦ y Auditoría UX → header desktop + menú móvil + hero search.  
+- Inicio / Contacto → anclas en home; Contacto → `/contacto` en profundidad.  
 - Experiencia → `/sobre-mi#experiencia`.
+
+**Header desktop** (`NAV_SURFACE.headerPrimary`): Negocios · Experiencia · Consultoría ✦ · Proceso · Contacto  
+
+**Más** (`NAV_SURFACE.headerMore`): Sobre mí · Auditoría UX · Design System · UX Tools  
+
+**Menú móvil** (`NAV_SURFACE.mobileDrawer`): Inicio → bloque estratégico → divisor «Más» → utilidades.
 
 ### Subpáginas (`isDeepPortfolioPage`)
 
@@ -164,11 +173,11 @@ Viewport: **375×812** (iPhone) y **768×1024** (iPad).
 
 ## Cómo extender
 
-### Añadir ítem al dock
+### Añadir ítem de navegación
 
-1. Editar `DOCK_NAV_HOME` y `DOCK_NAV_DEEP` en `nav-config.ts`.
-2. Actualizar `matchDockItemActive` si el matcher es nuevo.
-3. Añadir entrada en `Navigation` / `MobileMenu` si debe aparecer en header (opcional).
+1. Registrar en `NAV_REGISTRY` y añadir el `id` a la superficie correcta en `NAV_SURFACE` (dock, headerPrimary, headerMore, mobileDrawer).
+2. Extender `getStaticNavAction` / `matchNavItemActive` si aplica.
+3. Ejecutar `npm run qa:nav` antes del merge.
 
 ### Nueva sección en home
 

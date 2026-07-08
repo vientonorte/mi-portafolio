@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { vi } from 'vitest';
+import { beforeAll, vi } from 'vitest';
+import { preloadAllTranslations } from '@/lib/i18n/loader';
+
+beforeAll(async () => {
+  await preloadAllTranslations();
+});
 
 function createMotionComponent(tag: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -36,12 +36,12 @@ describe('Logo', () => {
 
   it('applies correct size classes for sm', () => {
     const { container } = renderWithLanguage(<Logo size="sm" />);
-    expect(container.firstChild).toHaveClass('gap-2.5');
+    expect(container.querySelector('.flex.min-w-0.items-center')).toHaveClass('gap-2.5');
   });
 
   it('applies correct size classes for lg', () => {
     const { container } = renderWithLanguage(<Logo size="lg" />);
-    expect(container.firstChild).toHaveClass('gap-3.5');
+    expect(container.querySelector('.flex.min-w-0.items-center')).toHaveClass('gap-3.5');
   });
 });
 

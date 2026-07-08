@@ -24,6 +24,7 @@ const AutosuggestFondos = () => {
     <PageShell
       crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate('/'), [
         { label: t.breadcrumbs.projects, onClick: () => navigate('/proyectos') },
+        { label: 'SURA Inversiones', onClick: () => navigate(`/proyecto/${page.relatedProjectId}`) },
         { label: t.breadcrumbs.autosuggest, current: true },
       ])}
     >

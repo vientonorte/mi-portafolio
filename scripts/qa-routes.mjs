@@ -269,12 +269,13 @@ async function checkSection(page, { path, sectionId, label, lazy = false }) {
 }
 
 async function checkAssets() {
+  const origin = new URL(BASE).origin;
   const res = await fetch(`${BASE}/index.html`);
   const html = await res.text();
   const assets = [...html.matchAll(/\/mi-portafolio\/assets\/[^"]+/g)].map((m) => m[0]);
   const missing = [];
   for (const asset of [...new Set(assets)]) {
-    const r = await fetch(`https://vientonorte.github.io${asset}`, { method: 'HEAD' });
+    const r = await fetch(`${origin}${asset}`, { method: 'HEAD' });
     if (!r.ok) missing.push(asset);
   }
   return { ok: missing.length === 0, missing };

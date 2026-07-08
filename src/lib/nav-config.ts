@@ -60,7 +60,14 @@ export interface NavRegistryItem {
   labelKey: keyof NavLabels | "process";
 }
 
-/** Orden estratégico único — hero (3 líneas) + recruiter + Viento Norte */
+/**
+ * Design thinking — dock (5 slots, mobile thumb zone):
+ * - Inicio / Negocios / Experiencia → recruiter + work-first
+ * - Proceso → método UX (credibilidad)
+ * - Contacto → conversión
+ * Auditoría y Consultoría viven en header + hero search (intención), no en dock:
+ * evita saturar la barra fija; el hero ya enruta las 3 líneas de negocio.
+ */
 export const NAV_SURFACE = {
   dock: ["inicio", "negocios", "experiencia", "proceso", "contacto"] as const satisfies readonly DockNavItemId[],
   headerPrimary: ["negocios", "experiencia", "consultoria", "proceso", "contacto"] as const,
@@ -222,7 +229,7 @@ function patchContactRouteItem(item: ResolvedNavItem): ResolvedNavItem {
 export function getMobileDrawerNavItems(
   labels: NavLabels,
   processLabel: string,
-  pathname = ROUTES.home
+  pathname: string = ROUTES.home
 ): ResolvedNavItem[] {
   const items = resolveNavItems(NAV_SURFACE.mobileDrawer, labels, processLabel, getHeaderNavAction);
   if (pathname === ROUTES.home) return items;
@@ -336,13 +343,6 @@ export function matchNavItemActive(
 
   return false;
 }
-
-/** @deprecated Use getDockNavItems — kept for gradual migration */
-export type DockNavItem = ResolvedNavItem;
-
-/** @deprecated Use NAV_SURFACE.dock */
-export const DOCK_NAV_HOME = NAV_SURFACE.dock;
-export const DOCK_NAV_DEEP = NAV_SURFACE.dock;
 
 export function matchDockItemActive(
   item: ResolvedNavItem,

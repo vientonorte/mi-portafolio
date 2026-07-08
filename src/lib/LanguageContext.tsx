@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { Language } from './i18n/types';
-import { loadTranslation } from './i18n/loader';
+import { getTranslationSync, isTranslationLoaded, loadTranslation } from './i18n/loader';
 import type { Translation } from './i18n/types';
 import { TranslationProvider } from './i18n/TranslationContext';
 
@@ -23,7 +23,10 @@ function readStoredLanguage(): Language {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(readStoredLanguage);
-  const [dictionary, setDictionary] = useState<Translation | null>(null);
+  const [dictionary, setDictionary] = useState<Translation | null>(() => {
+    const lang = readStoredLanguage();
+    return isTranslationLoaded(lang) ? getTranslationSync(lang) : null;
+  });
 
   useEffect(() => {
     let cancelled = false;

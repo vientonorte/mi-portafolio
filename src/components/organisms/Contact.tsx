@@ -8,7 +8,7 @@ import { Badge } from "../ui/badge";
 import { ContactConsentField } from "../molecules/ContactConsentField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -25,6 +25,11 @@ import {
   type ContactSharedIdentity,
   type ContactTab,
 } from "../../lib/contact-draft";
+import {
+  clearContactSession,
+  readContactSession,
+  writeContactSession,
+} from "../../lib/contact-draft-storage";
 
 const socialLinks = [
   {
@@ -38,16 +43,42 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
   const { language } = useLanguage();
   const t = useTranslation(language).contact;
 
+  const sessionSnapshot = readContactSession();
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    resolveInitialContactTab(contactDraft)
+    contactDraft ? resolveInitialContactTab(contactDraft) : (sessionSnapshot?.activeTab ?? resolveInitialContactTab(null))
   );
-  const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(
-    emptyContactIdentity
+  const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
+    name: sessionSnapshot?.name ?? "",
+    email: sessionSnapshot?.email ?? "",
+    consent: false,
+  }));
+  const [sharedMessage, setSharedMessage] = useState(
+    contactDraft?.message ?? sessionSnapshot?.message ?? ""
   );
-  const [sharedMessage, setSharedMessage] = useState(contactDraft?.message ?? "");
   const [gotcha, setGotcha] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (persistTimer.current) clearTimeout(persistTimer.current);
+    persistTimer.current = setTimeout(() => {
+      if (!sharedIdentity.name && !sharedIdentity.email && !sharedMessage.trim()) {
+        clearContactSession();
+        return;
+      }
+      writeContactSession({
+        name: sharedIdentity.name,
+        email: sharedIdentity.email,
+        message: sharedMessage,
+        activeTab,
+      });
+    }, 280);
+
+    return () => {
+      if (persistTimer.current) clearTimeout(persistTimer.current);
+    };
+  }, [activeTab, sharedIdentity.email, sharedIdentity.name, sharedMessage]);
 
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -99,6 +130,7 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
         setSharedMessage("");
         setGotcha("");
         setErrors({});
+        clearContactSession();
         return;
       }
 
@@ -275,6 +307,7 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
                       onMessageChange={setSharedMessage}
                       gotcha={gotcha}
                       onGotchaChange={setGotcha}
+                      onSuccess={clearContactSession}
                     />
                   </TabsContent>
 

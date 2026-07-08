@@ -199,22 +199,24 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   },
   {
     id: "autosuggest",
-    kind: "case",
+    kind: "prototype",
     imagePath: img((i) => i.sura.webPrototype),
     href: "/proyectos/autosuggest-fondos",
     bundleId: "ops",
     copy: {
       es: {
-        kindLabel: "Flujo fintech",
+        kindLabel: "Patrón UX",
         title: "Autosuggest de fondos",
-        outcome: "Búsqueda semántica y progressive disclosure en plataforma de inversiones.",
-        metric: "Compliance",
+        outcome:
+          "Patrón de producto dentro de SURA Inversiones — no es un case study independiente.",
+        metric: "WCAG 2.2",
       },
       en: {
-        kindLabel: "Fintech flow",
+        kindLabel: "UX pattern",
         title: "Fund autosuggest",
-        outcome: "Semantic search and progressive disclosure on the investments platform.",
-        metric: "Compliance",
+        outcome:
+          "Product pattern inside SURA Investments — not a standalone case study.",
+        metric: "WCAG 2.2",
       },
     },
   },
