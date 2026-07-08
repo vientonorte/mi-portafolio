@@ -24,6 +24,7 @@ export const portfolioImages = {
     bookingFlowchart: img("sura/booking-flowchart.png"),
     onboardingFlags: img("sura/onboarding-flags.png"),
     uxProcess: img("sura/ux-process.png"),
+    celulaEvolutivaFlow: img("sura/celula-evolutiva-flow.png"),
   },
   transvip: {
     logo: img("transvip/logo.svg", true),

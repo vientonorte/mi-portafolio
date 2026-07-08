@@ -42,6 +42,14 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("transvip.figmaPrototype", "Transvip", "Figma proto mobile", "transvip/figma-prototype.png", portfolioImages.transvip.figmaPrototype, "Captura Figma — prototipo mobile Transvip"),
   entry("sura.onboardingFlags", "SURA", "Onboarding flags", "sura/onboarding-flags.png", portfolioImages.sura.onboardingFlags, "Flags de onboarding"),
   entry("sura.uxProcess", "SURA", "Proceso UX", "sura/ux-process.png", portfolioImages.sura.uxProcess, "Diagrama proceso UX"),
+  entry(
+    "sura.celulaEvolutivaFlow",
+    "SURA",
+    "Flujo Célula Evolutiva",
+    "sura/celula-evolutiva-flow.png",
+    portfolioImages.sura.celulaEvolutivaFlow,
+    "Flujo end-to-end Célula Evolutiva — Nueva Web SURA Investments"
+  ),
   entry("transvip.appDesktop", "Transvip", "App desktop", "transvip/app-desktop.png", portfolioImages.transvip.appDesktop, "App Transvip desktop"),
   entry("transvip.appMobile", "Transvip", "App mobile", "transvip/app-mobile.png", portfolioImages.transvip.appMobile, "App Transvip mobile"),
   entry("transvip.productVision", "Transvip", "Product vision", "transvip/product-vision.png", portfolioImages.transvip.productVision, "Visión de producto Transvip"),

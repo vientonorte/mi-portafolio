@@ -259,7 +259,7 @@ export const suraHub: CompanyHub = {
       projectName: "Rediseño Plataforma de Inversiones Digital",
       description: "Mejora de experiencia usuaria en plataforma de inversiones y RIA para clientes institucionales y retail — progressive disclosure, dashboards y onboarding multi-perfil.",
       descriptionEN: "Improved UX on the investment platform and RIA for institutional and retail clients — progressive disclosure, dashboards, and multi-profile onboarding.",
-      image: suraRiaOnboarding,
+      image: portfolioImages.sura.celulaEvolutivaFlow,
       tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
       
       processes: [
@@ -299,7 +299,11 @@ export const suraHub: CompanyHub = {
           "Progressive disclosure es clave para audiencias heterogéneas",
           "Las visualizaciones deben ser configurables para diferentes perfiles",
         ],
-        mockups: [suraRiaOnboarding, suraComponentPipeline],
+        mockups: [
+          portfolioImages.sura.celulaEvolutivaFlow,
+          suraRiaOnboarding,
+          suraComponentPipeline,
+        ],
       },
     },
     {
