@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { Contact } from "@/components/organisms/Contact";
@@ -146,15 +146,12 @@ describe("Contact integration — persist debounce", () => {
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
     const form = getFormPanel();
-    fireEvent.change(form.getByPlaceholderText("Tu nombre"), {
-      target: { name: "name", value: "Ana" },
-    });
-    fireEvent.change(form.getByPlaceholderText("tu@email.com"), {
-      target: { name: "email", value: "ana@example.com" },
-    });
-    fireEvent.change(form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i), {
-      target: { name: "message", value: "Consulta de integración" },
-    });
+    await user.type(form.getByPlaceholderText("Tu nombre"), "Ana");
+    await user.type(form.getByPlaceholderText("tu@email.com"), "ana@example.com");
+    await user.type(
+      form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i),
+      "Consulta de integración"
+    );
 
     expect(readContactSession()).toBeNull();
 
@@ -197,8 +194,9 @@ describe("Contact integration — clear on submit", () => {
     renderContact();
 
     const form = getFormPanel();
-    await user.click(form.getByLabelText(/Acepto que mis datos/i));
-    expect(form.getByRole("checkbox", { name: /Ley 21\.719/i })).toBeChecked();
+    const consent = form.getByRole("checkbox");
+    await user.click(consent);
+    expect(consent).toBeChecked();
     await user.click(form.getByRole("button", { name: /Enviar mensaje/i }));
 
     await waitFor(() => {
