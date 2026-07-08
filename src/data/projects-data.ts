@@ -259,7 +259,7 @@ export const suraHub: CompanyHub = {
       projectName: "Rediseño Plataforma de Inversiones Digital",
       description: "Mejora de experiencia usuaria en plataforma de inversiones y RIA para clientes institucionales y retail — progressive disclosure, dashboards y onboarding multi-perfil.",
       descriptionEN: "Improved UX on the investment platform and RIA for institutional and retail clients — progressive disclosure, dashboards, and multi-profile onboarding.",
-      image: portfolioImages.sura.celulaEvolutivaFlow,
+      image: suraRiaOnboarding,
       tags: ["Investment Platform", "Financial UX", "Dashboard Design"],
       
       processes: [
@@ -299,11 +299,7 @@ export const suraHub: CompanyHub = {
           "Progressive disclosure es clave para audiencias heterogéneas",
           "Las visualizaciones deben ser configurables para diferentes perfiles",
         ],
-        mockups: [
-          portfolioImages.sura.celulaEvolutivaFlow,
-          suraRiaOnboarding,
-          suraComponentPipeline,
-        ],
+        mockups: [suraRiaOnboarding, suraComponentPipeline],
       },
     },
     {
@@ -382,7 +378,7 @@ export const suraHub: CompanyHub = {
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
       descriptionEN: "End-to-end UX/UI design for SURA's RIA (Registered Investment Advisor) platform in the United States: information architecture, authentication, advisor onboarding, investment dashboard, and communications.",
-      image: suraRiaOnboarding,
+      image: portfolioImages.sura.celulaEvolutivaFlow,
       tags: ["RIA Platform", "Financial UX", "Onboarding", "Multi-role System", "US Market"],
       
       processes: [
@@ -450,7 +446,7 @@ export const suraHub: CompanyHub = {
           "El diseño de casos de error es crítico en plataformas financieras",
           "La documentación visual (prototipos + specs) genera alineación de equipos",
         ],
-        mockups: [suraRiaOnboarding],
+        mockups: [portfolioImages.sura.celulaEvolutivaFlow, suraRiaOnboarding],
       },
     },
     {

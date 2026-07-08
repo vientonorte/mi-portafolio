@@ -48,7 +48,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Flujo Célula Evolutiva",
     "sura/celula-evolutiva-flow.png",
     portfolioImages.sura.celulaEvolutivaFlow,
-    "Flujo end-to-end Célula Evolutiva — Nueva Web SURA Investments"
+    "Flujo end-to-end Célula Evolutiva — RIA SURA US"
   ),
   entry("transvip.appDesktop", "Transvip", "App desktop", "transvip/app-desktop.png", portfolioImages.transvip.appDesktop, "App Transvip desktop"),
   entry("transvip.appMobile", "Transvip", "App mobile", "transvip/app-mobile.png", portfolioImages.transvip.appMobile, "App Transvip mobile"),
