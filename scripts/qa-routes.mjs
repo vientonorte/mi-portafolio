@@ -1,0 +1,240 @@
+#!/usr/bin/env node
+/**
+ * QA de rutas HashRouter — verifica que cada path renderice #root con contenido.
+ * Uso: node scripts/qa-routes.mjs [baseUrl]
+ */
+import { chromium } from 'playwright';
+
+const BASE = (process.argv[2] || 'https://vientonorte.github.io/mi-portafolio').replace(/\/$/, '');
+
+const STATIC_ROUTES = [
+  '/',
+  '/proyectos',
+  '/proyectos/autosuggest-fondos',
+  '/sobre-mi',
+  '/contacto',
+  '/privacy',
+  '/grafo',
+  '/design-system',
+  '/proceso',
+  '/framework',
+  '/auditoria',
+  '/consultoria',
+  '/admin/fotos',
+  '/cases',
+  '/cases/process/ux-analytics',
+  '/ruta-qa-inexistente',
+];
+
+const PROCESS_IDS = ['ux-analytics', 'ux-research', 'ux-ui-design', 'ux-testing'];
+
+const COMPANY_IDS = ['sura-investments', 'transvip'];
+
+const PROJECT_IDS = [
+  'sura-ux-enterprise',
+  'sura-inversiones-dashboard',
+  'sura-ecosistema-digital',
+  'sura-ria-us',
+  'sura-ia-automation-dashboard',
+  'transvip-app-premium',
+  'karri-calculadora',
+  'karri-notificaciones',
+  'karri-design-sprint',
+  'ux-tools',
+  'framework',
+];
+
+const SECTION_CHECKS = [
+  { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
+  { path: '/consultoria', sectionId: 'valor', label: 'Consultoría #valor' },
+  { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
+  { path: '/consultoria', sectionId: 'cotizador-app', label: 'Consultoría #cotizador-app' },
+  { path: '/consultoria', sectionId: 'arbol', label: 'Consultoría #arbol' },
+  { path: '/consultoria', sectionId: 'consultoria-onboarding', label: 'Consultoría #onboarding' },
+];
+
+const PORTFOLIO_IMAGES = [
+  'images/sura/logo.svg',
+  'images/sura/ria-onboarding.png',
+  'images/sura/web-prototype.png',
+  'images/sura/analytics-ga4.png',
+  'images/transvip/logo.svg',
+  'images/transvip/app-desktop.png',
+  'images/transvip/app-mobile.png',
+  'images/transvip/figma-prototype.png',
+  'images/transvip/product-vision.png',
+  'images/karri/logo.png',
+  'images/framework/ux-value-chain.png',
+];
+
+function hashUrl(path) {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  return `${BASE}/#${clean}`;
+}
+
+function isBenignConsoleError(text) {
+  const benign = [
+    'favicon',
+    'GA',
+    'GTM',
+    'fontshare',
+    'manifest',
+    'CORS',
+    'workers.dev',
+    'google-analytics',
+    'googletagmanager',
+    'Failed to load resource: net::ERR_FAILED',
+    'net::ERR_BLOCKED_BY_CLIENT',
+  ];
+  return benign.some((b) => text.includes(b));
+}
+
+function isSameOriginAsset(url) {
+  return url.includes('/mi-portafolio/') || url.startsWith(BASE);
+}
+
+const routes = [
+  ...STATIC_ROUTES.map((p) => ({ path: p, label: p })),
+  ...PROCESS_IDS.map((id) => ({ path: `/proceso/fase/${id}`, label: `proceso/${id}` })),
+  ...COMPANY_IDS.map((id) => ({ path: `/empresa/${id}`, label: `empresa/${id}` })),
+  ...PROJECT_IDS.map((id) => ({ path: `/proyecto/${id}`, label: `proyecto/${id}` })),
+];
+
+async function checkRoute(page, { path, label }) {
+  const errors = [];
+  const consoleErrors = [];
+  const pageErrors = [];
+  const failedAssets = [];
+
+  const onConsole = (msg) => {
+    if (msg.type() === 'error') consoleErrors.push(msg.text());
+  };
+  const onPageError = (err) => pageErrors.push(err.message);
+  const onRequestFailed = (req) => {
+    const url = req.url();
+    if (isSameOriginAsset(url)) failedAssets.push(url);
+  };
+
+  page.on('console', onConsole);
+  page.on('pageerror', onPageError);
+  page.on('requestfailed', onRequestFailed);
+
+  try {
+    await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await page.waitForSelector('#main', { timeout: 25000 });
+
+    const root = await page.locator('#root').innerHTML();
+    const rootLen = root.trim().length;
+    const title = await page.title();
+
+    if (rootLen < 100) errors.push('root vacío o sin render');
+    if (!title || title.length < 3) errors.push('title vacío');
+
+    if (path === '/ruta-qa-inexistente') {
+      const notFound = await page.getByText(/no encontr|not found|página|page/i).count();
+      if (notFound === 0) errors.push('404 no visible');
+    }
+
+    const criticalConsole = consoleErrors.filter((e) => !isBenignConsoleError(e));
+    if (criticalConsole.length) errors.push(`console: ${criticalConsole[0].slice(0, 120)}`);
+    if (pageErrors.length) errors.push(`pageerror: ${pageErrors[0].slice(0, 120)}`);
+    const criticalAssets = failedAssets.filter((u) => u.includes('/assets/') && !u.includes('.map'));
+    if (criticalAssets.length && rootLen < 500) {
+      const u = criticalAssets[0].replace(BASE, '').slice(0, 80);
+      errors.push(`asset: ${u}`);
+    }
+
+    return { label, path, ok: errors.length === 0, errors, title };
+  } catch (err) {
+    return { label, path, ok: false, errors: [err.message], title: '' };
+  } finally {
+    page.off('console', onConsole);
+    page.off('pageerror', onPageError);
+    page.off('requestfailed', onRequestFailed);
+  }
+}
+
+async function checkSection(page, { path, sectionId, label, lazy = false }) {
+  try {
+    await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await page.waitForSelector('#main', { timeout: 25000 });
+
+    const el = page.locator(`#${sectionId}`);
+    const timeout = lazy ? 40000 : 15000;
+
+    if (lazy) {
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 3));
+    }
+
+    await el.waitFor({ state: 'visible', timeout });
+    return { label, ok: true, errors: [] };
+  } catch (err) {
+    return { label, ok: false, errors: [err.message.split('\n')[0]] };
+  }
+}
+
+async function checkAssets() {
+  const res = await fetch(`${BASE}/index.html`);
+  const html = await res.text();
+  const assets = [...html.matchAll(/\/mi-portafolio\/assets\/[^"]+/g)].map((m) => m[0]);
+  const missing = [];
+  for (const asset of [...new Set(assets)]) {
+    const r = await fetch(`https://vientonorte.github.io${asset}`, { method: 'HEAD' });
+    if (!r.ok) missing.push(asset);
+  }
+  return { ok: missing.length === 0, missing };
+}
+
+async function checkPortfolioImages() {
+  const missing = [];
+  for (const path of PORTFOLIO_IMAGES) {
+    const r = await fetch(`${BASE}/${path}`, { method: 'HEAD' });
+    if (!r.ok) missing.push(path);
+  }
+  return { ok: missing.length === 0, missing };
+}
+
+async function main() {
+  console.log(`\n🔍 QA rutas — ${BASE}\n`);
+
+  const assetCheck = await checkAssets();
+  console.log(assetCheck.ok ? '✅ Assets index.html → 200' : `❌ Assets faltantes: ${assetCheck.missing.join(', ')}`);
+
+  const imageCheck = await checkPortfolioImages();
+  console.log(
+    imageCheck.ok ? '✅ Imágenes portfolio → 200' : `❌ Imágenes faltantes: ${imageCheck.missing.join(', ')}`
+  );
+
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({ serviceWorkers: 'block' });
+  const page = await context.newPage();
+
+  const results = [];
+  for (const route of routes) {
+    const r = await checkRoute(page, route);
+    results.push(r);
+    console.log(r.ok ? `✅ ${r.label}` : `❌ ${r.label} — ${r.errors.join('; ')}`);
+  }
+
+  await page.close();
+
+  console.log('\n📍 Secciones ancla\n');
+  const sectionPage = await context.newPage();
+  for (const section of SECTION_CHECKS) {
+    const r = await checkSection(sectionPage, section);
+    results.push({ ...r, path: section.path });
+    console.log(r.ok ? `✅ ${r.label}` : `❌ ${r.label} — ${r.errors.join('; ')}`);
+  }
+  await sectionPage.close();
+
+  await browser.close();
+
+  const failed = results.filter((r) => !r.ok);
+  console.log(`\n---\nTotal: ${results.length} | OK: ${results.length - failed.length} | FAIL: ${failed.length}\n`);
+  process.exit(failed.length || !assetCheck.ok || !imageCheck.ok ? 1 : 0);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
