@@ -537,9 +537,16 @@ Plantilla: `docs/SESSION-2026-07-07.md`
 ### Comandos QA
 
 ```bash
-npm run ci          # lint + types + test + build
-npm run qa:production  # smoke producción (si configurado)
+npm run ci             # lint + types + test + build
+npm run qa:routes      # Playwright: rutas HashRouter + secciones ancla
+npm run qa:production  # smoke producción (curl + grep)
 ```
+
+`qa:routes` corre en CI tras el build. Local: `node scripts/qa-routes.mjs [baseUrl]` (default: GitHub Pages).
+
+### Manifest de imágenes (Worker)
+
+El override remoto (`/api/images/manifest`) solo se consulta en `/admin/fotos` para evitar errores CORS en GitHub Pages. Para habilitarlo en todo el sitio (cuando el Worker exponga `Access-Control-Allow-Origin: https://vientonorte.github.io`), define `VITE_IMAGE_MANIFEST_PUBLIC=true` en el build.
 
 ---
 

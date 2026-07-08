@@ -91,11 +91,11 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
     <section
       ref={ref}
       id="inicio"
-      className="relative flex min-h-[100dvh] items-center overflow-hidden bg-background pt-[var(--header-height)]"
+      className="relative flex min-h-[100dvh] items-center overflow-x-hidden bg-background pt-[var(--header-height)]"
       aria-labelledby="hero-heading"
     >
       <div
-        className="pointer-events-none absolute right-0 rounded-full"
+        className="pointer-events-none absolute right-0 overflow-hidden rounded-full"
         style={{
           top: "-200px",
           width: "700px",

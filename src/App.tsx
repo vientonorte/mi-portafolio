@@ -150,11 +150,11 @@ function AppRoutes() {
 const App = () => (
   <LanguageProvider>
     <AnalyticsProvider config={analyticsConfig}>
-    <ImageManifestProvider>
-    <Router>
-      <AppRoutes />
-    </Router>
-    </ImageManifestProvider>
+      <Router>
+        <ImageManifestProvider>
+          <AppRoutes />
+        </ImageManifestProvider>
+      </Router>
     </AnalyticsProvider>
   </LanguageProvider>
 );

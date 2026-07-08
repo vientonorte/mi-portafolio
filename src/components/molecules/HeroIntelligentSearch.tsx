@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
@@ -40,6 +40,79 @@ const CATEGORY_ICONS: Record<HeroSearchCategory, LucideIcon> = {
   auditorias: ClipboardCheck,
 };
 
+interface SuggestionsListProps {
+  listboxId: string;
+  suggestionsLabel: string;
+  noResults: string;
+  filtered: HeroSearchSuggestion[];
+  highlightIndex: number;
+  onSelect: (suggestion: HeroSearchSuggestion) => void;
+  className?: string;
+  maxHeightClass?: string;
+}
+
+function SuggestionsList({
+  listboxId,
+  suggestionsLabel,
+  noResults,
+  filtered,
+  highlightIndex,
+  onSelect,
+  className,
+  maxHeightClass = "max-h-[min(16rem,50dvh)]",
+}: SuggestionsListProps) {
+  return (
+    <div className={cn("overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-xl backdrop-blur-md", className)}>
+      <p className="border-b border-border/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+        {suggestionsLabel}
+      </p>
+      {filtered.length > 0 ? (
+        <ul id={listboxId} role="listbox" className={cn(maxHeightClass, "overflow-y-auto py-1")}>
+          {filtered.map((suggestion, index) => {
+            const Icon = CATEGORY_ICONS[suggestion.category];
+            const isHighlighted = index === highlightIndex;
+
+            return (
+              <li key={suggestion.id} role="presentation">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={isHighlighted}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => onSelect(suggestion)}
+                  className={cn(
+                    "flex w-full min-h-[44px] items-start gap-3 px-4 py-3 text-left transition-colors",
+                    isHighlighted ? "bg-primary/10" : "hover:bg-muted/50"
+                  )}
+                >
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-medium text-foreground sm:text-[15px]">
+                        {suggestion.title}
+                      </span>
+                      {suggestion.badge && (
+                        <span className="inline-flex rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-primary">
+                          {suggestion.badge}
+                        </span>
+                      )}
+                    </span>
+                    <span className="mt-0.5 block text-xs leading-snug text-muted-foreground sm:text-sm">
+                      {suggestion.hint}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="px-4 py-3 text-sm text-muted-foreground">{noResults}</p>
+      )}
+    </div>
+  );
+}
+
 export function HeroIntelligentSearch({
   groupLabel,
   searchPlaceholder,
@@ -64,6 +137,7 @@ export function HeroIntelligentSearch({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const panel = selectedCategory ? panels[selectedCategory] : null;
+  const showMobileSuggestions = !selectedCategory;
 
   const filtered = useMemo(() => filterHeroSuggestions(suggestions, { query }), [query, suggestions]);
 
@@ -106,10 +180,6 @@ export function HeroIntelligentSearch({
     }
   };
 
-  useEffect(() => {
-    setHighlightIndex(0);
-  }, [query, isOpen]);
-
   return (
     <div
       className="w-full rounded-3xl border border-border/80 bg-card/80 shadow-lg backdrop-blur-sm"
@@ -143,19 +213,24 @@ export function HeroIntelligentSearch({
             className="h-11 min-h-[44px] rounded-2xl border-border/70 bg-muted/30 pl-10 pr-3 text-base shadow-none sm:h-12 sm:pl-11 sm:pr-4"
             onChange={(event) => {
               setQuery(event.target.value);
+              setHighlightIndex(0);
               setIsOpen(true);
               if (selectedCategory && event.target.value !== selectedSuggestion?.title) {
                 setSelectedCategory(null);
                 setSelectedSuggestion(null);
               }
             }}
-            onFocus={() => setIsOpen(true)}
+            onFocus={() => {
+              setHighlightIndex(0);
+              setIsOpen(true);
+            }}
             onBlur={() => {
               window.setTimeout(() => setIsOpen(false), 150);
             }}
             onKeyDown={(event) => {
               if (!isOpen) {
                 if (event.key === "ArrowDown" || event.key === "Enter") {
+                  setHighlightIndex(0);
                   setIsOpen(true);
                 }
                 return;
@@ -182,58 +257,34 @@ export function HeroIntelligentSearch({
                 animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
                 exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4 }}
                 transition={{ duration: 0.16 }}
-                className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-xl backdrop-blur-md"
+                className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 hidden sm:block"
               >
-                <p className="border-b border-border/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {suggestionsLabel}
-                </p>
-                {filtered.length > 0 ? (
-                  <ul id={listboxId} role="listbox" className="max-h-[min(16rem,50dvh)] overflow-y-auto py-1">
-                    {filtered.map((suggestion, index) => {
-                      const Icon = CATEGORY_ICONS[suggestion.category];
-                      const isHighlighted = index === highlightIndex;
-
-                      return (
-                        <li key={suggestion.id} role="presentation">
-                          <button
-                            type="button"
-                            role="option"
-                            aria-selected={isHighlighted}
-                            onMouseDown={(event) => event.preventDefault()}
-                            onClick={() => selectSuggestion(suggestion)}
-                            className={cn(
-                              "flex w-full min-h-[44px] items-start gap-3 px-4 py-3 text-left transition-colors",
-                              isHighlighted ? "bg-primary/10" : "hover:bg-muted/50"
-                            )}
-                          >
-                            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                            <span className="min-w-0 flex-1">
-                              <span className="flex flex-wrap items-center gap-2">
-                                <span className="text-sm font-medium text-foreground sm:text-[15px]">
-                                  {suggestion.title}
-                                </span>
-                                {suggestion.badge && (
-                                  <span className="inline-flex rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-primary">
-                                    {suggestion.badge}
-                                  </span>
-                                )}
-                              </span>
-                              <span className="mt-0.5 block text-xs leading-snug text-muted-foreground sm:text-sm">
-                                {suggestion.hint}
-                              </span>
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                ) : (
-                  <p className="px-4 py-3 text-sm text-muted-foreground">{noResults}</p>
-                )}
+                <SuggestionsList
+                  listboxId={listboxId}
+                  suggestionsLabel={suggestionsLabel}
+                  noResults={noResults}
+                  filtered={filtered}
+                  highlightIndex={highlightIndex}
+                  onSelect={selectSuggestion}
+                />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
+
+        {showMobileSuggestions && (
+          <div className="mt-3 sm:hidden">
+            <SuggestionsList
+              listboxId={`${listboxId}-mobile`}
+              suggestionsLabel={suggestionsLabel}
+              noResults={noResults}
+              filtered={filtered}
+              highlightIndex={highlightIndex}
+              onSelect={selectSuggestion}
+              maxHeightClass="max-h-none"
+            />
+          </div>
+        )}
       </div>
 
       <AnimatePresence mode="wait">

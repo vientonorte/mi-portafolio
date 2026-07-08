@@ -11,6 +11,7 @@ export const ROUTES = {
   designSystem: '/design-system',
   consulting: '/consultoria',
   audit: '/auditoria',
+  adminPhotos: '/admin/fotos',
   /** Grafo de fricción institucional — mantenido con noIndex hasta nueva decisión de visibilidad. */
   grafo: '/grafo',
 } as const;
