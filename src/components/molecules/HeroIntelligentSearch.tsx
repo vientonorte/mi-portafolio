@@ -28,6 +28,8 @@ interface HeroIntelligentSearchProps {
   searchAriaLabel: string;
   suggestionsLabel: string;
   noResults: string;
+  liveSuggestionsCount: string;
+  liveSuggestionsActive: string;
   tabs: Record<HeroSearchCategory, string>;
   panels: Record<HeroSearchCategory, HeroBannerPanelCopy>;
   suggestions: HeroSearchSuggestion[];
