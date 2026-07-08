@@ -172,6 +172,72 @@ async function checkHeroMobileSuggestions(browser) {
   }
 }
 
+/** Menú lateral mobile: marca en header, panel sin logo/toggles duplicados, ancho completo. */
+async function checkMobileMenuNav(browser) {
+  const viewport = { width: 390, height: 844 };
+  const ctx = await browser.newContext({ serviceWorkers: 'block', viewport });
+  const mPage = await ctx.newPage();
+  const errors = [];
+
+  try {
+    await mPage.goto(hashUrl('/'), { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await mPage.waitForSelector('header[role="banner"]', { timeout: 25000 });
+
+    const header = mPage.locator('header[role="banner"]').first();
+    const homeBrand = header.locator('a').filter({ hasText: 'Rodrigo Gaete' }).first();
+    const headerBrandVisible = await homeBrand.isVisible();
+    if (!headerBrandVisible) errors.push('marca no visible en header mobile');
+
+    const openMenu = header.getByRole('button', { name: /abrir menú de navegación/i });
+    await openMenu.click();
+    await mPage.waitForSelector('#mobile-menu', { state: 'visible', timeout: 10000 });
+
+    const menu = mPage.locator('#mobile-menu');
+    const menuBox = await menu.boundingBox();
+    if (!menuBox || menuBox.width < viewport.width * 0.92) {
+      errors.push(`panel no usa ancho completo (${menuBox?.width ?? 0}px)`);
+    }
+
+    const brandInMenu = await menu.getByText('Rodrigo Gaete').count();
+    if (brandInMenu > 0) errors.push('logo/marca duplicada dentro del sidebar');
+
+    const logoMarkInMenu = await menu.locator('.logo-mark').count();
+    if (logoMarkInMenu > 0) errors.push('isologo duplicado dentro del sidebar');
+
+    const closeInMenu = await menu.getByRole('button', { name: /cerrar menú/i }).count();
+    if (closeInMenu > 0) errors.push('botón cerrar duplicado en sidebar');
+
+    const quickLinks = await menu
+      .getByText(/enlaces rápidos|quick links/i)
+      .isVisible()
+      .catch(() => false);
+    if (!quickLinks) errors.push('sección enlaces rápidos ausente');
+
+    const contactChip = await menu.getByRole('link', { name: /contacto|contact/i }).count();
+    if (contactChip === 0) errors.push('enlace contacto ausente en sidebar');
+
+    const navItem = await menu.getByRole('button', { name: /inicio|home|negocios|projects/i }).count();
+    if (navItem === 0) errors.push('ítems de navegación no visibles');
+
+    const headerBrandAfterOpen = await homeBrand.isVisible();
+    if (!headerBrandAfterOpen) errors.push('marca desapareció del header con menú abierto');
+
+    return {
+      label: 'Mobile menú sin redundancia',
+      ok: errors.length === 0,
+      errors,
+    };
+  } catch (err) {
+    return {
+      label: 'Mobile menú sin redundancia',
+      ok: false,
+      errors: [err.message.split('\n')[0]],
+    };
+  } finally {
+    await ctx.close();
+  }
+}
+
 async function checkSection(page, { path, sectionId, label, lazy = false }) {
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -239,6 +305,10 @@ async function main() {
   const heroMobile = await checkHeroMobileSuggestions(browser);
   results.push(heroMobile);
   console.log(heroMobile.ok ? `✅ ${heroMobile.label}` : `❌ ${heroMobile.label} — ${heroMobile.errors.join('; ')}`);
+
+  const mobileMenu = await checkMobileMenuNav(browser);
+  results.push(mobileMenu);
+  console.log(mobileMenu.ok ? `✅ ${mobileMenu.label}` : `❌ ${mobileMenu.label} — ${mobileMenu.errors.join('; ')}`);
 
   console.log('\n📍 Secciones ancla\n');
   const sectionPage = await context.newPage();

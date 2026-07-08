@@ -554,7 +554,7 @@ Plantilla: `docs/SESSION-2026-07-07.md`
 
 ```bash
 npm run ci             # lint + types + test + build
-npm run qa:routes      # Playwright: rutas HashRouter + secciones ancla
+npm run qa:routes      # Playwright: rutas, anclas, hero mobile, menú lateral sin redundancia
 npm run qa:prototypes  # Playwright: POCs, protos Figma, arsenal externo + backlog #97
 npm run qa:production  # smoke producción (curl + grep)
 ```
