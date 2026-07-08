@@ -9,9 +9,12 @@ export type LogoPlateVariant = "default" | "floating";
 interface LogoProps {
   size?: "sm" | "md" | "lg";
   showText?: boolean;
+  /** Subtítulo (Lead UX Designer); ocultar en nav mobile compacto */
+  showRole?: boolean;
   animated?: boolean;
   interactive?: boolean;
   plate?: LogoPlateVariant;
+  className?: string;
 }
 
 const sizes = {
@@ -127,9 +130,11 @@ export function LogoMarkSvg({
 export function Logo({
   size = "md",
   showText = true,
+  showRole = true,
   animated = false,
   interactive = false,
   plate = "default",
+  className,
 }: LogoProps) {
   const { mark, text, role, spacing } = sizes[size];
   const roleLabel = SEO_SITE.role;
@@ -144,7 +149,7 @@ export function Logo({
   );
 
   const content = (
-    <div className={`flex items-center ${spacing}`}>
+    <div className={cn("flex min-w-0 items-center", spacing, className)}>
       {animated ? (
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -160,23 +165,29 @@ export function Logo({
       {showText && (
         <div className="flex min-w-0 flex-col leading-none">
           <span
-            className={cn(text, "font-semibold tracking-tight text-foreground")}
+            className={cn(
+              text,
+              "truncate font-semibold tracking-tight text-foreground",
+              !showRole && "max-w-[9.5rem]"
+            )}
             style={{ fontFamily: "var(--font-chillax)" }}
           >
             {SEO_SITE.brand}
           </span>
-          <span
-            className={cn(
-              role,
-              "mt-1 inline-flex items-center gap-1.5 font-mono uppercase tracking-[0.2em] text-muted-foreground"
-            )}
-          >
+          {showRole && (
             <span
-              className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gradient"
-              aria-hidden="true"
-            />
-            {roleLabel}
-          </span>
+              className={cn(
+                role,
+                "mt-1 inline-flex items-center gap-1.5 font-mono uppercase tracking-[0.2em] text-muted-foreground"
+              )}
+            >
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gradient"
+                aria-hidden="true"
+              />
+              {roleLabel}
+            </span>
+          )}
         </div>
       )}
     </div>

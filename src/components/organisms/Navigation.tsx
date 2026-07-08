@@ -7,7 +7,7 @@ import { MobileMenu } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
-import { Logo, LogoMark } from "../atoms/Logo";
+import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import type { NavItem } from "../../lib/nav-types";
@@ -297,20 +297,21 @@ export function Navigation({
           <motion.a
             href="#inicio"
             onClick={(e) => handleNavClick(e, { href: "#inicio", label: "Inicio", type: "anchor" })}
-            className="flex items-center gap-2 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-2 -ml-2 transition-colors"
+            className="flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
-            <span className="sm:hidden">
-              <LogoMark
-                size={32}
+            <span className="min-w-0 sm:hidden">
+              <Logo
+                size="sm"
                 interactive
+                showRole={false}
                 plate={isScrolled || isMenuOpen ? "default" : "floating"}
               />
             </span>
-            <span className="hidden sm:block">
+            <span className="hidden min-w-0 sm:block">
               <Logo
                 size="sm"
                 interactive

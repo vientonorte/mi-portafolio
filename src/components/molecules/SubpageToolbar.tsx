@@ -5,7 +5,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { MOBILE_HEADER_CONTROL_CLASS } from "./mobile-header-classes";
-import { LogoMark } from "../atoms/Logo";
+import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { cn } from "../../lib/utils";
 
@@ -51,7 +51,7 @@ export function SubpageToolbar({
                 className="shrink-0 rounded-lg p-1.5 transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 aria-label={language === "es" ? "Inicio" : "Home"}
               >
-                <LogoMark size={28} interactive />
+                <Logo size="sm" showRole={false} interactive />
               </button>
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />

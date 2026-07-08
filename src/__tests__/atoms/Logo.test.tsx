@@ -22,6 +22,12 @@ describe('Logo', () => {
     expect(screen.getByLabelText(`${SEO_SITE.brand} · ${SEO_SITE.role}`)).toBeInTheDocument();
   });
 
+  it('shows brand without role when showRole=false', () => {
+    renderWithLanguage(<Logo showRole={false} />);
+    expect(screen.getByText(SEO_SITE.brand)).toBeInTheDocument();
+    expect(screen.queryByText(SEO_SITE.role)).not.toBeInTheDocument();
+  });
+
   it('renders svg icon with aria-hidden when text is shown', () => {
     const { container } = renderWithLanguage(<Logo />);
     const svg = container.querySelector('svg[aria-hidden="true"]');
