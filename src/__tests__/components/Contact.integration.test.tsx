@@ -146,11 +146,13 @@ describe("Contact integration — persist debounce", () => {
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
     const form = getFormPanel();
-    fireEvent.change(form.getByLabelText(/^Nombre/i), { target: { name: "name", value: "Ana" } });
-    fireEvent.change(form.getByLabelText(/^Email/i), {
+    fireEvent.change(form.getByPlaceholderText("Tu nombre"), {
+      target: { name: "name", value: "Ana" },
+    });
+    fireEvent.change(form.getByPlaceholderText("tu@email.com"), {
       target: { name: "email", value: "ana@example.com" },
     });
-    fireEvent.change(form.getByLabelText(/^Mensaje/i), {
+    fireEvent.change(form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i), {
       target: { name: "message", value: "Consulta de integración" },
     });
 
@@ -195,7 +197,8 @@ describe("Contact integration — clear on submit", () => {
     renderContact();
 
     const form = getFormPanel();
-    await user.click(form.getByRole("checkbox", { name: /Ley 21\.719/i }));
+    await user.click(form.getByLabelText(/Acepto que mis datos/i));
+    expect(form.getByRole("checkbox", { name: /Ley 21\.719/i })).toBeChecked();
     await user.click(form.getByRole("button", { name: /Enviar mensaje/i }));
 
     await waitFor(() => {
