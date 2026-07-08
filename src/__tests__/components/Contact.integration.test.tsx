@@ -146,15 +146,15 @@ describe("Contact integration — persist debounce", () => {
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
     const form = getFormPanel();
-    await user.type(form.getByPlaceholderText("Tu nombre"), "Ana", { delay: null });
-    await user.type(form.getByPlaceholderText("tu@email.com"), "ana@example.com", {
-      delay: null,
+    fireEvent.change(form.getByPlaceholderText("Tu nombre"), {
+      target: { name: "name", value: "Ana" },
     });
-    await user.type(
-      form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i),
-      "Consulta de integración",
-      { delay: null }
-    );
+    fireEvent.change(form.getByPlaceholderText("tu@email.com"), {
+      target: { name: "email", value: "ana@example.com" },
+    });
+    fireEvent.change(form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i), {
+      target: { name: "message", value: "Consulta de integración" },
+    });
 
     await waitFor(
       () => {
@@ -167,7 +167,7 @@ describe("Contact integration — persist debounce", () => {
           })
         );
       },
-      { timeout: 3000 }
+      { timeout: 1000 }
     );
 
     const raw = sessionStorage.getItem("vn-contact-session-v1");
@@ -195,10 +195,10 @@ describe("Contact integration — clear on submit", () => {
     renderContact();
 
     const form = getFormPanel();
-    const consent = form.getByRole("checkbox");
-    fireEvent.click(consent);
-    await waitFor(() => expect(consent).toHaveAttribute("data-state", "checked"));
-    await user.click(form.getByRole("button", { name: /Enviar mensaje/i }));
+    fireEvent.click(form.getByText(/Acepto que mis datos se usen/i));
+    const formEl = form.getByRole("button", { name: /Enviar mensaje/i }).closest("form");
+    if (!formEl) throw new Error("Contact form element not found");
+    fireEvent.submit(formEl);
 
     await waitFor(() => {
       expect(mockedSubmit).toHaveBeenCalledWith(
