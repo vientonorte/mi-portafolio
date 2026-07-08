@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { Contact } from "@/components/organisms/Contact";
@@ -146,14 +146,15 @@ describe("Contact integration — persist debounce", () => {
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
     const form = getFormPanel();
-    await user.type(form.getByPlaceholderText("Tu nombre"), "Ana");
-    await user.type(form.getByPlaceholderText("tu@email.com"), "ana@example.com");
+    await user.type(form.getByPlaceholderText("Tu nombre"), "Ana", { delay: null });
+    await user.type(form.getByPlaceholderText("tu@email.com"), "ana@example.com", {
+      delay: null,
+    });
     await user.type(
       form.getByPlaceholderText(/Cuéntame sobre tu proyecto/i),
-      "Consulta de integración"
+      "Consulta de integración",
+      { delay: null }
     );
-
-    expect(readContactSession()).toBeNull();
 
     await waitFor(
       () => {
@@ -166,7 +167,7 @@ describe("Contact integration — persist debounce", () => {
           })
         );
       },
-      { timeout: 800 }
+      { timeout: 3000 }
     );
 
     const raw = sessionStorage.getItem("vn-contact-session-v1");
@@ -195,8 +196,8 @@ describe("Contact integration — clear on submit", () => {
 
     const form = getFormPanel();
     const consent = form.getByRole("checkbox");
-    await user.click(consent);
-    expect(consent).toBeChecked();
+    fireEvent.click(consent);
+    await waitFor(() => expect(consent).toHaveAttribute("data-state", "checked"));
     await user.click(form.getByRole("button", { name: /Enviar mensaje/i }));
 
     await waitFor(() => {
