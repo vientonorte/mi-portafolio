@@ -274,6 +274,82 @@ export const translations = {
         previewCta: 'Abrir sitio completo',
         embedTitle: 'Demo X | CMS — Figma Sites',
       },
+      appQuoter: {
+        badge: 'Cotizador app & web',
+        title: 'Alinea presupuesto y expectativa',
+        description:
+          'Indica tu inversión de referencia y el tipo de entregable. Obtén una lectura de viabilidad sin precios públicos — el alcance fino se confirma en kickoff.',
+        disclaimer:
+          'Estimación orientativa de diseño UX y producto digital. No incluye desarrollo ni licencias de terceros.',
+        budgetLabel: 'Presupuesto de referencia (USD)',
+        budgetPresetsLabel: 'Presupuestos frecuentes',
+        expectationLabel: '¿Qué esperas construir?',
+        tiers: {
+          prototype: {
+            label: 'Prototipo funcional',
+            hint: 'Figma navegable · flujos clave',
+            deliverable: 'Validación de concepto y handoff visual',
+            includes: [
+              'Discovery focalizado y arquitectura de información',
+              'Prototipo interactivo de alta fidelidad',
+              'Quick wins y plan de siguiente fase',
+            ],
+          },
+          web: {
+            label: 'Web funcional',
+            hint: 'MVP responsive · CMS-ready',
+            deliverable: 'Experiencia web lista para implementar',
+            includes: [
+              'Research + IA + diseño UI del MVP web',
+              'Design system inicial y patrones responsive',
+              'Especificaciones y criterios de aceptación UX',
+            ],
+          },
+          app: {
+            label: 'App funcional',
+            hint: 'Mobile · auth · flujos core',
+            deliverable: 'Producto app con journeys críticos diseñados',
+            includes: [
+              'Onboarding, navegación y estados de error',
+              'Prototipos mobile navegables + specs UI',
+              'Plan de releases y métricas de adopción',
+            ],
+          },
+          enterprise: {
+            label: 'Desarrollo empresarial',
+            hint: 'Multi-rol · governance · ops',
+            deliverable: 'Ecosistema digital con proceso de equipo',
+            includes: [
+              'Blueprint UX enterprise y Design Ops',
+              'Workshops con PM/PO/Engineering',
+              'Playbook, métricas y gobierno de diseño',
+            ],
+          },
+        },
+        fit: {
+          comfortable: 'Bien alineado',
+          viable: 'Viable',
+          tight: 'Ajustado',
+          gap: 'Brecha',
+        },
+        result: {
+          alignment: 'Alineación presupuesto · expectativa',
+          affordableTitle: 'Alcance alcanzable con este presupuesto',
+          increaseHint:
+            'Para acercarte al alcance elegido, considera ampliar inversión aprox. {low}–{high}%.',
+          summary: {
+            comfortable:
+              'Tu presupuesto cubre con holgura el alcance esperado. Podemos priorizar calidad de entrega y validación con usuarios.',
+            viable:
+              'El presupuesto es coherente con el alcance. Recomendamos kickoff para cerrar prioridades y fases.',
+            tight:
+              'El alcance es exigente para el presupuesto. Conviene acotar MVP o planificar por fases.',
+            gap:
+              'La expectativa supera el presupuesto actual. Puedes iniciar por un alcance menor o replantear inversión.',
+          },
+        },
+        cta: 'Coordinar kickoff',
+      },
     },
 
     impactStats: {
@@ -1347,6 +1423,82 @@ export const translations = {
         ctaMakeLink: 'View editable file in Figma Make',
         previewCta: 'Open full site',
         embedTitle: 'X | CMS demo — Figma Sites',
+      },
+      appQuoter: {
+        badge: 'App & web quoter',
+        title: 'Align budget and expectation',
+        description:
+          'Enter your reference investment and deliverable type. Get a viability read without public pricing — final scope is confirmed at kickoff.',
+        disclaimer:
+          'Indicative estimate for UX and digital product design. Excludes engineering build and third-party licenses.',
+        budgetLabel: 'Reference budget (USD)',
+        budgetPresetsLabel: 'Common budgets',
+        expectationLabel: 'What do you expect to build?',
+        tiers: {
+          prototype: {
+            label: 'Functional prototype',
+            hint: 'Navigable Figma · key flows',
+            deliverable: 'Concept validation and visual handoff',
+            includes: [
+              'Focused discovery and information architecture',
+              'High-fidelity interactive prototype',
+              'Quick wins and next-phase plan',
+            ],
+          },
+          web: {
+            label: 'Functional web',
+            hint: 'Responsive MVP · CMS-ready',
+            deliverable: 'Web experience ready to implement',
+            includes: [
+              'Research + IA + UI design for web MVP',
+              'Initial design system and responsive patterns',
+              'Specs and UX acceptance criteria',
+            ],
+          },
+          app: {
+            label: 'Functional app',
+            hint: 'Mobile · auth · core journeys',
+            deliverable: 'App product with critical journeys designed',
+            includes: [
+              'Onboarding, navigation, and error states',
+              'Navigable mobile prototypes + UI specs',
+              'Release plan and adoption metrics',
+            ],
+          },
+          enterprise: {
+            label: 'Enterprise development',
+            hint: 'Multi-role · governance · ops',
+            deliverable: 'Digital ecosystem with team process',
+            includes: [
+              'Enterprise UX blueprint and Design Ops',
+              'Workshops with PM/PO/Engineering',
+              'Playbook, metrics, and design governance',
+            ],
+          },
+        },
+        fit: {
+          comfortable: 'Well aligned',
+          viable: 'Viable',
+          tight: 'Tight',
+          gap: 'Gap',
+        },
+        result: {
+          alignment: 'Budget · expectation alignment',
+          affordableTitle: 'Achievable scope at this budget',
+          increaseHint:
+            'To approach the selected scope, consider increasing investment by roughly {low}–{high}%.',
+          summary: {
+            comfortable:
+              'Your budget comfortably covers the expected scope. We can prioritize delivery quality and user validation.',
+            viable:
+              'The budget fits the scope. We recommend a kickoff to lock priorities and phases.',
+            tight:
+              'The scope is demanding for the budget. Narrow the MVP or plan in phases.',
+            gap:
+              'The expectation exceeds the current budget. Start with a smaller scope or revisit investment.',
+          },
+        },
+        cta: 'Schedule kickoff',
       },
     },
 

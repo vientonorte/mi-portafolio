@@ -6,6 +6,7 @@ import { ValueContentArsenal } from "../components/organisms/ValueContentArsenal
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
+import { AppQuoter } from "../components/organisms/AppQuoter";
 import type { ConsultingPackageId } from "../data/vientonorte-consulting";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
@@ -26,25 +27,25 @@ export default function ConsultoriaVientoNorte() {
   const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const [recommendedPackage, setRecommendedPackage] = useState<ConsultingPackageId | undefined>();
+  const [selectedPackage, setSelectedPackage] = useState<ConsultingPackageId | undefined>();
+  const locationState = location.state as ConsultoriaLocationState | null;
+  const recommendedPackage = selectedPackage ?? locationState?.recommendedPackage;
 
   useEffect(() => {
     const state = location.state as ConsultoriaLocationState | null;
-    if (state?.recommendedPackage) {
-      setRecommendedPackage(state.recommendedPackage);
-    }
-
-    const scrollTo =
-      state?.scrollTo ?? consumePendingSectionScroll(location.pathname);
+    const scrollTo = state?.scrollTo ?? consumePendingSectionScroll(location.pathname);
 
     if (!scrollTo) return;
 
     runPendingSectionScroll(scrollTo);
-    navigate(location.pathname, { replace: true, state: null });
+    navigate(location.pathname, {
+      replace: true,
+      state: state?.recommendedPackage ? { recommendedPackage: state.recommendedPackage } : null,
+    });
   }, [location.pathname, location.state, navigate]);
 
   const scrollToOnboarding = (packageId?: ConsultingPackageId) => {
-    if (packageId) setRecommendedPackage(packageId);
+    if (packageId) setSelectedPackage(packageId);
     document.getElementById("consultoria-onboarding")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -62,8 +63,11 @@ export default function ConsultoriaVientoNorte() {
       <ValueContentArsenal onStartOnboarding={scrollToOnboarding} />
       <ConsultoriaDemoShowcase />
       <ConsultoriaTreePreview
-        onRecommendPackage={setRecommendedPackage}
+        onRecommendPackage={setSelectedPackage}
         onStartOnboarding={() => scrollToOnboarding()}
+      />
+      <AppQuoter
+        onRecommendPackage={setSelectedPackage}
       />
       <div id="consultoria-onboarding">
         <ConsultoriaOnboarding initialPackageId={recommendedPackage} />
