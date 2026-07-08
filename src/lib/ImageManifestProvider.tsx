@@ -1,10 +1,9 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { ADMIN_ROUTES } from "./admin-config";
+import { ImageManifestContext } from "./image-manifest-context";
 import { fetchAndApplyManifest } from "./image-overrides";
 import { ROUTES } from "./routes";
-
-const ImageManifestContext = createContext(0);
 
 /** Manifest remoto solo en admin (evita CORS en GitHub Pages hasta ACAO en el Worker). */
 const PUBLIC_MANIFEST_ENABLED = import.meta.env.VITE_IMAGE_MANIFEST_PUBLIC === "true";
@@ -34,8 +33,4 @@ export function ImageManifestProvider({ children }: { children: ReactNode }) {
       {children}
     </ImageManifestContext.Provider>
   );
-}
-
-export function useImageManifestVersion() {
-  return useContext(ImageManifestContext);
 }

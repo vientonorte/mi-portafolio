@@ -321,15 +321,30 @@ Checklist por POC:
 
 ## 🧭 Hero y rutas interactivas
 
-### Banner unificado (home)
+### Buscador inteligente (home)
 
 | Archivo | Rol |
 |---------|-----|
-| `src/components/organisms/Hero.tsx` | Layout 2 columnas, scroll a `#negocios` |
-| `src/components/molecules/HeroUnifiedBanner.tsx` | Tabs + composer + panel |
-| `src/lib/i18n.ts` → `hero.unifiedBanner` | Copy ES/EN por panel |
+| `src/components/organisms/Hero.tsx` | Layout hero, scroll parallax, delega al buscador |
+| `src/components/molecules/HeroIntelligentSearch.tsx` | Combobox + sugerencias + panel CTA |
+| `src/lib/hero-search.ts` | Filtro de sugerencias por query/keywords |
+| `src/lib/featured-path-routes.ts` | Navegación `route/`, `section/`, `path/` |
+| `src/lib/i18n/locales/*.ts` → `hero.unifiedBanner` | Copy, tabs, panels y `suggestions[]` |
+
+**Comportamiento responsive**
+
+| Viewport | Sugerencias |
+|----------|-------------|
+| &lt;640px (`useIsSmDown`) | Lista **inline** bajo el input, siempre visible hasta elegir una |
+| ≥640px | Dropdown absoluto al focus / escribir |
+
+Añadir sugerencia: objeto en `hero.unifiedBanner.suggestions` (ES + EN) con `id`, `category`, `title`, `hint`, `href`, `keywords`.
 
 **Regla:** métricas de casos (NPS, −40%, etc.) viven en `#impacto` y `/proyectos`, no en el hero.
+
+### Banner unificado (legacy)
+
+`HeroUnifiedBanner.tsx` queda como referencia de copy/panels; el home usa `HeroIntelligentSearch`.
 
 ### Proyecto destacado RIA (`#impacto`)
 

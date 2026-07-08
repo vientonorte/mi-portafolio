@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useId, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
@@ -19,6 +19,7 @@ import {
   type HeroSearchCategory,
   type HeroSearchSuggestion,
 } from "../../lib/hero-search";
+import { useIsSmDown } from "../ui/use-mobile";
 import type { HeroBannerPanelCopy } from "./HeroUnifiedBanner";
 
 interface HeroIntelligentSearchProps {
@@ -51,7 +52,7 @@ interface SuggestionsListProps {
   maxHeightClass?: string;
 }
 
-function SuggestionsList({
+const SuggestionsList = memo(function SuggestionsList({
   listboxId,
   suggestionsLabel,
   noResults,
@@ -111,7 +112,7 @@ function SuggestionsList({
       )}
     </div>
   );
-}
+});
 
 export function HeroIntelligentSearch({
   groupLabel,
@@ -135,9 +136,12 @@ export function HeroIntelligentSearch({
   const prefersReducedMotion = useReducedMotion();
   const listboxId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const isSmDown = useIsSmDown();
 
   const panel = selectedCategory ? panels[selectedCategory] : null;
-  const showMobileSuggestions = !selectedCategory;
+  const showInlineSuggestions = isSmDown && !selectedCategory;
+  const showDropdown = !isSmDown && isOpen;
+  const listboxActive = showInlineSuggestions || showDropdown;
 
   const filtered = useMemo(() => filterHeroSuggestions(suggestions, { query }), [query, suggestions]);
 
@@ -167,7 +171,7 @@ export function HeroIntelligentSearch({
   }, [location.pathname, navigate, onPrimaryAction, selectedCategory, selectedSuggestion]);
 
   const handleSubmit = () => {
-    if (isOpen && filtered[highlightIndex]) {
+    if (listboxActive && filtered[highlightIndex]) {
       selectSuggestion(filtered[highlightIndex]);
       return;
     }
@@ -204,8 +208,8 @@ export function HeroIntelligentSearch({
             type="search"
             value={query}
             role="combobox"
-            aria-expanded={isOpen}
-            aria-controls={listboxId}
+            aria-expanded={listboxActive}
+            aria-controls={listboxActive ? listboxId : undefined}
             aria-autocomplete="list"
             aria-labelledby="hero-search-label"
             aria-label={searchAriaLabel}
@@ -228,10 +232,10 @@ export function HeroIntelligentSearch({
               window.setTimeout(() => setIsOpen(false), 150);
             }}
             onKeyDown={(event) => {
-              if (!isOpen) {
+              if (!listboxActive) {
                 if (event.key === "ArrowDown" || event.key === "Enter") {
                   setHighlightIndex(0);
-                  setIsOpen(true);
+                  if (!isSmDown) setIsOpen(true);
                 }
                 return;
               }
@@ -251,13 +255,13 @@ export function HeroIntelligentSearch({
           />
 
           <AnimatePresence>
-            {isOpen && (
+            {showDropdown && (
               <motion.div
                 initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
                 animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
                 exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4 }}
                 transition={{ duration: 0.16 }}
-                className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 hidden sm:block"
+                className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20"
               >
                 <SuggestionsList
                   listboxId={listboxId}
@@ -272,10 +276,10 @@ export function HeroIntelligentSearch({
           </AnimatePresence>
         </div>
 
-        {showMobileSuggestions && (
-          <div className="mt-3 sm:hidden">
+        {showInlineSuggestions && (
+          <div className="mt-3">
             <SuggestionsList
-              listboxId={`${listboxId}-mobile`}
+              listboxId={listboxId}
               suggestionsLabel={suggestionsLabel}
               noResults={noResults}
               filtered={filtered}

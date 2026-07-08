@@ -22,13 +22,15 @@ Use this checklist to ensure everything is ready before deploying to production.
 ### Phase 3: Code Quality ✅
 
 - [ ] All tests passing: `npm run test`
-  - Expected: 62/62 tests ✅
+- [ ] Routes QA passing: `npm run qa:routes` (Playwright; también en CI)
+  - Expected: 40/40 checks ✅ (rutas + secciones + hero mobile)
 - [ ] Build succeeds: `npm run build`
   - Expected: No errors, dist/ folder created ✅
 - [ ] TypeScript check passes: `npx tsc --noEmit`
   - Expected: No type errors ✅
 - [ ] Linting passes: `npm run lint` (if configured)
   - Expected: No errors ✅
+- [ ] `npm run sync:images` sin errores (capturas dedicadas en `public/images/`)
 
 ### Phase 4: Manual Testing ✅
 
@@ -36,7 +38,8 @@ Run preview: `npm run preview` and verify:
 
 #### Core Functionality
 - [ ] Homepage loads without errors
-- [ ] Hero section displays correctly with metrics
+- [ ] Hero buscador: sugerencias visibles en mobile (390px) sin focus
+- [ ] Hero section displays correctly
 - [ ] Navigation menu works (all links)
 - [ ] Mobile menu works (<768px)
 

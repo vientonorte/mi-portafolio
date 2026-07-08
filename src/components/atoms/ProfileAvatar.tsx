@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { User } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { getPortfolioImages } from "../../lib/image-overrides";
-import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
+import { useImageManifestVersion } from "../../lib/image-manifest-context";
 
 interface ProfileAvatarProps {
   className?: string;

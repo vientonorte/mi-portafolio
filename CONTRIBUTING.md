@@ -191,7 +191,8 @@ Antes de marcar PR como "Ready for review":
 - [ ] Código pasa todos los tests locales
 - [ ] Código pasa lint sin warnings
 - [ ] Build exitoso sin errores
-- [ ] CI pipeline completamente verde
+- [ ] CI pipeline completamente verde (incl. job `qa-routes` si aplica)
+- [ ] `npm run qa:routes` OK tras cambios de rutas o hero
 - [ ] Commits siguen Conventional Commits
 - [ ] PR title sigue Conventional Commits
 - [ ] Descripción clara del problema/solución

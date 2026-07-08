@@ -7,7 +7,7 @@ import { CaseStudyCard } from "../molecules/CaseStudyCard";
 import { StatCard } from "../molecules/StatCard";
 import { Button } from '../ui/button';
 import { getFeaturedCaseStudies } from "../../data/case-study-cards";
-import { useImageManifestVersion } from "../../lib/ImageManifestProvider";
+import { useImageManifestVersion } from "../../lib/image-manifest-context";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { UpcomingCaseCards } from "./UpcomingCaseCards";

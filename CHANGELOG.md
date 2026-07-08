@@ -5,6 +5,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-08] — QA rutas, hero mobile, assets consultoría
+
+### Added
+- **`scripts/qa-routes.mjs`** + `npm run qa:routes`: Playwright valida 39 rutas, secciones ancla, imágenes y sugerencias hero en mobile.
+- Job **`qa-routes`** en CI (build + serve + Playwright chromium).
+- **`useIsSmDown()`** (breakpoint Tailwind `sm`) para layout hero responsive.
+- **`ROUTES.adminPhotos`** y validación `require_public` en `sync:images` (X CMS, Célula Evolutiva).
+
+### Changed
+- **Hero mobile:** sugerencias inline siempre visibles (&lt;640px); desktop mantiene dropdown al focus.
+- **Manifest imágenes:** fetch solo en `/admin/fotos` (evita CORS en GitHub Pages).
+- Nav mobile: **LogoMark**; auditoría con CTA consultoría Marco (sin embed ADPList).
+- Playwright como **devDependency**.
+
+### Fixed
+- Crash `/consultoria` y `#valor`: claves `consultoria.xCmsDashboard` y `sura.celulaEvolutivaFlow` en `portfolioImages`.
+- Hero: `overflow-hidden` recortaba dropdown; ahora `overflow-x-hidden` + blur aislado.
+
+### Documented
+- `MAINTENANCE_GUIDE`: `qa:routes`, manifest Worker, hero buscador.
+- Pendiente externo: CORS en Worker (`Access-Control-Allow-Origin`) para overrides públicos con `VITE_IMAGE_MANIFEST_PUBLIC=true`.
+
+---
+
 ## [2026-07-07] — Contacto Google Forms, hero buscador
 
 ### Added

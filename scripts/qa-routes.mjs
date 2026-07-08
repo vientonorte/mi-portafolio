@@ -154,6 +154,24 @@ async function checkRoute(page, { path, label }) {
   }
 }
 
+async function checkHeroMobileSuggestions(browser) {
+  const ctx = await browser.newContext({
+    serviceWorkers: 'block',
+    viewport: { width: 390, height: 844 },
+  });
+  const mPage = await ctx.newPage();
+  try {
+    await mPage.goto(hashUrl('/'), { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await mPage.waitForSelector('#hero-search-label', { timeout: 25000 });
+    const visible = await mPage.getByRole('option').first().isVisible();
+    return { label: 'Hero mobile sugerencias', ok: visible, errors: visible ? [] : ['sugerencias no visibles en mobile'] };
+  } catch (err) {
+    return { label: 'Hero mobile sugerencias', ok: false, errors: [err.message.split('\n')[0]] };
+  } finally {
+    await ctx.close();
+  }
+}
+
 async function checkSection(page, { path, sectionId, label, lazy = false }) {
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -217,6 +235,10 @@ async function main() {
   }
 
   await page.close();
+
+  const heroMobile = await checkHeroMobileSuggestions(browser);
+  results.push(heroMobile);
+  console.log(heroMobile.ok ? `✅ ${heroMobile.label}` : `❌ ${heroMobile.label} — ${heroMobile.errors.join('; ')}`);
 
   console.log('\n📍 Secciones ancla\n');
   const sectionPage = await context.newPage();
