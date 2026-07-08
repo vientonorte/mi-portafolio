@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { Contact } from "@/components/organisms/Contact";
@@ -41,11 +41,21 @@ function renderContact(props: { contactDraft?: Parameters<typeof Contact>[0]["co
   );
 }
 
+function getTabPanel(tabName: RegExp) {
+  const tab = screen.getByRole("tab", { name: tabName });
+  const tabPanelId = tab.getAttribute("aria-controls");
+  if (!tabPanelId) throw new Error(`Tab ${tabName} missing aria-controls`);
+  const panel = document.getElementById(tabPanelId);
+  if (!panel) throw new Error(`Tab panel ${tabPanelId} not found`);
+  return within(panel);
+}
+
 function getFormPanel() {
-  const formTab = screen.getByRole("tab", { name: /Escribir directo/i });
-  const tabPanelId = formTab.getAttribute("aria-controls");
-  if (!tabPanelId) throw new Error("Form tab missing aria-controls");
-  return within(document.getElementById(tabPanelId)!);
+  return getTabPanel(/Escribir directo/i);
+}
+
+function getAssistantPanel() {
+  return getTabPanel(/Asistente/i);
 }
 
 describe("Contact integration — sessionStorage", () => {
@@ -117,47 +127,48 @@ describe("Contact integration — sessionStorage", () => {
     });
 
     expect(screen.getByRole("tab", { name: /Asistente/i })).toHaveAttribute("data-state", "active");
-    expect(screen.getByDisplayValue("Mensaje desde onboarding")).toBeInTheDocument();
+
+    const assistant = getAssistantPanel();
+    expect(assistant.getByDisplayValue("Mensaje desde onboarding")).toBeInTheDocument();
   });
 });
 
 describe("Contact integration — persist debounce", () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-    clearContactSession();
-  });
-
   afterEach(() => {
-    vi.useRealTimers();
     clearContactSession();
     vi.clearAllMocks();
   });
 
   it("persists edits to sessionStorage after debounce without consent", async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const user = userEvent.setup();
     renderContact();
 
     await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
 
     const form = getFormPanel();
-    await user.type(form.getByLabelText(/^Nombre/i), "Ana");
-    await user.type(form.getByLabelText(/^Email/i), "ana@example.com");
-    await user.type(form.getByLabelText(/^Mensaje/i), "Consulta de integración");
+    fireEvent.change(form.getByLabelText(/^Nombre/i), { target: { name: "name", value: "Ana" } });
+    fireEvent.change(form.getByLabelText(/^Email/i), {
+      target: { name: "email", value: "ana@example.com" },
+    });
+    fireEvent.change(form.getByLabelText(/^Mensaje/i), {
+      target: { name: "message", value: "Consulta de integración" },
+    });
 
     expect(readContactSession()).toBeNull();
 
-    await vi.advanceTimersByTimeAsync(280);
-
-    await waitFor(() => {
-      expect(readContactSession()).toEqual(
-        expect.objectContaining({
-          name: "Ana",
-          email: "ana@example.com",
-          message: "Consulta de integración",
-          activeTab: "form",
-        })
-      );
-    });
+    await waitFor(
+      () => {
+        expect(readContactSession()).toEqual(
+          expect.objectContaining({
+            name: "Ana",
+            email: "ana@example.com",
+            message: "Consulta de integración",
+            activeTab: "form",
+          })
+        );
+      },
+      { timeout: 800 }
+    );
 
     const raw = sessionStorage.getItem("vn-contact-session-v1");
     expect(raw).not.toContain("consent");
@@ -188,17 +199,22 @@ describe("Contact integration — clear on submit", () => {
     await user.click(form.getByRole("button", { name: /Enviar mensaje/i }));
 
     await waitFor(() => {
-      expect(readContactSession()).toBeNull();
+      expect(mockedSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "Enviar",
+          email: "enviar@example.com",
+          message: "Mensaje listo para enviar",
+          consent: true,
+          source: "form",
+        })
+      );
     });
 
-    expect(mockedSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({
-        name: "Enviar",
-        email: "enviar@example.com",
-        message: "Mensaje listo para enviar",
-        consent: true,
-        source: "form",
-      })
+    await waitFor(
+      () => {
+        expect(readContactSession()).toBeNull();
+      },
+      { timeout: 800 }
     );
   });
 });
