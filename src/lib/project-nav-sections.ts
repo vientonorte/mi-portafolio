@@ -16,6 +16,7 @@ export function buildProjectNavSections(
     hasProcess: boolean;
     hasResults: boolean;
     hasEvidence: boolean;
+    hasFigmaEmbed?: boolean;
   }
 ): NavSection[] {
   const es = language === "es";
@@ -37,6 +38,14 @@ export function buildProjectNavSections(
     sections.push({
       id: "results",
       label: es ? "Resultados" : "Results",
+      number: pad(index),
+    });
+    index += 1;
+  }
+  if (flags.hasFigmaEmbed) {
+    sections.push({
+      id: "figma-embed",
+      label: es ? "Enablement" : "Enablement",
       number: pad(index),
     });
     index += 1;

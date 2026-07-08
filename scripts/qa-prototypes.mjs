@@ -13,27 +13,17 @@ import { chromium } from 'playwright';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = (process.argv[2] || 'https://vientonorte.github.io/mi-portafolio').replace(/\/$/, '');
 
-/** Documentado en CHANGELOG — aún sin ruta pública en el portfolio */
-const BACKLOG_PROTOTYPES = [
+/** Embeds Figma cableados en fases/proyectos (src/data/figma-embeds.ts) */
+const ACTIVE_FIGMA_EMBEDS = [
   {
-    id: 'figjam-ux-testing',
-    label: 'FigJam · Template crítica de diseño',
-    url: 'https://www.figma.com/board/WQ3yWzgIrOSZXTuExwRzS9/Template-cr%C3%ADtica-de-dise%C3%B1o',
-    target: '/proceso/fase/ux-testing',
-    ref: 'CHANGELOG / SESSION-2026-07-07',
+    path: '/proceso/fase/ux-testing',
+    needles: ['WQ3yWzgIrOSZXTuExwRzS9', 'embed.figma.com/board'],
+    label: 'UX Testing · FigJam crítica',
   },
   {
-    id: 'figma-slides-colombia',
-    label: 'Figma Slides · Tutoría SURA Asesor Colombia',
-    url: 'https://www.figma.com/slides/xxKiHNAOPDpxmfuqyE7N72/PPT-TUTORIA-SURA-ASESOR-COLOMBIA',
-    target: '/proyecto/sura-ux-enterprise',
-    ref: 'CHANGELOG / SESSION-2026-07-07',
-  },
-  {
-    id: 'poc-backlog-97',
-    label: 'Nuevos POCs sin externalLink en repo',
-    note: 'Issue #97 — seguir patrón en MAINTENANCE_GUIDE § Backlog POCs',
-    ref: 'MAINTENANCE_GUIDE',
+    path: '/proyecto/sura-ux-enterprise',
+    needles: ['xxKiHNAOPDpxmfuqyE7N72', 'embed.figma.com/slides'],
+    label: 'SURA Enterprise · Figma Slides Colombia',
   },
 ];
 
@@ -271,25 +261,24 @@ async function checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles) 
   return results;
 }
 
-async function checkBacklogNotWired(page) {
-  const results = [];
-  for (const item of BACKLOG_PROTOTYPES) {
-    if (!item.target) {
-      results.push({ label: `Backlog · ${item.id}`, ok: true, skipped: true, note: item.note });
-      continue;
-    }
-    await visit(page, item.target, 2000);
-    const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
-    const wired = item.url && haystack.includes(urlNeedle(item.url));
-    results.push({
-      label: `Backlog · ${item.id}`,
-      ok: !wired,
-      skipped: true,
-      errors: wired ? [`ya cableado en ${item.target} — mover a manifest activo`] : [],
-      note: wired ? undefined : `pendiente (${item.ref})`,
-    });
+function parsePendingPocs(ts) {
+  const pending = [];
+  for (const block of ts.matchAll(/id:\s*"([^"]+)"[\s\S]*?status:\s*"(draft|ready)"/g)) {
+    pending.push(block[1]);
   }
-  return results;
+  return pending;
+}
+
+function reportPocBacklog() {
+  const ts = readSrc('src/data/poc-registry.ts');
+  const pending = parsePendingPocs(ts);
+  if (pending.length === 0) {
+    console.log('⏭️  Backlog · poc-registry — sin POCs draft/ready (issue #97)');
+    return;
+  }
+  console.log(
+    `⏭️  Backlog · poc-registry — ${pending.length} POC(s) pendiente(s): ${pending.join(', ')}`
+  );
 }
 
 function logResult(r) {
@@ -347,6 +336,13 @@ async function main() {
   results.push(consultoriaCheck);
   logResult(consultoriaCheck);
 
+  console.log('\n🧩 Figma embeds (FigJam / Slides)\n');
+  for (const embed of ACTIVE_FIGMA_EMBEDS) {
+    const r = await checkPageNeedles(page, embed);
+    results.push(r);
+    logResult(r);
+  }
+
   console.log('\n🎯 Arsenal — clicks externos\n');
   for (const r of await checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles)) {
     results.push(r);
@@ -354,9 +350,7 @@ async function main() {
   }
 
   console.log('\n📋 Backlog documentado (no bloquea CI)\n');
-  for (const r of await checkBacklogNotWired(page)) {
-    logResult(r);
-  }
+  reportPocBacklog();
 
   await browser.close();
 

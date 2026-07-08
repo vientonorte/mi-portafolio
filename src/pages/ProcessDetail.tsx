@@ -16,6 +16,7 @@ import { canonicalFromPath, processPageSeo, trimMetaDescription } from "../lib/s
 import { ROUTES } from "../lib/routes";
 import { useNavigate } from "react-router-dom";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
+import { FigmaEmbed } from "../components/molecules/FigmaEmbed";
 
 interface ProcessDetailProps {
   processId: string;
@@ -291,6 +292,18 @@ export default function ProcessDetail({ processId, onBack, onNavigateToPortfolio
           </div>
         </div>
       </section>
+
+      {processData.figmaPlaybook && (
+        <section className="py-16 md:py-24 px-4">
+          <div className="container max-w-7xl mx-auto">
+            <FigmaEmbed
+              config={processData.figmaPlaybook}
+              language={language}
+              sectionId="figma-playbook"
+            />
+          </div>
+        </section>
+      )}
 
       {/* Related Projects Section */}
       <section className="py-16 md:py-24 px-4">

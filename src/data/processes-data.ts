@@ -1,4 +1,6 @@
-import { BarChart3, Search, Palette, TestTube, RefreshCw } from "lucide-react";
+import { BarChart3, Search, Palette, TestTube, RefreshCw, type LucideIcon } from "lucide-react";
+import type { FigmaEmbedConfig } from "./figma-embeds";
+import { FIGJAM_UX_TESTING_CRITICA } from "./figma-embeds";
 
 export interface ProcessMethod {
   title: string;
@@ -28,7 +30,7 @@ export interface ProcessToolCategory {
 
 export interface ProcessDetailData {
   id: string;
-  icon: any;
+  icon: LucideIcon;
   title: string;
   titleEN: string;
   question: string;
@@ -59,6 +61,8 @@ export interface ProcessDetailData {
   };
   benefits: string[];
   benefitsEN: string[];
+  /** FigJam / Slides embebidos como playbook de la fase */
+  figmaPlaybook?: FigmaEmbedConfig;
 }
 
 export const processesData: Record<string, ProcessDetailData> = {
@@ -587,6 +591,7 @@ export const processesData: Record<string, ProcessDetailData> = {
       "Fast and cost-effective iteration",
       "Higher success rate in production",
     ],
+    figmaPlaybook: FIGJAM_UX_TESTING_CRITICA,
   },
 
   "refinamiento": {

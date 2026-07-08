@@ -378,11 +378,12 @@ Icono: mapear `id` en `PATH_ICONS` de `FeaturedCaseNavigator.tsx`.
 
 | Asset | Uso recomendado | Dónde |
 |-------|-----------------|-------|
-| FigJam crítica de diseño | Playbook de taller | `/proceso/fase/ux-testing` |
+| FigJam crítica de diseño | Playbook de taller | `/proceso/fase/ux-testing` ✅ |
 | FigJam PORTAFOLIO | Auditoría ejemplo | `/auditoria` (ya integrado) |
-| Slides tutoría asesor CO | Enablement regional | `/proyecto/sura-ux-enterprise` |
+| Slides tutoría asesor CO | Enablement regional | `/proyecto/sura-ux-enterprise` ✅ |
 
-Patrón futuro: campo opcional `playbook` en `processes-data.ts` + componente `FigJamEmbed` (ver `AuditoriaPortfolio.tsx`).
+Patrón: `src/data/figma-embeds.ts` + `FigmaEmbed.tsx` + `figmaPlaybook` en `processes-data.ts` o `figmaEmbed` en `projects-data.ts`.
+Nuevos POCs: cola en `src/data/poc-registry.ts` (issue #97) antes de promover a `projects-data.ts`.
 
 ### Demos consultoría (Figma Make)
 

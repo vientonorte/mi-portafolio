@@ -24,6 +24,8 @@ import { CompanyLogo } from "../components/atoms/CompanyLogo";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, projectPageSeo } from "../lib/seo";
 import { getProjectSeoKeywords } from "../lib/project-metrics";
+import { FigmaEmbed } from "../components/molecules/FigmaEmbed";
+import type { FigmaEmbedConfig } from "../data/figma-embeds";
 
 interface ProcessApplied {
   id: string;
@@ -63,6 +65,7 @@ interface ProjectData {
   }[];
   details?: Pick<ProjectDetails, "mockups">;
   externalLink?: string;
+  figmaEmbed?: FigmaEmbedConfig;
 }
 
 // SURA enhanced project structure
@@ -94,6 +97,7 @@ interface EnhancedProject {
   teamSize?: string;
   details: ProjectDetails;
   externalLink?: string;
+  figmaEmbed?: FigmaEmbedConfig;
 }
 
 interface ProjectDetailProps {
@@ -155,12 +159,14 @@ export default function ProjectDetail({
   const hasEvidence = hasDesignArtifacts || hasMockupTiles;
   const projectId = project.id;
   const externalLink = "externalLink" in project ? project.externalLink : undefined;
+  const figmaEmbed = "figmaEmbed" in project ? project.figmaEmbed : undefined;
   const pageSeo = projectPageSeo(projectName, hubName, project.description, language);
 
   const navigationSections = buildProjectNavSections(language, {
     hasProcess,
     hasResults,
     hasEvidence,
+    hasFigmaEmbed: Boolean(figmaEmbed),
   });
 
   const fadeInVariant = {
@@ -419,6 +425,26 @@ export default function ProjectDetail({
             </div>
           </div>
         </section>
+
+        {figmaEmbed && (
+          <section
+            id="figma-embed"
+            className="py-16 md:py-24 px-4 bg-muted/30 scroll-mt-20"
+            aria-labelledby="figma-embed-heading"
+          >
+            <div className="container max-w-7xl mx-auto">
+              <SectionDivider
+                number={navNumberFor(navigationSections, "figma-embed")}
+                label={language === "es" ? "Enablement regional" : "Regional enablement"}
+                sectionId="figma-embed"
+                language={language}
+              />
+              <div className="mt-12">
+                <FigmaEmbed config={figmaEmbed} language={language} />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Process Section */}
         {!isEnhanced && project.processesApplied && project.processesApplied.length > 0 && (
