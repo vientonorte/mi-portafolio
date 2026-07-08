@@ -1,21 +1,16 @@
 import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
-import { LanguageToggle } from "../atoms/LanguageToggle";
-import { ThemeToggle } from "../atoms/ThemeToggle";
-import { Logo } from "../atoms/Logo";
-import { X } from "lucide-react";
-import {
-  MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
-  MOBILE_HEADER_CONTROL_CLASS,
-} from "./mobile-header-classes";
 import { cn } from "../../lib/utils";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
-import { SEO_SITE } from "../../lib/seo";
 import { ROUTES } from "../../lib/routes";
 import { navigateToPageSection } from "../../lib/navigate-to-section";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { useLanguage } from "../../lib/LanguageContext";
+import { useTranslation } from "../../lib/i18n";
+import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
+import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -70,8 +65,10 @@ export function MobileMenu({
 }: MobileMenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { language } = useLanguage();
+  const footer = useTranslation(language).footer;
   const menuRef = useRef<HTMLDivElement>(null);
-  const firstFocusableRef = useRef<HTMLButtonElement>(null);
+  const firstNavRef = useRef<HTMLButtonElement>(null);
   const pendingScroll = useRef<string | null>(null);
 
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -84,7 +81,7 @@ export function MobileMenu({
     if (!isOpen) return;
 
     const frame = requestAnimationFrame(() => {
-      firstFocusableRef.current?.focus();
+      firstNavRef.current?.focus();
     });
 
     const handleTab = (e: KeyboardEvent) => {
@@ -187,6 +184,8 @@ export function MobileMenu({
     scrollToSection(item.href);
   }, [location.pathname, navigate, onClose, onNavigateToDesignSystem, onNavigateToCaseStudies, onNavigateToAuditoria]);
 
+  const quickLinksLabel = language === "es" ? "Enlaces rápidos" : "Quick links";
+
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
@@ -213,29 +212,13 @@ export function MobileMenu({
               paddingRight: "max(1rem, env(safe-area-inset-right, 0px))",
             }}
             role="dialog"
-            aria-label="Menú de navegación móvil"
+            aria-label={language === "es" ? "Menú de navegación móvil" : "Mobile navigation menu"}
             aria-modal="true"
             id="mobile-menu"
           >
-            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/40 bg-background py-3">
-              <div className="min-w-0 flex-1">
-                <Logo size="sm" interactive showRole={false} />
-              </div>
-              <Button
-                ref={firstFocusableRef}
-                variant="ghost"
-                size="icon"
-                onClick={onClose}
-                aria-label="Cerrar menú de navegación"
-                className={cn(MOBILE_HEADER_CONTROL_CLASS, MOBILE_HEADER_CONTROL_ACTIVE_CLASS)}
-              >
-                <X className="h-5 w-5 text-current" aria-hidden="true" />
-              </Button>
-            </div>
-
             <nav
-              className="flex min-h-0 flex-1 flex-col overflow-y-auto py-2"
-              aria-label="Menú móvil"
+              className="flex min-h-0 flex-1 flex-col overflow-y-auto pt-2"
+              aria-label={language === "es" ? "Menú móvil" : "Mobile menu"}
             >
               <ul className="flex w-full flex-col gap-0.5" role="list">
                 {navItems.map((item, index) => {
@@ -253,6 +236,7 @@ export function MobileMenu({
                         </p>
                       )}
                       <Button
+                        ref={index === 0 ? firstNavRef : undefined}
                         variant="ghost"
                         aria-current={active ? "page" : undefined}
                         className={cn(
@@ -272,16 +256,51 @@ export function MobileMenu({
             </nav>
 
             <div
-              className="shrink-0 space-y-3 border-t border-border/40 bg-muted/30 px-0 py-4 dark:bg-muted/20"
+              className="shrink-0 border-t border-border/40 bg-muted/20 px-0 py-4 dark:bg-muted/10"
               style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 0px))" }}
             >
-              <div className="flex items-center justify-center gap-3">
-                <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
-                <LanguageToggle />
-              </div>
-              <p className="text-center text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground">
-                {SEO_SITE.brand} · {SEO_SITE.role}
+              <p className="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {quickLinksLabel}
               </p>
+              <ul className="flex flex-wrap gap-2 px-4" role="list">
+                <li>
+                  <a
+                    href={getContactMailtoUrl()}
+                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
+                  >
+                    {footer.contact}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={SITE_CONTACT.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
+                  >
+                    {footer.linkedin}
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    to="/privacy"
+                    onClick={onClose}
+                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
+                  >
+                    {footer.privacy}
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href={VIENTO_NORTE_LINKS.uxtools}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
+                  >
+                    {footer.uxtools}
+                  </a>
+                </li>
+              </ul>
             </div>
           </motion.div>
         </>
