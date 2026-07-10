@@ -116,7 +116,8 @@ export function NavDock({ variant }: NavDockProps) {
             >
               {isCenter ? (
                 <LiquidNavCta
-                  label={item.label}
+                  /* Solo texto bajo el isologo — sin ✦ ni Lucide (logo = único glifo) */
+                  label={language === "es" ? "Consultoría" : "Consulting"}
                   active={active}
                   onClick={() => handleTap(item)}
                   ariaLabel={
