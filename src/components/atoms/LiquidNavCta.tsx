@@ -28,11 +28,10 @@ export function LiquidNavCta({
       className={cn(
         "liquid-nav-cta",
         "group flex h-16 w-full min-h-[44px] flex-col items-center justify-end gap-1 px-0.5 pb-1",
-        "rounded-lg transition-[transform,background-color] duration-200",
+        "rounded-md transition-colors duration-200 ease-out",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "active:scale-[0.97]",
-        "hover:bg-primary/5",
-        active && "liquid-nav-cta--active bg-primary/8"
+        "active:opacity-90",
+        active && "liquid-nav-cta--active"
       )}
       aria-label={ariaLabel ?? label}
       aria-current={active ? "page" : undefined}
@@ -53,8 +52,10 @@ export function LiquidNavCta({
       {/* Solo texto: sin icono adicional al logo */}
       <span
         className={cn(
-          "bottom-nav-mobile__label max-w-full truncate",
-          active ? "font-semibold text-primary" : "font-medium"
+          "bottom-nav-mobile__label max-w-full truncate transition-colors duration-200",
+          active
+            ? "font-semibold text-primary"
+            : "font-medium text-[color:var(--bottom-nav-inactive,#525252)] group-hover:text-primary"
         )}
       >
         {label}
