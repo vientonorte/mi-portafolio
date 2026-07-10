@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -17,9 +18,8 @@ import { TranslationProvider } from "./i18n/TranslationContext";
 
 interface LanguageContextType {
   language: Language;
-  /** Cambia idioma solo cuando el diccionario ya está en cache (sin carrera EN↔ES). */
+  /** Swap simétrico ES↔EN: language + diccionario en el mismo commit de React. */
   setLanguage: (lang: Language) => void;
-  /** true mientras se carga el locale destino (toggle). */
   isSwitching: boolean;
 }
 
@@ -35,88 +35,111 @@ function readStoredLanguage(): Language {
   return "es";
 }
 
+function persistLanguage(lang: Language) {
+  try {
+    localStorage.setItem("language", lang);
+  } catch {
+    /* ignore */
+  }
+}
+
+type LocaleState = {
+  language: Language;
+  dictionary: Translation | null;
+};
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const initialLang = readStoredLanguage();
-  const [language, setLanguageState] = useState<Language>(initialLang);
-  const [dictionary, setDictionary] = useState<Translation | null>(() =>
-    isTranslationLoaded(initialLang) ? getTranslationSync(initialLang) : null
-  );
+
+  const [locale, setLocale] = useState<LocaleState>(() => ({
+    language: initialLang,
+    dictionary: isTranslationLoaded(initialLang)
+      ? getTranslationSync(initialLang)
+      : null,
+  }));
   const [isSwitching, setIsSwitching] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Bootstrap: locale activo + precarga del otro (cambios EN↔ES sin gap)
+  // Bootstrap: carga ES+EN y activa el guardado; sin gap al invertir el toggle
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        const dict = await loadTranslation(initialLang);
+        const all = await preloadAllTranslations();
         if (cancelled) return;
-        setDictionary(dict);
-        // Segundo locale en background — no bloquea first paint
-        void preloadAllTranslations().catch((err) => {
-          console.warn("[i18n] preloadAllTranslations", err);
-        });
+        const lang = readStoredLanguage();
+        setLocale({ language: lang, dictionary: all[lang] });
       } catch (err) {
         if (cancelled) return;
         console.error("[i18n] bootstrap failed", err);
-        setLoadError(
-          initialLang === "es"
-            ? "No se pudo cargar el idioma. Recarga la página."
-            : "Could not load language. Please reload."
-        );
+        // Fallback: al menos el locale inicial
+        try {
+          const dict = await loadTranslation(initialLang);
+          if (cancelled) return;
+          setLocale({ language: initialLang, dictionary: dict });
+        } catch (err2) {
+          if (cancelled) return;
+          console.error("[i18n] fallback load failed", err2);
+          setLoadError(
+            initialLang === "es"
+              ? "No se pudo cargar el idioma. Recarga la página."
+              : "Could not load language. Please reload."
+          );
+        }
       }
     })();
 
     return () => {
       cancelled = true;
     };
-    // solo al montar
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- initialLang capturado al mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- solo mount
   }, []);
 
   const setLanguage = useCallback((lang: Language) => {
-    if (lang === language) return;
+    setLocale((prev) => {
+      if (lang === prev.language) return prev;
 
-    // Ya en cache: swap atómico language + dictionary
-    if (isTranslationLoaded(lang)) {
-      setDictionary(getTranslationSync(lang));
-      setLanguageState(lang);
-      try {
-        localStorage.setItem("language", lang);
-      } catch {
-        /* ignore */
+      // Cache hit (típico tras preload): un solo setState → sin carrera ES→EN ni EN→ES
+      if (isTranslationLoaded(lang)) {
+        persistLanguage(lang);
+        return { language: lang, dictionary: getTranslationSync(lang) };
       }
-      return;
-    }
 
-    // No en cache: cargar primero, luego commitear ambos juntos
-    setIsSwitching(true);
-    setLoadError(null);
-    loadTranslation(lang)
-      .then((dict) => {
-        setDictionary(dict);
-        setLanguageState(lang);
-        try {
-          localStorage.setItem("language", lang);
-        } catch {
-          /* ignore */
-        }
-      })
-      .catch((err: unknown) => {
-        console.error("[i18n] setLanguage failed", lang, err);
-        setLoadError(
-          language === "es"
-            ? "No se pudo cambiar el idioma. Intenta de nuevo."
-            : "Could not switch language. Please try again."
-        );
-      })
-      .finally(() => {
-        setIsSwitching(false);
-      });
-  }, [language]);
+      // Cache miss: carga async y un solo setState al resolver
+      setIsSwitching(true);
+      setLoadError(null);
+      loadTranslation(lang)
+        .then((dict) => {
+          persistLanguage(lang);
+          setLocale({ language: lang, dictionary: dict });
+        })
+        .catch((err: unknown) => {
+          console.error("[i18n] setLanguage failed", lang, err);
+          setLoadError(
+            prev.language === "es"
+              ? "No se pudo cambiar el idioma. Intenta de nuevo."
+              : "Could not switch language. Please try again."
+          );
+        })
+        .finally(() => {
+          setIsSwitching(false);
+        });
 
-  if (loadError && !dictionary) {
+      return prev;
+    });
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      language: locale.language,
+      setLanguage,
+      isSwitching,
+    }),
+    [locale.language, setLanguage, isSwitching]
+  );
+
+  if (loadError && !locale.dictionary) {
     return (
       <div
         className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-4 text-center"
@@ -134,7 +157,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!dictionary) {
+  if (!locale.dictionary) {
     return (
       <div
         className="min-h-screen bg-background"
@@ -148,8 +171,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, isSwitching }}>
-      <TranslationProvider dictionary={dictionary}>{children}</TranslationProvider>
+    <LanguageContext.Provider value={value}>
+      <TranslationProvider dictionary={locale.dictionary}>
+        {children}
+      </TranslationProvider>
     </LanguageContext.Provider>
   );
 }

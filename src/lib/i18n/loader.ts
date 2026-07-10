@@ -32,10 +32,11 @@ export async function loadTranslation(lang: Language): Promise<Translation> {
 
 /**
  * Diccionario ya cargado. Preferir `useTranslation()` en React.
- * Fallback a cualquier locale en cache para no tumbar la app por carrera HMR/prefetch.
+ * No hace fallback silencioso a otro idioma (evita UI EN con labels ES o al revés).
+ * Si el locale no está en cache, lanza — LanguageProvider debe garantizar preload ES+EN.
  */
 export function getTranslationSync(lang: Language): Translation {
-  const dict = cache[lang] ?? cache.es ?? cache.en;
+  const dict = cache[lang];
   if (!dict) {
     throw new Error(
       `Translation "${lang}" is not loaded yet — wait for LanguageProvider / loadTranslation()`
