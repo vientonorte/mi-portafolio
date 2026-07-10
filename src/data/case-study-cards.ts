@@ -68,6 +68,3 @@ export function getFeaturedCaseStudies(language: Language = "es"): CaseStudyCard
     };
   });
 }
-
-/** Snapshot al cargar el módulo; en runtime preferir getFeaturedCaseStudies(language) */
-export const featuredCaseStudies = getFeaturedCaseStudies();
