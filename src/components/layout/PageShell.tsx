@@ -7,13 +7,25 @@ interface PageShellProps {
   children: ReactNode;
   trailing?: ReactNode;
   className?: string;
+  /** Clase extra del área de contenido (padding, etc.) */
+  contentClassName?: string;
 }
 
-export function PageShell({ crumbs, children, trailing, className }: PageShellProps) {
+/**
+ * Shell de subpágina: toolbar sticky + contenido con ritmo de padding unificado.
+ * No duplicar ThemeToggle en trailing (ya va en SubpageToolbar).
+ */
+export function PageShell({
+  crumbs,
+  children,
+  trailing,
+  className,
+  contentClassName,
+}: PageShellProps) {
   return (
     <div className={cn("page-shell min-h-screen bg-background", className)}>
       <SubpageToolbar crumbs={crumbs} trailing={trailing} />
-      {children}
+      <div className={cn("page-shell__content", contentClassName)}>{children}</div>
     </div>
   );
 }

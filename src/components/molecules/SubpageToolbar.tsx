@@ -36,12 +36,12 @@ export function SubpageToolbar({
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={cn(
-        "subpage-toolbar sticky top-0 z-50 backdrop-blur-xl bg-background/90 border-b border-border/40",
+        "subpage-toolbar sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/85",
         className
       )}
       role="banner"
     >
-      <div className="container max-w-7xl mx-auto px-4 py-3">
+      <div className="container mx-auto max-w-7xl px-4 py-2.5 sm:py-3">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             {showLogo && (

@@ -320,17 +320,21 @@ html.dark .liquid-nav-cta__halo {
   }
 }
 
-/* Sub-page toolbar: queda debajo del header fijo principal */
+/* Sub-page toolbar (sticky). En site mode queda bajo el header global. */
 .subpage-toolbar {
   position: sticky;
   top: var(--header-height);
   z-index: 40;
 }
 
-/* Páginas de detalle (proyecto / empresa / proceso): sin nav global duplicado */
+/*
+ * Subpáginas (todo excepto /): sin nav global.
+ * --header-height = altura del SubpageToolbar para scroll-mt, scrollToSection
+ * y que el contenido no quede “bajo” el sticky al anclar.
+ */
 html[data-nav="subpage"] {
-  --header-height: 0px;
-  scroll-padding-top: 0;
+  --header-height: 3.75rem; /* ~ py-3 + logo sm + border */
+  scroll-padding-top: calc(var(--header-height) + 0.5rem);
 }
 
 html[data-nav="subpage"] .subpage-toolbar {
@@ -339,21 +343,27 @@ html[data-nav="subpage"] .subpage-toolbar {
 }
 
 html[data-nav="subpage"] .subpage-hero {
-  scroll-margin-top: 4.5rem;
+  scroll-margin-top: calc(var(--header-height) + 0.75rem);
 }
 
 html[data-nav="subpage"] .process-nav-mobile {
-  --process-nav-mobile-top: 3.25rem;
+  --process-nav-mobile-top: var(--header-height);
 }
 
 html[data-nav="subpage"] [id].scroll-mt-20 {
-  scroll-margin-top: 7.5rem;
+  scroll-margin-top: calc(var(--header-height) + 0.75rem);
 }
 
-@media (min-width: 1280px) {
-  html[data-nav="subpage"] [id].scroll-mt-20 {
-    scroll-margin-top: 5rem;
+@media (min-width: 640px) {
+  html[data-nav="subpage"] {
+    --header-height: 4rem;
   }
+}
+
+/* Primera sección tras toolbar: menos aire superior (evita “vacío” enorme) */
+html[data-nav="subpage"] .page-shell > .page-shell__content > :first-child.section-pad-default,
+html[data-nav="subpage"] .page-shell > .page-shell__content > :first-child.section-pad-spacious {
+  padding-top: var(--section-pad-compact-y);
 }
 
 /*

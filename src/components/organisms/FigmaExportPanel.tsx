@@ -171,10 +171,10 @@ export function FigmaExportPanel() {
   return (
     <section
       id="figma-export"
-      className="section-pad-default scroll-mt-[calc(var(--header-height)+0.75rem)] bg-surface-matte"
+      className="section-pad-x scroll-mt-[calc(var(--header-height)+0.75rem)] bg-surface-matte py-8 md:py-12"
       aria-labelledby="figma-export-heading"
     >
-      <div className="container max-w-6xl mx-auto space-y-12">
+      <div className="container mx-auto max-w-6xl space-y-8 md:space-y-10">
         <SectionHeader
           badge="Figma"
           badgeIcon={Frame}
@@ -193,7 +193,7 @@ export function FigmaExportPanel() {
         />
 
         {/* Quick start steps */}
-        <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 list-none p-0 m-0">
+        <ol className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-4">
           {steps[language].map((step) => (
             <li key={step.n}>
               <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">

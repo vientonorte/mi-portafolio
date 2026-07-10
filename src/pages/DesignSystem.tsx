@@ -6,7 +6,6 @@ import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
 import { AudienceRolesSystem } from "../components/organisms/AudienceRolesSystem";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
 import { FigmaExportPanel } from "../components/organisms/FigmaExportPanel";
-import { ThemeToggle } from "../components/atoms/ThemeToggle";
 import { PageShell } from "../components/layout/PageShell";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { useLanguage } from "../lib/LanguageContext";
@@ -42,64 +41,76 @@ export default function DesignSystem() {
       crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
         { label: t.breadcrumbs.designSystem, current: true },
       ])}
-      trailing={<ThemeToggle />}
     >
       <SEOHead
         {...t.seo.pages.designSystem}
         keywords={t.seo.keywords}
         url={canonicalFromPath("/design-system")}
       />
-      <main>
-        <section className="section-pad-default">
-          <div className="container mx-auto max-w-6xl space-y-6 text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl mx-auto"
-            >
-              {es
-                ? "Sistema de diseño · Rodrigo Gaete"
-                : "Design system · Rodrigo Gaete"}
-            </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="max-w-2xl mx-auto text-muted-foreground text-lg"
-            >
-              {es
-                ? "Marca minimalista, tokens matte, 4 roles de consultoría (campañas IG · SEO · LinkedIn) y export Figma-ready (Tokens Studio, W3C DTCG, CSS y prompt AI)."
-                : "Minimal brand, matte tokens, 4 consulting roles (IG · SEO · LinkedIn campaigns), and Figma-ready export (Tokens Studio, W3C DTCG, CSS, and AI prompt)."}
-            </motion.p>
+      {/* Intro compacta: sin doble ThemeToggle ni vacío enorme bajo el sticky */}
+      <section
+        className="section-pad-x border-b border-border/40 pb-8 pt-6 md:pb-10 md:pt-8"
+        aria-labelledby="design-system-heading"
+      >
+        <div className="container mx-auto max-w-3xl space-y-4 text-center md:space-y-5">
+          <motion.h1
+            id="design-system-heading"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="text-balance text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"
+          >
+            {es
+              ? "Sistema de diseño · Rodrigo Gaete"
+              : "Design system · Rodrigo Gaete"}
+          </motion.h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-wrap items-center justify-center gap-3"
-            >
-              <Button onClick={quickDownloadTokensStudio} className="gap-2">
-                <Download className="h-4 w-4" aria-hidden />
-                {es ? "Exportar a Figma (JSON)" : "Export to Figma (JSON)"}
-              </Button>
-              <Button variant="outline" onClick={scrollToExport} className="gap-2">
-                <Frame className="h-4 w-4" aria-hidden />
-                {es ? "Guía de importación" : "Import guide"}
-              </Button>
-            </motion.div>
-          </div>
-        </section>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.06 }}
+            className="mx-auto max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground md:text-base"
+          >
+            {es
+              ? "Marca, tokens matte, 4 roles de consultoría y export Figma-ready (Tokens Studio, W3C DTCG, CSS y prompt AI)."
+              : "Brand, matte tokens, 4 consulting roles, and Figma-ready export (Tokens Studio, W3C DTCG, CSS, and AI prompt)."}
+          </motion.p>
 
-        <FigmaExportPanel />
-        <BrandIdentity />
-        <AudienceRolesSystem />
-        <DesignPrinciples />
-        <DesignTokens />
-        <ComponentsLibrary />
-        <PortfolioMaintenance />
-      </main>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.12 }}
+            className="flex flex-wrap items-center justify-center gap-2.5 pt-1"
+          >
+            <Button
+              size="default"
+              onClick={quickDownloadTokensStudio}
+              className="min-h-[44px] gap-2"
+            >
+              <Download className="h-4 w-4" aria-hidden />
+              {es ? "Exportar a Figma (JSON)" : "Export to Figma (JSON)"}
+            </Button>
+            <Button
+              size="default"
+              variant="outline"
+              onClick={scrollToExport}
+              className="min-h-[44px] gap-2"
+            >
+              <Frame className="h-4 w-4" aria-hidden />
+              {es ? "Guía de importación" : "Import guide"}
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      <FigmaExportPanel />
+      <BrandIdentity />
+      <AudienceRolesSystem />
+      <DesignPrinciples />
+      <DesignTokens />
+      <ComponentsLibrary />
+      <PortfolioMaintenance />
     </PageShell>
   );
 }
