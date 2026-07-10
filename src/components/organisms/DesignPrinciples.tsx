@@ -78,6 +78,17 @@ const principles = {
         "i18n ES/EN centralizado",
       ],
     },
+    {
+      icon: Target,
+      title: "4 roles · un sistema de mensaje",
+      description:
+        "Producto/PM, Design Ops, Datos/perímetro y Fundador comparten data con hero y campañas (IG Reels, SEO, LinkedIn).",
+      examples: [
+        "consultoria-hero-roles.ts como fuente única",
+        "Path 2×2 en hero sin métricas meta",
+        "DS #audience-roles para briefs de campaña",
+      ],
+    },
   ],
   en: [
     {
@@ -142,6 +153,17 @@ const principles = {
         "Horizontal logo in desktop nav; LogoMark in mobile and subpage toolbar",
         "SectionHeader + Card in sections",
         "Centralized ES/EN i18n",
+      ],
+    },
+    {
+      icon: Target,
+      title: "4 roles · one messaging system",
+      description:
+        "Product/PM, Design Ops, Data/perimeter, and Founder share data with hero and campaigns (IG Reels, SEO, LinkedIn).",
+      examples: [
+        "consultoria-hero-roles.ts as single source",
+        "2×2 path in hero without meta metrics",
+        "DS #audience-roles for campaign briefs",
       ],
     },
   ],

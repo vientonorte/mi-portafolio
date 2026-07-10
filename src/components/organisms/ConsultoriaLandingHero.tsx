@@ -8,6 +8,10 @@ import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
+import {
+  HERO_ROLES,
+  type HeroRoleId,
+} from "../../data/consultoria-hero-roles";
 
 interface ConsultoriaLandingHeroProps {
   onStartOnboarding?: (
@@ -17,19 +21,12 @@ interface ConsultoriaLandingHeroProps {
   onExploreEvidence?: () => void;
 }
 
-type SegmentId = "product" | "ops" | "compliance" | "founder";
-
-const SEGMENT_META: {
-  id: SegmentId;
-  icon: LucideIcon;
-  packageId: ConsultingPackageId;
-  c1Goal?: boolean;
-}[] = [
-  { id: "product", icon: Building2, packageId: "marco" },
-  { id: "ops", icon: Layers, packageId: "ops" },
-  { id: "compliance", icon: Lock, packageId: "marco", c1Goal: true },
-  { id: "founder", icon: Workflow, packageId: "radar" },
-];
+const ROLE_ICONS: Record<HeroRoleId, LucideIcon> = {
+  product: Building2,
+  ops: Layers,
+  compliance: Lock,
+  founder: Workflow,
+};
 
 /**
  * Hero consultoría — best practices de conversión + baja carga cognitiva:
@@ -63,12 +60,14 @@ export function ConsultoriaLandingHero({
     document.getElementById("valor")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const selectSegment = (seg: (typeof SEGMENT_META)[number]) => {
+  const selectSegment = (roleId: HeroRoleId) => {
+    const role = HERO_ROLES.find((r) => r.id === roleId);
+    if (!role) return;
     trackEvent("consultoria_hero_segment", {
-      segment: seg.id,
-      package_id: seg.packageId,
+      segment: role.id,
+      package_id: role.packageId,
     });
-    onStartOnboarding?.(seg.packageId, { c1Goal: seg.c1Goal });
+    onStartOnboarding?.(role.packageId, { c1Goal: role.c1Goal });
   };
 
   return (
@@ -161,15 +160,14 @@ export function ConsultoriaLandingHero({
             className="m-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2"
             role="list"
           >
-            {SEGMENT_META.map((seg) => {
-              const copy = t.segments[seg.id];
-              const Icon = seg.icon;
+            {HERO_ROLES.map((role) => {
+              const Icon = ROLE_ICONS[role.id];
 
               return (
-                <li key={seg.id} className="min-w-0">
+                <li key={role.id} className="min-w-0">
                   <motion.button
                     type="button"
-                    onClick={() => selectSegment(seg)}
+                    onClick={() => selectSegment(role.id)}
                     whileHover={
                       prefersReducedMotion ? undefined : { y: -1 }
                     }
@@ -192,10 +190,10 @@ export function ConsultoriaLandingHero({
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold tracking-tight text-foreground">
-                        {copy.title}
+                        {role.title[language]}
                       </span>
                       <span className="mt-0.5 block text-xs text-muted-foreground">
-                        {copy.hint}
+                        {role.hint[language]}
                       </span>
                     </span>
                     <ArrowRight

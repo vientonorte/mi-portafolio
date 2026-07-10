@@ -300,8 +300,13 @@ html[data-nav="subpage"] [id].scroll-mt-20 {
   }
 }
 
+/* Espacio inferior para dock (footer de links retirado) */
 html[data-nav="subpage"] .page-shell,
-html[data-nav="subpage"] .site-footer,
+.page-shell,
+main {
+  padding-bottom: var(--bottom-nav-total);
+}
+
 .site-footer {
   padding-bottom: var(--bottom-nav-total);
 }

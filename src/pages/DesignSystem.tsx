@@ -3,6 +3,7 @@ import { BrandIdentity } from "../components/organisms/BrandIdentity";
 import { DesignTokens } from "../components/organisms/DesignTokens";
 import { ComponentsLibrary } from "../components/organisms/ComponentsLibrary";
 import { DesignPrinciples } from "../components/organisms/DesignPrinciples";
+import { AudienceRolesSystem } from "../components/organisms/AudienceRolesSystem";
 import { PortfolioMaintenance } from "../components/organisms/PortfolioMaintenance";
 import { FigmaExportPanel } from "../components/organisms/FigmaExportPanel";
 import { ThemeToggle } from "../components/atoms/ThemeToggle";
@@ -68,8 +69,8 @@ export default function DesignSystem() {
               className="max-w-2xl mx-auto text-muted-foreground text-lg"
             >
               {es
-                ? "Marca minimalista, tokens matte y patrones de evidencia medible — con export Figma-ready (Tokens Studio, W3C DTCG, CSS y prompt AI)."
-                : "Minimal brand, matte tokens, and measurable-evidence patterns — with Figma-ready export (Tokens Studio, W3C DTCG, CSS, and AI prompt)."}
+                ? "Marca minimalista, tokens matte, 4 roles de consultoría (campañas IG · SEO · LinkedIn) y export Figma-ready (Tokens Studio, W3C DTCG, CSS y prompt AI)."
+                : "Minimal brand, matte tokens, 4 consulting roles (IG · SEO · LinkedIn campaigns), and Figma-ready export (Tokens Studio, W3C DTCG, CSS, and AI prompt)."}
             </motion.p>
 
             <motion.div
@@ -92,6 +93,7 @@ export default function DesignSystem() {
 
         <FigmaExportPanel />
         <BrandIdentity />
+        <AudienceRolesSystem />
         <DesignPrinciples />
         <DesignTokens />
         <ComponentsLibrary />
