@@ -1,5 +1,5 @@
 import { SectionHeader } from "../molecules/SectionHeader";
-import { ComponentShowcase } from "../molecules/ComponentShowcase";
+import { ComponentShowcase, type FigmaSpec } from "../molecules/ComponentShowcase";
 import { Button } from '../ui/button';
 import { Input } from "../ui/input";
 import { Badge } from '../ui/badge';
@@ -16,6 +16,107 @@ import { HeroResultCard } from "../atoms/HeroResultCard";
 import { ImpactMetricCard } from "../molecules/ImpactMetricCard";
 import { useLanguage } from "../../lib/LanguageContext";
 
+/** Specs compartidos ES/EN — handoff Figma 1:1 */
+const figmaSpecs = {
+  logo: {
+    componentSet: "Logo / RG",
+    variants: ["size=sm|md|lg", "showText=true|false", "mark-only"],
+    states: ["default", "hover (interactive)", "focus-visible"],
+    tokens: [
+      "color.brand.red / --brand-red",
+      "color.logo.plate / --logo-plate",
+      "effect.logo-plate-shadow",
+      "typography: Chillax Medium/Bold",
+    ],
+    layout: "Mark 32–64px · plate radius radius.sm · gap mark↔wordmark 8px",
+    a11y: "Focus ring 2px primary · target ≥ 44px si es control",
+  },
+  heroResult: {
+    componentSet: "HeroResultCard",
+    variants: ["withLogo", "metric emphasis"],
+    states: ["default", "hover"],
+    tokens: [
+      "color.surface.matte-elevated",
+      "color.logo.surface-border",
+      "typography.display for metric (mono/bold)",
+      "color.neutral.muted-foreground",
+    ],
+    layout: "Card padding 16–20px · gap 8px · logo wordmark-sm flat",
+    a11y: "Contraste métrica ≥ 4.5:1 · sin glass/blur",
+  },
+  impact: {
+    componentSet: "ImpactMetricCard",
+    variants: ["collapsed", "expanded (spoiler)", "tint=blue|amber|rose|violet"],
+    states: ["default", "hover", "focus", "pressed/tap"],
+    tokens: [
+      "color.stat.*",
+      "color.surface.matte-elevated",
+      "radius.xl",
+      "spacing.4–6",
+    ],
+    layout: "Min height ~120px · icon 40px · spoiler reveal on hover/tap",
+    a11y: "Keyboard activable · spoiler no solo por color · touch ≥ 44px",
+  },
+  button: {
+    componentSet: "Button",
+    variants: [
+      "variant=Primary|Secondary|Outline|Ghost|Destructive",
+      "size=sm|md|lg",
+    ],
+    states: ["default", "hover", "focus-visible", "disabled", "loading (optional)"],
+    tokens: [
+      "color.semantic.primary",
+      "color.semantic.primary-foreground",
+      "radius.md",
+      "spacing.2–4 padding",
+    ],
+    layout: "Height sm 36 / md 40 / lg 44+ · padding-x 12–16",
+    a11y: "Focus outline 2px · disabled aria · min height 44px en touch",
+  },
+  badge: {
+    componentSet: "Badge",
+    variants: ["variant=Default|Secondary|Outline|Destructive"],
+    states: ["default"],
+    tokens: ["radius.full", "typography.caption", "color.semantic.*"],
+    layout: "Height ~22–24px · padding-x 8–10 · pill",
+    a11y: "No usar solo color para significado",
+  },
+  card: {
+    componentSet: "Card",
+    variants: ["elevated matte", "default"],
+    states: ["default", "hover (border primary/20)"],
+    tokens: [
+      "color.surface.matte-elevated",
+      "color.logo.surface-border",
+      "radius.xl",
+      "spacing.4–6",
+    ],
+    layout: "Header gap 4 · Content padding 24 · shadow none en matte",
+    a11y: "Contraste título/body · estructura heading",
+  },
+  input: {
+    componentSet: "Input",
+    variants: ["default", "disabled"],
+    states: ["default", "hover", "focus", "disabled", "error (optional)"],
+    tokens: [
+      "color.neutral.border",
+      "color.neutral.muted",
+      "--input-background",
+      "radius.md",
+    ],
+    layout: "Height 40–44px · full width · padding-x 12",
+    a11y: "Label asociado · focus visible · error con texto",
+  },
+  alert: {
+    componentSet: "Alert",
+    variants: ["info", "default"],
+    states: ["default"],
+    tokens: ["color.neutral.border", "radius.lg", "spacing.4"],
+    layout: "Icon 16 + title + description · gap 12 · padding 16",
+    a11y: "role=alert si es dinámico · icono no solo decorativo si comunica estado",
+  },
+} satisfies Record<string, FigmaSpec>;
+
 const componentExamples = {
   es: [
   {
@@ -29,6 +130,7 @@ const componentExamples = {
     ),
     code: `<Logo size="md" />
 <LogoMark size={32} />`,
+    figma: figmaSpecs.logo,
   },
   {
     title: "Indicador hero",
@@ -47,6 +149,7 @@ const componentExamples = {
   description="onboarding SURA"
   company="SURA Investments"
 />`,
+    figma: figmaSpecs.heroResult,
   },
   {
     title: "KPI interactivo (Impacto)",
@@ -82,6 +185,7 @@ const componentExamples = {
   href="#/proceso/fase/ux-analytics"
   onActivate={handleOpenPhase}
 />`,
+    figma: figmaSpecs.impact,
   },
   {
     title: "Buttons",
@@ -100,6 +204,7 @@ const componentExamples = {
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>`,
+    figma: figmaSpecs.button,
   },
   {
     title: "Badges",
@@ -116,6 +221,7 @@ const componentExamples = {
 <Badge variant="secondary">Secondary</Badge>
 <Badge variant="outline">Outline</Badge>
 <Badge variant="destructive">Destructive</Badge>`,
+    figma: figmaSpecs.badge,
   },
   {
     title: "Cards",
@@ -142,6 +248,7 @@ const componentExamples = {
     Content goes here
   </CardContent>
 </Card>`,
+    figma: figmaSpecs.card,
   },
   {
     title: "Inputs",
@@ -154,6 +261,7 @@ const componentExamples = {
     ),
     code: `<Input placeholder="Default input" />
 <Input placeholder="Disabled" disabled />`,
+    figma: figmaSpecs.input,
   },
   {
     title: "Form Controls",
@@ -196,6 +304,7 @@ const componentExamples = {
     Message content
   </AlertDescription>
 </Alert>`,
+    figma: figmaSpecs.alert,
   },
   {
     title: "Avatars",
@@ -229,6 +338,7 @@ const componentExamples = {
     ),
     code: `<Logo size="md" />
 <LogoMark size={32} />`,
+    figma: figmaSpecs.logo,
   },
   {
     title: "Hero indicator",
@@ -247,6 +357,7 @@ const componentExamples = {
   description="SURA onboarding"
   company="SURA Investments"
 />`,
+    figma: figmaSpecs.heroResult,
   },
   {
     title: "Interactive KPI (Impact)",
@@ -282,6 +393,7 @@ const componentExamples = {
   href="#/proceso/fase/ux-analytics"
   onActivate={handleOpenPhase}
 />`,
+    figma: figmaSpecs.impact,
   },
   {
     title: "Buttons",
@@ -300,6 +412,7 @@ const componentExamples = {
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>`,
+    figma: figmaSpecs.button,
   },
   {
     title: "Badges",
@@ -316,6 +429,7 @@ const componentExamples = {
 <Badge variant="secondary">Secondary</Badge>
 <Badge variant="outline">Outline</Badge>
 <Badge variant="destructive">Destructive</Badge>`,
+    figma: figmaSpecs.badge,
   },
   {
     title: "Cards",
@@ -338,6 +452,7 @@ const componentExamples = {
   </CardHeader>
   <CardContent>Content</CardContent>
 </Card>`,
+    figma: figmaSpecs.card,
   },
   {
     title: "Inputs",
@@ -350,6 +465,7 @@ const componentExamples = {
     ),
     code: `<Input placeholder="Default input" />
 <Input placeholder="Disabled" disabled />`,
+    figma: figmaSpecs.input,
   },
   {
     title: "Form controls",
@@ -388,6 +504,7 @@ const componentExamples = {
   <AlertTitle>Information</AlertTitle>
   <AlertDescription>Message</AlertDescription>
 </Alert>`,
+    figma: figmaSpecs.alert,
   },
   {
     title: "Avatars",
@@ -424,8 +541,8 @@ export function ComponentsLibrary() {
           title={language === "es" ? "Biblioteca de componentes" : "Component library"}
           description={
             language === "es"
-              ? "Átomos y moléculas del landing en producción"
-              : "Landing atoms and molecules in production"
+              ? "Átomos y moléculas en producción · pestaña Figma con variants, estados y tokens"
+              : "Production atoms and molecules · Figma tab with variants, states, and tokens"
           }
           align="left"
         />

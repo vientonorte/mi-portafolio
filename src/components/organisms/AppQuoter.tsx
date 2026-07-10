@@ -82,7 +82,7 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
 
   return (
     <section
-      id="cotizador-app"
+      id="cotizador"
       className="border-y border-border/60 bg-surface-section px-4 py-12 md:py-16 scroll-mt-24"
       aria-labelledby="app-quoter-heading"
     >

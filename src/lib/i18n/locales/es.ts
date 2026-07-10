@@ -64,7 +64,7 @@ export default {
         designSystem: {
           title: 'Design System · Rodrigo Gaete',
           description:
-            'Marca RG minimalista, tokens matte, evidencia medible y patrones de prueba social del portafolio UX Architect.',
+            'Tokens Figma-ready (Tokens Studio, W3C, CSS), marca RG minimalista, superficies matte y patrones de evidencia medible del portafolio Lead UX.',
         },
         privacy: {
           title: 'Privacidad',
@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Consultoría Viento Norte: diagnóstico express, estrategia guiada y proceso de equipo con entregables medibles.',
+            'N2N, herramientas offline en ecosistema privado, playbook (Ley 21.719 · WCAG 2.2), 3 modalidades y onboarding. Kickoff <24 h hábiles.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -129,10 +129,10 @@ export default {
     },
 
     valueArsenal: {
-      badge: 'Contenido de valor',
-      title: 'Prototipos y evidencia navegable',
+      badge: 'Prueba social navegable',
+      title: 'Evidencia que puedes abrir ahora',
       description:
-        'Demos Figma, POCs live, casos SURA/Transvip/Karri, método UX y auditoría navegables. Explora antes de reservar consultoría.',
+        'Demos Figma, POCs live, casos SURA/Transvip/Karri y método UX documentado. Cada pieza enlaza a una modalidad de consultoría — explora antes de reservar.',
       filterAriaLabel: 'Filtrar evidencia',
       filters: {
         all: 'Todo',
@@ -144,13 +144,13 @@ export default {
       evidenceCount: '{count} piezas listas para revisar',
       showingCount: 'Mostrando {visible} de {total}',
       loadMore: 'Cargar más evidencia',
-      viewProof: 'Ver evidencia',
+      viewProof: 'Abrir evidencia',
       bundleFit: 'Modalidad',
-      bundleStripTitle: 'Consultoría Viento Norte',
+      bundleStripTitle: '¿Listo para el kickoff?',
       bundleStripDescription:
-        'Diagnóstico express, estrategia guiada o proceso de equipo — kickoff en menos de 24 h hábiles. Sin precios públicos; alcance en la primera sesión.',
-      bundleStripBadge: 'SEM · SEO ready',
-      bundleCta: 'Reservar consultoría',
+        'Elige modalidad o deja que el árbol te recomiende. Sin precios públicos — alcance y propuesta en la primera sesión (<24 h hábiles).',
+      bundleStripBadge: 'Conversión · SEM/SEO',
+      bundleCta: 'Iniciar onboarding',
       treeCta: 'Encontrar modalidad',
       recommended: 'Recomendada',
     },
@@ -219,6 +219,126 @@ export default {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
+      stickyCta: 'Reservar kickoff',
+      landing: {
+        badge: 'Consultoría Viento Norte · Lead UX',
+        title: 'UX con evidencia,',
+        titleAccent: 'no con slides vacíos',
+        description:
+          'Método N2N, herramientas offline en ecosistema privado (GitHub · IA gobernada · Ley 21.719 · WCAG 2.2), playbook documentado y onboarding en 4 pasos.',
+        ctaPrimary: 'Iniciar onboarding',
+        ctaSecondary: 'Ver evidencia',
+        trustLine:
+          'Kickoff < 24 h · N2N · offline/private · sin precios públicos · WCAG 2.2 AA',
+        metrics: [
+          { value: 'N2N', label: 'Brief → prototipo navegable' },
+          { value: '13', label: 'Buenas prácticas documentadas' },
+          { value: 'C1', label: 'Offline · private · IA' },
+          { value: '3', label: 'Modalidades con entregables' },
+        ],
+        nav: {
+          n2n: 'N2N',
+          private: 'Offline',
+          practices: 'Prácticas',
+          packages: 'Modalidades',
+          evidence: 'Evidencia',
+          fit: 'Tu fit',
+        },
+      },
+      n2n: {
+        badge: 'Método N2N',
+        title: 'Cómo trabajamos · Needle-to-Needle',
+        description:
+          'Del brief al prototipo navegable con Design Thinking y Design Sprint. Sin saltarse discovery ni validación — el mismo estándar de la demo X | CMS.',
+        caseBadge: 'Caso demo publicado',
+        caseTitle: 'X | CMS · N2N en Figma Sites',
+        caseDescription:
+          'Referencia abierta: ideación, sprint y prototipo para handoff. Usala como muestra de método antes del kickoff.',
+        ctaDemo: 'Abrir demo N2N',
+        ctaSection: 'Ver embed en página',
+        ctaOnboarding: 'Empezar con N2N',
+      },
+      privateTooling: {
+        badge: 'Campaña C1 · Private Tooling',
+        title: 'Herramientas offline en ecosistema privado',
+        description:
+          'N2N dentro del perímetro del cliente: offline-first, GitHub private, desarrollo con IA gobernada, Ley 21.719 by design y WCAG 2.2 AA.',
+        antiPromise:
+          'No vendemos ChatGPT genérico con tus datos en la nube. No prometemos app store en 24 h. El código y los datos quedan en tu perímetro.',
+        layers: [
+          {
+            title: 'Offline-first',
+            body: 'Happy path crítico sin red, o degradación explícita. Sin telemetría de terceros por defecto.',
+          },
+          {
+            title: 'GitHub private',
+            body: 'Repo del cliente, branch protection, docs de arquitectura, SECURITY y política de datos.',
+          },
+          {
+            title: 'IA gobernada',
+            body: 'Clasificar dato antes del prompt. PII/sensible → no a modelos públicos. Preferencia local / VPC.',
+          },
+          {
+            title: '21.719 + WCAG',
+            body: 'Minimización, base legal, aviso en captura, ARSOPL. Accesibilidad AA como gate de release.',
+          },
+        ],
+        dodTitle: 'DoD de entrega C1',
+        dod: [
+          'Prototipo o tool con flujo offline documentado',
+          'Handoff en GitHub private (no solo PDF)',
+          'Checklist Ley 21.719 (inventario + minimización)',
+          'Checklist WCAG 2.2 AA en UI crítica',
+          'ai-governance.md si hay automatización o copiloto',
+        ],
+        faqTitle: 'FAQ de defensa de claims',
+        faq: [
+          {
+            q: '¿Offline total o offline-first?',
+            a: 'Offline-first en el journey crítico. Online opcional solo si el cliente lo pide y queda documentado.',
+          },
+          {
+            q: '¿La IA ve mis datos?',
+            a: 'Por defecto no. Solo API cloud con base legal y contrato; preferimos local/VPC para dato sensible.',
+          },
+          {
+            q: '¿Cumplen la 21.719 por mi empresa?',
+            a: 'Entregamos controles UX/técnicos by design. El responsable del tratamiento es el cliente (DPO).',
+          },
+        ],
+        skuBadge: 'SKU C1',
+        skuTitle: 'Diagnóstico de perímetro o build N2N privado',
+        skuDescription:
+          'Radar (5–7 días) para diagnosticar. Marco (3–4 sem) para prototipo N2N en repo. Ops para Design Ops + adopción en equipo.',
+        legalNote:
+          'Checklist operativo, no asesoría legal. Validar con DPO / compliance del cliente antes de release.',
+        ctaPrimary: 'Onboarding C1 · Estrategia',
+        ctaSecondary: 'Solo diagnóstico (Radar)',
+        ctaN2N: 'Ver método N2N',
+      },
+      practices: {
+        badge: 'Playbook',
+        title: 'Buenas prácticas documentadas',
+        description:
+          'Criterios operables que aplicamos en auditoría, estrategia y proceso de equipo. Cada práctica tiene estándar de referencia, checklist y forma de validación.',
+        filterAria: 'Filtrar prácticas por categoría',
+        filterAll: 'Todas',
+        showing: '{count} prácticas en esta vista',
+        checklistLabel: 'Checklist',
+        validationLabel: 'Cómo se valida',
+        footnoteTitle: 'Por qué está en la landing',
+        footnote:
+          'Una landing de consultoría debe demostrar método, no solo promesa. Este playbook es el contrato de calidad: lo que mides, lo que entregas y cómo lo demuestras antes del kickoff.',
+      },
+      packagesSection: {
+        badge: 'Modalidades',
+        title: 'Elige el formato de trabajo',
+        description:
+          'Tres caminos según madurez y urgencia. Entregables públicos; alcance fino y propuesta en el kickoff.',
+        deliverablesLabel: 'Entregables',
+        cta: 'Continuar con esta',
+        note: 'Sin tarifas públicas. El cotizador y el árbol de decisión ayudan a alinear expectativa antes del contacto.',
+      },
       steps: {
         welcome: 'Bienvenida · Viento Norte',
         package: 'Elige modalidad',
@@ -257,13 +377,13 @@ export default {
         cta: 'Continuar con esta modalidad',
       },
       demo: {
-        badge: 'Demo consultoría',
+        badge: 'Demo de método',
         title: 'Diseño N2N · Design Thinking + Sprint',
         description:
-          'Proyecto demo X | CMS publicado en Figma Sites: referencia de método completo (discovery → prototipo) en contexto CMS — alineado a estrategia guiada y proceso de equipo.',
+          'Caso demo publicado: del brief al prototipo en Figma Sites. Muestra cómo aplicamos discovery, sprint y handoff — el mismo estándar del playbook de la landing.',
         projectName: 'X | CMS',
         approach:
-          'Diseño needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff.',
+          'Needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff a implementación.',
         highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
         cta: 'Abrir demo publicada',
         ctaSecondary: 'Abrir en Figma Make',

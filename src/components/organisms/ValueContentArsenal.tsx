@@ -236,7 +236,14 @@ export function ValueContentArsenal({
             <Button
               size="lg"
               variant="outline"
-              onClick={() => navigate(ROUTES.consulting, { state: { scrollTo: "arbol" } })}
+              onClick={() => {
+                const el = document.getElementById("arbol");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  return;
+                }
+                navigate(ROUTES.consulting, { state: { scrollTo: "arbol" } });
+              }}
             >
               {t.treeCta}
             </Button>

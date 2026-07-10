@@ -24,9 +24,14 @@ type StepId = (typeof STEPS)[number];
 
 interface ConsultoriaOnboardingProps {
   initialPackageId?: ConsultingPackageId;
+  /** Prefill del objetivo (ej. template C1 offline/N2N) */
+  initialGoal?: string;
 }
 
-export function ConsultoriaOnboarding({ initialPackageId }: ConsultoriaOnboardingProps) {
+export function ConsultoriaOnboarding({
+  initialPackageId,
+  initialGoal,
+}: ConsultoriaOnboardingProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria;
@@ -42,7 +47,11 @@ export function ConsultoriaOnboarding({ initialPackageId }: ConsultoriaOnboardin
   }, [initialPackageId]);
   const [industry, setIndustry] = useState(CONSULTING_INDUSTRIES[language][0]);
   const [timeline, setTimeline] = useState(CONSULTING_TIMELINES[language][1]);
-  const [goal, setGoal] = useState("");
+  const [goal, setGoal] = useState(initialGoal ?? "");
+
+  useEffect(() => {
+    if (initialGoal && !goal.trim()) setGoal(initialGoal);
+  }, [initialGoal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const step = STEPS[stepIndex];
   const progress = Math.round(((stepIndex + 1) / STEPS.length) * 100);
