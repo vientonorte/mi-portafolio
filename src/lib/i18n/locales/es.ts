@@ -230,7 +230,7 @@ export default {
         title: 'Alcance claro,',
         titleAccent: 'sin letra chica',
         description:
-          'Elegís tu camino en 10 s. Sabés qué entregamos, qué no, y qué patrones de fintech aplicamos a tu contexto — antes del kickoff.',
+          'En 10 segundos eliges tu camino. Queda claro qué entregamos, qué no, y qué patrones de fintech aplicamos a tu contexto — antes del kickoff.',
         transparencyLine:
           'Sin precios genéricos en la web: el alcance se cierra contigo. Lo que prometemos en ads es lo que ves aquí.',
         ctaPrimary: 'Agendar kickoff',
