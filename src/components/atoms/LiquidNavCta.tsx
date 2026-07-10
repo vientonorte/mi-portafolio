@@ -55,10 +55,9 @@ export function LiquidNavCta({
       </span>
       <span
         className={cn(
-          "max-w-full truncate text-[10px] leading-none sm:text-[11px]",
+          "bottom-nav-mobile__label max-w-full truncate",
           active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
         )}
-        style={{ letterSpacing: "0.01em" }}
       >
         {label}
       </span>

@@ -3,6 +3,9 @@
 :root {
   --header-height: 4rem;
   --bottom-nav-height: 4rem;
+  /* Type scale dock: mínimo 13px (legibilidad móvil / WCAG) */
+  --bottom-nav-label-size: 0.8125rem; /* 13px */
+  --bottom-nav-label-leading: 1.15;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --bottom-nav-total: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
   --back-to-top-offset: calc(var(--bottom-nav-total) + 1rem);
@@ -211,11 +214,24 @@ html[data-nav="subpage"] .site-footer,
   margin-inline: auto;
 }
 
-.bottom-nav-mobile button[aria-current="page"] span {
+/* Labels del dock: 13px mínimo (no 10–11px) */
+.bottom-nav-mobile__label {
+  font-size: var(--bottom-nav-label-size);
+  line-height: var(--bottom-nav-label-leading);
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 640px) {
+  .bottom-nav-mobile__label {
+    font-size: max(var(--bottom-nav-label-size), 0.875rem); /* 14px en sm+ */
+  }
+}
+
+.bottom-nav-mobile button[aria-current="page"] .bottom-nav-mobile__label {
   font-weight: 600;
 }
 
-.bottom-nav-mobile button:not([aria-current="page"]) span {
+.bottom-nav-mobile button:not([aria-current="page"]) .bottom-nav-mobile__label {
   color: var(--bottom-nav-inactive, #404040);
 }
 
