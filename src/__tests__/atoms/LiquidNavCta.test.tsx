@@ -4,11 +4,16 @@ import userEvent from "@testing-library/user-event";
 import { LiquidNavCta } from "@/components/atoms/LiquidNavCta";
 
 describe("LiquidNavCta", () => {
-  it("renders consultoria liquid CTA with brand mark", () => {
+  it("renders consultoria liquid glass CTA with brand mark layers", () => {
     render(<LiquidNavCta label="Consultoría ✦" onClick={() => {}} />);
     const btn = screen.getByRole("button", { name: "Consultoría ✦" });
     expect(btn).toBeInTheDocument();
     expect(btn).toHaveAttribute("data-liquid-cta", "consultoria");
+    expect(btn.querySelector(".liquid-nav-cta__orb")).toBeTruthy();
+    expect(btn.querySelector(".liquid-nav-cta__glass")).toBeTruthy();
+    expect(btn.querySelector(".liquid-nav-cta__tint")).toBeTruthy();
+    expect(btn.querySelector(".liquid-nav-cta__specular")).toBeTruthy();
+    expect(btn.querySelector(".liquid-nav-cta__rim")).toBeTruthy();
     expect(btn.querySelector(".liquid-nav-cta__mark")).toBeTruthy();
     expect(btn.querySelector("svg.logo-mark")).toBeTruthy();
   });

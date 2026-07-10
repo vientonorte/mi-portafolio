@@ -72,11 +72,52 @@ img {
   }
 }
 
-/* Bottom nav — dock fijo en todos los breakpoints */
+/* ── Bottom nav liquid glass (mobile + desktop) ── */
 .bottom-nav-mobile {
   display: block;
   width: 100%;
   overflow: visible;
+}
+
+.bottom-nav-mobile--glass {
+  /* Material liquid glass: blur + saturación + borde especular */
+  border-top: 1px solid color-mix(in srgb, #ffffff 42%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #ffffff 22%, transparent) 0%,
+      color-mix(in srgb, var(--background) 55%, transparent) 48%,
+      color-mix(in srgb, var(--background) 72%, transparent) 100%
+    );
+  -webkit-backdrop-filter: blur(22px) saturate(1.55);
+  backdrop-filter: blur(22px) saturate(1.55);
+  box-shadow:
+    0 -1px 0 color-mix(in srgb, #ffffff 28%, transparent),
+    0 -12px 40px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 color-mix(in srgb, #ffffff 55%, transparent);
+}
+
+.dark .bottom-nav-mobile--glass,
+:root.dark .bottom-nav-mobile--glass,
+html.dark .bottom-nav-mobile--glass {
+  border-top-color: color-mix(in srgb, #ffffff 14%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #ffffff 10%, transparent) 0%,
+      color-mix(in srgb, var(--background) 62%, transparent) 50%,
+      color-mix(in srgb, var(--background) 78%, transparent) 100%
+    );
+  box-shadow:
+    0 -1px 0 color-mix(in srgb, #ffffff 10%, transparent),
+    0 -14px 42px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 color-mix(in srgb, #ffffff 18%, transparent);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .bottom-nav-mobile--glass {
+    background: color-mix(in srgb, var(--background) 92%, transparent);
+  }
 }
 
 .bottom-nav-mobile__list {
@@ -95,41 +136,159 @@ img {
   min-width: 0;
 }
 
-/* Slot central: CTA liquid de consultoría (elevado sobre la barra) */
+/* Slot central: orbe liquid glass elevado */
 .bottom-nav-mobile__item--center {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   overflow: visible;
 }
 
-/* Orbe central = isologo RG (plato + arco); sin icono Lucide genérico */
+/* ── CTA liquid glass ── */
+.liquid-nav-cta {
+  position: relative;
+}
+
 .liquid-nav-cta__orb {
-  margin-top: -1.25rem;
-  background: transparent;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem; /* 56px — target ≥44px + presencia glass */
+  height: 3.5rem;
+  margin-top: -1.65rem;
+  border-radius: 9999px;
+  isolation: isolate;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.22s ease;
+  /* Sombra del orbe flotante */
+  box-shadow:
+    0 10px 28px rgba(255, 29, 37, 0.28),
+    0 4px 12px rgba(15, 23, 42, 0.18),
+    0 0 0 1px color-mix(in srgb, #ffffff 40%, transparent);
 }
 
-.liquid-nav-cta__orb .liquid-nav-cta__mark {
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(255, 29, 37, 0.22));
+.liquid-nav-cta:hover .liquid-nav-cta__orb,
+.liquid-nav-cta:focus-visible .liquid-nav-cta__orb {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow:
+    0 14px 34px rgba(255, 29, 37, 0.34),
+    0 6px 16px rgba(15, 23, 42, 0.2),
+    0 0 0 1px color-mix(in srgb, #ffffff 55%, transparent);
 }
 
-.liquid-nav-cta__sheen {
+.liquid-nav-cta--active .liquid-nav-cta__orb {
+  box-shadow:
+    0 12px 32px rgba(255, 29, 37, 0.38),
+    0 0 0 2px color-mix(in srgb, var(--primary) 55%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+/* Capa 1: shell glass (blur del contenido detrás) */
+.liquid-nav-cta__glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, #ffffff 38%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  backdrop-filter: blur(18px) saturate(1.7);
+  z-index: 0;
+}
+
+/* Capa 2: tinte de marca (liquid tint) */
+.liquid-nav-cta__tint {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+  background:
+    radial-gradient(
+      120% 100% at 30% 20%,
+      color-mix(in srgb, #ffffff 55%, transparent) 0%,
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, #ff1d25 72%, transparent) 0%,
+      color-mix(in srgb, #ff931e 78%, transparent) 100%
+    );
+  opacity: 0.92;
+}
+
+/* Capa 3: specular highlight (reflejo superior) */
+.liquid-nav-cta__specular {
   pointer-events: none;
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  /* Sheen sutil sobre el plato del isologo */
-  background: radial-gradient(
-    120% 80% at 30% 18%,
-    rgba(255, 255, 255, 0.28) 0%,
-    transparent 55%
-  );
-  opacity: 0.85;
+  z-index: 2;
+  background:
+    radial-gradient(
+      90% 55% at 32% 18%,
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(255, 255, 255, 0.18) 38%,
+      transparent 62%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      transparent 42%
+    );
   mix-blend-mode: soft-light;
+}
+
+/* Capa 4: rim / borde vidrio */
+.liquid-nav-cta__rim {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 3;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.12);
+  border: 1px solid color-mix(in srgb, #ffffff 55%, transparent);
+}
+
+/* Isologo sobre el glass */
+.liquid-nav-cta__mark {
+  position: relative;
+  z-index: 4;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+}
+
+/* Track del isologo legible sobre el tinte */
+.liquid-nav-cta__orb .logo-mark-track {
+  stroke: #ffffff;
+  stroke-opacity: 0.55;
+}
+
+.dark .liquid-nav-cta__glass,
+:root.dark .liquid-nav-cta__glass,
+html.dark .liquid-nav-cta__glass {
+  background: color-mix(in srgb, #ffffff 12%, transparent);
+}
+
+.dark .liquid-nav-cta__rim,
+:root.dark .liquid-nav-cta__rim,
+html.dark .liquid-nav-cta__rim {
+  border-color: color-mix(in srgb, #ffffff 28%, transparent);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.28),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-nav-cta__glass {
+    background: color-mix(in srgb, #ffffff 70%, #ff1d25 8%);
+  }
+  .liquid-nav-cta__tint {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -139,6 +298,7 @@ img {
   }
 
   .liquid-nav-cta:hover .liquid-nav-cta__orb,
+  .liquid-nav-cta:focus-visible .liquid-nav-cta__orb,
   .liquid-nav-cta:active {
     transform: none !important;
   }
