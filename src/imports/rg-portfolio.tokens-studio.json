@@ -1,0 +1,258 @@
+{
+  "$themes": [
+    {
+      "id": "light",
+      "name": "Light",
+      "selectedTokenSets": {
+        "global": "enabled",
+        "light": "enabled",
+        "dark": "disabled"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "selectedTokenSets": {
+        "global": "enabled",
+        "light": "disabled",
+        "dark": "enabled"
+      }
+    }
+  ],
+  "$metadata": {
+    "tokenSetOrder": [
+      "global",
+      "light",
+      "dark"
+    ],
+    "activeTheme": "light",
+    "updatedAt": "2026-07-10",
+    "source": "src/styles/vn-tokens.css"
+  },
+  "global": {
+    "typography": {
+      "display": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "700",
+          "fontSize": "clamp(2.5rem, 6vw, 5rem)",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.02em"
+        },
+        "type": "typography",
+        "description": "Hero h1 · Figma: 40–80px Bold"
+      },
+      "h1": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "700",
+          "fontSize": "clamp(2rem, 5vw, 3.5rem)",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.02em"
+        },
+        "type": "typography",
+        "description": "Page titles · Figma: 32–56px Bold"
+      },
+      "h2": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "700",
+          "fontSize": "clamp(1.75rem, 4vw, 2.5rem)",
+          "lineHeight": "1.3",
+          "letterSpacing": "-0.01em"
+        },
+        "type": "typography",
+        "description": "Section titles · Figma: 28–40px Bold"
+      },
+      "h3": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "500",
+          "fontSize": "clamp(1.25rem, 3vw, 1.75rem)",
+          "lineHeight": "1.4",
+          "letterSpacing": "0"
+        },
+        "type": "typography",
+        "description": "Card titles · Figma: 20–28px Medium"
+      },
+      "body": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "400",
+          "fontSize": "1rem",
+          "lineHeight": "1.6",
+          "letterSpacing": "0"
+        },
+        "type": "typography",
+        "description": "Body copy · 16px Regular"
+      },
+      "body-medium": {
+        "value": {
+          "fontFamily": "Chillax",
+          "fontWeight": "500",
+          "fontSize": "1rem",
+          "lineHeight": "1.5",
+          "letterSpacing": "0"
+        },
+        "type": "typography",
+        "description": "Labels, buttons · 16px Medium"
+      },
+      "caption": {
+        "value": {
+          "fontFamily": "ui-monospace, SFMono-Regular, Menlo, monospace",
+          "fontWeight": "400",
+          "fontSize": "0.75rem",
+          "lineHeight": "1.4",
+          "letterSpacing": "0.1em"
+        },
+        "type": "typography",
+        "description": "Métricas, roles, labels · 12px mono tracking widest"
+      }
+    },
+    "spacing": {
+      "1": { "value": "4", "type": "spacing", "description": "XS" },
+      "2": { "value": "8", "type": "spacing", "description": "SM" },
+      "3": { "value": "12", "type": "spacing", "description": "Space 3" },
+      "4": { "value": "16", "type": "spacing", "description": "MD" },
+      "5": { "value": "20", "type": "spacing", "description": "Space 5" },
+      "6": { "value": "24", "type": "spacing", "description": "LG" },
+      "7": { "value": "32", "type": "spacing", "description": "XL" },
+      "8": { "value": "40", "type": "spacing", "description": "Space 8" },
+      "9": { "value": "48", "type": "spacing", "description": "2XL" },
+      "10": { "value": "64", "type": "spacing", "description": "3XL" },
+      "touch-min": { "value": "44", "type": "spacing", "description": "WCAG 2.2 SC 2.5.5 · target táctil mínimo" }
+    },
+    "radius": {
+      "sm": { "value": "8", "type": "borderRadius", "description": "Inputs, botones secundarios · calc(var(--radius) - 4px)" },
+      "md": { "value": "10", "type": "borderRadius", "description": "Botones primarios · calc(var(--radius) - 2px) · paso deliberado fuera de cuadrícula 4px" },
+      "lg": { "value": "12", "type": "borderRadius", "description": "Cards base · var(--radius) 0.75rem" },
+      "xl": { "value": "16", "type": "borderRadius", "description": "Cards elevated" },
+      "full": { "value": "9999", "type": "borderRadius", "description": "Badges, pills" }
+    },
+    "effect": {
+      "brand-gradient": {
+        "value": "linear-gradient(135deg, #FF1D25 0%, #FF931E 100%)",
+        "type": "other",
+        "description": "Solo ~10% de la UI · CTAs, acento isologo, highlights. Tipo 'other': aplicar manualmente en Figma como Fill > Gradient."
+      },
+      "logo-plate-shadow": {
+        "value": { "x": "0", "y": "1", "blur": "2", "spread": "0", "color": "rgba(23, 23, 23, 0.07)", "type": "dropShadow" },
+        "type": "boxShadow",
+        "description": "Logo Plate Shadow"
+      },
+      "shadow-sm": {
+        "value": [
+          { "x": "0", "y": "1", "blur": "2", "spread": "0", "color": "rgba(23, 23, 23, 0.06)", "type": "dropShadow" },
+          { "x": "0", "y": "1", "blur": "3", "spread": "0", "color": "rgba(23, 23, 23, 0.10)", "type": "dropShadow" }
+        ],
+        "type": "boxShadow",
+        "description": "Shadow SM"
+      },
+      "shadow-md": {
+        "value": [
+          { "x": "0", "y": "4", "blur": "12", "spread": "0", "color": "rgba(23, 23, 23, 0.10)", "type": "dropShadow" },
+          { "x": "0", "y": "2", "blur": "4", "spread": "0", "color": "rgba(23, 23, 23, 0.06)", "type": "dropShadow" }
+        ],
+        "type": "boxShadow",
+        "description": "Shadow MD"
+      }
+    },
+    "motion": {
+      "duration": {
+        "fast": { "value": "150ms", "type": "other", "description": "Duration Fast" },
+        "base": { "value": "250ms", "type": "other", "description": "Duration Base" },
+        "slow": { "value": "400ms", "type": "other", "description": "Duration Slow" }
+      },
+      "easing": {
+        "out": { "value": "cubic-bezier(0.4, 0, 0.2, 1)", "type": "other", "description": "Ease Out" }
+      }
+    },
+    "meta": {
+      "name": { "value": "Rodrigo Gaete Portfolio DS", "type": "other" },
+      "version": { "value": "1.0.0", "type": "other" }
+    }
+  },
+  "light": {
+    "color": {
+      "brand": {
+        "red": { "value": "#FF1D25", "type": "color", "description": "Acento primario light · CTAs y isologo", "$extensions": { "com.vientonorte.cssVar": "--brand-red" } },
+        "orange": { "value": "#FF931E", "type": "color", "description": "Acento secundario · extremo del gradiente", "$extensions": { "com.vientonorte.cssVar": "--brand-orange" } }
+      },
+      "semantic": {
+        "primary": { "value": "#FF1D25", "type": "color", "description": "Primary", "$extensions": { "com.vientonorte.cssVar": "--primary" } },
+        "primary-foreground": { "value": "#FFFFFF", "type": "color", "description": "Primary Foreground", "$extensions": { "com.vientonorte.cssVar": "--primary-foreground" } },
+        "destructive": { "value": "#D4183D", "type": "color", "description": "Destructive", "$extensions": { "com.vientonorte.cssVar": "--destructive" } }
+      },
+      "neutral": {
+        "50": { "value": "#FAFAFA", "type": "color", "description": "Neutral 50", "$extensions": { "com.vientonorte.cssVar": "--neutral-50" } },
+        "100": { "value": "#F5F5F5", "type": "color", "description": "Neutral 100", "$extensions": { "com.vientonorte.cssVar": "--neutral-100" } },
+        "200": { "value": "#E5E5E5", "type": "color", "description": "Neutral 200", "$extensions": { "com.vientonorte.cssVar": "--neutral-200" } },
+        "500": { "value": "#737373", "type": "color", "description": "Neutral 500", "$extensions": { "com.vientonorte.cssVar": "--neutral-500" } },
+        "900": { "value": "#171717", "type": "color", "description": "Neutral 900", "$extensions": { "com.vientonorte.cssVar": "--neutral-900" } },
+        "background": { "value": "#FFFFFF", "type": "color", "description": "Background", "$extensions": { "com.vientonorte.cssVar": "--background" } },
+        "foreground": { "value": "#171717", "type": "color", "description": "Foreground", "$extensions": { "com.vientonorte.cssVar": "--foreground" } },
+        "card": { "value": "#FFFFFF", "type": "color", "description": "Card", "$extensions": { "com.vientonorte.cssVar": "--card" } },
+        "muted": { "value": "#F5F5F5", "type": "color", "description": "Muted", "$extensions": { "com.vientonorte.cssVar": "--muted" } },
+        "muted-foreground": { "value": "#525252", "type": "color", "description": "Muted Foreground · neutral-600 · contraste 5.9:1 sobre white (WCAG AA)", "$extensions": { "com.vientonorte.cssVar": "--muted-foreground" } },
+        "border": { "value": "#E5E5E5", "type": "color", "description": "Border", "$extensions": { "com.vientonorte.cssVar": "--border" } }
+      },
+      "surface": {
+        "matte": { "value": "#F0EEEA", "type": "color", "description": "Warm neutral base · secciones de evidencia", "$extensions": { "com.vientonorte.cssVar": "--surface-matte" } },
+        "matte-elevated": { "value": "#F7F5F1", "type": "color", "description": "Cards de métricas y testimonios", "$extensions": { "com.vientonorte.cssVar": "--surface-matte-elevated" } },
+        "section": { "value": "#EBE8E3", "type": "color", "description": "Surface Section", "$extensions": { "com.vientonorte.cssVar": "--surface-section" } }
+      },
+      "logo": {
+        "surface": { "value": "#E8E5DF", "type": "color", "description": "Logo Surface", "$extensions": { "com.vientonorte.cssVar": "--logo-surface" } },
+        "surface-border": { "value": "rgba(23, 23, 23, 0.07)", "type": "color", "description": "Logo Surface Border", "$extensions": { "com.vientonorte.cssVar": "--logo-surface-border" } },
+        "plate": { "value": "#E8E5DF", "type": "color", "description": "Placa legibilidad wordmarks (siempre tono claro)", "$extensions": { "com.vientonorte.cssVar": "--logo-plate" } }
+      },
+      "stat": {
+        "blue": { "value": "#E4EAF0", "type": "color", "description": "Stat Tint Blue", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-blue" } },
+        "blue-fg": { "value": "#4A6578", "type": "color", "description": "Stat Tint Blue FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-blue-fg" } },
+        "amber": { "value": "#EDE8DF", "type": "color", "description": "Stat Tint Amber", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-amber" } },
+        "amber-fg": { "value": "#7A6340", "type": "color", "description": "Stat Tint Amber FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-amber-fg" } },
+        "rose": { "value": "#EBE3E4", "type": "color", "description": "Stat Tint Rose", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-rose" } },
+        "rose-fg": { "value": "#7A5560", "type": "color", "description": "Stat Tint Rose FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-rose-fg" } },
+        "violet": { "value": "#E6E3EB", "type": "color", "description": "Stat Tint Violet", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-violet" } },
+        "violet-fg": { "value": "#625A75", "type": "color", "description": "Stat Tint Violet FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-violet-fg" } }
+      }
+    }
+  },
+  "dark": {
+    "color": {
+      "semantic": {
+        "primary": { "value": "#FF931E", "type": "color", "description": "Primary", "$extensions": { "com.vientonorte.cssVar": "--primary" } },
+        "primary-foreground": { "value": "#0A0A0A", "type": "color", "description": "Primary Foreground", "$extensions": { "com.vientonorte.cssVar": "--primary-foreground" } },
+        "destructive": { "value": "#DC2626", "type": "color", "description": "Destructive", "$extensions": { "com.vientonorte.cssVar": "--destructive" } }
+      },
+      "neutral": {
+        "background": { "value": "#0A0A0A", "type": "color", "description": "Background", "$extensions": { "com.vientonorte.cssVar": "--background" } },
+        "foreground": { "value": "#FAFAFA", "type": "color", "description": "Foreground", "$extensions": { "com.vientonorte.cssVar": "--foreground" } },
+        "card": { "value": "#171717", "type": "color", "description": "Card", "$extensions": { "com.vientonorte.cssVar": "--card" } },
+        "muted": { "value": "#262626", "type": "color", "description": "Muted", "$extensions": { "com.vientonorte.cssVar": "--muted" } },
+        "muted-foreground": { "value": "#A3A3A3", "type": "color", "description": "Muted Foreground · neutral-400 · contraste 4.6:1 sobre #171717 card (WCAG AA) · visualmente subordinado a foreground", "$extensions": { "com.vientonorte.cssVar": "--muted-foreground" } },
+        "border": { "value": "#262626", "type": "color", "description": "Border", "$extensions": { "com.vientonorte.cssVar": "--border" } }
+      },
+      "surface": {
+        "matte": { "value": "#1A1917", "type": "color", "description": "Surface Matte", "$extensions": { "com.vientonorte.cssVar": "--surface-matte" } },
+        "matte-elevated": { "value": "#222120", "type": "color", "description": "Surface Matte Elevated", "$extensions": { "com.vientonorte.cssVar": "--surface-matte-elevated" } },
+        "section": { "value": "#161514", "type": "color", "description": "Surface Section", "$extensions": { "com.vientonorte.cssVar": "--surface-section" } }
+      },
+      "logo": {
+        "surface": { "value": "#2C2A27", "type": "color", "description": "Logo Surface", "$extensions": { "com.vientonorte.cssVar": "--logo-surface" } },
+        "surface-border": { "value": "rgba(250, 250, 250, 0.07)", "type": "color", "description": "Logo Surface Border", "$extensions": { "com.vientonorte.cssVar": "--logo-surface-border" } },
+        "plate": { "value": "#EBE6DE", "type": "color", "description": "Logo Plate · siempre tono claro para legibilidad de wordmarks sobre dark", "$extensions": { "com.vientonorte.cssVar": "--logo-plate" } }
+      },
+      "stat": {
+        "blue": { "value": "#1C2228", "type": "color", "description": "Stat Tint Blue", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-blue" } },
+        "blue-fg": { "value": "#8DA8BE", "type": "color", "description": "Stat Tint Blue FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-blue-fg" } },
+        "amber": { "value": "#24211C", "type": "color", "description": "Stat Tint Amber", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-amber" } },
+        "amber-fg": { "value": "#C4A574", "type": "color", "description": "Stat Tint Amber FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-amber-fg" } },
+        "rose": { "value": "#241C1E", "type": "color", "description": "Stat Tint Rose", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-rose" } },
+        "rose-fg": { "value": "#C4909A", "type": "color", "description": "Stat Tint Rose FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-rose-fg" } },
+        "violet": { "value": "#201E24", "type": "color", "description": "Stat Tint Violet", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-violet" } },
+        "violet-fg": { "value": "#A89AB8", "type": "color", "description": "Stat Tint Violet FG", "$extensions": { "com.vientonorte.cssVar": "--stat-tint-violet-fg" } }
+      }
+    }
+  }
+}

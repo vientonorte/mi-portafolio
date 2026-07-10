@@ -1,0 +1,115 @@
+{
+  "$description": "Rodrigo Gaete Portfolio DS v1.0.0 — W3C DTCG format",
+  "light": {
+    "color": {
+      "brand": {
+        "red": { "$type": "color", "$value": "#FF1D25", "$description": "Acento primario light · CTAs y isologo", "$extensions": { "cssVar": "--brand-red" } },
+        "orange": { "$type": "color", "$value": "#FF931E", "$description": "Acento secundario · extremo del gradiente", "$extensions": { "cssVar": "--brand-orange" } }
+      },
+      "semantic": {
+        "primary": { "$type": "color", "$value": "#FF1D25", "$description": "Primary", "$extensions": { "cssVar": "--primary" } },
+        "primary-foreground": { "$type": "color", "$value": "#FFFFFF", "$description": "Primary Foreground", "$extensions": { "cssVar": "--primary-foreground" } },
+        "destructive": { "$type": "color", "$value": "#D4183D", "$description": "Destructive", "$extensions": { "cssVar": "--destructive" } }
+      },
+      "neutral": {
+        "50": { "$type": "color", "$value": "#FAFAFA", "$description": "Neutral 50", "$extensions": { "cssVar": "--neutral-50" } },
+        "100": { "$type": "color", "$value": "#F5F5F5", "$description": "Neutral 100", "$extensions": { "cssVar": "--neutral-100" } },
+        "200": { "$type": "color", "$value": "#E5E5E5", "$description": "Neutral 200", "$extensions": { "cssVar": "--neutral-200" } },
+        "500": { "$type": "color", "$value": "#737373", "$description": "Neutral 500", "$extensions": { "cssVar": "--neutral-500" } },
+        "900": { "$type": "color", "$value": "#171717", "$description": "Neutral 900", "$extensions": { "cssVar": "--neutral-900" } },
+        "background": { "$type": "color", "$value": "#FFFFFF", "$description": "Background", "$extensions": { "cssVar": "--background" } },
+        "foreground": { "$type": "color", "$value": "#171717", "$description": "Foreground", "$extensions": { "cssVar": "--foreground" } },
+        "card": { "$type": "color", "$value": "#FFFFFF", "$description": "Card", "$extensions": { "cssVar": "--card" } },
+        "muted": { "$type": "color", "$value": "#F5F5F5", "$description": "Muted", "$extensions": { "cssVar": "--muted" } },
+        "muted-foreground": { "$type": "color", "$value": "#525252", "$description": "Muted Foreground · neutral-600 · contraste 5.9:1 sobre white (WCAG AA)", "$extensions": { "cssVar": "--muted-foreground" } },
+        "border": { "$type": "color", "$value": "#E5E5E5", "$description": "Border", "$extensions": { "cssVar": "--border" } }
+      },
+      "surface": {
+        "matte": { "$type": "color", "$value": "#F0EEEA", "$description": "Warm neutral base · secciones de evidencia", "$extensions": { "cssVar": "--surface-matte" } },
+        "matte-elevated": { "$type": "color", "$value": "#F7F5F1", "$description": "Cards de métricas y testimonios", "$extensions": { "cssVar": "--surface-matte-elevated" } },
+        "section": { "$type": "color", "$value": "#EBE8E3", "$description": "Surface Section", "$extensions": { "cssVar": "--surface-section" } }
+      },
+      "logo": {
+        "surface": { "$type": "color", "$value": "#E8E5DF", "$description": "Logo Surface", "$extensions": { "cssVar": "--logo-surface" } },
+        "surface-border": { "$type": "color", "$value": "rgba(23, 23, 23, 0.07)", "$description": "Logo Surface Border", "$extensions": { "cssVar": "--logo-surface-border" } },
+        "plate": { "$type": "color", "$value": "#E8E5DF", "$description": "Placa legibilidad wordmarks (siempre tono claro)", "$extensions": { "cssVar": "--logo-plate" } }
+      },
+      "stat": {
+        "blue": { "$type": "color", "$value": "#E4EAF0", "$description": "Stat Tint Blue", "$extensions": { "cssVar": "--stat-tint-blue" } },
+        "blue-fg": { "$type": "color", "$value": "#4A6578", "$description": "Stat Tint Blue FG", "$extensions": { "cssVar": "--stat-tint-blue-fg" } },
+        "amber": { "$type": "color", "$value": "#EDE8DF", "$description": "Stat Tint Amber", "$extensions": { "cssVar": "--stat-tint-amber" } },
+        "amber-fg": { "$type": "color", "$value": "#7A6340", "$description": "Stat Tint Amber FG", "$extensions": { "cssVar": "--stat-tint-amber-fg" } },
+        "rose": { "$type": "color", "$value": "#EBE3E4", "$description": "Stat Tint Rose", "$extensions": { "cssVar": "--stat-tint-rose" } },
+        "rose-fg": { "$type": "color", "$value": "#7A5560", "$description": "Stat Tint Rose FG", "$extensions": { "cssVar": "--stat-tint-rose-fg" } },
+        "violet": { "$type": "color", "$value": "#E6E3EB", "$description": "Stat Tint Violet", "$extensions": { "cssVar": "--stat-tint-violet" } },
+        "violet-fg": { "$type": "color", "$value": "#625A75", "$description": "Stat Tint Violet FG", "$extensions": { "cssVar": "--stat-tint-violet-fg" } }
+      }
+    }
+  },
+  "dark": {
+    "color": {
+      "semantic": {
+        "primary": { "$type": "color", "$value": "#FF931E", "$description": "Primary", "$extensions": { "cssVar": "--primary" } },
+        "primary-foreground": { "$type": "color", "$value": "#0A0A0A", "$description": "Primary Foreground", "$extensions": { "cssVar": "--primary-foreground" } },
+        "destructive": { "$type": "color", "$value": "#DC2626", "$description": "Destructive", "$extensions": { "cssVar": "--destructive" } }
+      },
+      "neutral": {
+        "background": { "$type": "color", "$value": "#0A0A0A", "$description": "Background", "$extensions": { "cssVar": "--background" } },
+        "foreground": { "$type": "color", "$value": "#FAFAFA", "$description": "Foreground", "$extensions": { "cssVar": "--foreground" } },
+        "card": { "$type": "color", "$value": "#171717", "$description": "Card", "$extensions": { "cssVar": "--card" } },
+        "muted": { "$type": "color", "$value": "#262626", "$description": "Muted", "$extensions": { "cssVar": "--muted" } },
+        "muted-foreground": { "$type": "color", "$value": "#A3A3A3", "$description": "Muted Foreground · neutral-400 · contraste 4.6:1 sobre #171717 card (WCAG AA)", "$extensions": { "cssVar": "--muted-foreground" } },
+        "border": { "$type": "color", "$value": "#262626", "$description": "Border", "$extensions": { "cssVar": "--border" } }
+      },
+      "surface": {
+        "matte": { "$type": "color", "$value": "#1A1917", "$description": "Surface Matte", "$extensions": { "cssVar": "--surface-matte" } },
+        "matte-elevated": { "$type": "color", "$value": "#222120", "$description": "Surface Matte Elevated", "$extensions": { "cssVar": "--surface-matte-elevated" } },
+        "section": { "$type": "color", "$value": "#161514", "$description": "Surface Section", "$extensions": { "cssVar": "--surface-section" } }
+      },
+      "logo": {
+        "surface": { "$type": "color", "$value": "#2C2A27", "$description": "Logo Surface", "$extensions": { "cssVar": "--logo-surface" } },
+        "surface-border": { "$type": "color", "$value": "rgba(250, 250, 250, 0.07)", "$description": "Logo Surface Border", "$extensions": { "cssVar": "--logo-surface-border" } },
+        "plate": { "$type": "color", "$value": "#EBE6DE", "$description": "Logo Plate · siempre tono claro para legibilidad de wordmarks sobre dark", "$extensions": { "cssVar": "--logo-plate" } }
+      },
+      "stat": {
+        "blue": { "$type": "color", "$value": "#1C2228", "$description": "Stat Tint Blue", "$extensions": { "cssVar": "--stat-tint-blue" } },
+        "blue-fg": { "$type": "color", "$value": "#8DA8BE", "$description": "Stat Tint Blue FG", "$extensions": { "cssVar": "--stat-tint-blue-fg" } },
+        "amber": { "$type": "color", "$value": "#24211C", "$description": "Stat Tint Amber", "$extensions": { "cssVar": "--stat-tint-amber" } },
+        "amber-fg": { "$type": "color", "$value": "#C4A574", "$description": "Stat Tint Amber FG", "$extensions": { "cssVar": "--stat-tint-amber-fg" } },
+        "rose": { "$type": "color", "$value": "#241C1E", "$description": "Stat Tint Rose", "$extensions": { "cssVar": "--stat-tint-rose" } },
+        "rose-fg": { "$type": "color", "$value": "#C4909A", "$description": "Stat Tint Rose FG", "$extensions": { "cssVar": "--stat-tint-rose-fg" } },
+        "violet": { "$type": "color", "$value": "#201E24", "$description": "Stat Tint Violet", "$extensions": { "cssVar": "--stat-tint-violet" } },
+        "violet-fg": { "$type": "color", "$value": "#A89AB8", "$description": "Stat Tint Violet FG", "$extensions": { "cssVar": "--stat-tint-violet-fg" } }
+      }
+    }
+  },
+  "typography": {
+    "display": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 700, "fontSize": "clamp(2.5rem, 6vw, 5rem)", "lineHeight": "1.2", "letterSpacing": "-0.02em" }, "$description": "Hero h1 · Figma: 40–80px Bold" },
+    "h1": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 700, "fontSize": "clamp(2rem, 5vw, 3.5rem)", "lineHeight": "1.2", "letterSpacing": "-0.02em" }, "$description": "Page titles · Figma: 32–56px Bold" },
+    "h2": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 700, "fontSize": "clamp(1.75rem, 4vw, 2.5rem)", "lineHeight": "1.3", "letterSpacing": "-0.01em" }, "$description": "Section titles · Figma: 28–40px Bold" },
+    "h3": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 500, "fontSize": "clamp(1.25rem, 3vw, 1.75rem)", "lineHeight": "1.4", "letterSpacing": "0" }, "$description": "Card titles · Figma: 20–28px Medium" },
+    "body": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 400, "fontSize": "1rem", "lineHeight": "1.6", "letterSpacing": "0" }, "$description": "Body copy · 16px Regular" },
+    "body-medium": { "$type": "typography", "$value": { "fontFamily": "Chillax", "fontWeight": 500, "fontSize": "1rem", "lineHeight": "1.5", "letterSpacing": "0" }, "$description": "Labels, buttons · 16px Medium" },
+    "caption": { "$type": "typography", "$value": { "fontFamily": "ui-monospace, SFMono-Regular, Menlo, monospace", "fontWeight": 400, "fontSize": "0.75rem", "lineHeight": "1.4", "letterSpacing": "0.1em" }, "$description": "Métricas, roles, labels · 12px mono tracking widest" }
+  },
+  "spacing": {
+    "1": { "$type": "dimension", "$value": "4px", "$description": "XS" },
+    "2": { "$type": "dimension", "$value": "8px", "$description": "SM" },
+    "3": { "$type": "dimension", "$value": "12px", "$description": "Space 3" },
+    "4": { "$type": "dimension", "$value": "16px", "$description": "MD" },
+    "5": { "$type": "dimension", "$value": "20px", "$description": "Space 5" },
+    "6": { "$type": "dimension", "$value": "24px", "$description": "LG" },
+    "7": { "$type": "dimension", "$value": "32px", "$description": "XL" },
+    "8": { "$type": "dimension", "$value": "40px", "$description": "Space 8" },
+    "9": { "$type": "dimension", "$value": "48px", "$description": "2XL" },
+    "10": { "$type": "dimension", "$value": "64px", "$description": "3XL" },
+    "touch-min": { "$type": "dimension", "$value": "44px", "$description": "WCAG 2.2 SC 2.5.5 · target táctil mínimo" }
+  },
+  "radius": {
+    "sm": { "$type": "dimension", "$value": "8px", "$description": "Inputs, botones secundarios" },
+    "md": { "$type": "dimension", "$value": "10px", "$description": "Botones primarios · paso deliberado fuera de cuadrícula 4px" },
+    "lg": { "$type": "dimension", "$value": "12px", "$description": "Cards base" },
+    "xl": { "$type": "dimension", "$value": "16px", "$description": "Cards elevated" },
+    "full": { "$type": "dimension", "$value": "9999px", "$description": "Badges, pills" }
+  }
+}
