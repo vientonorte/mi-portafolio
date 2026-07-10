@@ -839,7 +839,8 @@ export default {
       badge: 'About',
       title: 'Experience Designer',
       subtitle: 'Idea + Body',
-      description: 'UX Lead with +3 years transforming ideas into digital products. My approach combines strategic thinking (Idea) with flawless execution (Body), creating experiences that connect with real users.',
+      description:
+        'From Senior Product Designer at Transvip/Karri to UX Lead at SURA Investments (Wealth, 5+ countries). Research, Design Sprints, design systems, and measurable results — including −40% onboarding.',
       philosophy: {
         idea: {
           title: 'Idea',

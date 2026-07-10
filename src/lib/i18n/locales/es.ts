@@ -837,9 +837,10 @@ export default {
     // About
     about: {
       badge: 'Sobre mí',
-      title: 'Diseñador de Experiencias',
-      subtitle: 'Idea + Cuerpo',
-      description: 'UX Lead con +3 años transformando ideas en productos digitales. Mi enfoque combina pensamiento estratégico (Idea) con ejecución impecable (Cuerpo), creando experiencias que conectan con usuarios reales.',
+      title: '3+ años. 2 verticales. Impacto regional.',
+      subtitle: 'Lead UX · Fintech & Mobility',
+      description:
+        'De Senior Product Designer en Transvip/Karri a UX Lead en SURA Investments (Wealth, 5+ países). Research, Design Sprints, design system y resultados medibles — incluido −40% onboarding.',
       philosophy: {
         idea: {
           title: 'Idea',
