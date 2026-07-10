@@ -89,7 +89,7 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
           <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap shrink-0">
             <Button
               size="lg"
-              className="bg-brand-gradient font-semibold hover:opacity-90 min-h-[44px]"
+              className="bg-brand-gradient font-semibold hover:opacity-90 min-h-[48px] focus-visible:ring-offset-2"
               onClick={openDemo}
             >
               {t.ctaDemo}
@@ -98,15 +98,7 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
             <Button
               size="lg"
               variant="outline"
-              className="min-h-[44px]"
-              onClick={scrollToDemo}
-            >
-              {t.ctaSection}
-            </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="min-h-[44px]"
+              className="min-h-[48px] border-[color:var(--logo-surface-border)] bg-background/70 hover:border-primary/25"
               onClick={() => {
                 trackEvent("consultoria_n2n_cta", { action: "onboarding" });
                 onStartOnboarding?.();
@@ -114,6 +106,14 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
             >
               {t.ctaOnboarding}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Button>
+            <Button
+              size="lg"
+              variant="ghost"
+              className="min-h-[44px] text-muted-foreground hover:text-foreground"
+              onClick={scrollToDemo}
+            >
+              {t.ctaSection}
             </Button>
           </div>
         </div>

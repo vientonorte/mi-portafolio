@@ -60,12 +60,14 @@ export function ConsultoriaPrivateTooling({
           const Icon = LAYER_ICONS[i] ?? Lock;
           return (
             <li key={layer.title}>
-              <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
+              <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none transition-colors hover:border-primary/15">
                 <CardHeader className="pb-2 space-y-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <Icon className="h-5 w-5 text-primary" aria-hidden />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-logo-surface text-primary">
+                    <Icon className="h-5 w-5" aria-hidden />
                   </div>
-                  <CardTitle className="text-base">{layer.title}</CardTitle>
+                  <CardTitle className="text-base tracking-tight">
+                    {layer.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -121,20 +123,22 @@ export function ConsultoriaPrivateTooling({
         </Card>
       </div>
 
-      <div className="rounded-2xl border border-primary/20 bg-surface-matte-elevated p-6 md:p-8">
+      <div className="rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8 shadow-none">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-2 max-w-xl">
-            <Badge className="w-fit">{t.skuBadge}</Badge>
-            <h3 className="text-lg font-semibold">{t.skuTitle}</h3>
+            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
+              {t.skuBadge}
+            </span>
+            <h3 className="text-lg font-semibold tracking-tight">{t.skuTitle}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t.skuDescription}
             </p>
             <p className="text-xs text-muted-foreground pt-1">{t.legalNote}</p>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
             <Button
               size="lg"
-              className="bg-brand-gradient font-semibold hover:opacity-90 min-h-[44px]"
+              className="bg-brand-gradient font-semibold hover:opacity-90 min-h-[48px] focus-visible:ring-offset-2"
               onClick={() => startC1("marco")}
             >
               {t.ctaPrimary}
@@ -143,15 +147,15 @@ export function ConsultoriaPrivateTooling({
             <Button
               size="lg"
               variant="outline"
-              className="min-h-[44px]"
+              className="min-h-[48px] border-[color:var(--logo-surface-border)] bg-background/70 hover:border-primary/25"
               onClick={() => startC1("radar")}
             >
               {t.ctaSecondary}
             </Button>
             <Button
               size="lg"
-              variant="secondary"
-              className="min-h-[44px]"
+              variant="ghost"
+              className="min-h-[44px] text-muted-foreground hover:text-foreground"
               onClick={() =>
                 document
                   .getElementById("metodo-n2n")

@@ -286,6 +286,7 @@ export default {
         nav: {
           n2n: 'N2N',
           private: 'Offline',
+          education: 'Educación',
           practices: 'Prácticas',
           packages: 'Modalidades',
           evidence: 'Evidencia',

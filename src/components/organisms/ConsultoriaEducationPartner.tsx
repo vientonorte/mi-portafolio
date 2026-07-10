@@ -1,4 +1,5 @@
-import { GraduationCap, Video } from "lucide-react";
+import { GraduationCap, Video, ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { Badge } from "../ui/badge";
@@ -12,7 +13,6 @@ import { openVideoCallOrFallback, VIDEO_CALL_URL } from "../../lib/site-contact"
 import { trackEvent } from "../../lib/analytics";
 
 interface ConsultoriaEducationPartnerProps {
-  /** Si se prefiere onboarding en página en vez de contacto directo */
   onStartOnboarding?: () => void;
 }
 
@@ -22,6 +22,7 @@ export function ConsultoriaEducationPartner({
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.educationPartner;
+  const prefersReducedMotion = useReducedMotion();
 
   const goToContactWithDraft = () => {
     trackEvent("consultoria_parten_videocall", {
@@ -49,72 +50,97 @@ export function ConsultoriaEducationPartner({
       id="parten-educacion"
       padding="default"
       width="wide"
-      tone="default"
+      tone="matte"
       aria-labelledby="parten-edu-heading"
     >
-      <Card className="overflow-hidden border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
-        <CardContent className="p-0">
-          <div className="grid gap-0 md:grid-cols-5">
-            <div className="md:col-span-3 space-y-4 p-6 md:p-8">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="border-primary/25">
-                  <GraduationCap className="mr-1.5 h-3.5 w-3.5 text-primary" aria-hidden />
-                  {t.badge}
-                </Badge>
-                <Badge variant="secondary" className="font-normal">
-                  {t.partnerLabel}
-                </Badge>
-              </div>
-              <h2
-                id="parten-edu-heading"
-                className="text-xl md:text-2xl font-semibold tracking-tight"
-              >
-                {t.title}
-              </h2>
-              <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-xl">
-                {t.description}
-              </p>
-              <ul className="flex flex-wrap gap-2 list-none p-0 m-0" role="list">
-                {t.highlights.map((item) => (
-                  <li key={item}>
-                    <span className="inline-flex rounded-full border border-border/80 bg-background/80 px-2.5 py-1 text-xs font-medium text-foreground">
-                      {item}
+      <motion.div
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+        whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.4 }}
+      >
+        <Card className="overflow-hidden border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
+          <CardContent className="p-0">
+            <div className="grid gap-0 lg:grid-cols-5">
+              <div className="lg:col-span-3 flex flex-col justify-between gap-6 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-[color:var(--logo-surface-border)]">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--logo-surface-border)] bg-[var(--featured-matte-accent)] px-3 py-1.5">
+                    <GraduationCap className="h-4 w-4 text-primary" aria-hidden />
+                    <span className="text-sm font-semibold text-primary">
+                      {t.partnerLabel}
                     </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  </div>
 
-            <div className="md:col-span-2 flex flex-col justify-center gap-3 border-t md:border-t-0 md:border-l border-[color:var(--logo-surface-border)] bg-surface-matte/50 p-6 md:p-8">
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t.ctaLead}
-              </p>
-              <Button
-                size="lg"
-                className="w-full min-h-[48px] bg-brand-gradient font-semibold hover:opacity-90"
-                onClick={scheduleVideoCall}
-              >
-                <Video className="mr-2 h-4 w-4" aria-hidden />
-                {t.ctaPrimary}
-              </Button>
-              {onStartOnboarding && (
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full min-h-[44px]"
-                  onClick={() => {
-                    trackEvent("consultoria_parten_onboarding", {});
-                    onStartOnboarding();
-                  }}
-                >
-                  {t.ctaSecondary}
-                </Button>
-              )}
-              <p className="text-[11px] text-muted-foreground">{t.note}</p>
+                  <Badge
+                    variant="outline"
+                    className="w-fit border-primary/20 text-muted-foreground font-normal"
+                  >
+                    {t.badge}
+                  </Badge>
+
+                  <h2
+                    id="parten-edu-heading"
+                    className="text-xl md:text-2xl font-semibold tracking-tight text-foreground"
+                  >
+                    {t.title}
+                  </h2>
+                  <p className="text-sm leading-relaxed text-muted-foreground max-w-xl">
+                    {t.description}
+                  </p>
+
+                  <ul className="flex flex-wrap gap-2 list-none p-0 m-0" role="list">
+                    {t.highlights.map((item) => (
+                      <li key={item}>
+                        <span className="inline-flex rounded-full border border-border/80 bg-muted/40 px-2.5 py-1 text-xs font-medium text-foreground">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="lg:col-span-2 flex flex-col justify-center gap-4 p-6 md:p-8 bg-surface-matte/40">
+                <p className="text-sm leading-relaxed text-foreground/90">
+                  {t.ctaLead}
+                </p>
+
+                <div className="flex flex-col gap-2.5">
+                  <Button
+                    type="button"
+                    size="lg"
+                    className="w-full min-h-[48px] bg-brand-gradient font-semibold hover:opacity-90 focus-visible:ring-offset-2"
+                    onClick={scheduleVideoCall}
+                  >
+                    <Video className="mr-2 h-4 w-4 shrink-0" aria-hidden />
+                    {t.ctaPrimary}
+                  </Button>
+
+                  {onStartOnboarding && (
+                    <Button
+                      type="button"
+                      size="lg"
+                      variant="outline"
+                      className="w-full min-h-[44px] border-[color:var(--logo-surface-border)] bg-background/60 hover:border-primary/25"
+                      onClick={() => {
+                        trackEvent("consultoria_parten_onboarding", {});
+                        onStartOnboarding();
+                      }}
+                    >
+                      {t.ctaSecondary}
+                      <ArrowRight className="ml-2 h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    </Button>
+                  )}
+                </div>
+
+                <p className="text-[11px] leading-relaxed text-muted-foreground">
+                  {t.note}
+                </p>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </motion.div>
     </PageSection>
   );
 }
