@@ -314,12 +314,33 @@ export function isProjectsPath(path: string): boolean {
   );
 }
 
+/**
+ * Activo en header y bottom dock.
+ * - Home: Inicio / Contacto según sección en viewport (homeSection)
+ * - Otras rutas: match por pathname (negocios, consultoría, proceso, …)
+ */
 export function matchNavItemActive(
   item: ResolvedNavItem,
   path: string,
   options?: { isOnHome?: boolean; homeSection?: "inicio" | "contacto" }
 ): boolean {
   const normalized = path.replace(/\/+$/, "") || "/";
+  const onHome = options?.isOnHome ?? normalized === ROUTES.home;
+  const section = options?.homeSection ?? "inicio";
+
+  // Inicio: solo en home, y no cuando el usuario está en #contacto
+  if (item.id === "inicio") {
+    if (!onHome && normalized !== ROUTES.home) return false;
+    return section === "inicio";
+  }
+
+  // Contacto: ruta /contacto o ancla #contacto en home
+  if (item.id === "contacto") {
+    if (normalized === ROUTES.contact) return true;
+    if (item.action.kind === "contact" && normalized === ROUTES.contact) return true;
+    if (onHome) return section === "contacto";
+    return false;
+  }
 
   if (item.id === "experiencia" || item.id === "sobre-mi") {
     return normalized === "/sobre-mi";
@@ -336,13 +357,7 @@ export function matchNavItemActive(
   }
 
   if (item.action.kind === "route") {
-    if (item.id === "inicio") return normalized === ROUTES.home;
     return normalized === item.action.target;
-  }
-
-  if (item.action.kind === "anchor" && options?.isOnHome) {
-    if (item.id === "contacto") return options.homeSection === "contacto";
-    if (item.id === "inicio") return options.homeSection === "inicio";
   }
 
   return false;

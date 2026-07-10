@@ -46,12 +46,15 @@ export function Navigation({
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [homeSection, setHomeSection] = useState<"inicio" | "contacto">("inicio");
   const { language } = useLanguage();
   const t = useTranslation(language);
   const { label: processLabel, variant: processLabelVariant } = useProcessNavLabel(language);
   const location = useLocation();
   const navigate = useNavigate();
   const pendingScroll = useRef<string | null>(null);
+  const path = location.pathname.replace(/\/+$/, "") || "/";
+  const isOnHome = path === ROUTES.home;
 
   const navLabels = useMemo(
     () => ({
@@ -108,6 +111,25 @@ export function Navigation({
     pendingScroll.current = null;
     scrollToSection(target);
   }, [location.pathname]);
+
+  // Spy home: Contacto del header activo al llegar a #contacto
+  useEffect(() => {
+    if (!isOnHome) {
+      setHomeSection("inicio");
+      return;
+    }
+    const contact = document.querySelector("#contacto");
+    if (!contact) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHomeSection(entry.isIntersecting ? "contacto" : "inicio");
+      },
+      { threshold: 0.2, rootMargin: "-15% 0px -50% 0px" }
+    );
+    observer.observe(contact);
+    return () => observer.disconnect();
+  }, [isOnHome, path]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -171,13 +193,35 @@ export function Navigation({
   }, []);
 
   const renderPrimaryItem = (item: ResolvedNavItem) => {
-    const isActive = matchNavItemActive(item, location.pathname);
+    const isActive = matchNavItemActive(item, path, {
+      isOnHome,
+      homeSection: isOnHome ? homeSection : undefined,
+    });
 
     if (item.action.kind === "anchor") {
       return (
-        <Button variant="ghost" asChild className="hover:text-primary hover:bg-primary/10 transition-all">
-          <a href={item.action.target} onClick={(e) => handleNavClick(e, item)}>
+        <Button
+          variant="ghost"
+          asChild
+          className={cn(
+            "relative transition-all hover:bg-primary/10 hover:text-primary",
+            isActive && "bg-primary/10 text-primary"
+          )}
+        >
+          <a
+            href={item.action.target}
+            onClick={(e) => handleNavClick(e, item)}
+            aria-current={isActive ? "page" : undefined}
+          >
             {item.label}
+            {isActive && (
+              <motion.div
+                layoutId="activeNavIndicator"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                initial={false}
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
           </a>
         </Button>
       );
@@ -186,10 +230,12 @@ export function Navigation({
     return (
       <Button
         variant="ghost"
-        className={`hover:text-primary hover:bg-primary/10 transition-all relative ${
-          isActive ? "text-primary bg-primary/10" : ""
-        }`}
+        className={cn(
+          "relative transition-all hover:bg-primary/10 hover:text-primary",
+          isActive && "bg-primary/10 text-primary"
+        )}
         onClick={() => runNavAction(item)}
+        aria-current={isActive ? "page" : undefined}
       >
         {item.label}
         {isActive && (

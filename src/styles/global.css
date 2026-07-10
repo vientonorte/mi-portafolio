@@ -409,12 +409,32 @@ html[data-nav="subpage"] main {
   }
 }
 
-.bottom-nav-mobile button[aria-current="page"] .bottom-nav-mobile__label {
-  font-weight: 600;
+/* Hover + active: color heredado del tab (no forzar inactive en label activo) */
+.bottom-nav-tab:not([aria-current="page"]) .bottom-nav-mobile__label {
+  color: inherit;
 }
 
-.bottom-nav-mobile button:not([aria-current="page"]) .bottom-nav-mobile__label {
-  color: var(--bottom-nav-inactive, #404040);
+.bottom-nav-tab--active .bottom-nav-mobile__label,
+.bottom-nav-mobile button[aria-current="page"] .bottom-nav-mobile__label {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Desktop hover más claro (pointer fino) */
+@media (hover: hover) and (pointer: fine) {
+  .bottom-nav-tab:hover {
+    color: var(--primary);
+  }
+}
+
+/* Sin hover sticky en touch: solo active por ruta/sección */
+@media (hover: none) {
+  .bottom-nav-tab:hover {
+    background-color: transparent;
+  }
+  .bottom-nav-tab--active:hover {
+    background-color: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
 }
 
 /* Skip-to-content link — accesibilidad teclado */

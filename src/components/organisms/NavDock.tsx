@@ -44,9 +44,18 @@ export function NavDock({ variant }: NavDockProps) {
     more: t.nav.more,
   };
 
-  const items = getDockNavItems(variant, navLabels, processLabel);
   const path = location.pathname.replace(/\/+$/, "") || "/";
   const isOnHome = path === ROUTES.home;
+  /**
+   * Home → anclas #inicio / #contacto + spy de sección.
+   * Otras páginas → rutas (negocios, consultoría, proceso, contacto).
+   * Se deriva del pathname (BottomNav solo en home; DeepPageNav en el resto).
+   */
+  const effectiveVariant: NavDockVariant = isOnHome ? "home" : "deep";
+  // variant prop se conserva por API; el pathname manda para hover/activo
+  void variant;
+
+  const items = getDockNavItems(effectiveVariant, navLabels, processLabel);
 
   useEffect(() => {
     if (isOnHome && pendingScroll.current) {
@@ -56,21 +65,39 @@ export function NavDock({ variant }: NavDockProps) {
     }
   }, [isOnHome]);
 
+  // Spy de sección en home: Inicio vs Contacto (header + dock)
   useEffect(() => {
-    if (!isOnHome || variant !== "home") return;
+    if (!isOnHome) {
+      setHomeSection("inicio");
+      return;
+    }
 
     const contact = document.querySelector("#contacto");
+    const inicio = document.querySelector("#inicio");
     if (!contact) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setHomeSection(entry.isIntersecting ? "contacto" : "inicio");
+      (entries) => {
+        const contactEntry = entries.find((e) => e.target.id === "contacto");
+        if (contactEntry?.isIntersecting) {
+          setHomeSection("contacto");
+          return;
+        }
+        // Si no hay contacto en vista, preferir inicio
+        const inicioVisible = entries.some(
+          (e) => e.target.id === "inicio" && e.isIntersecting
+        );
+        if (inicioVisible || !contactEntry?.isIntersecting) {
+          setHomeSection("inicio");
+        }
       },
-      { threshold: 0.25, rootMargin: "-20% 0px -55% 0px" }
+      { threshold: [0.15, 0.35], rootMargin: "-15% 0px -45% 0px" }
     );
+
     observer.observe(contact);
+    if (inicio) observer.observe(inicio);
     return () => observer.disconnect();
-  }, [isOnHome, variant]);
+  }, [isOnHome, path]);
 
   const handleTap = (item: ResolvedNavItem) => {
     executeNavAction(item, {
@@ -82,12 +109,12 @@ export function NavDock({ variant }: NavDockProps) {
 
   const ariaLabel =
     language === "es"
-      ? variant === "home"
+      ? isOnHome
         ? "Navegación principal"
-        : "Navegación rápida"
-      : variant === "home"
+        : "Navegación de página"
+      : isOnHome
         ? "Main navigation"
-        : "Quick navigation";
+        : "Page navigation";
 
   return (
     <nav
@@ -95,13 +122,15 @@ export function NavDock({ variant }: NavDockProps) {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={ariaLabel}
       data-process-label-variant={processLabelVariant}
-      data-nav-variant={variant}
+      data-nav-variant={effectiveVariant}
+      data-on-home={isOnHome ? "true" : "false"}
+      data-home-section={isOnHome ? homeSection : undefined}
     >
       <ul className="bottom-nav-mobile__list">
         {items.map((item) => {
           const active = matchNavItemActive(item, path, {
             isOnHome,
-            homeSection: variant === "home" ? homeSection : undefined,
+            homeSection: isOnHome ? homeSection : undefined,
           });
           const isCenter = item.id === DOCK_CENTER_ID;
 

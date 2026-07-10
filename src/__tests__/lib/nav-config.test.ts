@@ -101,4 +101,39 @@ describe("matchNavItemActive", () => {
     expect(matchNavItemActive(negocios, "/proyecto/sura")).toBe(true);
     expect(matchNavItemActive(negocios, "/")).toBe(false);
   });
+
+  it("detects home Inicio vs Contacto by section spy", () => {
+    const dockHome = getDockNavItems("home", labels, "Proceso");
+    const inicio = dockHome.find((i) => i.id === "inicio")!;
+    const contacto = dockHome.find((i) => i.id === "contacto")!;
+
+    expect(
+      matchNavItemActive(inicio, "/", { isOnHome: true, homeSection: "inicio" })
+    ).toBe(true);
+    expect(
+      matchNavItemActive(contacto, "/", { isOnHome: true, homeSection: "inicio" })
+    ).toBe(false);
+    expect(
+      matchNavItemActive(inicio, "/", { isOnHome: true, homeSection: "contacto" })
+    ).toBe(false);
+    expect(
+      matchNavItemActive(contacto, "/", {
+        isOnHome: true,
+        homeSection: "contacto",
+      })
+    ).toBe(true);
+  });
+
+  it("detects deep routes for consultoria and proceso", () => {
+    const dockDeep = getDockNavItems("deep", labels, "Proceso");
+    const consultoria = dockDeep.find((i) => i.id === "consultoria")!;
+    const proceso = dockDeep.find((i) => i.id === "proceso")!;
+    const inicio = dockDeep.find((i) => i.id === "inicio")!;
+
+    expect(matchNavItemActive(consultoria, "/consultoria")).toBe(true);
+    expect(matchNavItemActive(proceso, "/proceso")).toBe(true);
+    expect(matchNavItemActive(proceso, "/proceso/fase/ux-research")).toBe(true);
+    expect(matchNavItemActive(inicio, "/consultoria")).toBe(false);
+    expect(matchNavItemActive(consultoria, "/")).toBe(false);
+  });
 });

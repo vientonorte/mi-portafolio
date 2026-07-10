@@ -28,14 +28,16 @@ export function LiquidNavCta({
       className={cn(
         "liquid-nav-cta",
         "group flex h-16 w-full min-h-[44px] flex-col items-center justify-end gap-1 px-0.5 pb-1",
-        "rounded-sm transition-transform duration-200",
+        "rounded-lg transition-[transform,background-color] duration-200",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "active:scale-[0.97]",
-        active && "liquid-nav-cta--active"
+        "hover:bg-primary/5",
+        active && "liquid-nav-cta--active bg-primary/8"
       )}
       aria-label={ariaLabel ?? label}
       aria-current={active ? "page" : undefined}
       data-liquid-cta="consultoria"
+      data-active={active ? "true" : "false"}
     >
       <span className="liquid-nav-cta__orb" aria-hidden="true">
         {/* Halo liquid glass (alrededor, no sobre el logo) */}
