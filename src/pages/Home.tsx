@@ -31,7 +31,9 @@ function BelowFoldFallback() {
 const Home = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
-  const seo = useTranslation(language).seo;
+  const t = useTranslation(language);
+  const seo = t.seo;
+  // Solo con diccionario ya cargado (LanguageProvider); evita getTranslationSync en vacío
   const structuredData = useMemo(
     () => buildPortfolioStructuredData(language),
     [language]

@@ -1,6 +1,10 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { Language } from './i18n/types';
-import { getTranslationSync, isTranslationLoaded, loadTranslation } from './i18n/loader';
+import {
+  getTranslationSync,
+  isTranslationLoaded,
+  loadTranslation,
+} from './i18n/loader';
 import type { Translation } from './i18n/types';
 import { TranslationProvider } from './i18n/TranslationContext';
 
@@ -27,12 +31,26 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const lang = readStoredLanguage();
     return isTranslationLoaded(lang) ? getTranslationSync(lang) : null;
   });
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    loadTranslation(language).then((dict) => {
-      if (!cancelled) setDictionary(dict);
-    });
+    setLoadError(null);
+
+    loadTranslation(language)
+      .then((dict) => {
+        if (!cancelled) setDictionary(dict);
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        console.error('[i18n] loadTranslation failed', language, err);
+        setLoadError(
+          language === 'es'
+            ? 'No se pudo cargar el idioma. Recarga la página.'
+            : 'Could not load language. Please reload.'
+        );
+      });
+
     return () => {
       cancelled = true;
     };
@@ -46,6 +64,24 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       /* ignore */
     }
   };
+
+  if (loadError) {
+    return (
+      <div
+        className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-4 text-center"
+        role="alert"
+      >
+        <p className="text-sm text-muted-foreground">{loadError}</p>
+        <button
+          type="button"
+          className="min-h-[44px] rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground"
+          onClick={() => window.location.reload()}
+        >
+          {language === 'es' ? 'Recargar' : 'Reload'}
+        </button>
+      </div>
+    );
+  }
 
   if (!dictionary) {
     return (
