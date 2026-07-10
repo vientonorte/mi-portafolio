@@ -73,8 +73,8 @@ export default function DesignSystem() {
             className="mx-auto max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground md:text-base"
           >
             {es
-              ? "Marca, tokens matte, 4 roles de consultoría y export Figma-ready (Tokens Studio, W3C DTCG, CSS y prompt AI)."
-              : "Brand, matte tokens, 4 consulting roles, and Figma-ready export (Tokens Studio, W3C DTCG, CSS, and AI prompt)."}
+              ? "Marca, tokens matte, 4 roles de consultoría (checklist de código para campañas) y export Figma-ready."
+              : "Brand, matte tokens, 4 consulting roles (campaign code checklist), and Figma-ready export."}
           </motion.p>
 
           <motion.div

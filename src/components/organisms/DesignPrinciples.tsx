@@ -80,13 +80,13 @@ const principles = {
     },
     {
       icon: Target,
-      title: "4 roles · un sistema de mensaje",
+      title: "4 roles · checklist de código",
       description:
-        "Producto/PM, Design Ops, Datos/perímetro y Fundador comparten data con hero y campañas (IG Reels, SEO, LinkedIn).",
+        "Producto/PM, Design Ops, Datos/perímetro y Fundador: data única con hero. Campañas se activan con código listo (deep links, SEO técnico), no con plan de medios en la UI.",
       examples: [
         "consultoria-hero-roles.ts como fuente única",
         "Path 2×2 en hero sin métricas meta",
-        "DS #audience-roles para briefs de campaña",
+        "DS #audience-roles = checklist de implementación",
       ],
     },
   ],
@@ -157,13 +157,13 @@ const principles = {
     },
     {
       icon: Target,
-      title: "4 roles · one messaging system",
+      title: "4 roles · code checklist",
       description:
-        "Product/PM, Design Ops, Data/perimeter, and Founder share data with hero and campaigns (IG Reels, SEO, LinkedIn).",
+        "Product/PM, Design Ops, Data/perimeter, and Founder: single source with hero. Campaigns use ready code (deep links, technical SEO) — no media plan in the UI.",
       examples: [
         "consultoria-hero-roles.ts as single source",
         "2×2 path in hero without meta metrics",
-        "DS #audience-roles for campaign briefs",
+        "DS #audience-roles = implementation checklist",
       ],
     },
   ],

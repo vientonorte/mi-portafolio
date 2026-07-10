@@ -3,20 +3,10 @@ import type { ConsultingPackageId } from "./vientonorte-consulting";
 
 /**
  * 4 roles del hero de consultoría — fuente única para landing + Design System.
- * Campañas próximas: SEM Instagram (reels), SEO Google, SEM LinkedIn.
+ * Los planes de campaña (copy SEM/SEO) no se exponen en UI; solo checklist
+ * de código optimizado para activar campañas sin reescribir el sistema.
  */
 export type HeroRoleId = "product" | "ops" | "compliance" | "founder";
-
-export type CampaignChannelId = "ig_reels" | "seo_google" | "sem_linkedin";
-
-export interface HeroRoleCampaignHooks {
-  /** Ángulo de reel / short (IG) */
-  igReels: Record<Language, string>;
-  /** Intención / query cluster (SEO) */
-  seoGoogle: Record<Language, string>;
-  /** Hook profesional (LinkedIn SEM / organic boost) */
-  semLinkedin: Record<Language, string>;
-}
 
 export interface HeroRoleDefinition {
   id: HeroRoleId;
@@ -27,14 +17,14 @@ export interface HeroRoleDefinition {
   title: Record<Language, string>;
   /** Hint corto del path en hero */
   hint: Record<Language, string>;
-  /** Problema que resuelve (DS / brief de campaña) */
+  /** Problema que resuelve (interno / DS técnico) */
   pain: Record<Language, string>;
-  /** Mensaje de valor en 1 línea */
+  /** Mensaje de valor en 1 línea (producto, no ad copy) */
   valueProp: Record<Language, string>;
-  /** Tokens / UI atoms a reutilizar en piezas de campaña */
+  /** Tokens / UI atoms del path */
   uiTokens: string[];
-  /** Canales de campaña */
-  campaigns: HeroRoleCampaignHooks;
+  /** Query / deep-link listo para UTM (código, no plan de medios) */
+  deepLinkQuery: string;
 }
 
 export const HERO_ROLES: readonly HeroRoleDefinition[] = [
@@ -63,20 +53,7 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       "Badge outline",
       "SectionHeader",
     ],
-    campaigns: {
-      igReels: {
-        es: "Hook 3s: «Onboarding que no se traba en compliance» + cut a path Producto/PM.",
-        en: "3s hook: «Onboarding that doesn’t stall on compliance» + cut to Product/PM path.",
-      },
-      seoGoogle: {
-        es: "Cluster: UX onboarding fintech Chile · progressive disclosure · Lead UX SURA",
-        en: "Cluster: fintech onboarding UX · progressive disclosure · Lead UX SURA",
-      },
-      semLinkedin: {
-        es: "Pain de PM/PO en wealth: «de brief a prototipo en 3–4 sem, sin precio genérico».",
-        en: "PM/PO wealth pain: «brief to prototype in 3–4 wks, no generic public pricing».",
-      },
-    },
+    deepLinkQuery: "role=product&package=marco",
   },
   {
     id: "ops",
@@ -103,20 +80,7 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       "atomic 70-20-10",
       "LiquidNavCta / dock glass",
     ],
-    campaigns: {
-      igReels: {
-        es: "Reel «antes/después handoff»: PDF vs tokens + DoD en repo.",
-        en: "Before/after handoff reel: PDF vs tokens + DoD in repo.",
-      },
-      seoGoogle: {
-        es: "Cluster: Design Ops handoff · design system adopción · UX process framework",
-        en: "Cluster: Design Ops handoff · design system adoption · UX process framework",
-      },
-      semLinkedin: {
-        es: "Para Head of Product / Design: «handoff medible en 4–6 sem, no slide deck».",
-        en: "For Head of Product / Design: «measurable handoff in 4–6 wks, not a slide deck».",
-      },
-    },
+    deepLinkQuery: "role=ops&package=ops",
   },
   {
     id: "compliance",
@@ -144,20 +108,7 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       "border logo-surface",
       "WCAG focus rings",
     ],
-    campaigns: {
-      igReels: {
-        es: "Anti-promesa en 15s: «no ChatGPT genérico con tus datos» → C1 offline.",
-        en: "15s anti-promise: «no generic ChatGPT with your data» → C1 offline.",
-      },
-      seoGoogle: {
-        es: "Cluster: Ley 21.719 UX · privacy by design Chile · offline-first tools",
-        en: "Cluster: Chile data law UX · privacy by design · offline-first tools",
-      },
-      semLinkedin: {
-        es: "Compliance + DPO: «controles UX/técnicos by design; el responsable es el cliente».",
-        en: "Compliance + DPO: «UX/tech controls by design; the client remains controller».",
-      },
-    },
+    deepLinkQuery: "role=compliance&package=marco&c1=1",
   },
   {
     id: "founder",
@@ -184,53 +135,100 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       "Primary CTA only",
       "text-brand-gradient",
     ],
-    campaigns: {
-      igReels: {
-        es: "Reel «test reclutador 10s» sobre un landing real + CTA a Radar.",
-        en: "«10s recruiter test» reel on a real landing + CTA to Radar.",
-      },
-      seoGoogle: {
-        es: "Cluster: auditoría UX express · portfolio UX Lead · consultoría UX Chile",
-        en: "Cluster: express UX audit · UX Lead portfolio · UX consulting Chile",
-      },
-      semLinkedin: {
-        es: "Founders: «diagnóstico en 5–7 días hábiles, alcance cerrado en kickoff».",
-        en: "Founders: «diagnostic in 5–7 business days, scope closed at kickoff».",
-      },
-    },
+    deepLinkQuery: "role=founder&package=radar",
   },
 ] as const;
 
-export const CAMPAIGN_CHANNELS: {
-  id: CampaignChannelId;
+/**
+ * Checklist de **código** optimizado para campañas (no plan de medios, no copy ads).
+ * Visible en DS como criterios de implementación.
+ */
+export const CAMPAIGN_CODE_CHECKLIST: readonly {
+  id: string;
   label: Record<Language, string>;
-  description: Record<Language, string>;
+  codeHint: string;
 }[] = [
   {
-    id: "ig_reels",
-    label: { es: "SEM · Instagram Reels", en: "SEM · Instagram Reels" },
-    description: {
-      es: "Hooks de 3–15s, subtítulos ES, CTA a /consultoria con path prearmado.",
-      en: "3–15s hooks, ES captions, CTA to /consultoria with prefilled path.",
+    id: "role-ids",
+    label: {
+      es: "IDs de rol estables (product | ops | compliance | founder)",
+      en: "Stable role IDs (product | ops | compliance | founder)",
     },
+    codeHint: "HERO_ROLES[].id",
   },
   {
-    id: "seo_google",
-    label: { es: "SEO · Google", en: "SEO · Google" },
-    description: {
-      es: "Clusters por rol + schema consultoría; landing como hub de evidencia.",
-      en: "Role-based clusters + consulting schema; landing as evidence hub.",
+    id: "package-map",
+    label: {
+      es: "Mapa rol → packageId / c1Goal (onboarding sin re-elegir)",
+      en: "Role → packageId / c1Goal map (onboarding without re-pick)",
     },
+    codeHint: "packageId + c1Goal",
   },
   {
-    id: "sem_linkedin",
-    label: { es: "SEM · LinkedIn", en: "SEM · LinkedIn" },
-    description: {
-      es: "Pain de rol (PM, Ops, Compliance, Founder) → kickoff <24 h hábiles.",
-      en: "Role pain (PM, Ops, Compliance, Founder) → kickoff <24 business hours.",
+    id: "deep-link",
+    label: {
+      es: "Deep link query por rol (UTM listo en landing)",
+      en: "Per-role deep link query (UTM-ready on landing)",
     },
+    codeHint: "?role=&package=&c1=",
   },
-];
+  {
+    id: "scroll-section",
+    label: {
+      es: "Scroll a inicio de sección con offset de header",
+      en: "Scroll to section start with header offset",
+    },
+    codeHint: "scrollToSection / ScrollManager",
+  },
+  {
+    id: "seo-meta",
+    label: {
+      es: "SEOHead + canonical por ruta (sin copy de campaña en DS)",
+      en: "SEOHead + per-route canonical (no ad copy in DS)",
+    },
+    codeHint: "SEOHead / canonicalFromPath",
+  },
+  {
+    id: "structured-data",
+    label: {
+      es: "JSON-LD Person/WebSite tras i18n cargado",
+      en: "Person/WebSite JSON-LD after i18n load",
+    },
+    codeHint: "buildPortfolioStructuredData",
+  },
+  {
+    id: "a11y-cta",
+    label: {
+      es: "CTA ≥ 44px, aria-current en nav, contraste AA",
+      en: "CTA ≥ 44px, nav aria-current, AA contrast",
+    },
+    codeHint: "NavTabItem / LiquidNavCta",
+  },
+  {
+    id: "i18n-atomic",
+    label: {
+      es: "Swap ES↔EN atómico (sin carrera al toglear)",
+      en: "Atomic ES↔EN swap (no race on toggle)",
+    },
+    codeHint: "LanguageProvider locale state",
+  },
+  {
+    id: "tokens-export",
+    label: {
+      es: "Export Tokens Studio / W3C / CSS para piezas creativas",
+      en: "Tokens Studio / W3C / CSS export for creatives",
+    },
+    codeHint: "design-tokens-export",
+  },
+  {
+    id: "single-source",
+    label: {
+      es: "Una sola fuente de roles (no inventar 5º path sin data)",
+      en: "Single role source (no 5th path without data)",
+    },
+    codeHint: "consultoria-hero-roles.ts",
+  },
+] as const;
 
 export function getHeroRole(id: HeroRoleId): HeroRoleDefinition | undefined {
   return HERO_ROLES.find((r) => r.id === id);
