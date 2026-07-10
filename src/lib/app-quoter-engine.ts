@@ -9,9 +9,16 @@ import {
   tierMinimumBudgetUsd,
   tierReferenceBudgetUsd,
 } from "./app-quoter-config";
+import {
+  formatQuoterAmount,
+  type QuoterCurrency,
+} from "./app-quoter-currency";
 
 export interface QuoteResult {
   budgetUsd: number;
+  /** Monto en la moneda elegida por el usuario (display). */
+  budgetDisplay: number;
+  currency: QuoterCurrency;
   selectedTierId: DeliverableTierId;
   fit: QuoteFitLevel;
   /** 0–100 — alineación presupuesto vs expectativa (sin revelar tarifa). */
@@ -51,8 +58,18 @@ function suggestIncreasePercent(budgetUsd: number, tier: DeliverableTier): { low
   return { low, high };
 }
 
-export function calculateAppQuote(budgetUsd: number, selectedTierId: DeliverableTierId): QuoteResult | null {
+export function calculateAppQuote(
+  budgetUsd: number,
+  selectedTierId: DeliverableTierId,
+  options?: {
+    currency?: QuoterCurrency;
+    budgetDisplay?: number;
+  }
+): QuoteResult | null {
   if (!Number.isFinite(budgetUsd) || budgetUsd < 500) return null;
+
+  const currency = options?.currency ?? "USD";
+  const budgetDisplay = options?.budgetDisplay ?? budgetUsd;
 
   const tier = getTier(selectedTierId);
   const capacity = internalCapacityUnits(budgetUsd);
@@ -64,6 +81,8 @@ export function calculateAppQuote(budgetUsd: number, selectedTierId: Deliverable
 
   return {
     budgetUsd,
+    budgetDisplay,
+    currency,
     selectedTierId,
     fit,
     alignmentScore,
@@ -83,17 +102,17 @@ export function buildAppQuoterContactMessage(
   fitLabel: string,
   affordableLabel: string
 ): string {
-  const budget = new Intl.NumberFormat(language === "es" ? "es-CL" : "en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(result.budgetUsd);
+  const budget = formatQuoterAmount(
+    result.budgetDisplay,
+    result.currency,
+    language
+  );
 
   if (language === "es") {
     return [
       "Hola Rodrigo — solicitud vía cotizador app/web Viento Norte.",
       "",
-      `Presupuesto de referencia: ${budget}`,
+      `Presupuesto de referencia: ${budget} (${result.currency})`,
       `Expectativa: ${tierLabel}`,
       `Alineación estimada: ${result.alignmentScore}% · ${fitLabel}`,
       result.fit === "gap" || result.fit === "tight"
@@ -107,7 +126,7 @@ export function buildAppQuoterContactMessage(
   return [
     "Hi Rodrigo — request via Viento Norte app/web quoter.",
     "",
-    `Reference budget: ${budget}`,
+    `Reference budget: ${budget} (${result.currency})`,
     `Expected deliverable: ${tierLabel}`,
     `Estimated alignment: ${result.alignmentScore}% · ${fitLabel}`,
     result.fit === "gap" || result.fit === "tight"

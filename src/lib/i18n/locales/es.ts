@@ -445,7 +445,15 @@ export default {
           'Indica tu inversión de referencia y el tipo de entregable. Obtén una lectura de viabilidad sin precios públicos — el alcance fino se confirma en kickoff.',
         disclaimer:
           'Estimación orientativa de diseño UX y producto digital. No incluye desarrollo ni licencias de terceros.',
-        budgetLabel: 'Presupuesto de referencia (USD)',
+        currencyLabel: 'Moneda',
+        currencies: {
+          USD: 'USD · Dólar',
+          UF: 'UF · Unidad de fomento',
+          CLP: 'CLP · Peso chileno',
+        },
+        fxNote:
+          'Tasas orientativas para comparar (no FX en vivo). El fit se calcula en equivalencia interna; el alcance se cierra en kickoff.',
+        budgetLabel: 'Presupuesto de referencia',
         budgetPresetsLabel: 'Presupuestos frecuentes',
         expectationLabel: '¿Qué esperas construir?',
         tiers: {

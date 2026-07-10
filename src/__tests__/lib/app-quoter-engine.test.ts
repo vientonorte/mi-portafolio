@@ -41,4 +41,21 @@ describe("calculateAppQuote", () => {
     assertNoRateLeak(message);
     expect(message).toContain("Presupuesto de referencia");
   });
+
+  it("includes display currency in quote result and contact message", () => {
+    const result = calculateAppQuote(12_000, "web", {
+      currency: "CLP",
+      budgetDisplay: 11_400_000,
+    })!;
+    expect(result.currency).toBe("CLP");
+    expect(result.budgetDisplay).toBe(11_400_000);
+    const message = buildAppQuoterContactMessage(
+      "es",
+      result,
+      "Web funcional",
+      "Viable",
+      "Prototipo funcional"
+    );
+    expect(message).toContain("CLP");
+  });
 });

@@ -445,7 +445,15 @@ export default {
           'Enter your reference investment and deliverable type. Get a viability read without public pricing — final scope is confirmed at kickoff.',
         disclaimer:
           'Indicative estimate for UX and digital product design. Excludes engineering build and third-party licenses.',
-        budgetLabel: 'Reference budget (USD)',
+        currencyLabel: 'Currency',
+        currencies: {
+          USD: 'USD · US dollar',
+          UF: 'UF · Chilean inflation unit',
+          CLP: 'CLP · Chilean peso',
+        },
+        fxNote:
+          'Indicative rates for comparison (not live FX). Fit uses an internal equivalence; scope is closed at kickoff.',
+        budgetLabel: 'Reference budget',
         budgetPresetsLabel: 'Common budgets',
         expectationLabel: 'What do you expect to build?',
         tiers: {

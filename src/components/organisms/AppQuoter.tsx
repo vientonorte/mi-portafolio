@@ -6,6 +6,13 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Label } from "../ui/label";
 import { Slider } from "../ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import {
@@ -13,15 +20,18 @@ import {
   buildAppQuoterContactMessage,
   type QuoteResult,
 } from "../../lib/app-quoter-engine";
+import {
+  QUOTER_CURRENCIES,
+  SLIDER_BY_CURRENCY,
+  convertDisplayAmount,
+  formatQuoterAmount,
+  toUsd,
+  type QuoterCurrency,
+} from "../../lib/app-quoter-currency";
 import type { DeliverableTierId } from "../../lib/app-quoter-config";
 import { ROUTES } from "../../lib/routes";
 import { cn } from "../../lib/utils";
 import { trackEvent } from "../../lib/analytics";
-
-const BUDGET_MIN = 2_000;
-const BUDGET_MAX = 100_000;
-const BUDGET_STEP = 500;
-const DEFAULT_BUDGET = 12_000;
 
 const TIER_ORDER: DeliverableTierId[] = ["prototype", "web", "app", "enterprise"];
 
@@ -41,17 +51,35 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.appQuoter;
 
-  const [budget, setBudget] = useState(DEFAULT_BUDGET);
+  const [currency, setCurrency] = useState<QuoterCurrency>("USD");
+  const slider = SLIDER_BY_CURRENCY[currency];
+  const [budgetDisplay, setBudgetDisplay] = useState(slider.defaultValue);
   const [tierId, setTierId] = useState<DeliverableTierId>("web");
 
-  const quote = useMemo(() => calculateAppQuote(budget, tierId), [budget, tierId]);
+  const budgetUsd = useMemo(
+    () => toUsd(budgetDisplay, currency),
+    [budgetDisplay, currency]
+  );
+
+  const quote = useMemo(
+    () =>
+      calculateAppQuote(budgetUsd, tierId, {
+        currency,
+        budgetDisplay,
+      }),
+    [budgetUsd, budgetDisplay, currency, tierId]
+  );
 
   const formatBudget = (value: number) =>
-    new Intl.NumberFormat(language === "es" ? "es-CL" : "en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(value);
+    formatQuoterAmount(value, currency, language);
+
+  const handleCurrencyChange = (next: QuoterCurrency) => {
+    if (next === currency) return;
+    const converted = convertDisplayAmount(budgetDisplay, currency, next);
+    setCurrency(next);
+    setBudgetDisplay(converted);
+    trackEvent("app_quoter_currency", { currency: next });
+  };
 
   const handleContact = () => {
     if (!quote) return;
@@ -59,6 +87,7 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
       tier: quote.selectedTierId,
       fit: quote.fit,
       alignment: quote.alignmentScore,
+      currency: quote.currency,
     });
     onRecommendPackage?.(quote.recommendedPackage);
     const message = buildAppQuoterContactMessage(
@@ -92,7 +121,10 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
             <Calculator className="mr-1.5 h-3.5 w-3.5 text-primary" aria-hidden />
             {t.badge}
           </Badge>
-          <h2 id="app-quoter-heading" className="text-2xl md:text-3xl font-semibold tracking-tight">
+          <h2
+            id="app-quoter-heading"
+            className="text-2xl md:text-3xl font-semibold tracking-tight"
+          >
             {t.title}
           </h2>
           <p className="max-w-2xl text-muted-foreground">{t.description}</p>
@@ -103,36 +135,76 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
           <CardContent className="space-y-8 p-6 md:p-8">
             <div className="space-y-4">
               <div className="flex flex-wrap items-end justify-between gap-3">
-                <Label htmlFor="quoter-budget" className="text-base font-semibold text-foreground">
-                  {t.budgetLabel}
-                </Label>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="quoter-currency"
+                    className="text-base font-semibold text-foreground"
+                  >
+                    {t.currencyLabel}
+                  </Label>
+                  <Select
+                    value={currency}
+                    onValueChange={(v) => handleCurrencyChange(v as QuoterCurrency)}
+                  >
+                    <SelectTrigger
+                      id="quoter-currency"
+                      className="w-[11rem] min-h-[44px] bg-background"
+                      aria-label={t.currencyLabel}
+                    >
+                      <SelectValue placeholder={t.currencyLabel} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {QUOTER_CURRENCIES.map((code) => (
+                        <SelectItem key={code} value={code}>
+                          {t.currencies[code]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <p
                   id="quoter-budget-value"
                   className="font-mono text-xl font-semibold tabular-nums text-primary"
                   aria-live="polite"
                 >
-                  {formatBudget(budget)}
+                  {formatBudget(budgetDisplay)}
                 </p>
               </div>
-              <Slider
-                id="quoter-budget"
-                min={BUDGET_MIN}
-                max={BUDGET_MAX}
-                step={BUDGET_STEP}
-                value={[budget]}
-                onValueChange={([value]) => setBudget(value ?? DEFAULT_BUDGET)}
-                aria-valuetext={formatBudget(budget)}
-                className="py-2"
-              />
-              <div className="flex flex-wrap gap-2" role="group" aria-label={t.budgetPresetsLabel}>
-                {[5_000, 15_000, 30_000, 60_000].map((preset) => (
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="quoter-budget"
+                  className="text-sm font-medium text-foreground"
+                >
+                  {t.budgetLabel}
+                </Label>
+                <Slider
+                  id="quoter-budget"
+                  min={slider.min}
+                  max={slider.max}
+                  step={slider.step}
+                  value={[budgetDisplay]}
+                  onValueChange={([value]) =>
+                    setBudgetDisplay(value ?? slider.defaultValue)
+                  }
+                  aria-valuetext={formatBudget(budgetDisplay)}
+                  className="py-2"
+                />
+              </div>
+
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-label={t.budgetPresetsLabel}
+              >
+                {slider.presets.map((preset) => (
                   <button
                     key={preset}
                     type="button"
-                    onClick={() => setBudget(preset)}
+                    onClick={() => setBudgetDisplay(preset)}
                     className={cn(
                       "min-h-[40px] rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
-                      budget === preset
+                      budgetDisplay === preset
                         ? "border-primary/30 bg-primary/10 text-primary"
                         : "border-border bg-background/80 text-muted-foreground hover:border-primary/20"
                     )}
@@ -141,10 +213,16 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
                   </button>
                 ))}
               </div>
+
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                {t.fxNote}
+              </p>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm font-semibold text-foreground">{t.expectationLabel}</p>
+              <p className="text-sm font-semibold text-foreground">
+                {t.expectationLabel}
+              </p>
               <div
                 className="flex flex-wrap gap-2"
                 role="tablist"
@@ -180,7 +258,9 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-foreground">{t.result.alignment}</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {t.result.alignment}
+                    </p>
                     <p className="text-2xl font-semibold tabular-nums text-foreground">
                       {quote.alignmentScore}%
                     </p>
@@ -217,23 +297,36 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
                   <div className="rounded-lg border border-border/80 bg-background/60 p-4 text-sm text-foreground">
                     <p className="font-medium">{t.result.affordableTitle}</p>
                     <p className="mt-1 text-muted-foreground">
-                      {t.tiers[quote.affordableTierId].label} — {t.tiers[quote.affordableTierId].deliverable}
+                      {t.tiers[quote.affordableTierId].label} —{" "}
+                      {t.tiers[quote.affordableTierId].deliverable}
                     </p>
                     {quote.suggestedBudgetIncreasePercent && (
                       <p className="mt-2 text-muted-foreground">
                         {t.result.increaseHint
-                          .replace("{low}", String(quote.suggestedBudgetIncreasePercent.low))
-                          .replace("{high}", String(quote.suggestedBudgetIncreasePercent.high))}
+                          .replace(
+                            "{low}",
+                            String(quote.suggestedBudgetIncreasePercent.low)
+                          )
+                          .replace(
+                            "{high}",
+                            String(quote.suggestedBudgetIncreasePercent.high)
+                          )}
                       </p>
                     )}
                   </div>
                 )}
 
                 {(quote.fit === "comfortable" || quote.fit === "viable") && (
-                  <ul className="space-y-2 text-sm text-muted-foreground" role="list">
+                  <ul
+                    className="space-y-2 text-sm text-muted-foreground"
+                    role="list"
+                  >
                     {t.tiers[quote.selectedTierId].includes.map((item) => (
                       <li key={item} className="flex gap-2">
-                        <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                        <Sparkles
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"
+                          aria-hidden
+                        />
                         <span>{item}</span>
                       </li>
                     ))}
