@@ -37,7 +37,7 @@ export function ConsultoriaPrivateTooling({
   return (
     <PageSection
       id="offline-private"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="matte"
       aria-labelledby="offline-private-heading"

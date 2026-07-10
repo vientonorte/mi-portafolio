@@ -28,7 +28,9 @@ export function SectionHeader({
     : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
   return (
-    <div className={`flex flex-col ${containerClass} space-y-4 mb-10 md:mb-14 relative`}>
+    <div
+      className={`section-header-gap relative flex flex-col ${containerClass} space-y-3 md:space-y-4`}
+    >
       {badge && (
         <motion.div
           {...fadeUp}

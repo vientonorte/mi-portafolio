@@ -49,8 +49,8 @@ export default function DesignSystem() {
         url={canonicalFromPath("/design-system")}
       />
       <main>
-        <section className="py-12 md:py-20 px-4">
-          <div className="container max-w-6xl mx-auto text-center space-y-6">
+        <section className="section-pad-default">
+          <div className="container mx-auto max-w-6xl space-y-6 text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

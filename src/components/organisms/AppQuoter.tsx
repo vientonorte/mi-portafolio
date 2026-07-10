@@ -112,7 +112,7 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
   return (
     <section
       id="cotizador"
-      className="border-y border-border/60 bg-surface-section px-4 py-12 md:py-16 scroll-mt-24"
+      className="section-pad-default scroll-mt-[calc(var(--header-height)+0.75rem)] border-y border-border/60 bg-surface-section"
       aria-labelledby="app-quoter-heading"
     >
       <div className="container mx-auto max-w-4xl">

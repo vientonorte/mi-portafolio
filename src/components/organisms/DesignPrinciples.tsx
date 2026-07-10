@@ -226,7 +226,7 @@ export function DesignPrinciples() {
   const guides = usage[language];
 
   return (
-    <section className="py-16 md:py-24 px-4" aria-labelledby="principles-heading">
+    <section className="section-pad-default" aria-labelledby="principles-heading">
       <div className="container max-w-6xl mx-auto space-y-16 md:space-y-24">
         <div>
           <SectionHeader

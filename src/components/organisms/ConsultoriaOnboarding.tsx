@@ -137,7 +137,7 @@ export function ConsultoriaOnboarding({
 
   return (
     <section
-      className="px-4 py-12 md:py-16"
+      className="section-pad-default"
       aria-labelledby="consultoria-onboarding-heading"
     >
       <div className="container mx-auto max-w-3xl">

@@ -9,12 +9,68 @@
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --bottom-nav-total: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
   --back-to-top-offset: calc(var(--bottom-nav-total) + 1rem);
+
+  /*
+   * Escala de padding de sección (fuente única).
+   * compact < default < spacious — mismo ritmo en mobile → desktop.
+   * Base 4px; tocamos ≥44px en CTAs aparte de este ritmo vertical.
+   */
+  --section-pad-x: 1rem; /* 16px */
+  --section-pad-compact-y: 2.5rem; /* 40px */
+  --section-pad-default-y: 3rem; /* 48px */
+  --section-pad-spacious-y: 3.5rem; /* 56px */
+  --section-header-mb: 2rem; /* 32px — gap header → contenido */
 }
 
 @media (min-width: 640px) {
   :root {
     --header-height: 5rem;
+    --section-pad-x: 1.5rem; /* 24px */
+    --section-pad-compact-y: 3rem; /* 48px */
+    --section-pad-default-y: 3.5rem; /* 56px */
+    --section-pad-spacious-y: 4.5rem; /* 72px */
+    --section-header-mb: 2.25rem;
   }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-pad-compact-y: 3.5rem; /* 56px */
+    --section-pad-default-y: 4.5rem; /* 72px */
+    --section-pad-spacious-y: 5.5rem; /* 88px */
+    --section-header-mb: 2.5rem; /* 40px */
+  }
+}
+
+/* Utilidades de sección — usar en lugar de py-* sueltos */
+.section-pad-x {
+  padding-left: var(--section-pad-x);
+  padding-right: var(--section-pad-x);
+}
+
+.section-pad-compact {
+  padding-top: var(--section-pad-compact-y);
+  padding-bottom: var(--section-pad-compact-y);
+  padding-left: var(--section-pad-x);
+  padding-right: var(--section-pad-x);
+}
+
+.section-pad-default {
+  padding-top: var(--section-pad-default-y);
+  padding-bottom: var(--section-pad-default-y);
+  padding-left: var(--section-pad-x);
+  padding-right: var(--section-pad-x);
+}
+
+.section-pad-spacious {
+  padding-top: var(--section-pad-spacious-y);
+  padding-bottom: var(--section-pad-spacious-y);
+  padding-left: var(--section-pad-x);
+  padding-right: var(--section-pad-x);
+}
+
+.section-header-gap {
+  margin-bottom: var(--section-header-mb);
 }
 
 html {
@@ -300,14 +356,15 @@ html[data-nav="subpage"] [id].scroll-mt-20 {
   }
 }
 
-/* Espacio inferior para dock (footer de links retirado) */
-html[data-nav="subpage"] .page-shell,
-.page-shell,
+/*
+ * Espacio inferior para dock — una sola capa (evitar doble pad
+ * page-shell + main en páginas con PageShell).
+ */
 main {
   padding-bottom: var(--bottom-nav-total);
 }
 
-.site-footer {
+html[data-nav="subpage"] main {
   padding-bottom: var(--bottom-nav-total);
 }
 

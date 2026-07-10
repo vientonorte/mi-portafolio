@@ -13,7 +13,7 @@ export function Testimonials() {
   return (
     <PageSection
       id="testimonios"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="matte"
       aria-labelledby="testimonials-heading"

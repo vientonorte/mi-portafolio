@@ -41,7 +41,7 @@ export function ProjectsTeaser({
   return (
     <PageSection
       id="negocios"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="matte"
       aria-labelledby="negocios-teaser-heading"

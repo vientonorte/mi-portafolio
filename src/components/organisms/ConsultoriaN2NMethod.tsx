@@ -29,7 +29,7 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
   return (
     <PageSection
       id="metodo-n2n"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="section"
       aria-labelledby="metodo-n2n-heading"

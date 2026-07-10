@@ -45,7 +45,7 @@ export function AudienceRolesSystem() {
   return (
     <PageSection
       id="audience-roles"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="default"
       aria-labelledby="audience-roles-heading"

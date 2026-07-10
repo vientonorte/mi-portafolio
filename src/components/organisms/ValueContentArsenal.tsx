@@ -107,7 +107,7 @@ export function ValueContentArsenal({
   return (
     <PageSection
       id="valor"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="matte"
       aria-labelledby="value-arsenal-heading"

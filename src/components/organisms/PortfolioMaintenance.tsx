@@ -63,7 +63,7 @@ export function PortfolioMaintenance() {
   ];
 
   return (
-    <section className="py-20 md:py-28 px-4 bg-gradient-to-br from-muted/50 via-background to-muted/30 relative overflow-hidden">
+    <section className="section-pad-spacious relative overflow-hidden bg-gradient-to-br from-muted/50 via-background to-muted/30">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />

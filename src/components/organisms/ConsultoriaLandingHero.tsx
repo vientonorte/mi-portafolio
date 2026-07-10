@@ -72,7 +72,7 @@ export function ConsultoriaLandingHero({
 
   return (
     <section
-      className="relative overflow-hidden border-b border-border/60 bg-surface-matte px-4 py-14 md:py-20"
+      className="section-pad-default relative overflow-hidden border-b border-border/60 bg-surface-matte"
       aria-labelledby="consultoria-hero-heading"
     >
       <div

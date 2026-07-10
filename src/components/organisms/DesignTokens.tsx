@@ -129,7 +129,7 @@ export function DesignTokens() {
   );
 
   return (
-    <section className="py-16 md:py-24 px-4" aria-labelledby="tokens-heading">
+    <section className="section-pad-default" aria-labelledby="tokens-heading">
       <div className="container max-w-6xl mx-auto space-y-16 md:space-y-24">
         <div>
           <SectionHeader

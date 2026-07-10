@@ -30,7 +30,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
   return (
     <PageSection
       id="modalidades"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="matte"
       aria-labelledby="consultoria-packages-heading"

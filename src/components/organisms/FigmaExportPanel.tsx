@@ -171,7 +171,7 @@ export function FigmaExportPanel() {
   return (
     <section
       id="figma-export"
-      className="py-16 md:py-24 px-4 bg-surface-matte scroll-mt-24"
+      className="section-pad-default scroll-mt-[calc(var(--header-height)+0.75rem)] bg-surface-matte"
       aria-labelledby="figma-export-heading"
     >
       <div className="container max-w-6xl mx-auto space-y-12">

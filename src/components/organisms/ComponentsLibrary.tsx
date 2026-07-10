@@ -533,7 +533,7 @@ export function ComponentsLibrary() {
   const examples = componentExamples[language];
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-surface-section" aria-labelledby="components-heading">
+    <section className="section-pad-default bg-surface-section" aria-labelledby="components-heading">
       <div className="container max-w-6xl mx-auto">
         <SectionHeader
           badge="UI Kit"

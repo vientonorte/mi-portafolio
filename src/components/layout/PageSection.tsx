@@ -5,10 +5,16 @@ export type PageSectionPadding = "compact" | "default" | "spacious";
 export type PageSectionWidth = "narrow" | "content" | "wide";
 export type PageSectionTone = "default" | "muted" | "matte" | "section";
 
-const paddingClass: Record<PageSectionPadding, string> = {
-  compact: "py-10 sm:py-12 md:py-16",
-  default: "py-12 sm:py-14 md:py-20",
-  spacious: "py-16 sm:py-20 md:py-24",
+/**
+ * Escala de padding vertical — clases en global.css (tokens CSS).
+ * compact: teaser / stats / contacto
+ * default: bloques de contenido (ritmo principal del landing)
+ * spacious: solo hitos (hero-like, DS showcase)
+ */
+export const PAGE_SECTION_PADDING_CLASS: Record<PageSectionPadding, string> = {
+  compact: "section-pad-compact",
+  default: "section-pad-default",
+  spacious: "section-pad-spacious",
 };
 
 const widthClass: Record<PageSectionWidth, string> = {
@@ -52,8 +58,8 @@ export function PageSection({
     <section
       id={id}
       className={cn(
-        "page-section px-4 sm:px-6",
-        paddingClass[padding],
+        "page-section",
+        PAGE_SECTION_PADDING_CLASS[padding],
         toneClass[tone],
         anchored && "scroll-mt-[calc(var(--header-height)+0.75rem)]",
         className

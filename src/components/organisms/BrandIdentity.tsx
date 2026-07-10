@@ -71,7 +71,7 @@ export function BrandIdentity() {
   const t = copy[language];
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-surface-matte" aria-labelledby="brand-heading">
+    <section className="section-pad-default bg-surface-matte" aria-labelledby="brand-heading">
       <div className="container max-w-6xl mx-auto space-y-12">
         <SectionHeader
           badge={t.badge}

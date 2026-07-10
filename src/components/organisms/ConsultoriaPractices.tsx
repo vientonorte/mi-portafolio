@@ -53,7 +53,7 @@ export function ConsultoriaPractices() {
   return (
     <PageSection
       id="practicas"
-      padding="spacious"
+      padding="default"
       width="wide"
       tone="default"
       aria-labelledby="consultoria-practices-heading"
