@@ -1,7 +1,12 @@
 import type { ContactIntent } from "./build-contact-message";
 import type { ConsultingPackageId } from "../data/vientonorte-consulting";
 
-export type ContactDraftSource = "direct" | "onboarding" | "quoter" | "assistant";
+export type ContactDraftSource =
+  | "direct"
+  | "onboarding"
+  | "quoter"
+  | "assistant"
+  | "parten-edu";
 
 export interface ContactDraft {
   message: string;
@@ -66,7 +71,11 @@ export function parseContactDraftFromState(state: unknown): ContactDraft | null 
 
 export function shouldSkipAssistantWizard(draft: ContactDraft | null): boolean {
   if (!draft) return false;
-  return draft.source === "onboarding" || draft.source === "quoter";
+  return (
+    draft.source === "onboarding" ||
+    draft.source === "quoter" ||
+    draft.source === "parten-edu"
+  );
 }
 
 export function resolveAssistantInitialStep(draft: ContactDraft | null): ContactAssistantStep {
@@ -76,8 +85,9 @@ export function resolveAssistantInitialStep(draft: ContactDraft | null): Contact
 
 export function draftBannerKey(
   draft: ContactDraft | null
-): "onboarding" | "quoter" | null {
+): "onboarding" | "quoter" | "parten-edu" | null {
   if (!draft) return null;
+  if (draft.source === "parten-edu") return "parten-edu";
   if (draft.source === "onboarding") return "onboarding";
   if (draft.source === "quoter") return "quoter";
   return null;

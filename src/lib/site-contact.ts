@@ -16,6 +16,22 @@ export const SITE_CONTACT = {
   github: 'https://github.com/vientonorte',
 } as const;
 
+/**
+ * URL de agenda de videollamada (Calendly, Google Calendar, etc.).
+ * Override: VITE_VIDEO_CALL_URL
+ * Si no está definida, el CTA de Parten / educación abre contacto con mensaje prearmado.
+ */
+export const VIDEO_CALL_URL =
+  (import.meta.env.VITE_VIDEO_CALL_URL as string | undefined)?.trim() || null;
+
+export function openVideoCallOrFallback(fallback: () => void): void {
+  if (VIDEO_CALL_URL) {
+    window.open(VIDEO_CALL_URL, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  fallback();
+}
+
 /** Relay Cloudflare Worker — POST formulario de contacto */
 export const CONTACT_API_URL =
   import.meta.env.VITE_CONTACT_API_URL ??

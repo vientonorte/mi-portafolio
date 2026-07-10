@@ -386,6 +386,23 @@ export default {
         cta: 'Continue with this',
         note: 'No public rates. The quoter and decision tree help align expectations before contact.',
       },
+      educationPartner: {
+        badge: 'Education',
+        partnerLabel: 'Parten · Educational projects',
+        title: "Let's collaborate on educational projects",
+        description:
+          'UX, digital product, and evidence for education institutions and programs. Same scope transparency: N2N, a11y, and careful data handling.',
+        highlights: [
+          'Learning experience',
+          'N2N · brief → prototype',
+          'WCAG 2.2 AA',
+          'Clear kickoff',
+        ],
+        ctaLead: 'First conversation on a video call — 25–30 min, no locked scope required.',
+        ctaPrimary: "Let's schedule a video call",
+        ctaSecondary: 'I prefer web onboarding',
+        note: 'If a calendar link is configured, it opens in a new tab. Otherwise we take you to contact with a ready message.',
+      },
       steps: {
         welcome: 'Welcome · Viento Norte',
         package: 'Choose format',
@@ -963,6 +980,8 @@ export default {
         draftBanner: {
           onboarding: 'Your consulting request is ready. Just confirm name, email, and consent.',
           quoter: 'Your quote is ready. Just confirm name, email, and consent.',
+          'parten-edu':
+            'Message ready to schedule a video call for Parten / educational projects. Confirm name, email, and consent.',
         },
         steps: {
           intent: 'What would you like to discuss?',

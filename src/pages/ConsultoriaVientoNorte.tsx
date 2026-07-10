@@ -7,6 +7,7 @@ import { ConsultoriaN2NMethod } from "../components/organisms/ConsultoriaN2NMeth
 import { ConsultoriaPrivateTooling } from "../components/organisms/ConsultoriaPrivateTooling";
 import { ConsultoriaPractices } from "../components/organisms/ConsultoriaPractices";
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
+import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
 import { ValueContentArsenal } from "../components/organisms/ValueContentArsenal";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
@@ -117,6 +118,14 @@ export default function ConsultoriaVientoNorte() {
       <ConsultoriaPackages
         onSelectPackage={(id) => scrollToOnboarding(id)}
       />
+
+      {/* Parten · Proyectos Educativos — videollamada */}
+      <ConsultoriaEducationPartner
+        onStartOnboarding={() =>
+          scrollToOnboarding("marco", { c1Goal: false })
+        }
+      />
+
       <ValueContentArsenal onStartOnboarding={scrollToOnboarding} />
       <ConsultoriaDemoShowcase />
 

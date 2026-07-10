@@ -386,6 +386,23 @@ export default {
         cta: 'Continuar con esta',
         note: 'Sin tarifas públicas. El cotizador y el árbol de decisión ayudan a alinear expectativa antes del contacto.',
       },
+      educationPartner: {
+        badge: 'Educación',
+        partnerLabel: 'Parten · Proyectos Educativos',
+        title: 'Colaboremos en proyectos educativos',
+        description:
+          'UX, producto digital y evidencia para instituciones y programas de educación. Misma transparencia de alcance: N2N, a11y y datos con criterio.',
+        highlights: [
+          'Experiencia de aprendizaje',
+          'N2N · brief → prototipo',
+          'WCAG 2.2 AA',
+          'Kickoff claro',
+        ],
+        ctaLead: 'Primera conversación en videollamada — 25–30 min, sin compromiso de alcance cerrado.',
+        ctaPrimary: 'Agendemos una videollamada',
+        ctaSecondary: 'Prefiero onboarding en la web',
+        note: 'Si hay link de agenda configurado, se abre en una pestaña. Si no, te llevamos a contacto con el mensaje listo.',
+      },
       steps: {
         welcome: 'Bienvenida · Viento Norte',
         package: 'Elige modalidad',
@@ -963,6 +980,8 @@ export default {
         draftBanner: {
           onboarding: 'Tu solicitud de consultoría está lista. Solo confirma nombre, email y consentimiento.',
           quoter: 'Tu cotización está lista. Solo confirma nombre, email y consentimiento.',
+          'parten-edu':
+            'Mensaje listo para agendar videollamada con Parten / proyectos educativos. Confirma nombre, email y consentimiento.',
         },
         steps: {
           intent: '¿Qué te gustaría conversar?',

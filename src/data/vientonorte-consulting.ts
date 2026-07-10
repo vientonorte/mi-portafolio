@@ -79,9 +79,31 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
 ];
 
 export const CONSULTING_INDUSTRIES = {
-  es: ["Fintech", "Mobility", "Enterprise", "SaaS", "Retail", "Otro"],
-  en: ["Fintech", "Mobility", "Enterprise", "SaaS", "Retail", "Other"],
+  es: ["Fintech", "Mobility", "Enterprise", "SaaS", "Retail", "Educación", "Otro"],
+  en: ["Fintech", "Mobility", "Enterprise", "SaaS", "Retail", "Education", "Other"],
 } as const;
+
+/** Prefill onboarding / contacto — Parten · Proyectos Educativos */
+export const PARTEN_EDU_CONTACT_GOAL: Record<Language, string> = {
+  es: `Hola Rodrigo — soy de Parten / proyectos educativos.
+
+Quiero agendar una videollamada para explorar colaboración en experiencia digital, UX y producto para educación.
+
+Contexto: [institución / programa / plataforma].
+Necesidad: [diagnóstico · prototipo N2N · Design Ops · otro].
+Disponibilidad: [días / franja horaria].
+
+Gracias — agendemos la videollamada.`,
+  en: `Hi Rodrigo — writing from Parten / educational projects.
+
+I'd like to schedule a video call to explore collaboration on digital experience, UX, and product for education.
+
+Context: [institution / program / platform].
+Need: [diagnostic · N2N prototype · Design Ops · other].
+Availability: [days / time window].
+
+Thanks — let's schedule the video call.`,
+};
 
 export const CONSULTING_TIMELINES = {
   es: ["Inmediato", "1–2 semanas", "1 mes", "Flexible"],
