@@ -116,7 +116,6 @@ export function NavDock({ variant }: NavDockProps) {
             >
               {isCenter ? (
                 <LiquidNavCta
-                  icon={item.icon}
                   label={item.label}
                   active={active}
                   onClick={() => handleTap(item)}

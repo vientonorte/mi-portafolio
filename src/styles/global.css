@@ -102,10 +102,16 @@ img {
   overflow: visible;
 }
 
+/* Orbe central = isologo RG (plato + arco); sin icono Lucide genérico */
 .liquid-nav-cta__orb {
-  margin-top: -1.35rem;
-  background: var(--brand-gradient, linear-gradient(135deg, #ff1d25 0%, #ff931e 100%));
-  border: 1px solid color-mix(in srgb, #ffffff 35%, transparent);
+  margin-top: -1.25rem;
+  background: transparent;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
+}
+
+.liquid-nav-cta__orb .liquid-nav-cta__mark {
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(255, 29, 37, 0.22));
 }
 
 .liquid-nav-cta__sheen {
@@ -113,10 +119,14 @@ img {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background:
-    radial-gradient(120% 80% at 30% 15%, rgba(255, 255, 255, 0.45) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, transparent 48%);
-  opacity: 0.95;
+  /* Sheen sutil sobre el plato del isologo */
+  background: radial-gradient(
+    120% 80% at 30% 18%,
+    rgba(255, 255, 255, 0.28) 0%,
+    transparent 55%
+  );
+  opacity: 0.85;
+  mix-blend-mode: soft-light;
 }
 
 @media (prefers-reduced-motion: reduce) {

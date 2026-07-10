@@ -1,28 +1,20 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Sparkles } from "lucide-react";
 import { LiquidNavCta } from "@/components/atoms/LiquidNavCta";
 
 describe("LiquidNavCta", () => {
-  it("renders consultoria liquid CTA", () => {
-    render(
-      <LiquidNavCta icon={Sparkles} label="Consultoría ✦" onClick={() => {}} />
-    );
+  it("renders consultoria liquid CTA with brand mark", () => {
+    render(<LiquidNavCta label="Consultoría ✦" onClick={() => {}} />);
     const btn = screen.getByRole("button", { name: "Consultoría ✦" });
     expect(btn).toBeInTheDocument();
     expect(btn).toHaveAttribute("data-liquid-cta", "consultoria");
+    expect(btn.querySelector(".liquid-nav-cta__mark")).toBeTruthy();
+    expect(btn.querySelector("svg.logo-mark")).toBeTruthy();
   });
 
   it("marks active state with aria-current", () => {
-    render(
-      <LiquidNavCta
-        icon={Sparkles}
-        label="Consultoría ✦"
-        active
-        onClick={() => {}}
-      />
-    );
+    render(<LiquidNavCta label="Consultoría ✦" active onClick={() => {}} />);
     expect(screen.getByRole("button", { name: "Consultoría ✦" })).toHaveAttribute(
       "aria-current",
       "page"
@@ -32,9 +24,7 @@ describe("LiquidNavCta", () => {
   it("calls onClick when tapped", async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
-    render(
-      <LiquidNavCta icon={Sparkles} label="Consultoría ✦" onClick={onClick} />
-    );
+    render(<LiquidNavCta label="Consultoría ✦" onClick={onClick} />);
     await user.click(screen.getByRole("button", { name: "Consultoría ✦" }));
     expect(onClick).toHaveBeenCalledOnce();
   });
