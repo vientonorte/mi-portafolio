@@ -14,7 +14,10 @@ import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreeP
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
 import { AppQuoter } from "../components/organisms/AppQuoter";
 import { StickyCTA } from "../components/molecules/StickyCTA";
-import type { ConsultingPackageId } from "../data/vientonorte-consulting";
+import {
+  PARTEN_EDU_CONTACT_GOAL,
+  type ConsultingPackageId,
+} from "../data/vientonorte-consulting";
 import { C1_ONBOARDING_GOAL } from "../data/n2n-method";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
@@ -28,25 +31,44 @@ import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
 
 type ConsultoriaLocationState = SectionScrollState & {
   recommendedPackage?: ConsultingPackageId;
-  /** Prefill C1 / N2N goal template */
   c1Goal?: boolean;
 };
+
+type EntryGoalKind = "c1" | "education" | null;
 
 export default function ConsultoriaVientoNorte() {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
+
   const [selectedPackage, setSelectedPackage] = useState<
     ConsultingPackageId | undefined
   >();
-  const [useC1Goal, setUseC1Goal] = useState(false);
+  const [packageLocked, setPackageLocked] = useState(false);
+  const [goalKind, setGoalKind] = useState<EntryGoalKind>(
+    location.state && (location.state as ConsultoriaLocationState).c1Goal
+      ? "c1"
+      : null
+  );
+  const [entryNonce, setEntryNonce] = useState(0);
+
   const locationState = location.state as ConsultoriaLocationState | null;
   const recommendedPackage =
     selectedPackage ?? locationState?.recommendedPackage;
+
   const initialGoal =
-    useC1Goal || locationState?.c1Goal
+    goalKind === "c1"
       ? C1_ONBOARDING_GOAL[language]
+      : goalKind === "education"
+        ? PARTEN_EDU_CONTACT_GOAL[language]
+        : undefined;
+
+  const initialIndustry =
+    goalKind === "education"
+      ? language === "es"
+        ? "Educación"
+        : "Education"
       : undefined;
 
   useEffect(() => {
@@ -68,15 +90,35 @@ export default function ConsultoriaVientoNorte() {
     });
   }, [location.pathname, location.state, navigate]);
 
+  /**
+   * Entra al onboarding sin pasos de más:
+   * - packageId → salta welcome + re-elección de modalidad
+   * - c1Goal / education → goal e industria prearmados
+   */
   const scrollToOnboarding = (
     packageId?: ConsultingPackageId,
-    options?: { c1Goal?: boolean }
+    options?: { c1Goal?: boolean; education?: boolean }
   ) => {
-    if (packageId) setSelectedPackage(packageId);
-    if (options?.c1Goal) setUseC1Goal(true);
-    document
-      .getElementById("consultoria-onboarding")
-      ?.scrollIntoView({ behavior: "smooth" });
+    if (packageId) {
+      setSelectedPackage(packageId);
+      setPackageLocked(true);
+    } else {
+      setPackageLocked(false);
+    }
+
+    if (options?.education) setGoalKind("education");
+    else if (options?.c1Goal) setGoalKind("c1");
+    else if (packageId) setGoalKind(null);
+    // sticky sin package: limpia goal forzado
+    else setGoalKind(null);
+
+    setEntryNonce((n) => n + 1);
+
+    requestAnimationFrame(() => {
+      document
+        .getElementById("consultoria-onboarding")
+        ?.scrollIntoView({ behavior: "smooth" });
+    });
   };
 
   const scrollToEvidence = () => {
@@ -102,12 +144,10 @@ export default function ConsultoriaVientoNorte() {
         onExploreEvidence={scrollToEvidence}
       />
 
-      {/* 1. Método N2N + link demo */}
       <ConsultoriaN2NMethod
         onStartOnboarding={() => scrollToOnboarding("marco")}
       />
 
-      {/* 2. C1 Offline / private / IA / 21.719 */}
       <ConsultoriaPrivateTooling
         onStartOnboarding={(packageId) =>
           scrollToOnboarding(packageId, { c1Goal: true })
@@ -119,26 +159,30 @@ export default function ConsultoriaVientoNorte() {
         onSelectPackage={(id) => scrollToOnboarding(id)}
       />
 
-      {/* Parten · Proyectos Educativos — videollamada */}
       <ConsultoriaEducationPartner
         onStartOnboarding={() =>
-          scrollToOnboarding("marco", { c1Goal: false })
+          scrollToOnboarding("marco", { education: true })
         }
       />
 
-      <ValueContentArsenal onStartOnboarding={scrollToOnboarding} />
+      <ValueContentArsenal
+        onStartOnboarding={(id) => scrollToOnboarding(id)}
+      />
       <ConsultoriaDemoShowcase />
 
       <ConsultoriaTreePreview
         onRecommendPackage={setSelectedPackage}
-        onStartOnboarding={() => scrollToOnboarding()}
+        onStartOnboarding={(packageId) => scrollToOnboarding(packageId)}
       />
       <AppQuoter onRecommendPackage={setSelectedPackage} />
 
       <div id="consultoria-onboarding">
         <ConsultoriaOnboarding
+          key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
           initialPackageId={recommendedPackage}
           initialGoal={initialGoal}
+          initialIndustry={initialIndustry}
+          packageLocked={packageLocked && Boolean(recommendedPackage)}
         />
       </div>
 

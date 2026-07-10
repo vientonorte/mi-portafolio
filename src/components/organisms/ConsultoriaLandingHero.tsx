@@ -53,7 +53,7 @@ const SEGMENT_META: {
     icon: Lock,
     packageId: "marco",
     c1Goal: true,
-    scrollTo: "offline-private",
+    // Va a onboarding con goal C1 (sin re-elegir modalidad)
   },
   { id: "founder", icon: Workflow, packageId: "radar" },
 ];
@@ -87,10 +87,7 @@ export function ConsultoriaLandingHero({
       segment: seg.id,
       package_id: seg.packageId,
     });
-    if (seg.scrollTo) {
-      scrollTo(seg.scrollTo);
-      return;
-    }
+    // Cada segmento aterriza en onboarding con su modalidad (sin re-elegir)
     onStartOnboarding?.(seg.packageId, { c1Goal: seg.c1Goal });
   };
 

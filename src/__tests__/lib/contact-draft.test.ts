@@ -48,7 +48,7 @@ describe("parseContactDraftFromState", () => {
 });
 
 describe("shouldSkipAssistantWizard", () => {
-  it("skips wizard for onboarding and quoter sources", () => {
+  it("skips wizard for onboarding, quoter and parten-edu sources", () => {
     expect(
       shouldSkipAssistantWizard({
         message: "x",
@@ -64,11 +64,18 @@ describe("shouldSkipAssistantWizard", () => {
     expect(
       shouldSkipAssistantWizard({
         message: "x",
+        source: "parten-edu",
+      })
+    ).toBe(true);
+    expect(
+      shouldSkipAssistantWizard({
+        message: "x",
         source: "direct",
       })
     ).toBe(false);
   });
 });
+
 
 describe("resolveAssistantInitialStep", () => {
   it("opens compose when wizard is skipped", () => {

@@ -220,6 +220,10 @@ export default {
       back: 'Back',
       next: 'Continue',
       stickyCta: 'Book kickoff',
+      entry: {
+        selectedPackage: 'Selected format:',
+        changePackage: 'Change',
+      },
       landing: {
         badge: 'Viento Norte consulting · Lead UX',
         principleBadge: 'Transparency as principle',

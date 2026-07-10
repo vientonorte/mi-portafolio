@@ -17,7 +17,8 @@ import { cn } from "../../lib/utils";
 
 interface ConsultoriaTreePreviewProps {
   onRecommendPackage?: (packageId: ConsultingPackageId) => void;
-  onStartOnboarding?: () => void;
+  /** Pasa el packageId del outcome para no re-elegir modalidad */
+  onStartOnboarding?: (packageId?: ConsultingPackageId) => void;
 }
 
 export function ConsultoriaTreePreview({
@@ -51,8 +52,9 @@ export function ConsultoriaTreePreview({
   };
 
   const startWithRecommendation = () => {
-    if (outcome?.packageId) onRecommendPackage?.(outcome.packageId);
-    onStartOnboarding?.();
+    const pkgId = outcome?.packageId;
+    if (pkgId) onRecommendPackage?.(pkgId);
+    onStartOnboarding?.(pkgId);
   };
 
   return (

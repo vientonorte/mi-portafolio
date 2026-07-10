@@ -220,6 +220,10 @@ export default {
       back: 'Atrás',
       next: 'Continuar',
       stickyCta: 'Agendar kickoff',
+      entry: {
+        selectedPackage: 'Modalidad elegida:',
+        changePackage: 'Cambiar',
+      },
       landing: {
         badge: 'Consultoría Viento Norte · Lead UX',
         principleBadge: 'Transparencia como principio',
