@@ -1052,10 +1052,12 @@ export default {
         'Screens, diagrams, and visual deliverables from the research and design process.',
       capturesTitle: 'Screenshots and mockups',
       capturesDescription: 'Complementary high-fidelity visual evidence.',
-      swipeHint: 'Swipe to explore · Tap to zoom',
+      swipeHint: 'Tap to zoom',
       expand: 'Expand image',
-      galleryAria: 'Mockup gallery, swipe horizontally',
+      galleryAria: 'Featured project capture',
       viewOf: 'View {current} of {total}',
+      moreCaptures: 'View {n} more captures',
+      showFeaturedOnly: 'Featured only',
     },
 
     // Common

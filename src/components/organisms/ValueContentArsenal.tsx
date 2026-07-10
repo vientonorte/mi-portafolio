@@ -23,7 +23,8 @@ import { cn } from "../../lib/utils";
 
 type FilterId = "all" | ValueProofKind;
 
-const INITIAL_VISIBLE_COUNT = 3;
+/** Una pieza destacada; el resto solo si el usuario pide más (sin sensación de scroll infinito). */
+const INITIAL_VISIBLE_COUNT = 1;
 const LOAD_MORE_INCREMENT = 3;
 
 interface ValueContentArsenalProps {

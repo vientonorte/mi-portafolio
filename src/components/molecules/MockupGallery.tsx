@@ -1,9 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { Expand, Monitor, Smartphone } from "lucide-react";
+import { Expand, Monitor } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { MediaLightbox } from "./MediaLightbox";
 import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import { useTranslation, type Language } from "../../lib/i18n";
 
@@ -21,6 +22,11 @@ interface MockupGalleryProps {
   sectionId?: string;
   /** Sin cabecera ni wrapper de sección — para anidar dentro de #evidence */
   embedded?: boolean;
+  /**
+   * Cuántas capturas mostrar en grilla (default 1 — evita scroll horizontal infinito).
+   * El resto se abre al expandir o en lightbox desde la principal.
+   */
+  maxVisible?: number;
 }
 
 function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
@@ -31,37 +37,28 @@ function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
   );
 }
 
-function bentoClass(index: number, total: number): string {
-  if (total === 1) return "col-span-1 row-span-1";
-  if (total === 2) return "col-span-1";
-  if (index === 0) return "md:col-span-2 md:row-span-2";
-  return "col-span-1";
-}
-
 function MockupTile({
   item,
-  index,
-  total,
   viewOfLabel,
   expandLabel,
   onOpen,
   className,
+  featured = false,
 }: {
   item: MockupItem;
-  index: number;
-  total: number;
   viewOfLabel: string;
   expandLabel: string;
   onOpen: () => void;
   className?: string;
+  featured?: boolean;
 }) {
   const label = item.label ?? viewOfLabel;
 
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden border-2 border-border/40 transition-all duration-300",
-        "hover:border-primary/40 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary",
+        "group relative overflow-hidden border border-[color:var(--logo-surface-border)] transition-all duration-300 shadow-none",
+        "hover:border-primary/30 hover:shadow-md focus-within:ring-2 focus-within:ring-primary",
         className
       )}
     >
@@ -69,8 +66,8 @@ function MockupTile({
         src={item.src}
         alt={item.alt ?? label}
         fit="contain"
-        aspectRatio="16 / 10"
-        sizes="(max-width: 768px) 92vw, (max-width: 1200px) 45vw, 30vw"
+        aspectRatio={featured ? "16 / 9" : "16 / 10"}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 720px"
         className="cursor-zoom-in bg-muted/30"
         onClick={onOpen}
       />
@@ -78,7 +75,7 @@ function MockupTile({
       <button
         type="button"
         onClick={onOpen}
-        className="absolute right-3 top-3 rounded-full bg-background/90 p-2 opacity-0 shadow-md backdrop-blur-sm transition-opacity group-hover:opacity-100 focus:opacity-100"
+        className="absolute right-3 top-3 min-h-[44px] min-w-[44px] rounded-full bg-background/90 p-2.5 opacity-90 shadow-md backdrop-blur-sm transition-opacity hover:opacity-100 focus:opacity-100 md:opacity-0 md:group-hover:opacity-100"
         aria-label={expandLabel}
       >
         <Expand className="h-4 w-4 text-primary" aria-hidden />
@@ -99,15 +96,22 @@ export function MockupGallery({
   language,
   sectionId = "mockups",
   embedded = false,
+  maxVisible = 1,
 }: MockupGalleryProps) {
   const t = useTranslation(language);
-  const items = normalizeMockups(mockups);
+  const items = useMemo(() => normalizeMockups(mockups), [mockups]);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   if (items.length === 0) return null;
+
+  const limit = Math.max(1, maxVisible);
+  const hasMore = items.length > limit;
+  const visibleItems = expanded || !hasMore ? items : items.slice(0, limit);
+  const hiddenCount = items.length - limit;
 
   const viewOf = (current: number, total: number) =>
     t.mockups.viewOf
@@ -116,77 +120,77 @@ export function MockupGallery({
 
   const active = lightboxIndex !== null ? items[lightboxIndex] : null;
 
-  const grid = (
-    <>
-        {/* Mobile / tablet: scroll-snap horizontal (sin dependencia de carousel) */}
-        <div className="md:hidden -mx-4 px-4">
-          <div
-            className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-            style={{ WebkitOverflowScrolling: "touch" }}
-            aria-label={t.mockups.galleryAria}
-          >
-            {items.map((item, index) => (
-              <div
-                key={item.src + index}
-                className="w-[88%] shrink-0 snap-start sm:w-[72%]"
-              >
-                <MockupTile
-                  item={item}
-                  index={index}
-                  total={items.length}
-                  viewOfLabel={viewOf(index + 1, items.length)}
-                  expandLabel={t.mockups.expand}
-                  onOpen={() => openLightbox(index)}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+  const moreLabel = (t.mockups.moreCaptures ?? "Ver {n} capturas más").replace(
+    "{n}",
+    String(hiddenCount)
+  );
+  const lessLabel = t.mockups.showFeaturedOnly ?? "Solo la principal";
 
-        {/* Desktop: bento grid responsivo */}
-        <div
-          className={cn(
-            "hidden gap-4 md:grid",
-            items.length >= 3
-              ? "grid-cols-2 lg:grid-cols-3 lg:grid-rows-2"
-              : "grid-cols-1 sm:grid-cols-2"
-          )}
-        >
-          {items.map((item, index) => (
+  const grid = (
+    <div className="space-y-4">
+      {/* Una captura principal — sin carrusel infinito en mobile */}
+      <div
+        className={cn(
+          "grid gap-4",
+          visibleItems.length === 1
+            ? "grid-cols-1 max-w-3xl mx-auto w-full"
+            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        )}
+        aria-label={t.mockups.galleryAria}
+      >
+        {visibleItems.map((item, index) => {
+          const absoluteIndex = expanded
+            ? index
+            : items.findIndex((i) => i.src === item.src);
+          const realIndex = absoluteIndex >= 0 ? absoluteIndex : index;
+          return (
             <motion.div
-              key={item.src + index}
-              initial={{ opacity: 0, y: 24 }}
+              key={item.src + realIndex}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className={bentoClass(index, items.length)}
+              transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.2) }}
             >
               <MockupTile
                 item={item}
-                index={index}
-                total={items.length}
-                viewOfLabel={viewOf(index + 1, items.length)}
+                viewOfLabel={viewOf(realIndex + 1, items.length)}
                 expandLabel={t.mockups.expand}
-                onOpen={() => openLightbox(index)}
+                onOpen={() => openLightbox(realIndex)}
+                featured={visibleItems.length === 1}
                 className="h-full"
               />
             </motion.div>
-          ))}
+          );
+        })}
+      </div>
+
+      {hasMore && (
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="min-h-[44px] border-[color:var(--logo-surface-border)]"
+            onClick={() => setExpanded((v) => !v)}
+          >
+            {expanded ? lessLabel : moreLabel}
+          </Button>
         </div>
-    </>
+      )}
+    </div>
   );
 
   const lightbox =
     active && lightboxIndex !== null ? (
-        <MediaLightbox
-          open={lightboxIndex !== null}
-          onOpenChange={(open) => !open && closeLightbox()}
-          src={active.src}
-          alt={active.alt ?? ""}
-          caption={active.label}
-          index={lightboxIndex}
-          total={items.length}
-        />
+      <MediaLightbox
+        open={lightboxIndex !== null}
+        onOpenChange={(open) => !open && closeLightbox()}
+        src={active.src}
+        alt={active.alt ?? ""}
+        caption={active.label}
+        index={lightboxIndex}
+        total={items.length}
+      />
     ) : null;
 
   if (embedded) {
@@ -222,10 +226,13 @@ export function MockupGallery({
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             {description || t.mockups.defaultDescription}
           </p>
-          <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground md:hidden">
-            <Smartphone className="h-3.5 w-3.5" aria-hidden />
-            {t.mockups.swipeHint}
-          </p>
+          {items.length > 1 && (
+            <p className="mt-3 text-xs text-muted-foreground">
+              {language === "es"
+                ? `1 captura principal · ${items.length} en total`
+                : `1 featured capture · ${items.length} total`}
+            </p>
+          )}
         </motion.div>
         {grid}
       </div>

@@ -1333,10 +1333,12 @@ export default {
         'Pantallas, diagramas y entregables visuales del proceso de investigación y diseño.',
       capturesTitle: 'Capturas y mockups',
       capturesDescription: 'Evidencia visual complementaria en alta fidelidad.',
-      swipeHint: 'Desliza para explorar · Toca para ampliar',
+      swipeHint: 'Toca para ampliar',
       expand: 'Ampliar imagen',
-      galleryAria: 'Galería de mockups, desliza horizontalmente',
+      galleryAria: 'Captura destacada del proyecto',
       viewOf: 'Vista {current} de {total}',
+      moreCaptures: 'Ver {n} capturas más',
+      showFeaturedOnly: 'Solo la principal',
     },
     
     // Process Detail
