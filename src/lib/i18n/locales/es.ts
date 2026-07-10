@@ -230,55 +230,56 @@ export default {
         title: 'Alcance claro,',
         titleAccent: 'sin letra chica',
         description:
-          'En 10 segundos eliges tu camino. Queda claro qué entregamos, qué no, y qué patrones de fintech aplicamos a tu contexto — antes de la primera reunión.',
+          'Eliges tu camino en un clic. Qué entregamos, qué no, y el método — antes de la primera reunión.',
         transparencyLine:
-          'No hay precios genéricos en la web: el alcance se cierra contigo. Lo que prometemos en publicidad es lo que ves acá.',
+          'No hay precios genéricos en la web: el alcance se cierra contigo.',
         ctaPrimary: 'Agendar conversación',
         ctaSecondary: 'Ver evidencia primero',
         trustLine: 'Te respondemos en menos de 24 h hábiles · WCAG 2.2 AA · Ley 21.719 de base',
-        segmentsLabel: 'Paso 1 · ¿Quién eres en el proyecto?',
-        segmentsHint: 'Un clic y dejamos lista la modalidad y el mensaje — sin formulario eterno acá.',
+        trustChips: ['< 24 h hábiles', 'WCAG 2.2 AA', 'Ley 21.719'],
+        segmentsLabel: '¿Quién eres en el proyecto?',
+        segmentsHint: 'Un clic y dejamos lista la modalidad.',
         segments: {
           product: {
             title: 'Producto / PM',
-            hint: 'Roadmap, conversión y onboarding regulado.',
+            hint: 'Roadmap y onboarding regulado',
             cta: 'Estrategia guiada',
           },
           ops: {
             title: 'Design Ops',
-            hint: 'Handoff, design system y proceso de equipo medible.',
+            hint: 'Handoff y proceso de equipo',
             cta: 'Proceso de equipo',
           },
           compliance: {
             title: 'Datos y perímetro',
-            hint: 'Offline, GitHub privado, IA y Ley 21.719.',
+            hint: 'Offline · GitHub · 21.719',
             cta: 'Herramientas offline',
           },
           founder: {
             title: 'Fundador / startup',
-            hint: 'Diagnóstico express y quick wins.',
+            hint: 'Diagnóstico y quick wins',
             cta: 'Diagnóstico express',
           },
         },
-        techLayerLabel: 'Paso 2 · Qué traemos de fintech',
-        techLayerTitle: 'Patrones que aplicamos a tu proyecto',
+        techLayerLabel: 'Patrones fintech',
+        techLayerTitle: 'Patrones que aplicamos',
         techLayerDescription:
-          'No copiamos pantallas ajenas: adaptamos tecnologías y patrones ya probados en SURA, Transvip y Karri a lo que necesitas.',
+          'Adaptamos patrones de SURA, Transvip y Karri a tu contexto.',
         techPatterns: [
           {
             source: 'SURA',
             pattern: 'Divulgación progresiva + auth multi-perfil',
-            forYou: 'Onboarding y cumplimiento sin trabas legales en el flujo principal.',
+            forYou: 'Onboarding y cumplimiento sin trabas en el flujo principal.',
           },
           {
             source: 'Transvip',
             pattern: 'Design system + handoff navegable',
-            forYou: 'Componentes y tokens listos para desarrollo en tu repo o Figma.',
+            forYou: 'Componentes y tokens listos para desarrollo.',
           },
           {
             source: 'Karri',
             pattern: 'Simuladores y hubs con métrica',
-            forYou: 'Herramientas de activación con evidencia de que se entienden.',
+            forYou: 'Activación con evidencia de comprensión.',
           },
         ],
         metrics: [

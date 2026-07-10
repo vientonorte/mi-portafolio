@@ -230,50 +230,51 @@ export default {
         title: 'Clear scope,',
         titleAccent: 'no fine print',
         description:
-          'Pick your path in 10 s. You know what we deliver, what we don’t, and which fintech patterns we apply to your context — before kickoff.',
+          'Pick your path in one tap. What we deliver, what we don’t, and the method — before kickoff.',
         transparencyLine:
-          'No generic public pricing: scope closes with you. What ads promise is what you see here.',
+          'No generic public pricing: scope closes with you.',
         ctaPrimary: 'Book kickoff',
         ctaSecondary: 'See evidence first',
         trustLine: 'Reply < 24 business hours · WCAG 2.2 AA · Act 21.719 by design',
-        segmentsLabel: 'Layer 1 · Who is this lead for?',
-        segmentsHint: 'One tap. We prefill format and message — no long form here.',
+        trustChips: ['< 24h reply', 'WCAG 2.2 AA', 'Act 21.719'],
+        segmentsLabel: 'Who are you on the project?',
+        segmentsHint: 'One tap sets format and message.',
         segments: {
           product: {
             title: 'Product / PM',
-            hint: 'Roadmap, conversion, regulated onboarding.',
+            hint: 'Roadmap and regulated onboarding',
             cta: 'Guided strategy',
           },
           ops: {
             title: 'Design Ops',
-            hint: 'Handoff, DS, and measurable team process.',
+            hint: 'Handoff and team process',
             cta: 'Team process',
           },
           compliance: {
             title: 'Data / perimeter',
-            hint: 'Offline, private GitHub, AI, and 21.719.',
+            hint: 'Offline · GitHub · 21.719',
             cta: 'View C1 offline',
           },
           founder: {
             title: 'Founder / startup',
-            hint: 'Express diagnostic and quick wins.',
+            hint: 'Diagnostic and quick wins',
             cta: 'Radar diagnostic',
           },
         },
-        techLayerLabel: 'Layer 2 · Fintech transfer',
-        techLayerTitle: 'Patterns we bring into your project',
+        techLayerLabel: 'Fintech patterns',
+        techLayerTitle: 'Patterns we apply',
         techLayerDescription:
-          'We don’t clone others’ screens: we adapt proven SURA, Transvip, and Karri patterns to your needs.',
+          'We adapt SURA, Transvip, and Karri patterns to your context.',
         techPatterns: [
           {
             source: 'SURA',
             pattern: 'Progressive disclosure + multi-profile auth',
-            forYou: 'Onboarding and compliance without legal friction on the happy path.',
+            forYou: 'Onboarding and compliance without friction on the happy path.',
           },
           {
             source: 'Transvip',
             pattern: 'Design system + navigable handoff',
-            forYou: 'Components and tokens ready for dev in your repo or Figma.',
+            forYou: 'Components and tokens ready for development.',
           },
           {
             source: 'Karri',
