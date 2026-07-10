@@ -6,6 +6,8 @@ export type ContactDraftSource =
   | "onboarding"
   | "quoter"
   | "assistant"
+  | "partner-edu"
+  /** @deprecated typo legacy — prefer partner-edu */
   | "parten-edu";
 
 export interface ContactDraft {
@@ -74,6 +76,7 @@ export function shouldSkipAssistantWizard(draft: ContactDraft | null): boolean {
   return (
     draft.source === "onboarding" ||
     draft.source === "quoter" ||
+    draft.source === "partner-edu" ||
     draft.source === "parten-edu"
   );
 }
@@ -85,9 +88,11 @@ export function resolveAssistantInitialStep(draft: ContactDraft | null): Contact
 
 export function draftBannerKey(
   draft: ContactDraft | null
-): "onboarding" | "quoter" | "parten-edu" | null {
+): "onboarding" | "quoter" | "partner-edu" | null {
   if (!draft) return null;
-  if (draft.source === "parten-edu") return "parten-edu";
+  if (draft.source === "partner-edu" || draft.source === "parten-edu") {
+    return "partner-edu";
+  }
   if (draft.source === "onboarding") return "onboarding";
   if (draft.source === "quoter") return "quoter";
   return null;

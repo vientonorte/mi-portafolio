@@ -83,27 +83,30 @@ export const CONSULTING_INDUSTRIES = {
   en: ["Fintech", "Mobility", "Enterprise", "SaaS", "Retail", "Education", "Other"],
 } as const;
 
-/** Prefill onboarding / contacto — Parten · Proyectos Educativos */
-export const PARTEN_EDU_CONTACT_GOAL: Record<Language, string> = {
-  es: `Hola Rodrigo — soy de Parten / proyectos educativos.
+/** Prefill onboarding / contacto — Partner de desarrollo · Proyectos educativos */
+export const PARTNER_EDU_CONTACT_GOAL: Record<Language, string> = {
+  es: `Hola Rodrigo — busco partner de desarrollo para proyectos educativos.
 
-Quiero agendar una videollamada para explorar colaboración en experiencia digital, UX y producto para educación.
+Quiero agendar una videollamada para explorar colaboración en UX, producto digital y desarrollo de experiencias de aprendizaje.
 
 Contexto: [institución / programa / plataforma].
-Necesidad: [diagnóstico · prototipo N2N · Design Ops · otro].
+Necesidad: [diagnóstico · prototipo N2N · Design Ops · handoff a código · otro].
 Disponibilidad: [días / franja horaria].
 
 Gracias — agendemos la videollamada.`,
-  en: `Hi Rodrigo — writing from Parten / educational projects.
+  en: `Hi Rodrigo — looking for a development partner for educational projects.
 
-I'd like to schedule a video call to explore collaboration on digital experience, UX, and product for education.
+I'd like to schedule a video call to explore collaboration on UX, digital product, and learning-experience development.
 
 Context: [institution / program / platform].
-Need: [diagnostic · N2N prototype · Design Ops · other].
+Need: [diagnostic · N2N prototype · Design Ops · code handoff · other].
 Availability: [days / time window].
 
 Thanks — let's schedule the video call.`,
 };
+
+/** @deprecated use PARTNER_EDU_CONTACT_GOAL */
+export const PARTEN_EDU_CONTACT_GOAL = PARTNER_EDU_CONTACT_GOAL;
 
 export const CONSULTING_TIMELINES = {
   es: ["Inmediato", "1–2 semanas", "1 mes", "Flexible"],

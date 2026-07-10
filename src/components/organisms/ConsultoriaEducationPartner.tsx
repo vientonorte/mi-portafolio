@@ -5,7 +5,7 @@ import { PageSection } from "../layout/PageSection";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { PARTEN_EDU_CONTACT_GOAL } from "../../data/vientonorte-consulting";
+import { PARTNER_EDU_CONTACT_GOAL } from "../../data/vientonorte-consulting";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { ROUTES } from "../../lib/routes";
@@ -25,14 +25,14 @@ export function ConsultoriaEducationPartner({
   const prefersReducedMotion = useReducedMotion();
 
   const goToContactWithDraft = () => {
-    trackEvent("consultoria_parten_videocall", {
+    trackEvent("consultoria_partner_edu_videocall", {
       channel: VIDEO_CALL_URL ? "calendar_url" : "contact_draft",
     });
     navigate(ROUTES.contact, {
       state: {
         contactDraft: {
-          message: PARTEN_EDU_CONTACT_GOAL[language],
-          source: "parten-edu",
+          message: PARTNER_EDU_CONTACT_GOAL[language],
+          source: "partner-edu",
           intent: "consulting",
           packageId: "marco",
           industry: language === "es" ? "Educación" : "Education",
@@ -47,11 +47,11 @@ export function ConsultoriaEducationPartner({
 
   return (
     <PageSection
-      id="parten-educacion"
+      id="partner-educacion"
       padding="default"
       width="wide"
       tone="matte"
-      aria-labelledby="parten-edu-heading"
+      aria-labelledby="partner-edu-heading"
     >
       <motion.div
         initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
@@ -79,7 +79,7 @@ export function ConsultoriaEducationPartner({
                   </Badge>
 
                   <h2
-                    id="parten-edu-heading"
+                    id="partner-edu-heading"
                     className="text-xl md:text-2xl font-semibold tracking-tight text-foreground"
                   >
                     {t.title}
@@ -123,7 +123,7 @@ export function ConsultoriaEducationPartner({
                       variant="outline"
                       className="w-full min-h-[44px] border-[color:var(--logo-surface-border)] bg-background/60 hover:border-primary/25"
                       onClick={() => {
-                        trackEvent("consultoria_parten_onboarding", {});
+                        trackEvent("consultoria_partner_edu_onboarding", {});
                         onStartOnboarding();
                       }}
                     >

@@ -48,7 +48,7 @@ describe("parseContactDraftFromState", () => {
 });
 
 describe("shouldSkipAssistantWizard", () => {
-  it("skips wizard for onboarding, quoter and parten-edu sources", () => {
+  it("skips wizard for onboarding, quoter and partner-edu sources", () => {
     expect(
       shouldSkipAssistantWizard({
         message: "x",
@@ -64,7 +64,7 @@ describe("shouldSkipAssistantWizard", () => {
     expect(
       shouldSkipAssistantWizard({
         message: "x",
-        source: "parten-edu",
+        source: "partner-edu",
       })
     ).toBe(true);
     expect(

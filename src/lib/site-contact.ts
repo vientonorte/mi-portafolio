@@ -19,7 +19,7 @@ export const SITE_CONTACT = {
 /**
  * URL de agenda de videollamada (Calendly, Google Calendar, etc.).
  * Override: VITE_VIDEO_CALL_URL
- * Si no está definida, el CTA de Parten / educación abre contacto con mensaje prearmado.
+ * Si no está definida, el CTA de partner / educación abre contacto con mensaje prearmado.
  */
 export const VIDEO_CALL_URL =
   (import.meta.env.VITE_VIDEO_CALL_URL as string | undefined)?.trim() || null;

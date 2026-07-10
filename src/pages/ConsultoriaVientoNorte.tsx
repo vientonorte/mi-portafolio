@@ -15,7 +15,7 @@ import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboar
 import { AppQuoter } from "../components/organisms/AppQuoter";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import {
-  PARTEN_EDU_CONTACT_GOAL,
+  PARTNER_EDU_CONTACT_GOAL,
   type ConsultingPackageId,
 } from "../data/vientonorte-consulting";
 import { C1_ONBOARDING_GOAL } from "../data/n2n-method";
@@ -61,7 +61,7 @@ export default function ConsultoriaVientoNorte() {
     goalKind === "c1"
       ? C1_ONBOARDING_GOAL[language]
       : goalKind === "education"
-        ? PARTEN_EDU_CONTACT_GOAL[language]
+        ? PARTNER_EDU_CONTACT_GOAL[language]
         : undefined;
 
   const initialIndustry =

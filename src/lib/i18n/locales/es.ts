@@ -393,15 +393,15 @@ export default {
       },
       educationPartner: {
         badge: 'Educación',
-        partnerLabel: 'Parten · Proyectos Educativos',
-        title: 'Colaboremos en proyectos educativos',
+        partnerLabel: 'Partner de desarrollo · Proyectos educativos',
+        title: 'Partner para desarrollar proyectos educativos',
         description:
-          'UX, producto digital y evidencia para instituciones y programas de educación. Misma transparencia de alcance: N2N, a11y y datos con criterio.',
+          'UX, producto digital y handoff técnico para instituciones y programas de educación. Misma transparencia de alcance: N2N, a11y y datos con criterio.',
         highlights: [
           'Experiencia de aprendizaje',
           'N2N · brief → prototipo',
+          'Handoff a desarrollo',
           'WCAG 2.2 AA',
-          'Kickoff claro',
         ],
         ctaLead: 'Primera conversación en videollamada — 25–30 min, sin compromiso de alcance cerrado.',
         ctaPrimary: 'Agendemos una videollamada',
@@ -985,8 +985,8 @@ export default {
         draftBanner: {
           onboarding: 'Tu solicitud de consultoría está lista. Solo confirma nombre, email y consentimiento.',
           quoter: 'Tu cotización está lista. Solo confirma nombre, email y consentimiento.',
-          'parten-edu':
-            'Mensaje listo para agendar videollamada con Parten / proyectos educativos. Confirma nombre, email y consentimiento.',
+          'partner-edu':
+            'Mensaje listo para agendar videollamada como partner de desarrollo en proyectos educativos. Confirma nombre, email y consentimiento.',
         },
         steps: {
           intent: '¿Qué te gustaría conversar?',

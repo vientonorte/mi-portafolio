@@ -393,15 +393,15 @@ export default {
       },
       educationPartner: {
         badge: 'Education',
-        partnerLabel: 'Parten · Educational projects',
-        title: "Let's collaborate on educational projects",
+        partnerLabel: 'Development partner · Educational projects',
+        title: 'Partner to build educational projects',
         description:
-          'UX, digital product, and evidence for education institutions and programs. Same scope transparency: N2N, a11y, and careful data handling.',
+          'UX, digital product, and technical handoff for education institutions and programs. Same scope transparency: N2N, a11y, and careful data handling.',
         highlights: [
           'Learning experience',
           'N2N · brief → prototype',
+          'Dev handoff',
           'WCAG 2.2 AA',
-          'Clear kickoff',
         ],
         ctaLead: 'First conversation on a video call — 25–30 min, no locked scope required.',
         ctaPrimary: "Let's schedule a video call",
@@ -985,8 +985,8 @@ export default {
         draftBanner: {
           onboarding: 'Your consulting request is ready. Just confirm name, email, and consent.',
           quoter: 'Your quote is ready. Just confirm name, email, and consent.',
-          'parten-edu':
-            'Message ready to schedule a video call for Parten / educational projects. Confirm name, email, and consent.',
+          'partner-edu':
+            'Message ready to schedule a video call as a development partner for educational projects. Confirm name, email, and consent.',
         },
         steps: {
           intent: 'What would you like to discuss?',

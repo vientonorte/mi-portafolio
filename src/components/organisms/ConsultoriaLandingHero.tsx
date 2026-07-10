@@ -29,7 +29,7 @@ interface ConsultoriaLandingHeroProps {
 const ANCHORS = [
   { id: "metodo-n2n", icon: Workflow, labelKey: "n2n" as const },
   { id: "offline-private", icon: Lock, labelKey: "private" as const },
-  { id: "parten-educacion", icon: Building2, labelKey: "education" as const },
+  { id: "partner-educacion", icon: Building2, labelKey: "education" as const },
   { id: "practicas", icon: ShieldCheck, labelKey: "practices" as const },
   { id: "modalidades", icon: Layers, labelKey: "packages" as const },
   { id: "valor", icon: Compass, labelKey: "evidence" as const },
