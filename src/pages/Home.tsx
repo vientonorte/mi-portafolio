@@ -2,7 +2,6 @@ import { lazy, Suspense, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Hero } from '../components/organisms/Hero';
 import { ImpactStats } from '../components/organisms/ImpactStats';
-import { ProjectsTeaser } from '../components/organisms/ProjectsTeaser';
 import { ROUTES } from '../lib/routes';
 import { SEOHead } from '../components/atoms/SEOHead';
 import { StructuredData } from '../components/atoms/StructuredData';
@@ -52,10 +51,10 @@ const Home = () => {
         onNavigateToDesignSystem={() => navigate(ROUTES.designSystem)}
       />
       <ImpactStats />
+      {/* Negocios / Impacto por empresa: hub completo en /proyectos (nav). Evita duplicar SURA/Transvip/Karri en home. */}
       <Suspense fallback={<BelowFoldFallback />}>
         <ValueContentArsenal />
       </Suspense>
-      <ProjectsTeaser onNavigateToCaseStudies={() => navigate(ROUTES.process)} />
       <Suspense fallback={<BelowFoldFallback />}>
         <AboutTeaser />
         <Testimonials />
