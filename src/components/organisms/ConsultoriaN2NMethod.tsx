@@ -1,11 +1,10 @@
-import { ArrowRight, ExternalLink, Workflow } from "lucide-react";
+import { ArrowRight, Workflow } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { N2N_PHASES } from "../../data/n2n-method";
-import { CONSULTORIA_DEMO_X_CMS } from "../../data/consultoria-demos";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
@@ -14,14 +13,13 @@ interface ConsultoriaN2NMethodProps {
   onStartOnboarding?: () => void;
 }
 
+/**
+ * Método N2N (fases) + teaser compacto al demo.
+ * Embed y links externos viven solo en ConsultoriaDemoShowcase (#consultoria-demo).
+ */
 export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethodProps) {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.n2n;
-
-  const openDemo = () => {
-    trackEvent("consultoria_n2n_demo", { target: "figma_sites" });
-    window.open(CONSULTORIA_DEMO_X_CMS.figmaSitesUrl, "_blank", "noopener,noreferrer");
-  };
 
   const scrollToDemo = () => {
     trackEvent("consultoria_n2n_demo", { target: "section_anchor" });
@@ -73,13 +71,13 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
         ))}
       </ol>
 
-      <div className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="space-y-3 max-w-2xl">
+      <div className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-5 md:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1.5 max-w-xl">
             <Badge variant="outline" className="border-primary/25">
               {t.caseBadge}
             </Badge>
-            <h3 className="text-lg font-semibold tracking-tight md:text-xl">
+            <h3 className="text-base font-semibold tracking-tight md:text-lg">
               {t.caseTitle}
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -90,10 +88,10 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
             <Button
               size="lg"
               className="bg-brand-gradient font-semibold hover:opacity-90 min-h-[48px] focus-visible:ring-offset-2"
-              onClick={openDemo}
+              onClick={scrollToDemo}
             >
-              {t.ctaDemo}
-              <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
+              {t.ctaSection}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Button>
             <Button
               size="lg"
@@ -106,14 +104,6 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
             >
               {t.ctaOnboarding}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Button>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="min-h-[44px] text-muted-foreground hover:text-foreground"
-              onClick={scrollToDemo}
-            >
-              {t.ctaSection}
             </Button>
           </div>
         </div>

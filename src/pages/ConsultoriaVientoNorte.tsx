@@ -165,7 +165,9 @@ export default function ConsultoriaVientoNorte() {
         }
       />
 
+      {/* Modalidades ya están en ConsultoriaPackages — sin strip duplicado aquí */}
       <ValueContentArsenal
+        showBundleStrip={false}
         onStartOnboarding={(id) => scrollToOnboarding(id)}
       />
       <ConsultoriaDemoShowcase />

@@ -307,7 +307,7 @@ export default {
         caseDescription:
           'Referencia abierta: ideación, sprint y prototipo para handoff. Usala como muestra de método antes del kickoff.',
         ctaDemo: 'Abrir demo N2N',
-        ctaSection: 'Ver embed en página',
+        ctaSection: 'Ver demo en página',
         ctaOnboarding: 'Empezar con N2N',
       },
       privateTooling: {
@@ -376,6 +376,9 @@ export default {
         filterAria: 'Filtrar prácticas por categoría',
         filterAll: 'Todas',
         showing: '{count} prácticas en esta vista',
+        showingCount: 'Mostrando {visible} de {total}',
+        loadMore: 'Cargar más prácticas',
+        showLess: 'Ver menos',
         checklistLabel: 'Checklist',
         validationLabel: 'Cómo se valida',
         footnoteTitle: 'Por qué está en la landing',

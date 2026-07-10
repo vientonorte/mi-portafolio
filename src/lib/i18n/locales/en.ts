@@ -307,7 +307,7 @@ export default {
         caseDescription:
           'Open reference: ideation, sprint, and prototype for handoff. Use it as a method sample before kickoff.',
         ctaDemo: 'Open N2N demo',
-        ctaSection: 'View embed on page',
+        ctaSection: 'View demo on page',
         ctaOnboarding: 'Start with N2N',
       },
       privateTooling: {
@@ -376,6 +376,9 @@ export default {
         filterAria: 'Filter practices by category',
         filterAll: 'All',
         showing: '{count} practices in this view',
+        showingCount: 'Showing {visible} of {total}',
+        loadMore: 'Load more practices',
+        showLess: 'Show less',
         checklistLabel: 'Checklist',
         validationLabel: 'How we validate',
         footnoteTitle: 'Why this is on the landing',

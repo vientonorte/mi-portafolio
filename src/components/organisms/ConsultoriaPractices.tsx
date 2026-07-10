@@ -3,6 +3,7 @@ import { BookOpen, CheckCircle2, ClipboardList } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -15,10 +16,15 @@ import { cn } from "../../lib/utils";
 
 type FilterId = "all" | PracticeCategoryId;
 
+/** Tres prácticas visibles; el resto solo si el usuario pide más (evita dump de 13). */
+const INITIAL_VISIBLE_COUNT = 3;
+const LOAD_MORE_INCREMENT = 3;
+
 export function ConsultoriaPractices() {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.practices;
   const [filter, setFilter] = useState<FilterId>("all");
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
 
   const items = useMemo(
     () =>
@@ -27,6 +33,19 @@ export function ConsultoriaPractices() {
         : CONSULTORIA_PRACTICES.filter((p) => p.category === filter),
     [filter]
   );
+
+  const visibleItems = useMemo(
+    () => items.slice(0, visibleCount),
+    [items, visibleCount]
+  );
+
+  const hasMore = visibleCount < items.length;
+  const canCollapse = visibleCount > INITIAL_VISIBLE_COUNT;
+
+  const handleFilterChange = (id: FilterId) => {
+    setFilter(id);
+    setVisibleCount(INITIAL_VISIBLE_COUNT);
+  };
 
   const categoryLabel = (id: PracticeCategoryId) =>
     PRACTICE_CATEGORIES.find((c) => c.id === id)?.label[language] ?? id;
@@ -57,7 +76,7 @@ export function ConsultoriaPractices() {
           type="button"
           role="tab"
           aria-selected={filter === "all"}
-          onClick={() => setFilter("all")}
+          onClick={() => handleFilterChange("all")}
           className={cn(
             "min-h-[44px] rounded-full border px-4 py-2 text-sm font-medium transition-colors",
             filter === "all"
@@ -73,7 +92,7 @@ export function ConsultoriaPractices() {
             type="button"
             role="tab"
             aria-selected={filter === cat.id}
-            onClick={() => setFilter(cat.id)}
+            onClick={() => handleFilterChange(cat.id)}
             className={cn(
               "min-h-[44px] rounded-full border px-4 py-2 text-sm font-medium transition-colors",
               filter === cat.id
@@ -87,11 +106,13 @@ export function ConsultoriaPractices() {
       </div>
 
       <p className="mb-6 text-sm text-muted-foreground" aria-live="polite">
-        {t.showing.replace("{count}", String(items.length))}
+        {t.showingCount
+          .replace("{visible}", String(visibleItems.length))
+          .replace("{total}", String(items.length))}
       </p>
 
       <ul className="grid gap-4 md:grid-cols-2" role="list">
-        {items.map((practice) => {
+        {visibleItems.map((practice) => {
           const Icon = practice.icon;
           return (
             <li key={practice.id} className="h-full">
@@ -152,6 +173,37 @@ export function ConsultoriaPractices() {
           );
         })}
       </ul>
+
+      {(hasMore || canCollapse) && (
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {hasMore && (
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="min-h-[48px] min-w-[12rem] border-primary/25"
+              onClick={() =>
+                setVisibleCount((n) =>
+                  Math.min(n + LOAD_MORE_INCREMENT, items.length)
+                )
+              }
+            >
+              {t.loadMore}
+            </Button>
+          )}
+          {canCollapse && (
+            <Button
+              type="button"
+              size="lg"
+              variant="ghost"
+              className="min-h-[44px] text-muted-foreground hover:text-foreground"
+              onClick={() => setVisibleCount(INITIAL_VISIBLE_COUNT)}
+            >
+              {t.showLess}
+            </Button>
+          )}
+        </div>
+      )}
 
       <aside className="mt-10 rounded-2xl border border-[color:var(--logo-surface-border)] bg-muted/30 p-5 md:p-6">
         <p className="text-sm font-semibold text-foreground">{t.footnoteTitle}</p>
