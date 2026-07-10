@@ -11,6 +11,7 @@ import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import { useLanguage } from "../lib/LanguageContext";
 import { SubpageToolbar } from "../components/molecules/SubpageToolbar";
 import { useTranslation } from "../lib/i18n";
+import { scrollToTop } from "../lib/scroll-to-section";
 import { SectionDivider } from "../components/molecules/SectionDivider";
 import { SectionHeader } from "../components/molecules/SectionHeader";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
@@ -181,7 +182,7 @@ export default function ProjectDetail({
 
   useEffect(() => {
     // Scroll to top when the component mounts
-    window.scrollTo(0, 0);
+    scrollToTop("auto");
   }, []);
 
   return (

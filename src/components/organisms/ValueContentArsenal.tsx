@@ -20,6 +20,7 @@ import {
 import { ROUTES } from "../../lib/routes";
 import { trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 type FilterId = "all" | ValueProofKind;
 
@@ -101,7 +102,7 @@ export function ValueContentArsenal({
       onStartOnboarding();
       return;
     }
-    document.getElementById("consultoria-onboarding")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("consultoria-onboarding");
   };
 
   return (
@@ -244,9 +245,8 @@ export function ValueContentArsenal({
               size="lg"
               variant="outline"
               onClick={() => {
-                const el = document.getElementById("arbol");
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth" });
+                if (document.getElementById("arbol")) {
+                  scrollToSection("arbol");
                   return;
                 }
                 navigate(ROUTES.consulting, { state: { scrollTo: "arbol" } });

@@ -28,6 +28,7 @@ import {
   type SectionScrollState,
 } from "../lib/navigate-to-section";
 import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
+import { scrollToSection } from "../lib/scroll-to-section";
 
 type ConsultoriaLocationState = SectionScrollState & {
   recommendedPackage?: ConsultingPackageId;
@@ -115,14 +116,12 @@ export default function ConsultoriaVientoNorte() {
     setEntryNonce((n) => n + 1);
 
     requestAnimationFrame(() => {
-      document
-        .getElementById("consultoria-onboarding")
-        ?.scrollIntoView({ behavior: "smooth" });
+      scrollToSection("consultoria-onboarding");
     });
   };
 
   const scrollToEvidence = () => {
-    document.getElementById("valor")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("valor");
   };
 
   return (

@@ -15,6 +15,7 @@ import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { getConsultingPackage } from "../data/vientonorte-consulting";
+import { scrollToSection } from "../lib/scroll-to-section";
 
 type ChecklistStatus = "pending" | "in_progress" | "completed";
 
@@ -194,9 +195,7 @@ export default function AuditoriaPortfolio() {
         variant="hero"
         titleTag="p"
         onStartConsulting={() => navigate(ROUTES.consulting)}
-        onViewSampleAudit={() =>
-          document.getElementById("audit-executive-summary")?.scrollIntoView({ behavior: "smooth" })
-        }
+        onViewSampleAudit={() => scrollToSection("audit-executive-summary")}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-16 lg:py-24 space-y-24">

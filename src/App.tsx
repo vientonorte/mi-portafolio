@@ -10,6 +10,7 @@ import { DeepPageNav } from './components/molecules/DeepPageNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
+import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { ROUTES } from './lib/routes';
@@ -110,6 +111,7 @@ function AppRoutes() {
 
   return (
     <PortfolioChrome>
+      <ScrollManager />
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>

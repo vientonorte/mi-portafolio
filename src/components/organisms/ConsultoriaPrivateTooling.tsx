@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
+import { scrollToSection } from "../../lib/scroll-to-section";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 
 interface ConsultoriaPrivateToolingProps {
@@ -156,11 +157,7 @@ export function ConsultoriaPrivateTooling({
               size="lg"
               variant="ghost"
               className="min-h-[44px] text-muted-foreground hover:text-foreground"
-              onClick={() =>
-                document
-                  .getElementById("metodo-n2n")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+              onClick={() => scrollToSection("metodo-n2n")}
             >
               {t.ctaN2N}
             </Button>

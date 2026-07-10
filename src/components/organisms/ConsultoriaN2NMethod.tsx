@@ -8,6 +8,7 @@ import { N2N_PHASES } from "../../data/n2n-method";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 interface ConsultoriaN2NMethodProps {
   onStartOnboarding?: () => void;
@@ -23,7 +24,7 @@ export function ConsultoriaN2NMethod({ onStartOnboarding }: ConsultoriaN2NMethod
 
   const scrollToDemo = () => {
     trackEvent("consultoria_n2n_demo", { target: "section_anchor" });
-    document.getElementById("consultoria-demo")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("consultoria-demo");
   };
 
   return (

@@ -12,6 +12,7 @@ import {
   HERO_ROLES,
   type HeroRoleId,
 } from "../../data/consultoria-hero-roles";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 interface ConsultoriaLandingHeroProps {
   onStartOnboarding?: (
@@ -57,7 +58,7 @@ export function ConsultoriaLandingHero({
       onExploreEvidence();
       return;
     }
-    document.getElementById("valor")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("valor");
   };
 
   const selectSegment = (roleId: HeroRoleId) => {

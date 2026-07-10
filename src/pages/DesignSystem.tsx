@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Download, Frame } from "lucide-react";
 import { downloadExport } from "../lib/design-tokens-export";
+import { scrollToSection } from "../lib/scroll-to-section";
 import { toast } from "sonner";
 
 export default function DesignSystem() {
@@ -26,7 +27,7 @@ export default function DesignSystem() {
   const es = language === "es";
 
   const scrollToExport = () => {
-    document.getElementById("figma-export")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("figma-export");
   };
 
   const quickDownloadTokensStudio = () => {
