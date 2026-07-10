@@ -2,18 +2,15 @@ import { LogoMarkSvg } from "./Logo";
 import { cn } from "../../lib/utils";
 
 export interface LiquidNavCtaProps {
-  /** Texto visible bajo el isologo (sin iconos decorativos). */
   label: string;
   active?: boolean;
   onClick: () => void;
-  /** Nombre accesible completo (logo solo no basta para SR). */
   ariaLabel?: string;
 }
 
 /**
- * CTA central del dock: isologo RG legible + label de texto.
- * Sin Lucide ni adornos en el label — el logo es el único glifo.
- * Contraste: plato mate del isologo (no se funde con el glass).
+ * CTA central del dock.
+ * Idle = isologo + label neutro; hover solo al interactuar (pointer fino).
  */
 export function LiquidNavCta({
   label,
@@ -26,12 +23,11 @@ export function LiquidNavCta({
       type="button"
       onClick={onClick}
       className={cn(
-        "liquid-nav-cta",
-        "group flex h-16 w-full min-h-[44px] flex-col items-center justify-end gap-1 px-0.5 pb-1",
-        "rounded-md transition-colors duration-200 ease-out",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "liquid-nav-cta relative flex h-16 w-full min-h-[44px] flex-col items-center justify-end gap-1 px-0.5 pb-1",
+        "rounded-md outline-none transition-[opacity] duration-150 ease-out",
+        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "active:opacity-90",
-        active && "liquid-nav-cta--active"
+        active ? "liquid-nav-cta--active is-active" : "is-idle"
       )}
       aria-label={ariaLabel ?? label}
       aria-current={active ? "page" : undefined}
@@ -39,9 +35,7 @@ export function LiquidNavCta({
       data-active={active ? "true" : "false"}
     >
       <span className="liquid-nav-cta__orb" aria-hidden="true">
-        {/* Halo liquid glass (alrededor, no sobre el logo) */}
         <span className="liquid-nav-cta__halo" />
-        {/* Isologo completo con plato — contraste WCAG sobre el dock */}
         <LogoMarkSvg
           size={48}
           showPlate
@@ -49,13 +43,10 @@ export function LiquidNavCta({
           className="liquid-nav-cta__mark"
         />
       </span>
-      {/* Solo texto: sin icono adicional al logo */}
       <span
         className={cn(
-          "bottom-nav-mobile__label max-w-full truncate transition-colors duration-200",
-          active
-            ? "font-semibold text-primary"
-            : "font-medium text-[color:var(--bottom-nav-inactive,#525252)] group-hover:text-primary"
+          "bottom-nav-mobile__label liquid-nav-cta__label max-w-full truncate",
+          active ? "font-semibold" : "font-medium"
         )}
       >
         {label}
