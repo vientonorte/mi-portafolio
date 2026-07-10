@@ -5,7 +5,6 @@ import { LanguageProvider } from './lib/LanguageContext';
 import { AnalyticsProvider } from './vn-core/analytics/react';
 import { analyticsConfig } from './vn-core/analytics/config';
 import { Navigation } from './components/organisms/Navigation';
-import Footer from './components/Footer';
 import { BottomNav } from './components/molecules/BottomNav';
 import { DeepPageNav } from './components/molecules/DeepPageNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
@@ -140,7 +139,7 @@ function AppRoutes() {
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
       {!isDeepPage && <BottomNav />}
       {isDeepPage && <DeepPageNav />}
     </PortfolioChrome>
