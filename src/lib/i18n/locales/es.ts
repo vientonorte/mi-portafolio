@@ -219,22 +219,69 @@ export default {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
-      stickyCta: 'Reservar kickoff',
+      stickyCta: 'Agendar kickoff',
       landing: {
         badge: 'Consultoría Viento Norte · Lead UX',
-        title: 'UX con evidencia,',
-        titleAccent: 'no con slides vacíos',
+        principleBadge: 'Transparencia como principio',
+        title: 'Alcance claro,',
+        titleAccent: 'sin letra chica',
         description:
-          'Método N2N, herramientas offline en ecosistema privado (GitHub · IA gobernada · Ley 21.719 · WCAG 2.2), playbook documentado y onboarding en 4 pasos.',
-        ctaPrimary: 'Iniciar onboarding',
-        ctaSecondary: 'Ver evidencia',
-        trustLine:
-          'Kickoff < 24 h · N2N · offline/private · sin precios públicos · WCAG 2.2 AA',
+          'Elegís tu camino en 10 s. Sabés qué entregamos, qué no, y qué patrones de fintech aplicamos a tu contexto — antes del kickoff.',
+        transparencyLine:
+          'Sin precios genéricos en la web: el alcance se cierra contigo. Lo que prometemos en ads es lo que ves aquí.',
+        ctaPrimary: 'Agendar kickoff',
+        ctaSecondary: 'Ver evidencia primero',
+        trustLine: 'Respuesta < 24 h hábiles · WCAG 2.2 AA · Ley 21.719 by design',
+        segmentsLabel: 'Capa 1 · ¿Para quién es tu lead?',
+        segmentsHint: 'Un toque. Prearmamos modalidad y mensaje — sin formulario largo aquí.',
+        segments: {
+          product: {
+            title: 'Product / PM',
+            hint: 'Roadmap, conversión, onboarding regulado.',
+            cta: 'Estrategia guiada',
+          },
+          ops: {
+            title: 'Design Ops',
+            hint: 'Handoff, DS y proceso de equipo medible.',
+            cta: 'Proceso de equipo',
+          },
+          compliance: {
+            title: 'Datos / perímetro',
+            hint: 'Offline, GitHub private, IA y 21.719.',
+            cta: 'Ver C1 offline',
+          },
+          founder: {
+            title: 'Founder / startup',
+            hint: 'Diagnóstico express y quick wins.',
+            cta: 'Diagnóstico radar',
+          },
+        },
+        techLayerLabel: 'Capa 2 · Transferencia fintech',
+        techLayerTitle: 'Qué patrones traemos a tu proyecto',
+        techLayerDescription:
+          'No copiamos pantallas ajenas: adaptamos tecnologías y patrones ya probados en SURA, Transvip y Karri a tus necesidades.',
+        techPatterns: [
+          {
+            source: 'SURA',
+            pattern: 'Progressive disclosure + auth multi-perfil',
+            forYou: 'Onboarding y compliance sin fricción legal en el happy path.',
+          },
+          {
+            source: 'Transvip',
+            pattern: 'Design system + handoff navegable',
+            forYou: 'Componentes y tokens listos para dev en tu repo o Figma.',
+          },
+          {
+            source: 'Karri',
+            pattern: 'Simuladores y hubs con métrica',
+            forYou: 'Herramientas de activación con evidencia de comprensión.',
+          },
+        ],
         metrics: [
-          { value: 'N2N', label: 'Brief → prototipo navegable' },
-          { value: '13', label: 'Buenas prácticas documentadas' },
-          { value: 'C1', label: 'Offline · private · IA' },
-          { value: '3', label: 'Modalidades con entregables' },
+          { value: '1 CTA', label: 'Primario · kickoff' },
+          { value: 'N2N', label: 'Brief → prototipo' },
+          { value: '−40%', label: 'Onboarding SURA' },
+          { value: '3', label: 'Modalidades claras' },
         ],
         nav: {
           n2n: 'N2N',

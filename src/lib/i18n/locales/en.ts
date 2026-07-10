@@ -222,19 +222,66 @@ export default {
       stickyCta: 'Book kickoff',
       landing: {
         badge: 'Viento Norte consulting · Lead UX',
-        title: 'UX with evidence,',
-        titleAccent: 'not empty slides',
+        principleBadge: 'Transparency as principle',
+        title: 'Clear scope,',
+        titleAccent: 'no fine print',
         description:
-          'N2N method, offline tools in a private ecosystem (GitHub · governed AI · Act 21.719 · WCAG 2.2), documented playbook, and 4-step onboarding.',
-        ctaPrimary: 'Start onboarding',
-        ctaSecondary: 'View evidence',
-        trustLine:
-          'Kickoff < 24 h · N2N · offline/private · no public pricing · WCAG 2.2 AA',
+          'Pick your path in 10 s. You know what we deliver, what we don’t, and which fintech patterns we apply to your context — before kickoff.',
+        transparencyLine:
+          'No generic public pricing: scope closes with you. What ads promise is what you see here.',
+        ctaPrimary: 'Book kickoff',
+        ctaSecondary: 'See evidence first',
+        trustLine: 'Reply < 24 business hours · WCAG 2.2 AA · Act 21.719 by design',
+        segmentsLabel: 'Layer 1 · Who is this lead for?',
+        segmentsHint: 'One tap. We prefill format and message — no long form here.',
+        segments: {
+          product: {
+            title: 'Product / PM',
+            hint: 'Roadmap, conversion, regulated onboarding.',
+            cta: 'Guided strategy',
+          },
+          ops: {
+            title: 'Design Ops',
+            hint: 'Handoff, DS, and measurable team process.',
+            cta: 'Team process',
+          },
+          compliance: {
+            title: 'Data / perimeter',
+            hint: 'Offline, private GitHub, AI, and 21.719.',
+            cta: 'View C1 offline',
+          },
+          founder: {
+            title: 'Founder / startup',
+            hint: 'Express diagnostic and quick wins.',
+            cta: 'Radar diagnostic',
+          },
+        },
+        techLayerLabel: 'Layer 2 · Fintech transfer',
+        techLayerTitle: 'Patterns we bring into your project',
+        techLayerDescription:
+          'We don’t clone others’ screens: we adapt proven SURA, Transvip, and Karri patterns to your needs.',
+        techPatterns: [
+          {
+            source: 'SURA',
+            pattern: 'Progressive disclosure + multi-profile auth',
+            forYou: 'Onboarding and compliance without legal friction on the happy path.',
+          },
+          {
+            source: 'Transvip',
+            pattern: 'Design system + navigable handoff',
+            forYou: 'Components and tokens ready for dev in your repo or Figma.',
+          },
+          {
+            source: 'Karri',
+            pattern: 'Simulators and hubs with metrics',
+            forYou: 'Activation tools with comprehension evidence.',
+          },
+        ],
         metrics: [
-          { value: 'N2N', label: 'Brief → navigable prototype' },
-          { value: '13', label: 'Documented best practices' },
-          { value: 'C1', label: 'Offline · private · AI' },
-          { value: '3', label: 'Formats with deliverables' },
+          { value: '1 CTA', label: 'Primary · kickoff' },
+          { value: 'N2N', label: 'Brief → prototype' },
+          { value: '−40%', label: 'SURA onboarding' },
+          { value: '3', label: 'Clear formats' },
         ],
         nav: {
           n2n: 'N2N',

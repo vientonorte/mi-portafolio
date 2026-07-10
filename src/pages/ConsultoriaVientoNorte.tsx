@@ -95,7 +95,9 @@ export default function ConsultoriaVientoNorte() {
       />
 
       <ConsultoriaLandingHero
-        onStartOnboarding={() => scrollToOnboarding()}
+        onStartOnboarding={(packageId, options) =>
+          scrollToOnboarding(packageId, options)
+        }
         onExploreEvidence={scrollToEvidence}
       />
 
