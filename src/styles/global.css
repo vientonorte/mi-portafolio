@@ -263,10 +263,6 @@ html.dark .bottom-nav-mobile--glass {
   stroke-opacity: 0.55;
 }
 
-.liquid-nav-cta__orb {
-  transition: transform 0.2s ease-out, filter 0.2s ease-out;
-}
-
 /* Activo: anillo fino, sin doble ring ruidoso */
 .liquid-nav-cta--active .liquid-nav-cta__halo {
   box-shadow:
