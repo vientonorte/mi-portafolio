@@ -73,6 +73,7 @@ img {
 .bottom-nav-mobile {
   display: block;
   width: 100%;
+  overflow: visible;
 }
 
 .bottom-nav-mobile__list {
@@ -83,11 +84,51 @@ img {
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow: visible;
 }
 
 .bottom-nav-mobile__item {
   flex: 1 1 0%;
   min-width: 0;
+}
+
+/* Slot central: CTA liquid de consultoría (elevado sobre la barra) */
+.bottom-nav-mobile__item--center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: visible;
+}
+
+.liquid-nav-cta__orb {
+  margin-top: -1.35rem;
+  background: var(--brand-gradient, linear-gradient(135deg, #ff1d25 0%, #ff931e 100%));
+  border: 1px solid color-mix(in srgb, #ffffff 35%, transparent);
+}
+
+.liquid-nav-cta__sheen {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 80% at 30% 15%, rgba(255, 255, 255, 0.45) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, transparent 48%);
+  opacity: 0.95;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-nav-cta,
+  .liquid-nav-cta__orb {
+    transition: none !important;
+  }
+
+  .liquid-nav-cta:hover .liquid-nav-cta__orb,
+  .liquid-nav-cta:active {
+    transform: none !important;
+  }
 }
 
 /* Sub-page toolbar: queda debajo del header fijo principal */

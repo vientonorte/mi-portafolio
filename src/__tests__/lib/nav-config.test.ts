@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  DOCK_CENTER_ID,
   NAV_SURFACE,
   getDockNavAction,
+  getDockNavItems,
   getHeaderPrimaryNavItems,
   getMobileDrawerNavItems,
   getMobileMoreDividerIndex,
@@ -73,6 +75,22 @@ describe("getDockNavAction", () => {
   it("uses anchor contact on home and route on deep pages", () => {
     expect(getDockNavAction("contacto", "home").kind).toBe("anchor");
     expect(getDockNavAction("contacto", "deep").kind).toBe("contact");
+  });
+
+  it("routes consultoria from the liquid center slot", () => {
+    expect(DOCK_CENTER_ID).toBe("consultoria");
+    expect(getDockNavAction("consultoria", "home")).toEqual({
+      kind: "route",
+      target: "/consultoria",
+    });
+  });
+});
+
+describe("getDockNavItems", () => {
+  it("places consultoria as center dock CTA between work and process", () => {
+    const ids = getDockNavItems("home", labels, "Proceso").map((item) => item.id);
+    expect(ids).toEqual(["inicio", "negocios", "consultoria", "proceso", "contacto"]);
+    expect(ids[2]).toBe(DOCK_CENTER_ID);
   });
 });
 

@@ -29,8 +29,11 @@ export type NavItemId =
 
 export type DockNavItemId = Extract<
   NavItemId,
-  "inicio" | "negocios" | "experiencia" | "proceso" | "contacto"
+  "inicio" | "negocios" | "consultoria" | "proceso" | "contacto"
 >;
+
+/** Slot central elevado del dock (liquid CTA → consultoría). */
+export const DOCK_CENTER_ID: DockNavItemId = "consultoria";
 
 export type NavActionKind = "anchor" | "route" | "section" | "contact" | "external";
 
@@ -61,15 +64,16 @@ export interface NavRegistryItem {
 }
 
 /**
- * Design thinking — dock (5 slots, mobile thumb zone):
- * - Inicio / Negocios / Experiencia → recruiter + work-first
- * - Proceso → método UX (credibilidad)
- * - Contacto → conversión
- * Auditoría y Consultoría viven en header + hero search (intención), no en dock:
- * evita saturar la barra fija; el hero ya enruta las 3 líneas de negocio.
+ * Design thinking — dock (5 slots, thumb zone):
+ * - Inicio / Negocios → recruiter + work-first
+ * - Consultoría (centro liquid) → conversión principal
+ * - Proceso → método UX
+ * - Contacto → cierre
+ * Experiencia y auditoría siguen en header / drawer / hero search.
+ * Plantillas premium emprendedores: fuera de alcance (próxima sesión).
  */
 export const NAV_SURFACE = {
-  dock: ["inicio", "negocios", "experiencia", "proceso", "contacto"] as const satisfies readonly DockNavItemId[],
+  dock: ["inicio", "negocios", "consultoria", "proceso", "contacto"] as const satisfies readonly DockNavItemId[],
   headerPrimary: ["negocios", "experiencia", "consultoria", "proceso", "contacto"] as const,
   headerMore: ["sobre-mi", "auditoria", "design-system", "uxtools"] as const,
   mobileDrawer: [

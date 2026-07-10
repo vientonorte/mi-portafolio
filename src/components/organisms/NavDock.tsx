@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { NavTabItem } from "../atoms/NavTabItem";
+import { LiquidNavCta } from "../atoms/LiquidNavCta";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import {
+  DOCK_CENTER_ID,
   executeNavAction,
   getDockNavItems,
   matchNavItemActive,
@@ -96,19 +98,45 @@ export function NavDock({ variant }: NavDockProps) {
       data-nav-variant={variant}
     >
       <ul className="bottom-nav-mobile__list">
-        {items.map((item) => (
-          <li key={item.id} className="bottom-nav-mobile__item">
-            <NavTabItem
-              icon={item.icon}
-              label={item.label}
-              active={matchNavItemActive(item, path, {
-                isOnHome,
-                homeSection: variant === "home" ? homeSection : undefined,
-              })}
-              onClick={() => handleTap(item)}
-            />
-          </li>
-        ))}
+        {items.map((item) => {
+          const active = matchNavItemActive(item, path, {
+            isOnHome,
+            homeSection: variant === "home" ? homeSection : undefined,
+          });
+          const isCenter = item.id === DOCK_CENTER_ID;
+
+          return (
+            <li
+              key={item.id}
+              className={
+                isCenter
+                  ? "bottom-nav-mobile__item bottom-nav-mobile__item--center"
+                  : "bottom-nav-mobile__item"
+              }
+            >
+              {isCenter ? (
+                <LiquidNavCta
+                  icon={item.icon}
+                  label={item.label}
+                  active={active}
+                  onClick={() => handleTap(item)}
+                  ariaLabel={
+                    language === "es"
+                      ? "Consultoría Viento Norte"
+                      : "Viento Norte consulting"
+                  }
+                />
+              ) : (
+                <NavTabItem
+                  icon={item.icon}
+                  label={item.label}
+                  active={active}
+                  onClick={() => handleTap(item)}
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
