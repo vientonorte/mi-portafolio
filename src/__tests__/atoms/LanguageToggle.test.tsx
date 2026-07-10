@@ -5,7 +5,11 @@ import { LanguageToggle } from '@/components/atoms/LanguageToggle';
 const mockSetLanguage = vi.fn();
 
 vi.mock('@/lib/LanguageContext', () => ({
-  useLanguage: () => ({ language: 'es', setLanguage: mockSetLanguage }),
+  useLanguage: () => ({
+    language: 'es',
+    setLanguage: mockSetLanguage,
+    isSwitching: false,
+  }),
 }));
 
 describe('LanguageToggle', () => {

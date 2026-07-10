@@ -11,17 +11,21 @@ interface LanguageToggleProps {
 }
 
 export function LanguageToggle({ className, compact = false }: LanguageToggleProps) {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, isSwitching } = useLanguage();
   const nextLabel = language === "es" ? "English" : "Español";
+  const nextLang = language === "es" ? "en" : "es";
+  const aria = `${language === "es" ? "Cambiar a" : "Switch to"} ${nextLabel}`;
 
   if (compact) {
     return (
       <Button
         variant="ghost"
         size="icon"
-        onClick={() => setLanguage(language === "es" ? "en" : "es")}
+        onClick={() => setLanguage(nextLang)}
+        disabled={isSwitching}
         className={cn("relative text-foreground hover:text-foreground", className)}
-        aria-label={`${language === "es" ? "Cambiar a" : "Switch to"} ${nextLabel}`}
+        aria-label={aria}
+        aria-busy={isSwitching}
       >
         <span className="text-[11px] font-semibold uppercase tracking-wide">{language}</span>
       </Button>
@@ -38,9 +42,11 @@ export function LanguageToggle({ className, compact = false }: LanguageTogglePro
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => setLanguage(language === "es" ? "en" : "es")}
+        onClick={() => setLanguage(nextLang)}
+        disabled={isSwitching}
         className="relative group text-foreground hover:text-foreground"
-        aria-label={`${language === "es" ? "Cambiar a" : "Switch to"} ${nextLabel}`}
+        aria-label={aria}
+        aria-busy={isSwitching}
       >
         <Globe className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform" />
         <span className="font-medium uppercase">{language}</span>

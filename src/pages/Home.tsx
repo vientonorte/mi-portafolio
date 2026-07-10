@@ -33,7 +33,7 @@ const Home = () => {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const seo = t.seo;
-  // Solo con diccionario ya cargado (LanguageProvider); evita getTranslationSync en vacío
+  // language y diccionario se actualizan juntos en setLanguage (sin carrera EN↔ES)
   const structuredData = useMemo(
     () => buildPortfolioStructuredData(language),
     [language]
