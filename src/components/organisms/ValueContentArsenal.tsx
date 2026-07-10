@@ -150,12 +150,17 @@ export function ValueContentArsenal({
           .replace("{total}", String(filtered.length))}
       </p>
 
-      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
+      {/*
+        Cards horizontales a ancho completo (md+): llenan el viewport
+        y evitan el hueco vacío de “1 de N” en grid de 3 columnas.
+        Móvil: apiladas (imagen arriba).
+      */}
+      <ul className="flex w-full flex-col gap-5 md:gap-6" role="list">
         {visibleItems.map((item, index) => {
           const href = VALUE_PROOF_EXTERNAL_URLS[item.id] ?? item.href;
 
           return (
-            <li key={item.id} className="h-full">
+            <li key={item.id} className="w-full min-w-0">
               <ValueProofCard
                 kind={item.kind}
                 kindLabel={item.kindLabel}
@@ -165,6 +170,7 @@ export function ValueContentArsenal({
                 image={item.image}
                 viewLabel={t.viewProof}
                 index={index}
+                layout="horizontal"
                 onView={() => openProof(item.id, href, item.external)}
               />
             </li>
