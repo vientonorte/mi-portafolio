@@ -13,7 +13,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "google-auth-library": "^10.5.0",
-    "express-rate-limit": "^7.5.0",
+    "express-rate-limit": "^8.6.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
