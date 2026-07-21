@@ -30,7 +30,7 @@ export function Experience() {
         badge={t.badge}
         badgeIcon={Briefcase}
         title={t.title}
-        description=""
+        description={t.description}
         titleId="experience-heading"
       />
 
@@ -64,7 +64,7 @@ export function Experience() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ duration: 0.5, delay: index * 0.06 }}
                 className="min-w-0 flex-1"
               >
                 <Card
@@ -82,58 +82,97 @@ export function Experience() {
                           size="md"
                         />
 
-                        <div className="min-w-0 flex-1 space-y-1">
+                        <div className="min-w-0 flex-1 space-y-1.5">
                           <div className="flex flex-wrap items-center gap-2">
-                            <CardTitle>{exp.position}</CardTitle>
+                            <Badge
+                              variant="outline"
+                              className="border-primary/25 font-mono text-[10px] uppercase tracking-[0.14em] text-primary"
+                            >
+                              {exp.stage}
+                            </Badge>
                             {exp.isCurrent && (
                               <Badge className="bg-green-500 text-white hover:bg-green-600">
                                 {t.current}
                               </Badge>
                             )}
                           </div>
-                          <CardDescription>{exp.company}</CardDescription>
+                          <CardTitle className="text-lg sm:text-xl">{exp.position}</CardTitle>
+                          <CardDescription className="text-base font-medium text-foreground/80">
+                            {exp.company}
+                          </CardDescription>
+                          <p className="text-xs text-muted-foreground">
+                            {exp.period}
+                            <span aria-hidden="true"> · </span>
+                            {exp.location}
+                          </p>
                         </div>
                       </div>
-                      <Badge variant="secondary" className="self-start whitespace-nowrap">
-                        {exp.period}
-                      </Badge>
                     </div>
-                    <p className="mt-1 text-sm font-medium text-foreground/90">{exp.summary}</p>
                   </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-1.5" role="list" aria-label={t.achievementsLabel}>
-                      {exp.achievements.map((achievement, i) => (
-                        <motion.li
-                          key={i}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.1 + i * 0.05 }}
-                          className="flex items-start gap-2"
-                        >
-                          <span className="mt-1 shrink-0 text-primary" aria-hidden="true">
-                            •
-                          </span>
-                          <span className="text-sm text-muted-foreground">{achievement}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </CardContent>
 
-                  {exp.tools && (
-                    <CardContent className="pt-0">
-                      <div className="flex flex-wrap gap-2">
+                  <CardContent className="space-y-4">
+                    {/* Relato por etapa: contexto → rol → impacto */}
+                    <dl className="space-y-3 border-b border-border/60 pb-4">
+                      <div>
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          {t.contextLabel}
+                        </dt>
+                        <dd className="mt-1 text-sm leading-relaxed text-foreground/90">
+                          {exp.context}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          {t.roleLabel}
+                        </dt>
+                        <dd className="mt-1 text-sm leading-relaxed text-foreground/90">
+                          {exp.role}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          {t.impactLabel}
+                        </dt>
+                        <dd className="mt-1 text-sm font-semibold leading-relaxed text-primary">
+                          {exp.impact}
+                        </dd>
+                      </div>
+                    </dl>
+
+                    <div>
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                        {t.evidenceLabel}
+                      </p>
+                      <ul className="space-y-1.5" role="list" aria-label={t.evidenceLabel}>
+                        {exp.achievements.map((achievement, i) => (
+                          <motion.li
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.08 + i * 0.04 }}
+                            className="flex items-start gap-2"
+                          >
+                            <span className="mt-1 shrink-0 text-primary" aria-hidden="true">
+                              •
+                            </span>
+                            <span className="text-sm text-muted-foreground">{achievement}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {exp.tools && exp.tools.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-1">
                         {exp.tools.map((tool) => (
                           <Badge key={tool} variant="secondary" className="text-xs">
                             {tool}
                           </Badge>
                         ))}
                       </div>
-                    </CardContent>
-                  )}
+                    )}
 
-                  {exp.companyId && (
-                    <CardContent className="pt-0">
+                    {exp.companyId && (
                       <Button
                         variant="ghost"
                         size="sm"
@@ -143,8 +182,8 @@ export function Experience() {
                         {t.viewCases}
                         <ChevronRight className="h-4 w-4" />
                       </Button>
-                    </CardContent>
-                  )}
+                    )}
+                  </CardContent>
                 </Card>
               </motion.article>
             </li>

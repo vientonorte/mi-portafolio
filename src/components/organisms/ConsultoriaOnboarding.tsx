@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ import {
 } from "../../lib/consultoria-onboarding-entry";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { ROUTES } from "../../lib/routes";
+import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
 import { cn } from "../../lib/utils";
 
 interface ConsultoriaOnboardingProps {
@@ -52,6 +52,7 @@ export function ConsultoriaOnboarding({
     goalPrefill: initialGoal,
   });
 
+  // Parent remounts via key when entry package/goal changes — init state only
   const [stepIndex, setStepIndex] = useState(startIndex);
   const [selectedPackage, setSelectedPackage] = useState<ConsultingPackageId>(
     initialPackageId ?? "marco"
@@ -61,23 +62,6 @@ export function ConsultoriaOnboarding({
   );
   const [timeline, setTimeline] = useState(CONSULTING_TIMELINES[language][1]);
   const [goal, setGoal] = useState(initialGoal ?? "");
-
-  // Sync when parent remounts via key or updates entry
-  useEffect(() => {
-    if (initialPackageId) setSelectedPackage(initialPackageId);
-  }, [initialPackageId]);
-
-  useEffect(() => {
-    if (initialGoal) setGoal(initialGoal);
-  }, [initialGoal]);
-
-  useEffect(() => {
-    if (initialIndustry) setIndustry(initialIndustry);
-  }, [initialIndustry]);
-
-  useEffect(() => {
-    setStepIndex(startIndex);
-  }, [startIndex]);
 
   const step = ONBOARDING_STEPS[stepIndex];
   const progress = Math.round(((stepIndex + 1) / ONBOARDING_STEPS.length) * 100);
@@ -119,17 +103,14 @@ export function ConsultoriaOnboarding({
       goal,
       timeline
     );
-    navigate(ROUTES.contact, {
-      state: {
-        contactDraft: {
-          message,
-          source: "onboarding",
-          intent: "consulting",
-          packageId: selectedPackage,
-          industry,
-          timeline,
-        },
-      },
+    navigateToContactAssistant(navigate, {
+      origin: "onboarding",
+      source: "onboarding",
+      intent: "consulting",
+      packageId: selectedPackage,
+      industry,
+      timeline,
+      message,
     });
   };
 

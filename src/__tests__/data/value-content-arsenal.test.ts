@@ -9,7 +9,7 @@ import { getPortfolioImages } from "@/lib/image-overrides";
 /** Claves de portfolioImages esperadas por card — imagen alineada a contenido y evidencia. */
 const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "x-cms-demo": "consultoria.xCmsDashboard",
-  "gees-propuesta": "consultoria.xCmsDashboard",
+  "gees-propuesta": "consultoria.geesDashboard",
   "ria-us": "sura.riaOnboarding",
   "ria-celula-evolutiva": "sura.celulaEvolutivaFlow",
   "poc-ia-dei": "sura.iaAutomationDashboard",
@@ -26,7 +26,11 @@ const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "karri-design-sprint": "karri.okrsBoard",
   "proceso-ux": "framework.uxValueChain",
   "design-system": "sura.componentPipeline",
-  "uxtools-suite": "framework.uxValueChain",
+  "uxtools-suite": "uxTools.designSystem",
+  "uxtools-journey-map": "uxTools.journeyMap",
+  "uxtools-user-flow": "uxTools.userFlow",
+  "uxtools-usability-test": "uxTools.usabilityTest",
+  "uxtools-design-system": "uxTools.designSystem",
   "sura-ia-case": "sura.iaAutomationDashboard",
   "auditoria-ejemplo": "sura.analyticsGa4",
   "figjam-audit-board": "sura.hotjarDashboard",
@@ -38,6 +42,11 @@ const EXPECTED_IMAGE_KEYS: Record<string, string> = {
 
 const IMAGE_PATH_SNIPPETS: Record<string, string> = {
   "consultoria.xCmsDashboard": "consultoria/x-cms-dashboard",
+  "consultoria.geesDashboard": "consultoria/gees-dashboard",
+  "uxTools.journeyMap": "ux-tools/journey-map",
+  "uxTools.userFlow": "ux-tools/user-flow",
+  "uxTools.usabilityTest": "ux-tools/usability-test",
+  "uxTools.designSystem": "ux-tools/design-system",
   "sura.riaOnboarding": "sura/ria-onboarding",
   "sura.celulaEvolutivaFlow": "sura/celula-evolutiva-flow",
   "sura.iaAutomationDashboard": "sura/ia-automation-dashboard",

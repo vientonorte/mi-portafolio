@@ -53,24 +53,24 @@ export function PremiumUxAuditBanner({
               id="ux-audit-banner-heading"
               className={
                 variant === "hero"
-                  ? "text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl"
-                  : "text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                  ? "text-4xl font-black tracking-tighter text-foreground md:text-5xl lg:text-6xl lg:leading-[0.95]"
+                  : "text-3xl font-bold tracking-tight text-foreground md:text-4xl"
               }
             >
               {t.titleLead}{" "}
-              <span className="text-primary">{t.titleAccent}</span>
+              <span className="text-brand-gradient">{t.titleAccent}</span>
             </h2>
           ) : (
             <p
               id="ux-audit-banner-heading"
               className={
                 variant === "hero"
-                  ? "text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl"
-                  : "text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                  ? "text-4xl font-black tracking-tighter text-foreground md:text-5xl lg:text-6xl lg:leading-[0.95]"
+                  : "text-3xl font-bold tracking-tight text-foreground md:text-4xl"
               }
             >
               {t.titleLead}{" "}
-              <span className="text-primary">{t.titleAccent}</span>
+              <span className="text-brand-gradient">{t.titleAccent}</span>
             </p>
           )}
           <p className="max-w-xl text-base text-muted-foreground md:text-lg">{t.description}</p>

@@ -40,14 +40,33 @@ El **front** (formulario + asistente) no cambia; solo el destino del POST.
 | `src/lib/site-contact.ts` | Emails públicos, inbox FormSubmit, URL del Worker |
 | `src/lib/google-forms-contact.ts` | Config y mapeo de campos → entry IDs |
 | `src/lib/submit-contact.ts` | Cadena Google Forms → FormSubmit → Worker → mailto |
-| `src/components/organisms/Contact.tsx` | Tabs: asistente + formulario directo |
-| `src/components/organisms/ContactAssistant.tsx` | Flujo guiado en 3 pasos (intent → detail → compose) |
+| `src/lib/navigate-to-contact.ts` | **API transversal P1** — CTAs abren el asistente (`navigateToContactAssistant`) |
+| `src/lib/contact-draft.ts` | Draft en router state (intent-only o mensaje prearmado) |
+| `src/components/organisms/Contact.tsx` | Asistente por defecto; formulario clásico como escape hatch |
+| `src/components/organisms/ContactAssistant.tsx` | Flujo guiado (intent → detail → compose) |
 | `src/lib/contact-draft-storage.ts` | Borrador en `sessionStorage` (nombre, email, mensaje, tab); sin consent |
 | `src/components/molecules/ContactConsentField.tsx` | Checkbox + link a privacidad |
 | `src/pages/Privacy.tsx` | Política de privacidad (i18n) |
-| `src/pages/Contacto.tsx` | Toast `?sent=1` tras redirect FormSubmit |
+| `src/pages/Contacto.tsx` | Parse `state` + `?intent=`; toast `?sent=1` |
 | `worker/src/contact.js` | Relay server-side (backup) |
 | `worker/wrangler.contact.toml` | Deploy del Worker sin R2/KV |
+
+### Abrir el asistente desde cualquier CTA
+
+```ts
+import { navigateToContactAssistant } from "../lib/navigate-to-contact";
+
+navigateToContactAssistant(navigate, {
+  origin: "audit-page",       // analytics
+  source: "cta",              // o onboarding | quoter | partner-edu
+  intent: "consulting",       // recruiter | consulting | freelance | other
+  packageId: "radar",         // opcional
+  message: "…",               // si hay mensaje → salta a compose
+});
+```
+
+- Solo `intent` → `/contacto?intent=…` y wizard en paso **detail**
+- `message` + `source: cta` → wizard en **compose** con banner de confirmación
 
 ---
 

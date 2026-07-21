@@ -42,7 +42,6 @@ export function NavDock({ variant }: NavDockProps) {
     designSystem: t.nav.designSystem,
     uxtools: t.nav.uxtools,
     more: t.nav.more,
-    resources: t.nav.resources,
   };
 
   const path = location.pathname.replace(/\/+$/, "") || "/";
@@ -104,18 +103,13 @@ export function NavDock({ variant }: NavDockProps) {
     });
   };
 
+  // Distinct from header aria-label so AT users don't hear two "main" navs
   const ariaLabel =
-    language === "es"
-      ? isOnHome
-        ? "Navegación principal"
-        : "Navegación de página"
-      : isOnHome
-        ? "Main navigation"
-        : "Page navigation";
+    language === "es" ? "Navegación inferior" : "Bottom navigation";
 
   return (
     <nav
-      className={`nav-dock bottom-nav-mobile ${BOTTOM_NAV_BASE_CLASS} ${BOTTOM_NAV_DOCK_CLASS}`}
+      className={`${BOTTOM_NAV_BASE_CLASS} ${BOTTOM_NAV_DOCK_CLASS}`}
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label={ariaLabel}
       data-process-label-variant={processLabelVariant}

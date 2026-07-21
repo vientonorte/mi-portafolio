@@ -43,14 +43,16 @@ export default function ConsultoriaVientoNorte() {
   const { language } = useLanguage();
   const t = useTranslation(language);
 
+  const entryState = location.state as ConsultoriaLocationState | null;
+
   const [selectedPackage, setSelectedPackage] = useState<
     ConsultingPackageId | undefined
-  >();
-  const [packageLocked, setPackageLocked] = useState(false);
+  >(() => entryState?.recommendedPackage);
+  const [packageLocked, setPackageLocked] = useState(
+    () => Boolean(entryState?.recommendedPackage)
+  );
   const [goalKind, setGoalKind] = useState<EntryGoalKind>(
-    location.state && (location.state as ConsultoriaLocationState).c1Goal
-      ? "c1"
-      : null
+    entryState?.c1Goal ? "c1" : null
   );
   const [entryNonce, setEntryNonce] = useState(0);
 
@@ -77,6 +79,7 @@ export default function ConsultoriaVientoNorte() {
     const scrollTo =
       state?.scrollTo ?? consumePendingSectionScroll(location.pathname);
 
+    // One-shot scroll entry; package is seeded via useState from location.state
     if (!scrollTo) return;
 
     runPendingSectionScroll(scrollTo);

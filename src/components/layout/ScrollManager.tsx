@@ -23,6 +23,10 @@ export function ScrollManager() {
     const state = location.state as SectionScrollState | null;
     const hasSectionTarget = Boolean(state?.scrollTo);
 
+    // Unlock scroll on every route change (stuck menu lock blocks end of page)
+    document.body.style.overflow = "";
+    document.body.removeAttribute("data-menu-open");
+
     if (path !== prev) {
       prevPathRef.current = path;
       if (!hasSectionTarget) {

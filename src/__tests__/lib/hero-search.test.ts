@@ -3,48 +3,48 @@ import { filterHeroSuggestions } from "@/lib/hero-search";
 
 const suggestions = [
   {
-    id: "recursos-home",
-    category: "recursos" as const,
-    title: "Ver recursos",
-    hint: "Mockups",
-    badge: "Recursos",
-    keywords: ["recursos", "demo"],
-    href: "path/#recursos",
+    id: "reclutadores-cx",
+    category: "contacto" as const,
+    title: "CX · Reclutadores",
+    hint: "Perfil",
+    badge: "CX",
+    keywords: ["cx", "reclutadores"],
+    href: "section/sobre-mi/experiencia",
   },
   {
-    id: "consultoria-metodo",
-    category: "consultoria" as const,
-    title: "Método",
-    hint: "N2N",
+    id: "consultoria-viento-norte",
+    category: "negocios" as const,
+    title: "Consultoría Viento Norte",
+    hint: "Design Ops",
     badge: "Consultoría",
-    keywords: ["consultoría", "n2n"],
+    keywords: ["consultoría", "viento norte"],
     href: "route/consultoria",
   },
   {
-    id: "contacto-hablar",
-    category: "contacto" as const,
-    title: "Conversemos",
-    hint: "Form",
-    badge: "Contacto",
-    keywords: ["contacto", "lead"],
-    href: "path/#contacto",
+    id: "auditoria-accesibilidad",
+    category: "auditorias" as const,
+    title: "Auditoría gratuita de accesibilidad",
+    hint: "Agendar WCAG",
+    badge: "Agendar",
+    keywords: ["auditoría", "wcag", "agendar", "leads"],
+    href: "route/auditoria",
   },
 ];
 
 describe("filterHeroSuggestions", () => {
-  it("returns one suggestion per multi-entry line by default", () => {
+  it("returns cards in CX · Consultoría · Auditoría order", () => {
     const result = filterHeroSuggestions(suggestions);
     expect(result).toHaveLength(3);
     expect(result.map((item) => item.id)).toEqual([
-      "recursos-home",
-      "consultoria-metodo",
-      "contacto-hablar",
+      "reclutadores-cx",
+      "consultoria-viento-norte",
+      "auditoria-accesibilidad",
     ]);
   });
 
   it("filters lines by query while keeping one case per line", () => {
-    const result = filterHeroSuggestions(suggestions, { query: "lead" });
+    const result = filterHeroSuggestions(suggestions, { query: "agendar" });
     expect(result).toHaveLength(1);
-    expect(result[0]?.id).toBe("contacto-hablar");
+    expect(result[0]?.id).toBe("auditoria-accesibilidad");
   });
 });

@@ -54,6 +54,9 @@ desktop.ini
 *.ogg
 *.pdf
 !public/cv-rodrigo-gaete-ux.pdf
+!public/resources/**/*.pdf
+# Staging Figma hashes archivados (VB 2026-07-21) — no re-versionar PNG
+archive/src-assets-hash-*/
 *.ai
 *.psd
 *.xcf

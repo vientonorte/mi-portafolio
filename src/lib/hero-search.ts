@@ -1,5 +1,5 @@
-/** Multi-entry lines for landing “reduce el ruido” (FigJam). */
-export type HeroSearchCategory = "recursos" | "consultoria" | "contacto";
+/** Multi-entry lines for landing “reduce el ruido” (FigJam / P0 path cards). */
+export type HeroSearchCategory = "negocios" | "contacto" | "auditorias";
 
 export interface HeroSearchSuggestion {
   id: string;
@@ -11,7 +11,8 @@ export interface HeroSearchSuggestion {
   href: string;
 }
 
-const CATEGORY_ORDER: HeroSearchCategory[] = ["recursos", "consultoria", "contacto"];
+/** UI order: CX Reclutadores · Consultoría VN · Auditoría accesibilidad */
+const CATEGORY_ORDER: HeroSearchCategory[] = ["contacto", "negocios", "auditorias"];
 
 function normalize(value: string): string {
   return value

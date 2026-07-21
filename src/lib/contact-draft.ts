@@ -7,10 +7,13 @@ export type ContactDraftSource =
   | "quoter"
   | "assistant"
   | "partner-edu"
+  /** Conversion CTAs site-wide (audit, hero, carousel, arsenal…) */
+  | "cta"
   /** @deprecated typo legacy — prefer partner-edu */
   | "parten-edu";
 
 export interface ContactDraft {
+  /** May be empty when only pre-selecting intent (wizard continues from detail). */
   message: string;
   source: ContactDraftSource;
   intent?: ContactIntent;
@@ -53,48 +56,64 @@ export function parseContactDraftFromState(state: unknown): ContactDraft | null 
   if (!raw || typeof raw !== "object") return null;
 
   const message = typeof raw.message === "string" ? raw.message.trim() : "";
-  if (!message) return null;
+  const intent =
+    "intent" in raw && typeof raw.intent === "string"
+      ? (raw.intent as ContactIntent)
+      : undefined;
+
+  // Require message or intent (P1: intent-only drafts from conversion CTAs)
+  if (!message && !intent) return null;
 
   if ("source" in raw && typeof raw.source === "string") {
     return {
       message,
       source: raw.source as ContactDraftSource,
-      intent: raw.intent,
-      packageId: raw.packageId,
-      industry: raw.industry,
-      timeline: raw.timeline,
-      recruiterMode: raw.recruiterMode,
-      consultingQ1: raw.consultingQ1,
+      intent,
+      packageId: raw.packageId as ContactDraft["packageId"],
+      industry: typeof raw.industry === "string" ? raw.industry : undefined,
+      timeline: typeof raw.timeline === "string" ? raw.timeline : undefined,
+      recruiterMode: typeof raw.recruiterMode === "string" ? raw.recruiterMode : undefined,
+      consultingQ1: typeof raw.consultingQ1 === "string" ? raw.consultingQ1 : undefined,
     };
   }
 
-  return { message, source: "direct" };
+  return { message, source: "direct", intent };
 }
 
 export function shouldSkipAssistantWizard(draft: ContactDraft | null): boolean {
   if (!draft) return false;
-  return (
+  if (
     draft.source === "onboarding" ||
     draft.source === "quoter" ||
     draft.source === "partner-edu" ||
     draft.source === "parten-edu"
-  );
+  ) {
+    return true;
+  }
+  // Prefill from conversion CTA with a ready message → compose
+  if (draft.source === "cta" && draft.message.trim().length > 0) {
+    return true;
+  }
+  return false;
 }
 
 export function resolveAssistantInitialStep(draft: ContactDraft | null): ContactAssistantStep {
   if (shouldSkipAssistantWizard(draft)) return "compose";
+  // Intent pre-selected (e.g. ?intent=consulting) → skip first question
+  if (draft?.intent) return "detail";
   return "intent";
 }
 
 export function draftBannerKey(
   draft: ContactDraft | null
-): "onboarding" | "quoter" | "partner-edu" | null {
+): "onboarding" | "quoter" | "partner-edu" | "cta" | null {
   if (!draft) return null;
   if (draft.source === "partner-edu" || draft.source === "parten-edu") {
     return "partner-edu";
   }
   if (draft.source === "onboarding") return "onboarding";
   if (draft.source === "quoter") return "quoter";
+  if (draft.source === "cta" && draft.message.trim().length > 0) return "cta";
   return null;
 }
 

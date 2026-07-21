@@ -1,6 +1,10 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import type { Language } from "../lib/i18n";
 
+/**
+ * Relato por etapa: contexto → rol → impacto (+ evidencia en bullets).
+ * Los logos sin wordmark oficial usan monogramas en public/images/brands/.
+ */
 export interface ExperienceEntry {
   company: string;
   position: string;
@@ -8,7 +12,15 @@ export interface ExperienceEntry {
   isCurrent?: boolean;
   logo?: string;
   location: string;
-  summary: string;
+  /** Una línea de etapa (vertical / arco narrativo) */
+  stage: string;
+  /** Contexto de negocio o problema del entorno */
+  context: string;
+  /** Qué hiciste / responsabilidad */
+  role: string;
+  /** Resultado medible o aporte concreto */
+  impact: string;
+  /** Evidencia táctica (antes: achievements) */
   achievements: string[];
   tools?: string[];
   companyId?: string;
@@ -32,12 +44,16 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "UX Lead · Associate, Estrategia Digital",
       period: "Sept 2023 — Actualidad",
       location: "Chile · Híbrido",
-      summary: "Wealth Management regional · −40% onboarding · 5+ países",
+      stage: "Wealth · Regional",
+      context:
+        "Plataformas de inversión y corredores en un entorno regulado, multi-país y multi-perfil.",
+      role:
+        "Liderazgo UX/UI en células de Wealth Management: design thinking con negocio, PMs, POs y tech leads.",
+      impact: "−40% fricción en onboarding · alcance 5+ países · handoff con design system",
       achievements: [
-        "Liderazgo UX · UI en células de desarrollo regional y local desde el negocio de Wealth Management",
-        "Design thinking con áreas de negocio, PMs, POs y líderes técnicos en iniciativas multi-país",
-        "Experiencias accesibles y alineadas a cumplimiento en corredores de bolsa y plataformas de inversión",
-        "Evolución de productos digitales regionales con design system y handoff a desarrollo",
+        "Experiencias accesibles y alineadas a cumplimiento (WCAG / privacidad por diseño)",
+        "Evolución de productos regionales con design system y criterios de aceptación claros",
+        "Facilitación de sprints y discovery con áreas de negocio en iniciativas multi-país",
       ],
       tools: ["Figma", "Design Thinking", "Accesibilidad", "Jira", "Confluence"],
     },
@@ -46,28 +62,37 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "UX Lead · Associate, Digital Strategy",
       period: "Sep 2023 — Present",
       location: "Chile · Hybrid",
-      summary: "Regional Wealth Management · −40% onboarding · 5+ countries",
+      stage: "Wealth · Regional",
+      context:
+        "Investment platforms and brokerage in a regulated, multi-country, multi-profile environment.",
+      role:
+        "UX/UI leadership in Wealth Management cells: design thinking with business, PMs, POs, and tech leads.",
+      impact: "−40% onboarding friction · 5+ countries · design-system handoff",
       achievements: [
-        "UX · UI leadership in regional and local dev cells for Wealth Management",
-        "Design thinking with business areas, PMs, POs, and tech leads on multi-country initiatives",
-        "Accessible experiences aligned with compliance for brokerage and investment platforms",
-        "Evolution of regional digital products with design system and dev handoff",
+        "Accessible experiences aligned with compliance (WCAG / privacy by design)",
+        "Regional product evolution with design system and clear acceptance criteria",
+        "Sprint and discovery facilitation with business areas on multi-country initiatives",
       ],
       tools: ["Figma", "Design Thinking", "Accessibility", "Jira", "Confluence"],
     },
   },
   {
+    logo: portfolioImages.brands.desafioLatam,
     es: {
       company: "Desafío Latam",
       position: "Docente Carrera UX UI · Jornada parcial",
       period: "Abr 2023 — May 2025 · 2 años 2 meses",
       location: "Chile · Remoto",
-      summary: "Facilitador carrera UX UI · Design Thinking · Atomic design · Proyectos finales",
+      stage: "Docencia · Transferencia",
+      context:
+        "Formación profesional UX/UI en modalidad remota: cerrar la brecha entre práctica de industria y malla.",
+      role:
+        "Facilitación de ramos UX y UI: Design Thinking, atomic design y evaluación de proyectos finales.",
+      impact: "Transferencia de método a una nueva generación de diseñadores",
       achievements: [
-        "Facilitación de la carrera articulando dinámicas entre conocimiento práctico y plan formativo",
-        "Ramo Diseño UX: buenas prácticas de Design Thinking y evaluación de proyectos finales integradores",
-        "Ramo Diseño UI: atomic y responsive design dentro de un design system coherente",
-        "Desarrollo de competencias digitales y profesionales de estudiantes en modalidad remota",
+        "Articulación de dinámicas entre conocimiento práctico y plan formativo",
+        "Evaluación de proyectos finales integradores con criterios de industria",
+        "Diseño UI con design system coherente (atomic + responsive)",
       ],
       tools: ["Figma", "Design Thinking", "Design Systems", "Wireframing"],
     },
@@ -76,12 +101,16 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "UX UI Career Instructor · Part-time",
       period: "Apr 2023 — May 2025 · 2 yrs 2 mos",
       location: "Chile · Remote",
-      summary: "UX UI career facilitator · Design Thinking · Atomic design · Capstone reviews",
+      stage: "Teaching · Transfer",
+      context:
+        "Professional UX/UI training remotely: bridging industry practice and curriculum.",
+      role:
+        "Facilitated UX and UI courses: Design Thinking, atomic design, and capstone evaluation.",
+      impact: "Method transfer to the next generation of designers",
       achievements: [
-        "Facilitated the program bridging hands-on practice and the formal curriculum",
-        "UX design course: Design Thinking best practices and integrative capstone evaluation",
-        "UI design course: atomic and responsive patterns within a coherent design system",
-        "Built students' digital and professional competencies in a remote setting",
+        "Bridged hands-on practice and the formal curriculum",
+        "Evaluated integrative capstones against industry criteria",
+        "UI design with a coherent design system (atomic + responsive)",
       ],
       tools: ["Figma", "Design Thinking", "Design Systems", "Wireframing"],
     },
@@ -94,13 +123,17 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Senior Product Designer",
       period: "Jul 2022 — Sept 2023",
       location: "Chile · Remoto",
-      summary: "Design system web + app · discovery activo · handoff Figma",
+      stage: "Mobility · Premium",
+      context:
+        "Producto mobility premium: reserva, app pasajeros y sistemas internos bajo presión de entrega.",
+      role:
+        "Liderazgo UX/UI en sprints con POs, stakeholders y gerencia de Tecnología y Producto.",
+      impact: "Design system web + app · discovery activo · handoff Figma navegable",
       achievements: [
-        "Liderazgo UX · UI en sprints con POs, stakeholders y gerencia de Tecnología y Producto",
-        "Construcción de design system funcional para productos web y aplicación, con mejora continua",
-        "Discovery activo: pruebas de concepto, usabilidad, benchmarks, encuestas y análisis de métricas",
-        "Procesos de accesibilidad y prototipos alta fidelidad como handoff en Figma al equipo de desarrollo",
-        "Refinamiento de flujos de reserva y experiencia premium — casos Karri y app pasajeros",
+        "Design system funcional con mejora continua para web y aplicación",
+        "Discovery: usabilidad, benchmarks, encuestas y análisis de métricas",
+        "Accesibilidad y prototipos alta fidelidad como handoff a desarrollo",
+        "Refinamiento de flujos de reserva y experiencia premium",
       ],
       tools: ["Figma", "Google Analytics", "User Testing", "Design Systems", "Accesibilidad"],
     },
@@ -109,13 +142,17 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Senior Product Designer",
       period: "Jul 2022 — Sep 2023",
       location: "Chile · Remote",
-      summary: "Web + app design system · active discovery · Figma handoff",
+      stage: "Mobility · Premium",
+      context:
+        "Premium mobility product: booking, passenger app, and internal systems under delivery pressure.",
+      role:
+        "UX/UI leadership in sprints with POs, stakeholders, and Technology & Product leadership.",
+      impact: "Web + app design system · active discovery · navigable Figma handoff",
       achievements: [
-        "UX · UI leadership in sprints with POs, stakeholders, and Technology & Product leadership",
-        "Functional design system for web and app products with continuous improvement",
-        "Active discovery: concept tests, usability, benchmarks, surveys, and metric analysis",
-        "Accessibility processes and high-fidelity Figma prototypes as dev handoff",
-        "Booking flow refinement and premium experience — Karri and passenger app cases",
+        "Functional design system with continuous improvement for web and app",
+        "Discovery: usability, benchmarks, surveys, and metric analysis",
+        "Accessibility and high-fidelity prototypes as dev handoff",
+        "Booking flow refinement and premium experience",
       ],
       tools: ["Figma", "Google Analytics", "User Testing", "Design Systems", "Accessibility"],
     },
@@ -128,11 +165,16 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Lead UX — Vertical Shoppers",
       period: "2022 — 2023",
       location: "Chile · Remoto",
-      summary: "+35% activación · +58% engagement · −42% abandono onboarding",
+      stage: "Mobility · Shoppers",
+      context:
+        "Shoppers sin transparencia de ganancias: alta fricción en onboarding y abandono del funnel.",
+      role:
+        "Lead UX de la vertical: calculadora, notificaciones y priorización con research.",
+      impact: "+35% activación · +58% engagement · −42% abandono onboarding",
       achievements: [
-        "Calculadora de ganancias y transparencia financiera para shoppers",
-        "Sistema de notificaciones y optimización de onboarding con métricas de adopción",
-        "Priorización de mejoras vía research y pruebas con clientes internos y externos",
+        "Calculadora de ganancias y transparencia financiera",
+        "Hub de notificaciones y optimización de onboarding",
+        "Priorización de mejoras con pruebas internas y externas",
       ],
       tools: ["Figma", "Analytics", "User Research", "Prototyping"],
     },
@@ -141,25 +183,34 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Lead UX — Shoppers Vertical",
       period: "2022 — 2023",
       location: "Chile · Remote",
-      summary: "+35% activation · +58% engagement · −42% onboarding drop-off",
+      stage: "Mobility · Shoppers",
+      context:
+        "Shoppers lacked earnings transparency: high onboarding friction and funnel drop-off.",
+      role:
+        "Vertical UX lead: calculator, notifications, and research-led prioritization.",
+      impact: "+35% activation · +58% engagement · −42% onboarding drop-off",
       achievements: [
-        "Earnings calculator and financial transparency for shoppers",
-        "Notification hub and onboarding optimization with adoption metrics",
-        "Improvement prioritization via research and tests with internal and external clients",
+        "Earnings calculator and financial transparency",
+        "Notification hub and onboarding optimization",
+        "Improvement prioritization with internal and external tests",
       ],
       tools: ["Figma", "Analytics", "User Research", "Prototyping"],
     },
   },
   {
+    logo: portfolioImages.brands.walmart,
     es: {
       company: "Walmart Chile (Data Conversion Service)",
       position: "Diseñador web",
       period: "May — Jun 2022",
       location: "Chile",
-      summary: "Equipo de diseño y contenido · retail enterprise",
+      stage: "Retail · Enterprise",
+      context: "Canales digitales de un retailer enterprise con plazos cortos y alto volumen.",
+      role: "Diseño y contenido web en equipo de conversión y diseño.",
+      impact: "Entregables web de corto plazo alineados a canales del retailer",
       achievements: [
-        "Diseño y contenido para canales digitales del retailer",
-        "Colaboración con equipo de diseño en entregables web de corto plazo",
+        "Diseño y contenido para canales digitales",
+        "Colaboración con equipo de diseño en entregables de alta rotación",
       ],
       tools: ["Figma", "Adobe Creative Suite"],
     },
@@ -168,25 +219,32 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Web Designer",
       period: "May — Jun 2022",
       location: "Chile",
-      summary: "Design & content team · enterprise retail",
+      stage: "Retail · Enterprise",
+      context: "Enterprise retailer digital channels with short timelines and high volume.",
+      role: "Web design and content on the conversion and design team.",
+      impact: "Short-turnaround web deliverables aligned to retailer channels",
       achievements: [
-        "Design and content for the retailer's digital channels",
-        "Collaboration with the design team on short-turnaround web deliverables",
+        "Design and content for digital channels",
+        "Collaboration with design on high-rotation deliverables",
       ],
       tools: ["Figma", "Adobe Creative Suite"],
     },
   },
   {
+    logo: portfolioImages.brands.havas,
     es: {
       company: "Havas Group Chile",
       position: "Desarrollador web · Jornada completa",
       period: "Nov 2021 — Abr 2022 · 6 meses",
       location: "Chile",
-      summary: "Equipo mejoras Claro Chile · HTML/CSS · navegación y tienda de equipos",
+      stage: "Agencia · Telco",
+      context: "Equipo de mejoras Claro Chile: navegación, tienda y comunicaciones diarias.",
+      role: "Maquetación y rediseño front en el squad de mejoras del operador.",
+      impact: "Navegación principal y tienda de equipos rediseñadas · landings y mailings diarios",
       achievements: [
-        "Equipo de mejoras y mantenimiento: rediseño de navegación principal de Claro Chile",
-        "Rediseño de la tienda de equipos del operador",
-        "Maquetación HTML de landing pages, mailings y comunicaciones diarias",
+        "Rediseño de navegación principal de Claro Chile",
+        "Rediseño de la tienda de equipos",
+        "HTML de landings, mailings y comunicaciones diarias",
       ],
       tools: ["HTML", "CSS Flexbox", "Wireframing", "Responsive"],
     },
@@ -195,27 +253,35 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Web Developer · Full-time",
       period: "Nov 2021 — Apr 2022 · 6 mos",
       location: "Chile",
-      summary: "Claro Chile improvements team · HTML/CSS · navigation & device store",
+      stage: "Agency · Telco",
+      context: "Claro Chile improvements team: navigation, store, and daily communications.",
+      role: "Front-end layout and redesign on the carrier improvements squad.",
+      impact: "Main navigation and device store redesigned · daily landings and mailings",
       achievements: [
-        "Improvements and maintenance team: Claro Chile main navigation redesign",
-        "Redesign of the carrier's device store",
-        "Daily HTML layout for landing pages, mailings, and communications",
+        "Claro Chile main navigation redesign",
+        "Device store redesign",
+        "HTML for landings, mailings, and daily communications",
       ],
       tools: ["HTML", "CSS Flexbox", "Wireframing", "Responsive"],
     },
   },
   {
+    logo: portfolioImages.brands.valuesite,
     es: {
       company: "Valuesite Ltda",
       position: "Líder de diseño · Jornada completa",
       period: "Jun — Nov 2021 · 6 meses",
       location: "Chile",
-      summary: "Design system AquiVoy Express · KIT UI · estrategia ágil centrada en personas",
+      stage: "Producto · Design Ops",
+      context:
+        "App y landing para vertical de movilidad/servicios con necesidad de sistema y KIT UI.",
+      role:
+        "Liderazgo de diseño, marketing y comercial bajo estrategia ágil centrada en personas.",
+      impact: "Design system AquiVoy Express · KIT UI · prototipo AVEM en Figma",
       achievements: [
-        "Liderazgo de equipos de diseño, marketing y comercial bajo estrategia ágil basada en personas",
-        "Lineamientos del sistema de diseño de la app AquiVoy Express y KIT UI",
+        "Lineamientos del sistema de diseño de AquiVoy Express y KIT UI",
         "Prototipo interactivo AVEM Landing Page publicado en Figma",
-        "Mejoramiento continuo de la experiencia de usuario en productos digitales",
+        "Mejora continua de UX en productos digitales del portafolio",
       ],
       tools: ["Figma", "Design Systems", "Agile"],
     },
@@ -224,27 +290,36 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Design Lead · Full-time",
       period: "Jun — Nov 2021 · 6 mos",
       location: "Chile",
-      summary: "AquiVoy Express design system · KIT UI · people-centered agile strategy",
+      stage: "Product · Design Ops",
+      context:
+        "App and landing for a mobility/services vertical needing a system and UI kit.",
+      role:
+        "Led design, marketing, and commercial under a people-centered agile strategy.",
+      impact: "AquiVoy Express design system · KIT UI · AVEM Figma prototype",
       achievements: [
-        "Led design, marketing, and commercial teams under a people-centered agile strategy",
-        "Design system guidelines for AquiVoy Express app and KIT UI",
-        "Navigable AVEM Landing Page prototype published in Figma",
-        "Continuous improvement of user experience across digital products",
+        "Design system guidelines for AquiVoy Express and KIT UI",
+        "Navigable AVEM Landing Page prototype on Figma",
+        "Continuous UX improvement across the product portfolio",
       ],
       tools: ["Figma", "Design Systems", "Agile"],
     },
   },
   {
+    logo: portfolioImages.brands.marana,
     es: {
       company: "Maraña Agencia Digital",
       position: "Diseñador UX UI · Jornada completa",
       period: "Feb 2020 — May 2021 · 1 año 4 meses",
       location: "Región Metropolitana, Chile",
-      summary: "Workshops de diseño · digitalización de negocios e instituciones",
+      stage: "Agencia · Digitalización",
+      context:
+        "Clientes que necesitaban digitalizar negocios e instituciones desde la propuesta de valor.",
+      role: "UX/UI y facilitación de workshops de diseño con foco comercial.",
+      impact: "De propuesta de valor a productos digitales entregables para clientes de agencia",
       achievements: [
-        "Liderazgo de workshops con clientes que buscaban digitalizar negocios e instituciones",
-        "Diseño desde propuesta de valor hasta productos y servicios digitales",
-        "Wireframing, facilitación comercial y entregables UX/UI para agencia digital",
+        "Workshops con clientes en digitalización de negocios e instituciones",
+        "Diseño de valor a producto/servicio digital",
+        "Wireframing y entregables UX/UI para el pipeline de agencia",
       ],
       tools: ["Figma", "Design Thinking", "Workshops", "Wireframing"],
     },
@@ -253,26 +328,34 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "UX UI Designer · Full-time",
       period: "Feb 2020 — May 2021 · 1 yr 4 mos",
       location: "Santiago Metropolitan Region, Chile",
-      summary: "Design workshops · business and institution digitalization",
+      stage: "Agency · Digitization",
+      context:
+        "Clients digitizing businesses and institutions from the value proposition up.",
+      role: "UX/UI and design workshop facilitation with a commercial focus.",
+      impact: "From value proposition to shippable digital products for agency clients",
       achievements: [
-        "Led workshops for clients digitizing businesses and institutions",
-        "Design from value proposition through digital products and services",
-        "Wireframing, sales enablement, and UX/UI deliverables for a digital agency",
+        "Workshops for business and institution digitization",
+        "Design from value proposition to digital product/service",
+        "Wireframing and UX/UI deliverables for the agency pipeline",
       ],
       tools: ["Figma", "Design Thinking", "Workshops", "Wireframing"],
     },
   },
   {
+    logo: portfolioImages.brands.pareti,
     es: {
       company: "Empresas Pareti",
       position: "Community Manager · Jornada completa",
       period: "Oct 2019 — Feb 2020 · 5 meses",
       location: "Región de Valparaíso, Chile",
-      summary: "SEO · SEM · e-commerce accesible y responsivo",
+      stage: "Retail · Growth",
+      context: "Retail y e-commerce con necesidad de SEO/SEM y presencia digital coherente.",
+      role: "Contenidos y desarrollo web accesible junto a Diseño y E-commerce.",
+      impact: "SEO/SEM alineados · e-commerce accesible y responsivo",
       achievements: [
-        "Contenidos SEO y SEM bajo estrategia conjunta con Diseño y E-commerce",
-        "Desarrollo web de e-commerce desde enfoque accesible y responsivo",
-        "Coordinación de comunicaciones digitales para retail y comercio electrónico",
+        "Contenidos SEO y SEM con estrategia conjunta Diseño + E-commerce",
+        "Desarrollo web de e-commerce accesible y responsivo",
+        "Coordinación de comunicaciones digitales",
       ],
       tools: ["Adobe Creative Suite", "Google Analytics", "SEO", "SEM"],
     },
@@ -281,26 +364,34 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Community Manager · Full-time",
       period: "Oct 2019 — Feb 2020 · 5 mos",
       location: "Valparaíso Region, Chile",
-      summary: "SEO · SEM · accessible, responsive e-commerce",
+      stage: "Retail · Growth",
+      context: "Retail and e-commerce needing SEO/SEM and coherent digital presence.",
+      role: "Content and accessible web development with Design and E-commerce.",
+      impact: "Aligned SEO/SEM · accessible, responsive e-commerce",
       achievements: [
-        "SEO and SEM content under a strategy aligned with Design and E-commerce",
-        "E-commerce web development with an accessible, responsive approach",
-        "Coordinated digital communications for retail and online commerce",
+        "SEO and SEM content with Design + E-commerce strategy",
+        "Accessible, responsive e-commerce web development",
+        "Coordinated digital communications",
       ],
       tools: ["Adobe Creative Suite", "Google Analytics", "SEO", "SEM"],
     },
   },
   {
+    logo: portfolioImages.brands.freelance,
     es: {
       company: "Profesional independiente",
       position: "Diseñador freelance",
       period: "Ene 2017 — Actualidad",
       location: "Chile · Remoto",
-      summary: "9+ años · agencias, retail, educación y consultoría digital",
+      stage: "Consultoría · Multi-rubro",
+      context:
+        "Proyectos para agencias, retail, educación y consultoría digital a lo largo de 9+ años.",
+      role: "Diseño web, CM, tutoría y consultorías bajo demanda.",
+      impact: "9+ años de práctica · tutoría magíster · portal IBM y entregables HTML/CSS",
       achievements: [
-        "Diseño web, fotografía digital, community management y consultorías para diversos rubros",
+        "Diseño web, fotografía digital, community management y consultorías multi-rubro",
         "Tutorías para estudiantes de magíster en marketing y proyectos con agencias",
-        "Portal IBM (remoto) y otros entregables HTML/CSS — casos próximamente en el portafolio",
+        "Portal IBM (remoto) y otros entregables HTML/CSS — casos en expansión en el portafolio",
       ],
       tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
     },
@@ -309,11 +400,15 @@ const experienceCatalog: LocalizedExperience[] = [
       position: "Freelance Designer",
       period: "Jan 2017 — Present",
       location: "Chile · Remote",
-      summary: "9+ years · agencies, retail, education, and digital consulting",
+      stage: "Consulting · Multi-industry",
+      context:
+        "Projects for agencies, retail, education, and digital consulting across 9+ years.",
+      role: "Web design, CM, tutoring, and on-demand consulting.",
+      impact: "9+ years of practice · master's tutoring · IBM portal and HTML/CSS work",
       achievements: [
-        "Web design, digital photography, community management, and consulting across industries",
+        "Web design, digital photography, community management, and multi-industry consulting",
         "Tutoring for marketing master's students and agency projects",
-        "IBM portal (remote) and other HTML/CSS deliverables — cases coming soon",
+        "IBM portal (remote) and other HTML/CSS deliverables — cases expanding in the portfolio",
       ],
       tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
     },

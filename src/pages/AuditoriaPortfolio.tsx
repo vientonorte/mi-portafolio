@@ -10,12 +10,12 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { getAuditPageCopy } from "../lib/audit-page-copy";
 import { canonicalFromPath, SEO_SITE } from "../lib/seo";
-import { ROUTES } from "../lib/routes";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { getConsultingPackage } from "../data/vientonorte-consulting";
 import { scrollToSection } from "../lib/scroll-to-section";
+import { navigateToContactAssistant } from "../lib/navigate-to-contact";
 
 type ChecklistStatus = "pending" | "in_progress" | "completed";
 
@@ -136,8 +136,17 @@ export default function AuditoriaPortfolio() {
   const recommendedPackage = getConsultingPackage("marco");
 
   const handleStartConsulting = () => {
-    navigate(ROUTES.consulting, {
-      state: { recommendedPackage: "marco", scrollTo: "consultoria-onboarding" },
+    const message =
+      language === "es"
+        ? "Solicito una auditoría / diagnóstico UX con evidencia (WCAG, heurísticas y plan P0–P2). Vi la muestra en /auditoria."
+        : "I'd like a UX audit / diagnostic with evidence (WCAG, heuristics, and a P0–P2 plan). I reviewed the sample on /auditoria.";
+    navigateToContactAssistant(navigate, {
+      origin: "audit-page",
+      source: "cta",
+      intent: "consulting",
+      packageId: "radar",
+      consultingQ1: "portfolio",
+      message,
     });
   };
 
@@ -194,7 +203,7 @@ export default function AuditoriaPortfolio() {
       <PremiumUxAuditBanner
         variant="hero"
         titleTag="p"
-        onStartConsulting={() => navigate(ROUTES.consulting)}
+        onStartConsulting={handleStartConsulting}
         onViewSampleAudit={() => scrollToSection("audit-executive-summary")}
       />
 

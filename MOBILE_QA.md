@@ -197,7 +197,7 @@ Before marking Hero Section mobile QA as complete:
 Checklist completo con URLs de producción: **[docs/SESSION-2026-07-07.md](docs/SESSION-2026-07-07.md)**
 
 Prioridad móvil esta sesión:
-- [ ] Hero: banner ¿Qué buscas? (chips + panel, sin métricas KPI)
+- [ ] Hero: 3 path cards visibles (Demo · Experiencia · Auditoría), sin combobox ni KPIs
 - [ ] `#impacto`: 6 paths RIA — touch targets y navegación
 - [ ] Grid POC IA + imagen DEI en card
 - [ ] Autosuggest: scroll, CTAs, contraste

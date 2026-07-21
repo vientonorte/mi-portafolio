@@ -24,6 +24,22 @@ describe("parseContactDraftFromState", () => {
     });
   });
 
+  it("parses intent-only draft for conversion CTAs", () => {
+    expect(
+      parseContactDraftFromState({
+        contactDraft: {
+          message: "",
+          source: "cta",
+          intent: "consulting",
+        },
+      })
+    ).toEqual({
+      message: "",
+      source: "cta",
+      intent: "consulting",
+    });
+  });
+
   it("parses structured draft from onboarding", () => {
     expect(
       parseContactDraftFromState({
@@ -74,8 +90,24 @@ describe("shouldSkipAssistantWizard", () => {
       })
     ).toBe(false);
   });
-});
 
+  it("skips wizard for cta drafts with a prebuilt message", () => {
+    expect(
+      shouldSkipAssistantWizard({
+        message: "Solicito auditoría",
+        source: "cta",
+        intent: "consulting",
+      })
+    ).toBe(true);
+    expect(
+      shouldSkipAssistantWizard({
+        message: "",
+        source: "cta",
+        intent: "consulting",
+      })
+    ).toBe(false);
+  });
+});
 
 describe("resolveAssistantInitialStep", () => {
   it("opens compose when wizard is skipped", () => {
@@ -86,6 +118,16 @@ describe("resolveAssistantInitialStep", () => {
       })
     ).toBe("compose");
     expect(resolveAssistantInitialStep(null)).toBe("intent");
+  });
+
+  it("opens detail when intent is pre-selected without full prefill", () => {
+    expect(
+      resolveAssistantInitialStep({
+        message: "",
+        source: "cta",
+        intent: "consulting",
+      })
+    ).toBe("detail");
   });
 });
 

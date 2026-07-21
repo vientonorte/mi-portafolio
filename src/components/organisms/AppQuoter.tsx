@@ -29,7 +29,7 @@ import {
   type QuoterCurrency,
 } from "../../lib/app-quoter-currency";
 import type { DeliverableTierId } from "../../lib/app-quoter-config";
-import { ROUTES } from "../../lib/routes";
+import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
 import { cn } from "../../lib/utils";
 import { trackEvent } from "../../lib/analytics";
 
@@ -97,15 +97,12 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
       t.fit[quote.fit],
       t.tiers[quote.affordableTierId].label
     );
-    navigate(ROUTES.contact, {
-      state: {
-        contactDraft: {
-          message,
-          source: "quoter",
-          intent: "consulting",
-          packageId: quote.recommendedPackage,
-        },
-      },
+    navigateToContactAssistant(navigate, {
+      origin: "quoter",
+      source: "quoter",
+      intent: "consulting",
+      packageId: quote.recommendedPackage,
+      message,
     });
   };
 

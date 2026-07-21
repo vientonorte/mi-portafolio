@@ -75,7 +75,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "gees-propuesta",
     kind: "prototype",
-    imagePath: img((i) => i.consultoria.xCmsDashboard),
+    imagePath: img((i) => i.consultoria.geesDashboard),
     href: CONSULTORIA_DEMO_GEES.figmaSitesUrl,
     external: true,
     bundleId: "marco",
@@ -442,7 +442,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
   {
     id: "uxtools-suite",
     kind: "poc",
-    imagePath: img((i) => i.framework.uxValueChain),
+    imagePath: img((i) => i.uxTools.designSystem),
     href: "https://vientonorte.github.io/uxtools/",
     external: true,
     bundleId: "radar",
@@ -450,14 +450,98 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Herramienta UX",
         title: "UX Tools Suite",
-        outcome: "Utilidades open para auditoría rápida, contraste y checklist de entregables.",
+        outcome: "Utilidades open + cartas método (Understand → Implement) para el flujo de trabajo UX.",
         metric: "Open tools",
       },
       en: {
         kindLabel: "UX tool",
         title: "UX Tools Suite",
-        outcome: "Open utilities for quick audits, contrast checks, and deliverable checklists.",
+        outcome: "Open utilities + method cards (Understand → Implement) for the UX workflow.",
         metric: "Open tools",
+      },
+    },
+  },
+  {
+    id: "uxtools-journey-map",
+    kind: "audit",
+    imagePath: img((i) => i.uxTools.journeyMap),
+    href: `${import.meta.env.BASE_URL}resources/ux-tools/journey-map.pdf`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Método · Understand",
+        title: "Journey map",
+        outcome: "Carta UX Tools — mapa de viaje para discovery y fricción del usuario.",
+        metric: "PDF",
+      },
+      en: {
+        kindLabel: "Method · Understand",
+        title: "Journey map",
+        outcome: "UX Tools card — journey map for discovery and user friction.",
+        metric: "PDF",
+      },
+    },
+  },
+  {
+    id: "uxtools-user-flow",
+    kind: "audit",
+    imagePath: img((i) => i.uxTools.userFlow),
+    href: `${import.meta.env.BASE_URL}resources/ux-tools/user-flow.pdf`,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Método · Ideate",
+        title: "User flow",
+        outcome: "Carta UX Tools — flujos de usuario para ideación y alineación de equipo.",
+        metric: "PDF",
+      },
+      en: {
+        kindLabel: "Method · Ideate",
+        title: "User flow",
+        outcome: "UX Tools card — user flows for ideation and team alignment.",
+        metric: "PDF",
+      },
+    },
+  },
+  {
+    id: "uxtools-usability-test",
+    kind: "audit",
+    imagePath: img((i) => i.uxTools.usabilityTest),
+    href: `${import.meta.env.BASE_URL}resources/ux-tools/usability-test.pdf`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Método · Test",
+        title: "Usability test",
+        outcome: "Carta UX Tools — protocolo de prueba de usabilidad y hallazgos.",
+        metric: "PDF",
+      },
+      en: {
+        kindLabel: "Method · Test",
+        title: "Usability test",
+        outcome: "UX Tools card — usability test protocol and findings structure.",
+        metric: "PDF",
+      },
+    },
+  },
+  {
+    id: "uxtools-design-system",
+    kind: "audit",
+    imagePath: img((i) => i.uxTools.designSystem),
+    href: `${import.meta.env.BASE_URL}resources/ux-tools/design-system.pdf`,
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Método · Implement",
+        title: "Design system",
+        outcome: "Carta UX Tools — checklist de design system y handoff a desarrollo.",
+        metric: "PDF",
+      },
+      en: {
+        kindLabel: "Method · Implement",
+        title: "Design system",
+        outcome: "UX Tools card — design system checklist and dev handoff.",
+        metric: "PDF",
       },
     },
   },

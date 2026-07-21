@@ -67,6 +67,46 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     portfolioImages.consultoria.xCmsDashboard,
     "X CMS DATA-FIRST — dashboard principal (demo N2N publicada)"
   ),
+  entry(
+    "consultoria.geesDashboard",
+    "Consultoría",
+    "GEES · Propuesta dashboard",
+    "consultoria/gees-dashboard.png",
+    portfolioImages.consultoria.geesDashboard,
+    "GEES — dashboard de cotización y KPIs (Figma Sites)"
+  ),
+  entry(
+    "uxTools.journeyMap",
+    "UX Tools",
+    "Journey map",
+    "ux-tools/journey-map.png",
+    portfolioImages.uxTools.journeyMap,
+    "Carta método · Understand · journey map"
+  ),
+  entry(
+    "uxTools.userFlow",
+    "UX Tools",
+    "User flow",
+    "ux-tools/user-flow.png",
+    portfolioImages.uxTools.userFlow,
+    "Carta método · Ideate · user flow"
+  ),
+  entry(
+    "uxTools.usabilityTest",
+    "UX Tools",
+    "Usability test",
+    "ux-tools/usability-test.png",
+    portfolioImages.uxTools.usabilityTest,
+    "Carta método · Test · usability test"
+  ),
+  entry(
+    "uxTools.designSystem",
+    "UX Tools",
+    "Design system",
+    "ux-tools/design-system.png",
+    portfolioImages.uxTools.designSystem,
+    "Carta método · Implement · design system"
+  ),
 ];
 
 export const IMAGE_REGISTRY_BY_ID = Object.fromEntries(

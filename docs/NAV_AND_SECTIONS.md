@@ -12,11 +12,13 @@ Guía de referencia para mantener el chrome de navegación y las secciones del p
 |------|----------|
 | **Breakpoints nav** | Dock inferior `< lg` (1024px); header completo `≥ lg` |
 | **Config nav** | Una fuente: `src/lib/nav-config.ts` (`NAV_SURFACE`, `executeNavAction`) |
-| **Dock** | `NavDock` organism con variantes `home` \| `deep` |
+| **Dock** | `NavDock` organism con variantes `home` \| `deep` — **3 slots** (P0) |
+| **Header desktop** | **2 primarios** (Negocios · Contacto); resto en «Más» (P0) |
+| **Hero** | 3 path cards (`HeroAudienceCta` equal) — sin combobox (P0) |
 | **QA nav** | `npm run qa:nav` — valida orden estratégico y matchers |
 | **Secciones** | Primitivo `PageSection` en `layout/` |
 | **Scroll anclas** | `scrollToSection()` respeta `--header-height` |
-| **Subpáginas** | `SubpageToolbar` + `DeepPageNav` (mismos 5 destinos que home) |
+| **Subpáginas** | `SubpageToolbar` + `DeepPageNav` (mismos 3 destinos del dock) |
 
 ---
 
@@ -70,15 +72,17 @@ layout/
 | `< lg` | Logo + idioma + tema + hamburger | 5 tabs fijos | `MobileMenu` drawer |
 | `≥ lg` | Logo + nav primaria + Más + tema + idioma | oculto | — |
 
-**Dock** (`NAV_SURFACE.dock`): Inicio · Negocios · Experiencia · Proceso · Contacto  
-- Design decision: Auditoría y Consultoría **no** van en dock (5 slots = jobs críticos).  
-- Consultoría ✦ y Auditoría UX → header desktop + menú móvil + hero search.  
+**Dock** (`NAV_SURFACE.dock`): Inicio · **Consultoría** (centro liquid) · Contacto  
+- P0 board: dock de 5 → **3**, conservando CTA central.  
+- Negocios / Proceso / Experiencia / Auditoría → header «Más» o drawer móvil.  
 - Inicio / Contacto → anclas en home; Contacto → `/contacto` en profundidad.  
-- Experiencia → `/sobre-mi#experiencia`.
+- Consultoría → `/consultoria` (conversión principal).
 
-**Header desktop** (`NAV_SURFACE.headerPrimary`): Negocios · Experiencia · Consultoría ✦ · Proceso · Contacto  
+**Header desktop** (`NAV_SURFACE.headerPrimary`): **Negocios · Contacto**  
 
-**Más** (`NAV_SURFACE.headerMore`): Sobre mí · Auditoría UX · Design System · UX Tools  
+**Más** (`NAV_SURFACE.headerMore`): Experiencia · Consultoría ✦ · Proceso · Sobre mí · Auditoría UX · Design System · UX Tools  
+
+**Hero** (`HeroAudienceCta` layout `equal`): Demo X\|CMS · Experiencia · Auditoría — click directo al contenido (sin buscador).  
 
 **Menú móvil** (`NAV_SURFACE.mobileDrawer`): Inicio → bloque estratégico → divisor «Más» → utilidades.
 

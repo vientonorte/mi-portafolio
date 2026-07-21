@@ -40,6 +40,25 @@ interface ContactAssistantProps {
   onSuccess?: () => void;
 }
 
+function detailQuestionForIntent(
+  steps: {
+    recruiter: string;
+    consulting: string;
+    consultingDepth: string;
+    freelance: string;
+    other: string;
+  },
+  intent: ContactIntent,
+  consultingQ1?: string
+): string {
+  if (intent === "recruiter") return steps.recruiter;
+  if (intent === "consulting") {
+    return consultingQ1 ? steps.consultingDepth : steps.consulting;
+  }
+  if (intent === "freelance") return steps.freelance;
+  return steps.other;
+}
+
 function ChatBubble({
   role,
   children,
@@ -142,8 +161,25 @@ export function ContactAssistant({
   const [goal, setGoal] = useState("");
   const [history, setHistory] = useState<Array<{ role: "assistant" | "user"; text: string }>>(
     () => {
-      if (!skipWizard || !bannerKey) return [];
-      return [{ role: "assistant", text: a.draftBanner[bannerKey] }];
+      if (skipWizard && bannerKey) {
+        return [{ role: "assistant", text: a.draftBanner[bannerKey] }];
+      }
+      // Intent pre-selected from CTA / ?intent= — seed chat so user is not lost
+      if (contactDraft?.intent && !skipWizard) {
+        return [
+          { role: "assistant", text: a.steps.intent },
+          { role: "user", text: a.intents[contactDraft.intent] },
+          {
+            role: "assistant",
+            text: detailQuestionForIntent(
+              a.steps,
+              contactDraft.intent,
+              contactDraft.consultingQ1
+            ),
+          },
+        ];
+      }
+      return [];
     }
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
