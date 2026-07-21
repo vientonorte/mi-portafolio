@@ -37,12 +37,15 @@ bash scripts/capture-gees-screenshot.sh
 # Ver public/resources/ux-tools/README.md
 ```
 
-### Staging hash (no ship)
+### Hash Figma (`src/assets/`) — build / figma:asset
 
 | Qué | Path | Git |
 |-----|------|-----|
-| 39 PNG Figma hash archivados | `archive/src-assets-hash-2026-07-21/` | PNG **gitignored** |
+| 39 PNG hash (imports `figma:asset` + vite aliases) | `src/assets/<hash>.png` | ✅ versionados (`git add -f`; necesarios para CI build) |
+| Espejo local archive | `archive/src-assets-hash-2026-07-21/` | PNG gitignored |
 | Registro VB | `docs/REGISTRO-src-assets-archive-2026-07-21.md` | ✅ versionado |
+
+> **Nota 2026-07-21:** se intentó archivar-only; el build falló en CI. Se restauraron hashes en `src/assets` hasta migrar `src/imports/*` y `project-images.ts` a `public/images`.
 
 ## Smoke local
 

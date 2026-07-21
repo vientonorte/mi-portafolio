@@ -58,3 +58,14 @@
 - Fuentes canónicas live: `public/images/**` + `portfolio-image-urls.ts`.
 - Re-export: Figma → `src/assets/<hash>.png` temporal → `npm run sync:images` → borrar hash del staging.
 - Carpeta gitignored de PNG; este `REGISTRO.md` sí se versiona.
+
+## 2026-07-21 — restore for CI/build
+
+`figma:asset/*` y `vite.config` aliases resuelven a `src/assets/<hash>.png`.
+Tras el archive el **build de CI falló** (ENOENT). Se **restauraron** los PNG
+en `src/assets/` y se volvieron a versionar (`git add -f`) hasta migrar imports
+a `public/images` / `portfolio-image-urls`.
+
+La carpeta `archive/` sigue como espejo local; la SoT semántica en runtime
+público es `public/images/`. `sync-semantic-images.sh` ahora hace
+`require_public` y solo copia desde hash si existe (src o archive).
