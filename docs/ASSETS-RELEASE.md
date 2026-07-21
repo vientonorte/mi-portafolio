@@ -1,8 +1,8 @@
 # Assets release · mi-portafolio
 
-**Actualizado:** 2026-07-21  
-**Rama:** `feat/landing-reduce-ruido` · commit con assets: `c60fe47`  
-**Prod:** https://vientonorte.github.io/mi-portafolio/ — solo tras merge `main` + Pages.
+**Actualizado:** 2026-07-21 · **shipped**  
+**PRs:** #118 (landing + GEES/UX Tools) · #119 (Coworking + Edu 21)  
+**Prod:** https://vientonorte.github.io/mi-portafolio/
 
 ## Disponibilidad
 
@@ -19,13 +19,12 @@
 
 | ID / uso | Path `public/` | Código | Local | Prod |
 |----------|----------------|--------|-------|------|
-| GEES poster | `images/consultoria/gees-dashboard.png` | `consultoria.geesDashboard` · arsenal · demo showcase | ✅ | ✅ |
-| X \| CMS poster | `images/consultoria/x-cms-dashboard.png` | `consultoria.xCmsDashboard` | ✅ | ✅ |
-| UX Tools · journey | `images/ux-tools/journey-map.png` + `resources/ux-tools/journey-map.pdf` | arsenal `uxtools-journey-map` | ✅ | ✅ |
-| UX Tools · user-flow | `images/ux-tools/user-flow.png` + PDF | `uxtools-user-flow` | ✅ | ✅ |
-| UX Tools · usability | `images/ux-tools/usability-test.png` + PDF | `uxtools-usability-test` | ✅ | ✅ |
-| UX Tools · design system | `images/ux-tools/design-system.png` + PDF | `uxtools-design-system` · suite | ✅ | ✅ |
-| Brands monogram ×7 | `images/brands/*.svg` | `portfolioImages.brands` · Experience | ✅ | ✅ |
+| GEES poster | `images/consultoria/gees-dashboard.png` | arsenal · demo | ✅ | ✅ |
+| X \| CMS poster | `images/consultoria/x-cms-dashboard.png` | arsenal · demo | ✅ | ✅ |
+| UX Tools ×4 | `images/ux-tools/*` + `resources/ux-tools/*.pdf` | arsenal | ✅ | ✅ |
+| Coworking método ×6 | `images/method/coworking/*` | 4 arsenal + 2 reserva | ✅ | ✅ #119 |
+| Edu 21 ×6 | `images/cases/edu21/*` | 4 arsenal + 2 reserva · marca sí | ✅ | ✅ #119 |
+| Brands monogram ×7 | `images/brands/*.svg` | Experience / About | ✅ | ✅ |
 
 ### Re-captura / curación
 
