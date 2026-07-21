@@ -99,6 +99,7 @@ export default {
     },
 
     aboutTeaser: {
+      badge: 'Sobre mí',
       title: 'UX Lead regional · Fintech & Mobility',
       lead: 'UX Lead en SURA Investments. Design Ops como método en productos regulados y mobility.',
       detail: 'Trayectoria en Transvip/Karri, docencia en Desafío Latam y agencias (Havas/Claro, Maraña, Walmart).',
@@ -132,8 +133,7 @@ export default {
     valueArsenal: {
       badge: 'Recursos',
       title: 'Recursos que demuestran el método',
-      description:
-        'Demos y casos en formato mockup (sin sandbox confuso). Lentes B2B: elige cómo mirar la evidencia y conversemos con el mismo formulario.',
+      description: 'Demos y casos en mockup. Elige un lente B2B y conversemos.',
       filterAriaLabel: 'Filtrar recursos por servicio B2B',
       filters: {
         all: 'Todo',
@@ -564,10 +564,9 @@ export default {
     },
 
     impactStats: {
-      badge: 'Señales de impacto',
-      title: 'Resultados, no ruido de branding',
-      description:
-        'KPIs nacidos de producción (fintech y mobility). Formato strip: valor + contexto — el detalle está en el método y en Recursos.',
+      badge: 'Resultados',
+      title: 'Métricas con método detrás',
+      description: 'KPIs de producción en fintech y mobility.',
       viewPhase: 'Ver método',
       tapHint: 'Toca para ver contexto',
       tapNavigate: 'Toca de nuevo para abrir la fase',
@@ -793,8 +792,7 @@ export default {
     testimonials: {
       badge: 'Recomendaciones',
       title: 'Lo que dicen los equipos',
-      description:
-        'Recomendaciones de LinkedIn de líderes en fintech y movilidad premium con los que colaboré.',
+      description: 'Líderes en fintech y mobility con los que colaboré.',
       linkedInCta: 'Ver perfil en LinkedIn',
       linkedInHref: 'https://www.linkedin.com/in/rodrigogaete/',
       items: [
@@ -967,10 +965,10 @@ export default {
     
     // Contact
     contact: {
-      badge: 'Hablemos',
+      badge: 'Contacto',
       title: 'Conversemos',
-      description: 'Disponible para proyectos freelance y oportunidades full-time. Respuesta típica: menos de 24 h.',
-      responseBadge: 'Respuesta típica: menos de 24 h',
+      description: 'Proyectos freelance y full-time. Respuesta típica en menos de 24 h.',
+      responseBadge: 'Respuesta en 24 h',
       tabs: {
         assistant: 'Asistente',
         form: 'Escribir directo',

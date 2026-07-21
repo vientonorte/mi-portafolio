@@ -33,7 +33,7 @@ export function AboutTeaser() {
     >
         <div className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8">
         <SectionHeader
-          badge={language === "es" ? "Sobre mí" : "About me"}
+          badge={t.badge}
           badgeIcon={User}
           title={t.title}
           description=""

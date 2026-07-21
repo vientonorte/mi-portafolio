@@ -99,6 +99,7 @@ export default {
     },
 
     aboutTeaser: {
+      badge: 'About',
       title: 'Regional UX Lead · Fintech & Mobility',
       lead: 'UX Lead at SURA Investments. Design Ops as a method in regulated products and mobility.',
       detail: 'Background at Transvip/Karri, teaching at Desafío Latam, and agencies (Havas/Claro, Maraña, Walmart).',
@@ -132,8 +133,7 @@ export default {
     valueArsenal: {
       badge: 'Resources',
       title: 'Resources that prove the method',
-      description:
-        'Demos and cases as mockups (no confusing sandbox). B2B lenses: pick how you browse evidence and talk through the same intelligent form.',
+      description: 'Demos and cases as mockups. Pick a B2B lens and talk.',
       filterAriaLabel: 'Filter resources by B2B service',
       filters: {
         all: 'All',
@@ -564,10 +564,9 @@ export default {
     },
 
     impactStats: {
-      badge: 'Impact signals',
-      title: 'Results, not branding noise',
-      description:
-        'KPIs from production (fintech and mobility). Strip format: value + context — depth lives in the method and Resources.',
+      badge: 'Results',
+      title: 'Metrics backed by method',
+      description: 'Production KPIs in fintech and mobility.',
       viewPhase: 'View method',
       tapHint: 'Tap to see context',
       tapNavigate: 'Tap again to open phase',
@@ -793,8 +792,7 @@ export default {
     testimonials: {
       badge: 'Recommendations',
       title: 'What teams say',
-      description:
-        'LinkedIn recommendations from leaders in fintech and premium mobility I worked with.',
+      description: 'Leaders in fintech and mobility I worked with.',
       linkedInCta: 'View LinkedIn profile',
       linkedInHref: 'https://www.linkedin.com/in/rodrigogaete/',
       items: [
@@ -967,10 +965,10 @@ export default {
     
     // Contact
     contact: {
-      badge: 'Let\'s talk',
-      title: 'Get in touch',
-      description: 'Available for freelance projects and full-time opportunities. Typical reply: under 24 h.',
-      responseBadge: 'Typical reply: under 24 h',
+      badge: 'Contact',
+      title: "Let's talk",
+      description: 'Freelance and full-time. Typical reply within 24 h.',
+      responseBadge: 'Reply within 24 h',
       tabs: {
         assistant: 'Assistant',
         form: 'Write directly',
