@@ -68,7 +68,6 @@ export function Navigation({
       designSystem: t.nav.designSystem,
       uxtools: t.nav.uxtools,
       more: t.nav.more,
-      resources: t.nav.resources,
     }),
     [t.nav]
   );
@@ -129,8 +128,25 @@ export function Navigation({
     return () => observer.disconnect();
   }, [isOnHome, path]);
 
+  /** Off-home: treat header as "inicio" without effect setState */
+  const activeHomeSection = isOnHome ? homeSection : "inicio";
+
+  // Always start with scroll unlocked (stuck overflow:hidden blocks page + dock)
   useEffect(() => {
-    if (!isMenuOpen) return;
+    document.body.style.overflow = "";
+    document.body.removeAttribute("data-menu-open");
+    return () => {
+      document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
+      return;
+    }
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsMenuOpen(false);
@@ -138,13 +154,17 @@ export function Navigation({
 
     document.addEventListener("keydown", handleEscape);
     document.body.style.overflow = "hidden";
+    document.body.setAttribute("data-menu-open", "true");
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
     };
   }, [isMenuOpen]);
 
+  // Desktop: hide header on scroll down; mobile always shows header + bottom dock.
+  // Dock legibility is handled in CSS (glass opacity), not by pinning the header.
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     const isDesktopNav = window.matchMedia("(min-width: 1024px)").matches;
@@ -193,7 +213,7 @@ export function Navigation({
   const renderPrimaryItem = (item: ResolvedNavItem) => {
     const isActive = matchNavItemActive(item, path, {
       isOnHome,
-      homeSection: isOnHome ? homeSection : undefined,
+      homeSection: isOnHome ? activeHomeSection : undefined,
     });
 
     if (item.action.kind === "anchor") {
@@ -298,7 +318,8 @@ export function Navigation({
             </span>
           </motion.a>
 
-          <div className="hidden lg:flex items-center gap-6">
+          {/* Desktop primary — CSS .nav-desktop-only (not only Tailwind, avoids dual chrome) */}
+          <div className="nav-desktop-only hidden items-center gap-6 lg:flex">
             <ul className="flex items-center gap-1" role="list">
               {primaryNavItems.map((item) => (
                 <li key={item.id}>{renderPrimaryItem(item)}</li>
@@ -324,7 +345,8 @@ export function Navigation({
             </div>
           </div>
 
-          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+          {/* Mobile utilities — CSS .nav-mobile-only */}
+          <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
             <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
             <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
             <Button

@@ -23,6 +23,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { ROUTES } from "../../lib/routes";
 import { trackEvent } from "../../lib/analytics";
+import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
 import { cn } from "../ui/utils";
 
 const SLIDE_ICONS = [ClipboardCheck, TrendingDown, GitBranch] as const;
@@ -53,9 +54,11 @@ export function ValueCarouselBanner({
 
   useEffect(() => {
     if (!api) return;
-    onSelect();
+    // Defer initial index sync so setState is not sync inside the effect body
+    const id = requestAnimationFrame(() => onSelect());
     api.on("select", onSelect);
     return () => {
+      cancelAnimationFrame(id);
       api.off("select", onSelect);
     };
   }, [api, onSelect]);
@@ -64,11 +67,24 @@ export function ValueCarouselBanner({
     api?.scrollTo(index);
   };
 
+  const openAssistant = (intent: "consulting" | "recruiter" = "consulting") => {
+    if (onStartConsulting) {
+      onStartConsulting();
+      return;
+    }
+    navigateToContactAssistant(navigate, {
+      origin: "value-carousel",
+      source: "cta",
+      intent,
+    });
+  };
+
   const handlePrimaryCta = (slideId: SlideId) => {
     trackEvent("value_carousel_cta", { slide: slideId, action: "primary" });
 
     switch (slideId) {
       case "audit":
+        // Secondary path: sample audit; conversion CTAs use form
         if (onViewSampleAudit) onViewSampleAudit();
         else navigate(ROUTES.audit);
         break;
@@ -76,8 +92,7 @@ export function ValueCarouselBanner({
         navigate(ROUTES.project("sura-ria-us"));
         break;
       case "consultoria":
-        if (onStartConsulting) onStartConsulting();
-        else navigate(ROUTES.consulting);
+        openAssistant("consulting");
         break;
     }
   };
@@ -87,14 +102,13 @@ export function ValueCarouselBanner({
 
     switch (slideId) {
       case "audit":
-        if (onStartConsulting) onStartConsulting();
-        else navigate(ROUTES.consulting);
+        openAssistant("consulting");
         break;
       case "sura-case":
         navigate(ROUTES.processPhase("ux-analytics"));
         break;
       case "consultoria":
-        navigate(ROUTES.consulting, { state: { scrollTo: "arbol" } });
+        openAssistant("consulting");
         break;
     }
   };

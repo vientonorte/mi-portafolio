@@ -34,22 +34,31 @@ function renderContact(props: { contactDraft?: Parameters<typeof Contact>[0]["co
   );
 }
 
-function getTabPanel(tabName: RegExp) {
-  const tab = screen.getByRole("tab", { name: tabName });
-  const tabPanelId = tab.getAttribute("aria-controls");
-  if (!tabPanelId) throw new Error(`Tab ${tabName} missing aria-controls`);
-  const panel = document.getElementById(tabPanelId);
-  if (!panel) throw new Error(`Tab panel ${tabPanelId} not found`);
-  return within(panel);
+/** P1 UI: no Radix TabsList — toggle via preferForm / preferAssistant */
+async function switchToForm(user = userEvent.setup()) {
+  const preferForm = screen.queryByRole("button", {
+    name: /Prefiero el formulario clásico/i,
+  });
+  if (preferForm) {
+    await user.click(preferForm);
+  }
+}
+
+async function switchToAssistant(user = userEvent.setup()) {
+  const preferAssistant = screen.queryByRole("button", {
+    name: /Volver al asistente guiado/i,
+  });
+  if (preferAssistant) {
+    await user.click(preferAssistant);
+  }
 }
 
 function getFormPanelElement() {
-  const formTab = screen.getByRole("tab", { name: /Escribir directo/i });
-  const tabPanelId = formTab.getAttribute("aria-controls");
-  if (!tabPanelId) throw new Error("Form tab missing aria-controls");
-  const panel = document.getElementById(tabPanelId);
-  if (!panel) throw new Error(`Tab panel ${tabPanelId} not found`);
-  return panel;
+  // Form panel always force-mounted; fields visible when activeTab=form
+  const message = screen.getByLabelText(/mensaje|message/i);
+  const form = message.closest("form");
+  if (!form) throw new Error("Contact form not found");
+  return form;
 }
 
 function getFormPanel() {
@@ -60,17 +69,13 @@ function setControlledInputValue(input: HTMLInputElement | HTMLTextAreaElement, 
   fireEvent.change(input, { target: { name: input.name, value } });
 }
 
-function getAssistantPanel() {
-  return getTabPanel(/Asistente/i);
-}
-
 describe("Contact integration — sessionStorage", () => {
   afterEach(() => {
     clearContactSession();
     vi.clearAllMocks();
   });
 
-  it("restores name, email, message and active tab from sessionStorage with consent unchecked", () => {
+  it("restores name, email, message and active tab from sessionStorage with consent unchecked", async () => {
     writeContactSession({
       name: "Rö Test",
       email: "ro@example.com",
@@ -79,11 +84,9 @@ describe("Contact integration — sessionStorage", () => {
     });
 
     renderContact();
+    await switchToForm();
 
-    expect(screen.getByRole("tab", { name: /Escribir directo/i })).toHaveAttribute(
-      "data-state",
-      "active"
-    );
+    expect(screen.getByText(/^Escribir directo$/i)).toBeInTheDocument();
 
     const form = getFormPanel();
     expect(form.getByDisplayValue("Rö Test")).toBeInTheDocument();
@@ -95,7 +98,7 @@ describe("Contact integration — sessionStorage", () => {
     consentBoxes.forEach((box) => expect(box).not.toBeChecked());
   });
 
-  it("remount simulates reload and keeps restored draft", () => {
+  it("remount simulates reload and keeps restored draft", async () => {
     writeContactSession({
       name: "Persist",
       email: "persist@example.com",
@@ -106,15 +109,13 @@ describe("Contact integration — sessionStorage", () => {
     const { unmount } = renderContact();
     unmount();
     renderContact();
+    await switchToForm();
 
     const form = getFormPanel();
     expect(form.getByDisplayValue("Persist")).toBeInTheDocument();
     expect(form.getByDisplayValue("persist@example.com")).toBeInTheDocument();
     expect(form.getByDisplayValue("Sigue aquí tras remount")).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: /Escribir directo/i })).toHaveAttribute(
-      "data-state",
-      "active"
-    );
+    expect(screen.getByText(/^Escribir directo$/i)).toBeInTheDocument();
   });
 
   it("prefers contactDraft message and assistant tab over session snapshot", () => {
@@ -132,10 +133,11 @@ describe("Contact integration — sessionStorage", () => {
       },
     });
 
-    expect(screen.getByRole("tab", { name: /Asistente/i })).toHaveAttribute("data-state", "active");
-
-    const assistant = getAssistantPanel();
-    expect(assistant.getByDisplayValue("Mensaje desde onboarding")).toBeInTheDocument();
+    expect(screen.getByText(/^Asistente$/i)).toBeInTheDocument();
+    // forceMount keeps both panels; shared message appears in assistant + form
+    expect(
+      screen.getAllByDisplayValue("Mensaje desde onboarding").length
+    ).toBeGreaterThan(0);
   });
 });
 
@@ -154,6 +156,7 @@ describe("Contact integration — persist debounce", () => {
     });
 
     renderContact();
+    await switchToForm();
 
     const panel = getFormPanelElement();
     setControlledInputValue(
@@ -195,6 +198,7 @@ describe("Contact integration — clear on empty", () => {
     });
 
     renderContact();
+    await switchToForm();
 
     const panel = getFormPanelElement();
     setControlledInputValue(panel.querySelector("#message") as HTMLTextAreaElement, "");
@@ -202,21 +206,20 @@ describe("Contact integration — clear on empty", () => {
     await waitFor(() => expect(readContactSession()).toBeNull(), { timeout: 1000 });
   });
 
-  it("keeps shared message when switching tabs", async () => {
+  it("keeps shared message when switching modes", async () => {
     const user = userEvent.setup();
     renderContact();
+    await switchToForm(user);
 
     const panel = getFormPanelElement();
     setControlledInputValue(
       panel.querySelector("#message") as HTMLTextAreaElement,
-      "Mensaje compartido entre tabs"
+      "Mensaje compartido entre modos"
     );
 
-    await user.click(screen.getByRole("tab", { name: /Asistente/i }));
-    await user.click(screen.getByRole("tab", { name: /Escribir directo/i }));
+    await switchToAssistant(user);
+    await switchToForm(user);
 
-    expect(
-      getFormPanel().getByDisplayValue("Mensaje compartido entre tabs")
-    ).toBeInTheDocument();
+    expect(getFormPanel().getByDisplayValue("Mensaje compartido entre modos")).toBeInTheDocument();
   });
 });

@@ -4,6 +4,7 @@ import {
   NAV_SURFACE,
   getDockNavAction,
   getDockNavItems,
+  getHeaderMoreNavItems,
   getHeaderPrimaryNavItems,
   getMobileDrawerNavItems,
   getMobileMoreDividerIndex,
@@ -16,22 +17,32 @@ const labels = {
   experience: "Experiencia",
   consulting: "Consultoría ✦",
   audit: "Auditoría UX",
-  contact: "Conversemos",
+  contact: "Contacto",
   about: "Sobre mí",
   designSystem: "Design System",
   uxtools: "UX Tools",
   more: "Más",
-  resources: "Recursos",
 };
 
 describe("NAV_SURFACE", () => {
-  it("keeps header primary to 2 items (reduce noise)", () => {
-    expect(NAV_SURFACE.headerPrimary).toEqual(["recursos", "contacto"]);
+  it("P0: dock has 3 slots with liquid consultoria in the center", () => {
+    expect([...NAV_SURFACE.dock]).toEqual(["inicio", "consultoria", "contacto"]);
+    expect(NAV_SURFACE.dock[1]).toBe(DOCK_CENTER_ID);
+    expect(NAV_SURFACE.dock).toHaveLength(3);
   });
 
-  it("keeps dock to 3 slots with consultoria center", () => {
-    expect(NAV_SURFACE.dock).toEqual(["inicio", "consultoria", "contacto"]);
-    expect(DOCK_CENTER_ID).toBe("consultoria");
+  it("P0: desktop primary nav is 2 destinations (work + close)", () => {
+    expect([...NAV_SURFACE.headerPrimary]).toEqual(["negocios", "contacto"]);
+    expect(NAV_SURFACE.headerPrimary).toHaveLength(2);
+  });
+
+  it("moves secondary destinations into Más while drawer keeps full catalog", () => {
+    for (const id of ["experiencia", "consultoria", "proceso"] as const) {
+      expect(NAV_SURFACE.headerMore).toContain(id);
+      expect(NAV_SURFACE.headerPrimary).not.toContain(id);
+    }
+    expect(NAV_SURFACE.mobileDrawer).toContain("negocios");
+    expect(NAV_SURFACE.mobileDrawer).toContain("auditoria");
   });
 
   it("places mobile more divider at sobre-mi", () => {
@@ -40,20 +51,38 @@ describe("NAV_SURFACE", () => {
 });
 
 describe("getHeaderPrimaryNavItems", () => {
-  it("exposes Recursos + Conversemos only", () => {
+  it("exposes only negocios and contacto on desktop primary", () => {
     const items = getHeaderPrimaryNavItems(labels, "Proceso");
-    expect(items.map((item) => item.id)).toEqual(["recursos", "contacto"]);
+    expect(items.map((item) => item.id)).toEqual(["negocios", "contacto"]);
+  });
+});
+
+describe("getHeaderMoreNavItems", () => {
+  it("includes former primary destinations under Más", () => {
+    const ids = getHeaderMoreNavItems(labels, "Proceso").map((item) => item.id);
+    expect(ids).toEqual([
+      "experiencia",
+      "consultoria",
+      "proceso",
+      "sobre-mi",
+      "auditoria",
+      "design-system",
+      "uxtools",
+    ]);
   });
 });
 
 describe("getMobileDrawerNavItems", () => {
-  it("leads with multi-entry paths then more", () => {
+  it("follows hero-aligned order before more section", () => {
     const items = getMobileDrawerNavItems(labels, "Proceso");
-    expect(items.slice(0, 4).map((item) => item.id)).toEqual([
+    expect(items.slice(0, 7).map((item) => item.id)).toEqual([
       "inicio",
-      "recursos",
-      "contacto",
+      "negocios",
+      "experiencia",
       "consultoria",
+      "auditoria",
+      "proceso",
+      "contacto",
     ]);
   });
 });
@@ -74,7 +103,7 @@ describe("getDockNavAction", () => {
 });
 
 describe("getDockNavItems", () => {
-  it("places consultoria as center dock CTA", () => {
+  it("places consultoria as center CTA between inicio and contacto", () => {
     const ids = getDockNavItems("home", labels, "Proceso").map((item) => item.id);
     expect(ids).toEqual(["inicio", "consultoria", "contacto"]);
     expect(ids[1]).toBe(DOCK_CENTER_ID);
@@ -82,11 +111,11 @@ describe("getDockNavItems", () => {
 });
 
 describe("matchNavItemActive", () => {
-  it("marks negocios when present in more/deep via header more items", () => {
-    // negocios no longer primary; match still works for project routes if resolved
-    const dock = getDockNavItems("deep", labels, "Proceso");
-    const consultoria = dock.find((i) => i.id === "consultoria")!;
-    expect(matchNavItemActive(consultoria, "/consultoria")).toBe(true);
+  it("marks negocios active across project routes", () => {
+    const negocios = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
+    expect(matchNavItemActive(negocios, "/proyectos")).toBe(true);
+    expect(matchNavItemActive(negocios, "/proyecto/sura")).toBe(true);
+    expect(matchNavItemActive(negocios, "/")).toBe(false);
   });
 
   it("detects home Inicio vs Contacto by section spy", () => {
@@ -111,7 +140,7 @@ describe("matchNavItemActive", () => {
     ).toBe(true);
   });
 
-  it("detects deep routes for consultoria", () => {
+  it("detects deep routes for consultoria from dock", () => {
     const dockDeep = getDockNavItems("deep", labels, "Proceso");
     const consultoria = dockDeep.find((i) => i.id === "consultoria")!;
     const inicio = dockDeep.find((i) => i.id === "inicio")!;

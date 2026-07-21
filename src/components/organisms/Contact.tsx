@@ -6,7 +6,7 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { ContactConsentField } from "../molecules/ContactConsentField";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent } from "../ui/tabs";
 import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -29,7 +29,6 @@ import {
   readContactSession,
   writeContactSession,
 } from "../../lib/contact-draft-storage";
-import { consumeLeadIntent } from "../../lib/lead-intent";
 
 const socialLinks = [
   {
@@ -44,9 +43,8 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
   const t = useTranslation(language).contact;
 
   const sessionSnapshot = readContactSession();
-  /** Landing reduce ruido: default to form (not assistant) */
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "form")
+    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
   );
   const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
     name: sessionSnapshot?.name ?? "",
@@ -60,15 +58,6 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Prefill from package/demo CTAs (once per mount)
-  useEffect(() => {
-    const intent = consumeLeadIntent();
-    if (intent) {
-      setSharedMessage((prev) => (prev.trim() ? prev : intent));
-      setActiveTab("form");
-    }
-  }, []);
 
   useEffect(() => {
     if (persistTimer.current) clearTimeout(persistTimer.current);
@@ -288,22 +277,39 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
           >
             <Card>
               <CardContent className="pt-6">
+                {/* P1: asistente es el canal por defecto; formulario clásico como escape hatch */}
+                <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                    {activeTab === "assistant" ? (
+                      <>
+                        <Bot className="h-4 w-4 text-primary" aria-hidden />
+                        <span>{t.tabs.assistant}</span>
+                      </>
+                    ) : (
+                      <>
+                        <PenLine className="h-4 w-4 text-primary" aria-hidden />
+                        <span>{t.tabs.form}</span>
+                      </>
+                    )}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="min-h-11 justify-start text-muted-foreground sm:justify-center"
+                    onClick={() =>
+                      setActiveTab(activeTab === "assistant" ? "form" : "assistant")
+                    }
+                  >
+                    {activeTab === "assistant" ? t.tabs.preferForm : t.tabs.preferAssistant}
+                  </Button>
+                </div>
+
                 <Tabs
                   value={activeTab}
                   onValueChange={(value) => setActiveTab(value as ContactTab)}
                   className="w-full"
                 >
-                  <TabsList className="mb-6 grid w-full grid-cols-2 sm:w-auto sm:inline-flex">
-                    <TabsTrigger value="assistant" className="gap-2 min-h-11">
-                      <Bot className="h-4 w-4" />
-                      {t.tabs.assistant}
-                    </TabsTrigger>
-                    <TabsTrigger value="form" className="gap-2 min-h-11">
-                      <PenLine className="h-4 w-4" />
-                      {t.tabs.form}
-                    </TabsTrigger>
-                  </TabsList>
-
                   <TabsContent
                     value="assistant"
                     className="mt-0 data-[state=inactive]:hidden"

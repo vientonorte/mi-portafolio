@@ -16,20 +16,20 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     id: "radar",
     name: { es: "Diagnóstico express", en: "Express diagnostic" },
     tagline: {
-      es: "Auditoría UX rápida con hallazgos priorizados y quick wins.",
-      en: "Fast UX audit with prioritized findings and quick wins.",
+      es: "Auditoría UX completa. Entrada gratis: a11y de un flujo crítico.",
+      en: "Full UX audit. Free entry: a11y on one critical flow.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
     deliverables: {
       es: [
-        "Heurísticas Nielsen + contraste WCAG 2.2 AA",
-        "Test narrativa reclutador (10 s)",
-        "Informe ejecutivo + quick wins",
+        "Entrada gratis: revisión WCAG 2.2 AA de un flujo crítico",
+        "Heurísticas Nielsen + contraste + plan P0–P2",
+        "Informe ejecutivo + quick wins (Radar completo)",
       ],
       en: [
-        "Nielsen heuristics + WCAG 2.2 AA contrast",
-        "Recruiter narrative test (10 s)",
-        "Executive report + quick wins",
+        "Free entry: WCAG 2.2 AA review of one critical flow",
+        "Nielsen heuristics + contrast + P0–P2 plan",
+        "Executive report + quick wins (full Radar)",
       ],
     },
   },

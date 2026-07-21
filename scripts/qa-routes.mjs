@@ -45,12 +45,12 @@ const PROJECT_IDS = [
 ];
 
 const SECTION_CHECKS = [
-  { path: '/', sectionId: 'recursos', label: 'Home #recursos', lazy: true },
+  { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
   { path: '/consultoria', sectionId: 'metodo-n2n', label: 'Consultoría #metodo-n2n' },
   { path: '/consultoria', sectionId: 'offline-private', label: 'Consultoría #offline-private' },
   { path: '/consultoria', sectionId: 'practicas', label: 'Consultoría #practicas' },
   { path: '/consultoria', sectionId: 'partner-educacion', label: 'Consultoría #partner-educacion' },
-  { path: '/consultoria', sectionId: 'recursos', label: 'Consultoría #recursos' },
+  { path: '/consultoria', sectionId: 'valor', label: 'Consultoría #valor' },
   { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
   { path: '/consultoria', sectionId: 'cotizador', label: 'Consultoría #cotizador' },
   { path: '/consultoria', sectionId: 'arbol', label: 'Consultoría #arbol' },
@@ -167,22 +167,20 @@ async function checkHeroMobileSuggestions(browser) {
   const mPage = await ctx.newPage();
   try {
     await mPage.goto(hashUrl('/'), { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await mPage.waitForSelector('#hero-search-label', { timeout: 25000 });
-    const searchInput = mPage.locator('input[role="combobox"][aria-labelledby="hero-search-label"]');
-    const visibleOnLoad = await mPage.getByRole('option').first().isVisible().catch(() => false);
-    if (visibleOnLoad) {
-      return { label: 'Hero mobile sugerencias', ok: false, errors: ['sugerencias visibles sin interacción'] };
-    }
-    await searchInput.focus();
-    await mPage.waitForTimeout(200);
-    const visibleAfterFocus = await mPage.getByRole('option').first().isVisible();
+    await mPage.waitForSelector('#hero-audience-label', { timeout: 25000 });
+    const pathCards = mPage.locator('#inicio [role="group"] button');
+    const count = await pathCards.count();
+    const allVisible = count >= 3 && (await pathCards.nth(0).isVisible()) && (await pathCards.nth(1).isVisible());
     return {
-      label: 'Hero mobile sugerencias',
-      ok: visibleAfterFocus,
-      errors: visibleAfterFocus ? [] : ['sugerencias no visibles tras focus en mobile'],
+      label: 'Hero mobile path cards',
+      ok: allVisible && count >= 3,
+      errors:
+        allVisible && count >= 3
+          ? []
+          : [`se esperaban ≥3 path cards visibles; hay ${count}`],
     };
   } catch (err) {
-    return { label: 'Hero mobile sugerencias', ok: false, errors: [err.message.split('\n')[0]] };
+    return { label: 'Hero mobile path cards', ok: false, errors: [err.message.split('\n')[0]] };
   } finally {
     await ctx.close();
   }

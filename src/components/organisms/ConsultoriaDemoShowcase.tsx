@@ -19,7 +19,7 @@ import { ROUTES } from "../../lib/routes";
 /** Static posters for Apple-style mock demos (no interactive iframe). */
 function demoPoster(id: ConsultoriaDemoId): string {
   const img = getPortfolioImages();
-  if (id === "gees-propuesta") return img.sura.iaAutomationDashboard;
+  if (id === "gees-propuesta") return img.consultoria.geesDashboard;
   return img.consultoria.xCmsDashboard;
 }
 

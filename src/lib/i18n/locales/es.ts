@@ -8,7 +8,7 @@ export default {
       projects: 'Negocios',
       experience: 'Experiencia',
       skills: 'Habilidades',
-      contact: 'Conversemos',
+      contact: 'Contacto',
       designSystem: 'Design System',
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
@@ -16,7 +16,6 @@ export default {
       consulting: 'Consultoría ✦',
       audit: 'Auditoría UX',
       uxtools: 'UX Tools',
-      resources: 'Recursos',
     },
 
     homeTeaser: {
@@ -80,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'N2N, herramientas offline en ecosistema privado, playbook (Ley 21.719 · WCAG 2.2), 3 modalidades y onboarding. Kickoff <24 h hábiles.',
+            'Servicio Viento Norte con Rodrigo Gaete (UX Lead): N2N, Design Ops, 3 modalidades (Radar · Marco · Ops) y onboarding. Kickoff <24 h hábiles.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -101,9 +100,20 @@ export default {
     aboutTeaser: {
       badge: 'Sobre mí',
       title: 'UX Lead regional · Fintech & Mobility',
-      lead: 'UX Lead en SURA Investments. Design Ops como método en productos regulados y mobility.',
-      detail: 'Trayectoria en Transvip/Karri, docencia en Desafío Latam y agencias (Havas/Claro, Maraña, Walmart).',
-      cta: 'Ver perfil completo',
+      lead:
+        'De Senior Product Designer en Transvip/Karri a UX Lead en SURA Investments (Wealth, 5+ países). Mismo estándar de método: research, Design Ops, design system y resultados medibles.',
+      detail:
+        'Marcas en el relato: SURA Investments · Transvip · Karri · Valuesite · Havas/Claro · Walmart · Maraña · docencia en Desafío Latam. No solo logos — contexto, rol y evidencia por etapa.',
+      brandsLabel: 'Marcas y contextos',
+      // Chips = relato sin wordmark en fila de logos (SURA/Transvip/Karri van como logos)
+      brands: [
+        'Valuesite',
+        'Havas / Claro',
+        'Walmart',
+        'Maraña',
+        'Desafío Latam',
+      ],
+      cta: 'Ver trayectoria completa',
     },
 
     upcomingCases: {
@@ -114,14 +124,14 @@ export default {
     },
 
     uxAuditBanner: {
-      badge: 'Viento Norte · Consultoría UX',
+      badge: 'Viento Norte · Radar (entrada gratis)',
       titleLead: 'Auditorías UX con',
       titleAccent: 'evidencia medible',
       description:
-        'Consultoría para portfolios, productos digitales y equipos. De hallazgo a plan de acción priorizado.',
-      highlights: ['Heurísticas Nielsen', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
-      ctaPrimary: 'Elegir consultoría',
-      ctaSecondary: 'Ver auditoría de ejemplo',
+        'Entrada gratis a Radar: a11y de un flujo crítico. Diagnóstico express completo en 5–7 días. Servicio Viento Norte · rostro Rodrigo Gaete.',
+      highlights: ['Entrada Radar', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
+      ctaPrimary: 'Ver 3 modalidades',
+      ctaSecondary: 'Agendar entrada gratis',
       metrics: {
         a11y: 'Accesibilidad',
         priority: 'Prioridad',
@@ -131,28 +141,28 @@ export default {
     },
 
     valueArsenal: {
-      badge: 'Recursos',
-      title: 'Recursos que demuestran el método',
-      description: 'Demos y casos en mockup. Elige un lente B2B y conversemos.',
-      filterAriaLabel: 'Filtrar recursos por servicio B2B',
+      badge: 'Prueba social navegable',
+      title: 'Evidencia que puedes abrir ahora',
+      description:
+        'Demos Figma, POCs live, casos SURA/Transvip/Karri y método UX documentado. Cada pieza enlaza a una modalidad de consultoría — explora antes de reservar.',
+      filterAriaLabel: 'Filtrar evidencia',
       filters: {
         all: 'Todo',
-        prototype: 'Estrategia',
-        poc: 'Producto + IA',
-        audit: 'Auditoría',
+        prototype: 'Prototipos',
+        poc: 'POCs',
+        audit: 'Auditorías',
         case: 'Casos',
       },
-      evidenceCount: '{count} recursos listos',
+      evidenceCount: '{count} piezas listas para revisar',
       showingCount: 'Mostrando {visible} de {total}',
-      loadMore: 'Ver más recursos',
-      viewProof: 'Ver pantallas',
-      ctaLead: 'Conversar sobre esto',
+      loadMore: 'Cargar más evidencia',
+      viewProof: 'Abrir evidencia',
       bundleFit: 'Modalidad',
       bundleStripTitle: '¿Listo para el kickoff?',
       bundleStripDescription:
         'Elige modalidad o deja que el árbol te recomiende. Sin precios públicos — alcance y propuesta en la primera sesión (<24 h hábiles).',
-      bundleStripBadge: 'Lead · B2B',
-      bundleCta: 'Escribir al asistente',
+      bundleStripBadge: 'Conversión · SEM/SEO',
+      bundleCta: 'Iniciar onboarding',
       treeCta: 'Encontrar modalidad',
       recommended: 'Recomendada',
     },
@@ -227,14 +237,14 @@ export default {
         changePackage: 'Cambiar',
       },
       landing: {
-        badge: 'Consultoría Viento Norte · UX Lead',
+        badge: 'Viento Norte · servicio · Rodrigo Gaete',
         principleBadge: 'Transparencia como principio',
         title: 'Alcance claro,',
         titleAccent: 'sin letra chica',
         description:
-          'Eliges tu camino en un clic. Qué entregamos, qué no, y el método — antes de la primera reunión.',
+          'Consultoría UX de Viento Norte, con el rostro y el método de Rodrigo Gaete. Eliges modalidad en un clic — qué entregamos y qué no, antes del kickoff.',
         transparencyLine:
-          'No hay precios genéricos en la web: el alcance se cierra contigo.',
+          'No hay precios genéricos en la web: el alcance se cierra contigo. Tres modalidades fijas: Radar · Marco · Ops.',
         ctaPrimary: 'Agendar conversación',
         ctaSecondary: 'Ver evidencia primero',
         trustLine: 'Te respondemos en menos de 24 h hábiles · WCAG 2.2 AA · Ley 21.719 de base',
@@ -389,13 +399,14 @@ export default {
           'Una landing de consultoría debe demostrar método, no solo promesa. Este playbook es el contrato de calidad: lo que mides, lo que entregas y cómo lo demuestras antes del kickoff.',
       },
       packagesSection: {
-        badge: 'Modalidades',
-        title: 'Elige el formato de trabajo',
+        badge: 'Modalidades · Viento Norte',
+        title: 'Tres formas de trabajar juntos',
         description:
-          'Tres caminos según madurez y urgencia. Entregables públicos; alcance fino y propuesta en el kickoff.',
+          'Diagnóstico express (Radar) · Estrategia guiada (Marco) · Proceso de equipo (Ops). Mismas tres en home y en consultoría — alcance fino en el kickoff.',
         deliverablesLabel: 'Entregables',
-        cta: 'Continuar con esta',
-        note: 'Sin tarifas públicas. El cotizador y el árbol de decisión ayudan a alinear expectativa antes del contacto.',
+        cta: 'Empezar con esta',
+        ctaForm: 'Escribir al form',
+        note: 'Primario → onboarding en consultoría con modalidad elegida. Secundario → form con mensaje listo. Sin tarifas públicas.',
       },
       educationPartner: {
         badge: 'Educación',
@@ -423,10 +434,10 @@ export default {
       welcome: {
         title: 'Consultoría Viento Norte',
         description:
-          'Onboarding en 4 pasos para definir alcance, modalidad y mensaje de contacto prearmado.',
+          'Onboarding en 4 pasos: eliges modalidad del servicio VN y dejamos el mensaje listo. Rostro: Rodrigo Gaete · UX Lead.',
         points: [
-          'Diagnóstico express, estrategia guiada o proceso de equipo según madurez y urgencia',
-          'Rodrigo Gaete · UX Lead — fintech, mobility y Design Ops',
+          'Tres modalidades: Radar · Marco · Ops (misma taxonomía que en home)',
+          'Alcance UX · Design · Design Ops · DevOps · IA de producto',
           'Kickoff en menos de 24 h hábiles tras tu solicitud',
         ],
       },
@@ -478,12 +489,12 @@ export default {
         },
       },
       appQuoter: {
-        badge: 'Cotizador app & web',
-        title: 'Alinea presupuesto y expectativa',
+        badge: 'Cotizador · consultoría UX',
+        title: 'Alinea presupuesto y alcance de consultoría',
         description:
-          'Indica tu inversión de referencia y el tipo de entregable. Obtén una lectura de viabilidad sin precios públicos — el alcance fino se confirma en kickoff.',
+          'No es un cotizador de “agencia de build”. Estima fit de consultoría UX Viento Norte: diseño, Design Ops, DevOps, IA de producto y handoff — sin precios públicos.',
         disclaimer:
-          'Estimación orientativa de diseño UX y producto digital. No incluye desarrollo ni licencias de terceros.',
+          'Estimación orientativa de consultoría UX (diseño · Design Ops · DevOps · IA). No cotiza desarrollo software full-stack ni licencias de terceros.',
         currencyLabel: 'Moneda',
         currencies: {
           USD: 'USD · Dólar',
@@ -494,12 +505,12 @@ export default {
           'Tasas orientativas para comparar (no FX en vivo). El fit se calcula en equivalencia interna; el alcance se cierra en kickoff.',
         budgetLabel: 'Presupuesto de referencia',
         budgetPresetsLabel: 'Presupuestos frecuentes',
-        expectationLabel: '¿Qué esperas construir?',
+        expectationLabel: '¿Qué alcance de consultoría necesitas?',
         tiers: {
           prototype: {
-            label: 'Prototipo funcional',
+            label: 'Prototipo y validación',
             hint: 'Figma navegable · flujos clave',
-            deliverable: 'Validación de concepto y handoff visual',
+            deliverable: 'Validación de concepto y handoff UX',
             includes: [
               'Discovery focalizado y arquitectura de información',
               'Prototipo interactivo de alta fidelidad',
@@ -507,19 +518,19 @@ export default {
             ],
           },
           web: {
-            label: 'Web funcional',
-            hint: 'MVP responsive · CMS-ready',
-            deliverable: 'Experiencia web lista para implementar',
+            label: 'Experiencia web (MVP UX)',
+            hint: 'Responsive · CMS-ready · specs',
+            deliverable: 'Diseño web listo para que tu equipo o partner implemente',
             includes: [
-              'Research + IA + diseño UI del MVP web',
+              'Research + diseño UI del MVP web',
               'Design system inicial y patrones responsive',
-              'Especificaciones y criterios de aceptación UX',
+              'Criterios de aceptación UX y handoff',
             ],
           },
           app: {
-            label: 'App funcional',
+            label: 'Experiencia app (journeys)',
             hint: 'Mobile · auth · flujos core',
-            deliverable: 'Producto app con journeys críticos diseñados',
+            deliverable: 'Journeys críticos diseñados + specs — no build de store',
             includes: [
               'Onboarding, navegación y estados de error',
               'Prototipos mobile navegables + specs UI',
@@ -527,12 +538,12 @@ export default {
             ],
           },
           enterprise: {
-            label: 'Desarrollo empresarial',
-            hint: 'Multi-rol · governance · ops',
-            deliverable: 'Ecosistema digital con proceso de equipo',
+            label: 'Ops enterprise (equipo)',
+            hint: 'Design Ops · DevOps · governance · IA',
+            deliverable: 'Proceso de equipo + blueprint UX (modalidad Ops / Marco)',
             includes: [
-              'Blueprint UX enterprise y Design Ops',
-              'Workshops con PM/PO/Engineering',
+              'Blueprint UX enterprise, Design Ops y DevOps de entrega',
+              'Workshops con PM/PO/Engineering · IA gobernada si aplica',
               'Playbook, métricas y gobierno de diseño',
             ],
           },
@@ -566,8 +577,9 @@ export default {
     impactStats: {
       badge: 'Resultados',
       title: 'Métricas con método detrás',
-      description: 'KPIs de producción en fintech y mobility.',
-      viewPhase: 'Ver método',
+      description:
+        'Cada KPI nace de un macroproceso aplicado en producción. Pasa el cursor para el spoiler del caso — o entra directo a la fase del framework.',
+      viewPhase: 'Ver fase',
       tapHint: 'Toca para ver contexto',
       tapNavigate: 'Toca de nuevo para abrir la fase',
       stats: [
@@ -656,7 +668,7 @@ export default {
       valueProp: 'UX Lead · Design Ops en productos regulados — fintech y mobility.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       unifiedBanner: {
-        groupLabel: '¿Qué buscas?',
+        groupLabel: '¿Qué necesitas?',
         searchPlaceholder: 'Buscar casos, experiencia o revisión UX…',
         searchAriaLabel: 'Buscador inteligente del portafolio',
         suggestionsLabel: 'Sugerencias',
@@ -664,67 +676,99 @@ export default {
         liveSuggestionsCount: '{{count}} sugerencias disponibles',
         liveSuggestionsActive: '{{count}} sugerencias. {{title}}, {{hint}}',
         tabs: {
-          recursos: 'Recursos',
-          consultoria: 'Consultoría',
-          contacto: 'Contacto',
+          negocios: 'Empresas',
+          contacto: 'Reclutadores',
+          auditorias: 'Auditoría',
         },
         suggestions: [
           {
-            id: 'recursos-home',
-            category: 'recursos',
-            title: 'Ver recursos y demos',
-            hint: 'Mockups y casos en #recursos — sin sandbox confuso.',
-            badge: 'Recursos',
-            keywords: ['recursos', 'demo', 'gees', 'cms', 'mockup', 'casos', 'evidencia'],
-            href: 'path/#recursos',
+            id: 'reclutadores-cx',
+            category: 'contacto',
+            title: 'Experiencia y CX',
+            hint: 'Perfil UX Lead, impacto y trayectoria en fintech y mobility.',
+            badge: 'Reclutadores',
+            keywords: [
+              'cx',
+              'reclutadores',
+              'recruiter',
+              'perfil',
+              'cv',
+              'linkedin',
+              'experiencia',
+              'talento',
+            ],
+            href: 'section/sobre-mi/experiencia',
           },
           {
-            id: 'consultoria-metodo',
-            category: 'consultoria',
-            title: 'Método y modalidades',
-            hint: 'N2N, paquetes Radar / Marco / Ops y demos de consultoría.',
-            badge: 'Consultoría',
-            keywords: ['consultoría', 'método', 'n2n', 'marco', 'radar', 'ops', 'modalidad'],
+            id: 'consultoria-viento-norte',
+            category: 'negocios',
+            title: 'Consultoría Viento Norte',
+            hint: 'Design Ops y producto con evidencia: del brief al prototipo.',
+            badge: 'Empresas',
+            keywords: [
+              'consultoría',
+              'viento norte',
+              'empresas',
+              'negocios',
+              'design ops',
+              'leads',
+              'demo',
+            ],
             href: 'route/consultoria',
           },
           {
-            id: 'contacto-hablar',
-            category: 'contacto',
-            title: 'Conversemos',
-            hint: 'Formulario inteligente · respuesta en menos de 24 h.',
-            badge: 'Contacto',
-            keywords: ['contacto', 'hablar', 'lead', 'email', 'freelance', 'trabajo'],
-            href: 'path/#contacto',
+            id: 'auditoria-accesibilidad',
+            category: 'auditorias',
+            title: 'Auditoría de accesibilidad',
+            hint: 'Gratis: primer tramo de Radar (WCAG 2.2 AA en un flujo crítico).',
+            badge: 'Gratis · Radar',
+            keywords: [
+              'auditoría',
+              'gratis',
+              'gratuita',
+              'accesibilidad',
+              'wcag',
+              'agendar',
+              'freemium',
+              'radar',
+              'diagnóstico',
+              'leads',
+            ],
+            href: 'route/auditoria',
           },
         ] satisfies HeroSearchSuggestion[],
         panels: {
-          recursos: {
-            badge: 'Recursos',
-            composerHint: 'Demos y casos en mockup. Elige un lente y conversemos.',
-            description: 'Evidencia visual sin iframe: pantallas, GEES, X | CMS y más.',
-            highlights: ['Mockups', 'Casos B2B', 'Lead en el mismo form'],
+          negocios: {
+            badge: 'Empresas',
+            composerHint: 'Consultoría Viento Norte con proceso documentado.',
+            description: 'Design Ops, producto digital y campañas con métricas en producción.',
+            highlights: ['Design Ops', 'Producto', 'Campañas'],
             metrics: [],
-            ctaPrimary: 'Ir a recursos',
-            ctaSecondary: 'Demos consultoría',
-          },
-          consultoria: {
-            badge: 'Consultoría',
-            composerHint: 'Método N2N y modalidades de trabajo.',
-            description: 'Design Ops en productos regulados — del brief al handoff.',
-            highlights: ['N2N', 'Radar · Marco · Ops', 'WCAG · 21.719'],
-            metrics: [],
-            ctaPrimary: 'Abrir consultoría',
+            ctaPrimary: 'Ver consultoría',
             ctaSecondary: 'Proceso UX',
           },
           contacto: {
-            badge: 'Contacto',
-            composerHint: 'Un solo formulario para todo el sitio.',
+            badge: 'Reclutadores',
+            composerHint: 'Trayectoria, CV y prueba social para hiring managers.',
             description: 'UX Lead · remoto o híbrido · respuesta en menos de 24 h.',
-            lead: 'Formulario unificado.',
-            highlights: ['Form inteligente', 'Remoto / Híbrido', '< 24 h'],
+            lead: 'Experiencia, empresas y canal de contacto.',
+            highlights: ['CV descargable', 'Remoto / Híbrido', 'LinkedIn'],
             metrics: [],
-            ctaPrimary: 'Ir a contacto',
-            ctaSecondary: 'Ver perfil',
+            ctaPrimary: 'Ver experiencia',
+            ctaSecondary: 'Ir a contacto',
+          },
+          auditorias: {
+            badge: 'Gratis · Radar',
+            composerHint:
+              'Entrada gratis a Radar: revisión a11y de un flujo crítico. El diagnóstico express completo es el Radar de 5–7 días.',
+            description:
+              'Primer tramo del Diagnóstico express (Radar): WCAG 2.2 AA + plan P0–P2. Sin 4º producto paralelo.',
+            highlights: ['Entrada a Radar', 'WCAG 2.2 AA', 'Sin costo'],
+            privacyNote:
+              'Formularios vía relay propio — no almacenamos tus datos en servidores de terceros.',
+            metrics: [],
+            ctaPrimary: 'Agendar entrada Radar',
+            ctaSecondary: 'Ver modalidades',
           },
         },
       },
@@ -770,9 +814,10 @@ export default {
     testimonials: {
       badge: 'Recomendaciones',
       title: 'Lo que dicen los equipos',
-      description: 'Líderes en fintech y mobility con los que colaboré.',
+      description:
+        'Recomendaciones de LinkedIn de líderes en fintech y movilidad premium con los que colaboré.',
       linkedInCta: 'Ver perfil en LinkedIn',
-      linkedInHref: 'https://www.linkedin.com/in/rodrigogaete/',
+      linkedInHref: 'https://www.linkedin.com/in/rodrigo-gaete-ux/',
       items: [
         {
           quote:
@@ -921,11 +966,16 @@ export default {
     experience: {
       badge: 'Trayectoria',
       title: 'Experiencia Profesional',
-      description: 'Mi camino desde Product Designer hasta Lead UX en empresas tech y finance.',
+      description:
+        'Relato por etapa: contexto, rol e impacto — de agencia y retail a fintech y mobility regional.',
       current: 'Actualidad',
       yearsAbbr: 'a',
       viewCases: 'Ver casos y evidencias',
       achievementsLabel: 'Logros principales',
+      contextLabel: 'Contexto',
+      roleLabel: 'Rol',
+      impactLabel: 'Impacto',
+      evidenceLabel: 'Evidencia',
     },
 
     // Skills
@@ -943,13 +993,15 @@ export default {
     
     // Contact
     contact: {
-      badge: 'Contacto',
+      badge: 'Hablemos',
       title: 'Conversemos',
-      description: 'Proyectos freelance y full-time. Respuesta típica en menos de 24 h.',
-      responseBadge: 'Respuesta en 24 h',
+      description: 'Disponible para proyectos freelance y oportunidades full-time. Respuesta típica: menos de 24 h.',
+      responseBadge: 'Respuesta típica: menos de 24 h',
       tabs: {
         assistant: 'Asistente',
         form: 'Escribir directo',
+        preferForm: 'Prefiero el formulario clásico',
+        preferAssistant: 'Volver al asistente guiado',
       },
       info: {
         title: 'Información de contacto',
@@ -1002,6 +1054,7 @@ export default {
           quoter: 'Tu cotización está lista. Solo confirma nombre, email y consentimiento.',
           'partner-edu':
             'Mensaje listo para agendar videollamada como partner de desarrollo en proyectos educativos. Confirma nombre, email y consentimiento.',
+          cta: 'Tu mensaje está listo. Confirma nombre, email y consentimiento para enviarlo.',
         },
         steps: {
           intent: '¿Qué te gustaría conversar?',

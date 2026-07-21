@@ -45,9 +45,27 @@ export const portfolioImages = {
   },
   consultoria: {
     xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
+    geesDashboard: img("consultoria/gees-dashboard.png", true),
+  },
+  /** Cartas método UX Tools (curadas desde PDFS/Diseño/UX TOOLS) */
+  uxTools: {
+    journeyMap: img("ux-tools/journey-map.png"),
+    userFlow: img("ux-tools/user-flow.png"),
+    usabilityTest: img("ux-tools/usability-test.png"),
+    designSystem: img("ux-tools/design-system.png"),
   },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),
     profilePhoto: `${base}profile-photo.jpg?v=20260703b`,
+  },
+  /** Monogramas para marcas sin wordmark oficial en el repo */
+  brands: {
+    desafioLatam: img("brands/desafio-latam.svg", true),
+    walmart: img("brands/walmart.svg", true),
+    havas: img("brands/havas.svg", true),
+    valuesite: img("brands/valuesite.svg", true),
+    marana: img("brands/marana.svg", true),
+    pareti: img("brands/pareti.svg", true),
+    freelance: img("brands/freelance.svg", true),
   },
 } as const;

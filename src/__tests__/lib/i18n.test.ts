@@ -23,38 +23,50 @@ describe('translations', () => {
         expect(nav).toHaveProperty('about');
         expect(nav).toHaveProperty('projects');
         expect(nav).toHaveProperty('contact');
+        expect(nav).toHaveProperty('consulting');
+        expect(nav).toHaveProperty('uxtools');
       });
 
-      it('has hero section with required keys', () => {
+      it('has hero path cards (3 audiences) and panels', () => {
         const nav = translations[lang].nav;
         const hero = translations[lang].hero;
         expect(hero).toHaveProperty('label');
         expect(hero).toHaveProperty('headlineLead');
         expect(hero).toHaveProperty('headlineFocus');
         expect(hero.unifiedBanner).toHaveProperty('groupLabel');
-        expect(hero.unifiedBanner.tabs).toHaveProperty('recursos');
-        expect(hero.unifiedBanner.tabs).toHaveProperty('consultoria');
+        // Path cards model (2026-07): Reclutadores · Empresas · Gratis/Radar
+        expect(hero.unifiedBanner.tabs).toHaveProperty('negocios');
         expect(hero.unifiedBanner.tabs).toHaveProperty('contacto');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('auditorias');
         expect(hero.unifiedBanner).toHaveProperty('searchPlaceholder');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsCount');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsActive');
-        // X | CMS + GEES + contacto + auditoría (mín. 3; crece con demos)
         expect(hero.unifiedBanner.suggestions.length).toBeGreaterThanOrEqual(3);
         expect(hero.unifiedBanner.suggestions.map((s) => s.id)).toEqual(
-          expect.arrayContaining(['recursos-home', 'consultoria-metodo', 'contacto-hablar'])
+          expect.arrayContaining([
+            'reclutadores-cx',
+            'consultoria-viento-norte',
+            'auditoria-accesibilidad',
+          ])
         );
         expect(hero.unifiedBanner.tabs).toMatchObject({
-          recursos: expect.any(String),
-          consultoria: expect.any(String),
+          negocios: expect.any(String),
           contacto: expect.any(String),
+          auditorias: expect.any(String),
         });
-        expect(hero.unifiedBanner.panels.recursos).toHaveProperty('composerHint');
-        expect(hero.unifiedBanner.panels.recursos).toHaveProperty('ctaPrimary');
-        expect(hero.unifiedBanner.panels.consultoria).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.panels.auditorias).toHaveProperty('ctaPrimary');
         expect(nav).toHaveProperty('consulting');
-        expect(nav).toHaveProperty('resources');
         expect(nav).toHaveProperty('uxtools');
+      });
+
+      it('has packagesSection with dual CTAs', () => {
+        const packages = translations[lang].consultoria.packagesSection;
+        expect(packages).toHaveProperty('cta');
+        expect(packages).toHaveProperty('ctaForm');
+        expect(packages.cta.length).toBeGreaterThan(0);
+        expect(packages.ctaForm.length).toBeGreaterThan(0);
       });
 
       it('has about section with required keys', () => {

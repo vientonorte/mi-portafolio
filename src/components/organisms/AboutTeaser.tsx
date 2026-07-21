@@ -4,9 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
+import { CompanyLogo } from "../atoms/CompanyLogo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { portfolioImages } from "../../lib/portfolio-image-urls";
 import { scrollToSection } from "../../lib/scroll-to-section";
+
+/** Logos con asset propio — el resto del relato va en chips de texto. */
+const FEATURED_BRAND_LOGOS = [
+  { name: "SURA Investments", src: portfolioImages.sura.logo },
+  { name: "Transvip", src: portfolioImages.transvip.logo },
+  { name: "Karri", src: portfolioImages.karri.logo },
+] as const;
 
 export function AboutTeaser() {
   const navigate = useNavigate();
@@ -23,6 +32,8 @@ export function AboutTeaser() {
         transition: { duration: 0.5 },
       };
 
+  const brandChips = Array.isArray(t.brands) ? t.brands : [];
+
   return (
     <PageSection
       id="sobre-mi"
@@ -31,7 +42,7 @@ export function AboutTeaser() {
       tone="muted"
       aria-labelledby="about-teaser-heading"
     >
-        <div className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8">
+      <div className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-6 md:p-8">
         <SectionHeader
           badge={t.badge}
           badgeIcon={User}
@@ -41,10 +52,44 @@ export function AboutTeaser() {
           titleId="about-teaser-heading"
         />
 
-        <motion.div {...fadeUp} className="mt-4 space-y-4">
+        <motion.div {...fadeUp} className="mt-4 space-y-5">
           <p className="max-w-2xl text-lg leading-relaxed text-foreground/90">{t.lead}</p>
           <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">{t.detail}</p>
-          <div className="flex flex-wrap gap-3 pt-2">
+
+          {/* Marcas ancla (logos) + relato completo (chips) */}
+          <div className="space-y-3 border-t border-border/60 pt-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              {t.brandsLabel}
+            </p>
+            <ul
+              className="flex flex-wrap items-center gap-3"
+              role="list"
+              aria-label={t.brandsLabel}
+            >
+              {FEATURED_BRAND_LOGOS.map((brand) => (
+                <li key={brand.name}>
+                  <CompanyLogo
+                    src={brand.src}
+                    alt={brand.name}
+                    size="wordmark-sm"
+                  />
+                </li>
+              ))}
+            </ul>
+            {brandChips.length > 0 && (
+              <ul className="flex flex-wrap gap-2" role="list">
+                {brandChips.map((name) => (
+                  <li key={name}>
+                    <span className="inline-flex min-h-[32px] items-center rounded-full border border-border/70 bg-background/60 px-3 py-1 text-xs font-medium text-foreground">
+                      {name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-3 pt-1">
             <Button
               className="bg-brand-gradient font-semibold"
               onClick={() => scrollToSection("contacto")}
@@ -65,7 +110,7 @@ export function AboutTeaser() {
             </Button>
           </div>
         </motion.div>
-        </div>
+      </div>
     </PageSection>
   );
 }

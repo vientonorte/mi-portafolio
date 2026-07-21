@@ -8,7 +8,24 @@ import { canonicalFromPath } from '../lib/seo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { withHomeCrumb } from '../lib/breadcrumb-helpers';
 import { toast } from 'sonner';
-import { parseContactDraftFromState } from '../lib/contact-draft';
+import { parseContactDraftFromState, type ContactDraft } from '../lib/contact-draft';
+import {
+  buildContactDraft,
+  parseContactIntentFromSearch,
+} from '../lib/navigate-to-contact';
+
+function resolveContactDraft(
+  state: unknown,
+  search: string
+): ContactDraft | null {
+  const fromState = parseContactDraftFromState(state);
+  if (fromState) return fromState;
+
+  const intent = parseContactIntentFromSearch(search);
+  if (!intent) return null;
+
+  return buildContactDraft({ intent, source: 'cta', origin: 'other' });
+}
 
 const Contacto = () => {
   const navigate = useNavigate();
@@ -16,9 +33,13 @@ const Contacto = () => {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const contactDraft = useMemo(
-    () => parseContactDraftFromState(location.state),
-    [location.state]
+    () => resolveContactDraft(location.state, location.search),
+    [location.search, location.state]
   );
+
+  const draftKey = contactDraft
+    ? `${contactDraft.source}-${contactDraft.intent ?? 'none'}-${contactDraft.message.slice(0, 40)}`
+    : 'empty';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -44,7 +65,7 @@ const Contacto = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/contacto')}
       />
-      <Contact key={contactDraft?.message ?? 'empty'} contactDraft={contactDraft} />
+      <Contact key={draftKey} contactDraft={contactDraft} />
     </PageShell>
   );
 };

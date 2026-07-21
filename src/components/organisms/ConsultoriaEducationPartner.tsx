@@ -8,7 +8,7 @@ import { Card, CardContent } from "../ui/card";
 import { PARTNER_EDU_CONTACT_GOAL } from "../../data/vientonorte-consulting";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { ROUTES } from "../../lib/routes";
+import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
 import { openVideoCallOrFallback, VIDEO_CALL_URL } from "../../lib/site-contact";
 import { trackEvent } from "../../lib/analytics";
 
@@ -28,16 +28,13 @@ export function ConsultoriaEducationPartner({
     trackEvent("consultoria_partner_edu_videocall", {
       channel: VIDEO_CALL_URL ? "calendar_url" : "contact_draft",
     });
-    navigate(ROUTES.contact, {
-      state: {
-        contactDraft: {
-          message: PARTNER_EDU_CONTACT_GOAL[language],
-          source: "partner-edu",
-          intent: "consulting",
-          packageId: "marco",
-          industry: language === "es" ? "Educación" : "Education",
-        },
-      },
+    navigateToContactAssistant(navigate, {
+      origin: "partner-edu",
+      source: "partner-edu",
+      intent: "consulting",
+      packageId: "marco",
+      industry: language === "es" ? "Educación" : "Education",
+      message: PARTNER_EDU_CONTACT_GOAL[language],
     });
   };
 

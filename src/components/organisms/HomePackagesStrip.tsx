@@ -1,4 +1,5 @@
-import { ArrowRight, Clock, Package, Star } from "lucide-react";
+import { ArrowRight, Clock, MessageSquare, Package, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
@@ -13,19 +14,36 @@ import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
 import { goToContactWithIntent } from "../../lib/lead-intent";
+import { ROUTES } from "../../lib/routes";
 import { scrollToSection } from "../../lib/scroll-to-section";
 
 /**
- * Home strip: modalidades → form lead (FigJam S4).
- * Reuses package data; no public pricing.
+ * Home strip: 3 modalidades → /consultoria onboarding (preselect) + form lead.
+ * Same package data as consultoría; no public pricing.
  */
 export function HomePackagesStrip() {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
 
-  const select = (id: ConsultingPackageId, name: string) => {
-    trackEvent("home_package_select", { package_id: id });
+  /** Primary: consultoría with modality preselected + scroll to onboarding. */
+  const goConsultoria = (id: ConsultingPackageId) => {
+    trackEvent("home_package_select", {
+      package_id: id,
+      target: "consultoria_onboarding",
+    });
+    navigate(ROUTES.consulting, {
+      state: {
+        recommendedPackage: id,
+        scrollTo: "consultoria-onboarding",
+      },
+    });
+  };
+
+  /** Secondary: intelligent form with package message (same page). */
+  const goForm = (id: ConsultingPackageId, name: string) => {
+    trackEvent("home_package_form", { package_id: id });
     const msg =
       language === "es"
         ? `Hola — me interesa la modalidad «${name}» (${id}). Contemos alcance en un call.`
@@ -91,17 +109,26 @@ export function HomePackagesStrip() {
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex flex-col gap-2">
                 <Button
                   className={cn(
                     "w-full min-h-[44px]",
                     pkg.featured && "bg-brand-gradient font-semibold hover:opacity-90"
                   )}
                   variant={pkg.featured ? "default" : "outline"}
-                  onClick={() => select(pkg.id, pkg.name[language])}
+                  onClick={() => goConsultoria(pkg.id)}
                 >
                   {t.cta}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full min-h-[44px] text-muted-foreground"
+                  onClick={() => goForm(pkg.id, pkg.name[language])}
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" aria-hidden />
+                  {t.ctaForm}
                 </Button>
               </CardFooter>
             </Card>

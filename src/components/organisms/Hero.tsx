@@ -1,24 +1,34 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+import { ClipboardCheck, Sparkles, Users, type LucideIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { analytics } from "../../lib/analytics";
-import { ROUTES } from "../../lib/routes";
-import { navigateToPageSection } from "../../lib/navigate-to-section";
-import { scrollToSection } from "../../lib/scroll-to-section";
-import { HeroIntelligentSearch } from "../molecules/HeroIntelligentSearch";
-import type { HeroBannerCategory } from "../molecules/HeroUnifiedBanner";
+import { trackEvent } from "../../lib/analytics";
+import { navigateFeaturedPath } from "../../lib/featured-path-routes";
+import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
+import type { HeroSearchCategory } from "../../lib/hero-search";
+import { HeroAudienceCta, type HeroAudienceOption } from "../molecules/HeroAudienceCta";
 
 interface HeroProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
 }
 
-export function Hero({ onNavigateToCaseStudies }: HeroProps) {
+/** Card order: CX Reclutadores · Consultoría VN · Auditoría accesibilidad */
+const PATH_ICONS: Record<HeroSearchCategory, LucideIcon> = {
+  contacto: Users,
+  negocios: Sparkles,
+  auditorias: ClipboardCheck,
+};
+
+export function Hero(_props: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language).hero;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,45 +38,41 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const y = useTransform(scrollYProgress, [0, 0.6], [0, 60]);
 
-  const navigate = useNavigate();
-  const { language } = useLanguage();
-  const t = useTranslation(language).hero;
-
-  const onHome = (location.pathname.replace(/\/+$/, "") || "/") === "/";
-
-  const handlePrimaryAction = (category: HeroBannerCategory) => {
-    switch (category) {
-      case "recursos":
-        analytics.clickViewProjects();
-        if (onHome) scrollToSection("#recursos");
-        else navigate(ROUTES.home, { state: { scrollTo: "recursos" } });
-        break;
-      case "consultoria":
-        analytics.clickHeroAuditLeads();
-        navigate(ROUTES.consulting);
-        break;
-      case "contacto":
-        analytics.clickContact();
-        if (onHome) scrollToSection("#contacto");
-        else navigate(ROUTES.contact);
-        break;
-    }
-  };
-
-  const handleSecondaryAction = (category: HeroBannerCategory) => {
-    switch (category) {
-      case "recursos":
-        navigate(ROUTES.consulting, { state: { scrollTo: "consultoria-demo" } });
-        break;
-      case "consultoria":
-        onNavigateToCaseStudies?.();
-        break;
-      case "contacto":
-        if (onHome) scrollToSection("#sobre-mi");
-        else navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
-        break;
-    }
-  };
+  const pathOptions = useMemo<HeroAudienceOption[]>(
+    () =>
+      t.unifiedBanner.suggestions.map((suggestion) => ({
+        id: suggestion.id,
+        icon: PATH_ICONS[suggestion.category],
+        title: suggestion.title,
+        hint: suggestion.hint,
+        badge: suggestion.badge,
+        onClick: () => {
+          trackEvent("hero_path_card", {
+            suggestion_id: suggestion.id,
+            category: suggestion.category,
+            href: suggestion.href,
+          });
+          // Auditoría gratuita → form inteligente (agendar)
+          if (suggestion.category === "auditorias") {
+            const message =
+              language === "es"
+                ? "Quiero la entrada gratis a Radar (Diagnóstico express): revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Radar completo (5–7 días)."
+                : "I'd like the free Radar entry (Express diagnostic): WCAG 2.2 AA review of one critical flow. If it fits, let's discuss full Radar (5–7 days).";
+            navigateToContactAssistant(navigate, {
+              origin: "hero-path",
+              source: "cta",
+              intent: "consulting",
+              packageId: "radar",
+              consultingQ1: "portfolio",
+              message,
+            });
+            return;
+          }
+          navigateFeaturedPath(navigate, suggestion.href, location.pathname);
+        },
+      })),
+    [language, location.pathname, navigate, t.unifiedBanner.suggestions]
+  );
 
   const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -137,19 +143,10 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
           </div>
 
           <motion.div variants={itemVariants} className="w-full">
-            <HeroIntelligentSearch
-              groupLabel={t.unifiedBanner.groupLabel}
-              searchPlaceholder={t.unifiedBanner.searchPlaceholder}
-              searchAriaLabel={t.unifiedBanner.searchAriaLabel}
-              suggestionsLabel={t.unifiedBanner.suggestionsLabel}
-              noResults={t.unifiedBanner.noResults}
-              liveSuggestionsCount={t.unifiedBanner.liveSuggestionsCount}
-              liveSuggestionsActive={t.unifiedBanner.liveSuggestionsActive}
-              tabs={t.unifiedBanner.tabs}
-              panels={t.unifiedBanner.panels}
-              suggestions={t.unifiedBanner.suggestions}
-              onPrimaryAction={handlePrimaryAction}
-              onSecondaryAction={handleSecondaryAction}
+            <HeroAudienceCta
+              label={t.unifiedBanner.groupLabel}
+              options={pathOptions}
+              layout="equal"
             />
           </motion.div>
         </motion.div>

@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { isDeepPortfolioPage } from "../../lib/page-depth";
 import { useAnalytics } from "../../vn-core/analytics/react";
@@ -13,7 +13,9 @@ export function PortfolioChrome({ children }: PortfolioChromeProps) {
   const isDeepPage = isDeepPortfolioPage(location.pathname);
   const tracker = useAnalytics();
 
-  useEffect(() => {
+  // Sync before paint so SubpageToolbar never sits under a ghost global header
+  // (CSS: .subpage-toolbar { top: var(--header-height) } only applies in site mode).
+  useLayoutEffect(() => {
     document.documentElement.dataset.nav = isDeepPage ? "subpage" : "site";
     return () => {
       delete document.documentElement.dataset.nav;

@@ -62,12 +62,14 @@ const BIO = {
   es: [
     "Rodrigo Gaete — Lead UX Designer. Más de 3 años implementando UX/UI de punta a punta: de Senior Product Designer en mobility (Transvip / Karri) a UX Lead en Wealth Management en SURA Investments.",
     "Dos verticales, un mismo estándar de método: research, Design Thinking, Design Sprints, design system y arquitectura de información. En fintech, onboarding regulado, auth multi-perfil y plataformas de inversión con alcance regional (5+ países). En mobility, design system web + app, discovery activo y handoff a desarrollo.",
-    "El impacto se mide: −40% en onboarding SURA, design system y handoff navegable en Transvip/Karri, y entrega alineada a WCAG y cumplimiento cuando el producto lo exige — no solo pantallas, criterios de aceptación y evidencia.",
+    "Antes del core fintech/mobility: liderazgo de diseño en Valuesite (AquiVoy Express / KIT UI), agencia (Maraña), retail (Walmart Chile) y desarrollo en Havas Group (mejoras Claro Chile). Docencia en Desafío Latam (carrera UX UI) cierra el arco con transferencia de método.",
+    "El impacto se mide: −40% en onboarding SURA, design system y handoff navegable en Transvip/Karri, +35% activación en Karri, y entrega alineada a WCAG y cumplimiento cuando el producto lo exige — no solo pantallas, criterios de aceptación y evidencia.",
   ],
   en: [
     "Rodrigo Gaete — Lead UX Designer. 3+ years shipping end-to-end UX/UI: from Senior Product Designer in mobility (Transvip / Karri) to UX Lead in Wealth Management at SURA Investments.",
     "Two verticals, one method standard: research, Design Thinking, Design Sprints, design systems, and information architecture. In fintech — regulated onboarding, multi-profile auth, and investment platforms with regional reach (5+ countries). In mobility — web + app design system, active discovery, and dev handoff.",
-    "Impact is measured: −40% SURA onboarding, navigable design system and handoff at Transvip/Karri, and delivery aligned to WCAG and compliance when the product requires it — not just screens, but acceptance criteria and evidence.",
+    "Before the fintech/mobility core: design leadership at Valuesite (AquiVoy Express / KIT UI), agency work (Maraña), retail (Walmart Chile), and web development at Havas Group (Claro Chile improvements). Teaching at Desafío Latam (UX UI career) closes the arc with method transfer.",
+    "Impact is measured: −40% SURA onboarding, navigable design system and handoff at Transvip/Karri, +35% activation at Karri, and delivery aligned to WCAG and compliance when the product requires it — not just screens, but acceptance criteria and evidence.",
   ],
 } as const;
 

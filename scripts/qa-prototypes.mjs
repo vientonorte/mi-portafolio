@@ -219,7 +219,8 @@ async function checkConsultoriaDemo(page, consultoria) {
 
 async function expandArsenal(page) {
   await visit(page, '/consultoria');
-  await page.locator('#recursos').scrollIntoViewIfNeeded();
+  // Home/consultoría arsenal section id is #valor (board rename to Recursos is P2)
+  await page.locator('#valor').scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 
   // Expand all pages of Arsenal cards (external items are often below the fold).

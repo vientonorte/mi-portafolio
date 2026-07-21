@@ -2,10 +2,10 @@ import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
-  Briefcase,
   ClipboardCheck,
-  Mail,
   Search,
+  Sparkles,
+  Users,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,9 +38,9 @@ interface HeroIntelligentSearchProps {
 }
 
 const CATEGORY_ICONS: Record<HeroSearchCategory, LucideIcon> = {
-  recursos: Briefcase,
-  consultoria: ClipboardCheck,
-  contacto: Mail,
+  contacto: Users,
+  negocios: Sparkles,
+  auditorias: ClipboardCheck,
 };
 
 export function heroSuggestionOptionId(listboxId: string, suggestionId: string): string {

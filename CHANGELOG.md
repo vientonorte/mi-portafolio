@@ -5,30 +5,39 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
-## [2026-07-21] — Landing reduce ruido · sprints FigJam · Chillax self-host
+## [2026-07-21] — Fix: dock legible al scroll
 
-### Added
-- Self-hosted **Chillax** (`public/fonts/chillax` + `chillax-local.css`) — fiable en `127.0.0.1` preview.
-- Hero multi-entry: **Recursos · Consultoría · Contacto**.
-- Home **Modalidades** (`HomePackagesStrip`) → form con prefill (`lead-intent`).
-- Logos clientes matte bajo Resultados; form contacto default **form**.
-- Docs: `docs/FONTS-CHILLAX.md`, vault sprint plan S0–S7.
-
-### Changed
-- Nav 2 + dock 3; badge/h3 en secciones; demos mock no iframe.
-- KPI strip; copy Resultados / Recursos limpio.
+### Fixed
+- **Dock (bottom nav):** glass más opaco + `isolation`/`translateZ(0)` para que no se pierda sobre el contenido al hacer scroll. Visible solo `< lg`.
+- **Header:** se mantiene hide-on-scroll en desktop (comportamiento previo).
 
 ---
 
-## [2026-07-21] — Demo GEES en consultoría
+## [2026-07-21] — P1 form inteligente transversal + título audit
 
 ### Added
-- **GEES · Propuesta** en Figma Sites (`https://duct-juice-51509104.figma.site`): segunda demo en `#consultoria-demo`, card en Arsenal de valor y sugerencia del buscador hero (ES/EN).
-- `CONSULTORIA_DEMOS` multi-demo en `consultoria-demos.ts` (X | CMS + GEES).
+- **`navigateToContactAssistant`** (`src/lib/navigate-to-contact.ts`): API única para abrir el asistente desde cualquier CTA (intent, package, message, origin analytics).
+- Soporte **intent-only** en `contact-draft` + deep link `?intent=consulting`.
+- Banner de draft `cta` en i18n ES/EN.
 
 ### Changed
-- **ConsultoriaDemoShowcase** soporta varias demos publicadas; CTA Figma Make solo si hay `figmaMakeUrl`.
-- QA `qa-prototypes.mjs` valida todos los `figmaSitesUrl` de consultoría.
+- **CTAs de conversión → asistente:** banner auditoría, hero path Auditoría, carousel consultoría/audit secondary, arsenal bundles, quoter, onboarding, partner-edu.
+- **Contacto UI:** asistente por defecto; formulario clásico como enlace «Prefiero el formulario clásico» (menos ruido de tabs).
+- **PremiumUxAuditBanner:** título más destacado (`font-black`, escala mayor, accent brand-gradient).
+- Docs: `CONTACT_AND_PRIVACY.md`.
+
+### Notes
+- P2–P3 board: KPI layout, Recursos/pills B2B, demo landing Apple-like, About/testimonios + LinkedIn.
+
+---
+
+## [2026-07-21] — P0 rediseño landing (board FigJam)
+
+### Changed
+- **Hero:** combobox `HeroIntelligentSearch` → **3 path cards** (`HeroAudienceCta` layout `equal`) con click directo al contenido (Demo · Experiencia · Auditoría). Analytics: `hero_path_card`.
+- **Dock móvil:** 5 slots → **3** — Inicio · Consultoría (centro liquid) · Contacto.
+- **Header desktop:** primarios → **Negocios · Contacto**; Experiencia, Consultoría, Proceso y utilidades en «Más».
+- Docs: `NAV_AND_SECTIONS.md`, `MAINTENANCE_GUIDE` alineados a P0.
 
 ---
 

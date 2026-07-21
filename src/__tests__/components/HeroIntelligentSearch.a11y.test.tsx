@@ -10,51 +10,60 @@ import type { HeroSearchSuggestion } from "@/lib/hero-search";
 
 const suggestions: HeroSearchSuggestion[] = [
   {
-    id: "recursos-home",
-    category: "recursos",
-    title: "Ver recursos y demos",
-    hint: "Mockups",
-    badge: "Recursos",
-    keywords: ["recursos"],
-    href: "path/#recursos",
+    id: "reclutadores-cx",
+    category: "contacto",
+    title: "Experiencia y CX",
+    hint: "Perfil",
+    badge: "Reclutadores",
+    keywords: ["cx", "reclutadores"],
+    href: "section/sobre-mi/experiencia",
   },
   {
-    id: "contacto-hablar",
-    category: "contacto",
-    title: "Conversemos",
-    hint: "Form",
-    badge: "Contacto",
-    keywords: ["contacto"],
-    href: "path/#contacto",
+    id: "consultoria-viento-norte",
+    category: "negocios",
+    title: "Consultoría Viento Norte",
+    hint: "Design Ops",
+    badge: "Empresas",
+    keywords: ["consultoría"],
+    href: "route/consultoria",
+  },
+  {
+    id: "auditoria-accesibilidad",
+    category: "auditorias",
+    title: "Auditoría de accesibilidad",
+    hint: "Radar gratis",
+    badge: "Gratis · Radar",
+    keywords: ["auditoría", "wcag"],
+    href: "route/auditoria",
   },
 ];
 
 const panels = {
-  recursos: {
-    badge: "Recursos",
-    description: "Mockups",
-    highlights: ["Demos"],
+  negocios: {
+    badge: "Empresas",
+    description: "Consultoría",
+    highlights: ["Design Ops"],
     metrics: [],
-    ctaPrimary: "Ir a recursos",
-    ctaSecondary: "Demos",
-    composerHint: "",
-  },
-  consultoria: {
-    badge: "Consultoría",
-    description: "N2N",
-    highlights: ["Método"],
-    metrics: [],
-    ctaPrimary: "Abrir",
+    ctaPrimary: "Ver consultoría",
     ctaSecondary: "Proceso",
     composerHint: "",
   },
   contacto: {
-    badge: "Contacto",
-    description: "Form",
-    highlights: ["Lead"],
+    badge: "Reclutadores",
+    description: "Perfil",
+    highlights: ["CV"],
     metrics: [],
-    ctaPrimary: "Ir a contacto",
-    ctaSecondary: "Perfil",
+    ctaPrimary: "Ver experiencia",
+    ctaSecondary: "Contacto",
+    composerHint: "",
+  },
+  auditorias: {
+    badge: "Gratis · Radar",
+    description: "a11y",
+    highlights: ["WCAG"],
+    metrics: [],
+    ctaPrimary: "Agendar",
+    ctaSecondary: "Modalidades",
     composerHint: "",
   },
 } as const;
@@ -71,9 +80,9 @@ function renderSearch() {
         liveSuggestionsCount="{{count}} sugerencias disponibles"
         liveSuggestionsActive="{{count}} sugerencias. {{title}}, {{hint}}"
         tabs={{
-          recursos: "Recursos",
-          consultoria: "Consultoría",
-          contacto: "Contacto",
+          negocios: "Empresas",
+          contacto: "Reclutadores",
+          auditorias: "Auditoría",
         }}
         panels={panels}
         suggestions={suggestions}
@@ -100,11 +109,12 @@ describe("HeroIntelligentSearch a11y", () => {
     const listbox = screen.getByRole("listbox", { name: /sugerencias/i });
     expect(listbox).toBeInTheDocument();
 
-    const firstOptionId = heroSuggestionOptionId(listbox.id, "recursos-home");
+    // CATEGORY_ORDER: contacto → negocios → auditorias
+    const firstOptionId = heroSuggestionOptionId(listbox.id, "reclutadores-cx");
     expect(combobox).toHaveAttribute("aria-activedescendant", firstOptionId);
 
     await user.keyboard("{ArrowDown}");
-    const secondOptionId = heroSuggestionOptionId(listbox.id, "contacto-hablar");
+    const secondOptionId = heroSuggestionOptionId(listbox.id, "consultoria-viento-norte");
     expect(combobox).toHaveAttribute("aria-activedescendant", secondOptionId);
   });
 
@@ -113,7 +123,7 @@ describe("HeroIntelligentSearch a11y", () => {
     renderSearch();
 
     await user.click(screen.getByRole("combobox", { name: /qué buscas/i }));
-    expect(screen.getByText(/sugerencias\. ver recursos/i)).toBeInTheDocument();
+    expect(screen.getByText(/sugerencias\. experiencia y cx/i)).toBeInTheDocument();
   });
 
   it("uses text input with search hints instead of type=search", () => {

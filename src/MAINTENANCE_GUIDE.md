@@ -296,6 +296,15 @@ Captura reproducible del POC:
 bash scripts/capture-ia-poc-screenshot.sh
 ```
 
+Captura GEES (Figma Sites → poster consultoría):
+
+```bash
+bash scripts/capture-gees-screenshot.sh
+# → public/images/consultoria/gees-dashboard.png
+```
+
+Staging hash vacío: `src/assets/` solo `.gitkeep`. Histórico: `archive/src-assets-hash-2026-07-21/REGISTRO.md`.
+
 ### Backlog para nuevos POCs (#97)
 
 Cuando Rö entregue nuevos links de POC, seguir este patrón mínimo:
@@ -321,30 +330,26 @@ Checklist por POC:
 
 ## 🧭 Hero y rutas interactivas
 
-### Buscador inteligente (home)
+### Path cards (home) — P0
 
 | Archivo | Rol |
 |---------|-----|
-| `src/components/organisms/Hero.tsx` | Layout hero, scroll parallax, delega al buscador |
-| `src/components/molecules/HeroIntelligentSearch.tsx` | Combobox + sugerencias + panel CTA |
-| `src/lib/hero-search.ts` | Filtro de sugerencias por query/keywords |
+| `src/components/organisms/Hero.tsx` | Layout hero, parallax, mapea `suggestions` → cards |
+| `src/components/molecules/HeroAudienceCta.tsx` | Grid equal de 3 cards (click → contenido) |
 | `src/lib/featured-path-routes.ts` | Navegación `route/`, `section/`, `path/` |
-| `src/lib/i18n/locales/*.ts` → `hero.unifiedBanner` | Copy, tabs, panels y `suggestions[]` |
+| `src/lib/i18n/locales/*.ts` → `hero.unifiedBanner.suggestions` | Copy y `href` de cada camino |
 
-**Comportamiento responsive**
-
-| Viewport | Sugerencias |
-|----------|-------------|
-| &lt;640px (`useIsSmDown`) | Lista **inline** bajo el input, siempre visible hasta elegir una |
-| ≥640px | Dropdown absoluto al focus / escribir |
-
-Añadir sugerencia: objeto en `hero.unifiedBanner.suggestions` (ES + EN) con `id`, `category`, `title`, `hint`, `href`, `keywords`.
+Añadir camino: objeto en `hero.unifiedBanner.suggestions` (ES + EN) con `id`, `category`, `title`, `hint`, `href`, `keywords`, `badge?`. El home navega al `href` en un solo click (analytics: `hero_path_card`).
 
 **Regla:** métricas de casos (NPS, −40%, etc.) viven en `#impacto` y `/proyectos`, no en el hero.
 
-### Banner unificado (legacy)
+### Legacy (no montado en home)
 
-`HeroUnifiedBanner.tsx` queda como referencia de copy/panels; el home usa `HeroIntelligentSearch`.
+| Archivo | Rol |
+|---------|-----|
+| `HeroIntelligentSearch.tsx` | Combobox + panel CTA (tests a11y; no en home P0) |
+| `HeroUnifiedBanner.tsx` | Tabs/panels de referencia de copy |
+| `src/lib/hero-search.ts` | Filtro de sugerencias (legacy combobox) |
 
 ### Proyecto destacado RIA (`#impacto`)
 
