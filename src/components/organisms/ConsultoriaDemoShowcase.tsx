@@ -169,6 +169,8 @@ export function ConsultoriaDemoShowcase() {
 
       {lightbox ? (
         <div
+          id="consultoria-demo-lightbox"
+          data-demo-lightbox
           className="fixed inset-0 z-[80] flex items-center justify-center bg-background/90 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
@@ -177,7 +179,7 @@ export function ConsultoriaDemoShowcase() {
           <button
             type="button"
             className="absolute inset-0 cursor-default"
-            aria-label="Close"
+            aria-label={language === "es" ? "Cerrar" : "Close"}
             onClick={() => setLightbox(null)}
           />
           <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-border bg-card shadow-2xl">
@@ -187,8 +189,9 @@ export function ConsultoriaDemoShowcase() {
                 type="button"
                 size="icon"
                 variant="ghost"
+                data-demo-lightbox-close
                 onClick={() => setLightbox(null)}
-                aria-label="Close"
+                aria-label={language === "es" ? "Cerrar" : "Close"}
               >
                 <X className="h-5 w-5" />
               </Button>

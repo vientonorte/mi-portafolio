@@ -186,15 +186,16 @@ async function checkConsultoriaDemo(page, consultoria) {
     errors.push(`mockups: esperados ≥${siteUrls.length} imgs, hay ${await posters.count()}`);
   }
 
-  const primary = page.getByRole('button', {
-    name: /ver pantallas|view screens|demo publicada|published demo|abrir demo|open demo/i,
+  // Exact CTAs (avoid poster buttons whose aria-label also contains "Ver pantallas: …")
+  const primary = page.locator('#consultoria-demo').getByRole('button', {
+    name: /^(Ver pantallas|View screens)$/i,
   });
   if ((await primary.count()) < siteUrls.length) {
     errors.push(`CTA mockup: esperados ≥${siteUrls.length}, hay ${await primary.count()}`);
   }
 
-  const leadCta = page.getByRole('button', {
-    name: /conversar|talk about|solicitar|let's talk/i,
+  const leadCta = page.locator('#consultoria-demo').getByRole('button', {
+    name: /conversar sobre|talk about this/i,
   });
   if ((await leadCta.count()) === 0) {
     errors.push('CTA lead (form transversal) no encontrado en demos');
@@ -202,12 +203,14 @@ async function checkConsultoriaDemo(page, consultoria) {
 
   if (errors.length === 0) {
     await primary.first().click();
-    await page.waitForTimeout(400);
-    const dialog = page.getByRole('dialog');
+    await page.waitForTimeout(600);
+    const dialog = page.locator('#consultoria-demo-lightbox, [data-demo-lightbox], [role="dialog"]');
     if ((await dialog.count()) === 0) {
       errors.push('lightbox mockup no abrió al ver pantallas');
     } else {
-      await page.getByRole('button', { name: /cerrar|close/i }).first().click();
+      await page.locator('[data-demo-lightbox-close], [role="dialog"] button').filter({ hasText: /cerrar|close/i }).first().click({ timeout: 3000 }).catch(async () => {
+        await page.keyboard.press('Escape');
+      });
     }
   }
 
