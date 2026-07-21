@@ -546,6 +546,184 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     },
   },
   {
+    id: "method-funnel-structure",
+    kind: "audit",
+    imagePath: img((i) => i.methodCoworking.funnelStructure),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Método · Benchmark",
+        title: "Estructura de embudo",
+        outcome:
+          "Hallazgo de benchmark anonimizado: embudo con pasos suficientes pero mal aplicados al prospecto.",
+        metric: "Funnel",
+      },
+      en: {
+        kindLabel: "Method · Benchmark",
+        title: "Funnel structure",
+        outcome:
+          "Anonymized benchmark finding: enough funnel steps, poorly applied for the prospect.",
+        metric: "Funnel",
+      },
+    },
+  },
+  {
+    id: "method-a11y-contrast",
+    kind: "audit",
+    imagePath: img((i) => i.methodCoworking.a11yContrast),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Método · a11y",
+        title: "Contraste y color",
+        outcome: "Benchmark anonimizado: fallas de contraste que bloquean lectura y confianza.",
+        metric: "WCAG",
+      },
+      en: {
+        kindLabel: "Method · a11y",
+        title: "Contrast & color",
+        outcome: "Anonymized benchmark: contrast failures that block reading and trust.",
+        metric: "WCAG",
+      },
+    },
+  },
+  {
+    id: "method-i18n-gap",
+    kind: "audit",
+    imagePath: img((i) => i.methodCoworking.i18nGap),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Método · i18n",
+        title: "Brecha multilenguaje",
+        outcome: "Benchmark anonimizado: experiencia no preparada para audiencias no locales.",
+        metric: "i18n",
+      },
+      en: {
+        kindLabel: "Method · i18n",
+        title: "Multilingual gap",
+        outcome: "Anonymized benchmark: experience not ready for non-local audiences.",
+        metric: "i18n",
+      },
+    },
+  },
+  {
+    id: "method-service-discovery",
+    kind: "audit",
+    imagePath: img((i) => i.methodCoworking.serviceDiscovery),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Método · Oferta",
+        title: "Servicios poco visibles",
+        outcome: "Benchmark anonimizado: servicios escondidos y poca información al prospecto.",
+        metric: "IA",
+      },
+      en: {
+        kindLabel: "Method · Offer",
+        title: "Hidden services",
+        outcome: "Anonymized benchmark: buried services and thin info for prospects.",
+        metric: "IA",
+      },
+    },
+  },
+  {
+    id: "edu21-heuristic-web",
+    kind: "case",
+    imagePath: img((i) => i.edu21.heuristicWeb),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "radar",
+    copy: {
+      es: {
+        kindLabel: "Edu 21 · E1",
+        title: "Heurística del sitio web",
+        outcome:
+          "Auditoría heurística del sitio Edu 21: hallazgos priorizados para mejorar la experiencia del catálogo y la web.",
+        metric: "Heurística",
+      },
+      en: {
+        kindLabel: "Edu 21 · S1",
+        title: "Website heuristic review",
+        outcome:
+          "Heuristic audit of the Edu 21 site: prioritized findings to improve catalog and web experience.",
+        metric: "Heuristic",
+      },
+    },
+  },
+  {
+    id: "edu21-service-strategy",
+    kind: "case",
+    imagePath: img((i) => i.edu21.serviceStrategy),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Edu 21 · E2",
+        title: "Estrategia de servicios",
+        outcome:
+          "Taller de diseño de servicios Edu 21: estrategia de productos y servicios educativos con método documentado.",
+        metric: "Service design",
+      },
+      en: {
+        kindLabel: "Edu 21 · S2",
+        title: "Service strategy",
+        outcome:
+          "Edu 21 service design workshop: education product/service strategy with documented method.",
+        metric: "Service design",
+      },
+    },
+  },
+  {
+    id: "edu21-sales-pitch",
+    kind: "case",
+    imagePath: img((i) => i.edu21.salesPitch),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Edu 21 · E3",
+        title: "Pitch y herramientas comerciales",
+        outcome:
+          "Simulación de pitch y kit comercial Edu 21: de la estrategia a la conversación de venta.",
+        metric: "Pitch",
+      },
+      en: {
+        kindLabel: "Edu 21 · S3",
+        title: "Pitch & sales tools",
+        outcome:
+          "Edu 21 pitch simulation and commercial kit: from strategy to the sales conversation.",
+        metric: "Pitch",
+      },
+    },
+  },
+  {
+    id: "edu21-storyboard",
+    kind: "case",
+    imagePath: img((i) => i.edu21.storyboard),
+    href: `${ROUTES.consulting}#valor`,
+    bundleId: "ops",
+    copy: {
+      es: {
+        kindLabel: "Edu 21 · Video",
+        title: "Storyboard corporativo",
+        outcome:
+          "Storyboard de video corporativo Edu 21: narrativa visual para enablement y marca.",
+        metric: "Storyboard",
+      },
+      en: {
+        kindLabel: "Edu 21 · Video",
+        title: "Corporate storyboard",
+        outcome:
+          "Edu 21 corporate video storyboard: visual narrative for enablement and brand.",
+        metric: "Storyboard",
+      },
+    },
+  },
+  {
     id: "sura-ia-case",
     kind: "poc",
     imagePath: img((i) => i.sura.iaAutomationDashboard),

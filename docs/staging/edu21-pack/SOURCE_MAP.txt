@@ -1,0 +1,6 @@
+01-heuristic-web <- Resumen Heurística SITIO WEB EDU21.pdf
+02-competitive-benchmark <- Benchmark competencias EDU 21.pdf
+03-service-strategy <- Etapa 2 - EDU 21  Diseño de estrategia de servicios y productos-comprimido.pdf
+04-sales-pitch <- Simulación PITCH - EDU21-compressed.pdf
+05-storyboard <- Storyboard - Video Corporativo.pdf
+06-performance-seo <- Speed Test Report.pdf
