@@ -8,7 +8,7 @@ export default {
       projects: 'Negocios',
       experience: 'Experiencia',
       skills: 'Habilidades',
-      contact: 'Contacto',
+      contact: 'Conversemos',
       designSystem: 'Design System',
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
@@ -16,6 +16,7 @@ export default {
       consulting: 'Consultoría ✦',
       audit: 'Auditoría UX',
       uxtools: 'UX Tools',
+      resources: 'Recursos',
     },
 
     homeTeaser: {
@@ -129,28 +130,29 @@ export default {
     },
 
     valueArsenal: {
-      badge: 'Prueba social navegable',
-      title: 'Evidencia que puedes abrir ahora',
+      badge: 'Recursos',
+      title: 'Recursos que demuestran el método',
       description:
-        'Demos Figma, POCs live, casos SURA/Transvip/Karri y método UX documentado. Cada pieza enlaza a una modalidad de consultoría — explora antes de reservar.',
-      filterAriaLabel: 'Filtrar evidencia',
+        'Demos y casos en formato mockup (sin sandbox confuso). Lentes B2B: elige cómo mirar la evidencia y conversemos con el mismo formulario.',
+      filterAriaLabel: 'Filtrar recursos por servicio B2B',
       filters: {
         all: 'Todo',
-        prototype: 'Prototipos',
-        poc: 'POCs',
-        audit: 'Auditorías',
+        prototype: 'Estrategia',
+        poc: 'Producto + IA',
+        audit: 'Auditoría',
         case: 'Casos',
       },
-      evidenceCount: '{count} piezas listas para revisar',
+      evidenceCount: '{count} recursos listos',
       showingCount: 'Mostrando {visible} de {total}',
-      loadMore: 'Cargar más evidencia',
-      viewProof: 'Abrir evidencia',
+      loadMore: 'Ver más recursos',
+      viewProof: 'Ver pantallas',
+      ctaLead: 'Conversar sobre esto',
       bundleFit: 'Modalidad',
       bundleStripTitle: '¿Listo para el kickoff?',
       bundleStripDescription:
         'Elige modalidad o deja que el árbol te recomiende. Sin precios públicos — alcance y propuesta en la primera sesión (<24 h hábiles).',
-      bundleStripBadge: 'Conversión · SEM/SEO',
-      bundleCta: 'Iniciar onboarding',
+      bundleStripBadge: 'Lead · B2B',
+      bundleCta: 'Escribir al asistente',
       treeCta: 'Encontrar modalidad',
       recommended: 'Recomendada',
     },
@@ -450,14 +452,14 @@ export default {
         cta: 'Continuar con esta modalidad',
       },
       demo: {
-        badge: 'Demos de método',
-        title: 'Prototipos publicados · Figma Sites',
+        badge: 'Recursos · demos',
+        title: 'Pantallas en mockup · sin sandbox',
         description:
-          'Casos demo abiertos: del brief al prototipo navegable. Muestran discovery, sprint, handoff y entregables de propuesta — el mismo estándar del playbook de la landing.',
-        cta: 'Abrir demo publicada',
-        ctaSecondary: 'Abrir en Figma Make',
-        ctaMakeLink: 'Ver archivo editable X | CMS en Figma Make',
-        previewCta: 'Abrir sitio completo',
+          'Experiencia tipo Apple: ves el producto en marcos estáticos. Al solicitar demo o conversar, el mismo formulario inteligente del sitio. Multi-entry B2B por caso.',
+        cta: 'Ver pantallas',
+        ctaSecondary: 'Conversar sobre este caso',
+        ctaMakeLink: 'Archivo editable X | CMS (opcional)',
+        previewCta: 'Ampliar mockup',
         items: {
           'x-cms-n2n': {
             projectName: 'X | CMS',
@@ -562,11 +564,11 @@ export default {
     },
 
     impactStats: {
-      badge: 'Resultados',
-      title: 'Métricas con método detrás',
+      badge: 'Señales de impacto',
+      title: 'Resultados, no ruido de branding',
       description:
-        'Cada KPI nace de un macroproceso aplicado en producción. Pasa el cursor para el spoiler del caso — o entra directo a la fase del framework.',
-      viewPhase: 'Ver fase',
+        'KPIs nacidos de producción (fintech y mobility). Formato strip: valor + contexto — el detalle está en el método y en Recursos.',
+      viewPhase: 'Ver método',
       tapHint: 'Toca para ver contexto',
       tapNavigate: 'Toca de nuevo para abrir la fase',
       stats: [
@@ -793,6 +795,8 @@ export default {
       title: 'Lo que dicen los equipos',
       description:
         'Recomendaciones de LinkedIn de líderes en fintech y movilidad premium con los que colaboré.',
+      linkedInCta: 'Ver perfil en LinkedIn',
+      linkedInHref: 'https://www.linkedin.com/in/rodrigogaete/',
       items: [
         {
           quote:

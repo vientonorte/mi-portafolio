@@ -8,7 +8,7 @@ export default {
       projects: 'Business',
       experience: 'Experience',
       skills: 'Skills',
-      contact: 'Contact',
+      contact: "Let's talk",
       designSystem: 'Design System',
       caseStudies: 'Case Studies',
       process: 'Process',
@@ -16,6 +16,7 @@ export default {
       consulting: 'Consulting ✦',
       audit: 'UX Audits',
       uxtools: 'UX Tools',
+      resources: 'Resources',
     },
 
     homeTeaser: {
@@ -129,28 +130,29 @@ export default {
     },
 
     valueArsenal: {
-      badge: 'Navigable social proof',
-      title: 'Evidence you can open now',
+      badge: 'Resources',
+      title: 'Resources that prove the method',
       description:
-        'Figma demos, live POCs, SURA/Transvip/Karri cases, and documented UX method. Each piece maps to a consulting format — explore before you book.',
-      filterAriaLabel: 'Filter evidence',
+        'Demos and cases as mockups (no confusing sandbox). B2B lenses: pick how you browse evidence and talk through the same intelligent form.',
+      filterAriaLabel: 'Filter resources by B2B service',
       filters: {
         all: 'All',
-        prototype: 'Prototypes',
-        poc: 'POCs',
-        audit: 'Audits',
+        prototype: 'Strategy',
+        poc: 'Product + AI',
+        audit: 'Audit',
         case: 'Cases',
       },
-      evidenceCount: '{count} pieces ready to review',
+      evidenceCount: '{count} resources ready',
       showingCount: 'Showing {visible} of {total}',
-      loadMore: 'Load more evidence',
-      viewProof: 'Open evidence',
+      loadMore: 'Show more resources',
+      viewProof: 'View screens',
+      ctaLead: 'Talk about this',
       bundleFit: 'Format',
       bundleStripTitle: 'Ready for kickoff?',
       bundleStripDescription:
         'Pick a format or let the decision tree recommend one. No public pricing — scope and proposal in the first session (<24 business hours).',
-      bundleStripBadge: 'Conversion · SEM/SEO',
-      bundleCta: 'Start onboarding',
+      bundleStripBadge: 'Lead · B2B',
+      bundleCta: 'Write the assistant',
       treeCta: 'Find the right fit',
       recommended: 'Recommended',
     },
@@ -450,14 +452,14 @@ export default {
         cta: 'Continue with this format',
       },
       demo: {
-        badge: 'Method demos',
-        title: 'Published prototypes · Figma Sites',
+        badge: 'Resources · demos',
+        title: 'Screens as mockups · no sandbox',
         description:
-          'Open demo cases: from brief to navigable prototype. They show discovery, sprint, handoff, and proposal deliverables — the same standard as the landing playbook.',
-        cta: 'Open published demo',
-        ctaSecondary: 'Open in Figma Make',
-        ctaMakeLink: 'View editable X | CMS file in Figma Make',
-        previewCta: 'Open full site',
+          'Apple-style experience: see the product in static frames. Request a demo or talk via the same site-wide intelligent form. Multi-entry B2B per case.',
+        cta: 'View screens',
+        ctaSecondary: 'Talk about this case',
+        ctaMakeLink: 'Editable X | CMS file (optional)',
+        previewCta: 'Expand mockup',
         items: {
           'x-cms-n2n': {
             projectName: 'X | CMS',
@@ -562,11 +564,11 @@ export default {
     },
 
     impactStats: {
-      badge: 'Results',
-      title: 'Metrics backed by method',
+      badge: 'Impact signals',
+      title: 'Results, not branding noise',
       description:
-        'Every KPI comes from a macro-process shipped in production. Hover for the case spoiler — or jump straight into the framework phase.',
-      viewPhase: 'View phase',
+        'KPIs from production (fintech and mobility). Strip format: value + context — depth lives in the method and Resources.',
+      viewPhase: 'View method',
       tapHint: 'Tap to see context',
       tapNavigate: 'Tap again to open phase',
       stats: [
@@ -793,6 +795,8 @@ export default {
       title: 'What teams say',
       description:
         'LinkedIn recommendations from leaders in fintech and premium mobility I worked with.',
+      linkedInCta: 'View LinkedIn profile',
+      linkedInHref: 'https://www.linkedin.com/in/rodrigogaete/',
       items: [
         {
           quote:

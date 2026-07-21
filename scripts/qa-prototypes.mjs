@@ -216,7 +216,7 @@ async function checkConsultoriaDemo(page, consultoria) {
 
 async function expandArsenal(page) {
   await visit(page, '/consultoria');
-  await page.locator('#valor').scrollIntoViewIfNeeded();
+  await page.locator('#recursos').scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 
   // Expand all pages of Arsenal cards (external items are often below the fold).

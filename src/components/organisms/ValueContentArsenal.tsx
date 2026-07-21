@@ -70,9 +70,29 @@ export function ValueContentArsenal({
     { id: "case", label: t.filters.case },
   ];
 
+  const goToLeadForm = (proofId?: string) => {
+    trackEvent("value_arsenal_lead_cta", { proof_id: proofId ?? "section" });
+    if (onStartOnboarding) {
+      onStartOnboarding();
+      return;
+    }
+    if (document.getElementById("contacto")) {
+      scrollToSection("contacto");
+      return;
+    }
+    navigate(ROUTES.home, { state: { scrollTo: "contacto" } });
+  };
+
   const openProof = (id: string, href: string, external?: boolean) => {
-    trackEvent("value_arsenal_view", { proof_id: id });
+    // Apple-style: mock/evidence opens preview; live external only for true prototypes
+    trackEvent("value_arsenal_view", { proof_id: id, mode: "mock_or_route" });
     if (external || href.startsWith("http")) {
+      // Prefer lead path for figma.site demos — mock landing is primary
+      if (href.includes("figma.site")) {
+        trackEvent("demo_mockup_intent", { proof_id: id });
+        goToLeadForm(id);
+        return;
+      }
       window.open(href, "_blank", "noopener,noreferrer");
       return;
     }
@@ -98,16 +118,12 @@ export function ValueContentArsenal({
   };
 
   const scrollToOnboarding = () => {
-    if (onStartOnboarding) {
-      onStartOnboarding();
-      return;
-    }
-    scrollToSection("consultoria-onboarding");
+    goToLeadForm("bundle");
   };
 
   return (
     <PageSection
-      id="valor"
+      id="recursos"
       padding="default"
       width="wide"
       tone="matte"
@@ -174,6 +190,18 @@ export function ValueContentArsenal({
                 layout="horizontal"
                 onView={() => openProof(item.id, href, item.external)}
               />
+              <div className="mt-2 flex justify-end">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary"
+                  onClick={() => goToLeadForm(item.id)}
+                >
+                  {t.ctaLead}
+                  <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+                </Button>
+              </div>
             </li>
           );
         })}

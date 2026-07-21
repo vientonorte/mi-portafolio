@@ -7,7 +7,6 @@ import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { ImpactMetricCard } from "../molecules/ImpactMetricCard";
 import { ROUTES } from "../../lib/routes";
 
 const STAT_STYLES = [
@@ -72,35 +71,47 @@ export function ImpactStats() {
         titleId="impact-stats-heading"
       />
 
-      <div className="metric-card-grid">
+      {/* Strip format — less branding noise, stronger scan (FigJam handoff) */}
+      <ul
+        className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+        role="list"
+      >
         {t.stats.map((stat, index) => {
           const style = STAT_STYLES[index] ?? STAT_STYLES[0];
+          const Icon = style.icon;
 
           return (
-            <motion.div
-              key={stat.processId}
-              {...fadeUp(index * 0.08)}
-              whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
-              className="h-full"
-            >
-              <ImpactMetricCard
-                {...stat}
-                icon={style.icon}
-                valueColor={style.color}
-                iconBg={style.bgColor}
-                viewPhaseLabel={t.viewPhase}
-                tapHint={t.tapHint}
-                tapNavigate={t.tapNavigate}
-                expanded={expandedStats.has(stat.processId)}
-                href={`#${ROUTES.processPhase(stat.processId)}`}
-                onActivate={() =>
+            <motion.li key={stat.processId} {...fadeUp(index * 0.06)}>
+              <button
+                type="button"
+                onClick={() =>
                   handleStatActivate(stat.processId, stat.value, stat.company)
                 }
-              />
-            </motion.div>
+                className="group flex h-full w-full flex-col items-start gap-2 rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-4 text-left transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary min-h-[44px]"
+              >
+                <span
+                  className={`inline-flex h-9 w-9 items-center justify-center rounded-lg ${style.bgColor}`}
+                  aria-hidden
+                >
+                  <Icon className={`h-4 w-4 ${style.color}`} />
+                </span>
+                <span className={`text-2xl font-semibold tracking-tight md:text-3xl ${style.color}`}>
+                  {stat.value}
+                </span>
+                <span className="text-sm font-medium text-foreground leading-snug">
+                  {stat.label}
+                </span>
+                <span className="text-xs text-muted-foreground">{stat.company}</span>
+                {expandedStats.has(stat.processId) && (
+                  <span className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                    {stat.description}
+                  </span>
+                )}
+              </button>
+            </motion.li>
           );
         })}
-      </div>
+      </ul>
     </PageSection>
   );
 }

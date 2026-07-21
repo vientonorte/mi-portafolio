@@ -42,6 +42,7 @@ export function NavDock({ variant }: NavDockProps) {
     designSystem: t.nav.designSystem,
     uxtools: t.nav.uxtools,
     more: t.nav.more,
+    resources: t.nav.resources,
   };
 
   const path = location.pathname.replace(/\/+$/, "") || "/";
@@ -67,10 +68,7 @@ export function NavDock({ variant }: NavDockProps) {
 
   // Spy de sección en home: Inicio vs Contacto (header + dock)
   useEffect(() => {
-    if (!isOnHome) {
-      setHomeSection("inicio");
-      return;
-    }
+    if (!isOnHome) return;
 
     const contact = document.querySelector("#contacto");
     const inicio = document.querySelector("#inicio");
@@ -83,7 +81,6 @@ export function NavDock({ variant }: NavDockProps) {
           setHomeSection("contacto");
           return;
         }
-        // Si no hay contacto en vista, preferir inicio
         const inicioVisible = entries.some(
           (e) => e.target.id === "inicio" && e.isIntersecting
         );

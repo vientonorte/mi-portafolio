@@ -46,7 +46,7 @@ export function SectionHeader({
         id={titleId}
         {...fadeUp}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className={`${alignClass} relative`}
+        className={`${alignClass} relative text-3xl md:text-4xl font-semibold tracking-tight text-foreground`}
       >
         {title}
       </motion.h2>

@@ -104,5 +104,8 @@
     "clean": "rm -rf dist coverage",
     "reset": "npm run clean && npm install",
     "prepare": "husky"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.1.4"
   }
 }

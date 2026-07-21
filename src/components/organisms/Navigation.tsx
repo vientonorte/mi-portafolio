@@ -68,6 +68,7 @@ export function Navigation({
       designSystem: t.nav.designSystem,
       uxtools: t.nav.uxtools,
       more: t.nav.more,
+      resources: t.nav.resources,
     }),
     [t.nav]
   );
@@ -114,10 +115,7 @@ export function Navigation({
 
   // Spy home: Contacto del header activo al llegar a #contacto
   useEffect(() => {
-    if (!isOnHome) {
-      setHomeSection("inicio");
-      return;
-    }
+    if (!isOnHome) return;
     const contact = document.querySelector("#contacto");
     if (!contact) return;
 

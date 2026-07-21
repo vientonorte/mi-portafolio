@@ -1,4 +1,5 @@
-import { ExternalLink, Layers, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Layers, MessageSquare, Sparkles, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
@@ -10,28 +11,44 @@ import {
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
+import { getPortfolioImages } from "../../lib/image-overrides";
+import { scrollToSection } from "../../lib/scroll-to-section";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../lib/routes";
+
+/** Static posters for Apple-style mock demos (no interactive iframe). */
+function demoPoster(id: ConsultoriaDemoId): string {
+  const img = getPortfolioImages();
+  if (id === "gees-propuesta") return img.sura.iaAutomationDashboard;
+  return img.consultoria.xCmsDashboard;
+}
 
 export function ConsultoriaDemoShowcase() {
   const { language } = useLanguage();
+  const navigate = useNavigate();
   const demo = useTranslation(language).consultoria.demo;
-  const opensNewTab =
-    language === "es" ? "se abre en una pestaña nueva" : "opens in a new tab";
+  const [lightbox, setLightbox] = useState<{
+    config: ConsultoriaDemoConfig;
+    title: string;
+  } | null>(null);
 
-  const openPublishedSite = (config: ConsultoriaDemoConfig) => {
-    trackEvent("consultoria_demo_open", {
-      demo_id: config.id,
-      target: "figma_sites",
-    });
-    window.open(config.figmaSitesUrl, "_blank", "noopener,noreferrer");
+  const goLead = (demoId: string) => {
+    trackEvent("consultoria_demo_lead", { demo_id: demoId });
+    setLightbox(null);
+    if (document.getElementById("contacto")) {
+      scrollToSection("contacto");
+      return;
+    }
+    if (document.getElementById("consultoria-onboarding")) {
+      scrollToSection("consultoria-onboarding");
+      return;
+    }
+    navigate(ROUTES.home, { state: { scrollTo: "contacto" } });
   };
 
-  const openMakeFile = (config: ConsultoriaDemoConfig) => {
-    if (!config.figmaMakeUrl) return;
-    trackEvent("consultoria_demo_open", {
-      demo_id: config.id,
-      target: "figma_make",
-    });
-    window.open(config.figmaMakeUrl, "_blank", "noopener,noreferrer");
+  const openMockups = (config: ConsultoriaDemoConfig, title: string) => {
+    trackEvent("demo_mockup_open", { demo_id: config.id });
+    setLightbox({ config, title });
   };
 
   return (
@@ -48,22 +65,25 @@ export function ConsultoriaDemoShowcase() {
           </Badge>
           <h2
             id="consultoria-demo-heading"
-            className="text-2xl md:text-3xl font-semibold tracking-tight"
+            className="text-3xl md:text-4xl font-semibold tracking-tight"
           >
             {demo.title}
           </h2>
-          <p className="max-w-3xl text-muted-foreground">{demo.description}</p>
+          <p className="max-w-3xl text-muted-foreground text-base md:text-lg">
+            {demo.description}
+          </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {CONSULTORIA_DEMOS.map((config) => {
             const item = demo.items[config.id as ConsultoriaDemoId];
             if (!item) return null;
+            const poster = demoPoster(config.id as ConsultoriaDemoId);
 
             return (
               <Card
                 key={config.id}
-                className="overflow-hidden border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-md"
+                className="overflow-hidden border-2 border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-md"
               >
                 <CardContent className="p-0">
                   <div className="grid gap-0 lg:grid-cols-5">
@@ -93,42 +113,48 @@ export function ConsultoriaDemoShowcase() {
                           type="button"
                           size="lg"
                           className="w-full bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
-                          onClick={() => openPublishedSite(config)}
+                          onClick={() => openMockups(config, item.projectName)}
                         >
                           {demo.cta}
-                          <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
                         </Button>
-                        {config.figmaMakeUrl != null && config.figmaMakeUrl !== "" ? (
-                          <Button
-                            type="button"
-                            size="lg"
-                            variant="outline"
-                            className="w-full sm:w-auto"
-                            onClick={() => openMakeFile(config)}
-                          >
-                            {demo.ctaSecondary}
-                            <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
-                          </Button>
-                        ) : null}
+                        <Button
+                          type="button"
+                          size="lg"
+                          variant="outline"
+                          className="w-full sm:w-auto"
+                          onClick={() => goLead(config.id)}
+                        >
+                          <MessageSquare className="mr-2 h-4 w-4" aria-hidden />
+                          {demo.ctaSecondary}
+                        </Button>
                       </div>
                     </div>
 
-                    <div className="lg:col-span-3 relative min-h-[280px] md:min-h-[360px] bg-muted/20">
+                    {/* Static mockup frame — not interactive iframe */}
+                    <div className="lg:col-span-3 relative min-h-[240px] md:min-h-[320px] bg-gradient-to-br from-muted/40 to-background p-4 md:p-6">
                       <button
                         type="button"
-                        onClick={() => openPublishedSite(config)}
-                        className="group absolute inset-0 h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-                        aria-label={`${demo.cta}: ${item.projectName} (${opensNewTab})`}
+                        onClick={() => openMockups(config, item.projectName)}
+                        className="group relative mx-auto flex h-full w-full max-w-lg items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        aria-label={`${demo.cta}: ${item.projectName}`}
                       >
-                        <iframe
-                          title={item.embedTitle}
-                          src={config.figmaSitesUrl}
-                          className="pointer-events-none absolute inset-0 h-full w-full border-0"
-                          loading="lazy"
-                          allowFullScreen
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        <span className="pointer-events-none absolute bottom-4 right-4 rounded-full border border-border/80 bg-background/90 px-3 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-300 group-hover:opacity-100">
+                        <div className="w-full overflow-hidden rounded-xl border-2 border-border/80 bg-background shadow-2xl ring-1 ring-black/5 transition-transform group-hover:scale-[1.01]">
+                          <div className="flex items-center gap-1.5 border-b border-border/60 bg-muted/50 px-3 py-2">
+                            <span className="h-2 w-2 rounded-full bg-destructive/50" />
+                            <span className="h-2 w-2 rounded-full bg-amber-400/60" />
+                            <span className="h-2 w-2 rounded-full bg-emerald-400/60" />
+                            <span className="ml-2 truncate text-[10px] text-muted-foreground">
+                              {item.projectName}
+                            </span>
+                          </div>
+                          <img
+                            src={poster}
+                            alt=""
+                            className="aspect-[16/10] w-full object-cover object-top"
+                            loading="lazy"
+                          />
+                        </div>
+                        <span className="pointer-events-none absolute bottom-3 right-3 rounded-full border border-border/80 bg-background/95 px-3 py-1.5 text-xs font-medium opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
                           {demo.previewCta}
                         </span>
                       </button>
@@ -139,18 +165,54 @@ export function ConsultoriaDemoShowcase() {
             );
           })}
         </div>
+      </div>
 
-        <p className="mt-3 text-center text-xs text-muted-foreground">
+      {lightbox ? (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-background/90 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.title}
+        >
           <button
             type="button"
-            onClick={() => openMakeFile(CONSULTORIA_DEMOS[0])}
-            className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
-            aria-label={`${demo.ctaMakeLink} (${opensNewTab})`}
-          >
-            {demo.ctaMakeLink} →
-          </button>
-        </p>
-      </div>
+            className="absolute inset-0 cursor-default"
+            aria-label="Close"
+            onClick={() => setLightbox(null)}
+          />
+          <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-border bg-card shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <p className="font-semibold">{lightbox.title}</p>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                onClick={() => setLightbox(null)}
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            <img
+              src={demoPoster(lightbox.config.id as ConsultoriaDemoId)}
+              alt=""
+              className="max-h-[70vh] w-full object-contain bg-muted/30"
+            />
+            <div className="flex flex-wrap gap-2 border-t border-border p-4">
+              <Button
+                type="button"
+                className="bg-brand-gradient font-semibold"
+                onClick={() => goLead(lightbox.config.id)}
+              >
+                {demo.ctaSecondary}
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setLightbox(null)}>
+                {language === "es" ? "Cerrar" : "Close"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
