@@ -14,6 +14,9 @@ import { useTranslation } from '../lib/i18n';
 const ValueContentArsenal = lazy(() =>
   import('../components/organisms/ValueContentArsenal').then((m) => ({ default: m.ValueContentArsenal }))
 );
+const HomePackagesStrip = lazy(() =>
+  import('../components/organisms/HomePackagesStrip').then((m) => ({ default: m.HomePackagesStrip }))
+);
 const AboutTeaser = lazy(() =>
   import('../components/organisms/AboutTeaser').then((m) => ({ default: m.AboutTeaser }))
 );
@@ -56,8 +59,7 @@ const Home = () => {
       {/* Negocios / Impacto por empresa: hub completo en /proyectos (nav). Evita duplicar SURA/Transvip/Karri en home. */}
       <Suspense fallback={<BelowFoldFallback />}>
         <ValueContentArsenal />
-      </Suspense>
-      <Suspense fallback={<BelowFoldFallback />}>
+        <HomePackagesStrip />
         <AboutTeaser />
         <Testimonials />
         <Contact />

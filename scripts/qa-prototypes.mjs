@@ -176,47 +176,50 @@ async function checkConsultoriaDemo(page, consultoria) {
   await page.waitForTimeout(800);
 
   const errors = [];
-  const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
   const siteUrls = consultoria.figmaSitesUrls?.length
     ? consultoria.figmaSitesUrls
     : [consultoria.figmaSitesUrl].filter(Boolean);
 
-  for (const siteUrl of siteUrls) {
-    if (!haystack.includes(urlNeedle(siteUrl))) {
-      errors.push(`iframe/link Figma Sites ausente: ${urlNeedle(siteUrl)}`);
-    }
+  // Apple-style mock demos: static posters + CTAs (no interactive Figma iframe)
+  const posters = page.locator('#consultoria-demo img');
+  if ((await posters.count()) < siteUrls.length) {
+    errors.push(`mockups: esperados ≥${siteUrls.length} imgs, hay ${await posters.count()}`);
   }
 
-  const primary = page.getByRole('button', { name: /demo publicada|published demo|abrir demo|open demo/i });
+  // Exact CTAs (avoid poster buttons whose aria-label also contains "Ver pantallas: …")
+  const primary = page.locator('#consultoria-demo').getByRole('button', {
+    name: /^(Ver pantallas|View screens)$/i,
+  });
   if ((await primary.count()) < siteUrls.length) {
-    errors.push(`CTA principal demo: esperados ≥${siteUrls.length}, hay ${await primary.count()}`);
+    errors.push(`CTA mockup: esperados ≥${siteUrls.length}, hay ${await primary.count()}`);
   }
 
-  const secondary = page.getByRole('button', { name: /figma make/i });
-  if ((await secondary.count()) === 0) errors.push('CTA secundario Figma Make no encontrado');
+  const leadCta = page.locator('#consultoria-demo').getByRole('button', {
+    name: /conversar sobre|talk about this/i,
+  });
+  if ((await leadCta.count()) === 0) {
+    errors.push('CTA lead (form transversal) no encontrado en demos');
+  }
 
   if (errors.length === 0) {
-    await page.evaluate(() => {
-      window.__openedUrls = [];
-      window.open = (url) => {
-        window.__openedUrls.push(String(url));
-        return null;
-      };
-    });
-    await secondary.first().click();
-    await page.waitForTimeout(300);
-    const opened = await page.evaluate(() => window.__openedUrls ?? []);
-    if (!opened.some((u) => u.includes('figma.com/make'))) {
-      errors.push('click Figma Make no abrió URL esperada');
+    await primary.first().click();
+    await page.waitForTimeout(600);
+    const dialog = page.locator('#consultoria-demo-lightbox, [data-demo-lightbox], [role="dialog"]');
+    if ((await dialog.count()) === 0) {
+      errors.push('lightbox mockup no abrió al ver pantallas');
+    } else {
+      await page.locator('[data-demo-lightbox-close], [role="dialog"] button').filter({ hasText: /cerrar|close/i }).first().click({ timeout: 3000 }).catch(async () => {
+        await page.keyboard.press('Escape');
+      });
     }
   }
 
-  return { label: 'Consultoría demos Figma Sites', ok: errors.length === 0, errors };
+  return { label: 'Consultoría demos mock (Apple-style)', ok: errors.length === 0, errors };
 }
 
 async function expandArsenal(page) {
   await visit(page, '/consultoria');
-  await page.locator('#valor').scrollIntoViewIfNeeded();
+  await page.locator('#recursos').scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 
   // Expand all pages of Arsenal cards (external items are often below the fold).

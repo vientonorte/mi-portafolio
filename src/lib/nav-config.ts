@@ -3,6 +3,7 @@ import {
   ClipboardCheck,
   FolderOpen,
   Home,
+  Layers,
   Mail,
   Sparkles,
   User,
@@ -25,11 +26,12 @@ export type NavItemId =
   | "contacto"
   | "sobre-mi"
   | "design-system"
-  | "uxtools";
+  | "uxtools"
+  | "recursos";
 
 export type DockNavItemId = Extract<
   NavItemId,
-  "inicio" | "negocios" | "consultoria" | "proceso" | "contacto"
+  "inicio" | "consultoria" | "contacto"
 >;
 
 /** Slot central elevado del dock (liquid CTA → consultoría). */
@@ -55,6 +57,7 @@ export interface NavLabels {
   designSystem: string;
   uxtools: string;
   more: string;
+  resources: string;
 }
 
 export interface NavRegistryItem {
@@ -63,27 +66,37 @@ export interface NavRegistryItem {
   labelKey: keyof NavLabels | "process";
 }
 
+/** Ancla home de la sección Recursos (ex-valor / arsenal). */
+export const RECURSOS_SECTION_ID = "recursos";
+
 /**
- * Design thinking — dock (5 slots, thumb zone):
- * - Inicio / Negocios → recruiter + work-first
- * - Consultoría (centro liquid) → conversión principal
- * - Proceso → método UX
- * - Contacto → cierre
- * Experiencia y auditoría siguen en header / drawer / hero search.
- * Plantillas premium emprendedores: fuera de alcance (próxima sesión).
+ * Landing “reduce el ruido” (FigJam handoff 2026-07-21):
+ * - Header: 2 primarios (Recursos + Contacto) + logo; resto en Más
+ * - Dock: 3 slots — Inicio | Consultoría (centro) | Contacto
+ * Multi-entry: Recursos (demos/mockups), Consultoría (método), Contacto (form)
  */
 export const NAV_SURFACE = {
-  dock: ["inicio", "negocios", "consultoria", "proceso", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["negocios", "experiencia", "consultoria", "proceso", "contacto"] as const,
-  headerMore: ["sobre-mi", "auditoria", "design-system", "uxtools"] as const,
-  mobileDrawer: [
-    "inicio",
+  dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
+  headerPrimary: ["recursos", "contacto"] as const,
+  headerMore: [
     "negocios",
     "experiencia",
     "consultoria",
-    "auditoria",
     "proceso",
+    "sobre-mi",
+    "auditoria",
+    "design-system",
+    "uxtools",
+  ] as const,
+  mobileDrawer: [
+    "inicio",
+    "recursos",
     "contacto",
+    "consultoria",
+    "negocios",
+    "experiencia",
+    "proceso",
+    "auditoria",
     "sobre-mi",
     "design-system",
     "uxtools",
@@ -101,6 +114,7 @@ const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
   "sobre-mi": { id: "sobre-mi", icon: User, labelKey: "about" },
   "design-system": { id: "design-system", icon: FolderOpen, labelKey: "designSystem" },
   uxtools: { id: "uxtools", icon: Sparkles, labelKey: "uxtools" },
+  recursos: { id: "recursos", icon: Layers, labelKey: "resources" },
 };
 
 export function getNavItemLabel(
@@ -115,6 +129,12 @@ export function getNavItemLabel(
 
 function getStaticNavAction(id: NavItemId): NavAction {
   switch (id) {
+    case "recursos":
+      return {
+        kind: "anchor",
+        target: `#${RECURSOS_SECTION_ID}`,
+        homeRoute: ROUTES.home,
+      };
     case "negocios":
       return { kind: "route", target: ROUTES.projects };
     case "experiencia":
@@ -153,6 +173,13 @@ export function getDockNavAction(id: DockNavItemId, variant: "home" | "deep"): N
 export function getHeaderNavAction(id: NavItemId): NavAction {
   if (id === "contacto") {
     return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
+  }
+  if (id === "recursos") {
+    return {
+      kind: "anchor",
+      target: `#${RECURSOS_SECTION_ID}`,
+      homeRoute: ROUTES.home,
+    };
   }
   return getStaticNavAction(id);
 }
@@ -346,6 +373,10 @@ export function matchNavItemActive(
     return normalized === "/sobre-mi";
   }
 
+  if (item.id === "recursos") {
+    if (onHome) return false; // spy no cubre #recursos; sin highlight sticky
+    return normalized === ROUTES.consulting;
+  }
   if (item.id === "negocios") return isProjectsPath(normalized);
   if (item.id === "proceso") return isProcessPath(normalized);
   if (item.id === "auditoria") return normalized === ROUTES.audit;

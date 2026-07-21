@@ -3,9 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Tailwind v4 theme: map sans → Chillax so utilities + preflight use brand font */
+@theme {
+  --font-sans: "Chillax", ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
   --font-size: 16px;
-  --font-chillax: 'Chillax', sans-serif;
+  /* Brand type — must win over Tailwind default system sans */
+  --font-chillax: "Chillax", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-chillax);
   
   /* ============================================
    * REGLA 70-20-10 PARA COLORES
@@ -220,13 +227,23 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased;
+  html {
+    scroll-behavior: smooth;
     font-family: var(--font-chillax);
   }
 
-  html {
-    scroll-behavior: smooth;
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+    font-family: var(--font-chillax);
+  }
+
+  /* Headings always Chillax (even if utilities touch color/align) */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-chillax);
   }
 

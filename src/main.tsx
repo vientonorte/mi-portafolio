@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import App from './App';
+/* Self-hosted Chillax first — reliable on http://127.0.0.1 preview */
+import './styles/chillax-local.css';
 import './styles/globals.css';
 import './styles/global.css';
 import './styles/design-system.css';

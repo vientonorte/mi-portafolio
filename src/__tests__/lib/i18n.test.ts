@@ -32,23 +32,28 @@ describe('translations', () => {
         expect(hero).toHaveProperty('headlineLead');
         expect(hero).toHaveProperty('headlineFocus');
         expect(hero.unifiedBanner).toHaveProperty('groupLabel');
-        expect(hero.unifiedBanner.tabs).toHaveProperty('negocios');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('recursos');
+        expect(hero.unifiedBanner.tabs).toHaveProperty('consultoria');
         expect(hero.unifiedBanner.tabs).toHaveProperty('contacto');
-        expect(hero.unifiedBanner.tabs).toHaveProperty('auditorias');
         expect(hero.unifiedBanner).toHaveProperty('searchPlaceholder');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsCount');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsActive');
         // X | CMS + GEES + contacto + auditoría (mín. 3; crece con demos)
         expect(hero.unifiedBanner.suggestions.length).toBeGreaterThanOrEqual(3);
         expect(hero.unifiedBanner.suggestions.map((s) => s.id)).toEqual(
-          expect.arrayContaining(['negocios-demo', 'negocios-gees', 'contacto-perfil', 'auditoria-freemium'])
+          expect.arrayContaining(['recursos-home', 'consultoria-metodo', 'contacto-hablar'])
         );
-        expect(hero.unifiedBanner.panels.negocios).toHaveProperty('composerHint');
-        expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.tabs).toMatchObject({
+          recursos: expect.any(String),
+          consultoria: expect.any(String),
+          contacto: expect.any(String),
+        });
+        expect(hero.unifiedBanner.panels.recursos).toHaveProperty('composerHint');
+        expect(hero.unifiedBanner.panels.recursos).toHaveProperty('ctaPrimary');
+        expect(hero.unifiedBanner.panels.consultoria).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');
-        expect(hero.unifiedBanner.panels.auditorias).toHaveProperty('privacyNote');
         expect(nav).toHaveProperty('consulting');
-        expect(nav).toHaveProperty('audit');
+        expect(nav).toHaveProperty('resources');
         expect(nav).toHaveProperty('uxtools');
       });
 

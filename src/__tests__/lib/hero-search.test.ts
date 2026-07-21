@@ -3,48 +3,48 @@ import { filterHeroSuggestions } from "@/lib/hero-search";
 
 const suggestions = [
   {
-    id: "negocios-demo",
-    category: "negocios" as const,
-    title: "Demo X | CMS",
-    hint: "Caso N2N",
-    badge: "Demo",
-    keywords: ["demo", "sem", "seo"],
-    href: "section/consultoria/consultoria-demo",
+    id: "recursos-home",
+    category: "recursos" as const,
+    title: "Ver recursos",
+    hint: "Mockups",
+    badge: "Recursos",
+    keywords: ["recursos", "demo"],
+    href: "path/#recursos",
   },
   {
-    id: "contacto-perfil",
+    id: "consultoria-metodo",
+    category: "consultoria" as const,
+    title: "Método",
+    hint: "N2N",
+    badge: "Consultoría",
+    keywords: ["consultoría", "n2n"],
+    href: "route/consultoria",
+  },
+  {
+    id: "contacto-hablar",
     category: "contacto" as const,
-    title: "Perfil · UX Lead",
-    hint: "CV y experiencia",
-    badge: "Perfil",
-    keywords: ["perfil", "linkedin", "reclutadores"],
-    href: "section/sobre-mi/experiencia",
-  },
-  {
-    id: "auditoria-freemium",
-    category: "auditorias" as const,
-    title: "Auditoría UX gratuita",
-    hint: "Freemium",
-    badge: "Auditoría UX",
-    keywords: ["auditoría", "leads", "negocios"],
-    href: "route/auditoria",
+    title: "Conversemos",
+    hint: "Form",
+    badge: "Contacto",
+    keywords: ["contacto", "lead"],
+    href: "path/#contacto",
   },
 ];
 
 describe("filterHeroSuggestions", () => {
-  it("returns one suggestion per business line by default", () => {
+  it("returns one suggestion per multi-entry line by default", () => {
     const result = filterHeroSuggestions(suggestions);
     expect(result).toHaveLength(3);
     expect(result.map((item) => item.id)).toEqual([
-      "negocios-demo",
-      "contacto-perfil",
-      "auditoria-freemium",
+      "recursos-home",
+      "consultoria-metodo",
+      "contacto-hablar",
     ]);
   });
 
   it("filters lines by query while keeping one case per line", () => {
-    const result = filterHeroSuggestions(suggestions, { query: "linkedin" });
+    const result = filterHeroSuggestions(suggestions, { query: "lead" });
     expect(result).toHaveLength(1);
-    expect(result[0]?.id).toBe("contacto-perfil");
+    expect(result[0]?.id).toBe("contacto-hablar");
   });
 });

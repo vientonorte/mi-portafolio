@@ -38,9 +38,9 @@ interface HeroIntelligentSearchProps {
 }
 
 const CATEGORY_ICONS: Record<HeroSearchCategory, LucideIcon> = {
-  negocios: Briefcase,
+  recursos: Briefcase,
+  consultoria: ClipboardCheck,
   contacto: Mail,
-  auditorias: ClipboardCheck,
 };
 
 export function heroSuggestionOptionId(listboxId: string, suggestionId: string): string {

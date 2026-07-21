@@ -45,12 +45,12 @@ const PROJECT_IDS = [
 ];
 
 const SECTION_CHECKS = [
-  { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
+  { path: '/', sectionId: 'recursos', label: 'Home #recursos', lazy: true },
   { path: '/consultoria', sectionId: 'metodo-n2n', label: 'Consultoría #metodo-n2n' },
   { path: '/consultoria', sectionId: 'offline-private', label: 'Consultoría #offline-private' },
   { path: '/consultoria', sectionId: 'practicas', label: 'Consultoría #practicas' },
   { path: '/consultoria', sectionId: 'partner-educacion', label: 'Consultoría #partner-educacion' },
-  { path: '/consultoria', sectionId: 'valor', label: 'Consultoría #valor' },
+  { path: '/consultoria', sectionId: 'recursos', label: 'Consultoría #recursos' },
   { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
   { path: '/consultoria', sectionId: 'cotizador', label: 'Consultoría #cotizador' },
   { path: '/consultoria', sectionId: 'arbol', label: 'Consultoría #arbol' },

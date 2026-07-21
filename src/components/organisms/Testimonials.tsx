@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
-import { Quote } from "lucide-react";
+import { ExternalLink, Quote } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -57,6 +58,19 @@ export function Testimonials() {
               </Card>
             </motion.article>
           ))}
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <Button variant="outline" size="lg" asChild className="min-h-[44px]">
+            <a
+              href={t.linkedInHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t.linkedInCta}
+              <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
+            </a>
+          </Button>
         </div>
     </PageSection>
   );

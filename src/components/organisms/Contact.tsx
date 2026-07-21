@@ -29,6 +29,7 @@ import {
   readContactSession,
   writeContactSession,
 } from "../../lib/contact-draft-storage";
+import { consumeLeadIntent } from "../../lib/lead-intent";
 
 const socialLinks = [
   {
@@ -43,8 +44,9 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
   const t = useTranslation(language).contact;
 
   const sessionSnapshot = readContactSession();
+  /** Landing reduce ruido: default to form (not assistant) */
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
+    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "form")
   );
   const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
     name: sessionSnapshot?.name ?? "",
@@ -58,6 +60,15 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Prefill from package/demo CTAs (once per mount)
+  useEffect(() => {
+    const intent = consumeLeadIntent();
+    if (intent) {
+      setSharedMessage((prev) => (prev.trim() ? prev : intent));
+      setActiveTab("form");
+    }
+  }, []);
 
   useEffect(() => {
     if (persistTimer.current) clearTimeout(persistTimer.current);
