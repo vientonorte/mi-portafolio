@@ -2,56 +2,59 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { HeroIntelligentSearch, heroSuggestionOptionId } from "@/components/molecules/HeroIntelligentSearch";
+import {
+  HeroIntelligentSearch,
+  heroSuggestionOptionId,
+} from "@/components/molecules/HeroIntelligentSearch";
 import type { HeroSearchSuggestion } from "@/lib/hero-search";
 
 const suggestions: HeroSearchSuggestion[] = [
   {
-    id: "negocios-demo",
-    category: "negocios",
-    title: "Demo X | CMS",
-    hint: "Del brief al prototipo publicado",
-    badge: "Demo",
-    keywords: ["demo"],
-    href: "section/consultoria/consultoria-demo",
+    id: "recursos-home",
+    category: "recursos",
+    title: "Ver recursos y demos",
+    hint: "Mockups",
+    badge: "Recursos",
+    keywords: ["recursos"],
+    href: "path/#recursos",
   },
   {
-    id: "contacto-perfil",
+    id: "contacto-hablar",
     category: "contacto",
-    title: "Experiencia y trayectoria",
-    hint: "Rol UX Lead",
-    badge: "Experiencia",
-    keywords: ["perfil"],
-    href: "section/sobre-mi/experiencia",
+    title: "Conversemos",
+    hint: "Form",
+    badge: "Contacto",
+    keywords: ["contacto"],
+    href: "path/#contacto",
   },
 ];
 
 const panels = {
-  negocios: {
-    badge: "Negocios",
-    description: "Casos con evidencia",
-    highlights: ["SURA"],
+  recursos: {
+    badge: "Recursos",
+    description: "Mockups",
+    highlights: ["Demos"],
     metrics: [],
-    ctaPrimary: "Ver caso",
-    ctaSecondary: "Ver todos",
+    ctaPrimary: "Ir a recursos",
+    ctaSecondary: "Demos",
+    composerHint: "",
+  },
+  consultoria: {
+    badge: "Consultoría",
+    description: "N2N",
+    highlights: ["Método"],
+    metrics: [],
+    ctaPrimary: "Abrir",
+    ctaSecondary: "Proceso",
     composerHint: "",
   },
   contacto: {
     badge: "Contacto",
-    description: "Perfil profesional",
-    highlights: ["CV"],
+    description: "Form",
+    highlights: ["Lead"],
     metrics: [],
-    ctaPrimary: "Ver perfil",
-    ctaSecondary: "Contactar",
-    composerHint: "",
-  },
-  auditorias: {
-    badge: "Auditoría",
-    description: "WCAG checklist",
-    highlights: ["AA"],
-    metrics: [],
-    ctaPrimary: "Ver auditoría",
-    ctaSecondary: "Consultoría",
+    ctaPrimary: "Ir a contacto",
+    ctaSecondary: "Perfil",
     composerHint: "",
   },
 } as const;
@@ -61,13 +64,17 @@ function renderSearch() {
     <MemoryRouter>
       <HeroIntelligentSearch
         groupLabel="¿Qué buscas?"
-        searchPlaceholder="Buscar casos"
+        searchPlaceholder="Buscar"
         searchAriaLabel="Buscador inteligente del portafolio"
         suggestionsLabel="Sugerencias"
         noResults="Sin coincidencias"
         liveSuggestionsCount="{{count}} sugerencias disponibles"
         liveSuggestionsActive="{{count}} sugerencias. {{title}}, {{hint}}"
-        tabs={{ negocios: "Negocios", contacto: "Contacto", auditorias: "Auditorías" }}
+        tabs={{
+          recursos: "Recursos",
+          consultoria: "Consultoría",
+          contacto: "Contacto",
+        }}
         panels={panels}
         suggestions={suggestions}
         onPrimaryAction={() => undefined}
@@ -93,11 +100,11 @@ describe("HeroIntelligentSearch a11y", () => {
     const listbox = screen.getByRole("listbox", { name: /sugerencias/i });
     expect(listbox).toBeInTheDocument();
 
-    const firstOptionId = heroSuggestionOptionId(listbox.id, "negocios-demo");
+    const firstOptionId = heroSuggestionOptionId(listbox.id, "recursos-home");
     expect(combobox).toHaveAttribute("aria-activedescendant", firstOptionId);
 
     await user.keyboard("{ArrowDown}");
-    const secondOptionId = heroSuggestionOptionId(listbox.id, "contacto-perfil");
+    const secondOptionId = heroSuggestionOptionId(listbox.id, "contacto-hablar");
     expect(combobox).toHaveAttribute("aria-activedescendant", secondOptionId);
   });
 
@@ -106,7 +113,7 @@ describe("HeroIntelligentSearch a11y", () => {
     renderSearch();
 
     await user.click(screen.getByRole("combobox", { name: /qué buscas/i }));
-    expect(screen.getByText(/sugerencias\. demo x \| cms/i)).toBeInTheDocument();
+    expect(screen.getByText(/sugerencias\. ver recursos/i)).toBeInTheDocument();
   });
 
   it("uses text input with search hints instead of type=search", () => {

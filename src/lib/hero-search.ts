@@ -1,4 +1,5 @@
-export type HeroSearchCategory = "negocios" | "contacto" | "auditorias";
+/** Multi-entry lines for landing “reduce el ruido” (FigJam). */
+export type HeroSearchCategory = "recursos" | "consultoria" | "contacto";
 
 export interface HeroSearchSuggestion {
   id: string;
@@ -10,7 +11,7 @@ export interface HeroSearchSuggestion {
   href: string;
 }
 
-const CATEGORY_ORDER: HeroSearchCategory[] = ["negocios", "contacto", "auditorias"];
+const CATEGORY_ORDER: HeroSearchCategory[] = ["recursos", "consultoria", "contacto"];
 
 function normalize(value: string): string {
   return value
@@ -19,16 +20,21 @@ function normalize(value: string): string {
     .replace(/\p{M}/gu, "");
 }
 
-/** Una sugerencia por línea de negocio; filtra por query sin ocultar las otras líneas. */
+/** Una sugerencia por línea de entrada; filtra por query sin ocultar las otras líneas. */
 export function filterHeroSuggestions(
   suggestions: HeroSearchSuggestion[],
   options: { query?: string } = {}
 ): HeroSearchSuggestion[] {
   const normalizedQuery = normalize(options.query?.trim() ?? "");
-  const bestByCategory = new Map<HeroSearchCategory, { item: HeroSearchSuggestion; score: number }>();
+  const bestByCategory = new Map<
+    HeroSearchCategory,
+    { item: HeroSearchSuggestion; score: number }
+  >();
 
   for (const item of suggestions) {
-    const haystack = normalize([item.title, item.hint, item.badge ?? "", ...item.keywords].join(" "));
+    const haystack = normalize(
+      [item.title, item.hint, item.badge ?? "", ...item.keywords].join(" ")
+    );
     const score = !normalizedQuery
       ? 1
       : haystack.includes(normalizedQuery)

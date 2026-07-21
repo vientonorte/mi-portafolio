@@ -7,6 +7,7 @@ import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
+import { CompanyLogoFromName } from "../atoms/CompanyLogoFromName";
 import { ROUTES } from "../../lib/routes";
 
 const STAT_STYLES = [
@@ -70,6 +71,21 @@ export function ImpactStats() {
         description={t.description}
         titleId="impact-stats-heading"
       />
+
+      {/* Client wordmarks — matte, not marketing cards (FigJam R1) */}
+      <div
+        className="mb-6 flex flex-wrap items-center justify-center gap-3 md:gap-4"
+        aria-label={language === "es" ? "Clientes" : "Clients"}
+      >
+        {(["SURA Investments", "Transvip", "Karri"] as const).map((company) => (
+          <div
+            key={company}
+            className="rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated px-2 py-1"
+          >
+            <CompanyLogoFromName company={company} size="wordmark-sm" flat />
+          </div>
+        ))}
+      </div>
 
       {/* Strip format — less branding noise, stronger scan (FigJam handoff) */}
       <ul

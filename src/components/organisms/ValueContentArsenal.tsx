@@ -21,6 +21,7 @@ import { ROUTES } from "../../lib/routes";
 import { trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { goToContactWithIntent } from "../../lib/lead-intent";
 
 type FilterId = "all" | ValueProofKind;
 
@@ -76,8 +77,12 @@ export function ValueContentArsenal({
       onStartOnboarding();
       return;
     }
+    const msg =
+      language === "es"
+        ? `Hola — vi el recurso «${proofId ?? "landing"}» y quiero conversar sobre alcance.`
+        : `Hi — I saw the «${proofId ?? "landing"}» resource and want to talk scope.`;
     if (document.getElementById("contacto")) {
-      scrollToSection("contacto");
+      goToContactWithIntent(scrollToSection, msg);
       return;
     }
     navigate(ROUTES.home, { state: { scrollTo: "contacto" } });

@@ -33,9 +33,10 @@ export function navigateFeaturedPath(
     case "path": {
       const [pathname, sectionId] = id.split("#");
       if (sectionId) {
-        navigateToPageSection(navigate, `/${pathname}`, sectionId, currentPath);
+        const dest = pathname && pathname !== "" ? `/${pathname.replace(/^\//, "")}` : "/";
+        navigateToPageSection(navigate, dest, sectionId, currentPath);
       } else {
-        navigate(`/${id}`);
+        navigate(id ? `/${id}` : ROUTES.home);
       }
       break;
     }

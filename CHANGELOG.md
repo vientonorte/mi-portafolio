@@ -5,6 +5,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-21] — Landing reduce ruido · sprints FigJam · Chillax self-host
+
+### Added
+- Self-hosted **Chillax** (`public/fonts/chillax` + `chillax-local.css`) — fiable en `127.0.0.1` preview.
+- Hero multi-entry: **Recursos · Consultoría · Contacto**.
+- Home **Modalidades** (`HomePackagesStrip`) → form con prefill (`lead-intent`).
+- Logos clientes matte bajo Resultados; form contacto default **form**.
+- Docs: `docs/FONTS-CHILLAX.md`, vault sprint plan S0–S7.
+
+### Changed
+- Nav 2 + dock 3; badge/h3 en secciones; demos mock no iframe.
+- KPI strip; copy Resultados / Recursos limpio.
+
+---
+
 ## [2026-07-21] — Demo GEES en consultoría
 
 ### Added

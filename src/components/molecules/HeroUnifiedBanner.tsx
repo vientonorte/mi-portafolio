@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import { trackEvent } from "../../lib/analytics";
 
-export type HeroBannerCategory = "negocios" | "contacto" | "auditorias";
+export type HeroBannerCategory = "recursos" | "consultoria" | "contacto";
 
 export interface HeroBannerMetric {
   value: string;
@@ -39,12 +39,12 @@ interface HeroUnifiedBannerProps {
   onSecondaryAction: (category: HeroBannerCategory) => void;
 }
 
-const CATEGORY_ORDER: HeroBannerCategory[] = ["negocios", "contacto", "auditorias"];
+const CATEGORY_ORDER: HeroBannerCategory[] = ["recursos", "consultoria", "contacto"];
 
 const CATEGORY_ICONS: Record<HeroBannerCategory, LucideIcon> = {
-  negocios: Briefcase,
+  recursos: Briefcase,
+  consultoria: ClipboardCheck,
   contacto: Mail,
-  auditorias: ClipboardCheck,
 };
 
 export function HeroUnifiedBanner({
@@ -54,7 +54,7 @@ export function HeroUnifiedBanner({
   onPrimaryAction,
   onSecondaryAction,
 }: HeroUnifiedBannerProps) {
-  const [active, setActive] = useState<HeroBannerCategory>("negocios");
+  const [active, setActive] = useState<HeroBannerCategory>("recursos");
   const prefersReducedMotion = useReducedMotion();
   const panel = panels[active];
   const ActiveIcon = CATEGORY_ICONS[active];

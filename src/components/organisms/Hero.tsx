@@ -36,41 +36,34 @@ export function Hero({ onNavigateToCaseStudies }: HeroProps) {
 
   const handlePrimaryAction = (category: HeroBannerCategory) => {
     switch (category) {
-      case "negocios":
+      case "recursos":
         analytics.clickViewProjects();
-        navigate(ROUTES.projects);
+        if (onHome) scrollToSection("#recursos");
+        else navigate(ROUTES.home, { state: { scrollTo: "recursos" } });
+        break;
+      case "consultoria":
+        analytics.clickHeroAuditLeads();
+        navigate(ROUTES.consulting);
         break;
       case "contacto":
         analytics.clickContact();
-        if (onHome) {
-          scrollToSection("#contacto");
-        } else {
-          navigate(ROUTES.contact);
-        }
-        break;
-      case "auditorias":
-        analytics.clickHeroFreeAudit();
-        navigate(ROUTES.audit);
+        if (onHome) scrollToSection("#contacto");
+        else navigate(ROUTES.contact);
         break;
     }
   };
 
   const handleSecondaryAction = (category: HeroBannerCategory) => {
     switch (category) {
-      case "negocios":
-        analytics.clickCaseStudies();
+      case "recursos":
+        navigate(ROUTES.consulting, { state: { scrollTo: "consultoria-demo" } });
+        break;
+      case "consultoria":
         onNavigateToCaseStudies?.();
         break;
       case "contacto":
-        if (onHome) {
-          scrollToSection("#sobre-mi");
-        } else {
-          navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
-        }
-        break;
-      case "auditorias":
-        analytics.clickHeroAuditLeads();
-        navigate(ROUTES.consulting);
+        if (onHome) scrollToSection("#sobre-mi");
+        else navigateToPageSection(navigate, "/sobre-mi", "sobre-mi", location.pathname);
         break;
     }
   };
