@@ -206,12 +206,16 @@ async function expandArsenal(page) {
   await page.locator('#valor').scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 
-  const loadMore = page.getByRole('button', { name: /cargar más|load more/i });
-  for (let i = 0; i < 12; i++) {
+  // Expand all pages of Arsenal cards (external items are often below the fold).
+  const loadMore = page.getByRole('button', { name: /cargar más|load more|ver más|show more/i });
+  for (let i = 0; i < 40; i++) {
     if (!(await loadMore.isVisible().catch(() => false))) break;
+    if (!(await loadMore.isEnabled().catch(() => false))) break;
     await loadMore.click();
-    await page.waitForTimeout(350);
+    await page.waitForTimeout(400);
   }
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(500);
 }
 
 async function checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles) {
@@ -239,14 +243,27 @@ async function checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles) 
       window.__openedUrls = [];
     });
 
-    const article = page.locator('article').filter({
-      has: page.getByRole('heading', { name: title, level: 3 }),
+    // Prefer article+h3; fall back to any heading/text match for the card title.
+    let article = page.locator('article').filter({
+      has: page.getByRole('heading', { name: title, exact: false }),
     });
+    if ((await article.count()) === 0) {
+      article = page.locator('article').filter({ has: page.getByText(title, { exact: false }) });
+    }
+    if ((await article.count()) === 0) {
+      // Last resort: scroll all articles into view after extra expand
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(300);
+      article = page.locator('article').filter({
+        has: page.getByRole('heading', { name: title, exact: false }),
+      });
+    }
     if ((await article.count()) === 0) {
       results.push({ label, ok: false, errors: [`card no visible: "${title}"`] });
       continue;
     }
 
+    await article.first().scrollIntoViewIfNeeded();
     await article.first().getByRole('button').first().click();
     await page.waitForTimeout(400);
     const opened = await page.evaluate(() => window.__openedUrls ?? []);
