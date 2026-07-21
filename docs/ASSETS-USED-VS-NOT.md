@@ -1,21 +1,24 @@
 # Inventario · qué se usa y qué no
 
-**Actualizado:** 2026-07-21  
-**Repo:** `mi-portafolio`  
-**Criterio “en uso”:** referenciado en `src/` (urls, registry, arsenal, logos) o servido como recurso de producto.
+**Actualizado:** 2026-07-21 · **sesión cerrada**  
+**Ship:** PR #118 + **#119** en `main` · Pages smoke 200  
+**Prod:** https://vientonorte.github.io/mi-portafolio/  
+**Cierre vault:** `Viento Norte/Sprints/2026-07-21 CIERRE landing assets.md`  
+**Criterio “en uso”:** referenciado en `src/` o servido como recurso de producto.
 
 ---
 
 ## 1 · Resumen ejecutivo
 
-| Capa | En uso (producto) | Staging / no público | Solo iCloud (no en repo) |
-|------|-------------------|----------------------|---------------------------|
-| `public/images/**` | **43** PNG/SVG | 0 | — |
-| `public/resources/**` PDF | **4** UX Tools | 0 | — |
-| Arsenal cards | **34** items | — | — |
-| Edu 21 pack | **6** en `public/cases/edu21/` · **4** en arsenal | espejo `docs/staging/` | ~243 en Asesorías |
-| Asesorías resto | 0 | 0 | ~912 (default privado) |
-| `src/assets` hash | **39** (build `figma:asset`) | espejo archive local | — |
+| Capa | En uso (producto) | Staging / espejo | Solo iCloud |
+|------|-------------------|------------------|------------|
+| `public/images/**` | GEES, UX Tools, method/coworking, cases/edu21, brands, SURA/TV/Karri… | — | — |
+| `public/resources/**` PDF | **4** UX Tools | — | — |
+| Arsenal | ~38 cards (incluye method + Edu 21) | — | — |
+| Edu 21 | **6** PNG public · **4** arsenal | `docs/staging/edu21-pack/` | ~243 origen |
+| Coworking | **6** PNG public · **4** arsenal | — | 21 origen |
+| Asesorías resto | 0 | — | ~912 privado |
+| `src/assets` hash | **39** build only | archive local | — |
 
 ---
 
