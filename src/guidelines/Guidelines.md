@@ -29,9 +29,19 @@
 
 ### Tipografía
 
-- Fuente de títulos: **Chillax** vía `@layer base` en `globals.css` / `index.css`.
+- Fuente de títulos: **Chillax** vía design system / base layer.
 - Cualquier `class` que empiece por `text-` en un heading puede **sacar** el nodo de esa escala.
 - Color y alineación: clases DS (`.section-title--center`) o tokens CSS, no tamaños Tailwind en headings.
+
+### Heading hierarchy (a11y)
+
+| Rol | Semántica | Visual |
+|-----|-----------|--------|
+| Nombre de página / hero | **h1** (uno por vista) | hero DS |
+| Título de sección con badge | **h3** vía `SectionTitle` / `SectionHeader` | `.section-title` (peso de sección) |
+| Badge (“Recursos”, “Resultados”…) | **no es heading** — `SectionBadge` | chip/label |
+
+Ejemplo: badge `Recursos` + title `Recursos que demuestran el método` → badge visual + **h3** title.
 
 ### Nav / landing
 

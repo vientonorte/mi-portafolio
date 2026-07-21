@@ -14,13 +14,14 @@ export interface SectionTitleProps {
 
 /**
  * Atom: section heading.
- * Uses design-system type scale (Chillax via base `h*`).
- * Do NOT pass Tailwind `text-*` size utilities — they opt out of DS typography.
+ *
+ * Default **h3** for a11y (page h1 → sections as h3 when badge is non-heading).
+ * Visual scale stays “section title” via `.section-title` (Chillax clamp), not Tailwind text-*.
  */
 export function SectionTitle({
   children,
   id,
-  as: Tag = "h2",
+  as: Tag = "h3",
   align = "center",
   className,
 }: SectionTitleProps) {

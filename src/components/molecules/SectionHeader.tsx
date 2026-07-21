@@ -6,7 +6,14 @@ import { cn } from "../../lib/utils";
 
 /**
  * Molecule: section intro (badge + title + description).
- * Atomic stack: SectionBadge + SectionTitle atoms; no ad-hoc type utilities.
+ *
+ * A11y hierarchy (landing):
+ * - page h1 = hero / page name
+ * - section titles via this molecule default to **h3** (badge is not a heading)
+ * - badge = visual label only (SectionBadge atom), e.g. "Recursos"
+ * - title = semantic heading, e.g. "Recursos que demuestran el método"
+ *
+ * Atomic stack: SectionBadge + SectionTitle; no ad-hoc type utilities.
  */
 export interface SectionHeaderProps {
   badge?: string;
@@ -15,6 +22,11 @@ export interface SectionHeaderProps {
   description: string;
   align?: "left" | "center";
   titleId?: string;
+  /**
+   * Semantic level of the title. Default **h3** for a11y under page h1 / major h2.
+   * Badge is never a heading.
+   */
+  titleAs?: "h2" | "h3";
 }
 
 export function SectionHeader({
@@ -24,6 +36,7 @@ export function SectionHeader({
   description,
   align = "center",
   titleId,
+  titleAs = "h3",
 }: SectionHeaderProps) {
   const prefersReducedMotion = useReducedMotion();
   const isCenter = align === "center";
@@ -50,7 +63,7 @@ export function SectionHeader({
       ) : null}
 
       <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.1 }}>
-        <SectionTitle id={titleId} align={align}>
+        <SectionTitle id={titleId} align={align} as={titleAs}>
           {title}
         </SectionTitle>
       </motion.div>
