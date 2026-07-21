@@ -450,19 +450,30 @@ export default {
         cta: 'Continue with this format',
       },
       demo: {
-        badge: 'Method demo',
-        title: 'N2N design · Design Thinking + Sprint',
+        badge: 'Method demos',
+        title: 'Published prototypes · Figma Sites',
         description:
-          'Published demo case: from brief to prototype on Figma Sites. Shows how we apply discovery, sprint, and handoff — the same standard as the landing playbook.',
-        projectName: 'X | CMS',
-        approach:
-          'Needle-to-needle: Design Thinking ideation, Design Sprint validation, and navigable prototype for implementation handoff.',
-        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+          'Open demo cases: from brief to navigable prototype. They show discovery, sprint, handoff, and proposal deliverables — the same standard as the landing playbook.',
         cta: 'Open published demo',
         ctaSecondary: 'Open in Figma Make',
-        ctaMakeLink: 'View editable file in Figma Make',
+        ctaMakeLink: 'View editable X | CMS file in Figma Make',
         previewCta: 'Open full site',
-        embedTitle: 'X | CMS demo — Figma Sites',
+        items: {
+          'x-cms-n2n': {
+            projectName: 'X | CMS',
+            approach:
+              'Needle-to-needle: Design Thinking ideation, Design Sprint validation, and navigable prototype for implementation handoff.',
+            highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+            embedTitle: 'X | CMS demo — Figma Sites',
+          },
+          'gees-propuesta': {
+            projectName: 'GEES · Proposal',
+            approach:
+              'Executive dashboard for digital quoting and management: real-time KPIs and strategic decision support — UX proposal ready for stakeholders.',
+            highlights: ['Dashboard', 'Quoting', 'KPIs', 'Proposal', 'Figma Sites'],
+            embedTitle: 'GEES · Proposal — Figma Sites',
+          },
+        },
       },
       appQuoter: {
         badge: 'App & web quoter',
@@ -664,6 +675,25 @@ export default {
             hint: 'From brief to published prototype — Design Thinking and Sprint for campaigns.',
             badge: 'Demo',
             keywords: ['demo', 'business', 'cms', 'sem', 'seo', 'case', 'x cms', 'consulting', 'leads'],
+            href: 'section/consultoria/consultoria-demo',
+          },
+          {
+            id: 'negocios-gees',
+            category: 'negocios',
+            title: 'GEES · Proposal',
+            hint: 'Executive quoting dashboard and KPIs — Figma Sites prototype for stakeholders.',
+            badge: 'Demo',
+            keywords: [
+              'gees',
+              'proposal',
+              'dashboard',
+              'quoting',
+              'kpis',
+              'demo',
+              'business',
+              'consulting',
+              'figma',
+            ],
             href: 'section/consultoria/consultoria-demo',
           },
           {

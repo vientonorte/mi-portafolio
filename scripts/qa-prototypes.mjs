@@ -55,10 +55,11 @@ function parseValueProofExternalUrls(arsenalTs, demosTs) {
   const body = block[1];
 
   const entryRe =
-    /"([^"]+)":\s*(?:"([^"]+)"|(CONSULTORIA_DEMO_X_CMS\.figmaSitesUrl)|([A-Z][A-Z0-9_]+))/g;
+    /"([^"]+)":\s*(?:"([^"]+)"|(CONSULTORIA_DEMO_(?:X_CMS|GEES)\.figmaSitesUrl)|([A-Z][A-Z0-9_]+))/g;
   for (const match of body.matchAll(entryRe)) {
     const [, id, quoted, consultoriaRef, constRef] = match;
     if (quoted) urls[id] = quoted;
+    else if (consultoriaRef?.includes('GEES')) urls[id] = consultoria.figmaSitesUrls?.find((u) => u.includes('duct-juice')) || consultoria.figmaSitesUrls?.[1];
     else if (consultoriaRef) urls[id] = consultoria.figmaSitesUrl;
     else if (constRef && constUrls[constRef]) urls[id] = constUrls[constRef];
   }
@@ -80,9 +81,13 @@ function parseArsenalTitlesEs(ts) {
 }
 
 function parseConsultoriaDemos(ts) {
-  const sites = ts.match(/figmaSitesUrl:\s*"([^"]+)"/)?.[1];
+  const sites = [...ts.matchAll(/figmaSitesUrl:\s*"([^"]+)"/g)].map((m) => m[1]);
   const make = ts.match(/figmaMakeUrl:\s*\n?\s*"([^"]+)"/)?.[1];
-  return { figmaSitesUrl: sites, figmaMakeUrl: make };
+  return {
+    figmaSitesUrl: sites[0],
+    figmaSitesUrls: sites,
+    figmaMakeUrl: make,
+  };
 }
 
 function parseProjectExternalLinks(ts, constUrls) {
@@ -172,12 +177,20 @@ async function checkConsultoriaDemo(page, consultoria) {
 
   const errors = [];
   const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
-  if (!haystack.includes(urlNeedle(consultoria.figmaSitesUrl))) {
-    errors.push('iframe/link Figma Sites ausente');
+  const siteUrls = consultoria.figmaSitesUrls?.length
+    ? consultoria.figmaSitesUrls
+    : [consultoria.figmaSitesUrl].filter(Boolean);
+
+  for (const siteUrl of siteUrls) {
+    if (!haystack.includes(urlNeedle(siteUrl))) {
+      errors.push(`iframe/link Figma Sites ausente: ${urlNeedle(siteUrl)}`);
+    }
   }
 
   const primary = page.getByRole('button', { name: /demo publicada|published demo|abrir demo|open demo/i });
-  if ((await primary.count()) === 0) errors.push('CTA principal demo no encontrado');
+  if ((await primary.count()) < siteUrls.length) {
+    errors.push(`CTA principal demo: esperados ≥${siteUrls.length}, hay ${await primary.count()}`);
+  }
 
   const secondary = page.getByRole('button', { name: /figma make/i });
   if ((await secondary.count()) === 0) errors.push('CTA secundario Figma Make no encontrado');
@@ -198,7 +211,7 @@ async function checkConsultoriaDemo(page, consultoria) {
     }
   }
 
-  return { label: 'Consultoría X | CMS demo', ok: errors.length === 0, errors };
+  return { label: 'Consultoría demos Figma Sites', ok: errors.length === 0, errors };
 }
 
 async function expandArsenal(page) {
@@ -317,7 +330,7 @@ async function main() {
   const results = [];
 
   const siteUrls = [
-    consultoria.figmaSitesUrl,
+    ...(consultoria.figmaSitesUrls || [consultoria.figmaSitesUrl]),
     ...Object.values(arsenalExternal),
     ...projects.map((p) => p.url),
   ].filter(Boolean);
