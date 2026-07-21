@@ -30,9 +30,9 @@ export const CONSULTORIA_DEMO_GEES = {
 } as const satisfies ConsultoriaDemoConfig;
 
 /** Orden de aparición en #consultoria-demo */
-export const CONSULTORIA_DEMOS = [
+export const CONSULTORIA_DEMOS: readonly ConsultoriaDemoConfig[] = [
   CONSULTORIA_DEMO_X_CMS,
   CONSULTORIA_DEMO_GEES,
-] as const;
+];
 
 export type ConsultoriaDemoId = (typeof CONSULTORIA_DEMOS)[number]["id"];

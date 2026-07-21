@@ -98,7 +98,7 @@ export function ConsultoriaDemoShowcase() {
                           {demo.cta}
                           <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
                         </Button>
-                        {config.figmaMakeUrl ? (
+                        {config.figmaMakeUrl != null && config.figmaMakeUrl !== "" ? (
                           <Button
                             type="button"
                             size="lg"
