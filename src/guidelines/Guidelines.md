@@ -29,9 +29,10 @@
 
 ### Tipografía
 
-- Fuente de títulos: **Chillax** vía design system / base layer.
-- Cualquier `class` que empiece por `text-` en un heading puede **sacar** el nodo de esa escala.
-- Color y alineación: clases DS (`.section-title--center`) o tokens CSS, no tamaños Tailwind en headings.
+- Fuente de marca: **Chillax** (Fontshare en `index.html` + `--font-chillax` / `@theme --font-sans` en `globals.css`).
+- En local: si no se ve Chillax, hard refresh; comprobar red a `api.fontshare.com` / `cdn.fontshare.com`.
+- No uses `text-3xl` etc. en headings para “arreglar” tamaño — usa `SectionTitle` / tokens.
+- Color y alineación: clases DS (`.section-title--center`), no tamaños Tailwind en headings.
 
 ### Heading hierarchy (a11y)
 

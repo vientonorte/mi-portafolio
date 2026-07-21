@@ -22,13 +22,13 @@
     
     <title>Rodrigo Gaete · UX Lead</title>
 
-    <!-- Font: loaded as non-blocking <link> instead of CSS @import to prevent
-         the entire stylesheet from being blocked when the font CDN is slow. -->
+    <!-- Chillax (Fontshare). Keep media=all — media=print+onload often fails in local/dev. -->
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=chillax@400,500,600,700,300&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-      <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=chillax@400,500,600,700,300&display=swap" />
-    </noscript>
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=chillax@300,400,500,600,700&display=swap"
+    />
 
     <!-- GA4: configurar VITE_GA_MEASUREMENT_ID en .env (carga vía VNTracker en runtime) -->
   </head>
