@@ -1,61 +1,39 @@
-**Add your own guidelines here**
-<!--
+# Guidelines — mi-portafolio
 
-System Guidelines
+## Atomic design (obligatorio)
 
-Use this file to provide the AI with rules and guidelines you want it to follow.
-This template outlines a few examples of things you can add. You can add your own sections and format it to suit your needs
+| Nivel | Qué va ahí | Ejemplos |
+|-------|------------|----------|
+| **Atom** | UI irreducible, un solo rol | `SectionTitle`, `SectionBadge`, `Button` |
+| **Molecule** | Composición de atoms | `SectionHeader`, `ImpactMetricCard` |
+| **Organism** | Bloque de sección / feature | `Hero`, `ValueContentArsenal`, `Contact` |
+| **Template / Page** | Layout + orquestación | `Home`, `ConsultoriaVientoNorte` |
 
-TIP: More context isn't always better. It can confuse the LLM. Try and add the most important rules you need
+### Reglas
 
-# General guidelines
+1. **No inventes tipografía en organisms** con utilidades sueltas (`text-3xl`, `font-semibold` en `h1`/`h2`/`h3`).
+2. **Títulos de sección** → atom `SectionTitle` / molecule `SectionHeader` (tokens Chillax del base layer).
+3. **Un PR = un nivel** cuando sea posible (no rediseñar atoms “de paso” en un fix de page).
+4. **CTAs / form** reutilizan molecules/organisms existentes (form contacto transversal).
+5. **Demos** = mock estático (atom/molecule de poster), no iframes ad-hoc en el scroll de leads.
 
-Any general rules you want the AI to follow.
-For example:
+### Anti-patrones (no hacer)
 
-* Only use absolute positioning when necessary. Opt for responsive and well structured layouts that use flexbox and grid by default
-* Refactor code as you go to keep code clean
-* Keep file sizes small and put helper functions and components in their own files.
+```tsx
+// ❌ Rompe Chillax / escala DS (globals.css opt-out con text-*)
+<h2 className="text-3xl md:text-4xl font-semibold">…</h2>
 
---------------
+// ✅ Atom + clase de design-system
+<SectionTitle align="center">…</SectionTitle>
+```
 
-# Design system guidelines
-Rules for how the AI should make generations look like your company's design system
+### Tipografía
 
-Additionally, if you select a design system to use in the prompt box, you can reference
-your design system's components, tokens, variables and components.
-For example:
+- Fuente de títulos: **Chillax** vía `@layer base` en `globals.css` / `index.css`.
+- Cualquier `class` que empiece por `text-` en un heading puede **sacar** el nodo de esa escala.
+- Color y alineación: clases DS (`.section-title--center`) o tokens CSS, no tamaños Tailwind en headings.
 
-* Use a base font-size of 14px
-* Date formats should always be in the format “Jun 10”
-* The bottom toolbar should only ever have a maximum of 4 items
-* Never use the floating action button with the bottom toolbar
-* Chips should always come in sets of 3 or more
-* Don't use a dropdown if there are 2 or fewer options
+### Nav / landing
 
-You can also create sub sections and add more specific details
-For example:
-
-
-## Button
-The Button component is a fundamental interactive element in our design system, designed to trigger actions or navigate
-users through the application. It provides visual feedback and clear affordances to enhance user experience.
-
-### Usage
-Buttons should be used for important actions that users need to take, such as form submissions, confirming choices,
-or initiating processes. They communicate interactivity and should have clear, action-oriented labels.
-
-### Variants
-* Primary Button
-  * Purpose : Used for the main action in a section or page
-  * Visual Style : Bold, filled with the primary brand color
-  * Usage : One primary button per section to guide users toward the most important action
-* Secondary Button
-  * Purpose : Used for alternative or supporting actions
-  * Visual Style : Outlined with the primary color, transparent background
-  * Usage : Can appear alongside a primary button for less important actions
-* Tertiary Button
-  * Purpose : Used for the least important actions
-  * Visual Style : Text-only with no border, using primary color
-  * Usage : For actions that should be available but not emphasized
--->
+- Cambios de nav en `nav-config` (registry), no hardcode en `Navigation.tsx`.
+- Surfaces: `NAV_SURFACE.headerPrimary` / `dock` / `mobileDrawer`.

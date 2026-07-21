@@ -49,3 +49,34 @@
     outline: 2px solid var(--vn-color-brand);
     outline-offset: 2px;
 }
+
+/* ─── Section header (atomic: SectionTitle atom + SectionHeader molecule) ───
+   Never put Tailwind text-* size utilities on h1–h3: they opt out of Chillax
+   base scale in globals.css. Use these classes only. */
+.section-title {
+    margin: 0;
+    color: var(--foreground);
+    /* font-size / family: inherit base layer h2 (Chillax + clamp) */
+}
+
+.section-title--center {
+    text-align: center;
+}
+
+.section-title--left {
+    text-align: left;
+}
+
+.section-header__body--center {
+    text-align: center;
+}
+
+.section-header__body--left {
+    text-align: left;
+}
+
+.section-header__description {
+    margin: 0;
+    color: var(--muted-foreground);
+    /* size/family from base p — Chillax */
+}
