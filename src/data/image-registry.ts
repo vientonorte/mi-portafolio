@@ -107,6 +107,86 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     portfolioImages.uxTools.designSystem,
     "Carta método · Implement · design system"
   ),
+  entry(
+    "methodCoworking.funnelStructure",
+    "Método",
+    "Funnel structure",
+    "method/coworking/funnel-structure.png",
+    portfolioImages.methodCoworking.funnelStructure,
+    "Benchmark anonimizado · estructura de embudo"
+  ),
+  entry(
+    "methodCoworking.a11yContrast",
+    "Método",
+    "A11y contrast",
+    "method/coworking/a11y-contrast.png",
+    portfolioImages.methodCoworking.a11yContrast,
+    "Benchmark anonimizado · contraste y color"
+  ),
+  entry(
+    "methodCoworking.i18nGap",
+    "Método",
+    "i18n gap",
+    "method/coworking/i18n-gap.png",
+    portfolioImages.methodCoworking.i18nGap,
+    "Benchmark anonimizado · multilenguaje"
+  ),
+  entry(
+    "methodCoworking.serviceDiscovery",
+    "Método",
+    "Service discovery",
+    "method/coworking/service-discovery.png",
+    portfolioImages.methodCoworking.serviceDiscovery,
+    "Benchmark anonimizado · descubrimiento de servicios"
+  ),
+  entry(
+    "edu21.heuristicWeb",
+    "Edu 21",
+    "Heurística web",
+    "cases/edu21/01-heuristic-web.png",
+    portfolioImages.edu21.heuristicWeb,
+    "Edu 21 · heurística sitio web (E1)"
+  ),
+  entry(
+    "edu21.competitiveBenchmark",
+    "Edu 21",
+    "Benchmark competencias",
+    "cases/edu21/02-competitive-benchmark.png",
+    portfolioImages.edu21.competitiveBenchmark,
+    "Edu 21 · benchmark de competencias (E1)"
+  ),
+  entry(
+    "edu21.serviceStrategy",
+    "Edu 21",
+    "Estrategia de servicios",
+    "cases/edu21/03-service-strategy.png",
+    portfolioImages.edu21.serviceStrategy,
+    "Edu 21 · diseño de estrategia de servicios (E2)"
+  ),
+  entry(
+    "edu21.salesPitch",
+    "Edu 21",
+    "Pitch comercial",
+    "cases/edu21/04-sales-pitch.png",
+    portfolioImages.edu21.salesPitch,
+    "Edu 21 · pitch / herramientas comerciales (E3)"
+  ),
+  entry(
+    "edu21.storyboard",
+    "Edu 21",
+    "Storyboard video",
+    "cases/edu21/05-storyboard.png",
+    portfolioImages.edu21.storyboard,
+    "Edu 21 · storyboard video corporativo (E3)"
+  ),
+  entry(
+    "edu21.performanceSeo",
+    "Edu 21",
+    "Performance / SEO",
+    "cases/edu21/06-performance-seo.png",
+    portfolioImages.edu21.performanceSeo,
+    "Edu 21 · speed / performance report"
+  ),
 ];
 
 export const IMAGE_REGISTRY_BY_ID = Object.fromEntries(

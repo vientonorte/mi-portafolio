@@ -79,6 +79,18 @@ require_public "$DST/ux-tools/user-flow.png"
 require_public "$DST/ux-tools/usability-test.png"
 require_public "$DST/ux-tools/design-system.png"
 
+echo "Método coworking (anonimizado)"
+require_public "$DST/method/coworking/funnel-structure.png"
+require_public "$DST/method/coworking/a11y-contrast.png"
+require_public "$DST/method/coworking/i18n-gap.png"
+require_public "$DST/method/coworking/service-discovery.png"
+
+echo "Edu 21 (permiso GO · marca visible)"
+require_public "$DST/cases/edu21/01-heuristic-web.png"
+require_public "$DST/cases/edu21/03-service-strategy.png"
+require_public "$DST/cases/edu21/04-sales-pitch.png"
+require_public "$DST/cases/edu21/05-storyboard.png"
+
 echo "Framework"
 require_public "$DST/framework/ux-value-chain.png"
 

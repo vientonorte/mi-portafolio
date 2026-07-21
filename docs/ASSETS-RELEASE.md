@@ -11,7 +11,7 @@
 | Disco local `public/` | ✅ |
 | Código (`portfolio-image-urls`, arsenal, registry, demos) | ✅ |
 | Git (trackeados en rama) | ✅ |
-| Producción | ⏳ pendiente PR/merge/deploy |
+| Producción | ✅ merge PR #118 · Pages 2026-07-21 · smoke HTTP 200 |
 
 `base` Vite: `/mi-portafolio/` → URLs públicas bajo ese prefijo.
 
@@ -19,13 +19,13 @@
 
 | ID / uso | Path `public/` | Código | Local | Prod |
 |----------|----------------|--------|-------|------|
-| GEES poster | `images/consultoria/gees-dashboard.png` | `consultoria.geesDashboard` · arsenal · demo showcase | ✅ | ⏳ |
-| X \| CMS poster | `images/consultoria/x-cms-dashboard.png` | `consultoria.xCmsDashboard` | ✅ | (ya en main si previo) |
-| UX Tools · journey | `images/ux-tools/journey-map.png` + `resources/ux-tools/journey-map.pdf` | arsenal `uxtools-journey-map` | ✅ | ⏳ |
-| UX Tools · user-flow | `images/ux-tools/user-flow.png` + PDF | `uxtools-user-flow` | ✅ | ⏳ |
-| UX Tools · usability | `images/ux-tools/usability-test.png` + PDF | `uxtools-usability-test` | ✅ | ⏳ |
-| UX Tools · design system | `images/ux-tools/design-system.png` + PDF | `uxtools-design-system` · suite | ✅ | ⏳ |
-| Brands monogram ×7 | `images/brands/*.svg` | `portfolioImages.brands` · Experience | ✅ | ⏳ |
+| GEES poster | `images/consultoria/gees-dashboard.png` | `consultoria.geesDashboard` · arsenal · demo showcase | ✅ | ✅ |
+| X \| CMS poster | `images/consultoria/x-cms-dashboard.png` | `consultoria.xCmsDashboard` | ✅ | ✅ |
+| UX Tools · journey | `images/ux-tools/journey-map.png` + `resources/ux-tools/journey-map.pdf` | arsenal `uxtools-journey-map` | ✅ | ✅ |
+| UX Tools · user-flow | `images/ux-tools/user-flow.png` + PDF | `uxtools-user-flow` | ✅ | ✅ |
+| UX Tools · usability | `images/ux-tools/usability-test.png` + PDF | `uxtools-usability-test` | ✅ | ✅ |
+| UX Tools · design system | `images/ux-tools/design-system.png` + PDF | `uxtools-design-system` · suite | ✅ | ✅ |
+| Brands monogram ×7 | `images/brands/*.svg` | `portfolioImages.brands` · Experience | ✅ | ✅ |
 
 ### Re-captura / curación
 

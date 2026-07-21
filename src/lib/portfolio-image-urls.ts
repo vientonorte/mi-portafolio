@@ -54,6 +54,24 @@ export const portfolioImages = {
     usabilityTest: img("ux-tools/usability-test.png"),
     designSystem: img("ux-tools/design-system.png"),
   },
+  /** Benchmark método anonimizado (Asesorías/Coworking — sin marca cliente en path) */
+  methodCoworking: {
+    funnelStructure: img("method/coworking/funnel-structure.png"),
+    funnelConversion: img("method/coworking/funnel-conversion.png"),
+    a11yContrast: img("method/coworking/a11y-contrast.png"),
+    a11yReadability: img("method/coworking/a11y-readability.png"),
+    i18nGap: img("method/coworking/i18n-gap.png"),
+    serviceDiscovery: img("method/coworking/service-discovery.png"),
+  },
+  /** Case Edu 21 — permiso GO 2026-07-21 · marca visible */
+  edu21: {
+    heuristicWeb: img("cases/edu21/01-heuristic-web.png"),
+    competitiveBenchmark: img("cases/edu21/02-competitive-benchmark.png"),
+    serviceStrategy: img("cases/edu21/03-service-strategy.png"),
+    salesPitch: img("cases/edu21/04-sales-pitch.png"),
+    storyboard: img("cases/edu21/05-storyboard.png"),
+    performanceSeo: img("cases/edu21/06-performance-seo.png"),
+  },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),
     profilePhoto: `${base}profile-photo.jpg?v=20260703b`,
