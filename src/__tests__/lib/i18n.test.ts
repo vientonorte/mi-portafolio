@@ -38,7 +38,11 @@ describe('translations', () => {
         expect(hero.unifiedBanner).toHaveProperty('searchPlaceholder');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsCount');
         expect(hero.unifiedBanner).toHaveProperty('liveSuggestionsActive');
-        expect(hero.unifiedBanner.suggestions).toHaveLength(3);
+        // X | CMS + GEES + contacto + auditoría (mín. 3; crece con demos)
+        expect(hero.unifiedBanner.suggestions.length).toBeGreaterThanOrEqual(3);
+        expect(hero.unifiedBanner.suggestions.map((s) => s.id)).toEqual(
+          expect.arrayContaining(['negocios-demo', 'negocios-gees', 'contacto-perfil', 'auditoria-freemium'])
+        );
         expect(hero.unifiedBanner.panels.negocios).toHaveProperty('composerHint');
         expect(hero.unifiedBanner.panels.negocios).toHaveProperty('ctaPrimary');
         expect(hero.unifiedBanner.panels.contacto).toHaveProperty('ctaPrimary');

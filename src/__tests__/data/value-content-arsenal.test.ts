@@ -9,6 +9,7 @@ import { getPortfolioImages } from "@/lib/image-overrides";
 /** Claves de portfolioImages esperadas por card — imagen alineada a contenido y evidencia. */
 const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "x-cms-demo": "consultoria.xCmsDashboard",
+  "gees-propuesta": "consultoria.xCmsDashboard",
   "ria-us": "sura.riaOnboarding",
   "ria-celula-evolutiva": "sura.celulaEvolutivaFlow",
   "poc-ia-dei": "sura.iaAutomationDashboard",

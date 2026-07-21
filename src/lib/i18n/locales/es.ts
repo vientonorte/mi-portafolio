@@ -450,19 +450,30 @@ export default {
         cta: 'Continuar con esta modalidad',
       },
       demo: {
-        badge: 'Demo de método',
-        title: 'Diseño N2N · Design Thinking + Sprint',
+        badge: 'Demos de método',
+        title: 'Prototipos publicados · Figma Sites',
         description:
-          'Caso demo publicado: del brief al prototipo en Figma Sites. Muestra cómo aplicamos discovery, sprint y handoff — el mismo estándar del playbook de la landing.',
-        projectName: 'X | CMS',
-        approach:
-          'Needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff a implementación.',
-        highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+          'Casos demo abiertos: del brief al prototipo navegable. Muestran discovery, sprint, handoff y entregables de propuesta — el mismo estándar del playbook de la landing.',
         cta: 'Abrir demo publicada',
         ctaSecondary: 'Abrir en Figma Make',
-        ctaMakeLink: 'Ver archivo editable en Figma Make',
+        ctaMakeLink: 'Ver archivo editable X | CMS en Figma Make',
         previewCta: 'Abrir sitio completo',
-        embedTitle: 'Demo X | CMS — Figma Sites',
+        items: {
+          'x-cms-n2n': {
+            projectName: 'X | CMS',
+            approach:
+              'Needle-to-needle: ideación con Design Thinking, validación en Design Sprint y prototipo navegable para handoff a implementación.',
+            highlights: ['Design Thinking', 'Design Sprint', 'CMS', 'N2N', 'Figma Sites'],
+            embedTitle: 'Demo X | CMS — Figma Sites',
+          },
+          'gees-propuesta': {
+            projectName: 'GEES · Propuesta',
+            approach:
+              'Dashboard ejecutivo de cotización y gestión digital: KPIs en tiempo real y apoyo a la decisión estratégica — propuesta UX lista para stakeholders.',
+            highlights: ['Dashboard', 'Cotización', 'KPIs', 'Propuesta', 'Figma Sites'],
+            embedTitle: 'GEES · Propuesta — Figma Sites',
+          },
+        },
       },
       appQuoter: {
         badge: 'Cotizador app & web',
@@ -664,6 +675,25 @@ export default {
             hint: 'Del brief al prototipo publicado — Design Thinking y Sprint para campañas.',
             badge: 'Demo',
             keywords: ['demo', 'negocios', 'cms', 'sem', 'seo', 'caso', 'x cms', 'consultoría', 'leads'],
+            href: 'section/consultoria/consultoria-demo',
+          },
+          {
+            id: 'negocios-gees',
+            category: 'negocios',
+            title: 'GEES · Propuesta',
+            hint: 'Dashboard ejecutivo de cotización y KPIs — prototipo Figma Sites para stakeholders.',
+            badge: 'Demo',
+            keywords: [
+              'gees',
+              'propuesta',
+              'dashboard',
+              'cotización',
+              'kpis',
+              'demo',
+              'negocios',
+              'consultoría',
+              'figma',
+            ],
             href: 'section/consultoria/consultoria-demo',
           },
           {

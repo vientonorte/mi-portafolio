@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-21] — Demo GEES en consultoría
+
+### Added
+- **GEES · Propuesta** en Figma Sites (`https://duct-juice-51509104.figma.site`): segunda demo en `#consultoria-demo`, card en Arsenal de valor y sugerencia del buscador hero (ES/EN).
+- `CONSULTORIA_DEMOS` multi-demo en `consultoria-demos.ts` (X | CMS + GEES).
+
+### Changed
+- **ConsultoriaDemoShowcase** soporta varias demos publicadas; CTA Figma Make solo si hay `figmaMakeUrl`.
+- QA `qa-prototypes.mjs` valida todos los `figmaSitesUrl` de consultoría.
+
+---
+
 ## [2026-07-08] — QA rutas, hero mobile, assets consultoría
 
 ### Added

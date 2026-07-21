@@ -1,7 +1,10 @@
 import type { Language } from "../lib/i18n";
 import { getPortfolioImages } from "../lib/image-overrides";
 import { ROUTES } from "../lib/routes";
-import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
+import {
+  CONSULTORIA_DEMO_GEES,
+  CONSULTORIA_DEMO_X_CMS,
+} from "./consultoria-demos";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
 /** Figma · System Design App Cliente Transvip (handoff navegable). */
@@ -66,6 +69,30 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
         title: "X | CMS · Design Thinking + Sprint",
         outcome: "N2N case on Figma Sites — from brief to prototype for SEM/SEO campaigns.",
         metric: "N2N",
+      },
+    },
+  },
+  {
+    id: "gees-propuesta",
+    kind: "prototype",
+    imagePath: img((i) => i.consultoria.xCmsDashboard),
+    href: CONSULTORIA_DEMO_GEES.figmaSitesUrl,
+    external: true,
+    bundleId: "marco",
+    copy: {
+      es: {
+        kindLabel: "Propuesta publicada",
+        title: "GEES · Dashboard de cotización",
+        outcome:
+          "Propuesta ejecutiva en Figma Sites — cotización digital, KPIs en tiempo real y decisión estratégica.",
+        metric: "Figma Sites",
+      },
+      en: {
+        kindLabel: "Published proposal",
+        title: "GEES · Quoting dashboard",
+        outcome:
+          "Executive proposal on Figma Sites — digital quoting, real-time KPIs, and strategic decisions.",
+        metric: "Figma Sites",
       },
     },
   },
@@ -586,6 +613,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
+  "gees-propuesta": CONSULTORIA_DEMO_GEES.figmaSitesUrl,
   "ria-us": RIA_US_PROTO_URL,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
   "transvip-mobile": TRANSVIP_APP_PROTO_URL,
