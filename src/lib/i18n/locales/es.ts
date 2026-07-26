@@ -322,58 +322,58 @@ export default {
         ctaOnboarding: 'Empezar',
       },
       privateTooling: {
-        badge: 'Si te aplica · Datos',
-        title: 'Herramientas en tu entorno',
+        badge: 'Si te aplica',
+        title: '¿Tus datos no pueden salir de tu empresa?',
         description:
-          'Para proyectos con datos sensibles: trabajo en tu espacio, sin subir información a herramientas públicas por defecto.',
+          'Misma consultoría (diagnóstico o prototipo), hecha en tu entorno: sin colgar información sensible en herramientas públicas.',
         antiPromise:
-          'No prometemos app en un día ni IA genérica con tus datos en la nube.',
+          'No es un servicio legal ni un “app en 24 h”. Es el mismo trabajo de UX, con más cuidado del dato.',
         layers: [
           {
-            title: 'Sin red si hace falta',
-            body: 'El flujo clave puede funcionar offline o con un plan claro si no hay conexión.',
+            title: 'En tu espacio',
+            body: 'Trabajamos con tu repo y tus reglas de acceso.',
           },
           {
-            title: 'Tu repositorio',
-            body: 'El trabajo vive en el repo del cliente, no solo en un PDF.',
+            title: 'Menos datos expuestos',
+            body: 'Solo lo necesario. Nada a modelos públicos sin acuerdo.',
           },
           {
-            title: 'IA con cuidado',
-            body: 'Datos personales no van a modelos públicos sin acuerdo.',
+            title: 'Offline si hace falta',
+            body: 'El flujo crítico puede vivir sin internet, o con un plan claro.',
           },
           {
-            title: 'Accesible y con criterio de datos',
-            body: 'Pantallas usables y uso mínimo de datos personales.',
+            title: 'Usable',
+            body: 'Pantallas claras y accesibles en lo que entregamos.',
           },
         ],
-        dodTitle: 'Qué entregamos',
+        dodTitle: 'Qué te llevas',
         dod: [
-          'Prototipo o herramienta documentada',
+          'Diagnóstico o prototipo documentado',
           'Entrega en tu repositorio',
-          'Lista de controles de datos y accesibilidad',
+          'Lista práctica de cuidados de dato (no dictamen legal)',
         ],
         faqTitle: 'Preguntas frecuentes',
         faq: [
           {
-            q: '¿Todo offline?',
-            a: 'El flujo crítico sí puede serlo. Online solo si lo pides y queda escrito.',
+            q: '¿Es otro pack?',
+            a: 'No. Es el diagnóstico o el prototipo, con la condición de entorno privado.',
+          },
+          {
+            q: '¿Reemplaza a un abogado o DPO?',
+            a: 'No. Tú sigues siendo responsable del tratamiento de datos.',
           },
           {
             q: '¿La IA ve mis datos?',
             a: 'Por defecto no. Preferimos opciones locales o privadas.',
           },
-          {
-            q: '¿Cumplen la ley de datos por mí?',
-            a: 'Entregamos controles de diseño. El responsable legal sigue siendo tu organización.',
-          },
         ],
-        skuBadge: 'Opción datos',
-        skuTitle: 'Diagnóstico o prototipo en entorno privado',
+        skuBadge: 'Datos sensibles',
+        skuTitle: 'Empieza por diagnóstico o prototipo',
         skuDescription:
-          'Radar para diagnosticar. Marco para prototipar. Ops si el equipo necesita proceso.',
-        legalNote: 'No es asesoría legal. Valida con tu área de cumplimiento antes de publicar.',
-        ctaPrimary: 'Empezar con Marco',
-        ctaSecondary: 'Solo Radar',
+          'Si el proyecto es sensible, lo marcamos en el kickoff. Eliges Radar (rápido) o Marco (prototipo).',
+        legalNote: 'No es asesoría legal.',
+        ctaPrimary: 'Prototipo en entorno privado',
+        ctaSecondary: 'Solo diagnóstico',
         ctaN2N: 'Ver método',
       },
       practices: {
@@ -392,17 +392,17 @@ export default {
         footnote: 'El playbook vive fuera del camino principal de la landing para no saturar.',
       },
       packagesSection: {
-        badge: 'Entregables',
-        title: 'El mismo menú del hero',
+        badge: 'Cómo se contrata',
+        title: 'Tres formatos + app si la necesitas',
         description:
-          'Diagnóstico · Prototipo · Proceso de equipo. App funcional va aparte: diseño VN + build con red.',
+          'Elige diagnóstico, prototipo o proceso de equipo. Si quieres una app que funcione, usa la franja de abajo.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaForm: 'Escribir',
-        note: 'Entrada gratis: accesibilidad de un flujo → Radar. App funcional no es un pack de duración fija: se cierra en kickoff con red. Sin precios públicos.',
+        note: 'Sin precios en la web: se cierran en el kickoff. Puedes empezar gratis con la accesibilidad de un flujo.',
         appStripTitle: 'App funcional',
         appStripBody:
-          'Diseño y alcance con Viento Norte. Programación con especialistas de la red, bajo nuestra dirección.',
+          'Diseño con Viento Norte. La programación la hace la red, bajo nuestra dirección.',
         appStripCta: 'Empezar app',
       },
       educationPartner: {

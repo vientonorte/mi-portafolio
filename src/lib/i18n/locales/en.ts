@@ -322,58 +322,58 @@ export default {
         ctaOnboarding: 'Get started',
       },
       privateTooling: {
-        badge: 'If it applies · Data',
-        title: 'Tools in your environment',
+        badge: 'If it applies',
+        title: 'Can your data not leave the company?',
         description:
-          'For sensitive-data projects: work stays in your space; we do not send data to public tools by default.',
+          'Same consulting (diagnostic or prototype), done in your environment — without putting sensitive data on public tools.',
         antiPromise:
-          'We do not promise an app in a day or generic AI with your data in the cloud.',
+          'Not legal advice and not “an app in 24 hours”. Same UX work, with stricter data care.',
         layers: [
           {
-            title: 'Offline when needed',
-            body: 'The critical flow can work offline or with a clear plan if there is no connection.',
+            title: 'In your space',
+            body: 'We work with your repo and access rules.',
           },
           {
-            title: 'Your repository',
-            body: 'Work lives in the client repo — not only a PDF.',
+            title: 'Less data exposed',
+            body: 'Only what is needed. Nothing to public models without agreement.',
           },
           {
-            title: 'Careful AI',
-            body: 'Personal data does not go to public models without agreement.',
+            title: 'Offline if needed',
+            body: 'The critical flow can live offline, or with a clear plan.',
           },
           {
-            title: 'Usable and careful with data',
-            body: 'Accessible screens and minimal personal data.',
+            title: 'Usable',
+            body: 'Clear, accessible screens in what we deliver.',
           },
         ],
         dodTitle: 'What you get',
         dod: [
-          'Documented prototype or tool',
+          'Documented diagnostic or prototype',
           'Delivery in your repository',
-          'Data and accessibility checklist',
+          'Practical data-care list (not a legal opinion)',
         ],
         faqTitle: 'FAQ',
         faq: [
           {
-            q: 'Fully offline?',
-            a: 'The critical flow can be. Online only if you ask and it is written down.',
+            q: 'Is this another pack?',
+            a: 'No. It is diagnostic or prototype, with a private-environment condition.',
+          },
+          {
+            q: 'Does it replace a lawyer or DPO?',
+            a: 'No. You remain responsible for data processing.',
           },
           {
             q: 'Does AI see my data?',
             a: 'Not by default. We prefer local or private options.',
           },
-          {
-            q: 'Do you fulfill data law for us?',
-            a: 'We deliver design controls. Legal responsibility stays with your organization.',
-          },
         ],
-        skuBadge: 'Data option',
-        skuTitle: 'Diagnostic or prototype in a private setup',
+        skuBadge: 'Sensitive data',
+        skuTitle: 'Start with diagnostic or prototype',
         skuDescription:
-          'Radar to diagnose. Marco to prototype. Ops if the team needs process.',
-        legalNote: 'Not legal advice. Validate with your compliance team before release.',
-        ctaPrimary: 'Start with Marco',
-        ctaSecondary: 'Radar only',
+          'If the project is sensitive, we flag it at kickoff. Choose Radar (fast) or Marco (prototype).',
+        legalNote: 'Not legal advice.',
+        ctaPrimary: 'Private-environment prototype',
+        ctaSecondary: 'Diagnostic only',
         ctaN2N: 'See method',
       },
       practices: {
@@ -392,17 +392,17 @@ export default {
         footnote: 'The playbook is off the main landing path so the page stays light.',
       },
       packagesSection: {
-        badge: 'Deliverables',
-        title: 'Same menu as the hero',
+        badge: 'How you hire',
+        title: 'Three formats + app if you need it',
         description:
-          'Diagnostic · Prototype · Team process. Working app is separate: VN design + build via network.',
+          'Pick diagnostic, prototype, or team process. If you need a working app, use the strip below.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaForm: 'Write',
-        note: 'Free entry: accessibility on one flow → Radar. Working app is not a fixed-duration pack: scope closes at kickoff with the network. No public prices.',
+        note: 'No prices on the site — closed at kickoff. You can start free with accessibility on one flow.',
         appStripTitle: 'Working app',
         appStripBody:
-          'Design and scope with Viento Norte. Build with network specialists under our direction.',
+          'Design with Viento Norte. Build is done by the network, under our direction.',
         appStripCta: 'Start app',
       },
       educationPartner: {

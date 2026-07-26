@@ -8,9 +8,7 @@ import { ConsultoriaPrivateTooling } from "../components/organisms/ConsultoriaPr
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
-import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
-import { AppQuoter } from "../components/organisms/AppQuoter";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import {
   PARTNER_EDU_CONTACT_GOAL,
@@ -146,10 +144,9 @@ export default function ConsultoriaVientoNorte() {
       />
 
       {/*
-        Orden “reduce el ruido” (2026-07-26):
-        1) Hero → 2) Modalidades (compra) → 3) Onboarding
-        4) Fit tools → 5) Método corto → 6) Solo si aplica (datos / edu / demos)
-        Sin playbook ni arsenal en el path principal (demasiado texto).
+        Path principal (anti-ruido):
+        Hero ofertas → detalle entregables → onboarding → método → si aplica.
+        Sin calculadora ni árbol (duplicaban la decisión del hero).
       */}
       <ConsultoriaLandingHero
         onStartOnboarding={(packageId, options) =>
@@ -173,19 +170,6 @@ export default function ConsultoriaVientoNorte() {
           packageLocked={packageLocked && Boolean(recommendedPackage)}
         />
       </div>
-
-      <ConsultoriaTreePreview
-        onRecommendPackage={setSelectedPackage}
-        onStartOnboarding={(packageId, options) =>
-          scrollToOnboarding(packageId, options)
-        }
-      />
-      <AppQuoter
-        onRecommendPackage={setSelectedPackage}
-        onStartKickoff={(packageId, options) =>
-          scrollToOnboarding(packageId, options)
-        }
-      />
 
       <ConsultoriaN2NMethod
         onStartOnboarding={() => scrollToOnboarding("marco")}
