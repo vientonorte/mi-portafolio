@@ -11,8 +11,8 @@ import {
 } from "../../data/vientonorte-consulting";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { analytics, trackEvent } from "../../lib/analytics";
-import { ROUTES } from "../../lib/routes";
+import { trackEvent } from "../../lib/analytics";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
 import { cn } from "../../lib/utils";
 
 export type PackageSelectOptions = { appGoal?: boolean };
@@ -40,8 +40,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
 
   const freeRadar = () => {
     trackEvent("consultoria_free_radar", { source: "packages_strip" });
-    analytics.clickHeroFreeAudit();
-    navigate(ROUTES.audit);
+    openFreeRadarEntry(navigate, language, "consultoria-packages");
   };
 
   return (

@@ -736,7 +736,7 @@ export default {
               'pyme',
               'sem',
             ],
-            href: 'route/auditoria',
+            href: 'route/radar-gratis',
           },
         ] satisfies HeroSearchSuggestion[],
         panels: {

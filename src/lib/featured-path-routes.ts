@@ -1,12 +1,15 @@
 import type { NavigateFunction } from "react-router-dom";
 import { ROUTES } from "./routes";
 import { navigateToPageSection } from "./navigate-to-section";
+import { openFreeRadarEntry } from "./free-radar-entry";
+import type { Language } from "./i18n";
 
-/** `project/sura-ria-us` · `process/ux-research` · `route/auditoria` · `section/sobre-mi/experiencia` */
+/** `project/sura-ria-us` · `process/ux-research` · `route/radar-gratis` · `section/sobre-mi/experiencia` */
 export function navigateFeaturedPath(
   navigate: NavigateFunction,
   href: string,
-  currentPath = "/"
+  currentPath = "/",
+  language: Language = "es"
 ) {
   const [kind, ...rest] = href.split("/");
   const id = rest.join("/");
@@ -22,8 +25,10 @@ export function navigateFeaturedPath(
       navigate(ROUTES.company(id));
       break;
     case "route":
-      if (id === "auditoria") navigate(ROUTES.audit);
-      else if (id === "consultoria") navigate(ROUTES.consulting);
+      // SEM freemium · NO /auditoria (mentoría portfolio)
+      if (id === "radar-gratis" || id === "auditoria") {
+        openFreeRadarEntry(navigate, language, "hero-path");
+      } else if (id === "consultoria") navigate(ROUTES.consulting);
       else if (id === "contacto") navigate(ROUTES.contact);
       else if (id === "proyectos") navigate(ROUTES.projects);
       else if (id === "proceso") navigate(ROUTES.process);

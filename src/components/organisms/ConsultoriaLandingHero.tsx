@@ -12,7 +12,8 @@ import { Button } from "../ui/button";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { useNavigate } from "react-router-dom";
-import { analytics, trackEvent } from "../../lib/analytics";
+import { trackEvent } from "../../lib/analytics";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
 import { cn } from "../../lib/utils";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 import {
@@ -20,7 +21,6 @@ import {
   type HeroRoleId,
 } from "../../data/consultoria-hero-roles";
 import { scrollToSection } from "../../lib/scroll-to-section";
-import { ROUTES } from "../../lib/routes";
 
 interface ConsultoriaLandingHeroProps {
   onStartOnboarding?: (
@@ -66,11 +66,10 @@ export function ConsultoriaLandingHero({
     scrollToSection("modalidades");
   };
 
-  /** SEM lead magnet: free Radar entry → /auditoria */
+  /** SEM lead magnet: free Radar a11y entry → contacto (NO /auditoria mentoría) */
   const freeRadar = () => {
     trackEvent("consultoria_hero_cta", { action: "free_radar_entry" });
-    analytics.clickHeroFreeAudit();
-    navigate(ROUTES.audit);
+    openFreeRadarEntry(navigate, language, "consultoria-hero");
   };
 
   const selectOffer = (roleId: HeroRoleId) => {

@@ -13,6 +13,8 @@ export type ContactCtaOrigin =
   | "value-arsenal"
   | "hero-path"
   | "consultoria-hero"
+  | "consultoria-packages"
+  | "free-radar"
   | "quoter"
   | "onboarding"
   | "partner-edu"

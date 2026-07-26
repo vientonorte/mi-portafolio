@@ -6,7 +6,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { navigateFeaturedPath } from "../../lib/featured-path-routes";
-import { navigateToContactAssistant } from "../../lib/navigate-to-contact";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
 import type { HeroSearchCategory } from "../../lib/hero-search";
 import { HeroAudienceCta, type HeroAudienceOption } from "../molecules/HeroAudienceCta";
 
@@ -52,23 +52,16 @@ export function Hero(_props: HeroProps) {
             category: suggestion.category,
             href: suggestion.href,
           });
-          // Auditoría gratuita → form inteligente (agendar)
-          if (suggestion.category === "auditorias") {
-            const message =
-              language === "es"
-                ? "Quiero la entrada gratis a Radar (Diagnóstico express): revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Radar completo (5–7 días)."
-                : "I'd like the free Radar entry (Express diagnostic): WCAG 2.2 AA review of one critical flow. If it fits, let's discuss full Radar (5–7 days).";
-            navigateToContactAssistant(navigate, {
-              origin: "hero-path",
-              source: "cta",
-              intent: "consulting",
-              packageId: "radar",
-              consultingQ1: "portfolio",
-              message,
-            });
+          // Entrada gratis Radar (a11y) → contacto, NO /auditoria mentoría
+          if (
+            suggestion.category === "auditorias" ||
+            suggestion.href === "route/radar-gratis" ||
+            suggestion.href === "route/auditoria"
+          ) {
+            openFreeRadarEntry(navigate, language, "hero-path");
             return;
           }
-          navigateFeaturedPath(navigate, suggestion.href, location.pathname);
+          navigateFeaturedPath(navigate, suggestion.href, location.pathname, language);
         },
       })),
     [language, location.pathname, navigate, t.unifiedBanner.suggestions]

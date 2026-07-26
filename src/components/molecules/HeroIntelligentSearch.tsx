@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 import { cn } from "../../lib/utils";
 import { trackEvent } from "../../lib/analytics";
 import { navigateFeaturedPath } from "../../lib/featured-path-routes";
+import { useLanguage } from "../../lib/LanguageContext";
 import {
   filterHeroSuggestions,
   type HeroSearchCategory,
@@ -161,13 +162,14 @@ export function HeroIntelligentSearch({
   onPrimaryAction,
   onSecondaryAction,
 }: HeroIntelligentSearchProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { language } = useLanguage();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<HeroSearchCategory | null>(null);
   const [selectedSuggestion, setSelectedSuggestion] = useState<HeroSearchSuggestion | null>(null);
-  const navigate = useNavigate();
-  const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
   const listboxId = useId();
   const suggestionsLabelId = useId();
@@ -236,12 +238,24 @@ export function HeroIntelligentSearch({
 
     if (selectedSuggestion) {
       trackEvent("hero_banner_cta", { category: selectedCategory, action: "primary" });
-      navigateFeaturedPath(navigate, selectedSuggestion.href, location.pathname);
+      navigateFeaturedPath(
+        navigate,
+        selectedSuggestion.href,
+        location.pathname,
+        language
+      );
       return;
     }
 
     onPrimaryAction(selectedCategory);
-  }, [location.pathname, navigate, onPrimaryAction, selectedCategory, selectedSuggestion]);
+  }, [
+    language,
+    location.pathname,
+    navigate,
+    onPrimaryAction,
+    selectedCategory,
+    selectedSuggestion,
+  ]);
 
   const handleSubmit = () => {
     if (listboxActive && filtered[highlightIndex]) {

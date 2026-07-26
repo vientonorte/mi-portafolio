@@ -731,7 +731,7 @@ export default {
               'diagnostic',
               'leads',
             ],
-            href: 'route/auditoria',
+            href: 'route/radar-gratis',
           },
         ] satisfies HeroSearchSuggestion[],
         panels: {
