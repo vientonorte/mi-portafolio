@@ -244,9 +244,9 @@ export default {
         badge: 'Viento Norte · SMBs',
         principleBadge: 'UX consulting',
         title: 'Technology for business.',
-        titleAccent: 'Pick the deliverable.',
+        titleAccent: 'Choose your scope.',
         description:
-          'Diagnostic, prototype, team process, or working app. For SMBs: start free with a one-flow Diagnostic.',
+          'Diagnostic, prototype, team process, or working app.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book kickoff',

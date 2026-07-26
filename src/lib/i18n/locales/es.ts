@@ -244,9 +244,9 @@ export default {
         badge: 'Viento Norte · pymes',
         principleBadge: 'Consultoría UX',
         title: 'Tecnología para empresas.',
-        titleAccent: 'Elige el entregable.',
+        titleAccent: 'Elige tu alcance.',
         description:
-          'Diagnóstico, prototipo, proceso de equipo o app funcional. Para pymes: empieza gratis con Diagnóstico de un flujo.',
+          'Diagnóstico, prototipo, proceso de equipo o app funcional.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar kickoff',
