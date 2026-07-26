@@ -14,6 +14,10 @@ export default {
       process: 'Proceso',
       more: 'Más',
       consulting: 'Consultoría ✦',
+      /** Label dock liquid (sin ✦ — isologo es el único glifo) */
+      consultingDock: 'Consultoría',
+      consultingDockAria: 'Consultoría Viento Norte',
+      bottomNav: 'Navegación inferior',
       audit: 'Auditoría UX',
       uxtools: 'UX Tools',
     },
@@ -79,7 +83,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Entrada gratis a Radar: WCAG 2.2 AA de un flujo crítico. Diagnóstico, prototipo, proceso o app funcional. Pymes · kickoff <24 h.',
+            'Entrada gratis a Diagnóstico: WCAG 2.2 AA de un flujo crítico. Prototipo, proceso de equipo o app funcional. Pymes · kickoff <24 h.',
         },
         grafo: {
           title: 'Red de fricción institucional',

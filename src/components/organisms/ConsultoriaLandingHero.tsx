@@ -208,7 +208,8 @@ export function ConsultoriaLandingHero({
                     className={cn(
                       "group flex w-full min-h-[48px] items-center gap-3 rounded-xl border border-[color:var(--logo-surface-border)]",
                       "bg-surface-matte-elevated px-4 py-3.5 text-left",
-                      "transition-[border-color,background-color] duration-200",
+                      /* DS motion: --duration-fast / --ease-out */
+                      "transition-[border-color,background-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none",
                       "hover:border-primary/25 hover:bg-background/40",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       role.appGoal && "border-primary/20"
@@ -229,7 +230,7 @@ export function ConsultoriaLandingHero({
                       </span>
                     </span>
                     <ArrowRight
-                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-[transform,color] duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none group-hover:translate-x-0.5 group-hover:text-primary motion-reduce:group-hover:translate-x-0"
                       aria-hidden
                     />
                   </motion.button>

@@ -109,19 +109,14 @@ export function NavDock({ variant }: NavDockProps) {
   };
 
   // Distinct from header aria-label so AT users don't hear two "main" navs
-  const ariaLabel =
-    language === "es" ? "Navegación inferior" : "Bottom navigation";
+  const ariaLabel = t.nav.bottomNav;
 
   const centerLabel = isOnConsulting
     ? t.consultoria.landing.nav.start
-    : language === "es"
-      ? "Consultoría"
-      : "Consulting";
+    : t.nav.consultingDock;
   const centerAria = isOnConsulting
     ? t.consultoria.landing.nav.startAria
-    : language === "es"
-      ? "Consultoría Viento Norte"
-      : "Viento Norte consulting";
+    : t.nav.consultingDockAria;
 
   return (
     <nav

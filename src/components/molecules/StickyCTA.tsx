@@ -50,15 +50,18 @@ export function StickyCTA({
     <AnimatePresence>
       {isVisible && !isDismissed && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
+          initial={shouldReduceMotion ? { opacity: 0 } : { y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 300, 
-            damping: 30,
-            duration: shouldReduceMotion ? 0 : undefined
-          }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { y: 100, opacity: 0 }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : {
+                  /* DS: duration base + ease-out (sin spring expressive) */
+                  duration: 0.25,
+                  ease: [0.4, 0, 0.2, 1],
+                }
+          }
           className="fixed bottom-[var(--back-to-top-offset)] left-1/2 z-40 -translate-x-1/2"
         >
           <div className="relative">
@@ -72,11 +75,11 @@ export function StickyCTA({
               <Button
                 size="lg"
                 onClick={onClick}
-                className="gap-2 group rounded-full pl-6 pr-6"
+                className="gap-2 group rounded-full pl-6 pr-6 min-h-[44px]"
                 aria-label={ariaLabel || label}
               >
                 {label}
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0" />
               </Button>
 
               {/* Visual separator */}

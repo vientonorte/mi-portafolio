@@ -111,6 +111,7 @@
     0 0 32px rgba(26, 143, 220, 0.20);  /* azul-evo glow */
 
   /* ── Motion ─────────────────────────────────────────────────── */
+  /* Alias DS (design-tokens.ts) + prefijo VN — misma fuente de verdad */
   --vn-ease-out:    cubic-bezier(0.4, 0, 0.2, 1);     /* estándar Material */
   --vn-ease-in:     cubic-bezier(0.4, 0, 1, 1);
   --vn-ease-inout:  cubic-bezier(0.4, 0, 0.2, 1);
@@ -118,6 +119,10 @@
   --vn-duration-fast:  150ms;
   --vn-duration-base:  250ms;
   --vn-duration-slow:  400ms;
+  --duration-fast: var(--vn-duration-fast);
+  --duration-base: var(--vn-duration-base);
+  --duration-slow: var(--vn-duration-slow);
+  --ease-out: var(--vn-ease-out);
 
   /* ── Z-index (escala explícita) ─────────────────────────────── */
   --vn-z-dropdown:  10;
@@ -182,5 +187,8 @@
     --vn-duration-fast: 0.01ms;
     --vn-duration-base: 0.01ms;
     --vn-duration-slow: 0.01ms;
+    --duration-fast: 0.01ms;
+    --duration-base: 0.01ms;
+    --duration-slow: 0.01ms;
   }
 }

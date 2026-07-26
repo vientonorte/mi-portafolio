@@ -14,6 +14,10 @@ export default {
       process: 'Process',
       more: 'More',
       consulting: 'Consulting ✦',
+      /** Dock liquid label (no ✦ — mark is the only glyph) */
+      consultingDock: 'Consulting',
+      consultingDockAria: 'Viento Norte consulting',
+      bottomNav: 'Bottom navigation',
       audit: 'UX Audits',
       uxtools: 'UX Tools',
     },
@@ -79,7 +83,7 @@ export default {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Free Radar entry: WCAG 2.2 AA on one critical flow. Diagnostic, prototype, process, or working app. SMBs · kickoff <24h.',
+            'Free Diagnostic entry: WCAG 2.2 AA on one critical flow. Prototype, team process, or working app. SMBs · kickoff <24h.',
         },
         grafo: {
           title: 'Institutional friction network',

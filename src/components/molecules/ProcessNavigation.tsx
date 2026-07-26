@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Card } from "../ui/card";
 import { CheckCircle2 } from "lucide-react";
 import {
@@ -13,6 +13,7 @@ interface ProcessNavigationProps {
 
 export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigationProps) {
   const { activeSection, visitedSections, scrollToSection } = useProcessSectionSpy(sections);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <>
@@ -32,7 +33,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
                     type="button"
                     onClick={() => scrollToSection(section.id)}
                     aria-current={isActive ? "true" : undefined}
-                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                       isActive
                         ? "border-primary bg-primary text-primary-foreground shadow-sm"
                         : "border-border/70 bg-muted/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"
@@ -50,9 +51,15 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
 
       {/* Desktop: lateral TOC */}
       <motion.div
-        initial={{ opacity: 0, x: 50 }}
+        initial={
+          prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 16 }
+        }
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: 0.25, ease: [0.4, 0, 0.2, 1], delay: 0.15 }
+        }
         className="hidden xl:block fixed right-8 top-1/2 -translate-y-1/2 z-30"
       >
         <Card className="p-4 bg-background/95 backdrop-blur-lg border-2 shadow-xl max-w-[200px]">
@@ -66,7 +73,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
                     <button
                       type="button"
                       onClick={() => scrollToSection(section.id)}
-                      className={`w-full text-left transition-all duration-300 group flex items-start gap-3 ${
+                      className={`w-full text-left group flex items-start gap-3 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                         isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
                       }`}
                       aria-current={isActive ? "true" : undefined}
@@ -74,9 +81,9 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
                     >
                       <div className="relative flex-shrink-0">
                         <div
-                          className={`h-8 w-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          className={`h-8 w-8 rounded-full flex items-center justify-center transition-[background-color,color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] motion-reduce:transition-none motion-reduce:transform-none ${
                             isActive
-                              ? "bg-primary text-primary-foreground scale-110"
+                              ? "bg-primary text-primary-foreground scale-110 motion-reduce:scale-100"
                               : isVisited
                               ? "bg-primary/20 text-primary"
                               : "bg-muted text-muted-foreground group-hover:bg-primary/20"

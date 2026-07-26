@@ -44,8 +44,8 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       en: "You don’t know what to fix first on the product or site.",
     },
     valueProp: {
-      es: "Radar: diagnóstico y mejoras prioritarias. Entrada gratis: un flujo accesible.",
-      en: "Radar: diagnostic and priority fixes. Free entry: one accessible flow.",
+      es: "Diagnóstico y mejoras prioritarias (pack Radar). Entrada gratis: un flujo accesible.",
+      en: "Diagnostic and priority fixes (Radar pack). Free entry: one accessible flow.",
     },
     uiTokens: ["Badge outline", "path card", "Primary CTA"],
     deepLinkQuery: "role=diagnostic&package=radar",
