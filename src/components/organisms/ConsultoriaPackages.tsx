@@ -1,4 +1,5 @@
-import { ArrowRight, Clock, Package, Smartphone, Star } from "lucide-react";
+import { ArrowRight, Clock, Gift, Package, Smartphone, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
@@ -10,7 +11,8 @@ import {
 } from "../../data/vientonorte-consulting";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { trackEvent } from "../../lib/analytics";
+import { analytics, trackEvent } from "../../lib/analytics";
+import { ROUTES } from "../../lib/routes";
 import { cn } from "../../lib/utils";
 
 export type PackageSelectOptions = { appGoal?: boolean };
@@ -23,6 +25,7 @@ interface ConsultoriaPackagesProps {
 }
 
 export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
@@ -33,6 +36,12 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
       app: Boolean(options?.appGoal),
     });
     onSelectPackage?.(id, options);
+  };
+
+  const freeRadar = () => {
+    trackEvent("consultoria_free_radar", { source: "packages_strip" });
+    analytics.clickHeroFreeAudit();
+    navigate(ROUTES.audit);
   };
 
   return (
@@ -121,8 +130,49 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
         ))}
       </ul>
 
-      {/* 4.ª oferta del hero: no es pack de duración fija */}
-      <Card className="mt-5 border border-primary/20 bg-surface-matte-elevated shadow-none">
+      {/* SEM lead magnet · entrada gratis Radar (antes de app) */}
+      <Card className="mt-5 border-2 border-primary/35 bg-primary/5 shadow-none">
+        <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex gap-3 min-w-0">
+            <span
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white"
+              aria-hidden
+            >
+              <Gift className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 space-y-1">
+              <Badge variant="outline" className="border-primary/30 text-[10px] uppercase tracking-wide">
+                {t.freeStripBadge}
+              </Badge>
+              <p className="text-base font-semibold tracking-tight">
+                {t.freeStripTitle}
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t.freeStripBody}
+              </p>
+            </div>
+          </div>
+          <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
+            <Button
+              className="w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
+              onClick={freeRadar}
+            >
+              {t.freeStripCta}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full min-h-[40px] text-muted-foreground"
+              onClick={() => select("radar")}
+            >
+              {t.freeStripSecondary}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* App funcional: diseño VN + red */}
+      <Card className="mt-3 border border-primary/20 bg-surface-matte-elevated shadow-none">
         <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3 min-w-0">
             <span
@@ -141,7 +191,8 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
             </div>
           </div>
           <Button
-            className="w-full min-h-[44px] shrink-0 bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
+            className="w-full min-h-[44px] shrink-0 sm:w-auto"
+            variant="outline"
             onClick={() => select("marco", { appGoal: true })}
           >
             {t.appStripCta}

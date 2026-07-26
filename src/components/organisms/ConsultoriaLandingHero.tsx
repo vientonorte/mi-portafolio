@@ -11,7 +11,8 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { trackEvent } from "../../lib/analytics";
+import { useNavigate } from "react-router-dom";
+import { analytics, trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 import {
@@ -19,6 +20,7 @@ import {
   type HeroRoleId,
 } from "../../data/consultoria-hero-roles";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { ROUTES } from "../../lib/routes";
 
 interface ConsultoriaLandingHeroProps {
   onStartOnboarding?: (
@@ -44,6 +46,7 @@ export function ConsultoriaLandingHero({
   onStartOnboarding,
   onExploreEvidence,
 }: ConsultoriaLandingHeroProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const es = language === "es";
@@ -61,6 +64,13 @@ export function ConsultoriaLandingHero({
       return;
     }
     scrollToSection("modalidades");
+  };
+
+  /** SEM lead magnet: free Radar entry → /auditoria */
+  const freeRadar = () => {
+    trackEvent("consultoria_hero_cta", { action: "free_radar_entry" });
+    analytics.clickHeroFreeAudit();
+    navigate(ROUTES.audit);
   };
 
   const selectOffer = (roleId: HeroRoleId) => {
@@ -112,7 +122,7 @@ export function ConsultoriaLandingHero({
             {t.description}
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
             <Button
               size="lg"
               className="min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90 focus-visible:ring-offset-2"
@@ -120,6 +130,14 @@ export function ConsultoriaLandingHero({
             >
               {t.ctaPrimary}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="min-h-[48px] border-primary/30 bg-background/80 font-semibold hover:border-primary/50"
+              onClick={freeRadar}
+            >
+              {t.ctaFree}
             </Button>
             <button
               type="button"

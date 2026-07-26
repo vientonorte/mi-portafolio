@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Diagnostic, prototype, team process, or working app (VN design + build via network). Kickoff <24h. No public prices.',
+            'Free Radar entry: WCAG 2.2 AA on one critical flow. Diagnostic, prototype, process, or working app. SMBs · kickoff <24h.',
         },
         grafo: {
           title: 'Institutional friction network',
@@ -124,20 +124,20 @@ export default {
     },
 
     uxAuditBanner: {
-      badge: 'Viento Norte · Radar (free entry)',
-      titleLead: 'UX audits with',
-      titleAccent: 'measurable evidence',
+      badge: 'Free · Radar · SMBs',
+      titleLead: 'Free Radar entry:',
+      titleAccent: 'WCAG 2.2 AA',
       description:
-        'Free Radar entry: a11y on one critical flow. Full express diagnostic in 5–7 days. Viento Norte service.',
-      highlights: ['Radar entry', 'WCAG 2.2 AA', 'SEO/AEO', 'P0–P2 plan'],
-      ctaPrimary: 'View 3 formats',
-      ctaSecondary: 'Book free entry',
+        'WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Express diagnostic (Radar, 5–7 days). Built for SMBs that want less friction.',
+      highlights: ['Free', 'WCAG 2.2 AA', '1 critical flow', 'Radar 5–7 days'],
+      ctaPrimary: 'Book free entry',
+      ctaSecondary: 'View consulting',
       metrics: {
         a11y: 'Accessibility',
         priority: 'Priority',
         recruiter: 'Recruiter test',
       },
-      panelNote: 'Executive deliverable + quick wins ready to implement.',
+      panelNote: 'SEM lead magnet: free Radar entry → full express diagnostic upsell.',
     },
 
     valueArsenal: {
@@ -242,13 +242,14 @@ export default {
         title: 'UX design for SMBs.',
         titleAccent: 'Pick the deliverable.',
         description:
-          'Four clear paths: diagnostic, prototype, team process, or a working app. Kickoff within 24 business hours.',
+          'Diagnostic, prototype, team process, or working app. For SMBs: start free with Radar.',
         transparencyLine:
-          'No prices on the site. Free entry: accessibility on one flow (Radar). Working app: VN design + build via network.',
+          'Free Radar entry (Express diagnostic): WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Radar (5–7 days).',
         ctaPrimary: 'Book kickoff',
         ctaSecondary: 'See formats',
+        ctaFree: 'Free entry · Radar',
         trustLine: 'Reply within 24 business hours',
-        trustChips: ['Reply <24 h', 'Clear deliverable', 'No public prices'],
+        trustChips: ['Free · WCAG 2.2 AA', 'Radar 5–7 days', 'Reply <24 h'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -399,7 +400,13 @@ export default {
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaForm: 'Write',
-        note: 'No prices on the site — closed at kickoff. You can start free with accessibility on one flow.',
+        note: 'No prices on the site — closed at kickoff.',
+        freeStripBadge: 'SEM · Lead magnet · SMBs',
+        freeStripTitle: 'Free Radar entry',
+        freeStripBody:
+          'WCAG 2.2 AA review of one critical flow (Express diagnostic · free tier). If it fits, let’s talk full Radar (5–7 days).',
+        freeStripCta: 'Book free entry',
+        freeStripSecondary: 'Full Radar',
         appStripTitle: 'Working app',
         appStripBody:
           'Design with Viento Norte. Build is done by the network, under our direction.',
@@ -709,9 +716,9 @@ export default {
           {
             id: 'auditoria-accesibilidad',
             category: 'auditorias',
-            title: 'Accessibility audit',
-            hint: 'Free: Radar entry (a11y on one critical flow). Full diagnostic in 5–7 days.',
-            badge: 'Free · Radar',
+            title: 'Free Radar entry',
+            hint: 'WCAG 2.2 AA on one critical flow. If needed, full Radar in 5–7 days.',
+            badge: 'Free · Radar · SMBs',
             keywords: [
               'audit',
               'free',
@@ -730,13 +737,13 @@ export default {
         panels: {
           negocios: {
             badge: 'Companies',
-            composerHint: 'Viento Norte: big-company method, SMB scale. Three clear formats.',
+            composerHint: 'Viento Norte for SMBs: diagnostic, prototype, process, or app.',
             description:
-              'UX consulting with Radar · Marco · Ops. Transparent scope, kickoff <24 h. No generic public pricing.',
-            highlights: ['Radar', 'Marco', 'Ops'],
+              'UX consulting. Free Radar entry (WCAG 2.2 AA on one flow). Kickoff <24 h.',
+            highlights: ['Free · Radar', 'Prototype', 'App via network'],
             metrics: [],
             ctaPrimary: 'View consulting',
-            ctaSecondary: 'View formats',
+            ctaSecondary: 'Free entry',
           },
           contacto: {
             badge: 'Recruiters',
@@ -749,17 +756,17 @@ export default {
             ctaSecondary: 'Go to contact',
           },
           auditorias: {
-            badge: 'Free · Radar',
+            badge: 'Free · Radar · SMBs',
             composerHint:
-              'Free entry to Radar: a11y review of one critical flow. Full express diagnostic is the 5–7 day Radar.',
+              'Free Radar entry (Express diagnostic): WCAG 2.2 AA review of one critical flow.',
             description:
-              'First step of Express diagnostic (Radar): WCAG 2.2 AA + P0–P2 plan. Not a fourth parallel product.',
-            highlights: ['Radar entry', 'WCAG 2.2 AA', 'No cost'],
+              'If it fits, let’s talk full Radar (5–7 days). SEM lead magnet for SMBs — not a fourth product.',
+            highlights: ['WCAG 2.2 AA', '1 critical flow', 'Free', 'Radar 5–7 days'],
             privacyNote:
               'Forms via proprietary relay — we do not store your data on third-party servers.',
             metrics: [],
-            ctaPrimary: 'Book Radar entry',
-            ctaSecondary: 'View formats',
+            ctaPrimary: 'Book free entry',
+            ctaSecondary: 'View consulting',
           },
         },
       },

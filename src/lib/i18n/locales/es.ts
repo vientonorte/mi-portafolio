@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Diagnóstico, prototipo, proceso de equipo o app funcional (diseño VN + build con red). Kickoff <24 h. Sin precios en la web.',
+            'Entrada gratis a Radar: WCAG 2.2 AA de un flujo crítico. Diagnóstico, prototipo, proceso o app funcional. Pymes · kickoff <24 h.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -124,20 +124,20 @@ export default {
     },
 
     uxAuditBanner: {
-      badge: 'Viento Norte · Radar (entrada gratis)',
-      titleLead: 'Auditorías UX con',
-      titleAccent: 'evidencia medible',
+      badge: 'Gratis · Radar · pymes',
+      titleLead: 'Entrada gratis a Radar:',
+      titleAccent: 'WCAG 2.2 AA',
       description:
-        'Entrada gratis a Radar: a11y de un flujo crítico. Diagnóstico express completo en 5–7 días. Servicio Viento Norte.',
-      highlights: ['Entrada Radar', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
-      ctaPrimary: 'Ver 3 modalidades',
-      ctaSecondary: 'Agendar entrada gratis',
+        'Revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico express completo (Radar, 5–7 días). Para pymes que quieren mejorar sin fricción.',
+      highlights: ['Gratis', 'WCAG 2.2 AA', '1 flujo crítico', 'Radar 5–7 días'],
+      ctaPrimary: 'Agendar entrada gratis',
+      ctaSecondary: 'Ver consultoría',
       metrics: {
         a11y: 'Accesibilidad',
         priority: 'Prioridad',
         recruiter: 'Test reclutador',
       },
-      panelNote: 'Entregable ejecutivo + quick wins listos para implementar.',
+      panelNote: 'Lead magnet SEM: entrada a Radar → upsell diagnóstico express.',
     },
 
     valueArsenal: {
@@ -242,13 +242,14 @@ export default {
         title: 'Diseño UX para pymes.',
         titleAccent: 'Elige el entregable.',
         description:
-          'Cuatro caminos claros: diagnóstico, prototipo, proceso de equipo o app funcional. Kickoff en menos de 24 h hábiles.',
+          'Diagnóstico, prototipo, proceso de equipo o app funcional. Para pymes: empieza gratis con Radar.',
         transparencyLine:
-          'Sin precios en la web. Entrada gratis: accesibilidad de un flujo (Radar). App funcional: diseño VN + build con red.',
+          'Entrada gratis a Radar (Diagnóstico express): revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Radar completo (5–7 días).',
         ctaPrimary: 'Agendar kickoff',
         ctaSecondary: 'Ver modalidades',
+        ctaFree: 'Entrada gratis · Radar',
         trustLine: 'Respuesta en menos de 24 h hábiles',
-        trustChips: ['Respuesta <24 h', 'Entregable claro', 'Sin precios en web'],
+        trustChips: ['Gratis · WCAG 2.2 AA', 'Radar 5–7 días', 'Respuesta <24 h'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
@@ -399,7 +400,13 @@ export default {
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaForm: 'Escribir',
-        note: 'Sin precios en la web: se cierran en el kickoff. Puedes empezar gratis con la accesibilidad de un flujo.',
+        note: 'Sin precios en la web: se cierran en el kickoff.',
+        freeStripBadge: 'SEM · Lead magnet · pymes',
+        freeStripTitle: 'Entrada gratis a Radar',
+        freeStripBody:
+          'Revisión WCAG 2.2 AA de un flujo crítico (Diagnóstico express · tramo gratis). Si aplica, conversemos el Radar completo (5–7 días).',
+        freeStripCta: 'Agendar entrada gratis',
+        freeStripSecondary: 'Radar completo',
         appStripTitle: 'App funcional',
         appStripBody:
           'Diseño con Viento Norte. La programación la hace la red, bajo nuestra dirección.',
@@ -709,20 +716,25 @@ export default {
           {
             id: 'auditoria-accesibilidad',
             category: 'auditorias',
-            title: 'Auditoría de accesibilidad',
-            hint: 'Gratis: entrada a Radar (a11y de un flujo crítico). Completo en 5–7 días.',
-            badge: 'Gratis · Radar',
+            title: 'Entrada gratis a Radar',
+            hint: 'WCAG 2.2 AA de un flujo crítico. Si aplica, Radar completo 5–7 días.',
+            badge: 'Gratis · Radar · pymes',
             keywords: [
               'auditoría',
               'gratis',
               'gratuita',
               'accesibilidad',
               'wcag',
+              'wcag 2.2',
+              'aa',
               'agendar',
               'freemium',
               'radar',
               'diagnóstico',
+              'express',
               'leads',
+              'pyme',
+              'sem',
             ],
             href: 'route/auditoria',
           },
@@ -730,13 +742,13 @@ export default {
         panels: {
           negocios: {
             badge: 'Empresas',
-            composerHint: 'Viento Norte: método grande, escala pyme. Tres modalidades claras.',
+            composerHint: 'Viento Norte para pymes: diagnóstico, prototipo, proceso o app.',
             description:
-              'Consultoría UX con Radar · Marco · Ops. Alcance transparente, kickoff <24 h. Sin precios genéricos en la web.',
-            highlights: ['Radar', 'Marco', 'Ops'],
+              'Consultoría UX. Entrada gratis a Radar (WCAG 2.2 AA de un flujo). Kickoff <24 h.',
+            highlights: ['Gratis · Radar', 'Prototipo', 'App con red'],
             metrics: [],
             ctaPrimary: 'Ver consultoría',
-            ctaSecondary: 'Ver modalidades',
+            ctaSecondary: 'Entrada gratis',
           },
           contacto: {
             badge: 'Reclutadores',
@@ -749,17 +761,17 @@ export default {
             ctaSecondary: 'Ir a contacto',
           },
           auditorias: {
-            badge: 'Gratis · Radar',
+            badge: 'Gratis · Radar · pymes',
             composerHint:
-              'Entrada gratis a Radar: revisión a11y de un flujo crítico. El diagnóstico express completo es el Radar de 5–7 días.',
+              'Entrada gratis a Radar (Diagnóstico express): revisión WCAG 2.2 AA de un flujo crítico.',
             description:
-              'Primer tramo del Diagnóstico express (Radar): WCAG 2.2 AA + plan P0–P2. Sin 4º producto paralelo.',
-            highlights: ['Entrada a Radar', 'WCAG 2.2 AA', 'Sin costo'],
+              'Si aplica, conversemos el Radar completo (5–7 días). Lead magnet SEM para pymes — no es un 4º producto.',
+            highlights: ['WCAG 2.2 AA', '1 flujo crítico', 'Gratis', 'Radar 5–7 días'],
             privacyNote:
               'Formularios vía relay propio — no almacenamos tus datos en servidores de terceros.',
             metrics: [],
-            ctaPrimary: 'Agendar entrada Radar',
-            ctaSecondary: 'Ver modalidades',
+            ctaPrimary: 'Agendar entrada gratis',
+            ctaSecondary: 'Ver consultoría',
           },
         },
       },
