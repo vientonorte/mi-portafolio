@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Viento Norte service with Rodrigo Gaete (UX Lead): N2N, Design Ops, 3 formats (Radar · Marco · Ops), and onboarding. Kickoff within 24 business hours.',
+            'Viento Norte UX consulting: N2N, Design Ops, 3 formats (Radar · Marco · Ops), and onboarding. Kickoff within 24 business hours.',
         },
         grafo: {
           title: 'Institutional friction network',
@@ -128,7 +128,7 @@ export default {
       titleLead: 'UX audits with',
       titleAccent: 'measurable evidence',
       description:
-        'Free Radar entry: a11y on one critical flow. Full express diagnostic in 5–7 days. Viento Norte service · face Rodrigo Gaete.',
+        'Free Radar entry: a11y on one critical flow. Full express diagnostic in 5–7 days. Viento Norte service.',
       highlights: ['Radar entry', 'WCAG 2.2 AA', 'SEO/AEO', 'P0–P2 plan'],
       ctaPrimary: 'View 3 formats',
       ctaSecondary: 'Book free entry',
@@ -237,12 +237,12 @@ export default {
         changePackage: 'Change',
       },
       landing: {
-        badge: 'Viento Norte · service · Rodrigo Gaete',
+        badge: 'Viento Norte · UX consulting',
         principleBadge: 'Transparency as principle',
         title: 'Clear scope,',
         titleAccent: 'no fine print',
         description:
-          'Viento Norte UX consulting, with Rodrigo Gaete’s face and method. Pick a format in one tap — what we deliver and what we don’t, before kickoff.',
+          'Viento Norte UX consulting. Pick a format in one tap — what we deliver and what we don’t, before kickoff. N2N method · Design Ops for regulated products.',
         transparencyLine:
           'No generic public pricing: scope closes with you. Three fixed formats: Radar · Marco · Ops.',
         ctaPrimary: 'Book kickoff',
@@ -434,7 +434,7 @@ export default {
       welcome: {
         title: 'Viento Norte consulting',
         description:
-          '4-step onboarding: pick a VN service format and leave a ready message. Face: Rodrigo Gaete · UX Lead.',
+          '4-step onboarding: pick a VN service format and leave a ready message for the Viento Norte team.',
         points: [
           'Three formats: Radar · Marco · Ops (same taxonomy as home)',
           'Scope: UX · Design · Design Ops · DevOps · product AI',

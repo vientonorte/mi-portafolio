@@ -85,7 +85,7 @@ export const CONSULTING_INDUSTRIES = {
 
 /** Prefill onboarding / contacto — Partner de desarrollo · Proyectos educativos */
 export const PARTNER_EDU_CONTACT_GOAL: Record<Language, string> = {
-  es: `Hola Rodrigo — busco partner de desarrollo para proyectos educativos.
+  es: `Hola Viento Norte — busco partner de desarrollo para proyectos educativos.
 
 Quiero agendar una videollamada para explorar colaboración en UX, producto digital y desarrollo de experiencias de aprendizaje.
 
@@ -94,7 +94,7 @@ Necesidad: [diagnóstico · prototipo N2N · Design Ops · handoff a código · 
 Disponibilidad: [días / franja horaria].
 
 Gracias — agendemos la videollamada.`,
-  en: `Hi Rodrigo — looking for a development partner for educational projects.
+  en: `Hi Viento Norte — looking for a development partner for educational projects.
 
 I'd like to schedule a video call to explore collaboration on UX, digital product, and learning-experience development.
 
@@ -126,7 +126,7 @@ export function buildConsultingContactMessage(
 ): string {
   if (language === "es") {
     return [
-      "Hola Rodrigo — solicitud vía onboarding Viento Norte.",
+      "Hola Viento Norte — solicitud vía onboarding.",
       "",
       `Modalidad: ${pkg.name.es}`,
       `Industria: ${industry}`,
@@ -139,7 +139,7 @@ export function buildConsultingContactMessage(
     ].join("\n");
   }
   return [
-    "Hi Rodrigo — request via Viento Norte onboarding.",
+    "Hi Viento Norte — request via onboarding.",
     "",
     `Format: ${pkg.name.en}`,
     `Industry: ${industry}`,

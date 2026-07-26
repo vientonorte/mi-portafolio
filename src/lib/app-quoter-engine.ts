@@ -110,7 +110,7 @@ export function buildAppQuoterContactMessage(
 
   if (language === "es") {
     return [
-      "Hola Rodrigo — solicitud vía cotizador app/web Viento Norte.",
+      "Hola Viento Norte — solicitud vía cotizador de alcance.",
       "",
       `Presupuesto de referencia: ${budget} (${result.currency})`,
       `Expectativa: ${tierLabel}`,
@@ -124,7 +124,7 @@ export function buildAppQuoterContactMessage(
   }
 
   return [
-    "Hi Rodrigo — request via Viento Norte app/web quoter.",
+    "Hi Viento Norte — request via scope quoter.",
     "",
     `Reference budget: ${budget} (${result.currency})`,
     `Expected deliverable: ${tierLabel}`,

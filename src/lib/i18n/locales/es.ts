@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Servicio Viento Norte con Rodrigo Gaete (UX Lead): N2N, Design Ops, 3 modalidades (Radar · Marco · Ops) y onboarding. Kickoff <24 h hábiles.',
+            'Consultoría UX Viento Norte: N2N, Design Ops, 3 modalidades (Radar · Marco · Ops) y onboarding. Kickoff <24 h hábiles.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -128,7 +128,7 @@ export default {
       titleLead: 'Auditorías UX con',
       titleAccent: 'evidencia medible',
       description:
-        'Entrada gratis a Radar: a11y de un flujo crítico. Diagnóstico express completo en 5–7 días. Servicio Viento Norte · rostro Rodrigo Gaete.',
+        'Entrada gratis a Radar: a11y de un flujo crítico. Diagnóstico express completo en 5–7 días. Servicio Viento Norte.',
       highlights: ['Entrada Radar', 'WCAG 2.2 AA', 'SEO/AEO', 'Plan P0–P2'],
       ctaPrimary: 'Ver 3 modalidades',
       ctaSecondary: 'Agendar entrada gratis',
@@ -237,12 +237,12 @@ export default {
         changePackage: 'Cambiar',
       },
       landing: {
-        badge: 'Viento Norte · servicio · Rodrigo Gaete',
+        badge: 'Viento Norte · consultoría UX',
         principleBadge: 'Transparencia como principio',
         title: 'Alcance claro,',
         titleAccent: 'sin letra chica',
         description:
-          'Consultoría UX de Viento Norte, con el rostro y el método de Rodrigo Gaete. Eliges modalidad en un clic — qué entregamos y qué no, antes del kickoff.',
+          'Consultoría UX de Viento Norte. Eliges modalidad en un clic — qué entregamos y qué no, antes del kickoff. Método N2N · Design Ops en productos regulados.',
         transparencyLine:
           'No hay precios genéricos en la web: el alcance se cierra contigo. Tres modalidades fijas: Radar · Marco · Ops.',
         ctaPrimary: 'Agendar conversación',
@@ -434,7 +434,7 @@ export default {
       welcome: {
         title: 'Consultoría Viento Norte',
         description:
-          'Onboarding en 4 pasos: eliges modalidad del servicio VN y dejamos el mensaje listo. Rostro: Rodrigo Gaete · UX Lead.',
+          'Onboarding en 4 pasos: eliges modalidad del servicio VN y dejamos el mensaje listo para el equipo de Viento Norte.',
         points: [
           'Tres modalidades: Radar · Marco · Ops (misma taxonomía que en home)',
           'Alcance UX · Design · Design Ops · DevOps · IA de producto',
