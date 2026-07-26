@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build-smoke:
@@ -21,10 +22,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
 
       - run: npm ci
-
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
 
@@ -74,8 +78,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm test
       - run: npm run qa:nav
 
@@ -87,8 +95,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npx tsc --noEmit
 
   build:
@@ -102,8 +114,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
       - name: Bundle size check
@@ -127,8 +143,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
       - run: npx playwright install chromium
@@ -168,8 +188,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: '@vientonorte'
           cache: npm
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
       - name: Instalar pa11y
