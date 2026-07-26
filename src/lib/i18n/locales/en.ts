@@ -251,9 +251,9 @@ export default {
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: "Let's talk",
         ctaSecondary: 'See options',
-        ctaFree: 'Try free',
+        ctaFree: 'Free · accessibility',
         trustLine: 'Reply within 24 h',
-        trustChips: ['Free · 1 flow', '5–7 days', 'Reply <24 h'],
+        trustChips: ['Free · accessibility', '5–7 days', 'Reply <24 h'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -409,11 +409,11 @@ export default {
         cta: 'Start',
         ctaForm: 'Write',
         note: 'No prices on the site — closed at kickoff.',
-        freeStripBadge: 'Free',
-        freeStripTitle: 'Start with accessibility on one flow',
+        freeStripBadge: 'Free · accessibility',
+        freeStripTitle: 'Free review of one flow',
         freeStripBody:
-          'WCAG 2.2 AA review of one critical flow — free entry to Diagnostic. Full diagnostic is 5–7 days if you need it.',
-        freeStripCta: 'Start free',
+          'We check accessibility on one key flow (WCAG 2.2 AA). If it helps, full Diagnostic is 5–7 days.',
+        freeStripCta: 'Request free review',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'App end to end',
         appStripBody:

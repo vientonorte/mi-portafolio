@@ -251,9 +251,9 @@ export default {
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Hablemos',
         ctaSecondary: 'Ver opciones',
-        ctaFree: 'Probar gratis',
+        ctaFree: 'Gratis · accesibilidad',
         trustLine: 'Respuesta en menos de 24 h',
-        trustChips: ['Gratis · 1 flujo', '5–7 días', 'Respuesta <24 h'],
+        trustChips: ['Gratis · accesibilidad', '5–7 días', 'Respuesta <24 h'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
@@ -409,11 +409,11 @@ export default {
         cta: 'Empezar',
         ctaForm: 'Escribir',
         note: 'Sin precios en la web: se cierran en el kickoff.',
-        freeStripBadge: 'Gratis',
-        freeStripTitle: 'Empieza con accesibilidad de un flujo',
+        freeStripBadge: 'Gratis · accesibilidad',
+        freeStripTitle: 'Revisión gratis de un flujo',
         freeStripBody:
-          'Revisión WCAG 2.2 AA de un flujo crítico — entrada gratis al Diagnóstico. Si te sirve, el completo son 5–7 días.',
-        freeStripCta: 'Empezar gratis',
+          'Miramos la accesibilidad de un flujo clave (WCAG 2.2 AA). Si te sirve, el Diagnóstico completo son 5–7 días.',
+        freeStripCta: 'Pedir revisión gratis',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App de punta a punta',
         appStripBody:
