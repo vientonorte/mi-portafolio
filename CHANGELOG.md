@@ -5,6 +5,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-26] — Consultoría embudo, free a11y, DS, hygiene
+
+### Added
+- **Nav embudo** en `/consultoria`: `ProcessNavigation` (01–05) + dock `funnel` (Empezar → onboarding, Contacto → `#contacto`).
+- **Sección Contact** al pie del embudo; asistente `surface="consulting"` (intent fijo, sin laboral/freelance).
+- **Atmósferas de sección** (`section-atmosphere-*` + `PageSection atmosphere`) — lavados radiales en lugar de bloques solid planos.
+- **Homologación DS:** labels dock vía i18n; motion tokens `--duration-*` / `--ease-out`; SEO consultoria alineado a Diagnóstico.
+- Docs de valor: `docs/entregables/` (SEO-Ads onboarding, formato a11y freemium Transvip).
+
+### Changed
+- Hero: **Tecnología para empresas.** / **Elige tu alcance.**; CTAs **Hablemos** · **Gratis · accesibilidad** · **Ver opciones**.
+- Free entry: mensaje y strip orientados a **accesibilidad de un flujo** (no mentoría `/auditoria`).
+- Toolbar consultoría: isologo sin wordmark personal.
+- Naming pyme: Diagnóstico en UI; Radar/Marco/Ops como packLabel en cards.
+
+### Repo
+- Limpieza de ramas: solo `main` local; remoto main + 4 dependabot open.
+
+### Notes
+- Skills user: `/seo-vn`, `/google-ads-vn` (local-first ≥100 checks). Matrix 111/111 PASS en local.
+- Backlog: residual «Radar» en home SEM; interactions-pass; spy dock por sección.
+
+---
+
 ## [2026-07-21] — Fix: dock legible al scroll
 
 ### Fixed
