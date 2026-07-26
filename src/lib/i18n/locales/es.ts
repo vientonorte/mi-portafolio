@@ -238,39 +238,39 @@ export default {
       },
       landing: {
         badge: 'Viento Norte · pymes',
-        principleBadge: 'Método grande · escala chica',
-        title: 'Menos fricción,',
-        titleAccent: 'alcance claro',
+        principleBadge: 'Consultoría UX',
+        title: 'Diseño UX para pymes.',
+        titleAccent: 'Elige el entregable.',
         description:
-          'Consultoría UX para pymes. Tres formas de trabajar: Radar, Marco u Ops. Kickoff en menos de 24 horas hábiles.',
+          'Cuatro caminos claros: diagnóstico, prototipo, proceso de equipo o app funcional. Kickoff en menos de 24 h hábiles.',
         transparencyLine:
-          'Sin precios en la web. Entrada gratis: revisión de accesibilidad de un flujo. Diagnóstico completo en 5–7 días (Radar).',
+          'Sin precios en la web. Entrada gratis: accesibilidad de un flujo (Radar). App funcional: diseño VN + build con red.',
         ctaPrimary: 'Agendar kickoff',
         ctaSecondary: 'Ver modalidades',
         trustLine: 'Respuesta en menos de 24 h hábiles',
-        trustChips: ['Respuesta <24 h', 'Alcance claro', 'Sin precios en web'],
-        segmentsLabel: '¿Qué te describe mejor?',
-        segmentsHint: 'Un clic y armamos tu camino.',
+        trustChips: ['Respuesta <24 h', 'Entregable claro', 'Sin precios en web'],
+        segmentsLabel: '¿Qué necesitas?',
+        segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
-          product: {
-            title: 'Producto',
-            hint: 'Onboarding y roadmap',
-            cta: 'Ir a Marco',
+          diagnostic: {
+            title: 'Diagnóstico',
+            hint: 'Informe + plan · 5–7 días',
+            cta: 'Empezar Radar',
           },
-          ops: {
-            title: 'Equipo de diseño',
-            hint: 'Proceso y entrega',
-            cta: 'Ir a Ops',
+          prototype: {
+            title: 'Prototipo',
+            hint: 'Pantallas listas para construir',
+            cta: 'Empezar Marco',
           },
-          compliance: {
-            title: 'Datos sensibles',
-            hint: 'Herramientas en tu entorno',
-            cta: 'Ver opción datos',
+          process: {
+            title: 'Proceso de equipo',
+            hint: 'Guía de cómo diseñan y entregan',
+            cta: 'Empezar Ops',
           },
-          founder: {
-            title: 'Fundador',
-            hint: 'Diagnóstico rápido',
-            cta: 'Ir a Radar',
+          app: {
+            title: 'App funcional',
+            hint: 'Diseño VN · build con red',
+            cta: 'Empezar app',
           },
         },
         techLayerLabel: 'Referencias',

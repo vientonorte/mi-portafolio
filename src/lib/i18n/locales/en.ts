@@ -238,39 +238,39 @@ export default {
       },
       landing: {
         badge: 'Viento Norte · SMBs',
-        principleBadge: 'Big method · small scale',
-        title: 'Less friction,',
-        titleAccent: 'clear scope',
+        principleBadge: 'UX consulting',
+        title: 'UX design for SMBs.',
+        titleAccent: 'Pick the deliverable.',
         description:
-          'UX consulting for SMBs. Three ways to work: Radar, Marco, or Ops. Kickoff within 24 business hours.',
+          'Four clear paths: diagnostic, prototype, team process, or a working app. Kickoff within 24 business hours.',
         transparencyLine:
-          'No prices on the site. Free entry: accessibility check on one flow. Full diagnostic in 5–7 days (Radar).',
+          'No prices on the site. Free entry: accessibility on one flow (Radar). Working app: VN design + build via network.',
         ctaPrimary: 'Book kickoff',
         ctaSecondary: 'See formats',
         trustLine: 'Reply within 24 business hours',
-        trustChips: ['Reply <24 h', 'Clear scope', 'No public prices'],
-        segmentsLabel: 'What fits you best?',
-        segmentsHint: 'One tap sets your path.',
+        trustChips: ['Reply <24 h', 'Clear deliverable', 'No public prices'],
+        segmentsLabel: 'What do you need?',
+        segmentsHint: 'One tap = service and what you get.',
         segments: {
-          product: {
-            title: 'Product',
-            hint: 'Onboarding and roadmap',
-            cta: 'Go to Marco',
+          diagnostic: {
+            title: 'Diagnostic',
+            hint: 'Report + plan · 5–7 days',
+            cta: 'Start Radar',
           },
-          ops: {
-            title: 'Design team',
-            hint: 'Process and delivery',
-            cta: 'Go to Ops',
+          prototype: {
+            title: 'Prototype',
+            hint: 'Screens ready to build',
+            cta: 'Start Marco',
           },
-          compliance: {
-            title: 'Sensitive data',
-            hint: 'Tools in your environment',
-            cta: 'See data option',
+          process: {
+            title: 'Team process',
+            hint: 'How the team designs and delivers',
+            cta: 'Start Ops',
           },
-          founder: {
-            title: 'Founder',
-            hint: 'Fast diagnostic',
-            cta: 'Go to Radar',
+          app: {
+            title: 'Working app',
+            hint: 'VN design · build via network',
+            cta: 'Start app',
           },
         },
         techLayerLabel: 'References',

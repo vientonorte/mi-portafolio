@@ -1,4 +1,10 @@
-import { ArrowRight, Building2, Layers, Lock, Workflow } from "lucide-react";
+import {
+  ArrowRight,
+  ClipboardList,
+  LayoutTemplate,
+  Smartphone,
+  Users,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Badge } from "../ui/badge";
@@ -17,26 +23,22 @@ import { scrollToSection } from "../../lib/scroll-to-section";
 interface ConsultoriaLandingHeroProps {
   onStartOnboarding?: (
     packageId?: ConsultingPackageId,
-    options?: { c1Goal?: boolean }
+    options?: { c1Goal?: boolean; appGoal?: boolean }
   ) => void;
   onExploreEvidence?: () => void;
 }
 
-const ROLE_ICONS: Record<HeroRoleId, LucideIcon> = {
-  product: Building2,
-  ops: Layers,
-  compliance: Lock,
-  founder: Workflow,
+const OFFER_ICONS: Record<HeroRoleId, LucideIcon> = {
+  diagnostic: ClipboardList,
+  prototype: LayoutTemplate,
+  process: Users,
+  app: Smartphone,
 };
 
 /**
- * Hero consultoría — best practices de conversión + baja carga cognitiva:
- * - 1 promesa (título) + 1 lead + 1 CTA primario
- * - Trust como chips (átomos), no métricas meta (“1 CTA”)
- * - Un solo job secundario: elegir camino (4 paths)
- * - Métricas y jump-nav fuera del hero (progressive disclosure en la página)
- *
- * @see LogRocket / Unbounce: un CTA primario, whitespace, sin clutter
+ * Hero consultoría — oferta explícita (servicio + qué te llevas):
+ * 1 promesa + 4 CTAs de producto/servicio (no “quién eres”)
+ * App funcional = diseño VN + build con red (externalizado).
  */
 export function ConsultoriaLandingHero({
   onStartOnboarding,
@@ -52,7 +54,6 @@ export function ConsultoriaLandingHero({
     onStartOnboarding?.();
   };
 
-  /** Secondary CTA: 3 modalidades (no evidencia — copy canónico 2026-07-26). */
   const secondary = () => {
     trackEvent("consultoria_hero_cta", { action: "secondary_modalidades" });
     if (onExploreEvidence) {
@@ -62,14 +63,18 @@ export function ConsultoriaLandingHero({
     scrollToSection("modalidades");
   };
 
-  const selectSegment = (roleId: HeroRoleId) => {
+  const selectOffer = (roleId: HeroRoleId) => {
     const role = HERO_ROLES.find((r) => r.id === roleId);
     if (!role) return;
-    trackEvent("consultoria_hero_segment", {
-      segment: role.id,
+    trackEvent("consultoria_hero_offer", {
+      offer: role.id,
       package_id: role.packageId,
+      app: Boolean(role.appGoal),
     });
-    onStartOnboarding?.(role.packageId, { c1Goal: role.c1Goal });
+    onStartOnboarding?.(role.packageId, {
+      c1Goal: role.c1Goal,
+      appGoal: role.appGoal,
+    });
   };
 
   return (
@@ -87,7 +92,6 @@ export function ConsultoriaLandingHero({
       />
 
       <div className="container relative mx-auto max-w-3xl">
-        {/* ── Capa 0: promesa (único foco) ── */}
         <div className="mx-auto space-y-6 text-center">
           <Badge
             variant="outline"
@@ -145,31 +149,39 @@ export function ConsultoriaLandingHero({
           </ul>
         </div>
 
-        {/* ── Capa 1: un solo job secundario — elegir camino ── */}
+        {/* Oferta: servicio/producto — no roles de persona */}
         <div
           className="mt-12 border-t border-border/40 pt-10 md:mt-14 md:pt-12"
           role="group"
-          aria-labelledby="hero-segments-heading"
+          aria-labelledby="hero-offers-heading"
         >
           <p
-            id="hero-segments-heading"
-            className="mb-5 text-center text-sm text-muted-foreground"
+            id="hero-offers-heading"
+            className="mb-2 text-center text-sm font-medium text-foreground"
           >
             {t.segmentsLabel}
           </p>
+          {t.segmentsHint ? (
+            <p className="mb-5 text-center text-xs text-muted-foreground">
+              {t.segmentsHint}
+            </p>
+          ) : null}
 
           <ul
             className="m-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2"
             role="list"
           >
             {HERO_ROLES.map((role) => {
-              const Icon = ROLE_ICONS[role.id];
+              const Icon = OFFER_ICONS[role.id];
+              const copy = t.segments[role.id as keyof typeof t.segments];
+              const title = copy?.title ?? role.title[language];
+              const hint = copy?.hint ?? role.hint[language];
 
               return (
                 <li key={role.id} className="min-w-0">
                   <motion.button
                     type="button"
-                    onClick={() => selectSegment(role.id)}
+                    onClick={() => selectOffer(role.id)}
                     whileHover={
                       prefersReducedMotion ? undefined : { y: -1 }
                     }
@@ -181,7 +193,8 @@ export function ConsultoriaLandingHero({
                       "bg-surface-matte-elevated px-4 py-3.5 text-left",
                       "transition-[border-color,background-color] duration-200",
                       "hover:border-primary/25 hover:bg-background/40",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      role.appGoal && "border-primary/20"
                     )}
                   >
                     <span
@@ -192,10 +205,10 @@ export function ConsultoriaLandingHero({
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold tracking-tight text-foreground">
-                        {role.title[language]}
+                        {title}
                       </span>
                       <span className="mt-0.5 block text-xs text-muted-foreground">
-                        {role.hint[language]}
+                        {hint}
                       </span>
                     </span>
                     <ArrowRight

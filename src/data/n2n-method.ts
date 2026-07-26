@@ -85,3 +85,19 @@ Context: [industry / data type].
 Need: diagnostic (Radar) or prototype (Marco) without sending data to public tools.
 Timeline: [add timeline].`,
 };
+
+/** App funcional: diseño VN + build con red (externalizado bajo dirección) */
+export const APP_ONBOARDING_GOAL: Record<Language, string> = {
+  es: `Objetivo: app funcional (no solo pantallas).
+Diseño y alcance: Viento Norte.
+Implementación: con red bajo dirección VN (externalizado).
+Contexto: [qué hace la app / usuarios].
+Plataforma: [web app / iOS / Android / otra].
+Plazo e inversión de referencia: [indica].`,
+  en: `Goal: working app (not screens only).
+Design and scope: Viento Norte.
+Build: network under VN direction (externalized).
+Context: [what the app does / users].
+Platform: [web app / iOS / Android / other].
+Timeline and budget reference: [add].`,
+};

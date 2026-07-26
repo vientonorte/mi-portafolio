@@ -2,146 +2,125 @@ import type { Language } from "../lib/i18n";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
 /**
- * 4 roles del hero de consultoría — fuente única para landing + Design System.
- * Los planes de campaña (copy SEM/SEO) no se exponen en UI; solo checklist
- * de código optimizado para activar campañas sin reescribir el sistema.
+ * 4 CTAs del hero = oferta (servicio/producto), no “quién eres”.
+ * Deep links UTM-ready. Copy de ads no vive aquí.
  */
-export type HeroRoleId = "product" | "ops" | "compliance" | "founder";
+export type HeroRoleId = "diagnostic" | "prototype" | "process" | "app";
 
 export interface HeroRoleDefinition {
   id: HeroRoleId;
   /** Modalidad de onboarding por defecto */
   packageId: ConsultingPackageId;
-  /** Goal C1 (offline / perímetro) */
+  /** Datos sensibles / entorno privado (legacy C1) */
   c1Goal?: boolean;
+  /**
+   * App funcional: diseño VN + implementación con red (externalizado).
+   * Prefill de goal en onboarding.
+   */
+  appGoal?: boolean;
   title: Record<Language, string>;
-  /** Hint corto del path en hero */
+  /** Hint = qué te llevas (producto) · corto */
   hint: Record<Language, string>;
-  /** Problema que resuelve (interno / DS técnico) */
   pain: Record<Language, string>;
-  /** Mensaje de valor en 1 línea (producto, no ad copy) */
   valueProp: Record<Language, string>;
-  /** Tokens / UI atoms del path */
   uiTokens: string[];
-  /** Query / deep-link listo para UTM (código, no plan de medios) */
   deepLinkQuery: string;
 }
 
 export const HERO_ROLES: readonly HeroRoleDefinition[] = [
   {
-    id: "product",
-    packageId: "marco",
-    title: {
-      es: "Producto",
-      en: "Product",
-    },
-    hint: {
-      es: "Onboarding y roadmap",
-      en: "Onboarding and roadmap",
-    },
-    pain: {
-      es: "Onboarding y roadmap trabados o confusos.",
-      en: "Onboarding and roadmap stuck or confusing.",
-    },
-    valueProp: {
-      es: "Marco: del brief al prototipo con criterios claros.",
-      en: "Marco: brief to prototype with clear criteria.",
-    },
-    uiTokens: [
-      "primary CTA brand-gradient",
-      "surface-matte-elevated",
-      "Badge outline",
-      "SectionHeader",
-    ],
-    deepLinkQuery: "role=product&package=marco",
-  },
-  {
-    id: "ops",
-    packageId: "ops",
-    title: {
-      es: "Equipo de diseño",
-      en: "Design team",
-    },
-    hint: {
-      es: "Proceso y entrega",
-      en: "Process and delivery",
-    },
-    pain: {
-      es: "El equipo entrega sin proceso claro ni medidas.",
-      en: "The team ships without a clear process or measures.",
-    },
-    valueProp: {
-      es: "Ops: proceso de equipo, talleres y cómo medir adopción.",
-      en: "Ops: team process, workshops, and adoption measures.",
-    },
-    uiTokens: [
-      "logo-surface",
-      "4px / 8pt spacing",
-      "atomic 70-20-10",
-      "LiquidNavCta / dock glass",
-    ],
-    deepLinkQuery: "role=ops&package=ops",
-  },
-  {
-    id: "compliance",
-    packageId: "marco",
-    c1Goal: true,
-    title: {
-      es: "Datos sensibles",
-      en: "Sensitive data",
-    },
-    hint: {
-      es: "Herramientas en tu entorno",
-      en: "Tools in your environment",
-    },
-    pain: {
-      es: "Datos sensibles en herramientas públicas o sin control.",
-      en: "Sensitive data in public tools or without control.",
-    },
-    valueProp: {
-      es: "Trabajo en tu entorno: datos y prototipo sin salir a la nube pública.",
-      en: "Work in your environment: data and prototype stay off the public cloud.",
-    },
-    uiTokens: [
-      "trust chips",
-      "Badge mono uppercase",
-      "border logo-surface",
-      "WCAG focus rings",
-    ],
-    deepLinkQuery: "role=compliance&package=marco&c1=1",
-  },
-  {
-    id: "founder",
+    id: "diagnostic",
     packageId: "radar",
     title: {
-      es: "Fundador / startup",
-      en: "Founder / startup",
+      es: "Diagnóstico",
+      en: "Diagnostic",
     },
     hint: {
-      es: "Diagnóstico rápido",
-      en: "Fast diagnostic",
+      es: "Informe + plan · 5–7 días",
+      en: "Report + plan · 5–7 days",
     },
     pain: {
-      es: "Producto o sitio sin claridad ni mejoras prioritarias.",
-      en: "Product or site without clarity or priority fixes.",
+      es: "No sabes qué arreglar primero en el producto o sitio.",
+      en: "You don’t know what to fix first on the product or site.",
     },
     valueProp: {
-      es: "Radar en 5–7 días: diagnóstico y mejoras prioritarias.",
-      en: "Radar in 5–7 days: diagnostic and priority fixes.",
+      es: "Radar: diagnóstico y mejoras prioritarias. Entrada gratis: un flujo accesible.",
+      en: "Radar: diagnostic and priority fixes. Free entry: one accessible flow.",
     },
-    uiTokens: [
-      "hero title + accent gradient",
-      "path card 2×2",
-      "Primary CTA only",
-      "text-brand-gradient",
-    ],
-    deepLinkQuery: "role=founder&package=radar",
+    uiTokens: ["Badge outline", "path card", "Primary CTA"],
+    deepLinkQuery: "role=diagnostic&package=radar",
+  },
+  {
+    id: "prototype",
+    packageId: "marco",
+    title: {
+      es: "Prototipo",
+      en: "Prototype",
+    },
+    hint: {
+      es: "Pantallas listas para construir",
+      en: "Screens ready to build",
+    },
+    pain: {
+      es: "Hay ideas, pero no un prototipo claro para validar o construir.",
+      en: "Ideas exist, but no clear prototype to validate or build.",
+    },
+    valueProp: {
+      es: "Marco: del brief al prototipo y entrega a desarrollo.",
+      en: "Marco: brief to prototype and handoff to development.",
+    },
+    uiTokens: ["surface-matte-elevated", "SectionHeader", "brand-gradient"],
+    deepLinkQuery: "role=prototype&package=marco",
+  },
+  {
+    id: "process",
+    packageId: "ops",
+    title: {
+      es: "Proceso de equipo",
+      en: "Team process",
+    },
+    hint: {
+      es: "Guía de cómo diseñan y entregan",
+      en: "How the team designs and delivers",
+    },
+    pain: {
+      es: "El equipo diseña sin proceso claro ni forma de medir.",
+      en: "The team designs without a clear process or measures.",
+    },
+    valueProp: {
+      es: "Ops: proceso de trabajo, talleres y adopción.",
+      en: "Ops: working process, workshops, and adoption.",
+    },
+    uiTokens: ["logo-surface", "4px spacing", "LiquidNavCta"],
+    deepLinkQuery: "role=process&package=ops",
+  },
+  {
+    id: "app",
+    packageId: "marco",
+    appGoal: true,
+    title: {
+      es: "App funcional",
+      en: "Working app",
+    },
+    hint: {
+      es: "Diseño VN · build con red",
+      en: "VN design · build via network",
+    },
+    pain: {
+      es: "Necesitas una app que funcione, no solo pantallas.",
+      en: "You need a working app, not just screens.",
+    },
+    valueProp: {
+      es: "Diseño y alcance con Viento Norte; implementación con especialistas bajo dirección VN.",
+      en: "Design and scope with Viento Norte; build with specialists under VN direction.",
+    },
+    uiTokens: ["primary CTA", "trust chips", "focus rings"],
+    deepLinkQuery: "role=app&package=marco&app=1",
   },
 ] as const;
 
 /**
- * Checklist de **código** optimizado para campañas (no plan de medios, no copy ads).
- * Visible en DS como criterios de implementación.
+ * Checklist de código para campañas (sin plan de medios).
  */
 export const CAMPAIGN_CODE_CHECKLIST: readonly {
   id: string;
@@ -151,80 +130,80 @@ export const CAMPAIGN_CODE_CHECKLIST: readonly {
   {
     id: "role-ids",
     label: {
-      es: "IDs de rol estables (product | ops | compliance | founder)",
-      en: "Stable role IDs (product | ops | compliance | founder)",
+      es: "IDs de oferta estables (diagnostic | prototype | process | app)",
+      en: "Stable offer IDs (diagnostic | prototype | process | app)",
     },
     codeHint: "HERO_ROLES[].id",
   },
   {
     id: "package-map",
     label: {
-      es: "Mapa rol → packageId / c1Goal (onboarding sin re-elegir)",
-      en: "Role → packageId / c1Goal map (onboarding without re-pick)",
+      es: "Mapa oferta → packageId / appGoal / c1Goal",
+      en: "Offer → packageId / appGoal / c1Goal map",
     },
-    codeHint: "packageId + c1Goal",
+    codeHint: "packageId + appGoal + c1Goal",
   },
   {
     id: "deep-link",
     label: {
-      es: "Deep link query por rol (UTM listo en landing)",
-      en: "Per-role deep link query (UTM-ready on landing)",
+      es: "Deep link query por oferta (UTM listo)",
+      en: "Per-offer deep link query (UTM-ready)",
     },
-    codeHint: "?role=&package=&c1=",
+    codeHint: "?role=&package=&app=",
   },
   {
     id: "scroll-section",
     label: {
-      es: "Scroll a inicio de sección con offset de header",
-      en: "Scroll to section start with header offset",
+      es: "Scroll a sección con offset de header",
+      en: "Scroll to section with header offset",
     },
     codeHint: "scrollToSection / ScrollManager",
   },
   {
     id: "seo-meta",
     label: {
-      es: "SEOHead + canonical por ruta (sin copy de campaña en DS)",
-      en: "SEOHead + per-route canonical (no ad copy in DS)",
+      es: "SEOHead + canonical por ruta",
+      en: "SEOHead + per-route canonical",
     },
     codeHint: "SEOHead / canonicalFromPath",
   },
   {
     id: "structured-data",
     label: {
-      es: "JSON-LD Person/WebSite tras i18n cargado",
-      en: "Person/WebSite JSON-LD after i18n load",
+      es: "JSON-LD tras i18n cargado",
+      en: "JSON-LD after i18n load",
     },
     codeHint: "buildPortfolioStructuredData",
   },
   {
     id: "a11y-cta",
     label: {
-      es: "CTA ≥ 44px, aria-current en nav, contraste AA",
-      en: "CTA ≥ 44px, nav aria-current, AA contrast",
+      es: "CTA ≥ 44px, contraste AA",
+      en: "CTA ≥ 44px, AA contrast",
     },
     codeHint: "NavTabItem / LiquidNavCta",
   },
   {
     id: "i18n-atomic",
     label: {
-      es: "Swap ES↔EN atómico (sin carrera al toglear)",
-      en: "Atomic ES↔EN swap (no race on toggle)",
+      es: "Swap ES↔EN atómico",
+      en: "Atomic ES↔EN swap",
     },
     codeHint: "LanguageProvider locale state",
   },
   {
     id: "tokens-export",
     label: {
-      es: "Export Tokens Studio / W3C / CSS para piezas creativas",
-      en: "Tokens Studio / W3C / CSS export for creatives",
+      es: "Export tokens para piezas creativas",
+      en: "Token export for creatives",
     },
     codeHint: "design-tokens-export",
   },
   {
     id: "single-source",
     label: {
-      es: "Una sola fuente de roles (no inventar 5º path sin data)",
-      en: "Single role source (no 5th path without data)",
+      es: "Una sola fuente de CTAs de oferta (no 5º path sin data)",
+      en: "Single offer CTA source (no 5th path without data)",
     },
     codeHint: "consultoria-hero-roles.ts",
   },

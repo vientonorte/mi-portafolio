@@ -1,10 +1,10 @@
 import {
-  Building2,
   CheckCircle2,
+  ClipboardList,
   Code2,
-  Layers,
-  Lock,
-  Workflow,
+  LayoutTemplate,
+  Smartphone,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
@@ -19,14 +19,14 @@ import {
 } from "../../data/consultoria-hero-roles";
 
 const ROLE_ICONS: Record<HeroRoleId, LucideIcon> = {
-  product: Building2,
-  ops: Layers,
-  compliance: Lock,
-  founder: Workflow,
+  diagnostic: ClipboardList,
+  prototype: LayoutTemplate,
+  process: Users,
+  app: Smartphone,
 };
 
 /**
- * Design System: 4 roles del hero + checklist de **código** listo para campañas.
+ * Design System: 4 ofertas del hero + checklist de **código** listo para campañas.
  * No expone planes SEM/SEO ni copy de ads — solo criterios de implementación.
  */
 export function AudienceRolesSystem() {

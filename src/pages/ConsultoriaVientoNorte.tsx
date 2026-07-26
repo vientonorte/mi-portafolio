@@ -16,7 +16,7 @@ import {
   PARTNER_EDU_CONTACT_GOAL,
   type ConsultingPackageId,
 } from "../data/vientonorte-consulting";
-import { C1_ONBOARDING_GOAL } from "../data/n2n-method";
+import { APP_ONBOARDING_GOAL, C1_ONBOARDING_GOAL } from "../data/n2n-method";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { canonicalFromPath } from "../lib/seo";
@@ -31,9 +31,10 @@ import { scrollToSection } from "../lib/scroll-to-section";
 type ConsultoriaLocationState = SectionScrollState & {
   recommendedPackage?: ConsultingPackageId;
   c1Goal?: boolean;
+  appGoal?: boolean;
 };
 
-type EntryGoalKind = "c1" | "education" | null;
+type EntryGoalKind = "c1" | "education" | "app" | null;
 
 export default function ConsultoriaVientoNorte() {
   const navigate = useNavigate();
@@ -49,9 +50,11 @@ export default function ConsultoriaVientoNorte() {
   const [packageLocked, setPackageLocked] = useState(
     () => Boolean(entryState?.recommendedPackage)
   );
-  const [goalKind, setGoalKind] = useState<EntryGoalKind>(
-    entryState?.c1Goal ? "c1" : null
-  );
+  const [goalKind, setGoalKind] = useState<EntryGoalKind>(() => {
+    if (entryState?.appGoal) return "app";
+    if (entryState?.c1Goal) return "c1";
+    return null;
+  });
   const [entryNonce, setEntryNonce] = useState(0);
 
   const locationState = location.state as ConsultoriaLocationState | null;
@@ -63,7 +66,9 @@ export default function ConsultoriaVientoNorte() {
       ? C1_ONBOARDING_GOAL[language]
       : goalKind === "education"
         ? PARTNER_EDU_CONTACT_GOAL[language]
-        : undefined;
+        : goalKind === "app"
+          ? APP_ONBOARDING_GOAL[language]
+          : undefined;
 
   const initialIndustry =
     goalKind === "education"
@@ -88,6 +93,7 @@ export default function ConsultoriaVientoNorte() {
           ? { recommendedPackage: state.recommendedPackage }
           : {}),
         ...(state?.c1Goal ? { c1Goal: true } : {}),
+        ...(state?.appGoal ? { appGoal: true } : {}),
       },
     });
   }, [location.pathname, location.state, navigate]);
@@ -95,11 +101,11 @@ export default function ConsultoriaVientoNorte() {
   /**
    * Entra al onboarding sin pasos de más:
    * - packageId → salta welcome + re-elección de modalidad
-   * - c1Goal / education → goal e industria prearmados
+   * - c1Goal / appGoal / education → goal e industria prearmados
    */
   const scrollToOnboarding = (
     packageId?: ConsultingPackageId,
-    options?: { c1Goal?: boolean; education?: boolean }
+    options?: { c1Goal?: boolean; education?: boolean; appGoal?: boolean }
   ) => {
     if (packageId) {
       setSelectedPackage(packageId);
@@ -109,6 +115,7 @@ export default function ConsultoriaVientoNorte() {
     }
 
     if (options?.education) setGoalKind("education");
+    else if (options?.appGoal) setGoalKind("app");
     else if (options?.c1Goal) setGoalKind("c1");
     else if (packageId) setGoalKind(null);
     // sticky sin package: limpia goal forzado
