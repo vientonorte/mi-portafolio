@@ -1,0 +1,4 @@
+# Copy to ~/.npmrc or export NODE_AUTH_TOKEN
+legacy-peer-deps=true
+@vientonorte:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
