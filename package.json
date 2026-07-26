@@ -103,7 +103,8 @@
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",
     "reset": "npm run clean && npm install",
-    "prepare": "husky"
+    "prepare": "husky",
+    "smoke:cierre": "bash ~/.grok/skills/seo-vn/scripts/cierre-smoke.sh http://127.0.0.1:5173/mi-portafolio"
   },
   "optionalDependencies": {
     "@rolldown/binding-darwin-arm64": "^1.1.4"
