@@ -9,6 +9,11 @@ interface PageShellProps {
   className?: string;
   /** Clase extra del área de contenido (padding, etc.) */
   contentClassName?: string;
+  /**
+   * Wordmark del logo en toolbar. false = solo isologo
+   * (p. ej. landing consultoría Viento Norte sin nombre personal).
+   */
+  showLogoText?: boolean;
 }
 
 /**
@@ -21,10 +26,15 @@ export function PageShell({
   trailing,
   className,
   contentClassName,
+  showLogoText = true,
 }: PageShellProps) {
   return (
     <div className={cn("page-shell min-h-screen bg-background", className)}>
-      <SubpageToolbar crumbs={crumbs} trailing={trailing} />
+      <SubpageToolbar
+        crumbs={crumbs}
+        trailing={trailing}
+        showLogoText={showLogoText}
+      />
       <div className={cn("page-shell__content", contentClassName)}>{children}</div>
     </div>
   );

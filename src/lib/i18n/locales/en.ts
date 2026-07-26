@@ -242,21 +242,21 @@ export default {
         title: 'UX design for SMBs.',
         titleAccent: 'Pick the deliverable.',
         description:
-          'Diagnostic, prototype, team process, or working app. For SMBs: start free with Radar.',
+          'Diagnostic, prototype, team process, or working app. For SMBs: start free with a one-flow Diagnostic.',
         transparencyLine:
-          'Free Radar entry (Express diagnostic): WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Radar (5–7 days).',
+          'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book kickoff',
         ctaSecondary: 'See formats',
-        ctaFree: 'Free entry · Radar',
+        ctaFree: 'Free entry · Diagnostic',
         trustLine: 'Reply within 24 business hours',
-        trustChips: ['Free · WCAG 2.2 AA', 'Radar 5–7 days', 'Reply <24 h'],
+        trustChips: ['Free · WCAG 2.2 AA', 'Diagnostic 5–7 days', 'Reply <24 h'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
           diagnostic: {
             title: 'Diagnostic',
             hint: 'Report + plan · 5–7 days',
-            cta: 'Start Radar',
+            cta: 'Start Diagnostic',
           },
           prototype: {
             title: 'Prototype',
@@ -407,7 +407,7 @@ export default {
         freeStripBadge: 'Free',
         freeStripTitle: 'Start with accessibility on one flow',
         freeStripBody:
-          'WCAG 2.2 AA review of one critical flow — free entry to Express diagnostic (Radar). Full diagnostic is 5–7 days if you need it.',
+          'WCAG 2.2 AA review of one critical flow — free entry to Diagnostic. Full diagnostic is 5–7 days if you need it.',
         freeStripCta: 'Start free',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'App end to end',

@@ -19,6 +19,11 @@ interface SubpageToolbarProps {
   crumbs: SubpageCrumb[];
   className?: string;
   showLogo?: boolean;
+  /**
+   * Wordmark junto al isologo. En superficies de marca servicio (p. ej. /consultoria)
+   * conviene false: solo isologo, sin “Rodrigo Gaete”.
+   */
+  showLogoText?: boolean;
   trailing?: ReactNode;
 }
 
@@ -26,6 +31,7 @@ export function SubpageToolbar({
   crumbs,
   className,
   showLogo = true,
+  showLogoText = true,
   trailing,
 }: SubpageToolbarProps) {
   const navigate = useNavigate();
@@ -49,9 +55,22 @@ export function SubpageToolbar({
                 type="button"
                 onClick={() => navigate("/")}
                 className="shrink-0 rounded-lg p-1.5 transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                aria-label={language === "es" ? "Inicio" : "Home"}
+                aria-label={
+                  language === "es"
+                    ? showLogoText
+                      ? "Inicio"
+                      : "Viento Norte · Inicio"
+                    : showLogoText
+                      ? "Home"
+                      : "Viento Norte · Home"
+                }
               >
-                <Logo size="sm" showRole={false} interactive />
+                <Logo
+                  size="sm"
+                  showText={showLogoText}
+                  showRole={false}
+                  interactive
+                />
               </button>
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />

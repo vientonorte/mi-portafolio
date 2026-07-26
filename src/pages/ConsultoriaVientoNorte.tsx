@@ -152,6 +152,7 @@ export default function ConsultoriaVientoNorte() {
 
   return (
     <PageShell
+      showLogoText={false}
       crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
         { label: t.breadcrumbs.consulting, current: true },
       ])}

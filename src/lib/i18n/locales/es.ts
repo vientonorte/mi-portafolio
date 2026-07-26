@@ -242,21 +242,21 @@ export default {
         title: 'Diseño UX para pymes.',
         titleAccent: 'Elige el entregable.',
         description:
-          'Diagnóstico, prototipo, proceso de equipo o app funcional. Para pymes: empieza gratis con Radar.',
+          'Diagnóstico, prototipo, proceso de equipo o app funcional. Para pymes: empieza gratis con Diagnóstico de un flujo.',
         transparencyLine:
-          'Entrada gratis a Radar (Diagnóstico express): revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Radar completo (5–7 días).',
+          'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar kickoff',
         ctaSecondary: 'Ver modalidades',
-        ctaFree: 'Entrada gratis · Radar',
+        ctaFree: 'Entrada gratis · Diagnóstico',
         trustLine: 'Respuesta en menos de 24 h hábiles',
-        trustChips: ['Gratis · WCAG 2.2 AA', 'Radar 5–7 días', 'Respuesta <24 h'],
+        trustChips: ['Gratis · WCAG 2.2 AA', 'Diagnóstico 5–7 días', 'Respuesta <24 h'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
           diagnostic: {
             title: 'Diagnóstico',
             hint: 'Informe + plan · 5–7 días',
-            cta: 'Empezar Radar',
+            cta: 'Empezar Diagnóstico',
           },
           prototype: {
             title: 'Prototipo',
@@ -407,7 +407,7 @@ export default {
         freeStripBadge: 'Gratis',
         freeStripTitle: 'Empieza con accesibilidad de un flujo',
         freeStripBody:
-          'Revisión WCAG 2.2 AA de un flujo crítico — entrada al Diagnóstico express (Radar). Si te sirve, el completo son 5–7 días.',
+          'Revisión WCAG 2.2 AA de un flujo crítico — entrada gratis al Diagnóstico. Si te sirve, el completo son 5–7 días.',
         freeStripCta: 'Empezar gratis',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App de punta a punta',

@@ -71,15 +71,17 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
             >
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                  {pkg.featured ? (
-                    <Badge className="gap-1">
-                      <Star className="h-3 w-3" aria-hidden />
-                      {rec}
-                    </Badge>
-                  ) : (
+                  <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                    {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
                     <Badge variant="outline">{pkg.packLabel[language]}</Badge>
-                  )}
-                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                    {pkg.featured ? (
+                      <Badge className="gap-1">
+                        <Star className="h-3 w-3" aria-hidden />
+                        {rec}
+                      </Badge>
+                    ) : null}
+                  </div>
+                  <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3.5 w-3.5" aria-hidden />
                     {pkg.duration[language]}
                   </span>
