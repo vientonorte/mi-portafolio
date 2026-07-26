@@ -249,11 +249,11 @@ export default {
           'Diagnóstico, prototipo, proceso de equipo o app funcional.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
-        ctaPrimary: 'Agendar kickoff',
-        ctaSecondary: 'Ver modalidades',
-        ctaFree: 'Entrada gratis · Diagnóstico',
-        trustLine: 'Respuesta en menos de 24 h hábiles',
-        trustChips: ['Gratis · WCAG 2.2 AA', 'Diagnóstico 5–7 días', 'Respuesta <24 h'],
+        ctaPrimary: 'Hablemos',
+        ctaSecondary: 'Ver opciones',
+        ctaFree: 'Probar gratis',
+        trustLine: 'Respuesta en menos de 24 h',
+        trustChips: ['Gratis · 1 flujo', '5–7 días', 'Respuesta <24 h'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {

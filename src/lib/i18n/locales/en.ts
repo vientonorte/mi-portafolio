@@ -249,11 +249,11 @@ export default {
           'Diagnostic, prototype, team process, or working app.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
-        ctaPrimary: 'Book kickoff',
-        ctaSecondary: 'See formats',
-        ctaFree: 'Free entry · Diagnostic',
-        trustLine: 'Reply within 24 business hours',
-        trustChips: ['Free · WCAG 2.2 AA', 'Diagnostic 5–7 days', 'Reply <24 h'],
+        ctaPrimary: "Let's talk",
+        ctaSecondary: 'See options',
+        ctaFree: 'Try free',
+        trustLine: 'Reply within 24 h',
+        trustChips: ['Free · 1 flow', '5–7 days', 'Reply <24 h'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
