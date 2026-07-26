@@ -243,7 +243,7 @@ export default {
       landing: {
         badge: 'Viento Norte · pymes',
         principleBadge: 'Consultoría UX',
-        title: 'Diseño UX para pymes.',
+        title: 'Tecnología para empresas.',
         titleAccent: 'Elige el entregable.',
         description:
           'Diagnóstico, prototipo, proceso de equipo o app funcional. Para pymes: empieza gratis con Diagnóstico de un flujo.',

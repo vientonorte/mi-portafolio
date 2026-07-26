@@ -243,7 +243,7 @@ export default {
       landing: {
         badge: 'Viento Norte · SMBs',
         principleBadge: 'UX consulting',
-        title: 'UX design for SMBs.',
+        title: 'Technology for business.',
         titleAccent: 'Pick the deliverable.',
         description:
           'Diagnostic, prototype, team process, or working app. For SMBs: start free with a one-flow Diagnostic.',
