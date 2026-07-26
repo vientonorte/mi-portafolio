@@ -401,12 +401,12 @@ export default {
         cta: 'Empezar',
         ctaForm: 'Escribir',
         note: 'Sin precios en la web: se cierran en el kickoff.',
-        freeStripBadge: 'SEM · Lead magnet · pymes',
-        freeStripTitle: 'Entrada gratis a Radar',
+        freeStripBadge: 'Gratis',
+        freeStripTitle: 'Empieza con accesibilidad de un flujo',
         freeStripBody:
-          'Revisión WCAG 2.2 AA de un flujo crítico (Diagnóstico express · tramo gratis). Si aplica, conversemos el Radar completo (5–7 días).',
-        freeStripCta: 'Agendar entrada gratis',
-        freeStripSecondary: 'Radar completo',
+          'Revisión WCAG 2.2 AA de un flujo crítico — entrada al Diagnóstico express (Radar). Si te sirve, el completo son 5–7 días.',
+        freeStripCta: 'Empezar gratis',
+        freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App funcional',
         appStripBody:
           'Diseño con Viento Norte. La programación la hace la red, bajo nuestra dirección.',

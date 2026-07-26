@@ -401,12 +401,12 @@ export default {
         cta: 'Start',
         ctaForm: 'Write',
         note: 'No prices on the site — closed at kickoff.',
-        freeStripBadge: 'SEM · Lead magnet · SMBs',
-        freeStripTitle: 'Free Radar entry',
+        freeStripBadge: 'Free',
+        freeStripTitle: 'Start with accessibility on one flow',
         freeStripBody:
-          'WCAG 2.2 AA review of one critical flow (Express diagnostic · free tier). If it fits, let’s talk full Radar (5–7 days).',
-        freeStripCta: 'Book free entry',
-        freeStripSecondary: 'Full Radar',
+          'WCAG 2.2 AA review of one critical flow — free entry to Express diagnostic (Radar). Full diagnostic is 5–7 days if you need it.',
+        freeStripCta: 'Start free',
+        freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'Working app',
         appStripBody:
           'Design with Viento Norte. Build is done by the network, under our direction.',

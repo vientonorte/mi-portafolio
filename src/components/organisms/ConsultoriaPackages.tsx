@@ -129,7 +129,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
         ))}
       </ul>
 
-      {/* SEM lead magnet · entrada gratis Radar (antes de app) */}
+      {/* Entrada gratis Radar — copy público (SEM es interno, no en UI) */}
       <Card className="mt-5 border-2 border-primary/35 bg-primary/5 shadow-none">
         <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3 min-w-0">
@@ -140,7 +140,10 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
               <Gift className="h-5 w-5" />
             </span>
             <div className="min-w-0 space-y-1">
-              <Badge variant="outline" className="border-primary/30 text-[10px] uppercase tracking-wide">
+              <Badge
+                variant="outline"
+                className="border-primary/30 font-normal normal-case tracking-normal"
+              >
                 {t.freeStripBadge}
               </Badge>
               <p className="text-base font-semibold tracking-tight">
