@@ -173,7 +173,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
         </CardContent>
       </Card>
 
-      {/* App funcional: diseño VN + red */}
+      {/* App punta a punta — un interlocutor, no “red” en vitrina */}
       <Card className="mt-3 border border-primary/20 bg-surface-matte-elevated shadow-none">
         <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3 min-w-0">

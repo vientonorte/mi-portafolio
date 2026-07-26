@@ -269,9 +269,9 @@ export default {
             cta: 'Empezar Ops',
           },
           app: {
-            title: 'App que funciona',
-            hint: 'Experiencia + desarrollo coordinado',
-            cta: 'Quiero una app',
+            title: 'App de punta a punta',
+            hint: 'Idea → app en uso',
+            cta: 'Hablar de mi app',
           },
         },
         techLayerLabel: 'Referencias',
@@ -407,10 +407,10 @@ export default {
           'Revisión WCAG 2.2 AA de un flujo crítico — entrada al Diagnóstico express (Radar). Si te sirve, el completo son 5–7 días.',
         freeStripCta: 'Empezar gratis',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
-        appStripTitle: 'App que funciona',
+        appStripTitle: 'App de punta a punta',
         appStripBody:
-          'Definimos la experiencia y el alcance. Coordinamos el desarrollo con especialistas para que salga a producción — sin que tengas que armar el equipo tú.',
-        appStripCta: 'Quiero una app',
+          'De la idea a la app en uso: experiencia, diseño y desarrollo bajo un solo interlocutor — Viento Norte.',
+        appStripCta: 'Hablar de mi app',
       },
       educationPartner: {
         badge: 'Educación',
@@ -438,8 +438,8 @@ export default {
         title: 'Empecemos',
         description: 'Cuatro pasos cortos. Eliges entregable y dejamos el mensaje listo.',
         points: [
-          'Diagnóstico · Prototipo · Proceso · App que funciona',
-          'App en producción: experiencia + desarrollo coordinado por VN',
+          'Diagnóstico · Prototipo · Proceso · App de punta a punta',
+          'App en uso: un solo interlocutor de idea a release',
           'Respuesta en menos de 24 h hábiles',
         ],
       },

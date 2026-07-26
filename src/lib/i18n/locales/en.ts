@@ -269,9 +269,9 @@ export default {
             cta: 'Start Ops',
           },
           app: {
-            title: 'App that ships',
-            hint: 'Experience + coordinated build',
-            cta: 'I want an app',
+            title: 'App end to end',
+            hint: 'Idea → live app',
+            cta: 'Talk about my app',
           },
         },
         techLayerLabel: 'References',
@@ -407,10 +407,10 @@ export default {
           'WCAG 2.2 AA review of one critical flow — free entry to Express diagnostic (Radar). Full diagnostic is 5–7 days if you need it.',
         freeStripCta: 'Start free',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
-        appStripTitle: 'An app that ships',
+        appStripTitle: 'App end to end',
         appStripBody:
-          'We define the experience and scope. We coordinate specialists so it reaches production — you don’t have to assemble the team yourself.',
-        appStripCta: 'I want an app',
+          'From idea to an app people use: experience, design, and development under one partner — Viento Norte.',
+        appStripCta: 'Talk about my app',
       },
       educationPartner: {
         badge: 'Education',
