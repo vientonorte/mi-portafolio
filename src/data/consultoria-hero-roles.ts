@@ -32,20 +32,20 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
     id: "product",
     packageId: "marco",
     title: {
-      es: "Producto / PM",
-      en: "Product / PM",
+      es: "Producto",
+      en: "Product",
     },
     hint: {
-      es: "Roadmap y onboarding regulado",
-      en: "Roadmap and regulated onboarding",
+      es: "Onboarding y roadmap",
+      en: "Onboarding and roadmap",
     },
     pain: {
-      es: "Roadmap, conversión y onboarding con fricción legal o de cumplimiento.",
-      en: "Roadmap, conversion, and onboarding blocked by legal or compliance friction.",
+      es: "Onboarding y roadmap trabados o confusos.",
+      en: "Onboarding and roadmap stuck or confusing.",
     },
     valueProp: {
-      es: "Marco (estrategia guiada): brief → prototipo N2N con criterios de aceptación UX.",
-      en: "Marco (guided strategy): brief → N2N prototype with UX acceptance criteria.",
+      es: "Marco: del brief al prototipo con criterios claros.",
+      en: "Marco: brief to prototype with clear criteria.",
     },
     uiTokens: [
       "primary CTA brand-gradient",
@@ -59,20 +59,20 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
     id: "ops",
     packageId: "ops",
     title: {
-      es: "Design Ops",
-      en: "Design Ops",
+      es: "Equipo de diseño",
+      en: "Design team",
     },
     hint: {
-      es: "Handoff y proceso de equipo",
-      en: "Handoff and team process",
+      es: "Proceso y entrega",
+      en: "Process and delivery",
     },
     pain: {
-      es: "Handoff irregular, design system sin adopción y proceso UX no medible.",
-      en: "Uneven handoff, low DS adoption, and UX process without metrics.",
+      es: "El equipo entrega sin proceso claro ni medidas.",
+      en: "The team ships without a clear process or measures.",
     },
     valueProp: {
-      es: "Proceso de equipo: 5 macroprocesos, workshops y métricas de adopción.",
-      en: "Team process: 5 macro-processes, workshops, and adoption metrics.",
+      es: "Ops: proceso de equipo, talleres y cómo medir adopción.",
+      en: "Ops: team process, workshops, and adoption measures.",
     },
     uiTokens: [
       "logo-surface",
@@ -87,20 +87,20 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
     packageId: "marco",
     c1Goal: true,
     title: {
-      es: "Datos y perímetro",
-      en: "Data / perimeter",
+      es: "Datos sensibles",
+      en: "Sensitive data",
     },
     hint: {
-      es: "Offline · GitHub · 21.719",
-      en: "Offline · GitHub · 21.719",
+      es: "Herramientas en tu entorno",
+      en: "Tools in your environment",
     },
     pain: {
-      es: "IA en la nube con PII, sin perímetro ni checklist Ley 21.719 / WCAG.",
-      en: "Cloud AI with PII, no perimeter or Act 21.719 / WCAG checklist.",
+      es: "Datos sensibles en herramientas públicas o sin control.",
+      en: "Sensitive data in public tools or without control.",
     },
     valueProp: {
-      es: "C1 private tooling: offline-first, GitHub private, IA gobernada, 21.719 by design.",
-      en: "C1 private tooling: offline-first, private GitHub, governed AI, 21.719 by design.",
+      es: "Trabajo en tu entorno: datos y prototipo sin salir a la nube pública.",
+      en: "Work in your environment: data and prototype stay off the public cloud.",
     },
     uiTokens: [
       "trust chips",
@@ -118,16 +118,16 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       en: "Founder / startup",
     },
     hint: {
-      es: "Diagnóstico y quick wins",
-      en: "Diagnostic and quick wins",
+      es: "Diagnóstico rápido",
+      en: "Fast diagnostic",
     },
     pain: {
-      es: "Landing o producto sin narrativa en 10s ni quick wins priorizados.",
-      en: "Landing or product without a 10s narrative or prioritized quick wins.",
+      es: "Producto o sitio sin claridad ni mejoras prioritarias.",
+      en: "Product or site without clarity or priority fixes.",
     },
     valueProp: {
-      es: "Diagnóstico express 5–7 días: heurísticas, contraste AA y quick wins.",
-      en: "Express diagnostic 5–7 days: heuristics, AA contrast, and quick wins.",
+      es: "Radar en 5–7 días: diagnóstico y mejoras prioritarias.",
+      en: "Radar in 5–7 days: diagnostic and priority fixes.",
     },
     uiTokens: [
       "hero title + accent gradient",

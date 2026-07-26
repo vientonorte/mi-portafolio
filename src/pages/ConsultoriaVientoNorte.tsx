@@ -5,10 +5,8 @@ import { PageShell } from "../components/layout/PageShell";
 import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandingHero";
 import { ConsultoriaN2NMethod } from "../components/organisms/ConsultoriaN2NMethod";
 import { ConsultoriaPrivateTooling } from "../components/organisms/ConsultoriaPrivateTooling";
-import { ConsultoriaPractices } from "../components/organisms/ConsultoriaPractices";
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
-import { ValueContentArsenal } from "../components/organisms/ValueContentArsenal";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaTreePreview } from "../components/organisms/ConsultoriaTreePreview";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
@@ -140,12 +138,38 @@ export default function ConsultoriaVientoNorte() {
         url={canonicalFromPath("/consultoria")}
       />
 
+      {/*
+        Orden “reduce el ruido” (2026-07-26):
+        1) Hero → 2) Modalidades (compra) → 3) Onboarding
+        4) Fit tools → 5) Método corto → 6) Solo si aplica (datos / edu / demos)
+        Sin playbook ni arsenal en el path principal (demasiado texto).
+      */}
       <ConsultoriaLandingHero
         onStartOnboarding={(packageId, options) =>
           scrollToOnboarding(packageId, options)
         }
         onExploreEvidence={scrollToModalidades}
       />
+
+      <ConsultoriaPackages
+        onSelectPackage={(id) => scrollToOnboarding(id)}
+      />
+
+      <div id="consultoria-onboarding">
+        <ConsultoriaOnboarding
+          key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
+          initialPackageId={recommendedPackage}
+          initialGoal={initialGoal}
+          initialIndustry={initialIndustry}
+          packageLocked={packageLocked && Boolean(recommendedPackage)}
+        />
+      </div>
+
+      <ConsultoriaTreePreview
+        onRecommendPackage={setSelectedPackage}
+        onStartOnboarding={(packageId) => scrollToOnboarding(packageId)}
+      />
+      <AppQuoter onRecommendPackage={setSelectedPackage} />
 
       <ConsultoriaN2NMethod
         onStartOnboarding={() => scrollToOnboarding("marco")}
@@ -157,39 +181,13 @@ export default function ConsultoriaVientoNorte() {
         }
       />
 
-      <ConsultoriaPractices />
-      <ConsultoriaPackages
-        onSelectPackage={(id) => scrollToOnboarding(id)}
-      />
-
       <ConsultoriaEducationPartner
         onStartOnboarding={() =>
           scrollToOnboarding("marco", { education: true })
         }
       />
 
-      {/* Modalidades ya están en ConsultoriaPackages — sin strip duplicado aquí */}
-      <ValueContentArsenal
-        showBundleStrip={false}
-        onStartOnboarding={(id) => scrollToOnboarding(id)}
-      />
       <ConsultoriaDemoShowcase />
-
-      <ConsultoriaTreePreview
-        onRecommendPackage={setSelectedPackage}
-        onStartOnboarding={(packageId) => scrollToOnboarding(packageId)}
-      />
-      <AppQuoter onRecommendPackage={setSelectedPackage} />
-
-      <div id="consultoria-onboarding">
-        <ConsultoriaOnboarding
-          key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
-          initialPackageId={recommendedPackage}
-          initialGoal={initialGoal}
-          initialIndustry={initialIndustry}
-          packageLocked={packageLocked && Boolean(recommendedPackage)}
-        />
-      </div>
 
       <StickyCTA
         label={t.consultoria.stickyCta}

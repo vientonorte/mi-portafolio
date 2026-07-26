@@ -1,6 +1,5 @@
 /**
- * Método N2N (Needle-to-Needle) — Viento Norte
- * Brief → Design Thinking → Design Sprint → prototipo → handoff.
+ * Método N2N — del problema al prototipo (lenguaje simple · pyme).
  */
 
 import type { Language } from "../lib/i18n";
@@ -17,74 +16,72 @@ export const N2N_PHASES: N2NPhase[] = [
     id: "brief",
     step: "01",
     title: {
-      es: "Brief / problema",
-      en: "Brief / problem",
+      es: "Entender",
+      en: "Understand",
     },
     outcome: {
-      es: "Problema, usuarios, restricciones y métrica de éxito en una página.",
-      en: "Problem, users, constraints, and success metric on one page.",
+      es: "Problema, usuarios y meta en una página.",
+      en: "Problem, users, and goal on one page.",
     },
   },
   {
     id: "thinking",
     step: "02",
     title: {
-      es: "Design Thinking",
-      en: "Design Thinking",
+      es: "Explorar",
+      en: "Explore",
     },
     outcome: {
-      es: "Personas, journey e hipótesis priorizadas — sin solución prematura.",
-      en: "Personas, journey, and prioritized hypotheses — no premature solution.",
+      es: "Ideas priorizadas antes de dibujar la solución.",
+      en: "Prioritized ideas before drawing the solution.",
     },
   },
   {
     id: "sprint",
     step: "03",
     title: {
-      es: "Design Sprint",
-      en: "Design Sprint",
+      es: "Probar",
+      en: "Test",
     },
     outcome: {
-      es: "Validación en días: prototipo de decisión go / iterate / kill.",
-      en: "Validation in days: decision prototype go / iterate / kill.",
+      es: "Validar en días: seguir, ajustar o parar.",
+      en: "Validate in days: go, adjust, or stop.",
     },
   },
   {
     id: "proto",
     step: "04",
     title: {
-      es: "Prototipo navegable",
-      en: "Navigable prototype",
+      es: "Prototipar",
+      en: "Prototype",
     },
     outcome: {
-      es: "Figma (o tool) con flujos críticos y estados de error.",
-      en: "Figma (or tool) with critical flows and error states.",
+      es: "Pantallas navegables de los flujos clave.",
+      en: "Clickable screens for key flows.",
     },
   },
   {
     id: "handoff",
     step: "05",
     title: {
-      es: "Handoff",
-      en: "Handoff",
+      es: "Entregar",
+      en: "Hand off",
     },
     outcome: {
-      es: "Specs, tokens, criterios UX y repo cuando aplica.",
-      en: "Specs, tokens, UX criteria, and repo when applicable.",
+      es: "Especificaciones listas para construir.",
+      en: "Specs ready to build.",
     },
   },
 ];
 
-/** Goal template for onboarding when user comes from C1 / N2N private */
+/** Goal template for onboarding when user comes from C1 / private data option */
 export const C1_ONBOARDING_GOAL: Record<Language, string> = {
-  es: `Objetivo: herramienta offline / ecosistema privado (N2N).
-Contexto: fintech u organización con dato sensible.
-Restricciones: datos no salen del perímetro; GitHub private; IA local o VPC (sin PII a modelos públicos).
-Necesito: diagnóstico de perímetro o prototipo N2N en repo privado.
-A11y: WCAG 2.2 AA. Datos: Ley 21.719 by design.`,
-  en: `Goal: offline tool / private ecosystem (N2N).
-Context: fintech or org with sensitive data.
-Constraints: data stays in perimeter; private GitHub; local or VPC AI (no PII to public models).
-Need: perimeter diagnostic or N2N prototype in private repo.
-A11y: WCAG 2.2 AA. Data: Act 21.719 by design.`,
+  es: `Objetivo: herramienta o prototipo en entorno privado (datos sensibles).
+Contexto: [industria / tipo de dato].
+Necesito: diagnóstico (Radar) o prototipo (Marco) sin sacar datos a herramientas públicas.
+Plazo: [indica plazo].`,
+  en: `Goal: tool or prototype in a private setup (sensitive data).
+Context: [industry / data type].
+Need: diagnostic (Radar) or prototype (Marco) without sending data to public tools.
+Timeline: [add timeline].`,
 };

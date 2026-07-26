@@ -52,26 +52,26 @@ export function ConsultoriaPrivateTooling({
         align="left"
       />
 
-      <p className="mb-8 max-w-3xl text-sm text-muted-foreground leading-relaxed -mt-4">
+      <p className="mb-6 max-w-2xl text-sm text-muted-foreground leading-relaxed -mt-4">
         {t.antiPromise}
       </p>
 
-      <ul className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 list-none p-0 m-0">
+      <ul className="mb-8 grid gap-3 sm:grid-cols-2 list-none p-0 m-0">
         {t.layers.map((layer, i) => {
           const Icon = LAYER_ICONS[i] ?? Lock;
           return (
             <li key={layer.title}>
-              <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none transition-colors hover:border-primary/15">
-                <CardHeader className="pb-2 space-y-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-logo-surface text-primary">
-                    <Icon className="h-5 w-5" aria-hidden />
+              <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
+                <CardHeader className="pb-1 space-y-2">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-logo-surface text-primary">
+                    <Icon className="h-4 w-4" aria-hidden />
                   </div>
-                  <CardTitle className="text-base tracking-tight">
+                  <CardTitle className="text-sm tracking-tight">
                     {layer.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
                     {layer.body}
                   </p>
                 </CardContent>
@@ -81,20 +81,21 @@ export function ConsultoriaPrivateTooling({
         })}
       </ul>
 
-      <div className="mb-10 grid gap-4 md:grid-cols-2">
+      {/* DoD + FAQ compactos: solo lista corta, sin muro de FAQ */}
+      <div className="mb-8">
         <Card className="border-[color:var(--logo-surface-border)] bg-background shadow-none">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-primary" aria-hidden />
               {t.dodTitle}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2" role="list">
+            <ul className="space-y-1.5" role="list">
               {t.dod.map((item) => (
                 <li
                   key={item}
-                  className="flex gap-2 text-sm text-muted-foreground"
+                  className="flex gap-2 text-xs text-muted-foreground"
                 >
                   <span
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
@@ -104,22 +105,6 @@ export function ConsultoriaPrivateTooling({
                 </li>
               ))}
             </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[color:var(--logo-surface-border)] bg-background shadow-none">
-          <CardHeader>
-            <CardTitle className="text-base">{t.faqTitle}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {t.faq.map((item) => (
-              <div key={item.q}>
-                <p className="text-sm font-medium text-foreground">{item.q}</p>
-                <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
-                  {item.a}
-                </p>
-              </div>
-            ))}
           </CardContent>
         </Card>
       </div>
