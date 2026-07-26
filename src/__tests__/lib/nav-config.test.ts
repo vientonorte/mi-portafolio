@@ -111,7 +111,11 @@ describe("getDockNavAction", () => {
       kind: "route",
       target: "/",
     });
-    expect(getDockNavAction("contacto", "funnel").kind).toBe("contact");
+    expect(getDockNavAction("contacto", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#contacto",
+      homeRoute: "/consultoria",
+    });
   });
 });
 

@@ -156,9 +156,18 @@ export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAc
       : { kind: "route", target: ROUTES.home };
   }
   if (id === "contacto") {
-    return variant === "home"
-      ? { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home }
-      : { kind: "contact", target: ROUTES.contact };
+    if (variant === "home") {
+      return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
+    }
+    // Embudo: contacto vive al final de /consultoria (#contacto)
+    if (variant === "funnel") {
+      return {
+        kind: "anchor",
+        target: "#contacto",
+        homeRoute: ROUTES.consulting,
+      };
+    }
+    return { kind: "contact", target: ROUTES.contact };
   }
   // Embudo /consultoria: liquid CTA = kickoff, no re-entrar a la misma ruta
   if (id === "consultoria" && variant === "funnel") {

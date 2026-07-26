@@ -8,6 +8,7 @@ import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages
 import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
+import { Contact } from "../components/organisms/Contact";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import {
@@ -135,7 +136,7 @@ export default function ConsultoriaVientoNorte() {
 
   const funnelNav = t.consultoria.landing.nav;
 
-  /** Embudo de conversión: ofertas → kickoff → método → prueba. */
+  /** Embudo: ofertas → kickoff → método → prueba → contacto. */
   const funnelSections: ProcessNavSection[] = useMemo(
     () => [
       { id: "modalidades", label: funnelNav.packages, number: "01" },
@@ -146,8 +147,15 @@ export default function ConsultoriaVientoNorte() {
       },
       { id: "metodo-n2n", label: funnelNav.n2n, number: "03" },
       { id: "consultoria-demo", label: funnelNav.evidence, number: "04" },
+      { id: "contacto", label: funnelNav.contact, number: "05" },
     ],
-    [funnelNav.evidence, funnelNav.n2n, funnelNav.packages, funnelNav.start]
+    [
+      funnelNav.contact,
+      funnelNav.evidence,
+      funnelNav.n2n,
+      funnelNav.packages,
+      funnelNav.start,
+    ]
   );
 
   return (
@@ -210,6 +218,9 @@ export default function ConsultoriaVientoNorte() {
       />
 
       <ConsultoriaDemoShowcase />
+
+      {/* Cierre del embudo: mismo Contact que home / /contacto */}
+      <Contact />
 
       <StickyCTA
         label={t.consultoria.stickyCta}

@@ -309,6 +309,7 @@ export default {
           start: 'Start',
           startAria: 'Start: go to consulting kickoff',
           evidence: 'Examples',
+          contact: 'Contact',
           fit: 'Budget',
           ariaLabel: 'Consulting funnel',
         },

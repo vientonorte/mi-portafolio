@@ -309,6 +309,7 @@ export default {
           start: 'Empezar',
           startAria: 'Empezar: ir al kickoff de consultoría',
           evidence: 'Ejemplos',
+          contact: 'Contacto',
           fit: 'Presupuesto',
           ariaLabel: 'Embudo de consultoría',
         },
