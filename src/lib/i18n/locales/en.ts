@@ -1037,6 +1037,19 @@ export default {
       title: 'Get in touch',
       description: 'Available for freelance projects and full-time opportunities. Typical reply: under 24 h.',
       responseBadge: 'Typical reply: under 24 h',
+      /** Funnel surface /consultoria — no recruiter/freelance framing */
+      consultingSurface: {
+        badge: 'Viento Norte · SMBs',
+        title: 'Book kickoff or write us',
+        description:
+          'End of the funnel: diagnostic, prototype, process, or app. Reply within 24 business hours.',
+        responseBadge: 'Reply <24 business hours',
+        infoTitle: 'Consulting contact',
+        infoDescription: 'UX consulting for SMBs · remote or hybrid',
+        assistantTitle: 'Consulting assistant',
+        assistantDescription:
+          'You’re already on consulting. Pick the focus and we’ll draft the kickoff message.',
+      },
       tabs: {
         assistant: 'Assistant',
         form: 'Write directly',

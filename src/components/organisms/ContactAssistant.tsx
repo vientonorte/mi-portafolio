@@ -31,6 +31,10 @@ import { cn } from "../ui/utils";
 
 interface ContactAssistantProps {
   contactDraft?: ContactDraft | null;
+  /** Embudo consultoría: intent fijo consulting; sin paso reclutador/freelance. */
+  surface?: "default" | "consulting";
+  surfaceAssistantTitle?: string;
+  surfaceAssistantDescription?: string;
   sharedIdentity: ContactSharedIdentity;
   onIdentityChange: (patch: Partial<ContactSharedIdentity>) => void;
   sharedMessage: string;
@@ -125,6 +129,9 @@ function OptionButton({
 
 export function ContactAssistant({
   contactDraft = null,
+  surface = "default",
+  surfaceAssistantTitle,
+  surfaceAssistantDescription,
   sharedIdentity,
   onIdentityChange,
   sharedMessage,
@@ -142,11 +149,15 @@ export function ContactAssistant({
 
   const skipWizard = shouldSkipAssistantWizard(contactDraft);
   const bannerKey = draftBannerKey(contactDraft);
+  /** Intent pre-seleccionado (embudo / CTA): no reabrir reclutador · freelance. */
+  const intentLocked = Boolean(contactDraft?.intent) || surface === "consulting";
 
   const [step, setStep] = useState<ContactAssistantStep>(() =>
     resolveAssistantInitialStep(contactDraft)
   );
-  const [intent, setIntent] = useState<ContactIntent | null>(contactDraft?.intent ?? null);
+  const [intent, setIntent] = useState<ContactIntent | null>(
+    contactDraft?.intent ?? (surface === "consulting" ? "consulting" : null)
+  );
   const [recruiterMode, setRecruiterMode] = useState(contactDraft?.recruiterMode ?? "");
   const [consultingQ1, setConsultingQ1] = useState(contactDraft?.consultingQ1 ?? "");
   const [packageId, setPackageId] = useState<ConsultingPackageId | undefined>(
@@ -164,17 +175,31 @@ export function ContactAssistant({
       if (skipWizard && bannerKey) {
         return [{ role: "assistant", text: a.draftBanner[bannerKey] }];
       }
-      // Intent pre-selected from CTA / ?intent= — seed chat so user is not lost
-      if (contactDraft?.intent && !skipWizard) {
+      const lockedIntent =
+        contactDraft?.intent ?? (surface === "consulting" ? "consulting" : null);
+      // Intent fijo (embudo / CTA): salta menú laboral·freelance; arranca en el foco
+      if (lockedIntent && !skipWizard) {
+        if (intentLocked) {
+          return [
+            {
+              role: "assistant",
+              text: detailQuestionForIntent(
+                a.steps,
+                lockedIntent,
+                contactDraft?.consultingQ1
+              ),
+            },
+          ];
+        }
         return [
           { role: "assistant", text: a.steps.intent },
-          { role: "user", text: a.intents[contactDraft.intent] },
+          { role: "user", text: a.intents[lockedIntent] },
           {
             role: "assistant",
             text: detailQuestionForIntent(
               a.steps,
-              contactDraft.intent,
-              contactDraft.consultingQ1
+              lockedIntent,
+              contactDraft?.consultingQ1
             ),
           },
         ];
@@ -315,6 +340,8 @@ export function ContactAssistant({
       return;
     }
     if (step === "detail") {
+      // Embudo / CTA: no volver al menú laboral · freelance · otro
+      if (intentLocked) return;
       setStep("intent");
       setIntent(null);
       setConsultingQ1("");
@@ -323,15 +350,22 @@ export function ContactAssistant({
     }
   };
 
-  const showBack = step !== "intent" && !(step === "compose" && skipWizard);
+  const showBack =
+    step !== "intent" &&
+    !(step === "compose" && skipWizard) &&
+    !(step === "detail" && intentLocked);
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold">{a.title}</h3>
+          <h3 className="text-lg font-semibold">
+            {surfaceAssistantTitle ?? a.title}
+          </h3>
           <p className="text-sm text-muted-foreground">
-            {skipWizard ? a.descriptionReady : a.description}
+            {skipWizard
+              ? a.descriptionReady
+              : (surfaceAssistantDescription ?? a.description)}
           </p>
         </div>
         {showBack && (
@@ -347,7 +381,10 @@ export function ContactAssistant({
           className="max-h-[240px] space-y-4 overflow-y-auto rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte/50 p-4 sm:max-h-[280px]"
           aria-live="polite"
         >
-          <ChatBubble role="assistant">{a.steps.intent}</ChatBubble>
+          {/* Con intent fijo no mostramos la pregunta multi-intención */}
+          {!intentLocked && (
+            <ChatBubble role="assistant">{a.steps.intent}</ChatBubble>
+          )}
           {history.map((line, i) => (
             <ChatBubble key={`${line.role}-${i}`} role={line.role}>
               {line.text}

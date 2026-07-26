@@ -1042,6 +1042,19 @@ export default {
       title: 'Conversemos',
       description: 'Disponible para proyectos freelance y oportunidades full-time. Respuesta típica: menos de 24 h.',
       responseBadge: 'Respuesta típica: menos de 24 h',
+      /** Superficie embudo /consultoria — sin reclutador/freelance en el framing */
+      consultingSurface: {
+        badge: 'Viento Norte · pymes',
+        title: 'Agenda el kickoff o escribe',
+        description:
+          'Cierre del embudo: diagnóstico, prototipo, proceso o app. Respuesta en menos de 24 h hábiles.',
+        responseBadge: 'Respuesta <24 h hábiles',
+        infoTitle: 'Contacto consultoría',
+        infoDescription: 'Consultoría UX para pymes · remoto o híbrido',
+        assistantTitle: 'Asistente de consultoría',
+        assistantDescription:
+          'Ya estás en consultoría. Elegimos el foco y armamos el mensaje para el kickoff.',
+      },
       tabs: {
         assistant: 'Asistente',
         form: 'Escribir directo',

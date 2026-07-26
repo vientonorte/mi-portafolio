@@ -38,13 +38,32 @@ const socialLinks = [
   },
 ];
 
-export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft | null }) {
+export type ContactSurface = "default" | "consulting";
+
+const CONSULTING_FUNNEL_DRAFT: ContactDraft = {
+  message: "",
+  source: "cta",
+  intent: "consulting",
+};
+
+export function Contact({
+  contactDraft = null,
+  surface = "default",
+}: {
+  contactDraft?: ContactDraft | null;
+  /** `consulting` = embudo /consultoria: intent fijo + copy pyme, sin reclutador/freelance. */
+  surface?: ContactSurface;
+}) {
   const { language } = useLanguage();
   const t = useTranslation(language).contact;
+  const isConsulting = surface === "consulting";
+  const surfaceCopy = isConsulting ? t.consultingSurface : null;
+  const effectiveDraft: ContactDraft | null =
+    contactDraft ?? (isConsulting ? CONSULTING_FUNNEL_DRAFT : null);
 
   const sessionSnapshot = readContactSession();
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    contactDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
+    effectiveDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
   );
   const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
     name: sessionSnapshot?.name ?? "",
@@ -52,7 +71,7 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
     consent: false,
   }));
   const [sharedMessage, setSharedMessage] = useState(
-    contactDraft?.message ?? sessionSnapshot?.message ?? ""
+    effectiveDraft?.message || sessionSnapshot?.message || ""
   );
   const [gotcha, setGotcha] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -189,15 +208,15 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
     <PageSection id="contacto" padding="compact" width="wide" aria-labelledby="contact-heading">
         <div className="text-center mb-8">
           <SectionHeader
-            badge={t.badge}
+            badge={surfaceCopy?.badge ?? t.badge}
             badgeIcon={Send}
-            title={t.title}
-            description={t.description}
+            title={surfaceCopy?.title ?? t.title}
+            description={surfaceCopy?.description ?? t.description}
             titleId="contact-heading"
           />
           <Badge variant="secondary" className="mt-4">
             <Clock className="mr-2 h-3 w-3" />
-            {t.responseBadge}
+            {surfaceCopy?.responseBadge ?? t.responseBadge}
           </Badge>
         </div>
 
@@ -211,8 +230,12 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
             >
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg md:text-xl">{t.info.title}</CardTitle>
-                  <CardDescription>{t.info.description}</CardDescription>
+                  <CardTitle className="text-lg md:text-xl">
+                    {surfaceCopy?.infoTitle ?? t.info.title}
+                  </CardTitle>
+                  <CardDescription>
+                    {surfaceCopy?.infoDescription ?? t.info.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-3">
@@ -316,7 +339,10 @@ export function Contact({ contactDraft = null }: { contactDraft?: ContactDraft |
                     forceMount
                   >
                     <ContactAssistant
-                      contactDraft={contactDraft}
+                      contactDraft={effectiveDraft}
+                      surface={surface}
+                      surfaceAssistantTitle={surfaceCopy?.assistantTitle}
+                      surfaceAssistantDescription={surfaceCopy?.assistantDescription}
                       sharedIdentity={sharedIdentity}
                       onIdentityChange={updateIdentity}
                       sharedMessage={sharedMessage}

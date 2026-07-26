@@ -219,8 +219,8 @@ export default function ConsultoriaVientoNorte() {
 
       <ConsultoriaDemoShowcase />
 
-      {/* Cierre del embudo: mismo Contact que home / /contacto */}
-      <Contact />
+      {/* Cierre embudo: Contact en modo consultoría (intent fijo, sin laboral/freelance) */}
+      <Contact surface="consulting" />
 
       <StickyCTA
         label={t.consultoria.stickyCta}
