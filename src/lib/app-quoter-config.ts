@@ -14,13 +14,24 @@ export interface DeliverableTier {
   /** Horas típicas de entrega completa (interno). */
   typicalHours: number;
   consultingPackage: ConsultingPackageId;
+  /**
+   * Si true: el alcance de *implementación* (backend/app/infra) no es core solo de VN.
+   * El motor y la UI muestran honesty “requiere red bajo dirección”.
+   */
+  requiresNetwork?: boolean;
 }
 
-/** Bandas de esfuerzo UX — calibradas a discovery + diseño + handoff. */
+/** Bandas de esfuerzo UX — calibradas a discovery + diseño + handoff (pyme). */
 export const DELIVERABLE_TIERS: DeliverableTier[] = [
   { id: "prototype", minHours: 32, typicalHours: 56, consultingPackage: "radar" },
   { id: "web", minHours: 96, typicalHours: 160, consultingPackage: "marco" },
-  { id: "app", minHours: 200, typicalHours: 320, consultingPackage: "marco" },
+  {
+    id: "app",
+    minHours: 200,
+    typicalHours: 320,
+    consultingPackage: "marco",
+    requiresNetwork: true,
+  },
   { id: "enterprise", minHours: 400, typicalHours: 600, consultingPackage: "ops" },
 ];
 

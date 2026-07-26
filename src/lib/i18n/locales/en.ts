@@ -489,27 +489,29 @@ export default {
         },
       },
       appQuoter: {
-        badge: 'Quoter · UX consulting',
-        title: 'Align budget and consulting scope',
+        badge: 'Scope fit · SMBs',
+        title: 'How much scope fits your budget?',
         description:
-          'Not a “build-agency” quote. Estimates fit for Viento Norte UX consulting: design, Design Ops, DevOps, product AI, and handoff — no public pricing.',
+          'Fit tool for Viento Norte UX consulting (SMBs and small teams). Estimates what’s realistic: prototype, site, product journeys, or team process — no public rates and no custom software quote.',
         disclaimer:
-          'Indicative UX consulting estimate (design · Design Ops · DevOps · AI). Does not quote full-stack software builds or third-party licenses.',
+          'Indicative UX consulting estimate (design · Design Ops · handoff). Does not quote full-stack builds, app stores, or third-party licenses. Default currency: CLP.',
         currencyLabel: 'Currency',
         currencies: {
-          USD: 'USD · US dollar',
-          UF: 'UF · Chilean inflation unit',
           CLP: 'CLP · Chilean peso',
+          UF: 'UF · Chilean inflation unit',
+          USD: 'USD · US dollar',
         },
         fxNote:
           'Indicative rates for comparison (not live FX). Fit uses an internal equivalence; scope is closed at kickoff.',
         budgetLabel: 'Reference budget',
         budgetPresetsLabel: 'Common budgets',
         expectationLabel: 'What consulting scope do you need?',
+        networkNote:
+          'Product journeys = design and handoff with Viento Norte. App/backend implementation is added via a VN-directed network when needed — not included as a store build.',
         tiers: {
           prototype: {
             label: 'Prototype & validation',
-            hint: 'Navigable Figma · key flows',
+            hint: '5–7 days · Radar',
             deliverable: 'Concept validation and UX handoff',
             includes: [
               'Focused discovery and information architecture',
@@ -518,33 +520,33 @@ export default {
             ],
           },
           web: {
-            label: 'Web experience (UX MVP)',
-            hint: 'Responsive · CMS-ready · specs',
-            deliverable: 'Web design ready for your team or partner to implement',
+            label: 'Site / digital presence',
+            hint: 'Multi-page · specs · Marco',
+            deliverable: 'Site design ready for your team or partner to implement',
             includes: [
-              'Research + UI design for web MVP',
-              'Initial design system and responsive patterns',
+              'Research + UI design for site or web MVP',
+              'Responsive patterns and initial design system',
               'UX acceptance criteria and handoff',
             ],
           },
           app: {
-            label: 'App experience (journeys)',
-            hint: 'Mobile · auth · core flows',
+            label: 'Product journeys (design)',
+            hint: 'Mobile · core flows · + network if building',
             deliverable: 'Critical journeys designed + specs — not a store build',
             includes: [
               'Onboarding, navigation, and error states',
               'Navigable mobile prototypes + UI specs',
-              'Release plan and adoption metrics',
+              'Phase plan; implementation via network if needed',
             ],
           },
           enterprise: {
-            label: 'Enterprise ops (team)',
-            hint: 'Design Ops · DevOps · governance · AI',
-            deliverable: 'Team process + UX blueprint (Ops / Marco formats)',
+            label: 'Team process (Ops)',
+            hint: 'Design Ops · adoption · 4–6 weeks',
+            deliverable: 'Team process + UX blueprint (Ops format)',
             includes: [
-              'Enterprise UX blueprint, Design Ops, and delivery DevOps',
-              'Workshops with PM/PO/Engineering · governed AI if needed',
-              'Playbook, metrics, and design governance',
+              '5 UX macro-processes and workshops with PM/PO/Engineering',
+              'Playbook, adoption metrics, and design governance',
+              'Governed AI in the process only if in scope',
             ],
           },
         },
@@ -561,16 +563,16 @@ export default {
             'To approach the selected scope, consider increasing investment by roughly {low}–{high}%.',
           summary: {
             comfortable:
-              'Your budget comfortably covers the expected scope. We can prioritize delivery quality and user validation.',
+              'Your budget comfortably covers the expected UX consulting scope. We can prioritize delivery quality and validation.',
             viable:
               'The budget fits the scope. We recommend a kickoff to lock priorities and phases.',
             tight:
               'The scope is demanding for the budget. Narrow the MVP or plan in phases.',
             gap:
-              'The expectation exceeds the current budget. Start with a smaller scope or revisit investment.',
+              'The expectation exceeds the current budget. Start with a smaller scope (e.g. prototype or site) or revisit investment.',
           },
         },
-        cta: 'Schedule kickoff',
+        cta: 'Go to kickoff with this scope',
       },
     },
 

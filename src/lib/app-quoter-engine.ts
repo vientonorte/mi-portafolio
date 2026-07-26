@@ -25,6 +25,11 @@ export interface QuoteResult {
   alignmentScore: number;
   affordableTierId: DeliverableTierId;
   recommendedPackage: ConsultingPackageId;
+  /**
+   * Implementación de app/backend no es core solo VN — requiere red bajo dirección.
+   * El diseño/alcance UX sí es consultoría VN.
+   */
+  requiresNetwork: boolean;
   /** Incremento sugerido en % (solo si fit === gap o tight). */
   suggestedBudgetIncreasePercent?: { low: number; high: number };
 }
@@ -89,6 +94,7 @@ export function calculateAppQuote(
     affordableTierId: affordable.id,
     recommendedPackage:
       fit === "comfortable" || fit === "viable" ? tier.consultingPackage : affordable.consultingPackage,
+    requiresNetwork: Boolean(tier.requiresNetwork),
     suggestedBudgetIncreasePercent: needsIncrease
       ? suggestIncreasePercent(budgetUsd, tier)
       : undefined,
@@ -110,7 +116,7 @@ export function buildAppQuoterContactMessage(
 
   if (language === "es") {
     return [
-      "Hola Viento Norte — solicitud vía cotizador de alcance.",
+      "Hola Viento Norte — solicitud vía ajuste de alcance.",
       "",
       `Presupuesto de referencia: ${budget} (${result.currency})`,
       `Expectativa: ${tierLabel}`,
@@ -118,13 +124,19 @@ export function buildAppQuoterContactMessage(
       result.fit === "gap" || result.fit === "tight"
         ? `Alcance alcanzable hoy: ${affordableLabel}`
         : `Alcance coherente con la expectativa seleccionada.`,
+      result.requiresNetwork
+        ? "Nota: journeys de producto (diseño UX) con Viento Norte; implementación app/backend requiere red bajo dirección de VN."
+        : "",
       "",
       "Quedo atento/a a coordinar kickoff y afinar alcance en la primera sesión.",
-    ].join("\n");
+    ]
+      .filter((line) => line !== undefined)
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n");
   }
 
   return [
-    "Hi Viento Norte — request via scope quoter.",
+    "Hi Viento Norte — request via scope fit tool.",
     "",
     `Reference budget: ${budget} (${result.currency})`,
     `Expected deliverable: ${tierLabel}`,
@@ -132,7 +144,13 @@ export function buildAppQuoterContactMessage(
     result.fit === "gap" || result.fit === "tight"
       ? `Achievable scope today: ${affordableLabel}`
       : `Scope aligned with the selected expectation.`,
+    result.requiresNetwork
+      ? "Note: product journeys (UX design) with Viento Norte; app/backend implementation needs a directed delivery network."
+      : "",
     "",
     "Looking forward to scheduling a kickoff and refining scope in the first session.",
-  ].join("\n");
+  ]
+    .filter((line) => line !== undefined)
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n");
 }

@@ -1,10 +1,13 @@
 /**
- * Monedas del cotizador app/web.
+ * Monedas del ajuste de alcance (consultoría UX pyme).
  * El motor de fit sigue en USD interno; la UI convierte display ↔ USD.
- * Tasas orientativas (no FX en vivo) — se documentan en UI disclaimer.
+ * Default mental pyme: CLP. Tasas orientativas (no FX en vivo).
  */
 
-export type QuoterCurrency = "USD" | "UF" | "CLP";
+export type QuoterCurrency = "CLP" | "UF" | "USD";
+
+/** Default UI — pymes Chile (research 2026-07-26). */
+export const DEFAULT_QUOTER_CURRENCY: QuoterCurrency = "CLP";
 
 /** CLP por 1 USD — referencia orientativa Chile 2026 */
 export const USD_TO_CLP = 950;
@@ -15,7 +18,8 @@ export const UF_TO_CLP = 38_000;
 /** USD por 1 UF */
 export const UF_TO_USD = UF_TO_CLP / USD_TO_CLP;
 
-export const QUOTER_CURRENCIES: QuoterCurrency[] = ["USD", "UF", "CLP"];
+/** Orden de selector: CLP primero (default mental pyme). */
+export const QUOTER_CURRENCIES: QuoterCurrency[] = ["CLP", "UF", "USD"];
 
 export interface CurrencySliderConfig {
   min: number;

@@ -489,27 +489,29 @@ export default {
         },
       },
       appQuoter: {
-        badge: 'Cotizador · consultoría UX',
-        title: 'Alinea presupuesto y alcance de consultoría',
+        badge: 'Ajuste de alcance · pymes',
+        title: '¿Cuánto alcance cabe en tu presupuesto?',
         description:
-          'No es un cotizador de “agencia de build”. Estima fit de consultoría UX Viento Norte: diseño, Design Ops, DevOps, IA de producto y handoff — sin precios públicos.',
+          'Herramienta de fit para consultoría UX Viento Norte (pymes y equipos chicos). Estima qué es realista con tu inversión: prototipo, sitio, journeys de producto o proceso de equipo — sin precios públicos ni cotización de software a medida.',
         disclaimer:
-          'Estimación orientativa de consultoría UX (diseño · Design Ops · DevOps · IA). No cotiza desarrollo software full-stack ni licencias de terceros.',
+          'Estimación orientativa de consultoría UX (diseño · Design Ops · handoff). No cotiza desarrollo full-stack, app stores ni licencias de terceros. Default en CLP.',
         currencyLabel: 'Moneda',
         currencies: {
-          USD: 'USD · Dólar',
-          UF: 'UF · Unidad de fomento',
           CLP: 'CLP · Peso chileno',
+          UF: 'UF · Unidad de fomento',
+          USD: 'USD · Dólar',
         },
         fxNote:
-          'Tasas orientativas para comparar (no FX en vivo). El fit se calcula en equivalencia interna; el alcance se cierra en kickoff.',
+          'Tasas orientativas para comparar (no FX en vivo). El fit usa equivalencia interna; el alcance se cierra en kickoff.',
         budgetLabel: 'Presupuesto de referencia',
         budgetPresetsLabel: 'Presupuestos frecuentes',
         expectationLabel: '¿Qué alcance de consultoría necesitas?',
+        networkNote:
+          'Journeys de producto = diseño y handoff con Viento Norte. La implementación app/backend se suma con red dirigida por VN si el proyecto lo pide — no está incluida como build de store.',
         tiers: {
           prototype: {
             label: 'Prototipo y validación',
-            hint: 'Figma navegable · flujos clave',
+            hint: '5–7 días · Radar',
             deliverable: 'Validación de concepto y handoff UX',
             includes: [
               'Discovery focalizado y arquitectura de información',
@@ -518,33 +520,33 @@ export default {
             ],
           },
           web: {
-            label: 'Experiencia web (MVP UX)',
-            hint: 'Responsive · CMS-ready · specs',
-            deliverable: 'Diseño web listo para que tu equipo o partner implemente',
+            label: 'Sitio / presencia digital',
+            hint: 'Multipágina · specs · Marco',
+            deliverable: 'Diseño de sitio listo para implementar (equipo o partner)',
             includes: [
-              'Research + diseño UI del MVP web',
-              'Design system inicial y patrones responsive',
+              'Research + diseño UI del sitio o MVP web',
+              'Patrones responsive y design system inicial',
               'Criterios de aceptación UX y handoff',
             ],
           },
           app: {
-            label: 'Experiencia app (journeys)',
-            hint: 'Mobile · auth · flujos core',
-            deliverable: 'Journeys críticos diseñados + specs — no build de store',
+            label: 'Journeys de producto (diseño)',
+            hint: 'Mobile · flujos core · + red si hay build',
+            deliverable: 'Journeys diseñados + specs — no build de store',
             includes: [
               'Onboarding, navegación y estados de error',
               'Prototipos mobile navegables + specs UI',
-              'Plan de releases y métricas de adopción',
+              'Plan de fases; implementación con red si aplica',
             ],
           },
           enterprise: {
-            label: 'Ops enterprise (equipo)',
-            hint: 'Design Ops · DevOps · governance · IA',
-            deliverable: 'Proceso de equipo + blueprint UX (modalidad Ops / Marco)',
+            label: 'Proceso de equipo (Ops)',
+            hint: 'Design Ops · adopción · 4–6 sem',
+            deliverable: 'Proceso de equipo + blueprint UX (modalidad Ops)',
             includes: [
-              'Blueprint UX enterprise, Design Ops y DevOps de entrega',
-              'Workshops con PM/PO/Engineering · IA gobernada si aplica',
-              'Playbook, métricas y gobierno de diseño',
+              '5 macroprocesos UX y workshops con PM/PO/Engineering',
+              'Playbook, métricas de adopción y gobierno de diseño',
+              'IA gobernada en el proceso solo si el alcance lo incluye',
             ],
           },
         },
@@ -561,16 +563,16 @@ export default {
             'Para acercarte al alcance elegido, considera ampliar inversión aprox. {low}–{high}%.',
           summary: {
             comfortable:
-              'Tu presupuesto cubre con holgura el alcance esperado. Podemos priorizar calidad de entrega y validación con usuarios.',
+              'Tu presupuesto cubre con holgura el alcance de consultoría UX esperado. Podemos priorizar calidad de entrega y validación.',
             viable:
               'El presupuesto es coherente con el alcance. Recomendamos kickoff para cerrar prioridades y fases.',
             tight:
               'El alcance es exigente para el presupuesto. Conviene acotar MVP o planificar por fases.',
             gap:
-              'La expectativa supera el presupuesto actual. Puedes iniciar por un alcance menor o replantear inversión.',
+              'La expectativa supera el presupuesto actual. Puedes iniciar por un alcance menor (p. ej. prototipo o sitio) o replantear inversión.',
           },
         },
-        cta: 'Coordinar kickoff',
+        cta: 'Ir al kickoff con este alcance',
       },
     },
 

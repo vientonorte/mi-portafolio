@@ -21,6 +21,7 @@ import {
   type QuoteResult,
 } from "../../lib/app-quoter-engine";
 import {
+  DEFAULT_QUOTER_CURRENCY,
   QUOTER_CURRENCIES,
   SLIDER_BY_CURRENCY,
   convertDisplayAmount,
@@ -51,9 +52,11 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.appQuoter;
 
-  const [currency, setCurrency] = useState<QuoterCurrency>("USD");
+  const [currency, setCurrency] = useState<QuoterCurrency>(DEFAULT_QUOTER_CURRENCY);
   const slider = SLIDER_BY_CURRENCY[currency];
-  const [budgetDisplay, setBudgetDisplay] = useState(slider.defaultValue);
+  const [budgetDisplay, setBudgetDisplay] = useState(
+    () => SLIDER_BY_CURRENCY[DEFAULT_QUOTER_CURRENCY].defaultValue
+  );
   const [tierId, setTierId] = useState<DeliverableTierId>("web");
 
   const budgetUsd = useMemo(
@@ -289,6 +292,15 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {t.result.summary[quote.fit]}
                 </p>
+
+                {quote.requiresNetwork && (
+                  <p
+                    className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm leading-relaxed text-foreground"
+                    role="note"
+                  >
+                    {t.networkNote}
+                  </p>
+                )}
 
                 {(quote.fit === "gap" || quote.fit === "tight") && (
                   <div className="rounded-lg border border-border/80 bg-background/60 p-4 text-sm text-foreground">

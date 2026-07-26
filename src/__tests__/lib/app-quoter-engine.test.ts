@@ -34,12 +34,14 @@ describe("calculateAppQuote", () => {
     const message = buildAppQuoterContactMessage(
       "es",
       result,
-      "Web funcional",
+      "Sitio / presencia digital",
       "Viable",
-      "Prototipo funcional"
+      "Prototipo y validación"
     );
     assertNoRateLeak(message);
     expect(message).toContain("Presupuesto de referencia");
+    expect(message).toContain("Hola Viento Norte");
+    expect(result.requiresNetwork).toBe(false);
   });
 
   it("includes display currency in quote result and contact message", () => {
@@ -52,10 +54,24 @@ describe("calculateAppQuote", () => {
     const message = buildAppQuoterContactMessage(
       "es",
       result,
-      "Web funcional",
+      "Sitio / presencia digital",
       "Viable",
-      "Prototipo funcional"
+      "Prototipo y validación"
     );
     expect(message).toContain("CLP");
+  });
+
+  it("flags requiresNetwork for app journeys tier and notes it in contact message", () => {
+    const result = calculateAppQuote(40_000, "app")!;
+    expect(result.requiresNetwork).toBe(true);
+    const message = buildAppQuoterContactMessage(
+      "es",
+      result,
+      "Journeys de producto (diseño)",
+      "Viable",
+      "Sitio / presencia digital"
+    );
+    expect(message).toMatch(/red bajo dirección/i);
+    assertNoRateLeak(message);
   });
 });
