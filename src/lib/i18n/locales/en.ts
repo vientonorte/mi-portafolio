@@ -269,9 +269,9 @@ export default {
             cta: 'Start Ops',
           },
           app: {
-            title: 'Working app',
-            hint: 'VN design · build via network',
-            cta: 'Start app',
+            title: 'App that ships',
+            hint: 'Experience + coordinated build',
+            cta: 'I want an app',
           },
         },
         techLayerLabel: 'References',
@@ -407,10 +407,10 @@ export default {
           'WCAG 2.2 AA review of one critical flow — free entry to Express diagnostic (Radar). Full diagnostic is 5–7 days if you need it.',
         freeStripCta: 'Start free',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
-        appStripTitle: 'Working app',
+        appStripTitle: 'An app that ships',
         appStripBody:
-          'Design with Viento Norte. Build is done by the network, under our direction.',
-        appStripCta: 'Start app',
+          'We define the experience and scope. We coordinate specialists so it reaches production — you don’t have to assemble the team yourself.',
+        appStripCta: 'I want an app',
       },
       educationPartner: {
         badge: 'Education',
@@ -439,7 +439,7 @@ export default {
         description: 'Four short steps. Pick a deliverable and leave a ready message.',
         points: [
           'Diagnostic · Prototype · Process · App (with network)',
-          'Working app: VN design + build via network, if you chose it',
+          'App that ships: experience + development coordinated by VN',
           'Reply within 24 business hours',
         ],
       },
@@ -465,25 +465,63 @@ export default {
         cta: 'Continue with this',
       },
       demo: {
-        badge: 'Examples',
+        badge: 'References',
         title: 'Reference screens',
-        description: 'Browse the example. To talk, use the same site form.',
-        cta: 'View screens',
+        description:
+          'CMS dashboard, GEES consulting, SURA / Transvip / Karri cases, and campaigns. Also social media and ads optimization.',
+        cta: 'View screen',
         ctaSecondary: 'Talk',
         ctaMakeLink: 'Editable file (optional)',
         previewCta: 'Enlarge',
         items: {
           'x-cms-n2n': {
-            projectName: 'X | CMS',
-            approach: 'From brief to a prototype ready to build.',
-            highlights: ['Ideation', 'Test', 'Prototype'],
-            embedTitle: 'X | CMS demo',
+            projectName: 'CMS · Dashboard',
+            approach:
+              'CMS dashboard view: content operations and structure in one place.',
+            highlights: ['Dashboard', 'CMS', 'Content'],
+            embedTitle: 'CMS · Dashboard',
           },
           'gees-propuesta': {
-            projectName: 'GEES · Proposal',
-            approach: 'Quote and decision dashboard for stakeholders.',
-            highlights: ['Dashboard', 'Quote', 'KPIs'],
-            embedTitle: 'GEES · Proposal',
+            projectName: 'GEES · Consulting',
+            approach:
+              'Consulting proposal with quote dashboard and KPIs for stakeholder decisions.',
+            highlights: ['Consulting', 'Quote', 'KPIs', 'Stakeholders'],
+            embedTitle: 'GEES · Consulting',
+          },
+          'sura-onboarding': {
+            projectName: 'SURA · Onboarding',
+            approach:
+              'Production case: investments onboarding with less friction and Wealth metrics.',
+            highlights: ['Fintech', 'Onboarding', '−40%', 'Enterprise'],
+            embedTitle: 'SURA · Onboarding',
+          },
+          'transvip-app': {
+            projectName: 'Transvip · App',
+            approach:
+              'Mobility product: app and design system with clear handoff to engineering.',
+            highlights: ['Mobility', 'App', 'Design system'],
+            embedTitle: 'Transvip · App',
+          },
+          'karri-shoppers': {
+            projectName: 'Karri · Shoppers',
+            approach:
+              'Shopper activation and engagement with clear narrative and product metrics.',
+            highlights: ['+35% activation', '+58% engagement', 'Mobility'],
+            embedTitle: 'Karri · Shoppers',
+          },
+          'ads-campaigns': {
+            projectName: 'Social & ads',
+            approach:
+              'Social media management, ads optimization, and SEM/paid campaigns aligned to UX and conversion. Viento Norte capability.',
+            highlights: ['Social media', 'Ads', 'Campaigns', 'Conversion'],
+            embedTitle: 'Social & ads',
+          },
+          'edu21-edu': {
+            projectName: 'Edu 21 · Education',
+            approach:
+              'Edtech strategy and pitch: heuristics, benchmark, and commercial narrative.',
+            highlights: ['Education', 'Strategy', 'Pitch'],
+            embedTitle: 'Edu 21',
           },
         },
       },

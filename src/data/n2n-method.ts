@@ -86,18 +86,20 @@ Need: diagnostic (Radar) or prototype (Marco) without sending data to public too
 Timeline: [add timeline].`,
 };
 
-/** App funcional: diseño VN + build con red (externalizado bajo dirección) */
+/** App en producción: experiencia VN + desarrollo coordinado */
 export const APP_ONBOARDING_GOAL: Record<Language, string> = {
-  es: `Objetivo: app funcional (no solo pantallas).
-Diseño y alcance: Viento Norte.
-Implementación: con red bajo dirección VN (externalizado).
+  es: `Objetivo: app en producción (experiencia + desarrollo coordinado por Viento Norte).
+
 Contexto: [qué hace la app / usuarios].
 Plataforma: [web app / iOS / Android / otra].
-Plazo e inversión de referencia: [indica].`,
-  en: `Goal: working app (not screens only).
-Design and scope: Viento Norte.
-Build: network under VN direction (externalized).
+Plazo e inversión de referencia: [indica].
+
+Busco que VN defina la experiencia y coordine el desarrollo hasta el release.`,
+  en: `Goal: app in production (experience + development coordinated by Viento Norte).
+
 Context: [what the app does / users].
 Platform: [web app / iOS / Android / other].
-Timeline and budget reference: [add].`,
+Timeline and budget reference: [add].
+
+I want VN to define the experience and coordinate development through release.`,
 };

@@ -99,20 +99,20 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
     packageId: "marco",
     appGoal: true,
     title: {
-      es: "App funcional",
-      en: "Working app",
+      es: "App que funciona",
+      en: "App that ships",
     },
     hint: {
-      es: "Diseño VN · build con red",
-      en: "VN design · build via network",
+      es: "Experiencia + desarrollo coordinado",
+      en: "Experience + coordinated build",
     },
     pain: {
-      es: "Necesitas una app que funcione, no solo pantallas.",
-      en: "You need a working app, not just screens.",
+      es: "Necesitas una app en producción, no solo pantallas.",
+      en: "You need an app in production, not just screens.",
     },
     valueProp: {
-      es: "Diseño y alcance con Viento Norte; implementación con especialistas bajo dirección VN.",
-      en: "Design and scope with Viento Norte; build with specialists under VN direction.",
+      es: "Viento Norte define la experiencia y coordina el desarrollo hasta producción.",
+      en: "Viento Norte defines the experience and coordinates development through production.",
     },
     uiTokens: ["primary CTA", "trust chips", "focus rings"],
     deepLinkQuery: "role=app&package=marco&app=1",
