@@ -88,17 +88,9 @@ export function ConsultoriaLandingHero({
 
   return (
     <section
-      className="section-pad-default relative overflow-hidden border-b border-border/60 bg-surface-matte"
+      className="section-pad-default section-atmosphere section-atmosphere-matte relative overflow-hidden border-b border-border/40"
       aria-labelledby="consultoria-hero-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        aria-hidden
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 70% 45% at 50% -15%, color-mix(in oklab, var(--primary) 10%, transparent), transparent)",
-        }}
-      />
 
       <div className="container relative mx-auto max-w-3xl">
         <div className="mx-auto space-y-6 text-center">

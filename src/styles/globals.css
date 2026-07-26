@@ -494,6 +494,68 @@
     background-color: var(--surface-section);
   }
 
+  /*
+   * Atmósferas de sección (long landings / consultoría).
+   * Evitan el “ladrillo” de bg solid plano: base mate + lavado radial sutil (~4–8% primary).
+   * Brand: gradiente solo acento; no glass, no flood.
+   */
+  .section-atmosphere {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .section-atmosphere-base {
+    background-color: var(--background);
+    background-image: radial-gradient(
+      ellipse 75% 45% at 15% 0%,
+      color-mix(in oklab, var(--primary) 5%, transparent),
+      transparent 68%
+    );
+  }
+
+  .section-atmosphere-matte {
+    background-color: var(--surface-matte);
+    background-image:
+      radial-gradient(
+        ellipse 85% 50% at 50% -8%,
+        color-mix(in oklab, var(--primary) 8%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 100% 100%,
+        color-mix(in oklab, var(--primary) 3%, transparent),
+        transparent 65%
+      );
+  }
+
+  .section-atmosphere-section {
+    background-color: var(--surface-section);
+    background-image: radial-gradient(
+      ellipse 70% 45% at 85% 100%,
+      color-mix(in oklab, var(--primary) 6%, transparent),
+      transparent 68%
+    );
+  }
+
+  .section-atmosphere-muted {
+    background-color: color-mix(in oklab, var(--muted) 35%, var(--background));
+    background-image: radial-gradient(
+      ellipse 60% 40% at 40% 0%,
+      color-mix(in oklab, var(--primary) 4%, transparent),
+      transparent 70%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-atmosphere-base,
+    .section-atmosphere-matte,
+    .section-atmosphere-section,
+    .section-atmosphere-muted {
+      /* Keep static wash; no animated gradients */
+      background-attachment: scroll;
+    }
+  }
+
   .bg-logo-surface {
     background-color: var(--logo-surface);
     border: 1px solid var(--logo-surface-border);

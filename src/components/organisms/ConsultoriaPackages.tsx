@@ -48,7 +48,8 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
       id="modalidades"
       padding="default"
       width="wide"
-      tone="matte"
+      tone="default"
+      atmosphere
       aria-labelledby="consultoria-packages-heading"
     >
       <SectionHeader

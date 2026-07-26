@@ -70,7 +70,7 @@ export function ConsultoriaDemoShowcase() {
   return (
     <section
       id="consultoria-demo"
-      className="section-pad-default scroll-mt-[calc(var(--header-height)+0.75rem)] border-y border-border/60 bg-surface-section"
+      className="section-pad-default section-atmosphere section-atmosphere-section scroll-mt-[calc(var(--header-height)+0.75rem)] border-y border-border/30"
       aria-labelledby="consultoria-demo-heading"
     >
       <div className="container mx-auto max-w-5xl">

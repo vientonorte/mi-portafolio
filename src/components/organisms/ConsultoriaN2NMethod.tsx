@@ -23,6 +23,7 @@ export function ConsultoriaN2NMethod(_props: ConsultoriaN2NMethodProps) {
       padding="default"
       width="wide"
       tone="section"
+      atmosphere
       aria-labelledby="metodo-n2n-heading"
     >
       <SectionHeader

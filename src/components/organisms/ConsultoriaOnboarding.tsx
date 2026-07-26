@@ -118,7 +118,7 @@ export function ConsultoriaOnboarding({
 
   return (
     <section
-      className="section-pad-default"
+      className="section-pad-default section-atmosphere section-atmosphere-matte border-y border-border/30"
       aria-labelledby="consultoria-onboarding-heading"
     >
       <div className="container mx-auto max-w-3xl">

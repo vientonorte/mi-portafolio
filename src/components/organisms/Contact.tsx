@@ -205,7 +205,14 @@ export function Contact({
   };
 
   return (
-    <PageSection id="contacto" padding="compact" width="wide" aria-labelledby="contact-heading">
+    <PageSection
+      id="contacto"
+      padding="compact"
+      width="wide"
+      tone="muted"
+      atmosphere
+      aria-labelledby="contact-heading"
+    >
         <div className="text-center mb-8">
           <SectionHeader
             badge={surfaceCopy?.badge ?? t.badge}

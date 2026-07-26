@@ -48,6 +48,7 @@ export function ConsultoriaEducationPartner({
       padding="default"
       width="wide"
       tone="matte"
+      atmosphere
       aria-labelledby="partner-edu-heading"
     >
       <motion.div
