@@ -16,11 +16,27 @@ import { scrollToSection } from "../../lib/scroll-to-section";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../lib/routes";
 
-/** Static posters for Apple-style mock demos (no interactive iframe). */
-function demoPoster(id: ConsultoriaDemoId): string {
+function demoPoster(config: ConsultoriaDemoConfig): string {
   const img = getPortfolioImages();
-  if (id === "gees-propuesta") return img.consultoria.geesDashboard;
-  return img.consultoria.xCmsDashboard;
+  switch (config.poster) {
+    case "geesDashboard":
+      return img.consultoria.geesDashboard;
+    case "suraRia":
+      return img.sura.riaOnboarding;
+    case "suraAnalytics":
+      return img.sura.analyticsGa4;
+    case "transvipMobile":
+      return img.transvip.appMobile;
+    case "karriDelivery":
+      return img.karri.deliveryBrand;
+    case "edu21Pitch":
+      return img.edu21.salesPitch;
+    case "coworkingFunnel":
+      return img.methodCoworking.funnelConversion;
+    case "xCmsDashboard":
+    default:
+      return img.consultoria.xCmsDashboard;
+  }
 }
 
 export function ConsultoriaDemoShowcase() {
@@ -35,12 +51,12 @@ export function ConsultoriaDemoShowcase() {
   const goLead = (demoId: string) => {
     trackEvent("consultoria_demo_lead", { demo_id: demoId });
     setLightbox(null);
-    if (document.getElementById("contacto")) {
-      scrollToSection("contacto");
-      return;
-    }
     if (document.getElementById("consultoria-onboarding")) {
       scrollToSection("consultoria-onboarding");
+      return;
+    }
+    if (document.getElementById("contacto")) {
+      scrollToSection("contacto");
       return;
     }
     navigate(ROUTES.home, { state: { scrollTo: "contacto" } });
@@ -78,7 +94,7 @@ export function ConsultoriaDemoShowcase() {
           {CONSULTORIA_DEMOS.map((config) => {
             const item = demo.items[config.id as ConsultoriaDemoId];
             if (!item) return null;
-            const poster = demoPoster(config.id as ConsultoriaDemoId);
+            const poster = demoPoster(config);
 
             return (
               <Card
@@ -130,7 +146,6 @@ export function ConsultoriaDemoShowcase() {
                       </div>
                     </div>
 
-                    {/* Static mockup frame — not interactive iframe */}
                     <div className="lg:col-span-3 relative min-h-[240px] md:min-h-[320px] bg-gradient-to-br from-muted/40 to-background p-4 md:p-6">
                       <button
                         type="button"
@@ -197,7 +212,7 @@ export function ConsultoriaDemoShowcase() {
               </Button>
             </div>
             <img
-              src={demoPoster(lightbox.config.id as ConsultoriaDemoId)}
+              src={demoPoster(lightbox.config)}
               alt=""
               className="max-h-[70vh] w-full object-contain bg-muted/30"
             />

@@ -465,25 +465,63 @@ export default {
         cta: 'Continuar con esta',
       },
       demo: {
-        badge: 'Ejemplos',
+        badge: 'Referencias',
         title: 'Pantallas de referencia',
-        description: 'Miras el ejemplo. Si quieres conversar, usas el mismo formulario del sitio.',
-        cta: 'Ver pantallas',
+        description:
+          'Dashboard CMS, consultoría GEES, casos SURA / Transvip / Karri y campañas. También social media y optimización de ads.',
+        cta: 'Ver pantalla',
         ctaSecondary: 'Conversar',
         ctaMakeLink: 'Archivo editable (opcional)',
         previewCta: 'Ampliar',
         items: {
           'x-cms-n2n': {
-            projectName: 'X | CMS',
-            approach: 'Del brief al prototipo listo para construir.',
-            highlights: ['Ideación', 'Prueba', 'Prototipo'],
-            embedTitle: 'Demo X | CMS',
+            projectName: 'CMS · Dashboard',
+            approach:
+              'Vista de panel del CMS: operación de contenidos y estructura en un solo lugar.',
+            highlights: ['Dashboard', 'CMS', 'Contenidos'],
+            embedTitle: 'CMS · Dashboard',
           },
           'gees-propuesta': {
-            projectName: 'GEES · Propuesta',
-            approach: 'Panel de cotización y decisión para stakeholders.',
-            highlights: ['Panel', 'Cotización', 'KPIs'],
-            embedTitle: 'GEES · Propuesta',
+            projectName: 'GEES · Consultoría',
+            approach:
+              'Propuesta de consultoría con dashboard de cotización y KPIs para decidir con stakeholders.',
+            highlights: ['Consultoría', 'Cotización', 'KPIs', 'Stakeholders'],
+            embedTitle: 'GEES · Consultoría',
+          },
+          'sura-onboarding': {
+            projectName: 'SURA · Onboarding',
+            approach:
+              'Caso en producción: onboarding de inversiones con menos fricción y métricas en Wealth.',
+            highlights: ['Fintech', 'Onboarding', '−40%', 'Enterprise'],
+            embedTitle: 'SURA · Onboarding',
+          },
+          'transvip-app': {
+            projectName: 'Transvip · App',
+            approach:
+              'Producto mobility: app y design system con handoff claro a desarrollo.',
+            highlights: ['Mobility', 'App', 'Design system'],
+            embedTitle: 'Transvip · App',
+          },
+          'karri-shoppers': {
+            projectName: 'Karri · Shoppers',
+            approach:
+              'Activación y engagement de shoppers con narrativa clara y métricas de producto.',
+            highlights: ['+35% activación', '+58% engagement', 'Mobility'],
+            embedTitle: 'Karri · Shoppers',
+          },
+          'ads-campaigns': {
+            projectName: 'Social & ads',
+            approach:
+              'Gestión de redes, optimización de ads y campañas (SEM/paid) alineadas a UX y conversión. Capacidad Viento Norte.',
+            highlights: ['Social media', 'Ads', 'Campañas', 'Conversión'],
+            embedTitle: 'Social & ads',
+          },
+          'edu21-edu': {
+            projectName: 'Edu 21 · Educación',
+            approach:
+              'Estrategia y pitch de producto educativo: heurística, benchmark y narrativa comercial.',
+            highlights: ['Educación', 'Estrategia', 'Pitch'],
+            embedTitle: 'Edu 21',
           },
         },
       },
