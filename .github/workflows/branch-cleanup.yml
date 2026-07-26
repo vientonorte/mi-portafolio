@@ -1,0 +1,46 @@
+name: Branch cleanup
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  delete-merged-branch:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            if (branch === 'main' || branch.startsWith('dependabot/')) {
+              console.log('skip', branch);
+              return;
+            }
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branch}`,
+              });
+              console.log('deleted', branch);
+            } catch (e) {
+              console.log('skip delete', branch, e.message);
+            }
+
+  audit-stale:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: List remote branches except main
+        run: |
+          git fetch --prune origin
+          echo "Remote branches:"
+          git branch -r | grep -v 'HEAD' | sed 's|origin/||'
