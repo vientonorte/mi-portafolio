@@ -22,8 +22,8 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     name: { es: "Diagnóstico", en: "Diagnostic" },
     packLabel: { es: "Radar", en: "Radar" },
     tagline: {
-      es: "Diagnóstico express 5–7 días. Entrada gratis: WCAG 2.2 AA de un flujo crítico.",
-      en: "Express diagnostic 5–7 days. Free entry: WCAG 2.2 AA on one critical flow.",
+      es: "Diagnóstico express en 5–7 días: usabilidad, accesibilidad y plan de mejoras.",
+      en: "Express diagnostic in 5–7 days: usability, accessibility, and improvement plan.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
     youGet: {
@@ -32,14 +32,14 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     },
     deliverables: {
       es: [
-        "Entrada gratis: revisión WCAG 2.2 AA de un flujo crítico",
-        "Si aplica: Radar completo (5–7 días) con plan de mejoras",
-        "Informe corto con acciones prioritarias",
+        "Revisión de usabilidad y accesibilidad del flujo crítico",
+        "Hallazgos priorizados y plan de mejoras",
+        "Informe corto listo para el equipo",
       ],
       en: [
-        "Free entry: WCAG 2.2 AA review of one critical flow",
-        "If needed: full Radar (5–7 days) with improvement plan",
-        "Short report with priority actions",
+        "Usability and accessibility review of the critical flow",
+        "Prioritized findings and improvement plan",
+        "Short report ready for the team",
       ],
     },
   },
