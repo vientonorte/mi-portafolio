@@ -4,7 +4,6 @@ import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandingHero";
 import { ConsultoriaN2NMethod } from "../components/organisms/ConsultoriaN2NMethod";
-import { ConsultoriaPrivateTooling } from "../components/organisms/ConsultoriaPrivateTooling";
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
@@ -173,12 +172,6 @@ export default function ConsultoriaVientoNorte() {
 
       <ConsultoriaN2NMethod
         onStartOnboarding={() => scrollToOnboarding("marco")}
-      />
-
-      <ConsultoriaPrivateTooling
-        onStartOnboarding={(packageId) =>
-          scrollToOnboarding(packageId, { c1Goal: true })
-        }
       />
 
       <ConsultoriaEducationPartner
