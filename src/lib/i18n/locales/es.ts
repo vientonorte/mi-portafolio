@@ -314,7 +314,7 @@ export default {
         badge: 'Cómo trabajamos',
         title: 'Del problema al entregable',
         description:
-          'Cinco pasos: entender, explorar, probar, prototipar y entregar. Si el entregable es una app funcional, el último paso incluye handoff a la red de implementación.',
+          'Cinco pasos: entender, explorar, probar, prototipar y entregar. Si el entregable es una app, coordinamos el desarrollo hasta producción.',
         caseBadge: 'Ejemplo abierto',
         caseTitle: 'X | CMS',
         caseDescription: 'Demo del método: idea → prueba → prototipo listo para construir.',
@@ -396,7 +396,7 @@ export default {
         badge: 'Cómo se contrata',
         title: 'Tres formatos + app si la necesitas',
         description:
-          'Elige diagnóstico, prototipo o proceso de equipo. Si quieres una app que funcione, usa la franja de abajo.',
+          'Elige diagnóstico, prototipo o proceso de equipo. Si necesitas una app en producción, usa la franja de abajo.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaForm: 'Escribir',
@@ -438,7 +438,7 @@ export default {
         title: 'Empecemos',
         description: 'Cuatro pasos cortos. Eliges entregable y dejamos el mensaje listo.',
         points: [
-          'Diagnóstico · Prototipo · Proceso · App (con red)',
+          'Diagnóstico · Prototipo · Proceso · App que funciona',
           'App en producción: experiencia + desarrollo coordinado por VN',
           'Respuesta en menos de 24 h hábiles',
         ],

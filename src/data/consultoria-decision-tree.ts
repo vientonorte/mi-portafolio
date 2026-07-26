@@ -89,8 +89,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
       {
         id: "app",
         label: {
-          es: "App funcional (diseño + build con red)",
-          en: "Working app (design + build via network)",
+          es: "App en producción (experiencia + desarrollo)",
+          en: "App that ships (experience + development)",
         },
         nextId: "outcome-app",
       },
@@ -163,12 +163,12 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
       packageId: "marco",
       appGoal: true,
       title: {
-        es: "Recomendación: App funcional",
-        en: "Recommendation: Working app",
+        es: "Recomendación: App que funciona",
+        en: "Recommendation: App that ships",
       },
       summary: {
-        es: "Diseño y alcance con Viento Norte. Implementación con red bajo dirección VN.",
-        en: "Design and scope with Viento Norte. Build with network under VN direction.",
+        es: "Viento Norte define la experiencia y coordina el desarrollo hasta producción.",
+        en: "Viento Norte defines the experience and coordinates development through production.",
       },
     },
   },

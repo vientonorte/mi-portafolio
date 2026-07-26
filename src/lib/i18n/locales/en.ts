@@ -314,7 +314,7 @@ export default {
         badge: 'How we work',
         title: 'From problem to deliverable',
         description:
-          'Five steps: understand, explore, test, prototype, and hand off. If the deliverable is a working app, the last step includes handoff to the implementation network.',
+          'Five steps: understand, explore, test, prototype, and hand off. If the deliverable is an app, we coordinate development through production.',
         caseBadge: 'Open example',
         caseTitle: 'X | CMS',
         caseDescription: 'Method demo: idea → test → prototype ready to build.',
@@ -396,7 +396,7 @@ export default {
         badge: 'How you hire',
         title: 'Three formats + app if you need it',
         description:
-          'Pick diagnostic, prototype, or team process. If you need a working app, use the strip below.',
+          'Pick diagnostic, prototype, or team process. If you need an app in production, use the strip below.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaForm: 'Write',
