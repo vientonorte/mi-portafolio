@@ -1,7 +1,7 @@
 /**
- * SEM lead magnet · Entrada gratis a Radar (Diagnóstico express).
- * WCAG 2.2 AA de un flujo crítico → upsell Radar completo 5–7 días.
- * NO redirige a /auditoria (esa página es muestra de mentoría portfolio).
+ * Lead magnet · Probar gratis (Diagnóstico de un flujo).
+ * 1 flujo accesible → conversación por Diagnóstico completo 5–7 días.
+ * NO redirige a /auditoria (mentoría portfolio).
  */
 
 import type { NavigateFunction } from "react-router-dom";
@@ -13,24 +13,20 @@ import {
 } from "./navigate-to-contact";
 
 export const FREE_RADAR_ENTRY_MESSAGE: Record<Language, string> = {
-  es: `Hola Viento Norte — solicito la entrada gratis a Radar (Diagnóstico express).
+  es: `Hola Viento Norte — quiero probar gratis un flujo.
 
-Quiero la revisión WCAG 2.2 AA de un flujo crítico de mi producto/sitio.
+Qué revisar: [link o describe el flujo]
+Empresa o producto: [breve]
 
-URL o flujo a revisar: [pega link o describe el flujo]
-Contexto (pyme / producto): [breve]
-
-Si aplica, me interesa conversar el Radar completo (5–7 días).
+Si sirve, hablamos del Diagnóstico completo (5–7 días).
 
 Gracias.`,
-  en: `Hi Viento Norte — I’d like the free Radar entry (Express diagnostic).
+  en: `Hi Viento Norte — I want to try one flow free.
 
-I want a WCAG 2.2 AA review of one critical flow on my product/site.
+What to review: [link or describe the flow]
+Company or product: [brief]
 
-URL or flow to review: [paste link or describe]
-Context (SMB / product): [brief]
-
-If it fits, I’m open to talking about the full Radar (5–7 days).
+If it helps, we can talk about the full Diagnostic (5–7 days).
 
 Thanks.`,
 };
