@@ -44,8 +44,8 @@ export const HERO_ROLES: readonly HeroRoleDefinition[] = [
       en: "Roadmap, conversion, and onboarding blocked by legal or compliance friction.",
     },
     valueProp: {
-      es: "Estrategia guiada N2N: brief → prototipo con criterios de aceptación UX.",
-      en: "Guided N2N strategy: brief → prototype with UX acceptance criteria.",
+      es: "Marco (estrategia guiada): brief → prototipo N2N con criterios de aceptación UX.",
+      en: "Marco (guided strategy): brief → N2N prototype with UX acceptance criteria.",
     },
     uiTokens: [
       "primary CTA brand-gradient",

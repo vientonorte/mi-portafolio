@@ -52,13 +52,14 @@ export function ConsultoriaLandingHero({
     onStartOnboarding?.();
   };
 
-  const evidence = () => {
-    trackEvent("consultoria_hero_cta", { action: "secondary_evidence" });
+  /** Secondary CTA: 3 modalidades (no evidencia — copy canónico 2026-07-26). */
+  const secondary = () => {
+    trackEvent("consultoria_hero_cta", { action: "secondary_modalidades" });
     if (onExploreEvidence) {
       onExploreEvidence();
       return;
     }
-    scrollToSection("valor");
+    scrollToSection("modalidades");
   };
 
   const selectSegment = (roleId: HeroRoleId) => {
@@ -118,7 +119,7 @@ export function ConsultoriaLandingHero({
             </Button>
             <button
               type="button"
-              onClick={evidence}
+              onClick={secondary}
               className={cn(
                 "inline-flex min-h-[44px] items-center gap-1 text-sm font-medium text-muted-foreground",
                 "underline-offset-4 transition-colors hover:text-foreground hover:underline",

@@ -46,8 +46,8 @@ export function HomePackagesStrip() {
     trackEvent("home_package_form", { package_id: id });
     const msg =
       language === "es"
-        ? `Hola — me interesa la modalidad «${name}» (${id}). Contemos alcance en un call.`
-        : `Hi — I'm interested in the «${name}» format (${id}). Let's scope on a call.`;
+        ? `Hola Viento Norte — me interesa la modalidad «${name}» (${id}). Contemos alcance en un call.`
+        : `Hi Viento Norte — I'm interested in the «${name}» format (${id}). Let's scope on a call.`;
     goToContactWithIntent(scrollToSection, msg);
   };
 

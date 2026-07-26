@@ -123,8 +123,9 @@ export default function ConsultoriaVientoNorte() {
     });
   };
 
-  const scrollToEvidence = () => {
-    scrollToSection("valor");
+  /** Hero secondary CTA → modalidades (Radar · Marco · Ops). */
+  const scrollToModalidades = () => {
+    scrollToSection("modalidades");
   };
 
   return (
@@ -143,7 +144,7 @@ export default function ConsultoriaVientoNorte() {
         onStartOnboarding={(packageId, options) =>
           scrollToOnboarding(packageId, options)
         }
-        onExploreEvidence={scrollToEvidence}
+        onExploreEvidence={scrollToModalidades}
       />
 
       <ConsultoriaN2NMethod

@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Viento Norte UX consulting: N2N, Design Ops, 3 formats (Radar · Marco · Ops), and onboarding. Kickoff within 24 business hours.',
+            'Regulated-product method at SMB scale. N2N, Design Ops, 3 formats (Radar · Marco · Ops). Kickoff within 24 business hours. No generic public pricing.',
         },
         grafo: {
           title: 'Institutional friction network',
@@ -231,22 +231,22 @@ export default {
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
-      stickyCta: 'Book kickoff',
+      stickyCta: 'Book kickoff · <24 h',
       entry: {
         selectedPackage: 'Selected format:',
         changePackage: 'Change',
       },
       landing: {
-        badge: 'Viento Norte · UX consulting',
-        principleBadge: 'Transparency as principle',
-        title: 'Clear scope,',
-        titleAccent: 'no fine print',
+        badge: 'Viento Norte · UX consulting · SMBs',
+        principleBadge: 'Big-company method · SMB scale',
+        title: 'Less product friction,',
+        titleAccent: 'scope closed with you',
         description:
-          'Viento Norte UX consulting. Pick a format in one tap — what we deliver and what we don’t, before kickoff. N2N method · Design Ops for regulated products.',
+          'Viento Norte UX consulting: the same Design Ops standard for regulated products, sized for SMBs and small teams. Three fixed formats — Radar · Marco · Ops — and kickoff within 24 business hours.',
         transparencyLine:
-          'No generic public pricing: scope closes with you. Three fixed formats: Radar · Marco · Ops.',
+          'No generic public pricing: scope closes at kickoff. Free Radar entry: a11y on one critical flow. For the full diagnostic, Radar in 5–7 days.',
         ctaPrimary: 'Book kickoff',
-        ctaSecondary: 'See evidence first',
+        ctaSecondary: 'See the 3 formats',
         trustLine: 'Reply < 24 business hours · WCAG 2.2 AA · Act 21.719 by design',
         trustChips: ['< 24h reply', 'WCAG 2.2 AA', 'Act 21.719'],
         segmentsLabel: 'Who are you on the project?',
@@ -255,28 +255,28 @@ export default {
           product: {
             title: 'Product / PM',
             hint: 'Roadmap and regulated onboarding',
-            cta: 'Guided strategy',
+            cta: 'Start with Marco',
           },
           ops: {
             title: 'Design Ops',
             hint: 'Handoff and team process',
-            cta: 'Team process',
+            cta: 'Start with Ops',
           },
           compliance: {
             title: 'Data / perimeter',
             hint: 'Offline · GitHub · 21.719',
-            cta: 'View C1 offline',
+            cta: 'View C1 under Marco',
           },
           founder: {
             title: 'Founder / startup',
             hint: 'Diagnostic and quick wins',
-            cta: 'Radar diagnostic',
+            cta: 'Start with Radar',
           },
         },
         techLayerLabel: 'Fintech patterns',
         techLayerTitle: 'Patterns we apply',
         techLayerDescription:
-          'We adapt SURA, Transvip, and Karri patterns to your context.',
+          'Method proven at SURA, Transvip, and Karri — adapted to your SMB scale.',
         techPatterns: [
           {
             source: 'SURA',
@@ -399,14 +399,14 @@ export default {
           'A consulting landing should demonstrate method, not just a promise. This playbook is the quality contract: what you measure, what you ship, and how you prove it before kickoff.',
       },
       packagesSection: {
-        badge: 'Formats · Viento Norte',
-        title: 'Three ways to work together',
+        badge: 'How you hire · Viento Norte',
+        title: 'Pick a format. Close scope at kickoff.',
         description:
-          'Express diagnostic (Radar) · Guided strategy (Marco) · Team process (Ops). Same three on home and consulting — fine scope at kickoff.',
+          'Express diagnostic (Radar) · Guided strategy (Marco) · Team process (Ops). Same three on home and consulting.',
         deliverablesLabel: 'Deliverables',
         cta: 'Start with this',
         ctaForm: 'Write to the form',
-        note: 'Primary → consulting onboarding with chosen format. Secondary → form with a ready message. No public rates.',
+        note: 'Primary → onboarding with format. Secondary → form. Free Radar entry: a11y on one critical flow — full diagnostic is Radar in 5–7 days. No public rates.',
       },
       educationPartner: {
         badge: 'Education',
@@ -434,10 +434,10 @@ export default {
       welcome: {
         title: 'Viento Norte consulting',
         description:
-          '4-step onboarding: pick a VN service format and leave a ready message for the Viento Norte team.',
+          '4-step onboarding: pick a format and leave a ready message for Viento Norte. Big-company method · SMB scale.',
         points: [
           'Three formats: Radar · Marco · Ops (same taxonomy as home)',
-          'Scope: UX · Design · Design Ops · DevOps · product AI',
+          'Scope: UX · Design · Design Ops · handoff — not app-store builds',
           'Kickoff within 24 business hours after your request',
         ],
       },
@@ -705,7 +705,7 @@ export default {
             id: 'consultoria-viento-norte',
             category: 'negocios',
             title: 'Viento Norte consulting',
-            hint: 'Design Ops and product with evidence — from brief to prototype.',
+            hint: 'Regulated-product method at SMB scale. Radar · Marco · Ops.',
             badge: 'Companies',
             keywords: [
               'consulting',
@@ -715,6 +715,8 @@ export default {
               'design ops',
               'leads',
               'demo',
+              'smb',
+              'formats',
             ],
             href: 'route/consultoria',
           },
@@ -722,7 +724,7 @@ export default {
             id: 'auditoria-accesibilidad',
             category: 'auditorias',
             title: 'Accessibility audit',
-            hint: 'Free: first step of Radar (WCAG 2.2 AA on one critical flow).',
+            hint: 'Free: Radar entry (a11y on one critical flow). Full diagnostic in 5–7 days.',
             badge: 'Free · Radar',
             keywords: [
               'audit',
@@ -742,12 +744,13 @@ export default {
         panels: {
           negocios: {
             badge: 'Companies',
-            composerHint: 'Viento Norte consulting with documented process.',
-            description: 'Design Ops, digital product, and campaigns with production metrics.',
-            highlights: ['Design Ops', 'Product', 'Campaigns'],
+            composerHint: 'Viento Norte: big-company method, SMB scale. Three clear formats.',
+            description:
+              'UX consulting with Radar · Marco · Ops. Transparent scope, kickoff <24 h. No generic public pricing.',
+            highlights: ['Radar', 'Marco', 'Ops'],
             metrics: [],
             ctaPrimary: 'View consulting',
-            ctaSecondary: 'UX process',
+            ctaSecondary: 'View formats',
           },
           contacto: {
             badge: 'Recruiters',

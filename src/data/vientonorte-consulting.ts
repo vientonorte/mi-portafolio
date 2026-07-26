@@ -16,8 +16,8 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     id: "radar",
     name: { es: "Diagnóstico express", en: "Express diagnostic" },
     tagline: {
-      es: "Auditoría UX completa. Entrada gratis: a11y de un flujo crítico.",
-      en: "Full UX audit. Free entry: a11y on one critical flow.",
+      es: "Diagnóstico en 5–7 días. Entrada gratis: a11y de un flujo crítico.",
+      en: "Diagnostic in 5–7 days. Free entry: a11y on one critical flow.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
     deliverables: {
@@ -38,8 +38,8 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     featured: true,
     name: { es: "Estrategia guiada", en: "Guided strategy" },
     tagline: {
-      es: "Diagnóstico completo + mentoría en 3 sesiones de implementación.",
-      en: "Full diagnostic + 3 implementation mentorship sessions.",
+      es: "Default B2B: diagnóstico + 3 sesiones de implementación.",
+      en: "Default B2B: full diagnostic + 3 implementation sessions.",
     },
     duration: { es: "3–4 semanas", en: "3–4 weeks" },
     deliverables: {

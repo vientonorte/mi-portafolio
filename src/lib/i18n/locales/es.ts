@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Consultoría UX Viento Norte: N2N, Design Ops, 3 modalidades (Radar · Marco · Ops) y onboarding. Kickoff <24 h hábiles.',
+            'Método de producto regulado a escala pyme. N2N, Design Ops, 3 modalidades (Radar · Marco · Ops). Kickoff <24 h hábiles. Sin precios genéricos en la web.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -231,23 +231,23 @@ export default {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
-      stickyCta: 'Agendar conversación',
+      stickyCta: 'Agendar kickoff · <24 h',
       entry: {
         selectedPackage: 'Modalidad elegida:',
         changePackage: 'Cambiar',
       },
       landing: {
-        badge: 'Viento Norte · consultoría UX',
-        principleBadge: 'Transparencia como principio',
-        title: 'Alcance claro,',
-        titleAccent: 'sin letra chica',
+        badge: 'Viento Norte · consultoría UX · pymes',
+        principleBadge: 'Método grande · escala pyme',
+        title: 'Menos fricción en producto,',
+        titleAccent: 'con alcance cerrado contigo',
         description:
-          'Consultoría UX de Viento Norte. Eliges modalidad en un clic — qué entregamos y qué no, antes del kickoff. Método N2N · Design Ops en productos regulados.',
+          'Consultoría UX de Viento Norte: el mismo estándar de Design Ops en productos regulados, calibrado a pymes y equipos chicos. Tres modalidades fijas — Radar · Marco · Ops — y kickoff en <24 h hábiles.',
         transparencyLine:
-          'No hay precios genéricos en la web: el alcance se cierra contigo. Tres modalidades fijas: Radar · Marco · Ops.',
-        ctaPrimary: 'Agendar conversación',
-        ctaSecondary: 'Ver evidencia primero',
-        trustLine: 'Te respondemos en menos de 24 h hábiles · WCAG 2.2 AA · Ley 21.719 de base',
+          'Sin precios genéricos en la web: el alcance se cierra en kickoff. Entrada gratis a Radar: a11y de un flujo crítico. Si necesitas el diagnóstico completo, Radar en 5–7 días.',
+        ctaPrimary: 'Agendar kickoff',
+        ctaSecondary: 'Ver las 3 modalidades',
+        trustLine: 'Respuesta <24 h hábiles · WCAG 2.2 AA · Ley 21.719 de base',
         trustChips: ['< 24 h hábiles', 'WCAG 2.2 AA', 'Ley 21.719'],
         segmentsLabel: '¿Quién eres en el proyecto?',
         segmentsHint: 'Un clic y dejamos lista la modalidad.',
@@ -255,28 +255,28 @@ export default {
           product: {
             title: 'Producto / PM',
             hint: 'Roadmap y onboarding regulado',
-            cta: 'Estrategia guiada',
+            cta: 'Empezar con Marco',
           },
           ops: {
             title: 'Design Ops',
             hint: 'Handoff y proceso de equipo',
-            cta: 'Proceso de equipo',
+            cta: 'Empezar con Ops',
           },
           compliance: {
             title: 'Datos y perímetro',
             hint: 'Offline · GitHub · 21.719',
-            cta: 'Herramientas offline',
+            cta: 'Ver C1 bajo Marco',
           },
           founder: {
             title: 'Fundador / startup',
             hint: 'Diagnóstico y quick wins',
-            cta: 'Diagnóstico express',
+            cta: 'Empezar con Radar',
           },
         },
         techLayerLabel: 'Patrones fintech',
         techLayerTitle: 'Patrones que aplicamos',
         techLayerDescription:
-          'Adaptamos patrones de SURA, Transvip y Karri a tu contexto.',
+          'Método probado en SURA, Transvip y Karri — adaptado a tu escala pyme.',
         techPatterns: [
           {
             source: 'SURA',
@@ -399,14 +399,14 @@ export default {
           'Una landing de consultoría debe demostrar método, no solo promesa. Este playbook es el contrato de calidad: lo que mides, lo que entregas y cómo lo demuestras antes del kickoff.',
       },
       packagesSection: {
-        badge: 'Modalidades · Viento Norte',
-        title: 'Tres formas de trabajar juntos',
+        badge: 'Cómo se contrata · Viento Norte',
+        title: 'Elige modalidad. Cierra alcance en kickoff.',
         description:
-          'Diagnóstico express (Radar) · Estrategia guiada (Marco) · Proceso de equipo (Ops). Mismas tres en home y en consultoría — alcance fino en el kickoff.',
+          'Diagnóstico express (Radar) · Estrategia guiada (Marco) · Proceso de equipo (Ops). Mismas tres en home y en consultoría.',
         deliverablesLabel: 'Entregables',
         cta: 'Empezar con esta',
         ctaForm: 'Escribir al form',
-        note: 'Primario → onboarding en consultoría con modalidad elegida. Secundario → form con mensaje listo. Sin tarifas públicas.',
+        note: 'Primario → onboarding con modalidad. Secundario → form. Entrada gratis a Radar: a11y de un flujo crítico — si necesitas el diagnóstico completo, Radar en 5–7 días. Sin tarifas públicas.',
       },
       educationPartner: {
         badge: 'Educación',
@@ -434,10 +434,10 @@ export default {
       welcome: {
         title: 'Consultoría Viento Norte',
         description:
-          'Onboarding en 4 pasos: eliges modalidad del servicio VN y dejamos el mensaje listo para el equipo de Viento Norte.',
+          'Onboarding en 4 pasos: eliges modalidad y dejamos el mensaje listo para Viento Norte. Método grande · escala pyme.',
         points: [
           'Tres modalidades: Radar · Marco · Ops (misma taxonomía que en home)',
-          'Alcance UX · Design · Design Ops · DevOps · IA de producto',
+          'Alcance UX · Design · Design Ops · handoff — sin build de app stores',
           'Kickoff en menos de 24 h hábiles tras tu solicitud',
         ],
       },
@@ -705,7 +705,7 @@ export default {
             id: 'consultoria-viento-norte',
             category: 'negocios',
             title: 'Consultoría Viento Norte',
-            hint: 'Design Ops y producto con evidencia: del brief al prototipo.',
+            hint: 'Método de producto regulado a escala pyme. Radar · Marco · Ops.',
             badge: 'Empresas',
             keywords: [
               'consultoría',
@@ -715,6 +715,8 @@ export default {
               'design ops',
               'leads',
               'demo',
+              'pyme',
+              'modalidades',
             ],
             href: 'route/consultoria',
           },
@@ -722,7 +724,7 @@ export default {
             id: 'auditoria-accesibilidad',
             category: 'auditorias',
             title: 'Auditoría de accesibilidad',
-            hint: 'Gratis: primer tramo de Radar (WCAG 2.2 AA en un flujo crítico).',
+            hint: 'Gratis: entrada a Radar (a11y de un flujo crítico). Completo en 5–7 días.',
             badge: 'Gratis · Radar',
             keywords: [
               'auditoría',
@@ -742,12 +744,13 @@ export default {
         panels: {
           negocios: {
             badge: 'Empresas',
-            composerHint: 'Consultoría Viento Norte con proceso documentado.',
-            description: 'Design Ops, producto digital y campañas con métricas en producción.',
-            highlights: ['Design Ops', 'Producto', 'Campañas'],
+            composerHint: 'Viento Norte: método grande, escala pyme. Tres modalidades claras.',
+            description:
+              'Consultoría UX con Radar · Marco · Ops. Alcance transparente, kickoff <24 h. Sin precios genéricos en la web.',
+            highlights: ['Radar', 'Marco', 'Ops'],
             metrics: [],
             ctaPrimary: 'Ver consultoría',
-            ctaSecondary: 'Proceso UX',
+            ctaSecondary: 'Ver modalidades',
           },
           contacto: {
             badge: 'Reclutadores',
