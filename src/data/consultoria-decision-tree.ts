@@ -8,7 +8,8 @@ export type DecisionTreeNodeId =
   | "need-team"
   | "outcome-radar"
   | "outcome-marco"
-  | "outcome-ops";
+  | "outcome-ops"
+  | "outcome-app";
 
 export interface DecisionTreeOption {
   id: string;
@@ -22,6 +23,8 @@ export interface DecisionTreeNode {
   options?: DecisionTreeOption[];
   outcome?: {
     packageId: ConsultingPackageId;
+    /** App funcional: prefill onboarding con red */
+    appGoal?: boolean;
     title: Record<Language, string>;
     summary: Record<Language, string>;
   };
@@ -31,24 +34,24 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
   root: {
     id: "root",
     question: {
-      es: "¿Qué necesitas resolver primero?",
-      en: "What do you need to solve first?",
+      es: "¿Qué necesitas primero?",
+      en: "What do you need first?",
     },
     options: [
       {
-        id: "portfolio",
-        label: { es: "Portfolio o presencia profesional", en: "Portfolio or professional presence" },
-        nextId: "need-portfolio",
+        id: "diagnostic",
+        label: { es: "Diagnóstico / informe", en: "Diagnostic / report" },
+        nextId: "outcome-radar",
       },
       {
         id: "product",
-        label: { es: "Producto digital (app / web)", en: "Digital product (app / web)" },
+        label: { es: "Prototipo, web o app", en: "Prototype, web, or app" },
         nextId: "need-product",
       },
       {
         id: "team",
-        label: { es: "Proceso UX del equipo", en: "Team UX process" },
-        nextId: "need-team",
+        label: { es: "Proceso del equipo", en: "Team process" },
+        nextId: "outcome-ops",
       },
     ],
   },
@@ -61,12 +64,12 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     options: [
       {
         id: "audit-only",
-        label: { es: "Diagnóstico y quick wins", en: "Diagnosis and quick wins" },
+        label: { es: "Solo diagnóstico", en: "Diagnostic only" },
         nextId: "outcome-radar",
       },
       {
         id: "full",
-        label: { es: "Diagnóstico + implementación guiada", en: "Diagnosis + guided implementation" },
+        label: { es: "Diagnóstico + prototipo", en: "Diagnostic + prototype" },
         nextId: "outcome-marco",
       },
     ],
@@ -74,18 +77,26 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
   "need-product": {
     id: "need-product",
     question: {
-      es: "¿En qué etapa está el producto?",
-      en: "What stage is the product in?",
+      es: "¿Qué entregable buscas?",
+      en: "What deliverable do you want?",
     },
     options: [
       {
-        id: "launch",
-        label: { es: "Pre-lanzamiento o rediseño mayor", en: "Pre-launch or major redesign" },
+        id: "proto",
+        label: { es: "Prototipo (pantallas)", en: "Prototype (screens)" },
         nextId: "outcome-marco",
       },
       {
-        id: "iterate",
-        label: { es: "Mejora continua y fricción puntual", en: "Continuous improvement and targeted friction" },
+        id: "app",
+        label: {
+          es: "App funcional (diseño + build con red)",
+          en: "Working app (design + build via network)",
+        },
+        nextId: "outcome-app",
+      },
+      {
+        id: "audit",
+        label: { es: "Solo diagnóstico rápido", en: "Quick diagnostic only" },
         nextId: "outcome-radar",
       },
     ],
@@ -99,8 +110,8 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
         en: "Recommendation: Team process",
       },
       summary: {
-        es: "Framework de 5 macroprocesos, workshops y playbook medible para tu equipo.",
-        en: "5 macro-process framework, workshops, and measurable playbook for your team.",
+        es: "Guía de cómo diseña y entrega el equipo, con talleres y forma de medir.",
+        en: "Guide for how the team designs and delivers, with workshops and measures.",
       },
     },
   },
@@ -109,12 +120,12 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "radar",
       title: {
-        es: "Recomendación: Diagnóstico express",
-        en: "Recommendation: Express diagnostic",
+        es: "Recomendación: Diagnóstico",
+        en: "Recommendation: Diagnostic",
       },
       summary: {
-        es: "Auditoría express con hallazgos P0–P2, WCAG 2.2 y test reclutador.",
-        en: "Express audit with P0–P2 findings, WCAG 2.2, and recruiter test.",
+        es: "Informe + plan en 5–7 días. Entrada gratis: accesibilidad de un flujo.",
+        en: "Report + plan in 5–7 days. Free entry: accessibility on one flow.",
       },
     },
   },
@@ -123,12 +134,12 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
     outcome: {
       packageId: "marco",
       title: {
-        es: "Recomendación: Estrategia guiada",
-        en: "Recommendation: Guided strategy",
+        es: "Recomendación: Prototipo",
+        en: "Recommendation: Prototype",
       },
       summary: {
-        es: "Auditoría completa + 3 sesiones para posicionamiento, arquitectura y validación.",
-        en: "Full audit + 3 sessions for positioning, architecture, and validation.",
+        es: "Pantallas listas para construir, con diagnóstico y sesiones de trabajo (Marco).",
+        en: "Screens ready to build, with diagnostic and working sessions (Marco).",
       },
     },
   },
@@ -141,8 +152,23 @@ export const CONSULTORIA_DECISION_TREE: Record<DecisionTreeNodeId, DecisionTreeN
         en: "Recommendation: Team process",
       },
       summary: {
-        es: "Design Ops con estimación, handoff y adopción medible en el equipo.",
-        en: "Design Ops with estimation, handoff, and measurable team adoption.",
+        es: "Ordenar cómo diseña y entrega el equipo (Ops).",
+        en: "Organize how the team designs and delivers (Ops).",
+      },
+    },
+  },
+  "outcome-app": {
+    id: "outcome-app",
+    outcome: {
+      packageId: "marco",
+      appGoal: true,
+      title: {
+        es: "Recomendación: App funcional",
+        en: "Recommendation: Working app",
+      },
+      summary: {
+        es: "Diseño y alcance con Viento Norte. Implementación con red bajo dirección VN.",
+        en: "Design and scope with Viento Norte. Build with network under VN direction.",
       },
     },
   },

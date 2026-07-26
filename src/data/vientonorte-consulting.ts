@@ -4,9 +4,14 @@ export type ConsultingPackageId = "radar" | "marco" | "ops";
 
 export interface ConsultingPackage {
   id: ConsultingPackageId;
+  /** Título humano (alineado al hero) */
   name: Record<Language, string>;
+  /** Nombre técnico del pack (Radar · Marco · Ops) */
+  packLabel: Record<Language, string>;
   tagline: Record<Language, string>;
   duration: Record<Language, string>;
+  /** Qué te llevas (producto) */
+  youGet: Record<Language, string>;
   deliverables: Record<Language, string[]>;
   featured?: boolean;
 }
@@ -14,12 +19,17 @@ export interface ConsultingPackage {
 export const CONSULTING_PACKAGES: ConsultingPackage[] = [
   {
     id: "radar",
-    name: { es: "Diagnóstico express", en: "Express diagnostic" },
+    name: { es: "Diagnóstico", en: "Diagnostic" },
+    packLabel: { es: "Radar", en: "Radar" },
     tagline: {
-      es: "Diagnóstico en 5–7 días. Entrada gratis: accesibilidad de un flujo.",
-      en: "Diagnostic in 5–7 days. Free entry: accessibility on one flow.",
+      es: "Informe + plan en 5–7 días. Entrada gratis: accesibilidad de un flujo.",
+      en: "Report + plan in 5–7 days. Free entry: accessibility on one flow.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
+    youGet: {
+      es: "Informe y plan de mejoras",
+      en: "Report and improvement plan",
+    },
     deliverables: {
       es: [
         "Entrada gratis: accesibilidad de un flujo",
@@ -36,43 +46,53 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
   {
     id: "marco",
     featured: true,
-    name: { es: "Estrategia guiada", en: "Guided strategy" },
+    name: { es: "Prototipo", en: "Prototype" },
+    packLabel: { es: "Marco", en: "Marco" },
     tagline: {
-      es: "La opción más pedida: diagnóstico + 3 sesiones de trabajo.",
-      en: "Most requested: diagnostic + 3 working sessions.",
+      es: "Pantallas listas para construir. Incluye diagnóstico y 3 sesiones.",
+      en: "Screens ready to build. Includes diagnostic and 3 sessions.",
     },
     duration: { es: "3–4 semanas", en: "3–4 weeks" },
+    youGet: {
+      es: "Prototipo + entrega a desarrollo",
+      en: "Prototype + handoff to development",
+    },
     deliverables: {
       es: [
         "Incluye el diagnóstico express",
-        "3 sesiones: foco, estructura y validación",
-        "Lista de salida para lanzar o iterar",
+        "Prototipo navegable de flujos clave",
+        "Entrega lista para que lo construyan",
       ],
       en: [
         "Includes the express diagnostic",
-        "3 sessions: focus, structure, validation",
-        "Launch or iterate checklist",
+        "Navigable prototype of key flows",
+        "Handoff ready for builders",
       ],
     },
   },
   {
     id: "ops",
     name: { es: "Proceso de equipo", en: "Team process" },
+    packLabel: { es: "Ops", en: "Ops" },
     tagline: {
       es: "Ordenar cómo diseña y entrega tu equipo.",
       en: "Organize how your team designs and delivers.",
     },
     duration: { es: "4–6 semanas", en: "4–6 weeks" },
+    youGet: {
+      es: "Guía del equipo + cómo medir",
+      en: "Team guide + how to measure",
+    },
     deliverables: {
       es: [
         "Proceso de trabajo aplicado a tu producto",
         "Talleres con producto e ingeniería",
-        "Guía del equipo + cómo medir adopción",
+        "Guía del equipo + adopción",
       ],
       en: [
         "Working process applied to your product",
         "Workshops with product and engineering",
-        "Team guide + adoption measures",
+        "Team guide + adoption",
       ],
     },
   },
@@ -90,7 +110,7 @@ export const PARTNER_EDU_CONTACT_GOAL: Record<Language, string> = {
 Quiero agendar una videollamada para explorar colaboración en UX, producto digital y desarrollo de experiencias de aprendizaje.
 
 Contexto: [institución / programa / plataforma].
-Necesidad: [diagnóstico · prototipo N2N · Design Ops · handoff a código · otro].
+Necesidad: [diagnóstico · prototipo · proceso de equipo · app funcional · otro].
 Disponibilidad: [días / franja horaria].
 
 Gracias — agendemos la videollamada.`,
@@ -99,7 +119,7 @@ Gracias — agendemos la videollamada.`,
 I'd like to schedule a video call to explore collaboration on UX, digital product, and learning-experience development.
 
 Context: [institution / program / platform].
-Need: [diagnostic · N2N prototype · Design Ops · code handoff · other].
+Need: [diagnostic · prototype · team process · working app · other].
 Availability: [days / time window].
 
 Thanks — let's schedule the video call.`,
@@ -128,7 +148,7 @@ export function buildConsultingContactMessage(
     return [
       "Hola Viento Norte — solicitud vía onboarding.",
       "",
-      `Modalidad: ${pkg.name.es}`,
+      `Modalidad: ${pkg.name.es} (${pkg.packLabel.es})`,
       `Industria: ${industry}`,
       `Plazo: ${timeline}`,
       "",
@@ -141,7 +161,7 @@ export function buildConsultingContactMessage(
   return [
     "Hi Viento Norte — request via onboarding.",
     "",
-    `Format: ${pkg.name.en}`,
+    `Format: ${pkg.name.en} (${pkg.packLabel.en})`,
     `Industry: ${industry}`,
     `Timeline: ${timeline}`,
     "",

@@ -84,7 +84,7 @@ export function HomePackagesStrip() {
                       {rec}
                     </Badge>
                   ) : (
-                    <Badge variant="outline">{pkg.name[language]}</Badge>
+                    <Badge variant="outline">{pkg.packLabel[language]}</Badge>
                   )}
                   <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3.5 w-3.5" aria-hidden />
@@ -92,6 +92,9 @@ export function HomePackagesStrip() {
                   </span>
                 </div>
                 <CardTitle className="text-xl">{pkg.name[language]}</CardTitle>
+                <p className="text-xs font-medium text-primary/90">
+                  {pkg.youGet[language]}
+                </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {pkg.tagline[language]}
                 </p>

@@ -45,9 +45,17 @@ const FIT_STYLES = {
 
 interface AppQuoterProps {
   onRecommendPackage?: (packageId: QuoteResult["recommendedPackage"]) => void;
+  /** Kickoff en la misma página (onboarding) — app incluye red */
+  onStartKickoff?: (
+    packageId: QuoteResult["recommendedPackage"],
+    options?: { appGoal?: boolean }
+  ) => void;
 }
 
-export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
+export function AppQuoter({
+  onRecommendPackage,
+  onStartKickoff,
+}: AppQuoterProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.appQuoter;
@@ -86,13 +94,23 @@ export function AppQuoter({ onRecommendPackage }: AppQuoterProps) {
 
   const handleContact = () => {
     if (!quote) return;
+    const isApp = quote.selectedTierId === "app" || quote.requiresNetwork;
     trackEvent("app_quoter_contact", {
       tier: quote.selectedTierId,
       fit: quote.fit,
       alignment: quote.alignmentScore,
       currency: quote.currency,
+      app: isApp,
     });
     onRecommendPackage?.(quote.recommendedPackage);
+
+    if (onStartKickoff) {
+      onStartKickoff(quote.recommendedPackage, {
+        appGoal: isApp,
+      });
+      return;
+    }
+
     const message = buildAppQuoterContactMessage(
       language,
       quote,

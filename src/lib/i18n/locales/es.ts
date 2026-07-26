@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'Consultoría UX · Viento Norte',
           description:
-            'Método de producto regulado a escala pyme. N2N, Design Ops, 3 modalidades (Radar · Marco · Ops). Kickoff <24 h hábiles. Sin precios genéricos en la web.',
+            'Diagnóstico, prototipo, proceso de equipo o app funcional (diseño VN + build con red). Kickoff <24 h. Sin precios en la web.',
         },
         grafo: {
           title: 'Red de fricción institucional',
@@ -311,9 +311,9 @@ export default {
       },
       n2n: {
         badge: 'Cómo trabajamos',
-        title: 'Del problema al prototipo',
+        title: 'Del problema al entregable',
         description:
-          'Cinco pasos simples: entender, explorar, probar, prototipar y entregar. Sin saltarse la validación.',
+          'Cinco pasos: entender, explorar, probar, prototipar y entregar. Si el entregable es una app funcional, el último paso incluye handoff a la red de implementación.',
         caseBadge: 'Ejemplo abierto',
         caseTitle: 'X | CMS',
         caseDescription: 'Demo del método: idea → prueba → prototipo listo para construir.',
@@ -392,13 +392,18 @@ export default {
         footnote: 'El playbook vive fuera del camino principal de la landing para no saturar.',
       },
       packagesSection: {
-        badge: 'Modalidades',
-        title: 'Elige cómo trabajar juntos',
-        description: 'Radar (rápido) · Marco (recomendado) · Ops (equipo).',
+        badge: 'Entregables',
+        title: 'El mismo menú del hero',
+        description:
+          'Diagnóstico · Prototipo · Proceso de equipo. App funcional va aparte: diseño VN + build con red.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaForm: 'Escribir',
-        note: 'Entrada gratis: accesibilidad de un flujo. Diagnóstico completo = Radar en 5–7 días. Sin precios públicos.',
+        note: 'Entrada gratis: accesibilidad de un flujo → Radar. App funcional no es un pack de duración fija: se cierra en kickoff con red. Sin precios públicos.',
+        appStripTitle: 'App funcional',
+        appStripBody:
+          'Diseño y alcance con Viento Norte. Programación con especialistas de la red, bajo nuestra dirección.',
+        appStripCta: 'Empezar app',
       },
       educationPartner: {
         badge: 'Educación',
@@ -424,10 +429,10 @@ export default {
       },
       welcome: {
         title: 'Empecemos',
-        description: 'Cuatro pasos cortos. Eliges modalidad y dejamos el mensaje listo.',
+        description: 'Cuatro pasos cortos. Eliges entregable y dejamos el mensaje listo.',
         points: [
-          'Radar · Marco · Ops',
-          'Diseño y alcance UX — no tienda de apps',
+          'Diagnóstico · Prototipo · Proceso · App (con red)',
+          'App funcional: diseño VN + build con red, si la elegiste',
           'Respuesta en menos de 24 h hábiles',
         ],
       },
@@ -435,7 +440,8 @@ export default {
         industry: 'Industria',
         timeline: 'Plazo',
         goal: '¿Qué quieres lograr?',
-        goalPlaceholder: 'Ej.: mejorar el onboarding, revisar el sitio, ordenar el proceso del equipo…',
+        goalPlaceholder:
+          'Ej.: diagnóstico del sitio, prototipo de onboarding, proceso del equipo, app funcional…',
         goalHint: 'Al menos 20 caracteres.',
       },
       summary: {
@@ -444,7 +450,7 @@ export default {
       },
       treePreview: {
         badge: 'Ayuda rápida',
-        title: '¿Qué modalidad te sirve?',
+        title: '¿Qué entregable te sirve?',
         description: 'Una o dos preguntas. Sin precios: solo orientación.',
         pathLabel: 'Tu ruta',
         reset: 'Empezar de nuevo',
@@ -478,9 +484,9 @@ export default {
         badge: 'Presupuesto',
         title: '¿Qué cabe en tu presupuesto?',
         description:
-          'Estima alcance de consultoría UX (diseño y proceso). No cotiza desarrollo de software completo.',
+          'Estima consultoría UX y entregables. App funcional = diseño VN + build con red (no tarifa de agencia a ciegas).',
         disclaimer:
-          'Solo orientación. El alcance se cierra en kickoff. Moneda por defecto: peso chileno.',
+          'Orientación. El alcance se cierra en kickoff. CLP por defecto. App no es “solo pantallas”: incluye red de implementación si la eliges.',
         currencyLabel: 'Moneda',
         currencies: {
           CLP: 'CLP · Peso chileno',
@@ -490,48 +496,48 @@ export default {
         fxNote: 'Tasas de referencia (no en vivo).',
         budgetLabel: 'Presupuesto',
         budgetPresetsLabel: 'Montos frecuentes',
-        expectationLabel: '¿Qué necesitas?',
+        expectationLabel: '¿Qué entregable necesitas?',
         networkNote:
-          'Diseño de app: lo hace Viento Norte. Programar la app o el backend se suma solo si hace falta, con alguien de la red.',
+          'App funcional: diseño y alcance con Viento Norte; programación con red bajo dirección VN. Se cierra en kickoff.',
         tiers: {
           prototype: {
-            label: 'Prototipo',
-            hint: '5–7 días',
-            deliverable: 'Prototipo y plan de siguientes pasos',
+            label: 'Diagnóstico / prototipo corto',
+            hint: '5–7 días · Radar',
+            deliverable: 'Informe o prototipo acotado + plan',
             includes: [
               'Entender el problema',
-              'Prototipo navegable',
-              'Lista de mejoras prioritarias',
+              'Prototipo o hallazgos prioritarios',
+              'Plan de siguientes pasos',
             ],
           },
           web: {
-            label: 'Sitio web',
-            hint: 'Diseño multipágina',
-            deliverable: 'Diseño listo para que lo construyan',
+            label: 'Sitio / prototipo web',
+            hint: 'Marco · multipágina',
+            deliverable: 'Diseño listo para construir',
             includes: [
-              'Diseño de pantallas clave',
-              'Patrones mobile y desktop',
+              'Pantallas clave',
+              'Mobile y desktop',
               'Entrega a desarrollo',
             ],
           },
           app: {
-            label: 'App (diseño)',
-            hint: 'Flujos principales',
-            deliverable: 'Diseño de flujos — no la app en la tienda',
+            label: 'App funcional',
+            hint: 'Diseño VN · build con red',
+            deliverable: 'App que funciona — diseño + implementación con red',
             includes: [
-              'Onboarding y navegación',
-              'Prototipo mobile',
-              'Plan por fases',
+              'Flujos y prototipo mobile',
+              'Alcance de diseño con VN',
+              'Build con especialistas bajo dirección VN',
             ],
           },
           enterprise: {
             label: 'Proceso de equipo',
-            hint: '4–6 semanas',
-            deliverable: 'Proceso de trabajo + guía del equipo',
+            hint: 'Ops · 4–6 semanas',
+            deliverable: 'Guía del equipo + proceso',
             includes: [
               'Talleres con el equipo',
               'Guía de proceso',
-              'Métricas de adopción',
+              'Cómo medir adopción',
             ],
           },
         },
@@ -549,7 +555,7 @@ export default {
             comfortable: 'Tu presupuesto cubre bien este alcance.',
             viable: 'El presupuesto calza. Cerremos detalles en el kickoff.',
             tight: 'Es justo. Mejor acotar o ir por fases.',
-            gap: 'El presupuesto no alcanza. Empieza por prototipo o sitio, o revisa la inversión.',
+            gap: 'El presupuesto no alcanza. Empieza por diagnóstico o prototipo, o revisa la inversión.',
           },
         },
         cta: 'Ir al kickoff',

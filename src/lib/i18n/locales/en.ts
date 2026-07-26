@@ -79,7 +79,7 @@ export default {
         consultoria: {
           title: 'UX Consulting · Viento Norte',
           description:
-            'Regulated-product method at SMB scale. N2N, Design Ops, 3 formats (Radar · Marco · Ops). Kickoff within 24 business hours. No generic public pricing.',
+            'Diagnostic, prototype, team process, or working app (VN design + build via network). Kickoff <24h. No public prices.',
         },
         grafo: {
           title: 'Institutional friction network',
@@ -311,9 +311,9 @@ export default {
       },
       n2n: {
         badge: 'How we work',
-        title: 'From problem to prototype',
+        title: 'From problem to deliverable',
         description:
-          'Five simple steps: understand, explore, test, prototype, and hand off. No skipped validation.',
+          'Five steps: understand, explore, test, prototype, and hand off. If the deliverable is a working app, the last step includes handoff to the implementation network.',
         caseBadge: 'Open example',
         caseTitle: 'X | CMS',
         caseDescription: 'Method demo: idea → test → prototype ready to build.',
@@ -392,13 +392,18 @@ export default {
         footnote: 'The playbook is off the main landing path so the page stays light.',
       },
       packagesSection: {
-        badge: 'Formats',
-        title: 'Choose how we work together',
-        description: 'Radar (fast) · Marco (recommended) · Ops (team).',
+        badge: 'Deliverables',
+        title: 'Same menu as the hero',
+        description:
+          'Diagnostic · Prototype · Team process. Working app is separate: VN design + build via network.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaForm: 'Write',
-        note: 'Free entry: accessibility on one flow. Full diagnostic = Radar in 5–7 days. No public prices.',
+        note: 'Free entry: accessibility on one flow → Radar. Working app is not a fixed-duration pack: scope closes at kickoff with the network. No public prices.',
+        appStripTitle: 'Working app',
+        appStripBody:
+          'Design and scope with Viento Norte. Build with network specialists under our direction.',
+        appStripCta: 'Start app',
       },
       educationPartner: {
         badge: 'Education',
@@ -424,10 +429,10 @@ export default {
       },
       welcome: {
         title: "Let's start",
-        description: 'Four short steps. Pick a format and leave a ready message.',
+        description: 'Four short steps. Pick a deliverable and leave a ready message.',
         points: [
-          'Radar · Marco · Ops',
-          'UX design and scope — not an app store build',
+          'Diagnostic · Prototype · Process · App (with network)',
+          'Working app: VN design + build via network, if you chose it',
           'Reply within 24 business hours',
         ],
       },
@@ -435,7 +440,8 @@ export default {
         industry: 'Industry',
         timeline: 'Timeline',
         goal: 'What do you want to achieve?',
-        goalPlaceholder: 'E.g. improve onboarding, review the site, organize team process…',
+        goalPlaceholder:
+          'E.g. site diagnostic, onboarding prototype, team process, working app…',
         goalHint: 'At least 20 characters.',
       },
       summary: {
@@ -444,7 +450,7 @@ export default {
       },
       treePreview: {
         badge: 'Quick help',
-        title: 'Which format fits?',
+        title: 'Which deliverable fits?',
         description: 'One or two questions. No prices — guidance only.',
         pathLabel: 'Your path',
         reset: 'Start over',
@@ -478,9 +484,9 @@ export default {
         badge: 'Budget',
         title: 'What fits your budget?',
         description:
-          'Estimate UX consulting scope (design and process). Does not quote full software builds.',
+          'Estimate UX consulting and deliverables. Working app = VN design + build via network (not a blind agency rate).',
         disclaimer:
-          'Guidance only. Scope closes at kickoff. Default currency: Chilean peso.',
+          'Guidance only. Scope closes at kickoff. Default CLP. App is not “screens only”: it includes the build network if you choose it.',
         currencyLabel: 'Currency',
         currencies: {
           CLP: 'CLP · Chilean peso',
@@ -490,48 +496,48 @@ export default {
         fxNote: 'Reference rates (not live).',
         budgetLabel: 'Budget',
         budgetPresetsLabel: 'Common amounts',
-        expectationLabel: 'What do you need?',
+        expectationLabel: 'What deliverable do you need?',
         networkNote:
-          'App design: Viento Norte. Building the app or backend is added only if needed, via the network.',
+          'Working app: design and scope with Viento Norte; build with network under VN direction. Closed at kickoff.',
         tiers: {
           prototype: {
-            label: 'Prototype',
-            hint: '5–7 days',
-            deliverable: 'Prototype and next-step plan',
+            label: 'Diagnostic / short prototype',
+            hint: '5–7 days · Radar',
+            deliverable: 'Report or scoped prototype + plan',
             includes: [
               'Understand the problem',
-              'Navigable prototype',
-              'Priority improvement list',
+              'Prototype or priority findings',
+              'Next-step plan',
             ],
           },
           web: {
-            label: 'Website',
-            hint: 'Multi-page design',
-            deliverable: 'Design ready for others to build',
+            label: 'Site / web prototype',
+            hint: 'Marco · multi-page',
+            deliverable: 'Design ready to build',
             includes: [
-              'Key screen design',
-              'Mobile and desktop patterns',
+              'Key screens',
+              'Mobile and desktop',
               'Handoff to development',
             ],
           },
           app: {
-            label: 'App (design)',
-            hint: 'Core flows',
-            deliverable: 'Flow design — not a store app',
+            label: 'Working app',
+            hint: 'VN design · build via network',
+            deliverable: 'Working app — design + network build',
             includes: [
-              'Onboarding and navigation',
-              'Mobile prototype',
-              'Phased plan',
+              'Flows and mobile prototype',
+              'Design scope with VN',
+              'Build with specialists under VN direction',
             ],
           },
           enterprise: {
             label: 'Team process',
-            hint: '4–6 weeks',
-            deliverable: 'Working process + team guide',
+            hint: 'Ops · 4–6 weeks',
+            deliverable: 'Team guide + process',
             includes: [
               'Team workshops',
               'Process guide',
-              'Adoption metrics',
+              'How to measure adoption',
             ],
           },
         },
@@ -549,7 +555,7 @@ export default {
             comfortable: 'Your budget covers this scope well.',
             viable: 'Budget fits. We close details at kickoff.',
             tight: 'It is tight. Narrow scope or go in phases.',
-            gap: 'Budget is short. Start with prototype or site, or revisit investment.',
+            gap: 'Budget is short. Start with diagnostic or prototype, or revisit investment.',
           },
         },
         cta: 'Go to kickoff',

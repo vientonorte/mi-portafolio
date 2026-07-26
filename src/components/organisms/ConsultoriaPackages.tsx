@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, Package, Star } from "lucide-react";
+import { ArrowRight, Clock, Package, Smartphone, Star } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
@@ -13,8 +13,13 @@ import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { cn } from "../../lib/utils";
 
+export type PackageSelectOptions = { appGoal?: boolean };
+
 interface ConsultoriaPackagesProps {
-  onSelectPackage?: (packageId: ConsultingPackageId) => void;
+  onSelectPackage?: (
+    packageId: ConsultingPackageId,
+    options?: PackageSelectOptions
+  ) => void;
 }
 
 export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProps) {
@@ -22,9 +27,12 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
 
-  const select = (id: ConsultingPackageId) => {
-    trackEvent("consultoria_package_select", { package_id: id });
-    onSelectPackage?.(id);
+  const select = (id: ConsultingPackageId, options?: PackageSelectOptions) => {
+    trackEvent("consultoria_package_select", {
+      package_id: id,
+      app: Boolean(options?.appGoal),
+    });
+    onSelectPackage?.(id, options);
   };
 
   return (
@@ -61,7 +69,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
                       {rec}
                     </Badge>
                   ) : (
-                    <Badge variant="outline">{pkg.name[language]}</Badge>
+                    <Badge variant="outline">{pkg.packLabel[language]}</Badge>
                   )}
                   <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3.5 w-3.5" aria-hidden />
@@ -69,6 +77,9 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
                   </span>
                 </div>
                 <CardTitle className="text-xl">{pkg.name[language]}</CardTitle>
+                <p className="text-xs font-medium text-primary/90">
+                  {pkg.youGet[language]}
+                </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {pkg.tagline[language]}
                 </p>
@@ -83,7 +94,10 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
                       key={d}
                       className="flex gap-2 text-sm text-muted-foreground"
                     >
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                      <span
+                        className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                        aria-hidden
+                      />
                       {d}
                     </li>
                   ))}
@@ -106,6 +120,35 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           </li>
         ))}
       </ul>
+
+      {/* 4.ª oferta del hero: no es pack de duración fija */}
+      <Card className="mt-5 border border-primary/20 bg-surface-matte-elevated shadow-none">
+        <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex gap-3 min-w-0">
+            <span
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-logo-surface text-primary"
+              aria-hidden
+            >
+              <Smartphone className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 space-y-1">
+              <p className="text-base font-semibold tracking-tight">
+                {t.appStripTitle}
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t.appStripBody}
+              </p>
+            </div>
+          </div>
+          <Button
+            className="w-full min-h-[44px] shrink-0 bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
+            onClick={() => select("marco", { appGoal: true })}
+          >
+            {t.appStripCta}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Button>
+        </CardContent>
+      </Card>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">{t.note}</p>
     </PageSection>

@@ -159,7 +159,9 @@ export default function ConsultoriaVientoNorte() {
       />
 
       <ConsultoriaPackages
-        onSelectPackage={(id) => scrollToOnboarding(id)}
+        onSelectPackage={(id, options) =>
+          scrollToOnboarding(id, { appGoal: options?.appGoal })
+        }
       />
 
       <div id="consultoria-onboarding">
@@ -174,9 +176,16 @@ export default function ConsultoriaVientoNorte() {
 
       <ConsultoriaTreePreview
         onRecommendPackage={setSelectedPackage}
-        onStartOnboarding={(packageId) => scrollToOnboarding(packageId)}
+        onStartOnboarding={(packageId, options) =>
+          scrollToOnboarding(packageId, options)
+        }
       />
-      <AppQuoter onRecommendPackage={setSelectedPackage} />
+      <AppQuoter
+        onRecommendPackage={setSelectedPackage}
+        onStartKickoff={(packageId, options) =>
+          scrollToOnboarding(packageId, options)
+        }
+      />
 
       <ConsultoriaN2NMethod
         onStartOnboarding={() => scrollToOnboarding("marco")}
