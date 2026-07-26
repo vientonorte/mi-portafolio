@@ -7,12 +7,28 @@
 export type ScrollBehaviorMode = "smooth" | "auto";
 
 function getScrollTopOffset(): number {
+  const isSubpageOnly = document.documentElement.dataset.nav === "subpage";
   const root = getComputedStyle(document.documentElement);
-  const headerHeight = parseFloat(root.getPropertyValue("--header-height"));
-  if (!Number.isNaN(headerHeight) && headerHeight > 0) return headerHeight;
+  const tokenHeight = parseFloat(root.getPropertyValue("--header-height"));
 
-  const header = document.querySelector('header[role="banner"]');
-  return header instanceof HTMLElement ? header.offsetHeight : 64;
+  const header = isSubpageOnly
+    ? document.querySelector(".subpage-toolbar")
+    : document.querySelector('header[role="banner"]');
+  const headerPx =
+    header instanceof HTMLElement
+      ? header.offsetHeight
+      : !Number.isNaN(tokenHeight) && tokenHeight > 0
+        ? tokenHeight
+        : 64;
+
+  const processNav = document.querySelector(".process-nav-mobile");
+  const processNavPx =
+    processNav instanceof HTMLElement &&
+    getComputedStyle(processNav).display !== "none"
+      ? processNav.offsetHeight
+      : 0;
+
+  return headerPx + processNavPx;
 }
 
 /** Scroll al inicio del documento (inicio de página). */

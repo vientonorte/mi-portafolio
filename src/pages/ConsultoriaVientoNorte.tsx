@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
@@ -8,6 +8,7 @@ import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages
 import { ConsultoriaEducationPartner } from "../components/organisms/ConsultoriaEducationPartner";
 import { ConsultoriaDemoShowcase } from "../components/organisms/ConsultoriaDemoShowcase";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
+import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { StickyCTA } from "../components/molecules/StickyCTA";
 import {
   PARTNER_EDU_CONTACT_GOAL,
@@ -16,6 +17,7 @@ import {
 import { APP_ONBOARDING_GOAL, C1_ONBOARDING_GOAL } from "../data/n2n-method";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
+import { CONSULTORIA_FUNNEL_KICKOFF_ID } from "../lib/nav-config";
 import { canonicalFromPath } from "../lib/seo";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import {
@@ -24,6 +26,7 @@ import {
 } from "../lib/navigate-to-section";
 import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
 import { scrollToSection } from "../lib/scroll-to-section";
+import type { ProcessNavSection } from "../hooks/useProcessSectionSpy";
 
 type ConsultoriaLocationState = SectionScrollState & {
   recommendedPackage?: ConsultingPackageId;
@@ -121,7 +124,7 @@ export default function ConsultoriaVientoNorte() {
     setEntryNonce((n) => n + 1);
 
     requestAnimationFrame(() => {
-      scrollToSection("consultoria-onboarding");
+      scrollToSection(CONSULTORIA_FUNNEL_KICKOFF_ID);
     });
   };
 
@@ -129,6 +132,23 @@ export default function ConsultoriaVientoNorte() {
   const scrollToModalidades = () => {
     scrollToSection("modalidades");
   };
+
+  const funnelNav = t.consultoria.landing.nav;
+
+  /** Embudo de conversión: ofertas → kickoff → método → prueba. */
+  const funnelSections: ProcessNavSection[] = useMemo(
+    () => [
+      { id: "modalidades", label: funnelNav.packages, number: "01" },
+      {
+        id: CONSULTORIA_FUNNEL_KICKOFF_ID,
+        label: funnelNav.start,
+        number: "02",
+      },
+      { id: "metodo-n2n", label: funnelNav.n2n, number: "03" },
+      { id: "consultoria-demo", label: funnelNav.evidence, number: "04" },
+    ],
+    [funnelNav.evidence, funnelNav.n2n, funnelNav.packages, funnelNav.start]
+  );
 
   return (
     <PageShell
@@ -142,9 +162,14 @@ export default function ConsultoriaVientoNorte() {
         url={canonicalFromPath("/consultoria")}
       />
 
+      <ProcessNavigation
+        sections={funnelSections}
+        mobileAriaLabel={funnelNav.ariaLabel}
+      />
+
       {/*
         Path principal (anti-ruido):
-        Hero ofertas → detalle entregables → onboarding → método → si aplica.
+        Hero ofertas → detalle entregables → onboarding → método → prueba.
         Sin calculadora ni árbol (duplicaban la decisión del hero).
       */}
       <ConsultoriaLandingHero
@@ -160,7 +185,10 @@ export default function ConsultoriaVientoNorte() {
         }
       />
 
-      <div id="consultoria-onboarding">
+      <div
+        id={CONSULTORIA_FUNNEL_KICKOFF_ID}
+        className="scroll-mt-[calc(var(--header-height)+0.75rem)]"
+      >
         <ConsultoriaOnboarding
           key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
           initialPackageId={recommendedPackage}

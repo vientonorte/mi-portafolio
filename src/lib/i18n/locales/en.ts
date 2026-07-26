@@ -306,8 +306,11 @@ export default {
           education: 'Education',
           practices: 'Practices',
           packages: 'Formats',
+          start: 'Start',
+          startAria: 'Start: go to consulting kickoff',
           evidence: 'Examples',
           fit: 'Budget',
+          ariaLabel: 'Consulting funnel',
         },
       },
       n2n: {

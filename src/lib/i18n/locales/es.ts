@@ -306,8 +306,11 @@ export default {
           education: 'Educación',
           practices: 'Prácticas',
           packages: 'Modalidades',
+          start: 'Empezar',
+          startAria: 'Empezar: ir al kickoff de consultoría',
           evidence: 'Ejemplos',
           fit: 'Presupuesto',
+          ariaLabel: 'Embudo de consultoría',
         },
       },
       n2n: {

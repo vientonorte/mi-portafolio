@@ -32,14 +32,21 @@ export type DockNavItemId = Extract<
   "inicio" | "consultoria" | "contacto"
 >;
 
-/** Slot central elevado del dock (liquid CTA → consultoría). */
+/** Slot central elevado del dock (liquid CTA → consultoría / kickoff). */
 export const DOCK_CENTER_ID: DockNavItemId = "consultoria";
+
+/** Variantes del bottom dock: home anchors · deep routes · embudo consultoría. */
+export type DockVariant = "home" | "deep" | "funnel";
+
+/** Ancla de conversión del embudo (onboarding / kickoff). */
+export const CONSULTORIA_FUNNEL_KICKOFF_ID = "consultoria-onboarding";
 
 export type NavActionKind = "anchor" | "route" | "section" | "contact" | "external";
 
 export interface NavAction {
   kind: NavActionKind;
   target: string;
+  /** Ruta en la que vive el ancla; si no coincide, navega y luego scrollea. */
   homeRoute?: string;
   sectionId?: string;
 }
@@ -142,7 +149,7 @@ function getStaticNavAction(id: NavItemId): NavAction {
   }
 }
 
-export function getDockNavAction(id: DockNavItemId, variant: "home" | "deep"): NavAction {
+export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAction {
   if (id === "inicio") {
     return variant === "home"
       ? { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home }
@@ -152,6 +159,14 @@ export function getDockNavAction(id: DockNavItemId, variant: "home" | "deep"): N
     return variant === "home"
       ? { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home }
       : { kind: "contact", target: ROUTES.contact };
+  }
+  // Embudo /consultoria: liquid CTA = kickoff, no re-entrar a la misma ruta
+  if (id === "consultoria" && variant === "funnel") {
+    return {
+      kind: "anchor",
+      target: `#${CONSULTORIA_FUNNEL_KICKOFF_ID}`,
+      homeRoute: ROUTES.consulting,
+    };
   }
   return getStaticNavAction(id);
 }
@@ -209,7 +224,7 @@ function resolveNavItems(
 }
 
 export function getDockNavItems(
-  variant: "home" | "deep",
+  variant: DockVariant,
   labels: NavLabels,
   processLabel: string
 ): ResolvedNavItem[] {
@@ -303,9 +318,11 @@ export function executeNavAction(item: ResolvedNavItem, ctx: NavRuntimeContext):
   }
 
   if (action.kind === "anchor") {
-    if (pathname !== ROUTES.home) {
+    const anchorRoute = action.homeRoute ?? ROUTES.home;
+    const normalized = pathname.replace(/\/+$/, "") || "/";
+    if (normalized !== anchorRoute) {
       pendingScrollRef.current = action.target;
-      navigate(action.homeRoute ?? ROUTES.home);
+      navigate(anchorRoute);
       return;
     }
     scrollToSection(action.target);

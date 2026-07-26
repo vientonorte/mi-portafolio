@@ -10,13 +10,14 @@ import {
   DOCK_CENTER_ID,
   executeNavAction,
   getDockNavItems,
-  matchNavItemActive,
+  type DockVariant,
   type ResolvedNavItem,
+  matchNavItemActive,
 } from "../../lib/nav-config";
 import { ROUTES } from "../../lib/routes";
 import { BOTTOM_NAV_BASE_CLASS, BOTTOM_NAV_DOCK_CLASS } from "../molecules/bottom-nav-classes";
 
-export type NavDockVariant = "home" | "deep";
+export type NavDockVariant = DockVariant;
 
 interface NavDockProps {
   variant: NavDockVariant;
@@ -46,24 +47,28 @@ export function NavDock({ variant }: NavDockProps) {
 
   const path = location.pathname.replace(/\/+$/, "") || "/";
   const isOnHome = path === ROUTES.home;
+  const isOnConsulting = path === ROUTES.consulting;
   /**
    * Home → anclas #inicio / #contacto + spy de sección.
-   * Otras páginas → rutas (negocios, consultoría, proceso, contacto).
-   * Se deriva del pathname (BottomNav solo en home; DeepPageNav en el resto).
+   * Consultoría → embudo (liquid CTA = kickoff).
+   * Resto deep → rutas (negocios, consultoría, proceso, contacto).
    */
-  const effectiveVariant: NavDockVariant = isOnHome ? "home" : "deep";
+  const effectiveVariant: NavDockVariant = isOnHome
+    ? "home"
+    : isOnConsulting
+      ? "funnel"
+      : "deep";
   // variant prop se conserva por API; el pathname manda para hover/activo
   void variant;
 
   const items = getDockNavItems(effectiveVariant, navLabels, processLabel);
 
   useEffect(() => {
-    if (isOnHome && pendingScroll.current) {
-      const target = pendingScroll.current;
-      pendingScroll.current = null;
-      scrollToSection(target);
-    }
-  }, [isOnHome]);
+    if (!pendingScroll.current) return;
+    const target = pendingScroll.current;
+    pendingScroll.current = null;
+    scrollToSection(target);
+  }, [path]);
 
   // Spy de sección en home: Inicio vs Contacto (header + dock)
   useEffect(() => {
@@ -107,6 +112,17 @@ export function NavDock({ variant }: NavDockProps) {
   const ariaLabel =
     language === "es" ? "Navegación inferior" : "Bottom navigation";
 
+  const centerLabel = isOnConsulting
+    ? t.consultoria.landing.nav.start
+    : language === "es"
+      ? "Consultoría"
+      : "Consulting";
+  const centerAria = isOnConsulting
+    ? t.consultoria.landing.nav.startAria
+    : language === "es"
+      ? "Consultoría Viento Norte"
+      : "Viento Norte consulting";
+
   return (
     <nav
       className={`${BOTTOM_NAV_BASE_CLASS} ${BOTTOM_NAV_DOCK_CLASS}`}
@@ -137,14 +153,10 @@ export function NavDock({ variant }: NavDockProps) {
               {isCenter ? (
                 <LiquidNavCta
                   /* Solo texto bajo el isologo — sin ✦ ni Lucide (logo = único glifo) */
-                  label={language === "es" ? "Consultoría" : "Consulting"}
+                  label={centerLabel}
                   active={active}
                   onClick={() => handleTap(item)}
-                  ariaLabel={
-                    language === "es"
-                      ? "Consultoría Viento Norte"
-                      : "Viento Norte consulting"
-                  }
+                  ariaLabel={centerAria}
                 />
               ) : (
                 <NavTabItem

@@ -100,6 +100,19 @@ describe("getDockNavAction", () => {
       target: "/consultoria",
     });
   });
+
+  it("funnel: liquid center scrolls to kickoff on /consultoria", () => {
+    expect(getDockNavAction("consultoria", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#consultoria-onboarding",
+      homeRoute: "/consultoria",
+    });
+    expect(getDockNavAction("inicio", "funnel")).toEqual({
+      kind: "route",
+      target: "/",
+    });
+    expect(getDockNavAction("contacto", "funnel").kind).toBe("contact");
+  });
 });
 
 describe("getDockNavItems", () => {
@@ -107,6 +120,16 @@ describe("getDockNavItems", () => {
     const ids = getDockNavItems("home", labels, "Proceso").map((item) => item.id);
     expect(ids).toEqual(["inicio", "consultoria", "contacto"]);
     expect(ids[1]).toBe(DOCK_CENTER_ID);
+  });
+
+  it("funnel dock keeps 3 slots with kickoff action on center", () => {
+    const items = getDockNavItems("funnel", labels, "Proceso");
+    expect(items.map((i) => i.id)).toEqual(["inicio", "consultoria", "contacto"]);
+    expect(items[1]!.action).toEqual({
+      kind: "anchor",
+      target: "#consultoria-onboarding",
+      homeRoute: "/consultoria",
+    });
   });
 });
 
