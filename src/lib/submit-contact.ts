@@ -20,6 +20,8 @@ export interface ContactPayload {
   intent?: string;
   consent?: boolean;
   language?: "es" | "en";
+  /** Asunto VN · Kickoff · … (selecciones embudo) */
+  conversationTitle?: string;
 }
 
 export type ContactSubmitChannel = "google_forms" | "formsubmit" | "worker" | "mailto";
@@ -31,21 +33,39 @@ export interface ContactSubmitResult {
   mailtoUrl?: string;
 }
 
+function buildSubject(payload: ContactPayload): string {
+  const title = payload.conversationTitle?.trim();
+  if (title) return `${title} · ${payload.name.trim()}`;
+  if (payload.intent?.trim()) {
+    return `VN · ${payload.intent.trim()} · ${payload.name.trim()}`;
+  }
+  return `VN · mensaje · ${payload.name.trim()}`;
+}
+
 function buildMailtoUrl(payload: ContactPayload): string {
-  const subject = encodeURIComponent(`Portfolio · mensaje de ${payload.name.trim()}`);
+  const subject = encodeURIComponent(buildSubject(payload));
   const body = encodeURIComponent(
     [
+      payload.conversationTitle
+        ? `Conversación: ${payload.conversationTitle}`
+        : null,
       `Nombre: ${payload.name.trim()}`,
       `Email: ${payload.email.trim()}`,
       "",
       formatOutboundMessage(payload),
-    ].join("\n")
+    ]
+      .filter(Boolean)
+      .join("\n")
   );
   return `${buildContactMailtoUrl()}?subject=${subject}&body=${body}`;
 }
 
 function formatOutboundMessage(payload: ContactPayload): string {
-  const lines = [payload.message.trim()];
+  const lines: string[] = [];
+  if (payload.conversationTitle?.trim()) {
+    lines.push(`Título: ${payload.conversationTitle.trim()}`, "");
+  }
+  lines.push(payload.message.trim());
   if (payload.intent?.trim()) lines.push("", `Motivo: ${payload.intent.trim()}`);
   if (payload.source) lines.push(`Canal: ${payload.source}`);
   return lines.join("\n");
@@ -144,9 +164,7 @@ function submitViaFormPost(payload: ContactPayload): Promise<ContactSubmitResult
       name: payload.name.trim(),
       email: payload.email.trim(),
       message: formatOutboundMessage(payload),
-      _subject: payload.intent
-        ? `Portfolio · ${payload.intent} · ${payload.name.trim()}`
-        : `Portfolio · mensaje de ${payload.name.trim()}`,
+      _subject: buildSubject(payload),
       _replyto: payload.email.trim(),
       _captcha: "false",
       _template: "table",
@@ -196,6 +214,7 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
       _gotcha: payload._gotcha ?? "",
       source: payload.source ?? "form",
       intent: payload.intent ?? "",
+      conversationTitle: payload.conversationTitle ?? "",
       consent: payload.consent === true,
       language: payload.language ?? "es",
     }),

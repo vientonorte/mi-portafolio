@@ -30,6 +30,7 @@ import {
   SITE_CONTACT,
 } from "../../lib/site-contact";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
+import { FreeA11yScheduleCta } from "../molecules/FreeA11yScheduleCta";
 import { cn } from "../ui/utils";
 
 interface ContactAssistantProps {
@@ -154,6 +155,7 @@ export function ContactAssistant({
   const bannerKey = draftBannerKey(contactDraft);
   /** Intent pre-seleccionado (embudo / CTA): no reabrir reclutador · freelance. */
   const intentLocked = Boolean(contactDraft?.intent) || surface === "consulting";
+  const conversationTitle = contactDraft?.conversationTitle?.trim() || "";
 
   const [step, setStep] = useState<ContactAssistantStep>(() =>
     resolveAssistantInitialStep(contactDraft)
@@ -301,6 +303,7 @@ export function ContactAssistant({
         _gotcha: gotcha,
         source: "assistant",
         intent: intentLabel,
+        conversationTitle: conversationTitle || undefined,
         consent: true,
         language,
       });
@@ -412,6 +415,16 @@ export function ContactAssistant({
         )}
       </div>
 
+      {/* Agenda Google visible en embudo (no solo toast post-submit) */}
+      {A11Y_FREE_SCHEDULE_URL ? (
+        <FreeA11yScheduleCta
+          origin={
+            surface === "consulting" ? "consultoria-contact" : "contact-assistant"
+          }
+          layout="compact"
+        />
+      ) : null}
+
       {!skipWizard && (
         <div
           className="max-h-[240px] space-y-4 overflow-y-auto rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte/50 p-4 sm:max-h-[280px]"
@@ -436,6 +449,30 @@ export function ContactAssistant({
         >
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
           <p className="text-sm leading-relaxed">{a.draftBanner[bannerKey]}</p>
+        </div>
+      )}
+
+      {(conversationTitle || packageId || contactDraft?.industry) && (
+        <div
+          className="flex flex-wrap items-center gap-2 rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated px-3 py-2.5"
+          role="status"
+          aria-label={conversationTitle || "Selección"}
+        >
+          {conversationTitle ? (
+            <Badge
+              variant="outline"
+              className="font-mono text-[10px] uppercase tracking-wide"
+            >
+              {conversationTitle}
+            </Badge>
+          ) : null}
+          {packageId ? (
+            <span className="text-xs text-muted-foreground">
+              {packageId}
+              {contactDraft?.industry ? ` · ${contactDraft.industry}` : ""}
+              {contactDraft?.timeline ? ` · ${contactDraft.timeline}` : ""}
+            </span>
+          ) : null}
         </div>
       )}
 

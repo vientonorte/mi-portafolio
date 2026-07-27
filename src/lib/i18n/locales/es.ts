@@ -235,7 +235,7 @@ export default {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
-      stickyCta: 'Agendar kickoff',
+      stickyCta: 'Empezar',
       entry: {
         selectedPackage: 'Modalidad elegida:',
         changePackage: 'Cambiar',
@@ -249,11 +249,14 @@ export default {
           'Diagnóstico, prototipo, proceso de equipo o app funcional.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
-        ctaPrimary: 'Hablemos',
+        ctaPrimary: 'Empezar',
         ctaSecondary: 'Ver opciones',
-        ctaFree: 'Gratis · accesibilidad',
+        /** Free a11y — con agenda: copy de Calendar; sin agenda: mensaje */
+        ctaFreeLink: 'Revisión gratis de un flujo crítico',
+        ctaFreeLinkSchedule: 'Reservar 30 min gratis en Google Calendar',
+        ctaFree: 'Pedir revisión gratis',
         trustLine: 'Respuesta en menos de 24 h',
-        trustChips: ['Gratis · accesibilidad', '5–7 días', 'Respuesta <24 h'],
+        trustChips: ['Respuesta <24 h', '5–7 días', 'Sin precios en la web'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
@@ -409,13 +412,13 @@ export default {
         cta: 'Empezar',
         ctaForm: 'Escribir',
         note: 'Sin precios en la web: se cierran en el kickoff.',
-        freeStripBadge: 'Gratis · accesibilidad',
-        freeStripTitle: 'Revisión gratis de un flujo',
+        freeStripBadge: 'Gratis · entrada a Diagnóstico',
+        freeStripTitle: 'Revisión gratis de un flujo crítico',
         freeStripBody:
-          'Miramos la accesibilidad de un flujo clave (WCAG 2.2 AA). Agenda online con Google Calendar o escribe. Si te sirve, el Diagnóstico completo son 5–7 días.',
+          'Miramos un flujo de alto impacto (onboarding, pago o acceso). Si aplica, el Diagnóstico completo son 5–7 días.',
         freeStripCta: 'Pedir revisión gratis',
-        freeStripCtaSchedule: 'Agendar en Google Calendar',
-        freeStripCtaMessage: 'Escribir sin agenda',
+        freeStripCtaSchedule: 'Reservar 30 min gratis',
+        freeStripCtaMessage: 'Prefiero escribir (sin agenda)',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App de punta a punta',
         appStripBody:
@@ -462,8 +465,8 @@ export default {
         goalHint: 'Al menos 20 caracteres.',
       },
       summary: {
-        note: 'Al confirmar, pasas a contacto con el mensaje listo.',
-        cta: 'Ir a contacto',
+        note: 'Al confirmar, pasas a contacto en esta misma página con el mensaje y el título VN listos.',
+        cta: 'Continuar a contacto',
       },
       treePreview: {
         badge: 'Ayuda rápida',
@@ -1048,10 +1051,17 @@ export default {
       title: 'Conversemos',
       description: 'Disponible para proyectos freelance y oportunidades full-time. Respuesta típica: menos de 24 h.',
       responseBadge: 'Respuesta típica: menos de 24 h',
+      /** Agenda Google free a11y — bloque visible en #contacto */
+      freeSchedule: {
+        badge: 'Disponible ahora',
+        title: 'Agenda Google · 30 min gratis',
+        body: 'Revisión de un flujo crítico. Elige horario en Calendar de Viento Norte.',
+        cta: 'Abrir agenda online',
+      },
       /** Superficie embudo /consultoria — sin reclutador/freelance en el framing */
       consultingSurface: {
         badge: 'Viento Norte · pymes',
-        title: 'Agenda el kickoff o escribe',
+        title: 'Escribe y cerramos alcance',
         description:
           'Cierre del embudo: diagnóstico, prototipo, proceso o app. Respuesta en menos de 24 h hábiles.',
         responseBadge: 'Respuesta <24 h hábiles',
@@ -1059,7 +1069,7 @@ export default {
         infoDescription: 'Consultoría UX para pymes · remoto o híbrido',
         assistantTitle: 'Asistente de consultoría',
         assistantDescription:
-          'Ya estás en consultoría. Elegimos el foco y armamos el mensaje para el kickoff.',
+          'Ya estás en consultoría. Elegimos el foco y armamos el mensaje.',
       },
       tabs: {
         assistant: 'Asistente',

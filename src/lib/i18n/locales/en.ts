@@ -235,7 +235,7 @@ export default {
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
-      stickyCta: 'Book kickoff',
+      stickyCta: 'Start',
       entry: {
         selectedPackage: 'Selected format:',
         changePackage: 'Change',
@@ -249,11 +249,14 @@ export default {
           'Diagnostic, prototype, team process, or working app.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
-        ctaPrimary: "Let's talk",
+        ctaPrimary: 'Start',
         ctaSecondary: 'See options',
-        ctaFree: 'Free · accessibility',
+        /** Lead magnet — regulated-product job language, not WCAG jargon in the link */
+        ctaFreeLink: 'Free review of one critical flow',
+        ctaFreeLinkSchedule: 'Book 30 free minutes on Google Calendar',
+        ctaFree: 'Request free review',
         trustLine: 'Reply within 24 h',
-        trustChips: ['Free · accessibility', '5–7 days', 'Reply <24 h'],
+        trustChips: ['Reply <24 h', '5–7 days', 'No prices on the site'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -409,13 +412,13 @@ export default {
         cta: 'Start',
         ctaForm: 'Write',
         note: 'No prices on the site — closed at kickoff.',
-        freeStripBadge: 'Free · accessibility',
-        freeStripTitle: 'Free review of one flow',
+        freeStripBadge: 'Free · entry to Diagnostic',
+        freeStripTitle: 'Free review of one critical flow',
         freeStripBody:
-          'We check accessibility on one key flow (WCAG 2.2 AA). Book online with Google Calendar or write us. If it helps, full Diagnostic is 5–7 days.',
+          'We look at one high-impact journey (onboarding, pay, auth). If it fits, full Diagnostic is 5–7 days.',
         freeStripCta: 'Request free review',
-        freeStripCtaSchedule: 'Book on Google Calendar',
-        freeStripCtaMessage: 'Write without booking',
+        freeStripCtaSchedule: 'Book 30 free minutes',
+        freeStripCtaMessage: 'Prefer to write (no calendar)',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'App end to end',
         appStripBody:
@@ -462,8 +465,8 @@ export default {
         goalHint: 'At least 20 characters.',
       },
       summary: {
-        note: 'On confirm, you go to contact with a ready message.',
-        cta: 'Go to contact',
+        note: 'On confirm, you stay on this page: contact opens with your message and VN title ready.',
+        cta: 'Continue to contact',
       },
       treePreview: {
         badge: 'Quick help',
@@ -1043,10 +1046,17 @@ export default {
       title: 'Get in touch',
       description: 'Available for freelance projects and full-time opportunities. Typical reply: under 24 h.',
       responseBadge: 'Typical reply: under 24 h',
+      /** Free a11y Google schedule — visible block on #contacto */
+      freeSchedule: {
+        badge: 'Available now',
+        title: 'Google Calendar · 30 free minutes',
+        body: 'Review of one critical flow. Pick a slot on Viento Norte Calendar.',
+        cta: 'Open online schedule',
+      },
       /** Funnel surface /consultoria — no recruiter/freelance framing */
       consultingSurface: {
         badge: 'Viento Norte · SMBs',
-        title: 'Book kickoff or write us',
+        title: 'Write and we close scope',
         description:
           'End of the funnel: diagnostic, prototype, process, or app. Reply within 24 business hours.',
         responseBadge: 'Reply <24 business hours',
@@ -1054,7 +1064,7 @@ export default {
         infoDescription: 'UX consulting for SMBs · remote or hybrid',
         assistantTitle: 'Consulting assistant',
         assistantDescription:
-          'You’re already on consulting. Pick the focus and we’ll draft the kickoff message.',
+          'You’re already on consulting. Pick the focus and we’ll draft the message.',
       },
       tabs: {
         assistant: 'Assistant',

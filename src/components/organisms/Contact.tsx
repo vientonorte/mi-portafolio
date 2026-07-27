@@ -14,6 +14,7 @@ import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ContactAssistant } from "./ContactAssistant";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
+import { FreeA11yScheduleCta } from "../molecules/FreeA11yScheduleCta";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -137,6 +138,8 @@ export function Contact({
         message: sharedMessage,
         _gotcha: gotcha,
         source: "form",
+        intent: effectiveDraft?.intent,
+        conversationTitle: effectiveDraft?.conversationTitle,
         consent: sharedIdentity.consent,
         language,
       });
@@ -225,6 +228,14 @@ export function Contact({
             <Clock className="mr-2 h-3 w-3" />
             {surfaceCopy?.responseBadge ?? t.responseBadge}
           </Badge>
+        </div>
+
+        {/* Agenda Google free a11y — visible en contacto (no solo toast post-envío) */}
+        <div className="mx-auto mb-8 max-w-3xl">
+          <FreeA11yScheduleCta
+            origin={isConsulting ? "consultoria-contact" : "contact"}
+            layout="card"
+          />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
