@@ -412,8 +412,10 @@ export default {
         freeStripBadge: 'Gratis · accesibilidad',
         freeStripTitle: 'Revisión gratis de un flujo',
         freeStripBody:
-          'Miramos la accesibilidad de un flujo clave (WCAG 2.2 AA). Si te sirve, el Diagnóstico completo son 5–7 días.',
+          'Miramos la accesibilidad de un flujo clave (WCAG 2.2 AA). Agenda online con Google Calendar o escribe. Si te sirve, el Diagnóstico completo son 5–7 días.',
         freeStripCta: 'Pedir revisión gratis',
+        freeStripCtaSchedule: 'Agendar en Google Calendar',
+        freeStripCtaMessage: 'Escribir sin agenda',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App de punta a punta',
         appStripBody:

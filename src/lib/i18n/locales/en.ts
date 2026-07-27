@@ -412,8 +412,10 @@ export default {
         freeStripBadge: 'Free · accessibility',
         freeStripTitle: 'Free review of one flow',
         freeStripBody:
-          'We check accessibility on one key flow (WCAG 2.2 AA). If it helps, full Diagnostic is 5–7 days.',
+          'We check accessibility on one key flow (WCAG 2.2 AA). Book online with Google Calendar or write us. If it helps, full Diagnostic is 5–7 days.',
         freeStripCta: 'Request free review',
+        freeStripCtaSchedule: 'Book on Google Calendar',
+        freeStripCtaMessage: 'Write without booking',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'App end to end',
         appStripBody:

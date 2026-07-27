@@ -12,6 +12,10 @@ interface ImportMetaEnv {
   readonly VITE_GOOGLE_FORM_ENTRY_INTENT?: string;
   readonly VITE_GOOGLE_FORM_ENTRY_SOURCE?: string;
   readonly VITE_GOOGLE_FORM_ENTRY_LANGUAGE?: string;
+  /** Google Calendar Appointment Schedule — a11y gratis / Radar freemium */
+  readonly VITE_A11Y_FREE_SCHEDULE_URL?: string;
+  /** Agenda genérica (partner edu); fallback de a11y si no hay schedule dedicado */
+  readonly VITE_VIDEO_CALL_URL?: string;
 }
 
 interface ImportMeta {
