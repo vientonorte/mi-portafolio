@@ -25,7 +25,10 @@ import {
 } from "../../lib/contact-draft";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
-import { SITE_CONTACT } from "../../lib/site-contact";
+import {
+  A11Y_FREE_SCHEDULE_URL,
+  SITE_CONTACT,
+} from "../../lib/site-contact";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 import { cn } from "../ui/utils";
 
@@ -304,7 +307,40 @@ export function ContactAssistant({
 
       if (result.ok) {
         analytics.submitContactForm(true, result.channel);
-        toast.success(a.success);
+        const isFreeA11y =
+          packageId === "radar" ||
+          consultingQ1 === "radar-free" ||
+          /accesibilidad|accessibility|radar-free|revisión gratis|free accessibility/i.test(
+            sharedMessage
+          );
+        if (isFreeA11y) {
+          analytics.generateLead({
+            lead_type: "free_a11y",
+            channel: result.channel ?? "contact_form",
+            origin: "contact_assistant",
+            package_id: "radar",
+          });
+        }
+        if (isFreeA11y && A11Y_FREE_SCHEDULE_URL) {
+          toast.success(a.success, {
+            description:
+              language === "es"
+                ? "¿Prefieres un slot ahora? Agenda 30 min en Google Calendar."
+                : "Prefer a slot now? Book 30 min on Google Calendar.",
+            action: {
+              label: language === "es" ? "Agendar" : "Book",
+              onClick: () => {
+                window.open(
+                  A11Y_FREE_SCHEDULE_URL,
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              },
+            },
+          });
+        } else {
+          toast.success(a.success);
+        }
         onSuccess?.();
         return;
       }

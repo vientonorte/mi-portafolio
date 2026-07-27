@@ -12,7 +12,10 @@ import {
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
-import { openFreeRadarEntry } from "../../lib/free-radar-entry";
+import {
+  freeRadarHasSchedule,
+  openFreeRadarEntry,
+} from "../../lib/free-radar-entry";
 import { cn } from "../../lib/utils";
 
 export type PackageSelectOptions = { appGoal?: boolean };
@@ -38,10 +41,16 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
     onSelectPackage?.(id, options);
   };
 
-  const freeRadar = () => {
-    trackEvent("consultoria_free_radar", { source: "packages_strip" });
-    openFreeRadarEntry(navigate, language, "consultoria-packages");
+  const freeRadar = (mode: "auto" | "schedule" | "message" = "auto") => {
+    trackEvent("consultoria_free_radar", {
+      source: "packages_strip",
+      mode,
+      has_schedule: freeRadarHasSchedule(),
+    });
+    openFreeRadarEntry(navigate, language, "consultoria-packages", { mode });
   };
+
+  const scheduleReady = freeRadarHasSchedule();
 
   return (
     <PageSection
@@ -160,11 +169,20 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
             <Button
               className="w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
-              onClick={freeRadar}
+              onClick={() => freeRadar(scheduleReady ? "schedule" : "auto")}
             >
-              {t.freeStripCta}
+              {scheduleReady ? t.freeStripCtaSchedule : t.freeStripCta}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Button>
+            {scheduleReady ? (
+              <Button
+                variant="outline"
+                className="w-full min-h-[40px]"
+                onClick={() => freeRadar("message")}
+              >
+                {t.freeStripCtaMessage}
+              </Button>
+            ) : null}
             <Button
               variant="ghost"
               className="w-full min-h-[40px] text-muted-foreground"

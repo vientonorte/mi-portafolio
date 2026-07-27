@@ -46,6 +46,8 @@ jobs:
           VITE_GOOGLE_FORM_ENTRY_INTENT: ${{ secrets.VITE_GOOGLE_FORM_ENTRY_INTENT }}
           VITE_GOOGLE_FORM_ENTRY_SOURCE: ${{ secrets.VITE_GOOGLE_FORM_ENTRY_SOURCE }}
           VITE_GOOGLE_FORM_ENTRY_LANGUAGE: ${{ secrets.VITE_GOOGLE_FORM_ENTRY_LANGUAGE }}
+          VITE_A11Y_FREE_SCHEDULE_URL: ${{ secrets.VITE_A11Y_FREE_SCHEDULE_URL }}
+          VITE_VIDEO_CALL_URL: ${{ secrets.VITE_VIDEO_CALL_URL }}
 
       - name: SPA fallback for GitHub Pages
         run: cp dist/index.html dist/404.html

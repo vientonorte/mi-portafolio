@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-07-27] — Agendar a11y gratis con Google Calendar
+
+- **Free Radar / a11y:** CTAs abren Google Calendar Appointment Schedule si hay `VITE_A11Y_FREE_SCHEDULE_URL` (fallback: form prearmado).
+- Evento analytics **`generate_lead`** (`lead_type=free_a11y`, channel calendar|form).
+- Strip modalidades: dual CTA «Agendar en Google Calendar» + «Escribir sin agenda».
+- Banner `/auditoria` freemium → free radar (no mentoría).
+- Deploy Pages bakea secrets `VITE_A11Y_FREE_SCHEDULE_URL` y `VITE_VIDEO_CALL_URL`.
+- Docs: `docs/CONTACT_AND_PRIVACY.md` (crear appointment schedule + `gh secret set`).
+
 ## [2026-07-26] — Consultoría embudo, free a11y, DS, hygiene
 
 ### Added

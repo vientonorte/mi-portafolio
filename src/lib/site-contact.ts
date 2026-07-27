@@ -17,12 +17,27 @@ export const SITE_CONTACT = {
 } as const;
 
 /**
- * URL de agenda de videollamada (Calendly, Google Calendar, etc.).
+ * URL de agenda de videollamada (partner edu, etc.).
  * Override: VITE_VIDEO_CALL_URL
  * Si no está definida, el CTA de partner / educación abre contacto con mensaje prearmado.
  */
 export const VIDEO_CALL_URL =
   (import.meta.env.VITE_VIDEO_CALL_URL as string | undefined)?.trim() || null;
+
+/**
+ * Google Calendar Appointment Schedule — auditoría a11y gratis (Radar freemium).
+ * Override: VITE_A11Y_FREE_SCHEDULE_URL
+ * Preferido: booking page de Calendar (calendar.app.google/… o appointments/schedules/…).
+ * Fallback: VITE_VIDEO_CALL_URL si se reutiliza la misma agenda.
+ */
+export const A11Y_FREE_SCHEDULE_URL =
+  (import.meta.env.VITE_A11Y_FREE_SCHEDULE_URL as string | undefined)?.trim() ||
+  VIDEO_CALL_URL ||
+  null;
+
+export function hasA11yFreeSchedule(): boolean {
+  return Boolean(A11Y_FREE_SCHEDULE_URL);
+}
 
 export function openVideoCallOrFallback(fallback: () => void): void {
   if (VIDEO_CALL_URL) {
@@ -30,6 +45,16 @@ export function openVideoCallOrFallback(fallback: () => void): void {
     return;
   }
   fallback();
+}
+
+/** Abre la agenda Google de a11y gratis; si no hay URL, ejecuta fallback (formulario). */
+export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
+  if (A11Y_FREE_SCHEDULE_URL) {
+    window.open(A11Y_FREE_SCHEDULE_URL, '_blank', 'noopener,noreferrer');
+    return true;
+  }
+  fallback();
+  return false;
 }
 
 /** Relay Cloudflare Worker — POST formulario de contacto */

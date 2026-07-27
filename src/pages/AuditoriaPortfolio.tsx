@@ -16,6 +16,7 @@ import { Badge } from "../components/ui/badge";
 import { getConsultingPackage } from "../data/vientonorte-consulting";
 import { scrollToSection } from "../lib/scroll-to-section";
 import { navigateToContactAssistant } from "../lib/navigate-to-contact";
+import { openFreeRadarEntry } from "../lib/free-radar-entry";
 
 type ChecklistStatus = "pending" | "in_progress" | "completed";
 
@@ -135,7 +136,13 @@ export default function AuditoriaPortfolio() {
 
   const recommendedPackage = getConsultingPackage("marco");
 
+  /** Banner freemium: agendar a11y gratis (Calendar) o form — no mentoría. */
   const handleStartConsulting = () => {
+    openFreeRadarEntry(navigate, language, "audit-page", { mode: "auto" });
+  };
+
+  /** CTA de muestra de auditoría (diagnóstico con evidencia). */
+  const handlePaidDiagnostic = () => {
     const message =
       language === "es"
         ? "Solicito una auditoría / diagnóstico UX con evidencia (WCAG, heurísticas y plan P0–P2). Vi la muestra en /auditoria."
@@ -470,7 +477,7 @@ export default function AuditoriaPortfolio() {
                 <Button
                   size="lg"
                   className="mt-8 w-full bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
-                  onClick={handleStartConsulting}
+                  onClick={handlePaidDiagnostic}
                 >
                   {copy.sections.consultingCtaPrimary}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />

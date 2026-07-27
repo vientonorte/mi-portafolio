@@ -13,8 +13,27 @@ Runbook operativo del formulario de contacto, asistente guiado y cumplimiento Le
 |---------------------|-------------------|
 | `contacto@vientonorte.cl` (mailto, footer, contacto) | Alias de marca; no expone Gmail |
 | Formulario o asistente con checkbox de consentimiento | POST HTTPS → Google Forms → copia al remitente + notificación al inbox |
+| **Gratis · accesibilidad** (Radar freemium) | Si hay `VITE_A11Y_FREE_SCHEDULE_URL` → Google Calendar Appointment Schedule; si no → form prearmado |
 | Enlace a `/privacy` | Política bilingüe ES/EN |
 | Si todo falla | Toast con fallback `mailto:` |
+
+### Agenda Google · auditoría a11y gratis
+
+1. En [Google Calendar](https://calendar.google.com/calendar/u/0/r/appointment) → **Create** → **Appointment schedule**.
+2. Título: `VN · revisión a11y gratis (30 min)` · timezone `America/Santiago` · duración 30 min.
+3. Descripción: «Revisión WCAG 2.2 AA de un flujo. Trae URL o captura del flujo.»
+4. Copia el **link de reserva** (`calendar.app.google/…`).
+5. Secrets de deploy (GitHub → mi-portafolio → Settings → Secrets):
+
+```bash
+gh secret set VITE_A11Y_FREE_SCHEDULE_URL -R vientonorte/mi-portafolio -b 'https://calendar.app.google/XXXX'
+# opcional partner edu:
+# gh secret set VITE_VIDEO_CALL_URL -R vientonorte/mi-portafolio -b 'https://calendar.app.google/YYYY'
+```
+
+6. Push a `main` o `workflow_dispatch` del Deploy Pages para bakear la URL en el build.
+
+CTAs cableados: hero consultoría, strip modalidades, path `route/radar-gratis`, banner free en home/auditoría, analytics `generate_lead` + `free_radar_entry_open`.
 
 ---
 

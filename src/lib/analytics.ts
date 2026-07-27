@@ -58,6 +58,20 @@ export const analytics = {
     category: "conversion",
     label: "Hero CTA — Free B2B audit",
   }),
+
+  /** Lead freemium a11y (Calendar booking o form prearmado). */
+  generateLead: (params: {
+    lead_type?: string;
+    channel?: string;
+    origin?: string;
+    package_id?: string;
+  }) =>
+    trackEvent("generate_lead", {
+      category: "conversion",
+      lead_type: params.lead_type ?? "free_a11y",
+      freemium: true,
+      ...params,
+    }),
   
   clickDesignSystem: () => trackEvent("click_design_system", {
     category: "engagement",

@@ -13,7 +13,10 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { useNavigate } from "react-router-dom";
 import { trackEvent } from "../../lib/analytics";
-import { openFreeRadarEntry } from "../../lib/free-radar-entry";
+import {
+  freeRadarHasSchedule,
+  openFreeRadarEntry,
+} from "../../lib/free-radar-entry";
 import { cn } from "../../lib/utils";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
 import {
@@ -66,10 +69,15 @@ export function ConsultoriaLandingHero({
     scrollToSection("modalidades");
   };
 
-  /** SEM lead magnet: free Radar a11y entry → contacto (NO /auditoria mentoría) */
+  /** SEM lead magnet: free Radar a11y → Google Calendar o contacto (NO /auditoria mentoría) */
   const freeRadar = () => {
-    trackEvent("consultoria_hero_cta", { action: "free_radar_entry" });
-    openFreeRadarEntry(navigate, language, "consultoria-hero");
+    trackEvent("consultoria_hero_cta", {
+      action: "free_radar_entry",
+      has_schedule: freeRadarHasSchedule(),
+    });
+    openFreeRadarEntry(navigate, language, "consultoria-hero", {
+      mode: freeRadarHasSchedule() ? "schedule" : "auto",
+    });
   };
 
   const selectOffer = (roleId: HeroRoleId) => {
