@@ -44,17 +44,17 @@ const PROJECT_IDS = [
   'framework',
 ];
 
+// Anclas que existen en el embudo actual (ConsultoriaVientoNorte).
+// Secciones legacy (offline-private, practicas, cotizador, arbol, #valor en consultoría)
+// ya no se montan en la página — no deben fallar CI.
 const SECTION_CHECKS = [
   { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
-  { path: '/consultoria', sectionId: 'metodo-n2n', label: 'Consultoría #metodo-n2n' },
-  { path: '/consultoria', sectionId: 'offline-private', label: 'Consultoría #offline-private' },
-  { path: '/consultoria', sectionId: 'practicas', label: 'Consultoría #practicas' },
-  { path: '/consultoria', sectionId: 'partner-educacion', label: 'Consultoría #partner-educacion' },
-  { path: '/consultoria', sectionId: 'valor', label: 'Consultoría #valor' },
-  { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
-  { path: '/consultoria', sectionId: 'cotizador', label: 'Consultoría #cotizador' },
-  { path: '/consultoria', sectionId: 'arbol', label: 'Consultoría #arbol' },
+  { path: '/consultoria', sectionId: 'modalidades', label: 'Consultoría #modalidades' },
   { path: '/consultoria', sectionId: 'consultoria-onboarding', label: 'Consultoría #onboarding' },
+  { path: '/consultoria', sectionId: 'metodo-n2n', label: 'Consultoría #metodo-n2n' },
+  { path: '/consultoria', sectionId: 'partner-educacion', label: 'Consultoría #partner-educacion' },
+  { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
+  { path: '/consultoria', sectionId: 'contacto', label: 'Consultoría #contacto' },
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];
 
