@@ -29,6 +29,7 @@ const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
 const ConsultoriaVientoNorte = lazyWithRetry(() => import('./pages/ConsultoriaVientoNorte'));
+const PocProductOnboarding = lazyWithRetry(() => import('./pages/PocProductOnboarding'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
 const CompanyDetailRoute = lazyWithRetry(() => import('./pages/CompanyDetailRoute'));
 const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRoute'));
@@ -136,6 +137,7 @@ function AppRoutes() {
             <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
             <Route path="/consultoria" element={<ConsultoriaVientoNorte />} />
+            <Route path={ROUTES.pocProductOnboarding} element={<PocProductOnboarding />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>

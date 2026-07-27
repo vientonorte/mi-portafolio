@@ -10,6 +10,8 @@ export const ROUTES = {
   privacy: '/privacy',
   designSystem: '/design-system',
   consulting: '/consultoria',
+  /** POC onboarding producto estilo Apple — no embudo prod */
+  pocProductOnboarding: '/poc/product-onboarding',
   audit: '/auditoria',
   adminPhotos: '/admin/fotos',
   /** Grafo de fricción institucional — mantenido con noIndex hasta nueva decisión de visibilidad. */
