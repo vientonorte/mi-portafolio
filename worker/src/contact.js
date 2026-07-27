@@ -21,8 +21,8 @@ async function sendViaFormSubmit(inbox, payload) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Referer: 'https://vientonorte.github.io/mi-portafolio/',
-      Origin: 'https://vientonorte.github.io',
+      Referer: 'https://vientonorte.io/mi-portafolio/',
+      Origin: 'https://vientonorte.io',
     },
     body: JSON.stringify({
       name: payload.safeName,

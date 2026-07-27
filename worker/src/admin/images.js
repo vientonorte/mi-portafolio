@@ -28,7 +28,7 @@ function buildImageRecord(entry, manifest, env) {
   const overridden = Boolean(override?.url);
   return {
     id: entry.id,
-    url: override?.url || `${(env.STATIC_IMAGE_BASE || 'https://vientonorte.github.io/mi-portafolio/').replace(/\/$/, '')}/${entry.path.startsWith('profile') ? '' : 'images/'}${entry.path}`,
+    url: override?.url || `${(env.STATIC_IMAGE_BASE || 'https://vientonorte.io/mi-portafolio/').replace(/\/$/, '')}/${entry.path.startsWith('profile') ? '' : 'images/'}${entry.path}`,
     alt: override?.alt || entry.alt,
     path: entry.path,
     category: entry.category,
