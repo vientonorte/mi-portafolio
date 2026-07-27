@@ -18,11 +18,10 @@ describe("n2n-method", () => {
     }
   });
 
-  it("C1 goal template mentions offline, GitHub, WCAG and 21.719", () => {
-    expect(C1_ONBOARDING_GOAL.es).toMatch(/offline/i);
-    expect(C1_ONBOARDING_GOAL.es).toMatch(/GitHub/i);
-    expect(C1_ONBOARDING_GOAL.es).toMatch(/21\.719|WCAG/i);
-    expect(C1_ONBOARDING_GOAL.en).toMatch(/offline/i);
+  it("C1 goal template covers private data / no public tools", () => {
+    expect(C1_ONBOARDING_GOAL.es).toMatch(/privado|datos sensibles|herramientas públicas/i);
+    expect(C1_ONBOARDING_GOAL.es).toMatch(/Radar|Marco|diagnóstico|prototipo/i);
+    expect(C1_ONBOARDING_GOAL.en).toMatch(/private|sensitive|public tools/i);
     expect(C1_ONBOARDING_GOAL.en.length).toBeGreaterThan(40);
   });
 });

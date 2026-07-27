@@ -140,18 +140,19 @@ describe("session QA · consultoria landing content", () => {
     }
   });
 
-  it("SEO mentions Figma tokens and playbook", () => {
+  it("SEO mentions Figma tokens and free a11y diagnóstico", () => {
     expect(es.seo.pages.designSystem.description.toLowerCase()).toMatch(
       /figma|tokens/
     );
     expect(en.seo.pages.designSystem.description.toLowerCase()).toMatch(
       /figma|tokens/
     );
+    // Copy comercial actual (free a11y / diagnóstico / pymes) — no playbook legacy
     expect(es.seo.pages.consultoria.description.toLowerCase()).toMatch(
-      /prácticas|playbook|modalidades/
+      /accesibilidad|wcag|diagnóstico|gratis|pyme/
     );
     expect(en.seo.pages.consultoria.description.toLowerCase()).toMatch(
-      /practice|playbook|format/
+      /accessib|wcag|diagnos|free|sme|pyme/
     );
   });
 });
