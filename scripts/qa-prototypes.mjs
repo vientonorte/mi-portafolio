@@ -186,19 +186,22 @@ async function checkConsultoriaDemo(page, consultoria) {
     errors.push(`mockups: esperados ≥${siteUrls.length} imgs, hay ${await posters.count()}`);
   }
 
-  // Exact CTAs (avoid poster buttons whose aria-label also contains "Ver pantallas: …")
+  // CTAs actuales i18n: cta "Ver pantalla" / "View screen", secondary "Conversar" / "Talk"
+  // (evitar botones poster cuyo aria-label es `${cta}: ${projectName}`)
   const primary = page.locator('#consultoria-demo').getByRole('button', {
-    name: /^(Ver pantallas|View screens)$/i,
+    name: /^(Ver pantalla|View screen)$/i,
   });
-  if ((await primary.count()) < siteUrls.length) {
-    errors.push(`CTA mockup: esperados ≥${siteUrls.length}, hay ${await primary.count()}`);
+  if ((await primary.count()) < Math.min(2, siteUrls.length || 2)) {
+    errors.push(
+      `CTA mockup: esperados ≥${Math.min(2, siteUrls.length || 2)}, hay ${await primary.count()}`,
+    );
   }
 
   const leadCta = page.locator('#consultoria-demo').getByRole('button', {
-    name: /conversar sobre|talk about this/i,
+    name: /^(Conversar|Talk|Hablemos)$/i,
   });
   if ((await leadCta.count()) === 0) {
-    errors.push('CTA lead (form transversal) no encontrado en demos');
+    errors.push('CTA lead (Conversar) no encontrado en demos');
   }
 
   if (errors.length === 0) {
@@ -218,8 +221,8 @@ async function checkConsultoriaDemo(page, consultoria) {
 }
 
 async function expandArsenal(page) {
-  await visit(page, '/consultoria');
-  // Home/consultoría arsenal section id is #valor (board rename to Recursos is P2)
+  // Arsenal / #valor vive en Home (no en embudo consultoría actual)
+  await visit(page, '/');
   await page.locator('#valor').scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 

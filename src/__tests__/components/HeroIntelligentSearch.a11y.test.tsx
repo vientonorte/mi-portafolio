@@ -7,6 +7,7 @@ import {
   heroSuggestionOptionId,
 } from "@/components/molecules/HeroIntelligentSearch";
 import type { HeroSearchSuggestion } from "@/lib/hero-search";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 const suggestions: HeroSearchSuggestion[] = [
   {
@@ -71,24 +72,26 @@ const panels = {
 function renderSearch() {
   return render(
     <MemoryRouter>
-      <HeroIntelligentSearch
-        groupLabel="¿Qué buscas?"
-        searchPlaceholder="Buscar"
-        searchAriaLabel="Buscador inteligente del portafolio"
-        suggestionsLabel="Sugerencias"
-        noResults="Sin coincidencias"
-        liveSuggestionsCount="{{count}} sugerencias disponibles"
-        liveSuggestionsActive="{{count}} sugerencias. {{title}}, {{hint}}"
-        tabs={{
-          negocios: "Empresas",
-          contacto: "Reclutadores",
-          auditorias: "Auditoría",
-        }}
-        panels={panels}
-        suggestions={suggestions}
-        onPrimaryAction={() => undefined}
-        onSecondaryAction={() => undefined}
-      />
+      <LanguageProvider>
+        <HeroIntelligentSearch
+          groupLabel="¿Qué buscas?"
+          searchPlaceholder="Buscar"
+          searchAriaLabel="Buscador inteligente del portafolio"
+          suggestionsLabel="Sugerencias"
+          noResults="Sin coincidencias"
+          liveSuggestionsCount="{{count}} sugerencias disponibles"
+          liveSuggestionsActive="{{count}} sugerencias. {{title}}, {{hint}}"
+          tabs={{
+            negocios: "Empresas",
+            contacto: "Reclutadores",
+            auditorias: "Auditoría",
+          }}
+          panels={panels}
+          suggestions={suggestions}
+          onPrimaryAction={() => undefined}
+          onSecondaryAction={() => undefined}
+        />
+      </LanguageProvider>
     </MemoryRouter>
   );
 }
