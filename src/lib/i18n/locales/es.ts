@@ -418,6 +418,7 @@ export default {
           'Miramos un flujo de alto impacto (onboarding, pago o acceso). Si aplica, el Diagnóstico completo son 5–7 días.',
         freeStripCta: 'Pedir revisión gratis',
         freeStripCtaSchedule: 'Reservar 30 min gratis',
+        freeStripCtaMessage: 'Prefiero escribir (sin agenda)',
         freeStripSecondary: 'Diagnóstico completo (5–7 días)',
         appStripTitle: 'App de punta a punta',
         appStripBody:

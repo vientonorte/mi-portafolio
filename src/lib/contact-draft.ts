@@ -22,6 +22,11 @@ export interface ContactDraft {
   timeline?: string;
   recruiterMode?: string;
   consultingQ1?: string;
+  /**
+   * Título VN de conversación (desde selecciones onboarding / free a11y).
+   * Ej: «VN · Kickoff · Diagnóstico · Fintech»
+   */
+  conversationTitle?: string;
 }
 
 export interface ContactSharedIdentity {
@@ -74,6 +79,10 @@ export function parseContactDraftFromState(state: unknown): ContactDraft | null 
       timeline: typeof raw.timeline === "string" ? raw.timeline : undefined,
       recruiterMode: typeof raw.recruiterMode === "string" ? raw.recruiterMode : undefined,
       consultingQ1: typeof raw.consultingQ1 === "string" ? raw.consultingQ1 : undefined,
+      conversationTitle:
+        typeof (raw as ContactDraft).conversationTitle === "string"
+          ? (raw as ContactDraft).conversationTitle
+          : undefined,
     };
   }
 

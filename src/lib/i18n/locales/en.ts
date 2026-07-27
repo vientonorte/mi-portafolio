@@ -418,6 +418,7 @@ export default {
           'We look at one high-impact journey (onboarding, pay, auth). If it fits, full Diagnostic is 5–7 days.',
         freeStripCta: 'Request free review',
         freeStripCtaSchedule: 'Book 30 free minutes',
+        freeStripCtaMessage: 'Prefer to write (no calendar)',
         freeStripSecondary: 'Full diagnostic (5–7 days)',
         appStripTitle: 'App end to end',
         appStripBody:
