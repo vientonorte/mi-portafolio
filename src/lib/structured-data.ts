@@ -15,7 +15,7 @@ function projectUrl(projectId: string): string {
 
 function absoluteImageUrl(image: string): string {
   if (image.startsWith("http")) return image;
-  if (image.startsWith("/")) return `https://vientonorte.github.io${image}`;
+  if (image.startsWith("/")) return `https://vientonorte.io${image}`;
   return `${SITE_URL}/${image}`;
 }
 
@@ -31,7 +31,7 @@ export function buildPortfolioStructuredData(language: Language) {
     jobTitle: SEO_SITE.role,
     description: hero.valueProp,
     url: SITE_URL,
-    image: "https://vientonorte.github.io/mi-portafolio/images/branding/og-portfolio.png",
+    image: "https://vientonorte.io/mi-portafolio/images/branding/og-portfolio.png",
     email: SITE_CONTACT.email,
     sameAs: [SITE_CONTACT.linkedin, SITE_CONTACT.github],
     knowsAbout: hero.specialties,

@@ -1,9 +1,9 @@
 import type { Language } from "./i18n";
 
 export const SEO_SITE = {
-  baseUrl: "https://vientonorte.github.io/mi-portafolio",
+  baseUrl: "https://vientonorte.io/mi-portafolio",
   ogImage:
-    "https://vientonorte.github.io/mi-portafolio/images/branding/og-portfolio.png",
+    "https://vientonorte.io/mi-portafolio/images/branding/og-portfolio.png",
   brand: "Rodrigo Gaete",
   role: "UX Lead",
 } as const;

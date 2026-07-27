@@ -1,7 +1,7 @@
 /** Contacto canónico — Viento Norte / Rodrigo Gaete */
 
 /** Alias público (Email Routing → inbox privado). No publicar Gmail en el sitio. */
-export const PUBLIC_CONTACT_EMAIL = 'contacto@vientonorte.cl';
+export const PUBLIC_CONTACT_EMAIL = 'contacto@vientonorte.io';
 
 /**
  * Inbox real para FormSubmit (action del form, no se muestra en UI).

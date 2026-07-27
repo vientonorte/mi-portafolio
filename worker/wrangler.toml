@@ -5,14 +5,14 @@ account_id = "6e96c77c41a11e043c84a7802c6108b8"
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGIN = "https://vientonorte.github.io,http://localhost:3000,http://localhost:5173"
-CONTACT_FROM = "contacto@vientonorte.cl"
+ALLOWED_ORIGIN = "https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,http://localhost:3000,http://localhost:5173"
+CONTACT_FROM = "contacto@vientonorte.io"
 CONTACT_FROM_NAME = "Rodrigo Gaete · Portfolio"
 # Inbox privado — override con secret si prefieres: wrangler secret put CONTACT_INBOX
 CONTACT_INBOX = "gaete.gaona@gmail.com"
 ADMIN_GITHUB_USER = "vientonorte"
-STATIC_IMAGE_BASE = "https://vientonorte.github.io/mi-portafolio"
-WEBAUTHN_RP_ID = "vientonorte.github.io"
+STATIC_IMAGE_BASE = "https://vientonorte.io/mi-portafolio"
+WEBAUTHN_RP_ID = "vientonorte.io"
 # R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"  # tras habilitar acceso público al bucket
 
 # Secrets (wrangler secret put):

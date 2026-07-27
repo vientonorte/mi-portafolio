@@ -443,7 +443,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "uxtools-suite",
     kind: "poc",
     imagePath: img((i) => i.uxTools.designSystem),
-    href: "https://vientonorte.github.io/uxtools/",
+    href: "https://vientonorte.io/uxtools/",
     external: true,
     bundleId: "radar",
     copy: {

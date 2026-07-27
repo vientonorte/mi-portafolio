@@ -741,7 +741,7 @@ const uxToolsProject: EnhancedProject = {
   description: "Colección de herramientas y recursos para diseñadores UX. Incluye frameworks, plantillas, y utilidades prácticas para optimizar el flujo de trabajo en proyectos de diseño de experiencia de usuario.",
   image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
   tags: ["Tools", "UX Resources", "Web Development", "Design Systems"],
-  externalLink: "https://vientonorte.github.io/uxtools/",
+  externalLink: "https://vientonorte.io/uxtools/",
   
   processes: [
     {

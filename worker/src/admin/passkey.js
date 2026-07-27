@@ -26,7 +26,7 @@ function getRpId(request, env) {
   try {
     return new URL(origin).hostname;
   } catch {
-    return 'vientonorte.github.io';
+    return 'vientonorte.io';
   }
 }
 
