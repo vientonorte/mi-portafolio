@@ -14,11 +14,14 @@ export type ContactCtaOrigin =
   | "hero-path"
   | "consultoria-hero"
   | "consultoria-packages"
+  | "consultoria-contact"
   | "free-radar"
   | "quoter"
   | "onboarding"
   | "partner-edu"
   | "nav"
+  | "contact"
+  | "contact-assistant"
   | "other";
 
 export interface OpenContactAssistantOptions {
@@ -30,6 +33,7 @@ export interface OpenContactAssistantOptions {
   timeline?: string;
   recruiterMode?: string;
   consultingQ1?: string;
+  conversationTitle?: string;
   /** Analytics: where the user came from */
   origin?: ContactCtaOrigin;
   /** Replace history entry (e.g. after redirect) */
@@ -70,6 +74,7 @@ export function buildContactDraft(options: OpenContactAssistantOptions): Contact
     timeline: options.timeline,
     recruiterMode: options.recruiterMode,
     consultingQ1: options.consultingQ1,
+    conversationTitle: options.conversationTitle?.trim() || undefined,
   };
 }
 
