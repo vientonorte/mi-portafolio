@@ -49,4 +49,6 @@ export interface AnalyticsConfig {
    * Default: false en dev (NODE_ENV !== 'production'), true en prod.
    */
   enabled?: boolean;
+  /** Superficie lógica (hub | portafolio) para un solo contenedor GTM */
+  surface?: 'hub' | 'portafolio' | string;
 }

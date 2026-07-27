@@ -42,6 +42,7 @@ export class VNTracker {
       project: config.project,
       debug: config.debug ?? false,
       enabled: config.enabled ?? false,
+      surface: config.surface ?? 'portafolio',
     };
   }
 

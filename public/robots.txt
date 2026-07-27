@@ -1,0 +1,9 @@
+# mi-portafolio · vientonorte.io
+User-agent: *
+Allow: /
+
+Sitemap: https://vientonorte.io/mi-portafolio/sitemap.xml
+Sitemap: https://vientonorte.io/sitemap.xml
+
+Disallow: /mi-portafolio/#/admin
+Disallow: /mi-portafolio/#/grafo
