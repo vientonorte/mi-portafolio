@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, ExternalLink } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { LogoMarkSvg } from "../components/atoms/Logo";
+import { DeviceMockup } from "../components/molecules/DeviceMockup";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../lib/LanguageContext";
 import { freeRadarHasSchedule, openFreeRadarEntry } from "../lib/free-radar-entry";
@@ -452,20 +453,13 @@ export default function PocProductOnboarding() {
                     {m.ownership[lang]}
                   </p>
                 </div>
-                <figure className="relative">
-                  <div className="absolute -inset-8 rounded-[2rem] bg-white/[0.03] blur-2xl" />
-                  <div className="relative overflow-hidden rounded-2xl bg-black/40 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
-                    <img
-                      src={m.image}
-                      alt=""
-                      className="aspect-[4/3] w-full object-cover object-top"
-                      loading="lazy"
-                    />
-                  </div>
-                  <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
-                    {t.mockSource}
-                  </figcaption>
-                </figure>
+                <DeviceMockup
+                  src={m.image}
+                  alt={`${m.chip[lang]} · X|CMS`}
+                  caption={t.mockSource}
+                  variant="laptop"
+                  className="lg:justify-self-end"
+                />
               </div>
             </TourScreen>
           ))}
