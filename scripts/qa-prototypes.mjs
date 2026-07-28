@@ -171,8 +171,8 @@ async function checkPageNeedles(page, { path, needles, label }) {
 }
 
 async function checkConsultoriaDemo(page, consultoria) {
-  // Embudo de conversión (landing oferta = /consultoria tour sin #consultoria-demo)
-  await visit(page, '/consultoria/embudo');
+  // Home FO = embudo (/); demos en #consultoria-demo
+  await visit(page, '/');
   await page.locator('#consultoria-demo').scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 
@@ -222,9 +222,13 @@ async function checkConsultoriaDemo(page, consultoria) {
 }
 
 async function expandArsenal(page) {
-  // Arsenal / #valor vive en Home (no en embudo consultoría actual)
+  // Arsenal / #valor: ya no en home (home = embudo FO). Soft-skip si no existe.
   await visit(page, '/');
-  await page.locator('#valor').scrollIntoViewIfNeeded();
+  const valor = page.locator('#valor');
+  if ((await valor.count()) === 0) {
+    return { skipped: true, reason: 'home FO sin #valor (arsenal no montado)' };
+  }
+  await valor.scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
 
   // Expand all pages of Arsenal cards (external items are often below the fold).
@@ -249,7 +253,18 @@ async function checkArsenalExternalClicks(page, arsenalExternal, arsenalTitles) 
     };
   });
 
-  await expandArsenal(page);
+  const expanded = await expandArsenal(page);
+  if (expanded?.skipped) {
+    return [
+      {
+        label: 'Arsenal external clicks',
+        ok: true,
+        skipped: true,
+        soft: true,
+        errors: [expanded.reason],
+      },
+    ];
+  }
 
   const results = [];
   for (const [id, url] of Object.entries(arsenalExternal)) {
