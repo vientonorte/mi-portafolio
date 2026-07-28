@@ -80,7 +80,8 @@ export default function PocProductOnboarding({
   const t = es
     ? {
         wordmark: "Viento Norte",
-        skip: "Embudo",
+        /** Nav: copy cliente, no jerga ops ("embudo") */
+        skip: "Empezar",
         intro: {
           kicker: "Consultoría · Front office",
           title: "Software que se instala.\nNo se alquila la nube.",
@@ -101,8 +102,8 @@ export default function PocProductOnboarding({
           kicker: "Empezar",
           title: "Elige el módulo.\nLo hacemos tuyo.",
           body: scheduleReady
-            ? "30 min en Calendar o embudo de consultoría. Hablamos del módulo."
-            : "Embudo de consultoría — cierra alcance del módulo.",
+            ? "Agenda 30 min o entra al path de consultoría. Hablamos del módulo."
+            : "Entra al path de consultoría y cierra alcance del módulo.",
         },
         ctaSchedule: "Agendar 30 min",
         ctaFunnel: "Empezar",
@@ -118,7 +119,7 @@ export default function PocProductOnboarding({
       }
     : {
         wordmark: "Viento Norte",
-        skip: "Funnel",
+        skip: "Get started",
         intro: {
           kicker: "Consulting · Front office",
           title: "Software you install.\nNot cloud you rent forever.",
@@ -139,11 +140,11 @@ export default function PocProductOnboarding({
           kicker: "Start",
           title: "Pick the module.\nWe make it yours.",
           body: scheduleReady
-            ? "30 min on Calendar or consulting funnel. We talk modules."
-            : "Consulting funnel — close module scope.",
+            ? "Book 30 min or enter the consulting path. We talk modules."
+            : "Enter the consulting path and close module scope.",
         },
         ctaSchedule: "Book 30 min",
-        ctaFunnel: "Start",
+        ctaFunnel: "Get started",
         ctaDemo: "Live X|CMS",
         ctaScroll: "Scroll",
         moduleLabel: "Module",
@@ -308,8 +309,8 @@ export default function PocProductOnboarding({
         }
         description={
           es
-            ? "Landing de oferta: módulos a medida, sin nube obligatoria, dueño del dato. Embudo y agenda a11y en el path de conversión."
-            : "Offer landing: custom modules, no mandatory cloud, you own the data. Conversion funnel and free a11y booking on the next path."
+            ? "Consultoría Viento Norte: módulos a medida, sin nube obligatoria, dueño del dato. Agenda a11y gratis disponible."
+            : "Viento Norte consulting: custom modules, no mandatory cloud, you own the data. Free a11y booking available."
         }
       />
 
