@@ -16,17 +16,19 @@ describe("navigateFeaturedPath", () => {
 
   it("routes hero search destinations", () => {
     const navigate = vi.fn();
+    // currentPath deep: si ya estamos en home, section scroll no llama navigate
+    const fromDeep = "/proyectos";
 
-    navigateFeaturedPath(navigate, "route/proyectos");
-    navigateFeaturedPath(navigate, "route/sobre-mi");
-    navigateFeaturedPath(navigate, "path/proyectos/autosuggest-fondos");
-    navigateFeaturedPath(navigate, "path/consultoria#consultoria-demo");
-    navigateFeaturedPath(navigate, "section/consultoria/consultoria-demo");
+    navigateFeaturedPath(navigate, "route/proyectos", fromDeep);
+    navigateFeaturedPath(navigate, "route/sobre-mi", fromDeep);
+    navigateFeaturedPath(navigate, "path/proyectos/autosuggest-fondos", fromDeep);
+    navigateFeaturedPath(navigate, "path/consultoria#consultoria-demo", fromDeep);
+    navigateFeaturedPath(navigate, "section/consultoria/consultoria-demo", fromDeep);
 
     expect(navigate).toHaveBeenNthCalledWith(1, "/proyectos");
     expect(navigate).toHaveBeenNthCalledWith(2, "/sobre-mi");
     expect(navigate).toHaveBeenNthCalledWith(3, "/proyectos/autosuggest-fondos");
-    // Embudo = home (/)
+    // Embudo FO = home (/)
     expect(navigate).toHaveBeenNthCalledWith(4, "/", {
       state: { scrollTo: "consultoria-demo" },
     });
