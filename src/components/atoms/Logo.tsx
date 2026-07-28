@@ -5,6 +5,8 @@ import { BRAND_GRADIENT_STOPS, BRAND_MARK } from "../../lib/brand-mark";
 import { cn } from "../../lib/utils";
 
 export type LogoPlateVariant = "default" | "floating";
+/** Superficie de lectura: default = tokens página; onDark = landing SEM / tour oscuro */
+export type LogoTone = "default" | "onDark";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -12,9 +14,16 @@ interface LogoProps {
   /** Subtítulo (Lead UX Designer); ocultar en nav mobile compacto */
   showRole?: boolean;
   animated?: boolean;
+  /**
+   * Sistema de interacción del DS (#/design-system · BrandIdentity):
+   * hover/focus → arco gira 22° (prefers-reduced-motion respeta).
+   */
   interactive?: boolean;
   plate?: LogoPlateVariant;
+  tone?: LogoTone;
   className?: string;
+  /** Si se pasa, el lockup es botón accesible (nav / SEM) */
+  onClick?: () => void;
 }
 
 const sizes = {
@@ -134,10 +143,13 @@ export function Logo({
   animated = false,
   interactive = false,
   plate = "default",
+  tone = "default",
   className,
+  onClick,
 }: LogoProps) {
   const { mark, text, role, spacing } = sizes[size];
   const roleLabel = SEO_SITE.role;
+  const onDark = tone === "onDark";
 
   const markNode = (
     <LogoMarkSvg
@@ -149,7 +161,14 @@ export function Logo({
   );
 
   const content = (
-    <div className={cn("flex min-w-0 items-center", spacing, className)}>
+    <div
+      className={cn(
+        "flex min-w-0 items-center",
+        spacing,
+        interactive && "logo-lockup--interactive",
+        className
+      )}
+    >
       {animated ? (
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -167,7 +186,8 @@ export function Logo({
           <span
             className={cn(
               text,
-              "truncate font-semibold tracking-tight text-foreground",
+              "truncate font-semibold tracking-tight",
+              onDark ? "text-[#f5f5f7]" : "text-foreground",
               !showRole && "max-w-[9.5rem]"
             )}
             style={{ fontFamily: "var(--font-chillax)" }}
@@ -178,7 +198,8 @@ export function Logo({
             <span
               className={cn(
                 role,
-                "mt-1 inline-flex items-center gap-1.5 font-mono uppercase tracking-[0.2em] text-muted-foreground"
+                "mt-1 inline-flex items-center gap-1.5 font-mono uppercase tracking-[0.2em]",
+                onDark ? "text-white/50" : "text-muted-foreground"
               )}
             >
               <span
@@ -192,6 +213,23 @@ export function Logo({
       )}
     </div>
   );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className={cn(
+          "rounded-md text-left outline-none",
+          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+          onDark && "focus-visible:ring-white/40 focus-visible:ring-offset-[#050a14]"
+        )}
+        aria-label={`${SEO_SITE.brand} · ${SEO_SITE.role}`}
+      >
+        {content}
+      </button>
+    );
+  }
 
   return content;
 }

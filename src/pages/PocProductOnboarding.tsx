@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, ExternalLink } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
-import { LogoMarkSvg } from "../components/atoms/Logo";
+import { Logo, LogoMarkSvg } from "../components/atoms/Logo";
 import { DeviceMockup } from "../components/molecules/DeviceMockup";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../lib/LanguageContext";
@@ -330,14 +330,18 @@ export default function PocProductOnboarding({
           />
         </div>
 
-        {/* Thin header — less density */}
+        {/* Header SEM: logo DS (interactive + plate floating + lockup VN) */}
         <header className="relative z-[55] flex shrink-0 items-center justify-between gap-4 px-5 py-3 md:px-10 md:py-4">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <LogoMarkSvg size={28} plate="floating" className="shrink-0 opacity-90" />
-            <span className="truncate font-display text-[13px] font-medium tracking-tight text-white/90 md:text-sm">
-              {t.wordmark}
-            </span>
-          </div>
+          <Logo
+            size="sm"
+            showText
+            showRole={false}
+            interactive
+            plate="floating"
+            tone="onDark"
+            onClick={() => navigate(ROUTES.home)}
+            className="min-w-0"
+          />
           <button
             type="button"
             onClick={() => navigate(ROUTES.consultingFunnel)}
@@ -426,9 +430,16 @@ export default function PocProductOnboarding({
               <div className="relative mx-auto hidden w-full max-w-sm lg:block">
                 <div className="absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl" />
                 <div className="relative flex aspect-square flex-col items-center justify-center">
-                  <LogoMarkSvg size={96} plate="floating" />
-                  <p className="mt-8 font-display text-xl font-medium tracking-tight text-white/90">
+                  {/* Display mark: interactive per DS (arco 22° on hover) */}
+                  <LogoMarkSvg size={96} plate="floating" interactive labelled />
+                  <p
+                    className="mt-8 font-display text-xl font-semibold tracking-tight text-[#f5f5f7]"
+                    style={{ fontFamily: "var(--font-chillax)" }}
+                  >
                     {t.wordmark}
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+                    {es ? "UXtech · front office" : "UXtech · front office"}
                   </p>
                 </div>
               </div>
@@ -502,8 +513,8 @@ export default function PocProductOnboarding({
           {/* START — only fold with solid white primary */}
           <TourScreen id="start">
             <div className="mx-auto w-full max-w-xl text-center">
-              <div className="mb-10 flex justify-center opacity-90">
-                <LogoMarkSvg size={44} plate="floating" />
+              <div className="mb-10 flex justify-center">
+                <LogoMarkSvg size={44} plate="floating" interactive labelled />
               </div>
               <BrandKicker className="text-center">{t.start.kicker}</BrandKicker>
               <TourTitle className="text-center">{t.start.title}</TourTitle>
