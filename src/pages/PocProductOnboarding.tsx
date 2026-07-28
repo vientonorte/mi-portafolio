@@ -100,8 +100,8 @@ export default function PocProductOnboarding() {
         ctaScroll: "Desplazarse",
         moduleLabel: "Módulo",
         ownership: "Dueño del dato",
-        /** Una sola línea: no hay mockups reales aún; Rö reemplaza. */
-        mockPlaceholder: "Placeholder · mockup real lo reemplaza Rö",
+        /** Una sola línea: fuente del visual */
+        mockSource: "X|CMS · captura live",
         chipsAria: "Módulos",
         dotsAria: "Progreso del tour",
         trajectory: "Trayectoria",
@@ -138,7 +138,7 @@ export default function PocProductOnboarding() {
         ctaScroll: "Scroll",
         moduleLabel: "Module",
         ownership: "Data owner",
-        mockPlaceholder: "Placeholder · real mockup — Rö replaces",
+        mockSource: "X|CMS · live capture",
         chipsAria: "Modules",
         dotsAria: "Tour progress",
         trajectory: "Track record",
@@ -458,13 +458,12 @@ export default function PocProductOnboarding() {
                     <img
                       src={m.image}
                       alt=""
-                      className="aspect-[4/3] w-full object-cover object-top opacity-80"
+                      className="aspect-[4/3] w-full object-cover object-top"
                       loading="lazy"
                     />
                   </div>
-                  {/* Una sola línea — no mockups reales; Rö reemplaza archivos en portfolioImages */}
                   <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
-                    {t.mockPlaceholder}
+                    {t.mockSource}
                   </figcaption>
                 </figure>
               </div>

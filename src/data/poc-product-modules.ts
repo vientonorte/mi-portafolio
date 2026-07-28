@@ -30,8 +30,8 @@ export type PocModule = {
   /** Por qué local-first / dueño del dato aplica aquí */
   ownership: { es: string; en: string };
   /**
-   * Visual del módulo — hoy placeholder (portfolio reuse).
-   * Rö reemplaza el archivo real; una sola línea en UI lo declara.
+   * Visual del módulo — captura live X|CMS (`public/images/poc-modules/`).
+   * Regenerar: `bash scripts/capture-poc-modules.sh`
    */
   image: string;
 };
@@ -108,7 +108,7 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "Los números no salen a un BI de terceros: el panel es tuyo.",
       en: "Numbers don’t leave to a third-party BI — the board is yours.",
     },
-    image: portfolioImages.consultoria.xCmsDashboard,
+    image: portfolioImages.pocModules.dashboard,
   },
   {
     id: "riesgo",
@@ -137,7 +137,7 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "Modelos y umbrales quedan en tu política — no en un black-box cloud.",
       en: "Models and thresholds stay in your policy — not a cloud black box.",
     },
-    image: portfolioImages.consultoria.geesDashboard,
+    image: portfolioImages.pocModules.riesgo,
   },
   {
     id: "inventario",
@@ -166,7 +166,7 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "El catálogo y el stock son activos de la empresa, no del proveedor SaaS.",
       en: "Catalog and stock are company assets — not the SaaS vendor’s.",
     },
-    image: portfolioImages.sura.componentPipeline,
+    image: portfolioImages.pocModules.inventario,
   },
   {
     id: "pedidos",
@@ -195,7 +195,7 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "Historial de pedidos exportable y resguardado en tu perímetro.",
       en: "Order history exportable and held in your perimeter.",
     },
-    image: portfolioImages.transvip.appMobile,
+    image: portfolioImages.pocModules.pedidos,
   },
   {
     id: "clientes",
@@ -224,7 +224,7 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "La base de clientes no vive en un CRM ajeno con lock-in.",
       en: "The customer base doesn’t live in a locked-in foreign CRM.",
     },
-    image: portfolioImages.sura.riaOnboarding,
+    image: portfolioImages.pocModules.clientes,
   },
   {
     id: "reportes",
@@ -253,6 +253,6 @@ export const POC_MODULES: readonly PocModule[] = [
       es: "Reportes y backups salen a tu archivo — no a un silo del vendor.",
       en: "Reports and backups go to your archive — not a vendor silo.",
     },
-    image: portfolioImages.sura.analyticsGa4,
+    image: portfolioImages.pocModules.reportes,
   },
 ] as const;
