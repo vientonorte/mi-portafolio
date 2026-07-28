@@ -1,7 +1,8 @@
 /**
- * POC · Product-story tour (Apple-like physics, not wizard chrome).
- * Snap + scroll scrub (opacity/translate). Ruta: /#/poc/product-onboarding
- * Gate #130: mockups OK before merge — polish only.
+ * Landing oferta consultoría · product-story tour (ex-POC).
+ * Rutas: /#/consultoria · /#/consultoria/modulos/:id
+ * Embudo conversión: /#/consultoria/embudo
+ * Física: snap + scroll scrub. Scope: docs/CONSULTORIA-MVP-SCOPE.md
  */
 import {
   useCallback,
@@ -44,7 +45,14 @@ function scrubFromDistance(dist: number) {
   return { opacity, y, scale };
 }
 
-export default function PocProductOnboarding() {
+type PocProductOnboardingProps = {
+  /** Deep link desde /consultoria/modulos/:moduleId */
+  initialModuleId?: PocModuleId;
+};
+
+export default function PocProductOnboarding({
+  initialModuleId,
+}: PocProductOnboardingProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const es = language === "es";
@@ -53,6 +61,7 @@ export default function PocProductOnboarding() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const reduceMotionRef = useRef(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const didInitModule = useRef(false);
 
   const screens: Screen[] = useMemo(
     () => [
@@ -71,9 +80,9 @@ export default function PocProductOnboarding() {
   const t = es
     ? {
         wordmark: "Viento Norte",
-        skip: "Consultoría",
+        skip: "Embudo",
         intro: {
-          kicker: "Front office",
+          kicker: "Consultoría · Front office",
           title: "Software que se instala.\nNo se alquila la nube.",
           body: "Módulos-producto a la medida: job claro, roles reales, dato en tu perímetro.",
         },
@@ -109,9 +118,9 @@ export default function PocProductOnboarding() {
       }
     : {
         wordmark: "Viento Norte",
-        skip: "Consulting",
+        skip: "Funnel",
         intro: {
-          kicker: "Front office",
+          kicker: "Consulting · Front office",
           title: "Software you install.\nNot cloud you rent forever.",
           body: "Custom product modules: clear job, real roles, data in your perimeter.",
         },
@@ -165,6 +174,16 @@ export default function PocProductOnboarding() {
     },
     [screens, total]
   );
+
+  /* Deep link: saltar al módulo una vez montado el scroller */
+  useEffect(() => {
+    if (!initialModuleId || didInitModule.current) return;
+    const idx = screens.indexOf(initialModuleId);
+    if (idx < 0) return;
+    didInitModule.current = true;
+    const tmr = window.setTimeout(() => go(idx), 80);
+    return () => window.clearTimeout(tmr);
+  }, [initialModuleId, screens, go]);
 
   /* Prefers-reduced-motion */
   useEffect(() => {
@@ -284,15 +303,14 @@ export default function PocProductOnboarding() {
       <SEOHead
         title={
           es
-            ? "Viento Norte · Tour módulos-producto"
-            : "Viento Norte · Product modules tour"
+            ? "Consultoría Viento Norte · Módulos-producto a medida"
+            : "Viento Norte Consulting · Custom product modules"
         }
         description={
           es
-            ? "Tour de oferta: módulos a medida, sin nube obligatoria, dueño del dato."
-            : "Offer tour: custom modules, no mandatory cloud, you own the data."
+            ? "Landing de oferta: módulos a medida, sin nube obligatoria, dueño del dato. Embudo y agenda a11y en el path de conversión."
+            : "Offer landing: custom modules, no mandatory cloud, you own the data. Conversion funnel and free a11y booking on the next path."
         }
-        noIndex
       />
 
       <div className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7]">
@@ -317,7 +335,7 @@ export default function PocProductOnboarding() {
           </div>
           <button
             type="button"
-            onClick={() => navigate(ROUTES.consulting)}
+            onClick={() => navigate(ROUTES.consultingFunnel)}
             className="text-[13px] font-medium text-white/55 transition-colors hover:text-white"
           >
             {t.skip}
@@ -492,7 +510,7 @@ export default function PocProductOnboarding() {
                     {t.ctaSchedule}
                   </PrimaryCta>
                 ) : null}
-                <PrimaryCta onClick={() => navigate(ROUTES.consulting)}>
+                <PrimaryCta onClick={() => navigate(ROUTES.consultingFunnel)}>
                   {t.ctaFunnel}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </PrimaryCta>

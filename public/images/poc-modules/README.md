@@ -1,6 +1,6 @@
 # POC modules · mockups X|CMS
 
-Capturas live del producto **X|CMS** (Figma Sites) para el tour `/#/poc/product-onboarding`.
+Capturas live del producto **X|CMS** (Figma Sites) para la landing oferta `/#/consultoria`.
 
 | Archivo | Nav X\|CMS |
 |---------|------------|

@@ -9,7 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { NavigateFunction } from "react-router-dom";
-import { ROUTES, isProcessPath } from "./routes";
+import { ROUTES, isConsultingPath, isProcessPath } from "./routes";
 import { VIENTO_NORTE_LINKS } from "./viento-norte-links";
 import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
@@ -159,22 +159,22 @@ export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAc
     if (variant === "home") {
       return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
     }
-    // Embudo: contacto vive al final de /consultoria (#contacto)
+    // Embudo: contacto vive al final de /consultoria/embudo (#contacto)
     if (variant === "funnel") {
       return {
         kind: "anchor",
         target: "#contacto",
-        homeRoute: ROUTES.consulting,
+        homeRoute: ROUTES.consultingFunnel,
       };
     }
     return { kind: "contact", target: ROUTES.contact };
   }
-  // Embudo /consultoria: liquid CTA = kickoff, no re-entrar a la misma ruta
+  // Embudo: liquid CTA = kickoff (no re-entrar a landing oferta)
   if (id === "consultoria" && variant === "funnel") {
     return {
       kind: "anchor",
       target: `#${CONSULTORIA_FUNNEL_KICKOFF_ID}`,
-      homeRoute: ROUTES.consulting,
+      homeRoute: ROUTES.consultingFunnel,
     };
   }
   return getStaticNavAction(id);
@@ -381,7 +381,7 @@ export function matchNavItemActive(
   if (item.id === "negocios") return isProjectsPath(normalized);
   if (item.id === "proceso") return isProcessPath(normalized);
   if (item.id === "auditoria") return normalized === ROUTES.audit;
-  if (item.id === "consultoria") return normalized === ROUTES.consulting;
+  if (item.id === "consultoria") return isConsultingPath(normalized);
   if (item.id === "design-system") return normalized === ROUTES.designSystem;
 
   if (item.action.kind === "contact") {

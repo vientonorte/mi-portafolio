@@ -13,9 +13,10 @@ import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { ROUTES } from './lib/routes';
+import { isConsultingOfferPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
+import type { PocModuleId } from './data/poc-product-modules';
 
 // Lazy load pages — evita project-registry y assets pesados en el chunk inicial
 const Home = lazyWithRetry(() => import('./pages/Home'));
@@ -30,11 +31,31 @@ const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
 const ConsultoriaVientoNorte = lazyWithRetry(() => import('./pages/ConsultoriaVientoNorte'));
 const PocProductOnboarding = lazyWithRetry(() => import('./pages/PocProductOnboarding'));
+const DemoXcmsCampaign = lazyWithRetry(() => import('./pages/DemoXcmsCampaign'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
 const CompanyDetailRoute = lazyWithRetry(() => import('./pages/CompanyDetailRoute'));
 const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRoute'));
 const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
+
+const OFFER_MODULE_IDS = new Set([
+  'dashboard',
+  'riesgo',
+  'inventario',
+  'pedidos',
+  'clientes',
+  'reportes',
+]);
+
+/** Landing oferta = tour módulos (ex-POC). Deep link opcional por moduleId. */
+function ConsultoriaOfferPage() {
+  const { moduleId } = useParams<{ moduleId?: string }>();
+  const initial =
+    moduleId && OFFER_MODULE_IDS.has(moduleId)
+      ? (moduleId as PocModuleId)
+      : undefined;
+  return <PocProductOnboarding initialModuleId={initial} />;
+}
 
 function LegacyCasesProcessRedirect() {
   const { processId } = useParams<{ processId: string }>();
@@ -108,7 +129,10 @@ function GlobalNotFoundPage() {
 }
 
 function AppRoutes() {
-  const isDeepPage = isDeepPortfolioPage(useLocation().pathname);
+  const pathname = useLocation().pathname;
+  const isDeepPage = isDeepPortfolioPage(pathname);
+  /** Tour fullscreen: sin dock/header del sitio (chrome propio del tour). */
+  const isOfferLanding = isConsultingOfferPath(pathname);
 
   return (
     <PortfolioChrome>
@@ -116,7 +140,7 @@ function AppRoutes() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      {!isDeepPage && <RouterNavigation />}
+      {!isDeepPage && !isOfferLanding && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -136,16 +160,23 @@ function AppRoutes() {
             <Route path="/empresa/:companyId" element={<CompanyDetailRoute />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
-            <Route path="/consultoria" element={<ConsultoriaVientoNorte />} />
-            <Route path={ROUTES.pocProductOnboarding} element={<PocProductOnboarding />} />
+            {/* Consultoría MVP: oferta = landing · embudo = conversión */}
+            <Route path={ROUTES.consulting} element={<ConsultoriaOfferPage />} />
+            <Route path="/consultoria/modulos/:moduleId" element={<ConsultoriaOfferPage />} />
+            <Route path={ROUTES.consultingFunnel} element={<ConsultoriaVientoNorte />} />
+            <Route
+              path={LEGACY_ROUTES.pocProductOnboarding}
+              element={<Navigate to={ROUTES.consulting} replace />}
+            />
+            <Route path={ROUTES.demoXcms} element={<DemoXcmsCampaign />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>
       </main>
       {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
-      {!isDeepPage && <BottomNav />}
-      {isDeepPage && <DeepPageNav />}
+      {!isDeepPage && !isOfferLanding && <BottomNav />}
+      {isDeepPage && !isOfferLanding && <DeepPageNav />}
     </PortfolioChrome>
   );
 }
