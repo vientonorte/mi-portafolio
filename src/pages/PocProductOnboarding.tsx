@@ -313,7 +313,11 @@ export default function PocProductOnboarding({
         }
       />
 
-      <div className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7]">
+      <div
+        className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7]"
+        data-surface="consultoria-offer"
+        data-testid="consultoria-offer"
+      >
         {/* Minimal progress hairline */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-[60] h-px bg-white/10"

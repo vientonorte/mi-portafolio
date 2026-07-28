@@ -129,7 +129,15 @@ async function checkRoute(page, { path, label }) {
 
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForSelector('#main', { timeout: 25000 });
+    // Landing oferta es fullscreen dentro de #main; deep modules pueden tardar lazy chunk
+    await page.waitForSelector('#main, [data-surface="consultoria-offer"]', {
+      timeout: 25000,
+    });
+    if (path.startsWith('/consultoria/modulos/')) {
+      await page.waitForSelector('[data-testid="consultoria-offer"]', {
+        timeout: 15000,
+      });
+    }
 
     const root = await page.locator('#root').innerHTML();
     const rootLen = root.trim().length;
