@@ -83,9 +83,14 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                     {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
-                    <Badge variant="outline">{pkg.packLabel[language]}</Badge>
+                    <Badge
+                      variant="outline"
+                      className="border-border text-foreground"
+                    >
+                      {pkg.packLabel[language]}
+                    </Badge>
                     {pkg.featured ? (
-                      <Badge className="gap-1">
+                      <Badge className="gap-1 bg-foreground text-background hover:bg-foreground/90">
                         <Star className="h-3 w-3" aria-hidden />
                         {rec}
                       </Badge>
