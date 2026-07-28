@@ -19,7 +19,7 @@ describe("normalizeDoubleHashUrl", () => {
   it("rewrites double-hash embudo section URLs on /consultoria to embudo path", () => {
     vi.stubGlobal("location", {
       hash: "#/consultoria#consultoria-demo",
-      pathname: "/mi-portafolio/",
+      pathname: "/",
       search: "",
     });
 
@@ -28,7 +28,7 @@ describe("normalizeDoubleHashUrl", () => {
     expect(history.replaceState).toHaveBeenCalledWith(
       null,
       "",
-      "/mi-portafolio/#/consultoria/embudo"
+      "/#/consultoria/embudo"
     );
     expect(sessionStorage.getItem("rg-pending-section-scroll")).toBe(
       JSON.stringify({
@@ -41,7 +41,7 @@ describe("normalizeDoubleHashUrl", () => {
   it("keeps embudo path when already on embudo", () => {
     vi.stubGlobal("location", {
       hash: "#/consultoria/embudo#contacto",
-      pathname: "/mi-portafolio/",
+      pathname: "/",
       search: "",
     });
 
@@ -50,7 +50,7 @@ describe("normalizeDoubleHashUrl", () => {
     expect(history.replaceState).toHaveBeenCalledWith(
       null,
       "",
-      "/mi-portafolio/#/consultoria/embudo"
+      "/#/consultoria/embudo"
     );
     expect(sessionStorage.getItem("rg-pending-section-scroll")).toBe(
       JSON.stringify({
@@ -63,7 +63,7 @@ describe("normalizeDoubleHashUrl", () => {
   it("ignores valid single-hash URLs", () => {
     vi.stubGlobal("location", {
       hash: "#/consultoria",
-      pathname: "/mi-portafolio/",
+      pathname: "/",
       search: "",
     });
 

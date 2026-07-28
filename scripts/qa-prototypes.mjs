@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = (process.argv[2] || 'https://vientonorte.github.io/mi-portafolio').replace(/\/$/, '');
+const BASE = (process.argv[2] || 'https://vientonorte.io').replace(/\/$/, '');
 
 /** Embeds Figma cableados en fases/proyectos (src/data/figma-embeds.ts) */
 const ACTIVE_FIGMA_EMBEDS = [

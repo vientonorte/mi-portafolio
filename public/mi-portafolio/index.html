@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirigiendo a Viento Norte…</title>
+    <meta
+      name="description"
+      content="La ruta /mi-portafolio/ ya no es canónica. Redirige a https://vientonorte.io/"
+    />
+    <link rel="canonical" href="https://vientonorte.io/" />
+    <meta http-equiv="refresh" content="0;url=https://vientonorte.io/" />
+    <script>
+      (function () {
+        var h = window.location.hash || "#/";
+        if (h.charAt(0) !== "#") h = "#" + h;
+        window.location.replace("/" + h);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>
+      Movido a
+      <a href="https://vientonorte.io/">vientonorte.io</a>
+      (sin <code>/mi-portafolio/</code>).
+    </p>
+  </body>
+</html>

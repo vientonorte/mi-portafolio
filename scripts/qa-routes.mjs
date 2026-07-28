@@ -5,7 +5,7 @@
  */
 import { chromium } from 'playwright';
 
-const BASE = (process.argv[2] || 'https://vientonorte.github.io/mi-portafolio').replace(/\/$/, '');
+const BASE = (process.argv[2] || 'https://vientonorte.io').replace(/\/$/, '');
 
 const STATIC_ROUTES = [
   '/',
@@ -98,7 +98,7 @@ function isBenignConsoleError(text) {
 }
 
 function isSameOriginAsset(url) {
-  return url.includes('/mi-portafolio/') || url.startsWith(BASE);
+  return url.includes('/assets/') || url.startsWith(BASE);
 }
 
 const routes = [
@@ -285,7 +285,9 @@ async function checkAssets() {
   const origin = new URL(BASE).origin;
   const res = await fetch(`${BASE}/index.html`);
   const html = await res.text();
-  const assets = [...html.matchAll(/\/mi-portafolio\/assets\/[^"]+/g)].map((m) => m[0]);
+  const assets = [...html.matchAll(/(?:\/)?assets\/[^"]+\.js/g)].map((m) =>
+    m[0].startsWith('/') ? m[0] : `/${m[0]}`
+  );
   const missing = [];
   for (const asset of [...new Set(assets)]) {
     const r = await fetch(`${origin}${asset}`, { method: 'HEAD' });

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   packages: read
   id-token: write
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://vientonorte.io/
     steps:
       - uses: actions/checkout@v4
 
@@ -28,14 +28,17 @@ jobs:
         with:
           node-version-file: .nvmrc
           registry-url: https://npm.pkg.github.com
-          scope: '@vientonorte'
+          scope: "@vientonorte"
           cache: npm
 
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
       - run: npm run sync:images
-      - run: npx vite build
+
+      - name: Build SPA at domain root (base /)
+        run: npx vite build
         env:
           VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
           VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}
@@ -49,9 +52,59 @@ jobs:
           VITE_A11Y_FREE_SCHEDULE_URL: ${{ secrets.VITE_A11Y_FREE_SCHEDULE_URL }}
           VITE_VIDEO_CALL_URL: ${{ secrets.VITE_VIDEO_CALL_URL }}
 
-      - name: SPA fallback for GitHub Pages
-        run: cp dist/index.html dist/404.html
+      - name: SPA fallback + legacy /mi-portafolio redirect
+        run: |
+          cp dist/index.html dist/404.html
+          mkdir -p dist/mi-portafolio
+          # already copied from public/mi-portafolio if present; ensure redirect
+          if [ ! -f dist/mi-portafolio/index.html ]; then
+            cp public/mi-portafolio/index.html dist/mi-portafolio/index.html
+          fi
 
+      - name: Bundle /ops from hub (preserve ops canvas)
+        env:
+          HUB_TOKEN: ${{ secrets.VN_HUB_DEPLOY_TOKEN || secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          rm -rf /tmp/vn-hub
+          git clone --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/vientonorte/vientonorte.github.io.git" /tmp/vn-hub
+          if [ -d /tmp/vn-hub/ops ]; then
+            rm -rf dist/ops
+            cp -R /tmp/vn-hub/ops dist/ops
+            echo "ops bundled into dist/ops"
+          else
+            echo "WARN: hub ops/ missing" >&2
+          fi
+
+      # Primary brand site: org root (CNAME lives on hub today — publish SPA there)
+      - name: Publish brand site to vientonorte.github.io root
+        env:
+          HUB_TOKEN: ${{ secrets.VN_HUB_DEPLOY_TOKEN || secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config --global user.name "vn-deploy"
+          git config --global user.email "deploy@vientonorte.io"
+          rm -rf /tmp/vn-hub-pub
+          git clone --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/vientonorte/vientonorte.github.io.git" /tmp/vn-hub-pub
+          cd /tmp/vn-hub-pub
+          # preserve non-site dirs
+          KEEP="ops data docs pipeline tests scripts img .github .gitignore CNAME README.md CHANGELOG.md package.json package-lock.json"
+          # remove previous SPA artifacts at root (not ops)
+          find . -maxdepth 1 -type f \( -name 'index.html' -o -name '404.html' -o -name 'sw.js' -o -name 'manifest.json' -o -name 'robots.txt' -o -name 'sitemap.xml' -o -name 'favicon.*' -o -name 'icon-*.png' -o -name 'profile-photo.jpg' -o -name 'cv-*.pdf' \) -delete || true
+          rm -rf assets fonts images resources mi-portafolio 2>/dev/null || true
+          # copy new dist (includes ops if bundled)
+          cp -R "$GITHUB_WORKSPACE/dist/." .
+          # ensure CNAME stays brand domain
+          echo "vientonorte.io" > CNAME
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No hub changes"
+          else
+            git commit -m "deploy: Viento Norte SPA at domain root (from mi-portafolio)"
+            git push origin HEAD:main
+          fi
+
+      # Project Pages still updated so /mi-portafolio/ serves redirect-friendly SPA/shell
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

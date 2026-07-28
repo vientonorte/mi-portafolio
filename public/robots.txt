@@ -1,9 +1,10 @@
-# mi-portafolio · vientonorte.io
+# Viento Norte · vientonorte.io (canon sin /mi-portafolio/)
 User-agent: *
 Allow: /
 
-Sitemap: https://vientonorte.io/mi-portafolio/sitemap.xml
 Sitemap: https://vientonorte.io/sitemap.xml
 
-Disallow: /mi-portafolio/#/admin
-Disallow: /mi-portafolio/#/grafo
+# Superficies no indexables
+Disallow: /#/admin
+Disallow: /#/grafo
+Disallow: /ops/

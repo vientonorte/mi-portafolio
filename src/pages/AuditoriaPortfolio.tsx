@@ -702,7 +702,7 @@ export default function AuditoriaPortfolio() {
               <ul className="flex items-center justify-center gap-6 text-sm list-none p-0 m-0 flex-wrap">
                 <li>
                   <a
-                    href="https://vientonorte.io/mi-portafolio/"
+                    href="https://vientonorte.io/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:text-primary/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
