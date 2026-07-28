@@ -29,6 +29,10 @@ export type PocModule = {
   capabilities: { es: string[]; en: string[] };
   /** Por qué local-first / dueño del dato aplica aquí */
   ownership: { es: string; en: string };
+  /**
+   * Visual del módulo — hoy placeholder (portfolio reuse).
+   * Rö reemplaza el archivo real; una sola línea en UI lo declara.
+   */
   image: string;
 };
 

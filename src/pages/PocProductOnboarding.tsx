@@ -100,6 +100,8 @@ export default function PocProductOnboarding() {
         ctaScroll: "Desplazarse",
         moduleLabel: "Módulo",
         ownership: "Dueño del dato",
+        /** Una sola línea: no hay mockups reales aún; Rö reemplaza. */
+        mockPlaceholder: "Placeholder · mockup real lo reemplaza Rö",
         chipsAria: "Módulos",
         dotsAria: "Progreso del tour",
         trajectory: "Trayectoria",
@@ -136,6 +138,7 @@ export default function PocProductOnboarding() {
         ctaScroll: "Scroll",
         moduleLabel: "Module",
         ownership: "Data owner",
+        mockPlaceholder: "Placeholder · real mockup — Rö replaces",
         chipsAria: "Modules",
         dotsAria: "Tour progress",
         trajectory: "Track record",
@@ -455,10 +458,14 @@ export default function PocProductOnboarding() {
                     <img
                       src={m.image}
                       alt=""
-                      className="aspect-[4/3] w-full object-cover object-top"
+                      className="aspect-[4/3] w-full object-cover object-top opacity-80"
                       loading="lazy"
                     />
                   </div>
+                  {/* Una sola línea — no mockups reales; Rö reemplaza archivos en portfolioImages */}
+                  <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
+                    {t.mockPlaceholder}
+                  </figcaption>
                 </figure>
               </div>
             </TourScreen>
