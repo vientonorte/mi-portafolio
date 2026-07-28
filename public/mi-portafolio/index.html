@@ -7,21 +7,34 @@
       name="description"
       content="La ruta /mi-portafolio/ ya no es canónica. Redirige a https://vientonorte.io/"
     />
+    <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href="https://vientonorte.io/" />
+    <!-- OG mínimo para shares viejos que aún usen esta URL -->
+    <meta property="og:url" content="https://vientonorte.io/" />
+    <meta property="og:title" content="Viento Norte · UXtech" />
+    <meta
+      property="og:description"
+      content="Módulos a medida, dueño del dato. Front office y craft enterprise."
+    />
+    <meta
+      property="og:image"
+      content="https://vientonorte.io/images/branding/og-portfolio.png"
+    />
     <meta http-equiv="refresh" content="0;url=https://vientonorte.io/" />
     <script>
       (function () {
         var h = window.location.hash || "#/";
         if (h.charAt(0) !== "#") h = "#" + h;
-        window.location.replace("/" + h);
+        window.location.replace("https://vientonorte.io/" + h);
       })();
     </script>
   </head>
   <body>
     <p>
-      Movido a
-      <a href="https://vientonorte.io/">vientonorte.io</a>
+      Canon:
+      <a href="https://vientonorte.io/">https://vientonorte.io/</a>
       (sin <code>/mi-portafolio/</code>).
     </p>
   </body>
 </html>
+

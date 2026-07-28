@@ -3,35 +3,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Viento Norte · Rodrigo Gaete" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Static SEO (no JS required) — LinkedIn / WhatsApp / crawlers -->
+    <title>Viento Norte · UXtech · Módulos a medida</title>
     <meta
       name="description"
-      content="Viento Norte — UXtech, módulos a medida y front office. Software que se instala; dueño del dato."
+      content="Viento Norte — UXtech y front office. Software que se instala, no se alquila la nube. Módulos a medida, dueño del dato. Consultoría y craft enterprise."
     />
     <meta
       name="keywords"
-      content="Viento Norte, UXtech, consultoría UX, módulos producto, fintech, Design Ops, accesibilidad"
+      content="Viento Norte, UXtech, consultoría UX, módulos producto, fintech, Design Ops, accesibilidad, dueño del dato, front office"
     />
-    <meta property="og:title" content="Viento Norte · UXtech" />
+
+    <!-- Canonical brand root (no /mi-portafolio/) -->
+    <link rel="canonical" href="https://vientonorte.io/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Viento Norte" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:url" content="https://vientonorte.io/" />
+    <meta property="og:title" content="Viento Norte · UXtech · Módulos a medida" />
     <meta
       property="og:description"
-      content="Módulos a medida, sin nube obligatoria. Front office y craft enterprise."
+      content="Software que se instala. Módulos a medida, sin nube obligatoria. Front office y craft enterprise."
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://vientonorte.io/" />
-    <meta property="og:image" content="https://vientonorte.io/images/branding/og-portfolio.png" />
-    <link rel="canonical" href="https://vientonorte.io/" />
-    <meta name="theme-color" content="#171717" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta
+      property="og:image"
+      content="https://vientonorte.io/images/branding/og-portfolio.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Viento Norte — UXtech y módulos a medida" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://vientonorte.io/" />
+    <meta name="twitter:title" content="Viento Norte · UXtech" />
+    <meta
+      name="twitter:description"
+      content="Módulos a medida, dueño del dato. Front office y craft enterprise."
+    />
+    <meta
+      name="twitter:image"
+      content="https://vientonorte.io/images/branding/og-portfolio.png"
+    />
+
+    <meta name="theme-color" content="#0d1b3d" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)" />
 
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <link rel="icon" type="image/x-icon" href="%BASE_URL%favicon.ico" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/icon-192x192.png" />
 
-    <title>Viento Norte · UXtech</title>
-
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin="anonymous" />
+
+    <!-- CSR fallback: feedback while JS hydrates (Gemini QA + brand VN) -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #050a14;
+      }
+      #root:empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        min-height: 100dvh;
+        background: #050a14;
+        color: rgba(247, 242, 231, 0.55);
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 0.875rem;
+        letter-spacing: 0.04em;
+      }
+      #root:empty::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid rgba(247, 242, 231, 0.12);
+        border-top-color: #1a8fdc;
+        border-right-color: #e8401c;
+        animation: vn-spin 0.85s linear infinite;
+      }
+      #root:empty::after {
+        content: "Viento Norte";
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: rgba(247, 242, 231, 0.45);
+      }
+      @keyframes vn-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #root:empty::before {
+          animation: none;
+          border-top-color: #1a8fdc;
+        }
+      }
+    </style>
   </head>
 
   <body>
