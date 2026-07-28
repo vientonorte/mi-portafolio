@@ -1,23 +1,33 @@
-/** Rutas canónicas — única fuente de verdad (Sprint 2 IA + FO consultoría MVP). */
+/** Rutas canónicas — única fuente de verdad (FO empresa Viento Norte). */
 export const ROUTES = {
-  home: '/',
-  projects: '/proyectos',
-  process: '/proceso',
+  /**
+   * Home FO = embudo de conversión
+   * (Hero → modalidades → onboarding → método → demo → #contacto + Calendar).
+   */
+  home: "/",
+
+  projects: "/proyectos",
+  process: "/proceso",
   processPhase: (processId: string) => `/proceso/fase/${processId}`,
   project: (projectId: string) => `/proyecto/${projectId}`,
   company: (companyId: string) => `/empresa/${companyId}`,
-  contact: '/contacto',
-  privacy: '/privacy',
-  designSystem: '/design-system',
+  contact: "/contacto",
+  privacy: "/privacy",
+  designSystem: "/design-system",
 
   /**
-   * Landing real de consultoría = tour de oferta módulos-producto
-   * (ex-POC Apple onboarding).
+   * Landing SEM / paid · tour oferta módulos-producto (fullscreen Apple).
+   * Ads final URL: https://vientonorte.io/#/consultoria
    */
-  consulting: '/consultoria',
-  /** Embudo de conversión (Hero → onboarding → #contacto + Calendar). */
-  consultingFunnel: '/consultoria/embudo',
-  /** Deep link a un módulo del tour (escalable, misma página). */
+  consulting: "/consultoria",
+
+  /**
+   * Embudo = home. Alias canónico para CTAs internos.
+   * Path legacy `/consultoria/embudo` redirige a `/`.
+   */
+  consultingFunnel: "/",
+
+  /** Deep link a un módulo del tour SEM. */
   consultingModule: (moduleId: string) =>
     `/consultoria/modulos/${encodeURIComponent(moduleId)}`,
 
@@ -25,39 +35,34 @@ export const ROUTES = {
    * Demo X|CMS con gate de campaña (Ads / SEO / LinkedIn).
    * No abrir Figma Sites en crudo desde ads.
    */
-  demoXcms: '/demo/x-cms',
+  demoXcms: "/demo/x-cms",
 
   /**
-   * @deprecated Legacy POC path — siempre redirect a ROUTES.consulting.
-   * Mantener en LEGACY_ROUTES + <Navigate replace>.
+   * @deprecated Legacy POC path — redirect a ROUTES.consulting (SEM).
    */
-  pocProductOnboarding: '/poc/product-onboarding',
+  pocProductOnboarding: "/poc/product-onboarding",
 
-  audit: '/auditoria',
-  adminPhotos: '/admin/fotos',
+  audit: "/auditoria",
+  adminPhotos: "/admin/fotos",
   /** Grafo de fricción institucional — noIndex hasta decisión de visibilidad. */
-  grafo: '/grafo',
+  grafo: "/grafo",
 } as const;
 
 /** Alias legacy — solo redirects 301-equivalent (HashRouter replace). */
 export const LEGACY_ROUTES = {
-  cases: '/cases',
+  cases: "/cases",
   casesProcess: (processId: string) => `/cases/process/${processId}`,
-  /** POC tour → landing consultoría */
-  pocProductOnboarding: '/poc/product-onboarding',
+  /** POC tour → SEM oferta */
+  pocProductOnboarding: "/poc/product-onboarding",
+  /** Embudo viejo → home */
+  consultingFunnelLegacy: "/consultoria/embudo",
 } as const;
 
 export function normalizePathname(pathname: string): string {
-  return pathname.replace(/\/+$/, '') || '/';
+  return pathname.replace(/\/+$/, "") || "/";
 }
 
-/** Cualquier superficie bajo /consultoria (oferta, embudo, módulos). */
-export function isConsultingPath(pathname: string): boolean {
-  const path = normalizePathname(pathname);
-  return path === ROUTES.consulting || path.startsWith(`${ROUTES.consulting}/`);
-}
-
-/** Landing oferta (tour) — no embudo. */
+/** SEM offer tour (+ módulos). No incluye home embudo. */
 export function isConsultingOfferPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   if (path === ROUTES.consulting) return true;
@@ -65,9 +70,24 @@ export function isConsultingOfferPath(pathname: string): boolean {
   return false;
 }
 
-/** Embudo de conversión. */
+/**
+ * Embudo FO: home `/` o legacy `/consultoria/embudo` (antes del redirect).
+ */
 export function isConsultingFunnelPath(pathname: string): boolean {
-  return normalizePathname(pathname) === ROUTES.consultingFunnel;
+  const path = normalizePathname(pathname);
+  return (
+    path === ROUTES.home || path === LEGACY_ROUTES.consultingFunnelLegacy
+  );
+}
+
+/**
+ * Superficies de conversión FO: embudo home + SEM offer + módulos.
+ * (Para nav activo / chrome.)
+ */
+export function isConsultingPath(pathname: string): boolean {
+  return (
+    isConsultingFunnelPath(pathname) || isConsultingOfferPath(pathname)
+  );
 }
 
 export function isProcessPath(pathname: string): boolean {

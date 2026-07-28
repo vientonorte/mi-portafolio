@@ -2,7 +2,7 @@
 
 **Actualizado:** 2026-07-21 · **sesión cerrada**  
 **Ship:** PR #118 + **#119** en `main` · Pages smoke 200  
-**Prod:** https://vientonorte.github.io/mi-portafolio/  
+**Prod:** https://vientonorte.io/  
 **Cierre vault:** `Viento Norte/Sprints/2026-07-21 CIERRE landing assets.md`  
 **Criterio “en uso”:** referenciado en `src/` o servido como recurso de producto.
 

@@ -56,7 +56,7 @@ export function FreeA11yScheduleCta({
         type="button"
         variant="default"
         className={cn(
-          "min-h-[44px] w-full bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto",
+          "funnel-cta-primary min-h-[44px] w-full bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto",
           className
         )}
         onClick={book}
@@ -92,7 +92,7 @@ export function FreeA11yScheduleCta({
         </div>
         <Button
           type="button"
-          className="min-h-[44px] w-full shrink-0 bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
+          className="funnel-cta-primary min-h-[44px] w-full shrink-0 bg-brand-gradient font-semibold hover:opacity-90 sm:w-auto"
           onClick={book}
         >
           {cta}
@@ -135,7 +135,7 @@ export function FreeA11yScheduleCta({
         <Button
           type="button"
           size="lg"
-          className="min-h-[48px] w-full shrink-0 bg-brand-gradient px-6 font-semibold hover:opacity-90 sm:w-auto"
+          className="funnel-cta-primary min-h-[48px] w-full shrink-0 bg-brand-gradient px-6 font-semibold hover:opacity-90 sm:w-auto"
           onClick={book}
         >
           {cta}

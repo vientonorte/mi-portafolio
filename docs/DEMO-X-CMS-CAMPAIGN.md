@@ -1,10 +1,10 @@
 # Demo X|CMS · gate de campaña (Ads / SEO / LinkedIn SEM)
 
 **Ruta canónica:**  
-`https://vientonorte.io/mi-portafolio/#/demo/x-cms`
+`https://vientonorte.io/#/demo/x-cms`
 
 **Local:**  
-`http://127.0.0.1:5173/mi-portafolio/#/demo/x-cms`
+`http://127.0.0.1:5173/#/demo/x-cms`
 
 ## Por qué no el link crudo a Figma Sites
 

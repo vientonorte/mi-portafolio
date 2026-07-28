@@ -1,17 +1,43 @@
 # URL canon Viento Norte
 
-**Canon:** `https://vientonorte.io/` (sin `/mi-portafolio/`)
+**Canon:** `https://vientonorte.io/` (sin `/mi-portafolio/`)  
+**Producto:** front office de la **empresa** Viento Norte.
+
+## Superficies (2026-07-28)
+
+| Superficie | Path | Live | Rol |
+|------------|------|------|-----|
+| **Home = embudo FO** | `/` | https://vientonorte.io/ | Conversión: packs, kickoff, Calendar free, contacto |
+| **Oferta SEM** | `/#/consultoria` | https://vientonorte.io/#/consultoria | Landing paid / story módulos (fullscreen) |
+| Módulo SEM | `/#/consultoria/modulos/:id` | … | Deep link tour |
+| Proceso | `/#/proceso` | … | Macros método |
+| Demo X\|CMS | `/#/demo/x-cms` | … | Gate campaña |
+| Ops | `/ops/` | https://vientonorte.io/ops/ | Interno |
+
+## Ads / SEM
+
+**Final URL recomendada (story):**  
+`https://vientonorte.io/#/consultoria`
+
+**Conversión (si ads a embudo directo):**  
+`https://vientonorte.io/`  
+(CTA “Empezar” en SEM también lleva a home embudo.)
+
+## Local
+
+| Superficie | URL |
+|------------|-----|
+| Home embudo | http://127.0.0.1:5173/#/ |
+| SEM oferta | http://127.0.0.1:5173/#/consultoria |
+
+## Legacy redirects
 
 | Antes | Ahora |
 |-------|--------|
-| `vientonorte.io/mi-portafolio/#/consultoria` | `vientonorte.io/#/consultoria` |
-| `vientonorte.io/mi-portafolio/` | `vientonorte.io/` |
-| Project Pages subpath | SPA en root del hub + redirect legacy |
+| `/#/consultoria/embudo` | `/` (home) |
+| `/#/poc/product-onboarding` | `/#/consultoria` (SEM) |
+| `/mi-portafolio/…` | root `.io` |
 
-## Legacy
+## Repo git
 
-`/mi-portafolio/` → redirect a `/` preservando hash.
-
-## Ops
-
-`/ops/` se empaqueta en el deploy desde `vientonorte.github.io/ops`.
+Sigue pudiendo llamarse `mi-portafolio` (alias producto: `vientonorte-fo`). Rename GH = Decide aparte.

@@ -399,7 +399,7 @@ export function Contact({
                             placeholder={t.form.namePlaceholder}
                             value={sharedIdentity.name}
                             onChange={handleFieldChange}
-                            autoComplete="name"
+                            autoComplete="nickname"
                             aria-required
                             aria-invalid={!!errors.name}
                             aria-describedby={errors.name ? "name-error" : undefined}

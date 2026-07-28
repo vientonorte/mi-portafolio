@@ -57,14 +57,14 @@ export function StickyCTA({
             shouldReduceMotion
               ? { duration: 0 }
               : {
-                  /* DS: duration base + ease-out (sin spring expressive) */
-                  duration: 0.25,
-                  ease: [0.4, 0, 0.2, 1],
+                  /* Apple FO ease (align offer-tour / funnel) */
+                  duration: 0.4,
+                  ease: [0.22, 1, 0.36, 1],
                 }
           }
           className="fixed bottom-[var(--back-to-top-offset)] left-1/2 z-40 -translate-x-1/2"
         >
-          <div className="relative">
+          <div className="funnel-sticky-shell relative">
             {/* Glow effect */}
             {!shouldReduceMotion && (
               <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-150" />
@@ -75,7 +75,7 @@ export function StickyCTA({
               <Button
                 size="lg"
                 onClick={onClick}
-                className="gap-2 group rounded-full pl-6 pr-6 min-h-[44px]"
+                className="funnel-cta-primary gap-2 group rounded-full pl-6 pr-6 min-h-[44px]"
                 aria-label={ariaLabel || label}
               >
                 {label}

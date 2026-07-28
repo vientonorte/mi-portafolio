@@ -61,7 +61,8 @@ export function ConsultoriaLandingHero({
 
   return (
     <section
-      className="section-pad-default section-atmosphere section-atmosphere-matte relative overflow-hidden border-b border-border/40"
+      id="inicio"
+      className="funnel-section-enter section-pad-default section-atmosphere section-atmosphere-matte relative overflow-hidden border-b border-border/40 scroll-mt-[calc(var(--header-height)+0.75rem)]"
       aria-labelledby="consultoria-hero-heading"
     >
       <div className="container relative mx-auto max-w-2xl">
@@ -88,7 +89,7 @@ export function ConsultoriaLandingHero({
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <Button
               size="lg"
-              className="min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90 focus-visible:ring-offset-2"
+              className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90 focus-visible:ring-offset-2"
               onClick={startPrimary}
             >
               {t.ctaPrimary}
@@ -97,7 +98,7 @@ export function ConsultoriaLandingHero({
             <Button
               size="lg"
               variant="outline"
-              className="min-h-[48px] border-primary/30 bg-background/80 font-semibold hover:border-primary/50"
+              className="funnel-cta-ghost min-h-[48px] border-primary/30 bg-background/80 font-semibold hover:border-primary/50"
               onClick={seeOptions}
             >
               {t.ctaSecondary}
@@ -109,7 +110,7 @@ export function ConsultoriaLandingHero({
               type="button"
               onClick={freeRadar}
               className={cn(
-                "underline-offset-4 transition-colors hover:text-foreground hover:underline",
+                "funnel-link underline-offset-4 hover:text-foreground hover:underline",
                 "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 freeRadarHasSchedule() &&
                   "font-medium text-primary underline decoration-primary/40"

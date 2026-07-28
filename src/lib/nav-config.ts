@@ -9,7 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { NavigateFunction } from "react-router-dom";
-import { ROUTES, isConsultingPath, isProcessPath } from "./routes";
+import { ROUTES, isConsultingOfferPath, isProcessPath } from "./routes";
 import { VIENTO_NORTE_LINKS } from "./viento-norte-links";
 import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
@@ -71,19 +71,19 @@ export interface NavRegistryItem {
 }
 
 /**
- * P0 rediseño landing (board FigJam) — menos chrome, destinos claros:
- * - Dock 3: Inicio · Consultoría (centro liquid) · Contacto
- * - Header desktop 2: Negocios · Contacto (resto en «Más»)
- * - Drawer móvil: catálogo completo (hamburger = exploración)
- * - Hero: 3 path cards (no combobox) — ver Hero + HeroAudienceCta
+ * FO empresa (home = embudo):
+ * - Dock 3: Inicio · Empezar (kickoff) · Contacto
+ * - Header desktop 2: Proceso · Contacto (no “Negocios” portfolio en primary)
+ * - Drawer / Más: catálogo (casos, SEM, DS…)
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["negocios", "contacto"] as const,
+  /** Primary: método + cierre — no grilla de casos (peligro de framing portafolio). */
+  headerPrimary: ["proceso", "contacto"] as const,
   headerMore: [
+    "negocios",
     "experiencia",
     "consultoria",
-    "proceso",
     "sobre-mi",
     "auditoria",
     "design-system",
@@ -133,7 +133,8 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "experiencia":
       return { kind: "section", target: "/sobre-mi", sectionId: "experiencia" };
     case "consultoria":
-      return { kind: "route", target: ROUTES.consulting };
+      // Center CTA → embudo FO (home), no landing SEM
+      return { kind: "route", target: ROUTES.home };
     case "auditoria":
       return { kind: "route", target: ROUTES.audit };
     case "proceso":
@@ -150,31 +151,29 @@ function getStaticNavAction(id: NavItemId): NavAction {
 }
 
 export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAction {
+  // Home = embudo FO: anclas en la misma página
   if (id === "inicio") {
-    return variant === "home"
-      ? { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home }
-      : { kind: "route", target: ROUTES.home };
+    if (variant === "home" || variant === "funnel") {
+      return { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home };
+    }
+    return { kind: "route", target: ROUTES.home };
   }
   if (id === "contacto") {
-    if (variant === "home") {
-      return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
-    }
-    // Embudo: contacto vive al final de /consultoria/embudo (#contacto)
-    if (variant === "funnel") {
+    if (variant === "home" || variant === "funnel") {
       return {
         kind: "anchor",
         target: "#contacto",
-        homeRoute: ROUTES.consultingFunnel,
+        homeRoute: ROUTES.home,
       };
     }
     return { kind: "contact", target: ROUTES.contact };
   }
-  // Embudo: liquid CTA = kickoff (no re-entrar a landing oferta)
+  // Embudo (home): liquid CTA = kickoff — no SEM tour
   if (id === "consultoria" && variant === "funnel") {
     return {
       kind: "anchor",
       target: `#${CONSULTORIA_FUNNEL_KICKOFF_ID}`,
-      homeRoute: ROUTES.consultingFunnel,
+      homeRoute: ROUTES.home,
     };
   }
   return getStaticNavAction(id);
@@ -381,7 +380,12 @@ export function matchNavItemActive(
   if (item.id === "negocios") return isProjectsPath(normalized);
   if (item.id === "proceso") return isProcessPath(normalized);
   if (item.id === "auditoria") return normalized === ROUTES.audit;
-  if (item.id === "consultoria") return isConsultingPath(normalized);
+  if (item.id === "consultoria") {
+    // Home embudo: center = kickoff anchor (no “ruta activa”)
+    if (normalized === ROUTES.home) return false;
+    // SEM tour no usa dock; por si acaso deep residual
+    return isConsultingOfferPath(normalized);
+  }
   if (item.id === "design-system") return normalized === ROUTES.designSystem;
 
   if (item.action.kind === "contact") {

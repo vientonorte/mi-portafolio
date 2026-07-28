@@ -29,7 +29,6 @@ const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
-const ConsultoriaVientoNorte = lazyWithRetry(() => import('./pages/ConsultoriaVientoNorte'));
 const PocProductOnboarding = lazyWithRetry(() => import('./pages/PocProductOnboarding'));
 const DemoXcmsCampaign = lazyWithRetry(() => import('./pages/DemoXcmsCampaign'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
@@ -144,6 +143,7 @@ function AppRoutes() {
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
+            {/* Home FO = embudo. SEM paid = /consultoria (tour fullscreen). */}
             <Route path="/" element={<Home />} />
             <Route path="/proyectos" element={<Proyectos />} />
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
@@ -160,8 +160,12 @@ function AppRoutes() {
             <Route path="/empresa/:companyId" element={<CompanyDetailRoute />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
-            {/* Consultoría MVP — rutas específicas ANTES de /consultoria */}
-            <Route path="/consultoria/embudo" element={<ConsultoriaVientoNorte />} />
+            {/* Embudo legacy → home */}
+            <Route
+              path={LEGACY_ROUTES.consultingFunnelLegacy}
+              element={<Navigate to={ROUTES.home} replace />}
+            />
+            {/* SEM offer — rutas específicas ANTES de /consultoria genérico */}
             <Route path="/consultoria/modulos/:moduleId" element={<ConsultoriaOfferPage />} />
             <Route path={ROUTES.consulting} element={<ConsultoriaOfferPage />} />
             <Route

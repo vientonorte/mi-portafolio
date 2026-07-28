@@ -165,7 +165,7 @@ En GitHub: **Settings → Secrets → Actions** → mismos nombres. Tras el push
 
 ### 2. Activar FormSubmit (respaldo)
 
-1. Envía un mensaje de prueba desde [Contacto](https://vientonorte.github.io/mi-portafolio/#/contacto).
+1. Envía un mensaje de prueba desde [Contacto](https://vientonorte.io/#/contacto).
 2. Revisa `gaete.gaona@gmail.com`.
 3. Abre el enlace de **activación** que envía FormSubmit (solo la primera vez).
 4. Repite el envío de prueba; debe llegar con `Reply-To` del visitante.

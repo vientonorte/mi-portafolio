@@ -282,7 +282,9 @@ export function Navigation({
         className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
           isMenuOpen ? "z-[115]" : "z-[100]"
         } ${
-          isScrolled || isMenuOpen
+          /* Home = embudo FO con hero oscuro: header siempre sólido (WCAG contraste).
+             Transparente solo en deep pages al top. */
+          isScrolled || isMenuOpen || isOnHome
             ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80"
             : "max-lg:bg-background/92 max-lg:backdrop-blur-md max-lg:border-b max-lg:border-border/30 max-lg:shadow-sm max-lg:supports-[backdrop-filter]:bg-background/88 lg:bg-transparent"
         }`}
@@ -306,14 +308,14 @@ export function Navigation({
                 size="sm"
                 interactive
                 showRole={false}
-                plate={isScrolled || isMenuOpen ? "default" : "floating"}
+                plate={isScrolled || isMenuOpen || isOnHome ? "default" : "floating"}
               />
             </span>
             <span className="hidden min-w-0 sm:block">
               <Logo
                 size="sm"
                 interactive
-                plate={isScrolled || isMenuOpen ? "default" : "floating"}
+                plate={isScrolled || isMenuOpen || isOnHome ? "default" : "floating"}
               />
             </span>
           </motion.a>

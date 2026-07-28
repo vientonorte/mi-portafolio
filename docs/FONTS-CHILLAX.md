@@ -18,7 +18,7 @@ Fontshare CDN (`//cdn.fontshare.com`) falla a menudo en **preview local** (`http
 
 1. `npm run build && npm run preview -- --host 127.0.0.1 --port 4173`
 2. Hard refresh `Cmd+Shift+R`
-3. Network → `chillax-400.woff2` → **200** desde `/mi-portafolio/fonts/chillax/`
+3. Network → `chillax-400.woff2` → **200** desde `/fonts/chillax/`
 4. Computed → `font-family: Chillax, …`
 
 ## Regla

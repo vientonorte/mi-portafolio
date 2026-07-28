@@ -12,24 +12,29 @@
 | **Demo campaña** | Ads/SEO gate X\|CMS | Path `/demo/x-cms` |
 | **Park** | GA / GTM live / core API | Explicitamente fuera de semana ship |
 
-Flujo canónico:
+Flujo canónico (empresa FO):
 
 ```
-Home / ads / dock
-  → /consultoria          (story tour · decisión de módulo)
-  → /consultoria/embudo   (kickoff + contacto + Calendar)
-  → /demo/x-cms           (solo si campaña o “ver en vivo”)
+Ads SEM → /#/consultoria     (story tour · módulos)
+              ↓ Empezar
+Home embudo → /              (packs → kickoff → Calendar / contacto)
+Dock / orgánico → /          (home = embudo)
+Demo campaña → /#/demo/x-cms
 ```
 
-## URLs canónicas (HashRouter)
+## URLs canónicas (HashRouter · root `.io`)
 
-| Path | Superficie | Notas |
-|------|------------|--------|
-| `/consultoria` | **Landing oferta** (ex-POC) | Indexable · chrome mínimo (fullscreen tour) |
-| `/consultoria/embudo` | Embudo conversión (ex-`/consultoria`) | Dock variant `funnel` · anchors |
-| `/consultoria/modulos/:moduleId` | Deep link a un módulo del tour | Escalable · mismos assets |
-| `/demo/x-cms` | Demo campaña | UTMs / gate |
-| `/poc/product-onboarding` | **Legacy redirect** → `/consultoria` | Zero dead links |
+| Path | Superficie | Live |
+|------|------------|------|
+| `/` | **Home = embudo FO** | https://vientonorte.io/ |
+| `/consultoria` | **Landing SEM** (tour) | https://vientonorte.io/#/consultoria |
+| `/consultoria/modulos/:moduleId` | Deep link módulo SEM | … |
+| `/consultoria/embudo` | **Legacy** → `/` | redirect |
+| `/demo/x-cms` | Demo campaña | https://vientonorte.io/#/demo/x-cms |
+| `/poc/product-onboarding` | Legacy → SEM | redirect |
+| `/proceso` | Macros de método | https://vientonorte.io/#/proceso |
+
+**Local:** home `http://127.0.0.1:5173/#/` · SEM `…/#/consultoria`
 
 Helpers: `ROUTES.consulting`, `ROUTES.consultingFunnel`, `ROUTES.consultingModule(id)`, `isConsultingOfferPath`, `isConsultingFunnelPath`.
 

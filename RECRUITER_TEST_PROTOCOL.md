@@ -57,7 +57,7 @@ Este hallazgo proviene de research que indica que recruiters toman decisiones r�
 - Sesión individual de 15 minutos por participante
 - Ambiente silencioso, sin distracciones
 - Device: Desktop o mobile (registrar cuál)
-- URL de inicio: `https://vientonorte.github.io/mi-portafolio/`
+- URL de inicio: `https://vientonorte.io/`
 
 ### Fase 1: First Impression (10 segundos)
 **Instrucción al participante:**

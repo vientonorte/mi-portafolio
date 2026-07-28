@@ -1,8 +1,8 @@
-# Assets release · mi-portafolio
+# Assets release · Viento Norte FO
 
 **Actualizado:** 2026-07-21 · **shipped**  
 **PRs:** #118 (landing + GEES/UX Tools) · #119 (Coworking + Edu 21)  
-**Prod:** https://vientonorte.github.io/mi-portafolio/
+**Prod:** https://vientonorte.io/
 
 ## Disponibilidad
 
@@ -13,7 +13,7 @@
 | Git (trackeados en rama) | ✅ |
 | Producción | ✅ merge PR #118 · Pages 2026-07-21 · smoke HTTP 200 |
 
-`base` Vite: `/mi-portafolio/` → URLs públicas bajo ese prefijo.
+`base` Vite: `/` → URLs públicas en root del dominio (`https://vientonorte.io/`).
 
 ## Catálogo listo para ship (esta rama)
 
@@ -48,16 +48,16 @@ bash scripts/capture-gees-screenshot.sh
 
 ## Smoke local
 
-1. `npm run dev` → `http://127.0.0.1:5173/mi-portafolio/`
+1. `npm run dev` → `http://127.0.0.1:5173/`
 2. Home arsenal: cards GEES + 4 método UX Tools visibles
 3. `/#/consultoria#consultoria-demo` → poster GEES ≠ X\|CMS
-4. Abrir un PDF: `/mi-portafolio/resources/ux-tools/journey-map.pdf`
+4. Abrir un PDF: `https://vientonorte.io/resources/ux-tools/journey-map.pdf`
 5. Sobre mí / Experience: monogramas marcas extendidas
 
 ## Smoke prod (post-deploy)
 
 1. Hard refresh Pages
-2. Mismos 4 checks con `https://vientonorte.github.io/mi-portafolio/`
+2. Mismos 4 checks con `https://vientonorte.io/`
 3. Network: 200 en PNG/PDF (no 404 SW)
 
 ## Memoria

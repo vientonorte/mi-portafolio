@@ -46,19 +46,13 @@ export function NavDock({ variant }: NavDockProps) {
   };
 
   const path = location.pathname.replace(/\/+$/, "") || "/";
+  /** Home FO = embudo. SEM oferta es fullscreen sin este dock. */
   const isOnHome = path === ROUTES.home;
-  /** Solo embudo de conversión — la landing oferta es fullscreen sin este dock. */
-  const isOnFunnel = path === ROUTES.consultingFunnel;
   /**
-   * Home → anclas #inicio / #contacto + spy de sección.
-   * Embudo /consultoria/embudo → liquid CTA = kickoff.
-   * Resto deep → rutas (negocios, consultoría oferta, proceso, contacto).
+   * Home/embudo → liquid CTA = kickoff + anclas #inicio/#contacto.
+   * Deep → rutas (proceso, proyectos, SEM no usa dock).
    */
-  const effectiveVariant: NavDockVariant = isOnHome
-    ? "home"
-    : isOnFunnel
-      ? "funnel"
-      : "deep";
+  const effectiveVariant: NavDockVariant = isOnHome ? "funnel" : "deep";
   // variant prop se conserva por API; el pathname manda para hover/activo
   void variant;
 
@@ -112,10 +106,11 @@ export function NavDock({ variant }: NavDockProps) {
   // Distinct from header aria-label so AT users don't hear two "main" navs
   const ariaLabel = t.nav.bottomNav;
 
-  const centerLabel = isOnFunnel
+  // Home = embudo: center label = kickoff “Empezar”
+  const centerLabel = isOnHome
     ? t.consultoria.landing.nav.start
     : t.nav.consultingDock;
-  const centerAria = isOnFunnel
+  const centerAria = isOnHome
     ? t.consultoria.landing.nav.startAria
     : t.nav.consultingDockAria;
 

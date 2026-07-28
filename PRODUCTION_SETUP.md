@@ -166,7 +166,7 @@ The repository is already configured for GitHub Pages deployment.
    - Wait for "Deploy to GitHub Pages" workflow to complete ✅
 
 4. Access your site:
-   - URL: https://vientonorte.github.io/mi-portafolio/
+   - URL: https://vientonorte.io/
 
 ### Post-Deployment Verification
 

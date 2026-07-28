@@ -46,18 +46,16 @@ const PROJECT_IDS = [
   'framework',
 ];
 
-// Anclas que existen en el embudo actual (ConsultoriaVientoNorte).
-// Secciones legacy (offline-private, practicas, cotizador, arbol, #valor en consultoría)
-// ya no se montan en la página — no deben fallar CI.
+// Home FO = embudo (/). SEM tour = /consultoria (fullscreen, sin estas anclas).
+// Legacy /consultoria/embudo redirige a / — las secciones se checan en home.
 const SECTION_CHECKS = [
-  { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
-  // Embudo de conversión (landing oferta = /consultoria tour, sin estas secciones)
-  { path: '/consultoria/embudo', sectionId: 'modalidades', label: 'Embudo #modalidades' },
-  { path: '/consultoria/embudo', sectionId: 'consultoria-onboarding', label: 'Embudo #onboarding' },
-  { path: '/consultoria/embudo', sectionId: 'metodo-n2n', label: 'Embudo #metodo-n2n' },
-  { path: '/consultoria/embudo', sectionId: 'partner-educacion', label: 'Embudo #partner-educacion' },
-  { path: '/consultoria/embudo', sectionId: 'consultoria-demo', label: 'Embudo #consultoria-demo' },
-  { path: '/consultoria/embudo', sectionId: 'contacto', label: 'Embudo #contacto' },
+  { path: '/', sectionId: 'inicio', label: 'Home embudo #inicio' },
+  { path: '/', sectionId: 'modalidades', label: 'Home embudo #modalidades' },
+  { path: '/', sectionId: 'consultoria-onboarding', label: 'Home embudo #onboarding' },
+  { path: '/', sectionId: 'metodo-n2n', label: 'Home embudo #metodo-n2n' },
+  { path: '/', sectionId: 'partner-educacion', label: 'Home embudo #partner-educacion' },
+  { path: '/', sectionId: 'consultoria-demo', label: 'Home embudo #consultoria-demo' },
+  { path: '/', sectionId: 'contacto', label: 'Home embudo #contacto' },
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];
 
@@ -131,6 +129,12 @@ async function checkRoute(page, { path, label }) {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
     // #main siempre en el shell; tour oferta es fixed (puede no “visible” a PW por height)
     await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
+    if (path === '/' || path === '/consultoria/embudo') {
+      await page.waitForSelector('[data-testid="consultoria-funnel"]', {
+        state: 'attached',
+        timeout: 20000,
+      });
+    }
     if (path === '/consultoria' || path.startsWith('/consultoria/modulos/')) {
       await page.waitForSelector('[data-testid="consultoria-offer"]', {
         state: 'attached',

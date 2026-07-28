@@ -207,4 +207,4 @@ Viewport: **375×812** (iPhone) y **768×1024** (iPad).
 | `bb00eb59` | Retoque foto perfil |
 | `ce4d9e8b` | Nav + PageSection responsive |
 
-**Producción:** https://vientonorte.github.io/mi-portafolio/
+**Producción:** https://vientonorte.io/
