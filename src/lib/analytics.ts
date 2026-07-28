@@ -18,14 +18,21 @@
  * @param params - Additional parameters for the event
  */
 export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
-  if (typeof window !== "undefined" && window.gtag) {
+  if (typeof window === "undefined") return;
+
+  // GTM dataLayer first (works even before gtag is wired)
+  const w = window as Window & { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer ?? [];
+  w.dataLayer.push({
+    event: eventName,
+    ...params,
+  });
+
+  if (typeof window.gtag === "function") {
     window.gtag("event", eventName, params);
-  } else {
-    // Fallback for development/debugging - silent in production
-    if (import.meta.env.DEV) {
-      // eslint-disable-next-line no-console
-      console.log('[Analytics]', eventName, params);
-    }
+  } else if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.log("[Analytics]", eventName, params);
   }
 };
 

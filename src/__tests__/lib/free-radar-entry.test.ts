@@ -4,9 +4,12 @@ import type { NavigateFunction } from "react-router-dom";
 const openSpy = vi.fn();
 const navigateSpy = vi.fn();
 
+const trackEventSpy = vi.fn();
+const clickHeroFreeAuditSpy = vi.fn();
+
 vi.mock("../../lib/analytics", () => ({
-  trackEvent: vi.fn(),
-  analytics: { clickHeroFreeAudit: vi.fn() },
+  trackEvent: (...args: unknown[]) => trackEventSpy(...args),
+  analytics: { clickHeroFreeAudit: (...args: unknown[]) => clickHeroFreeAuditSpy(...args) },
 }));
 
 vi.mock("../../lib/navigate-to-contact", () => ({
@@ -18,6 +21,8 @@ describe("openFreeRadarEntry", () => {
     vi.resetModules();
     openSpy.mockReset();
     navigateSpy.mockReset();
+    trackEventSpy.mockReset();
+    clickHeroFreeAuditSpy.mockReset();
     vi.stubGlobal("open", openSpy);
   });
 
@@ -90,5 +95,35 @@ describe("openFreeRadarEntry", () => {
     expect(channel).toBe("contact_form");
     expect(navigateSpy).toHaveBeenCalled();
     expect(openSpy).not.toHaveBeenCalled();
+  });
+
+  it("emits generate_lead with free_a11y on form channel", async () => {
+    vi.doMock("../../lib/site-contact", () => ({
+      A11Y_FREE_SCHEDULE_URL: null,
+      openA11yFreeScheduleOrFallback: (fallback: () => void) => {
+        fallback();
+        return false;
+      },
+    }));
+
+    const { openFreeRadarEntry } = await import("../../lib/free-radar-entry");
+    openFreeRadarEntry(
+      navigateSpy as unknown as NavigateFunction,
+      "es",
+      "consultoria-hero",
+      { mode: "auto" }
+    );
+
+    expect(trackEventSpy).toHaveBeenCalledWith(
+      "generate_lead",
+      expect.objectContaining({
+        lead_type: "free_a11y",
+        channel: "contact_form",
+        origin: "consultoria-hero",
+        package_id: "radar",
+        freemium: true,
+      })
+    );
+    expect(clickHeroFreeAuditSpy).toHaveBeenCalled();
   });
 });
