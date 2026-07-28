@@ -18,7 +18,7 @@ import { ROUTES } from "../../lib/routes";
 import { scrollToSection } from "../../lib/scroll-to-section";
 
 /**
- * Home strip: 3 modalidades → /consultoria onboarding (preselect) + form lead.
+ * Home strip: 3 modalidades → embudo onboarding (preselect) + form lead.
  * Same package data as consultoría; no public pricing.
  */
 export function HomePackagesStrip() {
@@ -27,13 +27,13 @@ export function HomePackagesStrip() {
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
 
-  /** Primary: consultoría with modality preselected + scroll to onboarding. */
+  /** Primary: embudo with modality preselected + scroll to onboarding. */
   const goConsultoria = (id: ConsultingPackageId) => {
     trackEvent("home_package_select", {
       package_id: id,
       target: "consultoria_onboarding",
     });
-    navigate(ROUTES.consulting, {
+    navigate(ROUTES.consultingFunnel, {
       state: {
         recommendedPackage: id,
         scrollTo: "consultoria-onboarding",

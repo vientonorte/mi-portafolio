@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { ROUTES, isProcessPath } from '@/lib/routes';
+import {
+  ROUTES,
+  isProcessPath,
+  isConsultingOfferPath,
+  isConsultingFunnelPath,
+} from '@/lib/routes';
 
 describe('routes', () => {
   it('builds process phase path', () => {
@@ -12,5 +17,15 @@ describe('routes', () => {
     expect(isProcessPath('/cases')).toBe(true);
     expect(isProcessPath('/cases/process/ux-ui-design')).toBe(true);
     expect(isProcessPath('/proyectos')).toBe(false);
+  });
+
+  it('separates oferta tour vs embudo conversión', () => {
+    expect(ROUTES.consulting).toBe('/consultoria');
+    expect(ROUTES.consultingFunnel).toBe('/consultoria/embudo');
+    expect(isConsultingOfferPath('/consultoria')).toBe(true);
+    expect(isConsultingOfferPath('/consultoria/modulos/dashboard')).toBe(true);
+    expect(isConsultingOfferPath('/consultoria/embudo')).toBe(false);
+    expect(isConsultingFunnelPath('/consultoria/embudo')).toBe(true);
+    expect(isConsultingFunnelPath('/consultoria')).toBe(false);
   });
 });

@@ -160,10 +160,10 @@ function AppRoutes() {
             <Route path="/empresa/:companyId" element={<CompanyDetailRoute />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
-            {/* Consultoría MVP: oferta = landing · embudo = conversión */}
-            <Route path={ROUTES.consulting} element={<ConsultoriaOfferPage />} />
+            {/* Consultoría MVP — rutas específicas ANTES de /consultoria */}
+            <Route path="/consultoria/embudo" element={<ConsultoriaVientoNorte />} />
             <Route path="/consultoria/modulos/:moduleId" element={<ConsultoriaOfferPage />} />
-            <Route path={ROUTES.consultingFunnel} element={<ConsultoriaVientoNorte />} />
+            <Route path={ROUTES.consulting} element={<ConsultoriaOfferPage />} />
             <Route
               path={LEGACY_ROUTES.pocProductOnboarding}
               element={<Navigate to={ROUTES.consulting} replace />}

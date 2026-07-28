@@ -55,7 +55,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "x-cms-demo",
     kind: "prototype",
     imagePath: img((i) => i.consultoria.xCmsDashboard),
-    href: `${ROUTES.consulting}#consultoria-demo`,
+    href: `${ROUTES.consultingFunnel}#consultoria-demo`,
     bundleId: "marco",
     copy: {
       es: {
@@ -549,7 +549,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "method-funnel-structure",
     kind: "audit",
     imagePath: img((i) => i.methodCoworking.funnelStructure),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "radar",
     copy: {
       es: {
@@ -572,7 +572,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "method-a11y-contrast",
     kind: "audit",
     imagePath: img((i) => i.methodCoworking.a11yContrast),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "radar",
     copy: {
       es: {
@@ -593,7 +593,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "method-i18n-gap",
     kind: "audit",
     imagePath: img((i) => i.methodCoworking.i18nGap),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
@@ -614,7 +614,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "method-service-discovery",
     kind: "audit",
     imagePath: img((i) => i.methodCoworking.serviceDiscovery),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
@@ -635,7 +635,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "edu21-heuristic-web",
     kind: "case",
     imagePath: img((i) => i.edu21.heuristicWeb),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "radar",
     copy: {
       es: {
@@ -658,7 +658,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "edu21-service-strategy",
     kind: "case",
     imagePath: img((i) => i.edu21.serviceStrategy),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
@@ -681,7 +681,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "edu21-sales-pitch",
     kind: "case",
     imagePath: img((i) => i.edu21.salesPitch),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
@@ -704,7 +704,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "edu21-storyboard",
     kind: "case",
     imagePath: img((i) => i.edu21.storyboard),
-    href: `${ROUTES.consulting}#valor`,
+    href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "ops",
     copy: {
       es: {
@@ -791,7 +791,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "consultoria-arbol",
     kind: "prototype",
     imagePath: img((i) => i.framework.uxValueChain),
-    href: `${ROUTES.consulting}#arbol`,
+    href: `${ROUTES.consultingFunnel}#arbol`,
     bundleId: "radar",
     copy: {
       es: {

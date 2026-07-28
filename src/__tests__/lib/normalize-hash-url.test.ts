@@ -16,7 +16,7 @@ describe("normalizeDoubleHashUrl", () => {
     vi.unstubAllGlobals();
   });
 
-  it("rewrites double-hash URLs and stores pending scroll", () => {
+  it("rewrites double-hash embudo section URLs on /consultoria to embudo path", () => {
     vi.stubGlobal("location", {
       hash: "#/consultoria#consultoria-demo",
       pathname: "/mi-portafolio/",
@@ -28,10 +28,35 @@ describe("normalizeDoubleHashUrl", () => {
     expect(history.replaceState).toHaveBeenCalledWith(
       null,
       "",
-      "/mi-portafolio/#/consultoria"
+      "/mi-portafolio/#/consultoria/embudo"
     );
     expect(sessionStorage.getItem("rg-pending-section-scroll")).toBe(
-      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+      JSON.stringify({
+        route: "/consultoria/embudo",
+        sectionId: "consultoria-demo",
+      })
+    );
+  });
+
+  it("keeps embudo path when already on embudo", () => {
+    vi.stubGlobal("location", {
+      hash: "#/consultoria/embudo#contacto",
+      pathname: "/mi-portafolio/",
+      search: "",
+    });
+
+    normalizeDoubleHashUrl();
+
+    expect(history.replaceState).toHaveBeenCalledWith(
+      null,
+      "",
+      "/mi-portafolio/#/consultoria/embudo"
+    );
+    expect(sessionStorage.getItem("rg-pending-section-scroll")).toBe(
+      JSON.stringify({
+        route: "/consultoria/embudo",
+        sectionId: "contacto",
+      })
     );
   });
 
@@ -57,17 +82,25 @@ describe("consumePendingSectionScroll", () => {
   it("returns section id when route matches and clears storage", () => {
     sessionStorage.setItem(
       "rg-pending-section-scroll",
-      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+      JSON.stringify({
+        route: "/consultoria/embudo",
+        sectionId: "consultoria-demo",
+      })
     );
 
-    expect(consumePendingSectionScroll("/consultoria")).toBe("consultoria-demo");
+    expect(consumePendingSectionScroll("/consultoria/embudo")).toBe(
+      "consultoria-demo"
+    );
     expect(sessionStorage.getItem("rg-pending-section-scroll")).toBeNull();
   });
 
   it("returns undefined when route does not match", () => {
     sessionStorage.setItem(
       "rg-pending-section-scroll",
-      JSON.stringify({ route: "/consultoria", sectionId: "consultoria-demo" })
+      JSON.stringify({
+        route: "/consultoria/embudo",
+        sectionId: "consultoria-demo",
+      })
     );
 
     expect(consumePendingSectionScroll("/auditoria")).toBeUndefined();
