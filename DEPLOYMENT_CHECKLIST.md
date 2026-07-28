@@ -159,7 +159,7 @@ git push origin main
 
 ### Step 1: Site Accessibility
 
-- [ ] Visit production URL: https://vientonorte.github.io/mi-portafolio/
+- [ ] Visit production URL: https://vientonorte.io/
 - [ ] Site loads within 3 seconds
 - [ ] No browser console errors
 
@@ -296,7 +296,7 @@ Document any known issues that are acceptable for production:
 **Deployment Date:** _____________  
 **Deployed By:** _____________  
 **Version:** 1.0.0  
-**Production URL:** https://vientonorte.github.io/mi-portafolio/
+**Production URL:** https://vientonorte.io/
 
 **Notes:**
 _____________________________________________________________________

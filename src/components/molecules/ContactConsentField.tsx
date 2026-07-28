@@ -28,13 +28,16 @@ export function ContactConsentField({
           checked={checked}
           onCheckedChange={(v) => onCheckedChange(v === true)}
           aria-invalid={!!error}
+          aria-label={consentText}
         />
         <Label htmlFor={id} className="text-sm font-normal leading-snug cursor-pointer">
           {consentText}{' '}
+          {/* HashRouter: path real, no #named-anchor falso para pa11y/G1 */}
           <Link
             to={ROUTES.privacy}
             className="text-primary underline underline-offset-2 hover:opacity-90"
             onClick={(e) => e.stopPropagation()}
+            data-privacy-link
           >
             {privacyLinkLabel}
           </Link>

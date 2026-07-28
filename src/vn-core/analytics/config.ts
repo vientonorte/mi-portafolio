@@ -8,7 +8,7 @@ const gtmId = import.meta.env.VITE_GTM_ID;
 
 /** Contenedor GTM canónico (mismo en hub y portafolio cuando se configura). */
 export const VN_GTM_CONTAINER_HINT =
-  'Usar un solo GTM para https://vientonorte.io/ y https://vientonorte.io/mi-portafolio/';
+  'Usar un solo GTM para https://vientonorte.io/ (canon sin /mi-portafolio/)';
 
 export const analyticsConfig: AnalyticsConfig = {
   project: 'mi-portafolio',

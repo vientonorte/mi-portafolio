@@ -1,11 +1,13 @@
 import type { Language } from "./i18n";
 
 export const SEO_SITE = {
-  baseUrl: "https://vientonorte.io/mi-portafolio",
-  ogImage:
-    "https://vientonorte.io/mi-portafolio/images/branding/og-portfolio.png",
-  brand: "Rodrigo Gaete",
-  role: "UX Lead",
+  /** Canon público Viento Norte — sin prefijo /mi-portafolio/ */
+  baseUrl: "https://vientonorte.io",
+  ogImage: "https://vientonorte.io/images/branding/og-portfolio.png",
+  brand: "Viento Norte",
+  role: "UXtech · Front office",
+  /** Legacy path (GitHub project pages / bookmarks) */
+  legacyBasePath: "/mi-portafolio",
 } as const;
 
 export function trimMetaDescription(text: string, max = 160): string {

@@ -40,7 +40,7 @@ export function ConsultoriaN2NMethod(_props: ConsultoriaN2NMethodProps) {
           <li key={phase.id} className="relative">
             <Card className="h-full border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none">
               <CardContent className="pt-5 space-y-2">
-                <span className="font-mono text-xs tracking-widest text-primary">
+                <span className="font-mono text-xs tracking-widest text-foreground/80">
                   {phase.step}
                 </span>
                 <p className="text-sm font-semibold leading-snug">

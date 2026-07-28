@@ -40,6 +40,7 @@ export function LiquidNavCta({
           size={48}
           showPlate
           plate="floating"
+          interactive
           className="liquid-nav-cta__mark"
         />
       </span>

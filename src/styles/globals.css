@@ -642,7 +642,11 @@
   }
 
   .logo-mark--interactive:hover .logo-mark-arc-group,
-  .logo-mark--interactive:focus-visible .logo-mark-arc-group {
+  .logo-mark--interactive:focus-visible .logo-mark-arc-group,
+  .logo-lockup--interactive:hover .logo-mark-arc-group,
+  .logo-lockup--interactive:focus-within .logo-mark-arc-group,
+  .liquid-nav-cta:hover .logo-mark-arc-group,
+  .liquid-nav-cta:focus-visible .logo-mark-arc-group {
     transform: rotate(22deg);
   }
 
@@ -652,7 +656,11 @@
     }
 
     .logo-mark--interactive:hover .logo-mark-arc-group,
-    .logo-mark--interactive:focus-visible .logo-mark-arc-group {
+    .logo-mark--interactive:focus-visible .logo-mark-arc-group,
+    .logo-lockup--interactive:hover .logo-mark-arc-group,
+    .logo-lockup--interactive:focus-within .logo-mark-arc-group,
+    .liquid-nav-cta:hover .logo-mark-arc-group,
+    .liquid-nav-cta:focus-visible .logo-mark-arc-group {
       transform: none;
     }
   }

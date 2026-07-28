@@ -75,17 +75,22 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           <li key={pkg.id} className="h-full">
             <Card
               className={cn(
-                "flex h-full flex-col border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-none",
-                pkg.featured && "ring-1 ring-primary/30"
+                "funnel-pack-card flex h-full flex-col border-2 border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-sm",
+                pkg.featured && "border-primary/40 ring-1 ring-primary/30 shadow-md"
               )}
             >
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                     {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
-                    <Badge variant="outline">{pkg.packLabel[language]}</Badge>
+                    <Badge
+                      variant="outline"
+                      className="border-border text-foreground"
+                    >
+                      {pkg.packLabel[language]}
+                    </Badge>
                     {pkg.featured ? (
-                      <Badge className="gap-1">
+                      <Badge className="gap-1 bg-foreground text-background hover:bg-foreground/90">
                         <Star className="h-3 w-3" aria-hidden />
                         {rec}
                       </Badge>
@@ -127,7 +132,9 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
                 <Button
                   className={cn(
                     "w-full min-h-[44px]",
-                    pkg.featured && "bg-brand-gradient font-semibold hover:opacity-90"
+                    pkg.featured
+                      ? "funnel-cta-primary bg-brand-gradient font-semibold hover:opacity-90"
+                      : "funnel-cta-ghost"
                   )}
                   variant={pkg.featured ? "default" : "outline"}
                   onClick={() => select(pkg.id)}
@@ -168,7 +175,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           </div>
           <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
             <Button
-              className="w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
+              className="funnel-cta-primary w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
               onClick={() => freeRadar(scheduleReady ? "schedule" : "auto")}
             >
               {scheduleReady ? t.freeStripCtaSchedule : t.freeStripCta}

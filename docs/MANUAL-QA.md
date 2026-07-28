@@ -1,10 +1,10 @@
 <!-- Viento Norte Manual QA v1.0.0 · 2026-07-20 · colectivo -->
 
-# Manual QA — mi-portafolio
+# Manual QA — Viento Norte FO (empresa)
 
 **App:** Portafolio Lead UX (React 19 + Vite) + chatbot frontend/backend + Workers  
 **Repo:** https://github.com/vientonorte/mi-portafolio  
-**Prod (referencia):** https://vientonorte.github.io/mi-portafolio/  
+**Prod (referencia):** https://vientonorte.io/  
 **Versión checklist:** 1.0.0 · 2026-07-20
 
 ---
@@ -13,7 +13,7 @@
 
 | Área | URL / path |
 |------|------------|
-| Home | `/mi-portafolio/` o hash routes del nav |
+| Home | `https://vientonorte.io/` o hash routes del nav |
 | Repo | https://github.com/vientonorte/mi-portafolio |
 | Actions | https://github.com/vientonorte/mi-portafolio/actions |
 | Docs internas | `docs/`, `MOBILE_QA.md`, `RECRUITER_TEST_PROTOCOL.md` |

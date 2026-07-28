@@ -399,8 +399,8 @@ export const CONSULTORIA_PRACTICES: PracticeItem[] = [
       ],
     },
     validation: {
-      es: "Demo X | CMS en /consultoria#consultoria-demo y sección #metodo-n2n.",
-      en: "X | CMS demo on /consultoria#consultoria-demo and #metodo-n2n section.",
+      es: "Demo X | CMS en /consultoria/embudo#consultoria-demo y sección #metodo-n2n.",
+      en: "X | CMS demo on /consultoria/embudo#consultoria-demo and #metodo-n2n section.",
     },
   },
   {

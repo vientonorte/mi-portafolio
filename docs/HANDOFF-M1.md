@@ -21,9 +21,9 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 | What | URL |
 |------|-----|
-| POC tour (local) | http://127.0.0.1:5173/mi-portafolio/#/poc/product-onboarding |
-| Funnel (local) | http://127.0.0.1:5173/mi-portafolio/#/consultoria |
-| Funnel (prod) | https://vientonorte.io/mi-portafolio/#/consultoria |
+| POC tour (local) | http://127.0.0.1:5173/#/poc/product-onboarding |
+| Funnel (local) | http://127.0.0.1:5173/#/consultoria |
+| Funnel (prod) | https://vientonorte.io/#/consultoria |
 | X\|CMS demo | https://pouch-growl-74881457.figma.site |
 | Ops | https://vientonorte.io/ops/ |
 | PR POC | https://github.com/vientonorte/mi-portafolio/pull/130 |

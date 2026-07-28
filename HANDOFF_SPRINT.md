@@ -186,7 +186,7 @@ ce4d9e8b  Nav + PageSection responsive
 
 - Arquitectura: **[docs/NAV_AND_SECTIONS.md](./docs/NAV_AND_SECTIONS.md)**
 - Mobile QA: **[MOBILE_FIRST.md](./MOBILE_FIRST.md)**
-- Producción: **https://vientonorte.github.io/mi-portafolio/**
+- Producción: **https://vientonorte.io/**
 
 ---
 

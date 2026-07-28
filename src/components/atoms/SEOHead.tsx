@@ -36,15 +36,21 @@ export function SEOHead({
       <title>{documentTitle}</title>
       <meta name="description" content={metaDescription} />
       {keywords && <meta name="keywords" content={keywords} />}
+      {!noIndex && <meta name="robots" content="index, follow" />}
 
       <meta property="og:type" content={type} />
       <meta property="og:title" content={documentTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image" content={finalImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={documentTitle} />
       <meta property="og:url" content={finalUrl} />
       <meta property="og:site_name" content={SEO_SITE.brand} />
+      <meta property="og:locale" content="es_CL" />
 
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={finalUrl} />
       <meta name="twitter:title" content={documentTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={finalImage} />

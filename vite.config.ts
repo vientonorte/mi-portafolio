@@ -89,7 +89,8 @@
         '@': path.resolve(__dirname, './src'),
       },
     },
-    base: '/mi-portafolio/',
+    /** Canon brand: site at domain root (vientonorte.io/), not /mi-portafolio/ */
+    base: '/',
     build: {
       cssMinify: true,
       target: 'esnext',

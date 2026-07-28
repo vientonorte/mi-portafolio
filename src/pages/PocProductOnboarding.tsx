@@ -1,8 +1,14 @@
 /**
  * Landing oferta consultoría · product-story tour (ex-POC).
- * Rutas: /#/consultoria · /#/consultoria/modulos/:id
- * Embudo conversión: /#/consultoria/embudo
- * Física: snap + scroll scrub. Scope: docs/CONSULTORIA-MVP-SCOPE.md
+ * Rutas SEM: /#/consultoria · /#/consultoria/modulos/:id
+ * Embudo FO = home /#/ (CTAs Empezar → ROUTES.home)
+ * Física: snap + scroll scrub · micro-interacciones Apple + tokens root.
+ * Scope: docs/CONSULTORIA-MVP-SCOPE.md
+ *
+ * Analytics (limitaciones — no GTM/GA live esta semana):
+ * - FIRST_VALUE_BUDGET_MS = 29s → claim + primer CTA alcanzable
+ * - Calendar free open < 30s (T4 humano)
+ * - Medición propia solo en cierre embudo (DS-08-03), no eventos por scroll
  */
 import {
   useCallback,
@@ -15,7 +21,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, ExternalLink } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
-import { LogoMarkSvg } from "../components/atoms/Logo";
+import { Logo, LogoMarkSvg } from "../components/atoms/Logo";
 import { DeviceMockup } from "../components/molecules/DeviceMockup";
 import { Button } from "../components/ui/button";
 import { useLanguage } from "../lib/LanguageContext";
@@ -33,15 +39,22 @@ type Screen = "intro" | "principles" | PocModuleId | "build" | "start";
 
 const TRAJECTORY = ["SURA", "Transvip", "Karri", "Pymes"] as const;
 
+/**
+ * Presupuesto de primera comprensión (Apple-style first impression).
+ * No cablear GA aquí; es DoD de craft + límite para analytics propias post-Test.
+ */
+export const OFFER_FIRST_VALUE_BUDGET_MS = 29_000;
+/** SLA humano T4: abrir Calendar free a11y */
+export const OFFER_CALENDAR_OPEN_SLA_MS = 30_000;
+
 /** Ease scrub: peak at center, soft falloff (physics feel, not linear snap cut). */
 function scrubFromDistance(dist: number) {
   const a = Math.min(1, Math.abs(dist));
-  // opacity: 1 at center → ~0.42 at edge
-  const opacity = Math.max(0.42, 1 - a * 0.72);
-  // translateY: content floats toward center (px)
-  const y = dist * 36;
-  // scale micro
-  const scale = 1 - a * 0.028;
+  // Apple-soft falloff: slightly gentler than linear
+  const eased = a * a * (3 - 2 * a); // smoothstep
+  const opacity = Math.max(0.48, 1 - eased * 0.62);
+  const y = dist * 28;
+  const scale = 1 - eased * 0.022;
   return { opacity, y, scale };
 }
 
@@ -75,12 +88,26 @@ export default function PocProductOnboarding({
   );
 
   const [active, setActive] = useState(0);
+  /** Visitado — mismo patrón craft que ProcessNavigation TOC (actualiza en setActive) */
+  const [visited, setVisited] = useState<Set<number>>(() => new Set([0]));
   const total = screens.length;
+  const enterKey = screens[active] ?? "intro";
+
+  const markActive = useCallback((idx: number) => {
+    setActive(idx);
+    setVisited((prev) => {
+      if (prev.has(idx)) return prev;
+      const next = new Set(prev);
+      next.add(idx);
+      return next;
+    });
+  }, []);
 
   const t = es
     ? {
         wordmark: "Viento Norte",
-        skip: "Embudo",
+        /** Nav: copy cliente, no jerga ops ("embudo") */
+        skip: "Empezar",
         intro: {
           kicker: "Consultoría · Front office",
           title: "Software que se instala.\nNo se alquila la nube.",
@@ -101,8 +128,8 @@ export default function PocProductOnboarding({
           kicker: "Empezar",
           title: "Elige el módulo.\nLo hacemos tuyo.",
           body: scheduleReady
-            ? "30 min en Calendar o embudo de consultoría. Hablamos del módulo."
-            : "Embudo de consultoría — cierra alcance del módulo.",
+            ? "Agenda 30 min o entra al path de consultoría. Hablamos del módulo."
+            : "Entra al path de consultoría y cierra alcance del módulo.",
         },
         ctaSchedule: "Agendar 30 min",
         ctaFunnel: "Empezar",
@@ -118,7 +145,7 @@ export default function PocProductOnboarding({
       }
     : {
         wordmark: "Viento Norte",
-        skip: "Funnel",
+        skip: "Get started",
         intro: {
           kicker: "Consulting · Front office",
           title: "Software you install.\nNot cloud you rent forever.",
@@ -139,11 +166,11 @@ export default function PocProductOnboarding({
           kicker: "Start",
           title: "Pick the module.\nWe make it yours.",
           body: scheduleReady
-            ? "30 min on Calendar or consulting funnel. We talk modules."
-            : "Consulting funnel — close module scope.",
+            ? "Book 30 min or enter the consulting path. We talk modules."
+            : "Enter the consulting path and close module scope.",
         },
         ctaSchedule: "Book 30 min",
-        ctaFunnel: "Start",
+        ctaFunnel: "Get started",
         ctaDemo: "Live X|CMS",
         ctaScroll: "Scroll",
         moduleLabel: "Module",
@@ -157,7 +184,7 @@ export default function PocProductOnboarding({
   const go = useCallback(
     (i: number) => {
       const next = Math.max(0, Math.min(total - 1, i));
-      setActive(next);
+      markActive(next);
       const el = document.getElementById(`poc-screen-${screens[next]}`);
       const root = scrollerRef.current;
       if (el && root) {
@@ -172,7 +199,7 @@ export default function PocProductOnboarding({
         });
       }
     },
-    [screens, total]
+    [screens, total, markActive]
   );
 
   /* Deep link: saltar al módulo una vez montado el scroller */
@@ -237,7 +264,16 @@ export default function PocProductOnboarding({
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (!visible?.target.id) return;
         const idx = screens.findIndex((s) => `poc-screen-${s}` === visible.target.id);
-        if (idx >= 0) setActive(idx);
+        if (idx >= 0) {
+          // Callback de IO (sistema externo) — ok actualizar estado aquí
+          setActive(idx);
+          setVisited((prev) => {
+            if (prev.has(idx)) return prev;
+            const next = new Set(prev);
+            next.add(idx);
+            return next;
+          });
+        }
       },
       { root, threshold: [0.35, 0.55, 0.7] }
     );
@@ -303,13 +339,13 @@ export default function PocProductOnboarding({
       <SEOHead
         title={
           es
-            ? "Consultoría Viento Norte · Módulos-producto a medida"
-            : "Viento Norte Consulting · Custom product modules"
+            ? "Viento Norte · Oferta SEM · Módulos-producto a medida"
+            : "Viento Norte · SEM offer · Custom product modules"
         }
         description={
           es
-            ? "Landing de oferta: módulos a medida, sin nube obligatoria, dueño del dato. Embudo y agenda a11y en el path de conversión."
-            : "Offer landing: custom modules, no mandatory cloud, you own the data. Conversion funnel and free a11y booking on the next path."
+            ? "Landing SEM: módulos a medida, dueño del dato. Empezar lleva al embudo FO (home)."
+            : "SEM landing: custom modules, you own the data. Get started opens FO home funnel."
         }
       />
 
@@ -317,30 +353,37 @@ export default function PocProductOnboarding({
         className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7]"
         data-surface="consultoria-offer"
         data-testid="consultoria-offer"
+        data-first-value-budget-ms={OFFER_FIRST_VALUE_BUDGET_MS}
+        data-calendar-sla-ms={OFFER_CALENDAR_OPEN_SLA_MS}
+        data-analytics="deferred-no-gtm"
       >
-        {/* Minimal progress hairline */}
+        {/* Progress — more visible (2px + glow) so craft is obvious */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 z-[60] h-px bg-white/10"
+          className="offer-progress-track pointer-events-none absolute inset-x-0 top-0 z-[60]"
           aria-hidden
         >
           <div
-            className="h-full bg-white/70 transition-[width] duration-500 ease-out"
+            className="offer-progress-fill"
             style={{ width: `${((active + 1) / total) * 100}%` }}
           />
         </div>
 
-        {/* Thin header — less density */}
+        {/* Header SEM: logo DS (interactive + plate floating + lockup VN) */}
         <header className="relative z-[55] flex shrink-0 items-center justify-between gap-4 px-5 py-3 md:px-10 md:py-4">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <LogoMarkSvg size={28} plate="floating" className="shrink-0 opacity-90" />
-            <span className="truncate font-display text-[13px] font-medium tracking-tight text-white/90 md:text-sm">
-              {t.wordmark}
-            </span>
-          </div>
+          <Logo
+            size="sm"
+            showText
+            showRole={false}
+            interactive
+            plate="floating"
+            tone="onDark"
+            onClick={() => navigate(ROUTES.home)}
+            className="min-w-0"
+          />
           <button
             type="button"
             onClick={() => navigate(ROUTES.consultingFunnel)}
-            className="text-[13px] font-medium text-white/55 transition-colors hover:text-white"
+            className="offer-skip text-[13px] font-medium text-white/55 hover:text-white"
           >
             {t.skip}
           </button>
@@ -349,7 +392,8 @@ export default function PocProductOnboarding({
         {/* Module chips — only while in modules, quieter */}
         <div
           className={cn(
-            "relative z-[50] shrink-0 px-5 transition-all duration-300 md:px-10",
+            "relative z-[50] shrink-0 px-5 md:px-10",
+            "transition-[max-height,opacity,padding] duration-[var(--offer-base,250ms)] ease-[var(--offer-ease-soft,ease)]",
             inModules
               ? "max-h-12 opacity-100 pb-1"
               : "pointer-events-none max-h-0 overflow-hidden opacity-0"
@@ -362,16 +406,20 @@ export default function PocProductOnboarding({
             {POC_MODULES.map((m) => {
               const idx = screens.indexOf(m.id);
               const on = screens[active] === m.id;
+              const was = visited.has(idx);
               return (
                 <button
                   key={m.id}
                   type="button"
                   onClick={() => go(idx)}
+                  aria-current={on ? "true" : undefined}
                   className={cn(
-                    "shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-colors",
+                    "offer-chip shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide",
                     on
-                      ? "bg-white text-black"
-                      : "text-white/40 hover:text-white/75"
+                      ? "offer-chip--on bg-white text-black"
+                      : was
+                        ? "text-white/55 hover:text-white/80"
+                        : "text-white/40 hover:text-white/75"
                   )}
                 >
                   {m.chip[lang]}
@@ -390,8 +438,8 @@ export default function PocProductOnboarding({
             scrollBehavior: reduceMotion ? "auto" : "smooth",
           }}
         >
-          {/* INTRO */}
-          <TourScreen id="intro">
+          {/* INTRO — first-value window ≤ 29s (claim + job) */}
+          <TourScreen id="intro" enterActive={enterKey === "intro" && !reduceMotion}>
             <div className="mx-auto grid w-full max-w-5xl items-center gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
               <div className="max-w-xl">
                 <BrandKicker>{t.intro.kicker}</BrandKicker>
@@ -402,7 +450,10 @@ export default function PocProductOnboarding({
                 </p>
                 <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1" role="list">
                   {TRAJECTORY.map((name) => (
-                    <li key={name} className="text-sm text-white/50">
+                    <li
+                      key={name}
+                      className="text-sm text-white/50 transition-colors duration-[var(--offer-fast,150ms)] hover:text-white/75"
+                    >
                       {name}
                     </li>
                   ))}
@@ -425,9 +476,16 @@ export default function PocProductOnboarding({
               <div className="relative mx-auto hidden w-full max-w-sm lg:block">
                 <div className="absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl" />
                 <div className="relative flex aspect-square flex-col items-center justify-center">
-                  <LogoMarkSvg size={96} plate="floating" />
-                  <p className="mt-8 font-display text-xl font-medium tracking-tight text-white/90">
+                  {/* Display mark: interactive per DS (arco 22° on hover) */}
+                  <LogoMarkSvg size={96} plate="floating" interactive labelled />
+                  <p
+                    className="mt-8 font-display text-xl font-semibold tracking-tight text-[#f5f5f7]"
+                    style={{ fontFamily: "var(--font-chillax)" }}
+                  >
                     {t.wordmark}
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+                    {es ? "UXtech · front office" : "UXtech · front office"}
                   </p>
                 </div>
               </div>
@@ -435,14 +493,20 @@ export default function PocProductOnboarding({
           </TourScreen>
 
           {/* PRINCIPLES — 4 short titles, no heavy cards if possible; light cards ok */}
-          <TourScreen id="principles">
+          <TourScreen
+            id="principles"
+            enterActive={enterKey === "principles" && !reduceMotion}
+          >
             <div className="mx-auto w-full max-w-3xl">
               <BrandKicker>{t.principles.kicker}</BrandKicker>
               <TourTitle>{t.principles.title}</TourTitle>
               <TourBody className="mt-6">{t.principles.body}</TourBody>
               <ul className="mt-16 grid gap-10 sm:grid-cols-2">
                 {principles.map((p) => (
-                  <li key={p.title}>
+                  <li
+                    key={p.title}
+                    className="rounded-xl border border-transparent p-1 transition-[border-color,background-color] duration-[var(--offer-base,250ms)] ease-[var(--offer-ease-soft,ease)] hover:border-white/[0.06] hover:bg-white/[0.02]"
+                  >
                     <p className="text-lg font-semibold tracking-tight text-white/95">
                       {p.title}
                     </p>
@@ -457,7 +521,11 @@ export default function PocProductOnboarding({
 
           {/* MODULES — 1 job + 1 visual only */}
           {POC_MODULES.map((m, mi) => (
-            <TourScreen key={m.id} id={m.id}>
+            <TourScreen
+              key={m.id}
+              id={m.id}
+              enterActive={enterKey === m.id && !reduceMotion}
+            >
               <div className="mx-auto grid w-full max-w-5xl items-center gap-14 lg:grid-cols-2 lg:gap-20">
                 <div className="max-w-md">
                   <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">
@@ -475,19 +543,20 @@ export default function PocProductOnboarding({
                     {m.ownership[lang]}
                   </p>
                 </div>
-                <DeviceMockup
-                  src={m.image}
-                  alt={`${m.chip[lang]} · X|CMS`}
-                  caption={t.mockSource}
-                  variant="laptop"
-                  className="lg:justify-self-end"
-                />
+                <div className="offer-device-frame lg:justify-self-end">
+                  <DeviceMockup
+                    src={m.image}
+                    alt={`${m.chip[lang]} · X|CMS`}
+                    caption={t.mockSource}
+                    variant="laptop"
+                  />
+                </div>
               </div>
             </TourScreen>
           ))}
 
           {/* BUILD */}
-          <TourScreen id="build">
+          <TourScreen id="build" enterActive={enterKey === "build" && !reduceMotion}>
             <div className="mx-auto w-full max-w-2xl text-center">
               <BrandKicker className="text-center">{t.build.kicker}</BrandKicker>
               <TourTitle className="text-center">{t.build.title}</TourTitle>
@@ -498,11 +567,11 @@ export default function PocProductOnboarding({
             </div>
           </TourScreen>
 
-          {/* START — only fold with solid white primary */}
-          <TourScreen id="start">
+          {/* START — only fold with solid white primary · conversion (no GA) */}
+          <TourScreen id="start" enterActive={enterKey === "start" && !reduceMotion}>
             <div className="mx-auto w-full max-w-xl text-center">
-              <div className="mb-10 flex justify-center opacity-90">
-                <LogoMarkSvg size={44} plate="floating" />
+              <div className="mb-10 flex justify-center">
+                <LogoMarkSvg size={44} plate="floating" interactive labelled />
               </div>
               <BrandKicker className="text-center">{t.start.kicker}</BrandKicker>
               <TourTitle className="text-center">{t.start.title}</TourTitle>
@@ -530,34 +599,49 @@ export default function PocProductOnboarding({
           </TourScreen>
         </div>
 
-        {/* Fine side dots only — no prev/next dock */}
+        {/* Dots: side desktop · bottom mobile (antes solo md → “no veo cambios”) */}
         <nav
-          className="pointer-events-none absolute right-3 top-1/2 z-[55] hidden -translate-y-1/2 flex-col gap-1.5 md:flex md:right-5"
+          className="pointer-events-none absolute inset-x-0 bottom-5 z-[55] flex justify-center gap-2 md:inset-x-auto md:bottom-auto md:right-5 md:top-1/2 md:-translate-y-1/2 md:flex-col md:gap-1.5"
           aria-label={t.dotsAria}
         >
-          {screens.map((id, i) => (
-            <button
-              key={id}
-              type="button"
-              tabIndex={-1}
-              aria-label={`${i + 1} / ${total}`}
-              aria-current={i === active ? "true" : undefined}
-              onClick={() => go(i)}
-              className={cn(
-                "pointer-events-auto h-1 w-1 rounded-full transition-all duration-300",
-                i === active
-                  ? "h-3.5 bg-white/80"
-                  : "bg-white/20 hover:bg-white/45"
-              )}
-            />
-          ))}
+          {screens.map((id, i) => {
+            const isOn = i === active;
+            const was = visited.has(i);
+            return (
+              <button
+                key={id}
+                type="button"
+                tabIndex={-1}
+                aria-label={`${i + 1} / ${total}`}
+                aria-current={isOn ? "true" : undefined}
+                onClick={() => go(i)}
+                className={cn(
+                  "offer-dot pointer-events-auto rounded-full",
+                  isOn
+                    ? "offer-dot--active h-2 w-6 bg-white md:h-5 md:w-2"
+                    : was
+                      ? "offer-dot--visited h-2 w-2 bg-white/50 hover:bg-white/70 md:h-1.5 md:w-1.5"
+                      : "h-2 w-2 bg-white/25 hover:bg-white/50 md:h-1.5 md:w-1.5"
+                )}
+              />
+            );
+          })}
         </nav>
       </div>
     </>
   );
 }
 
-function TourScreen({ id, children }: { id: string; children: ReactNode }) {
+function TourScreen({
+  id,
+  children,
+  enterActive = false,
+}: {
+  id: string;
+  children: ReactNode;
+  /** Soft enter when this fold is the active snap target */
+  enterActive?: boolean;
+}) {
   return (
     <section
       id={`poc-screen-${id}`}
@@ -567,13 +651,16 @@ function TourScreen({ id, children }: { id: string; children: ReactNode }) {
     >
       <div
         data-scrub
-        className="will-change-transform"
+        className={cn("will-change-transform", enterActive && "offer-screen-enter")}
         style={{
           transformOrigin: "50% 50%",
           transition: "none",
         }}
       >
-        {children}
+        {/* opacity enter only — scrub controls transform */}
+        <div data-offer-enter key={enterActive ? `in-${id}` : id}>
+          {children}
+        </div>
       </div>
     </section>
   );
@@ -648,7 +735,7 @@ function PrimaryCta({
     <Button
       type="button"
       size="lg"
-      className="min-h-[48px] rounded-full bg-white px-7 font-semibold text-black hover:bg-white/90"
+      className="offer-cta-primary min-h-[48px] rounded-full bg-white px-7 font-semibold text-black hover:bg-white/90"
       onClick={onClick}
     >
       {children}
@@ -669,7 +756,7 @@ function GhostCta({
       type="button"
       size="lg"
       variant="outline"
-      className="min-h-[48px] rounded-full border-white/25 bg-transparent px-6 font-medium text-white hover:bg-white/8 hover:text-white"
+      className="offer-cta-ghost min-h-[48px] rounded-full border-white/25 bg-transparent px-6 font-medium text-white hover:bg-white/8 hover:text-white"
       onClick={onClick}
     >
       {children}

@@ -19,6 +19,7 @@ import { APP_ONBOARDING_GOAL, C1_ONBOARDING_GOAL } from "../data/n2n-method";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { CONSULTORIA_FUNNEL_KICKOFF_ID } from "../lib/nav-config";
+import { ROUTES } from "../lib/routes";
 import { canonicalFromPath } from "../lib/seo";
 import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import {
@@ -158,76 +159,103 @@ export default function ConsultoriaVientoNorte() {
     ]
   );
 
+  const isHomeSurface =
+    location.pathname.replace(/\/+$/, "") === "" ||
+    location.pathname === "/";
+
   return (
     <PageShell
       showLogoText={false}
-      crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
-        { label: t.breadcrumbs.consulting, current: true },
-      ])}
+      /* Home FO: sin SubpageToolbar — el header global basta.
+         Evita “Inicio › Inicio”, doble ES y chrome de subpágina peligroso. */
+      showToolbar={!isHomeSurface}
+      crumbs={
+        isHomeSurface
+          ? []
+          : withHomeCrumb(t.breadcrumbs.home, () => navigate(ROUTES.home), [
+              { label: t.breadcrumbs.consulting, current: true },
+            ])
+      }
     >
-      <SEOHead
-        {...t.seo.pages.consultoria}
-        keywords={t.seo.keywords}
-        url={canonicalFromPath("/consultoria/embudo")}
-      />
-
-      <ProcessNavigation
-        sections={funnelSections}
-        mobileAriaLabel={funnelNav.ariaLabel}
-      />
-
       {/*
-        Path principal (anti-ruido):
-        Hero ofertas → detalle entregables → onboarding → método → prueba.
-        Sin calculadora ni árbol (duplicaban la decisión del hero).
+        Embudo FO = home. SEM paid = /#/consultoria (tour).
+        Un solo chrome de sitio + TOC embudo + dock. No GTM live.
       */}
-      <ConsultoriaLandingHero
-        onStartOnboarding={(packageId, options) =>
-          scrollToOnboarding(packageId, options)
-        }
-        onExploreEvidence={scrollToModalidades}
-      />
-
-      <ConsultoriaPackages
-        onSelectPackage={(id, options) =>
-          scrollToOnboarding(id, { appGoal: options?.appGoal })
-        }
-      />
-
       <div
-        id={CONSULTORIA_FUNNEL_KICKOFF_ID}
-        className="scroll-mt-[calc(var(--header-height)+0.75rem)]"
+        data-surface="consultoria-funnel"
+        data-testid="consultoria-funnel"
+        data-role={isHomeSurface ? "fo-home" : "fo-funnel-legacy"}
+        data-first-value-budget-ms={29000}
+        data-calendar-sla-ms={30000}
+        data-analytics="deferred-no-gtm"
       >
-        <ConsultoriaOnboarding
-          key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
-          initialPackageId={recommendedPackage}
-          initialGoal={initialGoal}
-          initialIndustry={initialIndustry}
-          packageLocked={packageLocked && Boolean(recommendedPackage)}
+        <SEOHead
+          {...(isHomeSurface ? t.seo.pages.home : t.seo.pages.consultoria)}
+          isHome={isHomeSurface}
+          keywords={t.seo.keywords}
+          url={canonicalFromPath(
+            isHomeSurface ? ROUTES.home : ROUTES.consultingFunnel
+          )}
+        />
+
+        <ProcessNavigation
+          sections={funnelSections}
+          mobileAriaLabel={funnelNav.ariaLabel}
+        />
+
+        {/*
+          Path principal (anti-ruido):
+          Hero ofertas → detalle entregables → onboarding → método → prueba.
+          Sin calculadora ni árbol (duplicaban la decisión del hero).
+        */}
+        <ConsultoriaLandingHero
+          onStartOnboarding={(packageId, options) =>
+            scrollToOnboarding(packageId, options)
+          }
+          onExploreEvidence={scrollToModalidades}
+        />
+
+        <ConsultoriaPackages
+          onSelectPackage={(id, options) =>
+            scrollToOnboarding(id, { appGoal: options?.appGoal })
+          }
+        />
+
+        <div
+          id={CONSULTORIA_FUNNEL_KICKOFF_ID}
+          className="scroll-mt-[calc(var(--header-height)+0.75rem)]"
+        >
+          <ConsultoriaOnboarding
+            key={`onboarding-${entryNonce}-${recommendedPackage ?? "none"}-${goalKind ?? "x"}`}
+            initialPackageId={recommendedPackage}
+            initialGoal={initialGoal}
+            initialIndustry={initialIndustry}
+            packageLocked={packageLocked && Boolean(recommendedPackage)}
+          />
+        </div>
+
+        <ConsultoriaN2NMethod
+          onStartOnboarding={() => scrollToOnboarding("marco")}
+        />
+
+        <ConsultoriaEducationPartner
+          onStartOnboarding={() =>
+            scrollToOnboarding("marco", { education: true })
+          }
+        />
+
+        <ConsultoriaDemoShowcase />
+
+        {/* Cierre embudo: Contact en modo consultoría (intent fijo, sin laboral/freelance) */}
+        <Contact surface="consulting" />
+
+        <StickyCTA
+          label={t.consultoria.stickyCta}
+          ariaLabel={t.consultoria.stickyCta}
+          onClick={() => scrollToOnboarding()}
+          showAfterScroll={480}
         />
       </div>
-
-      <ConsultoriaN2NMethod
-        onStartOnboarding={() => scrollToOnboarding("marco")}
-      />
-
-      <ConsultoriaEducationPartner
-        onStartOnboarding={() =>
-          scrollToOnboarding("marco", { education: true })
-        }
-      />
-
-      <ConsultoriaDemoShowcase />
-
-      {/* Cierre embudo: Contact en modo consultoría (intent fijo, sin laboral/freelance) */}
-      <Contact surface="consulting" />
-
-      <StickyCTA
-        label={t.consultoria.stickyCta}
-        ariaLabel={t.consultoria.stickyCta}
-        onClick={() => scrollToOnboarding()}
-        showAfterScroll={480}
-      />
     </PageShell>
   );
 }

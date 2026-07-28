@@ -1,0 +1,254 @@
+/**
+ * Offer tour · Apple rhythm on design-system roots
+ * Surface: [data-surface="consultoria-offer"]
+ *
+ * Analytics limits (no GTM/GA live this week):
+ * - First-value budget: 29s (claim + first CTA reachable)
+ * - Calendar free open SLA: <30s (T4)
+ * - Measure later with 1 own event at embudo close only
+ */
+
+[data-surface="consultoria-offer"] {
+  /* Apple-ish ease-out + spring micro; alias to VN tokens when reduced */
+  --offer-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --offer-ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --offer-spring: var(--vn-ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  --offer-fast: var(--duration-fast, 150ms);
+  --offer-base: var(--duration-base, 250ms);
+  --offer-slow: var(--duration-slow, 400ms);
+  --offer-ink: #f5f5f7;
+  --offer-muted: rgba(255, 255, 255, 0.5);
+  --offer-faint: rgba(255, 255, 255, 0.35);
+  color-scheme: dark;
+}
+
+[data-surface="consultoria-offer"] .offer-progress-track {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-surface="consultoria-offer"] .offer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), #fff);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+  transition: width var(--offer-slow) var(--offer-ease);
+}
+
+[data-surface="consultoria-offer"] .offer-chip {
+  transition:
+    color var(--offer-fast) var(--offer-ease-soft),
+    background-color var(--offer-base) var(--offer-ease-soft),
+    transform var(--offer-base) var(--offer-spring),
+    box-shadow var(--offer-base) var(--offer-ease-soft);
+}
+
+[data-surface="consultoria-offer"] .offer-chip:active {
+  transform: scale(0.97);
+}
+
+[data-surface="consultoria-offer"] .offer-chip--on {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+[data-surface="consultoria-offer"] .offer-dot {
+  transition:
+    height var(--offer-base) var(--offer-ease),
+    width var(--offer-base) var(--offer-ease),
+    background-color var(--offer-fast) var(--offer-ease-soft),
+    transform var(--offer-base) var(--offer-spring),
+    opacity var(--offer-fast) var(--offer-ease-soft);
+}
+
+[data-surface="consultoria-offer"] .offer-dot--active {
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.18),
+    0 0 10px rgba(255, 255, 255, 0.35);
+}
+
+[data-surface="consultoria-offer"] .offer-dot--visited:not(.offer-dot--active) {
+  opacity: 0.55;
+}
+
+[data-surface="consultoria-offer"] .offer-cta-primary,
+[data-surface="consultoria-offer"] .offer-cta-ghost {
+  transition:
+    transform var(--offer-fast) var(--offer-spring),
+    background-color var(--offer-fast) var(--offer-ease-soft),
+    border-color var(--offer-fast) var(--offer-ease-soft),
+    color var(--offer-fast) var(--offer-ease-soft),
+    box-shadow var(--offer-base) var(--offer-ease);
+}
+
+[data-surface="consultoria-offer"] .offer-cta-primary:hover {
+  box-shadow: 0 8px 28px -8px rgba(255, 255, 255, 0.35);
+}
+
+[data-surface="consultoria-offer"] .offer-cta-primary:active,
+[data-surface="consultoria-offer"] .offer-cta-ghost:active {
+  transform: scale(0.98);
+}
+
+[data-surface="consultoria-offer"] .offer-cta-primary:focus-visible,
+[data-surface="consultoria-offer"] .offer-cta-ghost:focus-visible,
+[data-surface="consultoria-offer"] .offer-chip:focus-visible,
+[data-surface="consultoria-offer"] .offer-dot:focus-visible,
+[data-surface="consultoria-offer"] .offer-skip:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+[data-surface="consultoria-offer"] .offer-skip {
+  transition: color var(--offer-fast) var(--offer-ease-soft);
+}
+
+[data-surface="consultoria-offer"] .offer-device-frame {
+  transition: transform var(--offer-slow) var(--offer-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-surface="consultoria-offer"] .offer-device-frame:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/**
+ * Soft enter when fold becomes active (opacity only —
+ * scrub owns transform on [data-scrub]).
+ */
+[data-surface="consultoria-offer"] .offer-screen-enter > [data-offer-enter] {
+  animation: offer-screen-in var(--offer-slow) var(--offer-ease) both;
+}
+
+@keyframes offer-screen-in {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-surface="consultoria-offer"] {
+    --offer-spring: linear;
+    --offer-ease: linear;
+    --offer-ease-soft: linear;
+  }
+
+  [data-surface="consultoria-offer"] .offer-screen-enter > [data-offer-enter] {
+    animation: none;
+  }
+
+  [data-surface="consultoria-offer"] .offer-device-frame:hover {
+    transform: none;
+  }
+
+  [data-surface="consultoria-offer"] .offer-cta-primary:active,
+  [data-surface="consultoria-offer"] .offer-cta-ghost:active,
+  [data-surface="consultoria-offer"] .offer-chip:active {
+    transform: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * Embudo · same rhythm (light surface, brand FO)
+ * Surface: [data-surface="consultoria-funnel"]
+ * ═══════════════════════════════════════════════════════════════ */
+
+[data-surface="consultoria-funnel"] {
+  --funnel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --funnel-ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --funnel-spring: var(--vn-ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  --funnel-fast: var(--duration-fast, 150ms);
+  --funnel-base: var(--duration-base, 250ms);
+  --funnel-slow: var(--duration-slow, 400ms);
+}
+
+[data-surface="consultoria-funnel"] .funnel-cta-primary,
+[data-surface="consultoria-funnel"] .funnel-cta-ghost {
+  transition:
+    transform var(--funnel-fast) var(--funnel-spring),
+    opacity var(--funnel-fast) var(--funnel-ease-soft),
+    border-color var(--funnel-fast) var(--funnel-ease-soft),
+    box-shadow var(--funnel-base) var(--funnel-ease),
+    background-color var(--funnel-fast) var(--funnel-ease-soft);
+}
+
+[data-surface="consultoria-funnel"] .funnel-cta-primary:active,
+[data-surface="consultoria-funnel"] .funnel-cta-ghost:active {
+  transform: scale(0.98);
+}
+
+[data-surface="consultoria-funnel"] .funnel-cta-primary:hover {
+  box-shadow: 0 10px 28px -10px color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+[data-surface="consultoria-funnel"] .funnel-cta-primary:focus-visible,
+[data-surface="consultoria-funnel"] .funnel-cta-ghost:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+[data-surface="consultoria-funnel"] .funnel-pack-card {
+  transition:
+    transform var(--funnel-base) var(--funnel-ease),
+    box-shadow var(--funnel-base) var(--funnel-ease),
+    border-color var(--funnel-fast) var(--funnel-ease-soft);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-surface="consultoria-funnel"] .funnel-pack-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 16px 40px -12px rgba(13, 27, 61, 0.22),
+      0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent);
+    border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+}
+
+[data-surface="consultoria-funnel"] .funnel-pack-card:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+[data-surface="consultoria-funnel"] .funnel-link {
+  transition: color var(--funnel-fast) var(--funnel-ease-soft);
+}
+
+[data-surface="consultoria-funnel"] .funnel-sticky-shell {
+  transition: box-shadow var(--funnel-base) var(--funnel-ease);
+}
+
+[data-surface="consultoria-funnel"] .funnel-section-enter {
+  animation: funnel-section-in var(--funnel-slow) var(--funnel-ease) both;
+}
+
+@keyframes funnel-section-in {
+  from {
+    opacity: 0.65;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-surface="consultoria-funnel"] {
+    --funnel-spring: linear;
+    --funnel-ease: linear;
+    --funnel-ease-soft: linear;
+  }
+
+  [data-surface="consultoria-funnel"] .funnel-section-enter {
+    animation: none;
+  }
+
+  [data-surface="consultoria-funnel"] .funnel-pack-card:hover,
+  [data-surface="consultoria-funnel"] .funnel-pack-card:active,
+  [data-surface="consultoria-funnel"] .funnel-cta-primary:active,
+  [data-surface="consultoria-funnel"] .funnel-cta-ghost:active {
+    transform: none;
+  }
+}
