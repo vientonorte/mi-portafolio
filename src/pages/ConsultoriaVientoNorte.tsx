@@ -168,7 +168,7 @@ export default function ConsultoriaVientoNorte() {
       <SEOHead
         {...t.seo.pages.consultoria}
         keywords={t.seo.keywords}
-        url={canonicalFromPath("/consultoria")}
+        url={canonicalFromPath("/consultoria/embudo")}
       />
 
       <ProcessNavigation

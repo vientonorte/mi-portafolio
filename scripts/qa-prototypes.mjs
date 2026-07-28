@@ -171,7 +171,8 @@ async function checkPageNeedles(page, { path, needles, label }) {
 }
 
 async function checkConsultoriaDemo(page, consultoria) {
-  await visit(page, '/consultoria');
+  // Embudo de conversión (landing oferta = /consultoria tour sin #consultoria-demo)
+  await visit(page, '/consultoria/embudo');
   await page.locator('#consultoria-demo').scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 

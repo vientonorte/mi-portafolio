@@ -20,6 +20,8 @@ const STATIC_ROUTES = [
   '/framework',
   '/auditoria',
   '/consultoria',
+  '/consultoria/embudo',
+  '/consultoria/modulos/dashboard',
   '/admin/fotos',
   '/cases',
   '/cases/process/ux-analytics',
@@ -49,12 +51,13 @@ const PROJECT_IDS = [
 // ya no se montan en la página — no deben fallar CI.
 const SECTION_CHECKS = [
   { path: '/', sectionId: 'valor', label: 'Home #valor', lazy: true },
-  { path: '/consultoria', sectionId: 'modalidades', label: 'Consultoría #modalidades' },
-  { path: '/consultoria', sectionId: 'consultoria-onboarding', label: 'Consultoría #onboarding' },
-  { path: '/consultoria', sectionId: 'metodo-n2n', label: 'Consultoría #metodo-n2n' },
-  { path: '/consultoria', sectionId: 'partner-educacion', label: 'Consultoría #partner-educacion' },
-  { path: '/consultoria', sectionId: 'consultoria-demo', label: 'Consultoría #consultoria-demo' },
-  { path: '/consultoria', sectionId: 'contacto', label: 'Consultoría #contacto' },
+  // Embudo de conversión (landing oferta = /consultoria tour, sin estas secciones)
+  { path: '/consultoria/embudo', sectionId: 'modalidades', label: 'Embudo #modalidades' },
+  { path: '/consultoria/embudo', sectionId: 'consultoria-onboarding', label: 'Embudo #onboarding' },
+  { path: '/consultoria/embudo', sectionId: 'metodo-n2n', label: 'Embudo #metodo-n2n' },
+  { path: '/consultoria/embudo', sectionId: 'partner-educacion', label: 'Embudo #partner-educacion' },
+  { path: '/consultoria/embudo', sectionId: 'consultoria-demo', label: 'Embudo #consultoria-demo' },
+  { path: '/consultoria/embudo', sectionId: 'contacto', label: 'Embudo #contacto' },
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];
 
@@ -126,7 +129,14 @@ async function checkRoute(page, { path, label }) {
 
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForSelector('#main', { timeout: 25000 });
+    // #main siempre en el shell; tour oferta es fixed (puede no “visible” a PW por height)
+    await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
+    if (path === '/consultoria' || path.startsWith('/consultoria/modulos/')) {
+      await page.waitForSelector('[data-testid="consultoria-offer"]', {
+        state: 'attached',
+        timeout: 20000,
+      });
+    }
 
     const root = await page.locator('#root').innerHTML();
     const rootLen = root.trim().length;

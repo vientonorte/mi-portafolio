@@ -101,11 +101,11 @@ describe("getDockNavAction", () => {
     });
   });
 
-  it("funnel: liquid center scrolls to kickoff on /consultoria", () => {
+  it("funnel: liquid center scrolls to kickoff on /consultoria/embudo", () => {
     expect(getDockNavAction("consultoria", "funnel")).toEqual({
       kind: "anchor",
       target: "#consultoria-onboarding",
-      homeRoute: "/consultoria",
+      homeRoute: "/consultoria/embudo",
     });
     expect(getDockNavAction("inicio", "funnel")).toEqual({
       kind: "route",
@@ -114,7 +114,7 @@ describe("getDockNavAction", () => {
     expect(getDockNavAction("contacto", "funnel")).toEqual({
       kind: "anchor",
       target: "#contacto",
-      homeRoute: "/consultoria",
+      homeRoute: "/consultoria/embudo",
     });
   });
 });
@@ -132,7 +132,7 @@ describe("getDockNavItems", () => {
     expect(items[1]!.action).toEqual({
       kind: "anchor",
       target: "#consultoria-onboarding",
-      homeRoute: "/consultoria",
+      homeRoute: "/consultoria/embudo",
     });
   });
 });
@@ -173,6 +173,10 @@ describe("matchNavItemActive", () => {
     const inicio = dockDeep.find((i) => i.id === "inicio")!;
 
     expect(matchNavItemActive(consultoria, "/consultoria")).toBe(true);
+    expect(matchNavItemActive(consultoria, "/consultoria/embudo")).toBe(true);
+    expect(matchNavItemActive(consultoria, "/consultoria/modulos/dashboard")).toBe(
+      true
+    );
     expect(matchNavItemActive(inicio, "/consultoria")).toBe(false);
     expect(matchNavItemActive(consultoria, "/")).toBe(false);
   });

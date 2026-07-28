@@ -47,6 +47,18 @@ export const portfolioImages = {
     xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
     geesDashboard: img("consultoria/gees-dashboard.png", true),
   },
+  /**
+   * Mockups reales del tour oferta (POC product-onboarding).
+   * Fuente: X|CMS Figma Sites — regenerar con `bash scripts/capture-poc-modules.sh`
+   */
+  pocModules: {
+    dashboard: img("poc-modules/dashboard.png", true),
+    riesgo: img("poc-modules/riesgo.png", true),
+    inventario: img("poc-modules/inventario.png", true),
+    pedidos: img("poc-modules/pedidos.png", true),
+    clientes: img("poc-modules/clientes.png", true),
+    reportes: img("poc-modules/reportes.png", true),
+  },
   /** Cartas método UX Tools (curadas desde PDFS/Diseño/UX TOOLS) */
   uxTools: {
     journeyMap: img("ux-tools/journey-map.png"),
