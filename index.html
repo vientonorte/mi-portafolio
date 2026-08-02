@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
+    <script>
+      // Legacy /mi-portafolio/* → root (preserves hash). Soft-404 SPA shell also hits this.
+      (function () {
+        var p = location.pathname || "/";
+        if (p === "/mi-portafolio" || p.indexOf("/mi-portafolio/") === 0) {
+          var h = location.hash || "#/";
+          if (h.charAt(0) !== "#") h = "#" + h;
+          if (h.indexOf("#/mi-portafolio") === 0) {
+            h = "#" + (h.slice("#/mi-portafolio".length) || "/");
+          }
+          location.replace("https://vientonorte.io/" + h + location.search);
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Viento Norte · Rodrigo Gaete" />
