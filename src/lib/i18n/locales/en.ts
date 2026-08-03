@@ -32,13 +32,14 @@ export default {
     },
     
     seo: {
+      /** Root SEO keywords — Viento Norte brand, not personal portfolio */
       keywords:
-        'Design Ops, UX Lead, regulatory compliance, premium experiences, fintech, mobility, SURA, Transvip, Karri',
+        'Viento Norte, UXtech, UX consulting, custom modules, front office, fintech, Design Ops, WCAG accessibility, own your data, SMB',
       pages: {
         home: {
-          title: 'Rodrigo Gaete · UX Lead',
+          title: 'Viento Norte · UXtech · Custom modules',
           description:
-            'UX Lead using Design Ops as a method: regulated products and mobility. Cases at SURA, Transvip, and Karri.',
+            'Technology for businesses: diagnostic, prototype, team process, or working app. Software you install — own your data. Consulting and enterprise craft.',
         },
         proyectos: {
           title: 'Business · UX Lead',
@@ -81,9 +82,12 @@ export default {
             'Strategic UX/UI audit: risks, SEO quick wins, and a 3-session mentorship plan.',
         },
         consultoria: {
-          title: 'UX Consulting · Viento Norte',
+          /** SEM final URL: https://vientonorte.io/#/consultoria — Ads message-match */
+          title: 'UX Consulting · Choose your scope',
           description:
-            'Free Diagnostic entry: WCAG 2.2 AA on one critical flow. Prototype, team process, or working app. SMBs · kickoff <24h.',
+            'Diagnostic, prototype, team process, or app. Design sprint and UX flows. Free: WCAG 2.2 AA on one critical flow. SMBs · kickoff <24h.',
+          keywords:
+            'UX consulting, design sprint, fintech architecture, UX flows, UXtech, product modules, WCAG accessibility, front office, Viento Norte',
         },
         grafo: {
           title: 'Institutional friction network',

@@ -6,6 +6,13 @@ export const SEO_SITE = {
   ogImage: "https://vientonorte.io/images/branding/og-portfolio.png",
   brand: "Viento Norte",
   role: "UXtech · Front office",
+  /** SEO orgánico (root) */
+  seoHomeUrl: "https://vientonorte.io/",
+  /**
+   * SEM paid final URL (HashRouter · Google Ads final URL).
+   * Message-match: landing oferta `/#/consultoria` — no gastar SEM sin Test path.
+   */
+  semOfferUrl: "https://vientonorte.io/#/consultoria",
   /** Legacy path (GitHub project pages / bookmarks) */
   legacyBasePath: "/mi-portafolio",
 } as const;

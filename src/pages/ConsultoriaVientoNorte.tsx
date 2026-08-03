@@ -184,7 +184,7 @@ export default function ConsultoriaVientoNorte() {
       <div
         data-surface="consultoria-funnel"
         data-testid="consultoria-funnel"
-        data-role={isHomeSurface ? "fo-home" : "fo-funnel-legacy"}
+        data-role={isHomeSurface ? "fo-home" : "fo-sem-offer"}
         data-first-value-budget-ms={29000}
         data-calendar-sla-ms={30000}
         data-analytics="deferred-no-gtm"
@@ -192,9 +192,13 @@ export default function ConsultoriaVientoNorte() {
         <SEOHead
           {...(isHomeSurface ? t.seo.pages.home : t.seo.pages.consultoria)}
           isHome={isHomeSurface}
-          keywords={t.seo.keywords}
+          keywords={
+            isHomeSurface
+              ? t.seo.keywords
+              : (t.seo.pages.consultoria.keywords ?? t.seo.keywords)
+          }
           url={canonicalFromPath(
-            isHomeSurface ? ROUTES.home : ROUTES.consultingFunnel
+            isHomeSurface ? ROUTES.home : ROUTES.consulting
           )}
         />
 
