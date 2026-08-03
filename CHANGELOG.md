@@ -5,6 +5,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-03] — SEO root + SEM `/#/consultoria` (audit QA)
+
+### Fixed
+- **Canonical SEM:** en `/#/consultoria` el `SEOHead` usaba `ROUTES.consultingFunnel` (`/`) → ahora `ROUTES.consulting` → `https://vientonorte.io/#/consultoria` (message-match Ads / Google).
+
+### Changed
+- **Branding SEO home:** title/description dejan “Rodrigo Gaete · UX Lead” y alinean a **Viento Norte · UXtech** (orgánico root).
+- **SEM meta** consultoría: “Elige tu alcance” + keywords design sprint / fintech / flujos UX (ES/EN).
+- Static `index.html`: description hero-aligned · OG/Twitter · **JSON-LD** Organization + WebSite + ProfessionalService · alternate SEM URL.
+- `sitemap.xml` lastmod 2026-08-03; baja prioridad legacy embudo.
+
+### Product (Decider)
+- **Empezar** en home → onboarding embudo in-place (**no** navega a SEM).
+- SEM `/#/consultoria` = entrada paid; Empezar allí → onboarding local.
+- Re-Map «tour fullscreen vs embudo home» **rechazada** (evidencia + DS).
+
+### Docs
+- `docs/audits/QA-SEO-SEM-PLAN-2026-08-03.md` · `docs/audits/HUs-SEO-SEM-2026-08-03.md` · PDF en `docs/audits/`.
+- Gate: **no SEM spend** sin Test del path (Design Sprint VN).
+
+---
+
 ## [2026-07-27] — Agendar a11y gratis con Google Calendar
 
 - **Free Radar / a11y:** CTAs abren Google Calendar Appointment Schedule si hay `VITE_A11Y_FREE_SCHEDULE_URL` (fallback: form prearmado).

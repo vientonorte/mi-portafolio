@@ -25,6 +25,11 @@ interface ConsultoriaLandingHeroProps {
  * Hero consultoría — mínimo conversion:
  * Empezar · Ver opciones · link free sutil.
  * Sin grilla de 4 ofertas (duplicaba #modalidades).
+ *
+ * Decider 2026-08-03 (DS Map · no re-Map):
+ * - Empezar → onboarding en la **misma superficie** (home o SEM), nunca “saltar” a SEM desde home.
+ * - SEM `/#/consultoria` es solo **entrada paid**; home SEO convierte in-place.
+ * - Rechazado: “¿tour módulos fullscreen convierte más que embudo home?”
  */
 export function ConsultoriaLandingHero({
   onStartOnboarding,
