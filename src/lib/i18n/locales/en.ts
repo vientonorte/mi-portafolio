@@ -1171,7 +1171,7 @@ export default {
         sending: 'Sending…',
         editMessage: 'You can edit the message before sending',
         privacyNote:
-          'Your data goes to Google Forms (Viento Norte). You get an email copy; we receive it at contacto@vientonorte.cl — no marketing.',
+          'Your data goes to Google Forms (Viento Norte). You get an email copy; we receive it at contacto@vientonorte.io — no marketing.',
         success: 'Done! I\'ll reply within 24 hours.',
       },
       social: {
@@ -1445,7 +1445,7 @@ export default {
       contact: {
         title: 'Contact form',
         body:
-          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to Google Forms (Viento Norte account). Google may email you a copy of your response and notify us at contacto@vientonorte.cl (forwarded to gaete.gaona@gmail.com). We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
+          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to Google Forms (Viento Norte account). Google may email you a copy of your response and notify us only at contacto@vientonorte.io (public channel; the operations inbox is not published on the site). We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
       },
       retention: {
         title: 'Retention',

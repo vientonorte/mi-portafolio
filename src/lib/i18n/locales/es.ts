@@ -1176,7 +1176,7 @@ export default {
         sending: 'Enviando…',
         editMessage: 'Puedes editar el mensaje antes de enviar',
         privacyNote:
-          'Tus datos van a Google Forms (Viento Norte). Recibes copia por email; nos llega a contacto@vientonorte.cl — sin marketing.',
+          'Tus datos van a Google Forms (Viento Norte). Recibes copia por email; nos llega a contacto@vientonorte.io — sin marketing.',
         success: '¡Listo! Te responderé en menos de 24 horas.',
       },
       social: {
@@ -1428,7 +1428,7 @@ export default {
       contact: {
         title: 'Formulario de contacto',
         body:
-          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a Google Forms (cuenta Viento Norte). Google puede enviarte copia de tu respuesta y notificarnos en contacto@vientonorte.cl (reenvío a gaete.gaona@gmail.com). No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
+          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a Google Forms (cuenta Viento Norte). Google puede enviarte copia de tu respuesta y notificarnos solo en contacto@vientonorte.io (canal público; el buzón de operación no se publica en el sitio). No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
       },
       retention: {
         title: 'Conservación',

@@ -580,7 +580,7 @@ Runbook completo: [`docs/CONTACT_AND_PRIVACY.md`](../docs/CONTACT_AND_PRIVACY.md
 
 Editar `src/lib/site-contact.ts`:
 
-- `PUBLIC_CONTACT_EMAIL` — lo que ve el visitante (`contacto@vientonorte.cl`)
+- `PUBLIC_CONTACT_EMAIL` — lo que ve el visitante (`contacto@vientonorte.io`)
 - `FORM_SUBMIT_INBOX` — inbox real de FormSubmit (o `VITE_FORM_SUBMIT_INBOX`)
 
 ### Cambiar textos del formulario / asistente
