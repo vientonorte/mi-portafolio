@@ -57,10 +57,13 @@ export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
   return false;
 }
 
-/** Relay Cloudflare Worker — POST formulario de contacto */
+/**
+ * Relay Cloudflare Worker — POST formulario de contacto.
+ * Canónico: contact.vientonorte.io · fallback workers.dev si DNS aún no propagó.
+ */
 export const CONTACT_API_URL =
   import.meta.env.VITE_CONTACT_API_URL ??
-  'https://mi-portafolio-contact.vientonorte.workers.dev/api/contact';
+  'https://contact.vientonorte.io/api/contact';
 
 /** CV público — servido desde public/ (GitHub Pages: /mi-portafolio/cv-rodrigo-gaete-ux.pdf) */
 export const CV_ASSET = 'cv-rodrigo-gaete-ux.pdf';

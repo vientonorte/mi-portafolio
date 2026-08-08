@@ -1,7 +1,7 @@
 /** API del Worker de admin (mismo host que contacto, rutas /api/admin/*) */
 export const ADMIN_API_BASE =
   import.meta.env.VITE_ADMIN_API_URL ??
-  "https://mi-portafolio-contact.vientonorte.workers.dev";
+  "https://contact.vientonorte.io";
 
 export const ADMIN_GITHUB_USER = "vientonorte";
 
