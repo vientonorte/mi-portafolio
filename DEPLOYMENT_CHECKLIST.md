@@ -1,5 +1,7 @@
 # 🚀 Production Deployment Checklist
 
+**Mapa de ownership y pipeline:** ver [DEPLOY.md](DEPLOY.md) (SSOT deploy · hub CNAME · workers).
+
 Use this checklist to ensure everything is ready before deploying to production.
 
 ## Pre-Deployment Checklist
