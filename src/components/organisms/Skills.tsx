@@ -1,9 +1,11 @@
 import { Sparkles } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { PageSection } from "../layout/PageSection";
+import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { METHOD_STRIP } from "../../data/about-visuals";
 import { useLanguage } from "../../lib/LanguageContext";
 import { Badge } from "../ui/badge";
+import { portfolioImages } from "../../lib/portfolio-image-urls";
 
 const CHIPS = {
   es: [
@@ -32,11 +34,13 @@ const CHIPS = {
   ],
 } as const;
 
-/** Skills visuales: tira de método + chips. Sin párrafos. */
+/** Skills: 4 cartas método + cadena de valor a ancho completo (diagrama wide). */
 export function Skills() {
   const { language } = useLanguage();
   const es = language === "es";
   const chips = CHIPS[language];
+  const cards = METHOD_STRIP.filter((item) => item.id !== "value");
+  const cadena = METHOD_STRIP.find((item) => item.id === "value");
 
   return (
     <PageSection
@@ -53,17 +57,17 @@ export function Skills() {
         title={es ? "Método en una mirada" : "Method at a glance"}
         description={
           es
-            ? "Journey, flows, test y design system en el trabajo diario."
-            : "Journey, flows, test, and design system in day-to-day work."
+            ? "Journey, flows, test, design system y cadena de valor en el trabajo diario."
+            : "Journey, flows, test, design system, and value chain in day-to-day work."
         }
       />
 
       <ul
-        className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 md:gap-3"
+        className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3"
         role="list"
         aria-label={es ? "Métodos" : "Methods"}
       >
-        {METHOD_STRIP.map((item) => (
+        {cards.map((item) => (
           <li
             key={item.id}
             className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated"
@@ -85,6 +89,28 @@ export function Skills() {
           </li>
         ))}
       </ul>
+
+      {/* Cadena de valor: diagrama 16:9 — object-contain, no recorte en tile 4:3 */}
+      {cadena && (
+        <figure className="mt-4 overflow-hidden rounded-xl border border-[color:var(--logo-surface-border)] bg-black/90">
+          <ResponsiveImage
+            src={portfolioImages.framework.uxValueChain}
+            alt={
+              es
+                ? "Cadena de valor UX: Analytics → Research → UI Design → Testing → Desarrollo MVP"
+                : "UX value chain: Analytics → Research → UI Design → Testing → MVP development"
+            }
+            fit="contain"
+            aspectRatio="21 / 9"
+            className="w-full min-h-[140px] sm:min-h-[180px]"
+            imgClassName="bg-black"
+            priority={false}
+          />
+          <figcaption className="border-t border-border/40 bg-background/95 px-3 py-2 text-center text-xs font-semibold text-foreground sm:text-sm">
+            {es ? "Cadena de valor UX" : "UX value chain"}
+          </figcaption>
+        </figure>
+      )}
 
       <div
         className="mt-6 flex flex-wrap gap-2"
