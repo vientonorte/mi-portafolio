@@ -60,7 +60,7 @@ const ARTIFACT_BLURB = {
   },
 } as const;
 
-/** 5 macroprocesos = Flujo de Mejora Continua (ya en /proceso). */
+/** 5 macroprocesos = Flujo de Mejora Continua (mismo orden que /proceso). */
 const FLOW_PHASES = [
   {
     id: "ux-analytics",
@@ -112,9 +112,9 @@ const FLOW_PHASES = [
 type ArtifactId = "journey" | "flow" | "test" | "system";
 
 /**
- * Método en una mirada:
- * 1) Panel de artefactos con imágenes — interactivo
- * 2) Flujo de Mejora Continua (reemplaza Cadena estática) — interactivo → /proceso/fase/:id
+ * Método Ro:
+ * 1) Flujo de Mejora Continua — hero visual (como captura del sitio)
+ * 2) Artefactos con imagen — interactivo
  */
 export function Skills() {
   const { language } = useLanguage();
@@ -126,10 +126,12 @@ export function Skills() {
       item.id !== "value"
   );
   const [activeArtifact, setActiveArtifact] = useState<ArtifactId>("journey");
-  const [activePhase, setActivePhase] = useState<string | null>(null);
+  const [activePhase, setActivePhase] = useState<string>("ux-analytics");
 
   const selected = artifacts.find((a) => a.id === activeArtifact) ?? artifacts[0];
   const selectedBlurb = ARTIFACT_BLURB[language][activeArtifact];
+  const activeBlurb =
+    FLOW_PHASES.find((p) => p.id === activePhase)?.blurb[language] ?? "";
 
   return (
     <PageSection
@@ -146,13 +148,97 @@ export function Skills() {
         title={es ? "Método en una mirada" : "Method at a glance"}
         description={
           es
-            ? "Artefactos con imagen real. Flujo de mejora continua interactivo (no diagrama estático)."
-            : "Real craft artifacts. Interactive continuous-improvement flow (not a static diagram)."
+            ? "Flujo de mejora continua (interactivo) y artefactos del craft."
+            : "Continuous improvement flow (interactive) and craft artifacts."
         }
       />
 
-      {/* ── Panel interactivo: Journey / Flows / Test / System ── */}
-      <div className="space-y-3">
+      {/* ═══ Flujo de Mejora Continua — PRIMERO y bien visible ═══ */}
+      <div
+        id="flujo-mejora-continua"
+        className="scroll-mt-24 rounded-2xl border border-border/40 bg-zinc-950 px-4 py-8 text-zinc-50 shadow-lg sm:px-8 sm:py-10 dark:bg-zinc-950"
+      >
+        <h3 className="text-center text-lg font-semibold tracking-tight text-white sm:text-xl">
+          {es ? "Flujo de Mejora Continua" : "Continuous Improvement Flow"}
+        </h3>
+        <p className="mx-auto mt-2 max-w-md text-center text-xs text-zinc-400 sm:text-sm">
+          {es
+            ? "Toca una fase para abrir su detalle en el proceso."
+            : "Tap a phase to open its process detail."}
+        </p>
+
+        {/* Fila de fases — scroll horizontal en mobile si hace falta */}
+        <div className="mt-8 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div
+            className="mx-auto flex min-w-min items-center justify-center gap-1 px-1 sm:gap-2 md:gap-3"
+            role="list"
+            aria-label={es ? "Fases del flujo de mejora continua" : "Continuous improvement phases"}
+          >
+            {FLOW_PHASES.map((phase, idx) => {
+              const Icon = phase.icon;
+              const isActive = activePhase === phase.id;
+              return (
+                <div
+                  key={phase.id}
+                  className="flex items-center gap-1 sm:gap-2 md:gap-3"
+                  role="listitem"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActivePhase(phase.id);
+                      navigate(ROUTES.processPhase(phase.id));
+                    }}
+                    onMouseEnter={() => setActivePhase(phase.id)}
+                    onFocus={() => setActivePhase(phase.id)}
+                    className={cn(
+                      "flex w-[4.5rem] flex-col items-center gap-2 rounded-xl p-1 transition-transform sm:w-[5.5rem]",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
+                      "hover:scale-105 active:scale-95"
+                    )}
+                    aria-current={isActive ? "step" : undefined}
+                    aria-label={
+                      es
+                        ? `Abrir fase ${phase.title.es}`
+                        : `Open ${phase.title.en} phase`
+                    }
+                  >
+                    <span
+                      className={cn(
+                        "flex h-14 w-14 items-center justify-center rounded-full border-2 transition-colors sm:h-16 sm:w-16",
+                        isActive
+                          ? "border-primary bg-primary/20 text-primary shadow-[0_0_24px_rgba(255,147,30,0.35)]"
+                          : "border-primary/50 bg-primary/10 text-primary"
+                      )}
+                    >
+                      <Icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden />
+                    </span>
+                    <span className="text-center text-[10px] font-medium leading-tight text-zinc-200 sm:text-xs">
+                      {phase.title[language]}
+                    </span>
+                  </button>
+                  {idx < FLOW_PHASES.length - 1 && (
+                    <ArrowRight
+                      className="mb-6 h-4 w-4 shrink-0 text-primary/70 sm:mb-7 sm:h-5 sm:w-5"
+                      aria-hidden
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <p
+          className="mt-5 min-h-[1.25rem] text-center text-sm text-zinc-400"
+          aria-live="polite"
+        >
+          {activeBlurb}
+        </p>
+      </div>
+
+      {/* ── Artefactos del craft (secundario) ── */}
+      <div className="mt-10 space-y-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           {es ? "Artefactos del craft" : "Craft artifacts"}
         </p>
@@ -165,7 +251,12 @@ export function Skills() {
           {artifacts.map((item) => {
             const selectedCard = item.id === activeArtifact;
             return (
-              <li key={item.id} role="option" aria-selected={selectedCard} id={`method-artifact-${item.id}`}>
+              <li
+                key={item.id}
+                role="option"
+                aria-selected={selectedCard}
+                id={`method-artifact-${item.id}`}
+              >
                 <button
                   type="button"
                   onClick={() => setActiveArtifact(item.id as ArtifactId)}
@@ -197,13 +288,12 @@ export function Skills() {
           })}
         </ul>
 
-        {/* Detalle expandido del artefacto seleccionado */}
         <div
           className="overflow-hidden rounded-xl border border-border/60 bg-card"
           aria-live="polite"
         >
           <div className="grid gap-0 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-            <div className="relative aspect-[16/10] bg-muted/30 md:aspect-auto md:min-h-[220px]">
+            <div className="relative aspect-[16/10] bg-muted/30 md:aspect-auto md:min-h-[200px]">
               <img
                 src={selected.src}
                 alt={
@@ -232,80 +322,6 @@ export function Skills() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* ── Flujo de Mejora Continua (reemplaza Cadena estática) ── */}
-      <div className="mt-8 rounded-2xl border border-border/50 bg-muted/20 p-5 sm:p-8">
-        <h3 className="text-center text-base font-semibold tracking-tight sm:text-lg">
-          {es ? "Flujo de Mejora Continua" : "Continuous Improvement Flow"}
-        </h3>
-        <p className="mx-auto mt-1 max-w-lg text-center text-xs text-muted-foreground sm:text-sm">
-          {es
-            ? "Toca una fase para abrir su detalle. Misma cadena de valor, interactiva."
-            : "Tap a phase to open its detail. Same value chain, interactive."}
-        </p>
-
-        <div
-          className="mt-6 flex flex-wrap items-start justify-center gap-2 sm:gap-1"
-          role="list"
-          aria-label={es ? "Fases del flujo" : "Flow phases"}
-        >
-          {FLOW_PHASES.map((phase, idx) => {
-            const Icon = phase.icon;
-            const isActive = activePhase === phase.id;
-            return (
-              <div key={phase.id} className="flex items-center gap-1 sm:gap-2" role="listitem">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActivePhase(phase.id);
-                    navigate(ROUTES.processPhase(phase.id));
-                  }}
-                  onMouseEnter={() => setActivePhase(phase.id)}
-                  onFocus={() => setActivePhase(phase.id)}
-                  className={cn(
-                    "flex w-[4.75rem] flex-col items-center gap-1.5 rounded-xl p-1.5 transition-colors sm:w-24",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    isActive ? "bg-primary/10" : "hover:bg-muted/60"
-                  )}
-                  aria-label={
-                    es
-                      ? `Abrir fase ${phase.title.es}`
-                      : `Open ${phase.title.en} phase`
-                  }
-                >
-                  <span
-                    className={cn(
-                      "flex h-12 w-12 items-center justify-center rounded-full border-2 sm:h-14 sm:w-14",
-                      isActive
-                        ? "border-primary bg-primary/15 text-primary"
-                        : "border-primary/30 bg-primary/10 text-primary"
-                    )}
-                  >
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
-                  </span>
-                  <span className="text-center text-[10px] font-medium leading-tight sm:text-xs">
-                    {phase.title[language]}
-                  </span>
-                </button>
-                {idx < FLOW_PHASES.length - 1 && (
-                  <ArrowRight
-                    className="mb-6 hidden h-4 w-4 shrink-0 text-muted-foreground sm:block"
-                    aria-hidden
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {activePhase && (
-          <p className="mt-4 text-center text-sm text-muted-foreground" aria-live="polite">
-            {
-              FLOW_PHASES.find((p) => p.id === activePhase)?.blurb[language]
-            }
-          </p>
-        )}
       </div>
 
       <div
