@@ -77,4 +77,18 @@ export const METODO_RO_CASES: MetodoRoCase[] = [
     artifact: { es: "Auditoría contraste", en: "Contrast audit" },
     phase: { es: "Validar", en: "Validate" },
   },
+  {
+    id: "vn-xcms",
+    src: portfolioImages.consultoria.xCmsDashboard,
+    caseName: { es: "Viento Norte · FO", en: "Viento Norte · FO" },
+    artifact: { es: "Dashboard X|CMS (dueño del dato)", en: "X|CMS dashboard (data ownership)" },
+    phase: { es: "Entregar", en: "Deliver" },
+  },
+  {
+    id: "vn-gees",
+    src: portfolioImages.consultoria.geesDashboard,
+    caseName: { es: "Viento Norte · FO", en: "Viento Norte · FO" },
+    artifact: { es: "Dashboard ops / enterprise", en: "Ops / enterprise dashboard" },
+    phase: { es: "Entregar", en: "Deliver" },
+  },
 ];

@@ -24,20 +24,36 @@ export interface ExperienceEntry {
   achievements: string[];
   tools?: string[];
   companyId?: string;
+  /** Ancla a sección de evidencia visual en /sobre-mi (no /empresa). */
+  evidenceSectionId?: string;
+  evidenceCta?: { es: string; en: string };
 }
 
 type LocalizedExperience = {
-  es: Omit<ExperienceEntry, "logo" | "companyId" | "isCurrent">;
-  en: Omit<ExperienceEntry, "logo" | "companyId" | "isCurrent">;
+  es: Omit<
+    ExperienceEntry,
+    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta"
+  >;
+  en: Omit<
+    ExperienceEntry,
+    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta"
+  >;
   logo?: string;
   companyId?: string;
   isCurrent?: boolean;
+  evidenceSectionId?: string;
+  evidenceCta?: { es: string; en: string };
 };
 
 const experienceCatalog: LocalizedExperience[] = [
   {
     isCurrent: true,
     logo: portfolioImages.brands.micro1,
+    evidenceSectionId: "evidencia-micro1",
+    evidenceCta: {
+      es: "Ver evidencia · Anotación y QA de grabación",
+      en: "View evidence · Annotation and recording QA",
+    },
     es: {
       company: "micro1",
       position: "AI Trainer / Gameplay Data Capture Specialist · Jornada parcial",
@@ -52,7 +68,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "Captura remota de datos de gameplay con atención a exactitud y detalle",
         "Organización y anotación de sesiones; storage y handoff seguros",
-        "Comunicación escrita y verbal con el equipo remoto del cliente; plazos y requisitos variables",
+        "QA de grabación: validación de integridad, sync y handoff antes de transferencia",
       ],
       tools: ["Captura de datos remota", "Anotación", "QA de grabación"],
     },
@@ -70,7 +86,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "Remote gameplay data capture with accuracy and detail",
         "Session organization and annotation; secure storage and handoff",
-        "Written and verbal communication with the customer's remote team; deadlines and evolving requirements",
+        "Recording QA: integrity, sync, and handoff checks before transfer",
       ],
       tools: ["Remote data capture", "Annotation", "Recording QA"],
     },
@@ -78,6 +94,11 @@ const experienceCatalog: LocalizedExperience[] = [
   {
     isCurrent: true,
     logo: portfolioImages.brands.vientoNorte,
+    evidenceSectionId: "evidencia-vn",
+    evidenceCta: {
+      es: "Ver evidencia · Monitas, Edu21, funnels, FO",
+      en: "View evidence · Monitas, Edu21, funnels, FO",
+    },
     es: {
       company: "Viento Norte",
       position: "UX Manager · Jornada completa",
@@ -500,6 +521,8 @@ export function getExperiences(language: Language): ExperienceEntry[] {
     logo: item.logo,
     companyId: item.companyId,
     isCurrent: item.isCurrent,
+    evidenceSectionId: item.evidenceSectionId,
+    evidenceCta: item.evidenceCta,
   }));
 }
 

@@ -1,8 +1,9 @@
 import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
-import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
+import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
+import { Micro1ToolEvidence } from '../components/organisms/Micro1ToolEvidence';
 import { Contact } from '../components/organisms/Contact';
 
 import { SEOHead } from '../components/atoms/SEOHead';
@@ -40,19 +41,20 @@ const SobreMi = () => {
         url={canonicalFromPath('/sobre-mi')}
       />
       {/*
-        Card-sort:
         L1 Perfil
-        L2a Método en una mirada
-        L2b Evidencia Método Ro · VN (NO galería general portafolio)
-        L2c Alcance
-        L3 Timeline · Contacto
-        Enterprise SURA/Transvip/Karri → /proyectos
+        L2 Método + alcance
+        L3 Timeline (VN / micro1 con CTA a evidencia)
+        L4 Evidencias ancladas al cargo (no galería general)
+           - #evidencia-vn  → UX Manager VN (Monitas, Edu21, funnels, FO)
+           - #evidencia-micro1 → Anotación + QA grabación
+        Enterprise employment SURA/Transvip → /proyectos
       */}
       <About />
       <Skills />
-      <MetodoRoEvidence />
       <ProfileScope />
       <Experience />
+      <MetodoRoEvidence />
+      <Micro1ToolEvidence />
       <Contact />
     </PageShell>
   );

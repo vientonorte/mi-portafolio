@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { PageSection } from "../layout/PageSection";
@@ -8,9 +8,9 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { METODO_RO_CASES } from "../../data/metodo-ro-cases";
 
 /**
- * Evidencia de casos del Método Ro en Viento Norte.
- * No es galería general del portafolio (eso es /proyectos).
- * Va justo después de “Método en una mirada”.
+ * Evidencia del cargo UX Manager · Viento Norte
+ * (bullets: Monitas, Edu21, funnels, design ops, FO).
+ * No es galería general del portafolio enterprise (SURA/Transvip → /proyectos).
  */
 export function MetodoRoEvidence() {
   const { language } = useLanguage();
@@ -18,31 +18,51 @@ export function MetodoRoEvidence() {
 
   return (
     <PageSection
-      id="metodo-ro-casos"
+      id="evidencia-vn"
       padding="compact"
       width="wide"
       tone="matte"
-      aria-labelledby="metodo-ro-heading"
+      aria-labelledby="evidencia-vn-heading"
     >
       <SectionHeader
-        badge={es ? "Método Ro · Viento Norte" : "Método Ro · Viento Norte"}
-        badgeIcon={BookOpen}
-        titleId="metodo-ro-heading"
-        title={es ? "Evidencia de casos" : "Case evidence"}
+        badge={es ? "UX Manager · Viento Norte" : "UX Manager · Viento Norte"}
+        badgeIcon={Briefcase}
+        titleId="evidencia-vn-heading"
+        title={
+          es
+            ? "Evidencia del cargo · N2N"
+            : "Role evidence · N2N"
+        }
         description={
           es
-            ? "Artefactos de la práctica VN (asesorías). No reemplaza Proyectos enterprise."
-            : "VN practice artifacts (advisory). Does not replace enterprise Projects."
+            ? "Respaldo visual de: e-comm (Monitas), educación (Edu21), funnels, design ops y FO. Tools: web, CX, Figma, Design Ops."
+            : "Visual backing for: e-comm (Monitas), education (Edu21), funnels, design ops, and FO. Tools: web, CX, Figma, Design Ops."
         }
       />
+
+      <ul
+        className="mb-6 flex flex-wrap gap-2"
+        aria-label={es ? "Tools del cargo" : "Role tools"}
+      >
+        {(es
+          ? ["Desarrollo web", "CX", "Figma", "Design Ops", "N2N"]
+          : ["Web dev", "CX", "Figma", "Design Ops", "N2N"]
+        ).map((tool) => (
+          <li key={tool}>
+            <Badge variant="secondary" className="text-xs">
+              {tool}
+            </Badge>
+          </li>
+        ))}
+      </ul>
 
       <ul
         className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
         aria-label={
           es
-            ? "Casos Método Ro en Viento Norte"
-            : "Método Ro cases at Viento Norte"
+            ? "Evidencia UI/UX del cargo Viento Norte"
+            : "UI/UX evidence for Viento Norte role"
         }
       >
         {METODO_RO_CASES.map((item) => (
@@ -73,8 +93,8 @@ export function MetodoRoEvidence() {
               <CardContent className="pt-0">
                 <p className="text-xs text-muted-foreground">
                   {es
-                    ? "Caso · Método Ro · Viento Norte"
-                    : "Case · Método Ro · Viento Norte"}
+                    ? "Evidencia · cargo UX Manager VN"
+                    : "Evidence · UX Manager VN role"}
                 </p>
               </CardContent>
             </Card>
@@ -85,5 +105,4 @@ export function MetodoRoEvidence() {
   );
 }
 
-/** @deprecated Use MetodoRoEvidence — kept so old imports don't break mid-refactor */
 export { MetodoRoEvidence as InterfaceWall };
