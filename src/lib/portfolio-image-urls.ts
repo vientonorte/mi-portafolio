@@ -97,5 +97,7 @@ export const portfolioImages = {
     marana: img("brands/marana.svg", true),
     pareti: img("brands/pareti.svg", true),
     freelance: img("brands/freelance.svg", true),
+    micro1: img("brands/micro1.svg", true),
+    vientoNorte: img("brands/vientonorte.svg", true),
   },
 } as const;

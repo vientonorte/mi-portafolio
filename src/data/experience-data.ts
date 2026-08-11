@@ -37,6 +37,86 @@ type LocalizedExperience = {
 const experienceCatalog: LocalizedExperience[] = [
   {
     isCurrent: true,
+    logo: portfolioImages.brands.micro1,
+    es: {
+      company: "micro1",
+      position: "AI Trainer / Gameplay Data Capture Specialist · Jornada parcial",
+      period: "Jul 2026 — Actualidad",
+      location: "Estados Unidos · Remoto",
+      stage: "AI · Data capture",
+      context:
+        "Entrenamiento de modelos y captura sistemática de gameplay en títulos AAA con herramientas in-house.",
+      role:
+        "Jugar, grabar, anotar y catalogar sesiones; feedback con experts y leads; troubleshooting de workflows de captura.",
+      impact: "Datos de gameplay seguros, catalogados y transferidos según guideline de proyecto",
+      achievements: [
+        "Captura remota de datos de gameplay con atención a exactitud y detalle",
+        "Organización y anotación de sesiones; storage y handoff seguros",
+        "Comunicación escrita y verbal con el equipo remoto del cliente; plazos y requisitos variables",
+      ],
+      tools: ["Captura de datos remota", "Anotación", "QA de grabación"],
+    },
+    en: {
+      company: "micro1",
+      position: "AI Trainer / Gameplay Data Capture Specialist · Part-time",
+      period: "Jul 2026 — Present",
+      location: "United States · Remote",
+      stage: "AI · Data capture",
+      context:
+        "Model training and systematic gameplay capture on top-tier AAA titles with in-house tools.",
+      role:
+        "Play, record, annotate, and catalog sessions; expert/lead feedback; troubleshoot capture workflows.",
+      impact: "Gameplay data secured, cataloged, and transferred per project guidelines",
+      achievements: [
+        "Remote gameplay data capture with accuracy and detail",
+        "Session organization and annotation; secure storage and handoff",
+        "Written and verbal communication with the customer's remote team; deadlines and evolving requirements",
+      ],
+      tools: ["Remote data capture", "Annotation", "Recording QA"],
+    },
+  },
+  {
+    isCurrent: true,
+    logo: portfolioImages.brands.vientoNorte,
+    es: {
+      company: "Viento Norte",
+      position: "UX Manager · Jornada completa",
+      period: "Mar 2019 — Actualidad · 7 años 6 meses",
+      location: "Gran Santiago, RM, Chile · Remoto",
+      stage: "Consultoría · N2N",
+      context:
+        "Consultora tecnológica: experiencia digital para negocios regulados y operaciones con cumplimiento por diseño.",
+      role:
+        "Implementación n2n de operaciones digitales y UX; diseño aplicado a negocio, web y experiencia de cliente.",
+      impact: "Craft enterprise + FO: método, productos y handoff con dueño del dato",
+      achievements: [
+        "Operaciones digitales y experiencias con cumplimiento por diseño (n2n)",
+        "Desarrollo web y diseño de experiencia de cliente en contextos regulados",
+        "Liderazgo de marca Viento Norte: consultoría, demos y delivery multi-vertical",
+      ],
+      tools: ["Desarrollo web", "Diseño de experiencia del cliente", "Figma", "Design Ops"],
+    },
+    en: {
+      company: "Viento Norte",
+      position: "UX Manager · Full-time",
+      period: "Mar 2019 — Present · 7 yrs 6 mos",
+      location: "Greater Santiago, Chile · Remote",
+      stage: "Consulting · N2N",
+      context:
+        "Tech consultancy: digital experience for regulated businesses and operations with compliance by design.",
+      role:
+        "End-to-end digital ops and UX; design applied to business, web, and customer experience.",
+      impact: "Enterprise craft + FO: method, products, and handoff with data ownership",
+      achievements: [
+        "Digital operations and experiences with compliance by design (n2n)",
+        "Web development and customer experience design in regulated contexts",
+        "Viento Norte brand leadership: consulting, demos, multi-vertical delivery",
+      ],
+      tools: ["Web development", "Customer experience design", "Figma", "Design Ops"],
+    },
+  },
+  {
+    isCurrent: true,
     logo: portfolioImages.sura.logo,
     companyId: "sura-investments",
     es: {
