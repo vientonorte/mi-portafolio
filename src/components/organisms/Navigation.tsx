@@ -303,14 +303,17 @@ export function Navigation({
             aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
             data-process-label-variant={processLabelVariant}
           >
+            {/* Mobile: solo isologo — libera ancho para utilidades / menú */}
             <span className="min-w-0 sm:hidden">
               <Logo
                 size="sm"
                 interactive
+                showText={false}
                 showRole={false}
                 plate={isScrolled || isMenuOpen || isOnHome ? "default" : "floating"}
               />
             </span>
+            {/* sm+: lockup completo (marca + wordmark) */}
             <span className="hidden min-w-0 sm:block">
               <Logo
                 size="sm"

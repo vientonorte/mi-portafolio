@@ -65,12 +65,18 @@ export function SubpageToolbar({
                       : "Viento Norte · Home"
                 }
               >
-                <Logo
-                  size="sm"
-                  showText={showLogoText}
-                  showRole={false}
-                  interactive
-                />
+                {/* Mobile: solo isologo; sm+: wordmark si showLogoText */}
+                <span className="sm:hidden">
+                  <Logo size="sm" showText={false} showRole={false} interactive />
+                </span>
+                <span className="hidden sm:block">
+                  <Logo
+                    size="sm"
+                    showText={showLogoText}
+                    showRole={false}
+                    interactive
+                  />
+                </span>
               </button>
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />
