@@ -14,11 +14,18 @@ describe("ResponsiveImage", () => {
     expect(screen.getByRole("img", { name: "Proyecto SURA RIA" })).toBeInTheDocument();
   });
 
-  it("shows error fallback when image fails to load", () => {
+  it("shows visible 404 fallback when image fails to load", () => {
     render(<ResponsiveImage src="/broken.png" alt="Imagen rota" />);
     const img = screen.getByRole("img", { name: "Imagen rota" });
     fireEvent.error(img);
-    expect(screen.getByRole("img", { name: "Imagen rota" })).toBeInTheDocument();
+    const fallback = screen.getByTestId("image-error-404");
+    expect(fallback).toHaveAttribute("data-error-status", "404");
+    expect(fallback).toHaveAttribute(
+      "aria-label",
+      expect.stringMatching(/404/)
+    );
+    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByText(/Imagen no encontrada/i)).toBeInTheDocument();
   });
 
   it("supports click handler for lightbox triggers", () => {

@@ -1,9 +1,7 @@
 import { useState } from "react";
+import { ImageOff } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../ui/skeleton";
-
-const ERROR_IMG_SRC =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4KCg==";
 
 export type ImageFit = "cover" | "contain" | "scale-down";
 
@@ -25,6 +23,10 @@ const fitClasses: Record<ImageFit, string> = {
   "scale-down": "object-scale-down object-center",
 };
 
+/**
+ * Image with visible 404 state when load fails.
+ * Soft failures used to show only a faint SVG — now a clear badge.
+ */
 export function ResponsiveImage({
   src,
   alt,
@@ -45,14 +47,29 @@ export function ResponsiveImage({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-muted/40 text-muted-foreground",
+          "relative flex flex-col items-center justify-center gap-2 bg-muted/50 text-muted-foreground border border-dashed border-destructive/30",
           className
         )}
         style={wrapperStyle}
         role="img"
-        aria-label={alt}
+        aria-label={`${alt} — error 404, imagen no disponible`}
+        data-error-status="404"
+        data-testid="image-error-404"
+        title={`404 · ${src}`}
       >
-        <img src={ERROR_IMG_SRC} alt="" aria-hidden className="h-10 w-10 opacity-40" />
+        <span
+          className="absolute top-2 right-2 rounded-md bg-destructive text-destructive-foreground text-[10px] font-bold tracking-wide px-1.5 py-0.5 tabular-nums shadow-sm"
+          aria-hidden
+        >
+          404
+        </span>
+        <ImageOff className="h-8 w-8 opacity-50" aria-hidden />
+        <span className="text-xs font-medium text-center px-2 max-w-[90%] line-clamp-2">
+          Imagen no encontrada
+        </span>
+        <span className="text-[10px] font-mono opacity-60 truncate max-w-[90%] px-2">
+          HTTP 404
+        </span>
       </div>
     );
   }
