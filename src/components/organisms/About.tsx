@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { User, Download, Globe2, Layers2, Timer } from "lucide-react";
+import { User, Download, Globe2, Cpu, LayoutPanelLeft } from "lucide-react";
 import { ProfileAvatar } from "../atoms/ProfileAvatar";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -12,46 +12,72 @@ import { analytics } from "../../lib/analytics";
 import { getCvDownloadUrl } from "../../lib/site-contact";
 import { cn } from "../../lib/utils";
 
-/** Roles de craft — no empleo actual (eso va en el título). */
+/** Craft tags — no sustituyen el cargo actual. */
 const roles = {
   es: [
     "Interfaces",
     "Product Design",
     "Design Systems",
+    "AI data",
     "Research",
-    "Sprints",
     "Design Ops",
   ],
   en: [
     "Interfaces",
     "Product Design",
     "Design Systems",
+    "AI data",
     "Research",
-    "Sprints",
     "Design Ops",
   ],
 } as const;
 
 /**
- * Chips de prueba — coherentes con timeline:
- * 7+ craft (VN 2019–) · 3+ lead (mobility→wealth) · impacto regional SURA (pasado).
+ * Tres claims que suman (no se pisan):
+ * 1) Interfaces de empresas (lo que se ve en el wall)
+ * 2) Alcance regional + internacional (SURA Latam + micro1 US)
+ * 3) Práctica actual (VN n2n + micro1 AI)
  */
 const PROOF = {
   es: [
-    { icon: Timer, label: "7+ años", detail: "Craft UX/UI · Viento Norte 2019–" },
-    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
-    { icon: Globe2, label: "Regional", detail: "5+ países · −40% onboarding SURA" },
+    {
+      icon: LayoutPanelLeft,
+      label: "Interfaces",
+      detail: "Empresas CL + wealth regional · wall abajo",
+    },
+    {
+      icon: Globe2,
+      label: "Latam + EE.UU.",
+      detail: "SURA multi-país · micro1 remoto US",
+    },
+    {
+      icon: Cpu,
+      label: "Hoy",
+      detail: "UX Manager VN · AI Trainer micro1",
+    },
   ],
   en: [
-    { icon: Timer, label: "7+ years", detail: "UX/UI craft · Viento Norte 2019–" },
-    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
-    { icon: Globe2, label: "Regional", detail: "5+ countries · −40% SURA onboarding" },
+    {
+      icon: LayoutPanelLeft,
+      label: "Interfaces",
+      detail: "CL product + regional wealth · wall below",
+    },
+    {
+      icon: Globe2,
+      label: "Latam + US",
+      detail: "SURA multi-country · micro1 US remote",
+    },
+    {
+      icon: Cpu,
+      label: "Now",
+      detail: "UX Manager VN · AI Trainer micro1",
+    },
   ],
 } as const;
 
 const LINE = {
-  es: "Interfaces de producto (wealth, mobility, e-comm). Ex UX Lead SURA (hasta jun. 2026).",
-  en: "Product interfaces (wealth, mobility, e-comm). Former UX Lead SURA (through Jun 2026).",
+  es: "Interfaces de producto en empresas reales. Hoy: Viento Norte (n2n) + micro1 (AI data, EE.UU.). Antes: Lead UX SURA (regional, hasta jun. 2026).",
+  en: "Product interfaces for real companies. Now: Viento Norte (n2n) + micro1 (AI data, US). Before: UX Lead SURA (regional, through Jun 2026).",
 } as const;
 
 const TITLE_ROLE = {
@@ -91,8 +117,8 @@ export function About() {
         title={es ? "Evidencia primero." : "Evidence first."}
         description={
           es
-            ? "Pantallas de producto. Poco texto."
-            : "Product screens. Minimal text."
+            ? "Interfaces de empresas · alcance Latam y EE.UU. · poco texto."
+            : "Company interfaces · Latam and US scope · minimal text."
         }
       />
 
@@ -106,6 +132,11 @@ export function About() {
           </h3>
           <p className="mt-0.5 text-center text-sm font-medium text-primary lg:text-left">
             {TITLE_ROLE[language]}
+          </p>
+          <p className="mt-1 text-center text-xs font-medium text-muted-foreground lg:text-left">
+            {es
+              ? "+ AI Trainer · micro1 (EE.UU. · parcial)"
+              : "+ AI Trainer · micro1 (US · part-time)"}
           </p>
           <p className="mt-3 text-center text-sm leading-snug text-muted-foreground lg:text-left">
             {LINE[language]}
@@ -139,7 +170,7 @@ export function About() {
           <ul
             className="grid gap-2 sm:grid-cols-3"
             role="list"
-            aria-label={es ? "Resumen" : "Summary"}
+            aria-label={es ? "Qué suma el perfil" : "What the profile adds up to"}
           >
             {proof.map((item, index) => {
               const Icon = item.icon;
