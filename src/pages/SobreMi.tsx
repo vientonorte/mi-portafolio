@@ -1,5 +1,6 @@
 import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
+import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
 import { Contact } from '../components/organisms/Contact';
 
@@ -37,8 +38,14 @@ const SobreMi = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/sobre-mi')}
       />
+      {/* Card-sort L1 → L2 → L3
+          1 Identidad + wall de interfaces
+          2 Método (craft)
+          3 Alcance (mercado / Latam+US / micro1) — segundo nivel tras método
+          4 Timeline · 5 Contacto */}
       <About />
       <Skills />
+      <ProfileScope />
       <Experience />
       <Contact />
     </PageShell>
