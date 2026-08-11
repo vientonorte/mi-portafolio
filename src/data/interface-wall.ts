@@ -1,8 +1,7 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
 
 /**
- * S1 Interface Wall — 12 pantallas curadas.
- * Transnacional (SURA/Transvip/Karri) + práctica VN (Edu21, Monitas, Coworking, MC).
+ * Interface Wall — tiles de UI de producto (evitar Excel, logos ajenos, uploaders).
  */
 export type InterfaceWallTile = {
   id: string;
@@ -10,16 +9,15 @@ export type InterfaceWallTile = {
   label: { es: string; en: string };
   brand: { es: string; en: string };
   scope: "global" | "national";
-  /** larger tiles in bento */
   featured?: boolean;
 };
 
 export const INTERFACE_WALL: InterfaceWallTile[] = [
   {
-    id: "sura-dash",
-    src: portfolioImages.sura.iaAutomationDashboard,
+    id: "sura-web",
+    src: portfolioImages.sura.webPrototype,
     brand: { es: "SURA Investments", en: "SURA Investments" },
-    label: { es: "Dashboard IA", en: "AI dashboard" },
+    label: { es: "Web wealth", en: "Wealth web" },
     scope: "global",
     featured: true,
   },
@@ -46,24 +44,24 @@ export const INTERFACE_WALL: InterfaceWallTile[] = [
     scope: "national",
   },
   {
-    id: "karri-okr",
-    src: portfolioImages.karri.okrsBoard,
+    id: "karri-delivery",
+    src: portfolioImages.karri.deliveryBrand,
     brand: { es: "Karri", en: "Karri" },
-    label: { es: "OKRs · producto", en: "OKRs · product" },
+    label: { es: "Producto shoppers", en: "Shoppers product" },
     scope: "national",
   },
   {
-    id: "edu21-ficha",
-    src: portfolioImages.edu21.fichaProducto,
+    id: "edu21-heuristic",
+    src: portfolioImages.edu21.heuristicWeb,
     brand: { es: "Edu21", en: "Edu21" },
-    label: { es: "Ficha producto", en: "Product sheet" },
+    label: { es: "Heurística web", en: "Web heuristic" },
     scope: "national",
   },
   {
-    id: "edu21-cta",
-    src: portfolioImages.edu21.ctaBrochure,
+    id: "edu21-story",
+    src: portfolioImages.edu21.storyboard,
     brand: { es: "Edu21", en: "Edu21" },
-    label: { es: "CTA brochure", en: "Brochure CTA" },
+    label: { es: "Storyboard servicio", en: "Service storyboard" },
     scope: "national",
   },
   {
@@ -96,10 +94,10 @@ export const INTERFACE_WALL: InterfaceWallTile[] = [
     scope: "national",
   },
   {
-    id: "mc-patrones",
-    src: portfolioImages.marcaConsciente.patrones,
-    brand: { es: "Marca Consciente", en: "Marca Consciente" },
-    label: { es: "Patrones UI", en: "UI patterns" },
-    scope: "national",
+    id: "sura-process",
+    src: portfolioImages.sura.uxProcess,
+    brand: { es: "SURA Investments", en: "SURA Investments" },
+    label: { es: "Proceso UX", en: "UX process" },
+    scope: "global",
   },
 ];

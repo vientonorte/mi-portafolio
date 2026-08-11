@@ -1,0 +1,79 @@
+name: Deploy QA
+
+# Publica SPA de prueba en https://vientonorte.io/qa/ (multi-device, noindex).
+# Tras DNS CNAME qa → GitHub Pages, se puede mapear qa.vientonorte.io (ver docs/QA-ENV.md).
+on:
+  push:
+    branches:
+      - "preview/**"
+      - qa
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+concurrency:
+  group: qa-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://npm.pkg.github.com
+          scope: "@vientonorte"
+          cache: npm
+
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - run: npm run sync:images
+
+      - name: Build QA SPA (base /qa/)
+        run: npx vite build
+        env:
+          VITE_BASE: /qa/
+          VITE_APP_ENV: qa
+          VITE_GA_MEASUREMENT_ID: ""
+          VITE_GTM_ID: ""
+
+      - name: SPA fallback + noindex
+        run: |
+          set -euo pipefail
+          cp dist/index.html dist/404.html
+          # robots noindex for QA shell
+          if ! grep -q 'noindex' dist/index.html; then
+            sed -i 's#<head>#<head>\n    <meta name="robots" content="noindex, nofollow" />#' dist/index.html
+            sed -i 's#<head>#<head>\n    <meta name="robots" content="noindex, nofollow" />#' dist/404.html
+          fi
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+
+      - name: Publish to hub /qa/
+        env:
+          HUB_TOKEN: ${{ secrets.VN_HUB_DEPLOY_TOKEN || secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config --global user.name "vn-deploy-qa"
+          git config --global user.email "deploy@vientonorte.io"
+          rm -rf /tmp/vn-hub-qa
+          git clone --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/vientonorte/vientonorte.github.io.git" /tmp/vn-hub-qa
+          cd /tmp/vn-hub-qa
+          rm -rf qa
+          mkdir -p qa
+          cp -R "$GITHUB_WORKSPACE/dist/." qa/
+          # Marker for ops
+          echo "qa.vientonorte.io (optional CNAME) → serve /qa/ or CF redirect" > qa/README-QA.txt
+          git add -A qa
+          if git diff --cached --quiet; then
+            echo "No QA hub changes"
+          else
+            git commit -m "deploy(qa): preview SPA at /qa/ from mi-portafolio ${GITHUB_SHA}"
+            git push origin HEAD:main
+          fi

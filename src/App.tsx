@@ -12,6 +12,7 @@ import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
+import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { isConsultingOfferPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
@@ -135,6 +136,7 @@ function AppRoutes() {
 
   return (
     <PortfolioChrome>
+      <QaEnvBanner />
       <ScrollManager />
       <a href="#main" className="skip-link">
         Ir al contenido principal
