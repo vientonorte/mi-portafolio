@@ -35,8 +35,8 @@ export function Experience() {
         title={language === "es" ? "Línea de tiempo" : "Timeline"}
         description={
           language === "es"
-            ? "Impacto + captura. Detalle en cada empresa."
-            : "Impact + capture. Detail per company."
+            ? "Roles, impacto y herramientas por organización."
+            : "Roles, impact, and tools by organization."
         }
         titleId="experience-heading"
       />

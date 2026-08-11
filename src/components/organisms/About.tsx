@@ -72,12 +72,11 @@ export function About() {
         title={es ? "Perfil" : "Profile"}
         description={
           es
-            ? "Ficha clara para reclutamiento. Evidencia visual en la galería."
-            : "Clear hiring profile. Visual evidence in the gallery."
+            ? "UX Manager en Viento Norte. Interfaces de producto y operaciones digitales."
+            : "UX Manager at Viento Norte. Product interfaces and digital operations."
         }
       />
 
-      {/* Recruiter scan: 2 columnas fijas, sin widgets a la derecha */}
       <motion.div
         {...fadeUp}
         className="mx-auto grid max-w-3xl gap-8 sm:grid-cols-[200px_1fr] sm:items-start sm:gap-10"
