@@ -1,4 +1,5 @@
 import { About } from '../components/organisms/About';
+import { PerfilEstrategico } from '../components/organisms/PerfilEstrategico';
 import { Skills } from '../components/organisms/Skills';
 import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
@@ -42,7 +43,8 @@ const SobreMi = () => {
         url={canonicalFromPath('/sobre-mi')}
       />
       {/*
-        L1 Perfil
+        L1 Perfil reclutador (ficha)
+        L1b Perfil estratégico (ciclo de campo — réplica en código, no imagen pegada)
         L2 Método + alcance
         L3 Timeline (VN / micro1 con CTA a evidencia)
         L4 Evidencias ancladas al cargo (no galería general)
@@ -51,6 +53,7 @@ const SobreMi = () => {
         Enterprise employment SURA/Transvip → /proyectos
       */}
       <About />
+      <PerfilEstrategico />
       <Skills />
       <ProfileScope />
       <Experience />
