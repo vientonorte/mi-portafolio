@@ -27,10 +27,11 @@ WARN=0
 check_http() {
   local label="$1"
   local url="$2"
+  # single code or pipe list: 200|301|302
   local expect="${3:-200}"
   local code
   code=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 20 "$url" || echo "000")
-  if [ "$code" = "$expect" ]; then
+  if echo "|$expect|" | grep -q "|$code|"; then
     echo "✓ $label (HTTP $code)"
     PASS=$((PASS + 1))
   else
@@ -176,7 +177,8 @@ check_http "profile photo" "$BASE_URL/profile-photo.jpg"
 check_http "ops noindex surface" "$BASE_URL/ops/"
 check_http "ops canvas-state" "$BASE_URL/ops/canvas-state.json"
 check_http "finanzas worker" "https://finanzas.vientonorte.io/"
-check_http "github.io redirect host" "https://vientonorte.github.io/"
+# github.io often 301 → custom domain; both are healthy
+check_http "github.io host" "https://vientonorte.github.io/" "200|301|302"
 
 echo ""
 echo "── 4. Critical content assets (200) ──"
