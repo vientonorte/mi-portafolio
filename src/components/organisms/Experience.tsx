@@ -42,9 +42,9 @@ export function Experience() {
       <ol className="space-y-0" role="list" aria-label={t.title}>
         {experiences.map((exp, index) => {
           const isLast = index === experiences.length - 1;
-          const cover = exp.companyId
-            ? EXPERIENCE_COVER[exp.companyId]
-            : undefined;
+          const cover =
+            (exp.companyId && EXPERIENCE_COVER[exp.companyId]) ||
+            EXPERIENCE_COVER[exp.company];
 
           return (
             <li

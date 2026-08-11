@@ -103,10 +103,13 @@ export const ABOUT_VISUAL_TILES: AboutVisualTile[] = [
 ];
 
 /** Cover image per experience companyId (timeline). */
+/** Keys: companyId y/o company name exacto del catalog. */
 export const EXPERIENCE_COVER: Record<string, string> = {
   "sura-investments": portfolioImages.sura.webPrototype,
   transvip: portfolioImages.transvip.figmaPrototype,
   karri: portfolioImages.karri.deliveryBrand,
+  "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
+  "Karri by Transvip": portfolioImages.karri.deliveryBrand,
 };
 
 export const METHOD_STRIP = [
