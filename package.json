@@ -113,7 +113,8 @@
     "preprod": "bash scripts/preprod-gate.sh",
     "preprod:quick": "bash scripts/preprod-gate.sh --quick",
     "preprod:dev": "bash scripts/preprod-gate.sh --with-dev",
-    "preprod:routes": "bash scripts/preprod-gate.sh --with-routes"
+    "preprod:routes": "bash scripts/preprod-gate.sh --with-routes",
+    "qa:error-ui": "bash scripts/qa-error-ui.sh"
   },
   "optionalDependencies": {
     "@rolldown/binding-darwin-arm64": "^1.1.4"

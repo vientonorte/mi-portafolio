@@ -1476,10 +1476,14 @@ export default {
       companyNotFound: 'We could not find that company.',
       projectNotFound: 'We could not find that project.',
       processNotFound: 'Process not found',
-      pageNotFound: 'We could not find this page.',
+      pageNotFound:
+        'We could not find this page. In this SPA the 404 code is from the app (not the server).',
       backToProjects: 'Back to business',
       backToHome: 'Back to home',
       back: 'Back',
+      imageNotFound: 'Image not found',
+      serverError: 'Application server error',
+      contentUnavailable: 'Content unavailable',
     },
     
     // Process Detail

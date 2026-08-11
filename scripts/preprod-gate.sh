@@ -69,6 +69,7 @@ echo "════════════════════════�
 run_step "type-check" npm run type-check || true
 run_step "unit tests" npm test || true
 run_step "nav config" npm run qa:nav || true
+run_step "error UI (404/500/503)" npm run qa:error-ui || true
 
 if [[ "$QUICK" -eq 1 ]]; then
   echo ""
