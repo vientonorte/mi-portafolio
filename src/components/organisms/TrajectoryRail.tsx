@@ -2,39 +2,72 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { cn } from "../../lib/utils";
 
 /**
- * Arco profesional — el nodo final es el empleo actual (VN).
- * Wealth/SURA queda como etapa pasada, no “ahora”.
+ * Alcance de trabajo — no “base débil → actual”.
+ * Cada nodo suma valor: nacional · regional · internacional · práctica VN.
  */
 const STAGES = {
   es: [
-    { id: "foundation", label: "Base", sub: "Retail · Agencia" },
-    { id: "mobility", label: "Mobility", sub: "Transvip · Karri" },
-    { id: "wealth", label: "Wealth", sub: "SURA · 23–26" },
-    { id: "vn", label: "Viento Norte", sub: "UX Manager · ahora" },
+    {
+      id: "national",
+      label: "Nacional",
+      sub: "Transvip · Karri · e-comm",
+    },
+    {
+      id: "regional",
+      label: "Regional",
+      sub: "SURA · 5+ países",
+    },
+    {
+      id: "international",
+      label: "Internacional",
+      sub: "micro1 · EE.UU. remoto",
+    },
+    {
+      id: "vn",
+      label: "Viento Norte",
+      sub: "UX Manager · n2n",
+    },
   ],
   en: [
-    { id: "foundation", label: "Foundation", sub: "Retail · Agency" },
-    { id: "mobility", label: "Mobility", sub: "Transvip · Karri" },
-    { id: "wealth", label: "Wealth", sub: "SURA · 23–26" },
-    { id: "vn", label: "Viento Norte", sub: "UX Manager · now" },
+    {
+      id: "national",
+      label: "National",
+      sub: "Transvip · Karri · e-comm",
+    },
+    {
+      id: "regional",
+      label: "Regional",
+      sub: "SURA · 5+ countries",
+    },
+    {
+      id: "international",
+      label: "International",
+      sub: "micro1 · US remote",
+    },
+    {
+      id: "vn",
+      label: "Viento Norte",
+      sub: "UX Manager · n2n",
+    },
   ],
 } as const;
 
 export function TrajectoryRail({ className }: { className?: string }) {
   const { language } = useLanguage();
   const stages = STAGES[language];
+  const es = language === "es";
 
   return (
     <nav
-      aria-label={language === "es" ? "Arco profesional" : "Career arc"}
+      aria-label={es ? "Alcance de trabajo" : "Work scope"}
       className={cn("w-full", className)}
     >
       <p className="mb-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:text-left">
-        {language === "es" ? "Arco (no empleo actual en cada nodo)" : "Arc (not every node = current job)"}
+        {es ? "Dónde sumo · no solo un CV lineal" : "Where I ship · not a flat CV"}
       </p>
       <ol className="flex flex-wrap items-stretch justify-between gap-2 sm:gap-0">
         {stages.map((s, i) => {
-          const isNow = i === stages.length - 1;
+          const isHighlight = s.id === "vn" || s.id === "international";
           return (
             <li
               key={s.id}
@@ -49,7 +82,7 @@ export function TrajectoryRail({ className }: { className?: string }) {
               <span
                 className={cn(
                   "relative z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 border-background text-[10px] font-bold",
-                  isNow
+                  isHighlight
                     ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
                     : "bg-primary/15 text-primary"
                 )}
@@ -59,12 +92,12 @@ export function TrajectoryRail({ className }: { className?: string }) {
               <span
                 className={cn(
                   "mt-2 text-center text-xs font-semibold",
-                  isNow ? "text-primary" : "text-foreground"
+                  isHighlight ? "text-primary" : "text-foreground"
                 )}
               >
                 {s.label}
               </span>
-              <span className="text-center text-[10px] text-muted-foreground">
+              <span className="text-center text-[10px] leading-snug text-muted-foreground">
                 {s.sub}
               </span>
             </li>
