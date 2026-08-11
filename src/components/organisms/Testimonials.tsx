@@ -21,6 +21,7 @@ export function Testimonials() {
     >
         <SectionHeader
           badge={t.badge}
+          badgeIcon={Quote}
           title={t.title}
           description={t.description}
           titleId="testimonials-heading"

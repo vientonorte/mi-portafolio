@@ -870,11 +870,11 @@ export default {
     },
 
     testimonials: {
-      badge: 'Recomendaciones',
-      title: 'Lo que dicen los equipos',
+      badge: 'Referencias',
+      title: 'Referencias profesionales',
       description:
-        'Recomendaciones de LinkedIn de líderes en fintech y movilidad premium con los que colaboré.',
-      linkedInCta: 'Ver perfil en LinkedIn',
+        'Recomendaciones de LinkedIn de líderes en fintech, wealth y movilidad con los que colaboré (SURA, Transvip y entorno RIA).',
+      linkedInCta: 'Ver perfil y referencias en LinkedIn',
       linkedInHref: 'https://www.linkedin.com/in/rodrigo-gaete-ux/',
       items: [
         {
