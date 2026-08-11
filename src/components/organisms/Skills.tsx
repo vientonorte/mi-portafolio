@@ -52,7 +52,9 @@ export function Skills() {
         titleId="skills-heading"
         title={es ? "Método en una mirada" : "Method at a glance"}
         description={
-          es ? "Artefactos reales del craft." : "Real craft artifacts."
+          es
+            ? "Journey, flows, test, system — del craft (no stock genérico)."
+            : "Journey, flows, test, system — from craft (not generic stock)."
         }
       />
 

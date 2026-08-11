@@ -12,31 +12,51 @@ import { analytics } from "../../lib/analytics";
 import { getCvDownloadUrl } from "../../lib/site-contact";
 import { cn } from "../../lib/utils";
 
-const roles = [
-  "Lead UX",
-  "UX Manager · VN",
-  "Product Design",
-  "Design Systems",
-  "Interfaces",
-  "Sprints",
-];
-
-const PROOF = {
+/** Roles de craft — no empleo actual (eso va en el título). */
+const roles = {
   es: [
-    { icon: Timer, label: "3+ años", detail: "Lead / Senior Product" },
-    { icon: Layers2, label: "2 verticales", detail: "Wealth + Mobility" },
-    { icon: Globe2, label: "Regional", detail: "5+ países · −40% onboarding" },
+    "Interfaces",
+    "Product Design",
+    "Design Systems",
+    "Research",
+    "Sprints",
+    "Design Ops",
   ],
   en: [
-    { icon: Timer, label: "3+ years", detail: "Lead / Senior Product" },
-    { icon: Layers2, label: "2 verticals", detail: "Wealth + Mobility" },
-    { icon: Globe2, label: "Regional", detail: "5+ countries · −40% onboarding" },
+    "Interfaces",
+    "Product Design",
+    "Design Systems",
+    "Research",
+    "Sprints",
+    "Design Ops",
+  ],
+} as const;
+
+/**
+ * Chips de prueba — coherentes con timeline:
+ * 7+ craft (VN 2019–) · 3+ lead (mobility→wealth) · impacto regional SURA (pasado).
+ */
+const PROOF = {
+  es: [
+    { icon: Timer, label: "7+ años", detail: "Craft UX/UI · Viento Norte 2019–" },
+    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
+    { icon: Globe2, label: "Regional", detail: "5+ países · −40% onboarding SURA" },
+  ],
+  en: [
+    { icon: Timer, label: "7+ years", detail: "UX/UI craft · Viento Norte 2019–" },
+    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
+    { icon: Globe2, label: "Regional", detail: "5+ countries · −40% SURA onboarding" },
   ],
 } as const;
 
 const LINE = {
-  es: "UX Manager Viento Norte. Ex UX Lead SURA (Wealth regional, hasta jun. 2026).",
-  en: "UX Manager Viento Norte. Former UX Lead SURA (Wealth regional, through Jun 2026).",
+  es: "Interfaces de producto (wealth, mobility, e-comm). Ex UX Lead SURA (hasta jun. 2026).",
+  en: "Product interfaces (wealth, mobility, e-comm). Former UX Lead SURA (through Jun 2026).",
+} as const;
+
+const TITLE_ROLE = {
+  es: "UX Manager · Viento Norte",
+  en: "UX Manager · Viento Norte",
 } as const;
 
 export function About() {
@@ -44,6 +64,7 @@ export function About() {
   const prefersReducedMotion = useReducedMotion();
   const proof = PROOF[language];
   const es = language === "es";
+  const roleList = roles[language];
 
   const fadeUp = (delay = 0) =>
     prefersReducedMotion
@@ -70,21 +91,21 @@ export function About() {
         title={es ? "Evidencia primero." : "Evidence first."}
         description={
           es
-            ? "Dashboards, mockups y diagramas. Poco texto."
-            : "Dashboards, mockups, diagrams. Minimal text."
+            ? "Pantallas de producto. Poco texto."
+            : "Product screens. Minimal text."
         }
       />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,220px)_1fr] lg:items-start lg:gap-10">
         <motion.div {...fadeUp(0)} className="mx-auto w-full max-w-[200px] lg:mx-0">
           <div className="profile-avatar-frame relative aspect-[4/5] w-full">
-            <ProfileAvatar alt="Rodrigo Gaete — Lead UX Designer" />
+            <ProfileAvatar alt={`Rodrigo Gaete — ${TITLE_ROLE[language]}`} />
           </div>
           <h3 className="mt-4 text-center text-base font-semibold tracking-tight lg:text-left">
             Rodrigo Gaete
           </h3>
           <p className="mt-0.5 text-center text-sm font-medium text-primary lg:text-left">
-            UX Manager · VN
+            {TITLE_ROLE[language]}
           </p>
           <p className="mt-3 text-center text-sm leading-snug text-muted-foreground lg:text-left">
             {LINE[language]}
@@ -99,10 +120,10 @@ export function About() {
             className="mt-4 w-full border-2 group"
           >
             <Download className="mr-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-            {es ? "CV PDF" : "CV PDF"}
+            CV PDF
           </Button>
           <div className="mt-4 flex flex-wrap justify-center gap-1.5 lg:justify-start">
-            {roles.map((role) => (
+            {roleList.map((role) => (
               <Badge
                 key={role}
                 variant="secondary"
@@ -148,7 +169,6 @@ export function About() {
         </div>
       </div>
 
-      {/* S1: muro de interfaces — full width bajo el grid */}
       <div className="mt-10 border-t border-border/50 pt-8">
         <InterfaceWall />
       </div>
