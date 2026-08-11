@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Briefcase, ChevronRight } from "lucide-react";
+import { Briefcase, ChevronRight, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -11,6 +11,7 @@ import { EXPERIENCE_COVER } from "../../data/about-visuals";
 import { CompanyLogo } from "../atoms/CompanyLogo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { scrollToSection } from "../../lib/scroll-to-section";
 import { cn } from "../../lib/utils";
 
 export function Experience() {
@@ -18,6 +19,7 @@ export function Experience() {
   const { language } = useLanguage();
   const t = useTranslation(language).experience;
   const experiences = getExperiences(language);
+  const es = language === "es";
 
   return (
     <PageSection
@@ -136,16 +138,20 @@ export function Experience() {
                     <p className="text-sm font-semibold leading-snug text-primary">
                       {exp.impact}
                     </p>
-                    {/* Una sola línea de evidencia — no muro de bullets */}
-                    {exp.achievements[0] ? (
-                      <p className="text-sm leading-snug text-muted-foreground">
-                        {exp.achievements[0]}
-                      </p>
-                    ) : null}
+                    <ul className="space-y-1.5" role="list">
+                      {exp.achievements.slice(0, 3).map((line) => (
+                        <li
+                          key={line.slice(0, 48)}
+                          className="text-sm leading-snug text-muted-foreground"
+                        >
+                          · {line}
+                        </li>
+                      ))}
+                    </ul>
 
                     {exp.tools && exp.tools.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
-                        {exp.tools.slice(0, 5).map((tool) => (
+                        {exp.tools.map((tool) => (
                           <Badge key={tool} variant="secondary" className="text-[11px]">
                             {tool}
                           </Badge>
@@ -153,17 +159,34 @@ export function Experience() {
                       </div>
                     )}
 
-                    {exp.companyId && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="gap-1 px-0 text-primary hover:text-primary"
-                        onClick={() => navigate(`/empresa/${exp.companyId}`)}
-                      >
-                        {t.viewCases}
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    )}
+                    <div className="flex flex-wrap gap-3 pt-1">
+                      {exp.evidenceSectionId ? (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="gap-1 px-0 text-primary hover:text-primary"
+                          onClick={() => scrollToSection(exp.evidenceSectionId!)}
+                        >
+                          <Link2 className="h-4 w-4" aria-hidden />
+                          {exp.evidenceCta
+                            ? exp.evidenceCta[language]
+                            : es
+                              ? "Ver evidencia"
+                              : "View evidence"}
+                        </Button>
+                      ) : null}
+                      {exp.companyId ? (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="gap-1 px-0 text-primary hover:text-primary"
+                          onClick={() => navigate(`/empresa/${exp.companyId}`)}
+                        >
+                          {t.viewCases}
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
+                      ) : null}
+                    </div>
                   </CardContent>
                 </Card>
               </motion.article>
