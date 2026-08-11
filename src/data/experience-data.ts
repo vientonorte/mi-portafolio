@@ -116,13 +116,12 @@ const experienceCatalog: LocalizedExperience[] = [
     },
   },
   {
-    isCurrent: true,
     logo: portfolioImages.sura.logo,
     companyId: "sura-investments",
     es: {
       company: "SURA Investments",
       position: "UX Lead · Associate, Estrategia Digital",
-      period: "Sept 2023 — Actualidad",
+      period: "Sept 2023 — Jun 2026 · 2 años 10 meses",
       location: "Chile · Híbrido",
       stage: "Wealth · Regional",
       context:
@@ -140,7 +139,7 @@ const experienceCatalog: LocalizedExperience[] = [
     en: {
       company: "SURA Investments",
       position: "UX Lead · Associate, Digital Strategy",
-      period: "Sep 2023 — Present",
+      period: "Sep 2023 — Jun 2026 · 2 yrs 10 mos",
       location: "Chile · Hybrid",
       stage: "Wealth · Regional",
       context:
