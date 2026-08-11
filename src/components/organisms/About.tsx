@@ -35,8 +35,8 @@ const PROOF = {
 } as const;
 
 const LINE = {
-  es: "UX Manager Viento Norte + UX Lead SURA. Interfaces de producto — no solo método.",
-  en: "UX Manager Viento Norte + UX Lead SURA. Product interfaces — not method alone.",
+  es: "UX Manager Viento Norte. Ex UX Lead SURA (Wealth regional, hasta jun. 2026).",
+  en: "UX Manager Viento Norte. Former UX Lead SURA (Wealth regional, through Jun 2026).",
 } as const;
 
 export function About() {
@@ -84,7 +84,7 @@ export function About() {
             Rodrigo Gaete
           </h3>
           <p className="mt-0.5 text-center text-sm font-medium text-primary lg:text-left">
-            Lead UX · SURA
+            UX Manager · VN
           </p>
           <p className="mt-3 text-center text-sm leading-snug text-muted-foreground lg:text-left">
             {LINE[language]}
