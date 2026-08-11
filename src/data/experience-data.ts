@@ -88,10 +88,10 @@ const experienceCatalog: LocalizedExperience[] = [
         "Consultora tecnológica: experiencia digital para negocios regulados y operaciones con cumplimiento por diseño.",
       role:
         "Implementación n2n de operaciones digitales y UX; diseño aplicado a negocio, web y experiencia de cliente.",
-      impact: "Craft enterprise + FO: método, productos y handoff con dueño del dato",
+      impact: "Interfaces + n2n: e-comm, educación, enterprise y FO con dueño del dato",
       achievements: [
-        "Operaciones digitales y experiencias con cumplimiento por diseño (n2n)",
-        "Desarrollo web y diseño de experiencia de cliente en contextos regulados",
+        "UI/UX de producto: e-comm (Monitas), educación (Edu21), patrones y funnels nacionales",
+        "Operaciones digitales con cumplimiento por diseño (n2n) y design ops",
         "Liderazgo de marca Viento Norte: consultoría, demos y delivery multi-vertical",
       ],
       tools: ["Desarrollo web", "Diseño de experiencia del cliente", "Figma", "Design Ops"],
@@ -106,10 +106,10 @@ const experienceCatalog: LocalizedExperience[] = [
         "Tech consultancy: digital experience for regulated businesses and operations with compliance by design.",
       role:
         "End-to-end digital ops and UX; design applied to business, web, and customer experience.",
-      impact: "Enterprise craft + FO: method, products, and handoff with data ownership",
+      impact: "Interfaces + n2n: e-comm, education, enterprise, and FO with data ownership",
       achievements: [
-        "Digital operations and experiences with compliance by design (n2n)",
-        "Web development and customer experience design in regulated contexts",
+        "Product UI/UX: e-comm (Monitas), education (Edu21), national patterns and funnels",
+        "Digital operations with compliance by design (n2n) and design ops",
         "Viento Norte brand leadership: consulting, demos, multi-vertical delivery",
       ],
       tools: ["Web development", "Customer experience design", "Figma", "Design Ops"],

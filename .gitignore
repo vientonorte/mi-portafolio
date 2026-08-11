@@ -35,7 +35,9 @@ desktop.ini
 !public/icon-512x512.png
 *.jpg
 !public/profile-photo.jpg
+!public/images/**
 *.jpeg
+!public/images/**/*.jpeg
 *.gif
 *.bmp
 *.tiff
