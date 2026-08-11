@@ -4,6 +4,7 @@ import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
 import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { Micro1ToolEvidence } from '../components/organisms/Micro1ToolEvidence';
+import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
 
 import { SEOHead } from '../components/atoms/SEOHead';
@@ -55,6 +56,7 @@ const SobreMi = () => {
       <Experience />
       <MetodoRoEvidence />
       <Micro1ToolEvidence />
+      <Testimonials />
       <Contact />
     </PageShell>
   );

@@ -865,11 +865,11 @@ export default {
     },
 
     testimonials: {
-      badge: 'Recommendations',
-      title: 'What teams say',
+      badge: 'References',
+      title: 'Professional references',
       description:
-        'LinkedIn recommendations from leaders in fintech and premium mobility I worked with.',
-      linkedInCta: 'View LinkedIn profile',
+        'LinkedIn recommendations from leaders in fintech, wealth, and mobility I worked with (SURA, Transvip, RIA context).',
+      linkedInCta: 'View profile and references on LinkedIn',
       linkedInHref: 'https://www.linkedin.com/in/rodrigo-gaete-ux/',
       items: [
         {
