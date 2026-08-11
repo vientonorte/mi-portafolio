@@ -53,8 +53,8 @@ export function Skills() {
         title={es ? "Método en una mirada" : "Method at a glance"}
         description={
           es
-            ? "Fases del craft. Abajo: evidencia de casos VN (no el portafolio enterprise)."
-            : "Craft phases. Below: VN case evidence (not the enterprise portfolio)."
+            ? "Journey, flows, test y design system en el trabajo diario."
+            : "Journey, flows, test, and design system in day-to-day work."
         }
       />
 

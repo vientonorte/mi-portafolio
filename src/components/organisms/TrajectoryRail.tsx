@@ -63,7 +63,7 @@ export function TrajectoryRail({ className }: { className?: string }) {
       className={cn("w-full", className)}
     >
       <p className="mb-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:text-left">
-        {es ? "Dónde sumo · no solo un CV lineal" : "Where I ship · not a flat CV"}
+        {es ? "Alcance de trabajo" : "Work scope"}
       </p>
       <ol className="flex flex-wrap items-stretch justify-between gap-2 sm:gap-0">
         {stages.map((s, i) => {

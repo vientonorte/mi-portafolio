@@ -15,7 +15,7 @@ const PROOF = {
     {
       icon: LayoutPanelLeft,
       label: "Interfaces",
-      detail: "Empresas CL + wealth · wall arriba",
+      detail: "Producto en empresas CL y wealth regional",
     },
     {
       icon: Globe2,
@@ -32,7 +32,7 @@ const PROOF = {
     {
       icon: LayoutPanelLeft,
       label: "Interfaces",
-      detail: "CL product + wealth · wall above",
+      detail: "Product UI for CL companies and regional wealth",
     },
     {
       icon: Globe2,
@@ -78,8 +78,8 @@ export function ProfileScope() {
         title={es ? "Dónde sumo" : "Where I add value"}
         description={
           es
-            ? "Segundo nivel: contexto de mercado tras el método."
-            : "Second level: market context after method."
+            ? "Nacional, regional e internacional — en paralelo a Viento Norte."
+            : "National, regional, and international — alongside Viento Norte."
         }
       />
 

@@ -28,13 +28,13 @@ export function Micro1ToolEvidence() {
         titleId="micro1-evidence-heading"
         title={
           es
-            ? "Evidencia de tools · Anotación y QA"
-            : "Tool evidence · Annotation and QA"
+            ? "micro1 · captura y calidad"
+            : "micro1 · capture and quality"
         }
         description={
           es
-            ? "Proceso de captura remota (EE.UU.). Sin capturas de títulos AAA (NDA / tooling)."
-            : "Remote capture process (US). No AAA title captures (NDA / tooling)."
+            ? "Captura remota, anotación y QA de grabación en proyectos AAA (EE.UU.)."
+            : "Remote capture, annotation, and recording QA on AAA projects (US)."
         }
       />
 

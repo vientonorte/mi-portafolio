@@ -30,13 +30,13 @@ export function MetodoRoEvidence() {
         titleId="evidencia-vn-heading"
         title={
           es
-            ? "Evidencia del cargo · N2N"
-            : "Role evidence · N2N"
+            ? "Casos Viento Norte"
+            : "Viento Norte cases"
         }
         description={
           es
-            ? "Respaldo visual de: e-comm (Monitas), educación (Edu21), funnels, design ops y FO. Tools: web, CX, Figma, Design Ops."
-            : "Visual backing for: e-comm (Monitas), education (Edu21), funnels, design ops, and FO. Tools: web, CX, Figma, Design Ops."
+            ? "E-comm, educación, funnels y front office — Design Ops y Figma en práctica."
+            : "E-comm, education, funnels, and front office — Design Ops and Figma in practice."
         }
       />
 
@@ -92,9 +92,7 @@ export function MetodoRoEvidence() {
               </CardHeader>
               <CardContent className="pt-0">
                 <p className="text-xs text-muted-foreground">
-                  {es
-                    ? "Evidencia · cargo UX Manager VN"
-                    : "Evidence · UX Manager VN role"}
+                  {es ? "Viento Norte · N2N" : "Viento Norte · N2N"}
                 </p>
               </CardContent>
             </Card>
