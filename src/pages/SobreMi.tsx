@@ -1,6 +1,7 @@
 import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
 import { ProfileScope } from '../components/organisms/ProfileScope';
+import { InterfaceWall } from '../components/organisms/InterfaceWall';
 import { Experience } from '../components/organisms/Experience';
 import { Contact } from '../components/organisms/Contact';
 
@@ -38,14 +39,16 @@ const SobreMi = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/sobre-mi')}
       />
-      {/* Card-sort L1 → L2 → L3
-          1 Identidad + wall de interfaces
-          2 Método (craft)
-          3 Alcance (mercado / Latam+US / micro1) — segundo nivel tras método
-          4 Timeline · 5 Contacto */}
+      {/* Card-sort recruiter
+          L1 Identidad (ficha)
+          L2a Método
+          L2b Alcance
+          L2c Galería interfaces (mismo patrón Projects)
+          L3 Timeline · Contacto */}
       <About />
       <Skills />
       <ProfileScope />
+      <InterfaceWall />
       <Experience />
       <Contact />
     </PageShell>

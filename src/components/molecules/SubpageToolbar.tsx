@@ -75,10 +75,32 @@ export function SubpageToolbar({
             )}
             <Breadcrumbs links={crumbs} className="mb-0 min-w-0" />
           </div>
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          {/* Idioma + tema siempre visibles (reclutador / a11y de contraste).
+              Mobile: 44×44. sm+: idioma con label ES/EN legible. */}
+          <div
+            className="flex shrink-0 items-center gap-1.5 sm:gap-2"
+            role="group"
+            aria-label={
+              language === "es"
+                ? "Idioma y accesibilidad visual"
+                : "Language and visual accessibility"
+            }
+          >
             {trailing}
-            <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
-            <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
+            <ThemeToggle
+              className={MOBILE_HEADER_CONTROL_CLASS}
+            />
+            <span className="sm:hidden">
+              <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
+            </span>
+            <span className="hidden sm:inline-flex">
+              <LanguageToggle
+                className={cn(
+                  MOBILE_HEADER_CONTROL_CLASS,
+                  "h-11 w-auto min-w-[4.5rem] gap-1.5 px-3"
+                )}
+              />
+            </span>
           </div>
         </div>
       </div>
