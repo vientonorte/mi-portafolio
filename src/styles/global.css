@@ -390,6 +390,19 @@ html[data-nav="site"] .subpage-toolbar {
 }
 
 /*
+ * Home FO (data-nav=site): header global fixed.
+ * Empuja el embudo bajo el header y alinea el TOC mobile sticky.
+ * No aplica a #/sobre-mi ni otras subpáginas (data-nav=subpage).
+ */
+html[data-nav="site"] [data-surface="consultoria-funnel"] {
+  padding-top: var(--header-height);
+}
+
+html[data-nav="site"] .process-nav-mobile {
+  --process-nav-mobile-top: var(--header-height);
+}
+
+/*
  * Subpáginas (todo excepto /): sin nav global.
  * --header-height = altura del SubpageToolbar para scroll-mt, scrollToSection
  * y que el contenido no quede “bajo” el sticky al anclar.
@@ -439,6 +452,15 @@ main {
 
 html[data-nav="subpage"] main {
   padding-bottom: var(--bottom-nav-total);
+}
+
+/*
+ * SEM offer fullscreen: sin pad de dock (chrome propio fixed inset-0).
+ * Especificidad ≥ html[data-nav=subpage] main — si no, el pad del dock gana.
+ */
+main:has([data-surface="consultoria-offer"]),
+html[data-nav="subpage"] main:has([data-surface="consultoria-offer"]) {
+  padding-bottom: 0;
 }
 
 @media (min-width: 1024px) {

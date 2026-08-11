@@ -350,7 +350,7 @@ export default function PocProductOnboarding({
       />
 
       <div
-        className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7]"
+        className="fixed inset-0 z-[100] flex flex-col bg-[#050a14] text-[#f5f5f7] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)]"
         data-surface="consultoria-offer"
         data-testid="consultoria-offer"
         data-first-value-budget-ms={OFFER_FIRST_VALUE_BUDGET_MS}
@@ -360,6 +360,7 @@ export default function PocProductOnboarding({
         {/* Progress — more visible (2px + glow) so craft is obvious */}
         <div
           className="offer-progress-track pointer-events-none absolute inset-x-0 top-0 z-[60]"
+          style={{ top: "env(safe-area-inset-top, 0px)" }}
           aria-hidden
         >
           <div
@@ -601,7 +602,10 @@ export default function PocProductOnboarding({
 
         {/* Dots: side desktop · bottom mobile (antes solo md → “no veo cambios”) */}
         <nav
-          className="pointer-events-none absolute inset-x-0 bottom-5 z-[55] flex justify-center gap-2 md:inset-x-auto md:bottom-auto md:right-5 md:top-1/2 md:-translate-y-1/2 md:flex-col md:gap-1.5"
+          className="pointer-events-none absolute inset-x-0 z-[55] flex justify-center gap-2 md:inset-x-auto md:bottom-auto md:right-5 md:top-1/2 md:-translate-y-1/2 md:flex-col md:gap-1.5"
+          style={{
+            bottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
+          }}
           aria-label={t.dotsAria}
         >
           {screens.map((id, i) => {
@@ -646,8 +650,8 @@ function TourScreen({
     <section
       id={`poc-screen-${id}`}
       data-screen={id}
-      className="flex w-full snap-start snap-always flex-col justify-center px-6 py-16 md:px-14 lg:px-20"
-      style={{ minHeight: "100dvh" }}
+      /* min-h-full = alto del scroller (flex-1), no 100dvh: evita doble pad bajo header SEM */
+      className="flex min-h-full w-full snap-start snap-always flex-col justify-center px-6 py-12 md:px-14 md:py-16 lg:px-20"
     >
       <div
         data-scrub
