@@ -1,84 +1,104 @@
-import { 
-  Palette, 
-  Users, 
-  Layers, 
-  Lightbulb, 
-  Sparkles,
-  Rocket,
-  CheckCircle2,
-  Box
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { SkillCard } from "../molecules/SkillCard";
+import { PageSection } from "../layout/PageSection";
+import { METHOD_STRIP } from "../../data/about-visuals";
+import { useLanguage } from "../../lib/LanguageContext";
+import { Badge } from "../ui/badge";
 
-const skills = [
-  {
-    icon: Palette,
-    title: "Diseño UI",
-    description: "Figma (experto), Frameworks, Accesibilidad, Design Systems",
-  },
-  {
-    icon: Users,
-    title: "User Research",
-    description: "Research de producto y usuarios, Testing, Validación continua",
-  },
-  {
-    icon: Lightbulb,
-    title: "Design Thinking",
-    description: "Facilitación de workshops, ideación, marco de trabajo ágil",
-  },
-  {
-    icon: Layers,
-    title: "Design Sprints",
-    description: "Sprint de desarrollo, prototipado rápido, validación ágil",
-  },
-  {
-    icon: Rocket,
-    title: "Product Design",
-    description: "Sprint de desarrollo, MVPs, Handoff, desarrollo evolutivo",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Implementación UX",
-    description: "Lineamientos de experiencia e interfaz en contextos enterprise",
-  },
-  {
-    icon: Box,
-    title: "Design Systems",
-    description: "Creación y gestión de sistemas de diseño escalables y consistentes",
-  },
-  {
-    icon: Users,
-    title: "Docencia UX/UI",
-    description: "Enseñanza de diseño UX y UI, mentoring de nuevos diseñadores",
-  },
-];
+const CHIPS = {
+  es: [
+    "Figma",
+    "Design systems",
+    "Research",
+    "Design Thinking",
+    "Sprints",
+    "WCAG",
+    "Handoff",
+    "Analytics",
+    "Product",
+    "Brand UX",
+  ],
+  en: [
+    "Figma",
+    "Design systems",
+    "Research",
+    "Design Thinking",
+    "Sprints",
+    "WCAG",
+    "Handoff",
+    "Analytics",
+    "Product",
+    "Brand UX",
+  ],
+} as const;
 
+/** Skills visuales: tira de método + chips. Sin párrafos. */
 export function Skills() {
+  const { language } = useLanguage();
+  const es = language === "es";
+  const chips = CHIPS[language];
+
   return (
-    <section 
+    <PageSection
       id="habilidades"
-      className="py-20 md:py-28 px-4"
+      padding="compact"
+      width="wide"
+      tone="default"
       aria-labelledby="skills-heading"
     >
-      <div className="container max-w-7xl mx-auto">
-        <SectionHeader
-          badge="Expertise"
-          badgeIcon={Sparkles}
-          title="Habilidades & Metodologías"
-          description="Stack completo de herramientas, metodologías y frameworks para diseño de experiencias centradas en el usuario"
-        />
+      <SectionHeader
+        badge="Stack"
+        badgeIcon={Sparkles}
+        titleId="skills-heading"
+        title={es ? "Método en una mirada" : "Method at a glance"}
+        description={
+          es ? "Artefactos reales del craft." : "Real craft artifacts."
+        }
+      />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {skills.map((skill, index) => (
-            <SkillCard
-              key={skill.title}
-              {...skill}
-              index={index}
+      <ul
+        className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 md:gap-3"
+        role="list"
+        aria-label={es ? "Métodos" : "Methods"}
+      >
+        {METHOD_STRIP.map((item) => (
+          <li
+            key={item.id}
+            className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated"
+          >
+            <img
+              src={item.src}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
             />
-          ))}
-        </div>
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-background/85 via-transparent to-transparent"
+              aria-hidden
+            />
+            <span className="absolute bottom-2 left-2 text-xs font-semibold text-foreground">
+              {item.label[language]}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div
+        className="mt-6 flex flex-wrap gap-2"
+        role="list"
+        aria-label={es ? "Herramientas" : "Tools"}
+      >
+        {chips.map((chip) => (
+          <Badge
+            key={chip}
+            variant="outline"
+            className="border-border/80 px-3 py-1.5 text-sm font-medium"
+          >
+            {chip}
+          </Badge>
+        ))}
       </div>
-    </section>
+    </PageSection>
   );
 }
