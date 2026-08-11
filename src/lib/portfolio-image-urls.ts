@@ -83,6 +83,21 @@ export const portfolioImages = {
     salesPitch: img("cases/edu21/04-sales-pitch.png"),
     storyboard: img("cases/edu21/05-storyboard.png"),
     performanceSeo: img("cases/edu21/06-performance-seo.png"),
+    /** Extra UI evidence (S1 wall) from Asesorías */
+    fichaProducto: img("cases/edu21-extra/01-ficha-producto.png"),
+    ctaBrochure: img("cases/edu21-extra/02-cta-brochure.png"),
+  },
+  /** Monitas.cl e-comm UX — práctica Viento Norte (Asesorías) */
+  monitas: {
+    wireframe: img("cases/monitas/01-wireframe.jpg"),
+    mapNav: img("cases/monitas/02-map-nav.jpg"),
+    flujoPago: img("cases/monitas/03-flujo-pago.jpg"),
+    embudo: img("cases/monitas/04-embudo.jpg"),
+  },
+  /** Marca Consciente — patrones / flujo MKT */
+  marcaConsciente: {
+    patrones: img("cases/mc/01-patrones.jpg"),
+    flujoMkt: img("cases/mc/02-flujo-mkt.jpg"),
   },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),

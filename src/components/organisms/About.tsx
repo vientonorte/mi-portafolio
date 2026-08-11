@@ -5,7 +5,7 @@ import { User, Download, Globe2, Layers2, Timer } from "lucide-react";
 import { ProfileAvatar } from "../atoms/ProfileAvatar";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { AboutEvidenceBento } from "./AboutEvidenceBento";
+import { InterfaceWall } from "./InterfaceWall";
 import { TrajectoryRail } from "./TrajectoryRail";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
@@ -14,11 +14,11 @@ import { cn } from "../../lib/utils";
 
 const roles = [
   "Lead UX",
+  "UX Manager · VN",
   "Product Design",
   "Design Systems",
-  "Research",
+  "Interfaces",
   "Sprints",
-  "Brand · UX",
 ];
 
 const PROOF = {
@@ -35,8 +35,8 @@ const PROOF = {
 } as const;
 
 const LINE = {
-  es: "UX Lead · SURA Investments. Método + evidencia de producto (no bio larga).",
-  en: "UX Lead · SURA Investments. Method + product evidence (no long bio).",
+  es: "UX Manager Viento Norte + UX Lead SURA. Interfaces de producto — no solo método.",
+  en: "UX Manager Viento Norte + UX Lead SURA. Product interfaces — not method alone.",
 } as const;
 
 export function About() {
@@ -145,8 +145,12 @@ export function About() {
           </ul>
 
           <TrajectoryRail />
-          <AboutEvidenceBento />
         </div>
+      </div>
+
+      {/* S1: muro de interfaces — full width bajo el grid */}
+      <div className="mt-10 border-t border-border/50 pt-8">
+        <InterfaceWall />
       </div>
     </PageSection>
   );
