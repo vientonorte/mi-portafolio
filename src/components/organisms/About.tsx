@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -12,6 +13,8 @@ import {
   TrendingUp,
   Plus,
   Equal,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { ProfileAvatar } from "../atoms/ProfileAvatar";
 import { PageSection } from "../layout/PageSection";
@@ -29,8 +32,10 @@ import {
 } from "../../data/perfil-estrategico";
 
 /**
- * L1 unificado: ficha reclutador + ciclo de decisión (un solo bloque).
- * Sin segunda sección / sin foto duplicada.
+ * Perfil con prácticas de interacción del sitio:
+ * - un detalle a la vez (ciclo por dots)
+ * - revelación progresiva (campos / cita)
+ * - menos dump visual en el primer viewport
  */
 const roles = {
   es: [
@@ -51,6 +56,9 @@ const roles = {
   ],
 } as const;
 
+/** Chips visibles sin expandir (ruido bajo). */
+const ROLE_CHIPS_INITIAL = 4;
+
 const LINE = {
   es: "Interfaces de producto en empresas reales. Hoy: Viento Norte (n2n) y micro1 (AI data, EE.UU.). Antes: UX Lead SURA (regional, hasta jun. 2026).",
   en: "Product interfaces for real companies. Now: Viento Norte (n2n) and micro1 (AI data, US). Before: UX Lead SURA (regional, through Jun 2026).",
@@ -70,6 +78,17 @@ export function About() {
   const roleList = roles[language];
   const equation = PERFIL_EQUATION[language];
   const fields = PERFIL_FIELDS[language];
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [showAllRoles, setShowAllRoles] = useState(false);
+  const [showQuote, setShowQuote] = useState(false);
+  const [showFields, setShowFields] = useState(false);
+
+  const step = PERFIL_CYCLE[activeStep] ?? PERFIL_CYCLE[0];
+  const StepIcon = STEP_ICONS[activeStep] ?? Eye;
+  const visibleRoles = showAllRoles
+    ? roleList
+    : roleList.slice(0, ROLE_CHIPS_INITIAL);
 
   const fadeUp = prefersReducedMotion
     ? {}
@@ -95,17 +114,17 @@ export function About() {
         title={es ? "Perfil" : "Profile"}
         description={
           es
-            ? "UX Manager en Viento Norte. Ciclo de decisión sobre sistemas, tecnología y personas."
-            : "UX Manager at Viento Norte. Decision cycle across systems, technology, and people."
+            ? "UX Manager · Viento Norte. Un ciclo de decisión, un paso a la vez."
+            : "UX Manager · Viento Norte. One decision cycle, one step at a time."
         }
       />
 
-      {/* Ficha + foto */}
+      {/* ── Ficha reclutador (denso bajo) ── */}
       <motion.div
         {...fadeUp}
-        className="mx-auto grid max-w-3xl gap-8 sm:grid-cols-[180px_1fr] sm:items-start sm:gap-8"
+        className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-[160px_1fr] sm:items-start sm:gap-8"
       >
-        <div className="mx-auto w-full max-w-[180px] sm:mx-0">
+        <div className="mx-auto w-full max-w-[160px] sm:mx-0">
           <div className="profile-avatar-frame relative aspect-[4/5] w-full overflow-hidden rounded-2xl ring-1 ring-border/60">
             <ProfileAvatar alt={`Rodrigo Gaete — ${TITLE_ROLE[language]}`} />
           </div>
@@ -126,11 +145,8 @@ export function About() {
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
             {LINE[language]}
           </p>
-          <p className="mt-3 max-w-prose text-sm italic leading-relaxed text-foreground/80">
-            “{PERFIL_QUOTE[language]}”
-          </p>
 
-          <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-start">
+          <div className="mt-4 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-start sm:gap-3">
             <Button
               size="lg"
               variant="outline"
@@ -143,13 +159,43 @@ export function About() {
               <Download className="mr-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               CV PDF
             </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              className="text-muted-foreground"
+              aria-expanded={showQuote}
+              onClick={() => setShowQuote((v) => !v)}
+            >
+              {showQuote
+                ? es
+                  ? "Ocultar cita"
+                  : "Hide quote"
+                : es
+                  ? "Cita de trabajo"
+                  : "Working quote"}
+              {showQuote ? (
+                <ChevronUp className="ml-1 h-3.5 w-3.5" aria-hidden />
+              ) : (
+                <ChevronDown className="ml-1 h-3.5 w-3.5" aria-hidden />
+              )}
+            </Button>
           </div>
+
+          {showQuote && (
+            <p
+              className="mt-3 max-w-prose text-sm italic leading-relaxed text-foreground/80"
+              aria-live="polite"
+            >
+              “{PERFIL_QUOTE[language]}”
+            </p>
+          )}
 
           <ul
             className="mt-4 flex flex-wrap justify-center gap-1.5 sm:justify-start"
             aria-label={es ? "Competencias" : "Skills"}
           >
-            {roleList.map((role) => (
+            {visibleRoles.map((role) => (
               <li key={role}>
                 <Badge
                   variant="secondary"
@@ -159,72 +205,153 @@ export function About() {
                 </Badge>
               </li>
             ))}
+            {roleList.length > ROLE_CHIPS_INITIAL && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setShowAllRoles((v) => !v)}
+                  className="rounded-full border border-border/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
+                >
+                  {showAllRoles
+                    ? es
+                      ? "Menos"
+                      : "Less"
+                    : `+${roleList.length - ROLE_CHIPS_INITIAL}`}
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </motion.div>
 
-      {/* Ciclo unificado — mismo section, sin segundo header/foto */}
+      {/* ── Ciclo: dots + un detalle (práctica: un paso a la vez) ── */}
       <div
         id="perfil-estrategico"
-        className="mx-auto mt-10 max-w-3xl scroll-mt-24 border-t border-border/50 pt-8"
+        className="mx-auto mt-10 max-w-3xl scroll-mt-24 border-t border-border/40 pt-8"
       >
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
           {PERFIL_TAGLINE[language]}
         </p>
         <p className="mt-1 text-center text-xs text-muted-foreground">
           {es
-            ? "Ciclo de decisión · Observa → Escala"
-            : "Decision cycle · Observe → Scale"}
+            ? "Ciclo de decisión · toca un paso"
+            : "Decision cycle · tap a step"}
         </p>
 
-        <ol
-          className="mt-5 grid gap-2 sm:grid-cols-2 sm:gap-2.5"
-          aria-label={es ? "Ciclo de trabajo" : "Work cycle"}
+        {/* Dot rail — same pattern as timeline / Flujo Mejora Continua */}
+        <div
+          className="mt-5 flex flex-wrap items-center justify-center gap-1 sm:gap-2"
+          role="tablist"
+          aria-label={es ? "Pasos del ciclo" : "Cycle steps"}
         >
-          {PERFIL_CYCLE.map((step, i) => {
+          {PERFIL_CYCLE.map((s, i) => {
             const Icon = STEP_ICONS[i];
+            const selected = i === activeStep;
             return (
-              <li
-                key={step.n}
-                className="flex gap-2.5 rounded-xl border border-border/40 bg-background/50 px-3 py-2.5"
+              <button
+                key={s.n}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-controls="perfil-step-panel"
+                id={`perfil-step-tab-${s.n}`}
+                onClick={() => setActiveStep(i)}
+                className={cn(
+                  "flex min-h-11 min-w-[3.25rem] flex-col items-center gap-1 rounded-xl px-1.5 py-1.5 transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  selected
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                )}
               >
                 <span
                   className={cn(
-                    "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ring-1",
-                    step.accent
+                    "flex h-9 w-9 items-center justify-center rounded-full border-2",
+                    selected
+                      ? "border-primary bg-primary/15"
+                      : "border-border/60 bg-background/80"
                   )}
                   aria-hidden
                 >
                   <Icon className="h-4 w-4" />
                 </span>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                    {step.n}. {es ? step.titleEs : step.titleEn}
-                  </p>
-                  <p className="mt-0.5 text-sm leading-snug text-foreground/90">
-                    {es ? step.bodyEs : step.bodyEn}
-                  </p>
-                </div>
-              </li>
+                <span className="text-[10px] font-semibold tabular-nums">
+                  {s.n}
+                </span>
+              </button>
             );
           })}
-        </ol>
+        </div>
 
-        <ul
-          className="mt-5 flex flex-wrap justify-center gap-1.5"
-          aria-label={es ? "Campos que integra" : "Fields integrated"}
+        {/* Un solo panel de detalle */}
+        <div
+          id="perfil-step-panel"
+          role="tabpanel"
+          aria-labelledby={`perfil-step-tab-${step.n}`}
+          className="mt-4 rounded-xl border border-border/50 bg-card/80 px-4 py-4 text-center sm:px-6"
+          aria-live="polite"
         >
-          {fields.map((f) => (
-            <li
-              key={f.label}
-              className="rounded-full border border-border/50 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
-              title={f.detail}
+          <div className="mx-auto flex max-w-md flex-col items-center gap-2">
+            <span
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-full ring-1",
+                step.accent
+              )}
+              aria-hidden
             >
-              {f.label}
-            </li>
-          ))}
-        </ul>
+              <StepIcon className="h-5 w-5" />
+            </span>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {step.n}. {es ? step.titleEs : step.titleEn}
+            </p>
+            <p className="text-sm leading-relaxed text-foreground/90">
+              {es ? step.bodyEs : step.bodyEn}
+            </p>
+          </div>
+        </div>
 
+        {/* Campos: progressive disclosure (como prácticas “mostrar más”) */}
+        <div className="mt-5 flex flex-col items-center gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="text-muted-foreground"
+            aria-expanded={showFields}
+            onClick={() => setShowFields((v) => !v)}
+          >
+            {showFields
+              ? es
+                ? "Ocultar campos"
+                : "Hide fields"
+              : es
+                ? `Campos que integra (${fields.length})`
+                : `Fields integrated (${fields.length})`}
+            {showFields ? (
+              <ChevronUp className="ml-1 h-3.5 w-3.5" aria-hidden />
+            ) : (
+              <ChevronDown className="ml-1 h-3.5 w-3.5" aria-hidden />
+            )}
+          </Button>
+          {showFields && (
+            <ul
+              className="flex flex-wrap justify-center gap-1.5"
+              aria-label={es ? "Campos que integra" : "Fields integrated"}
+            >
+              {fields.map((f) => (
+                <li
+                  key={f.label}
+                  className="rounded-full border border-border/50 bg-background/80 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                  title={f.detail}
+                >
+                  {f.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Ecuación: una línea quieta (siempre) */}
         <p className="mt-5 flex flex-wrap items-center justify-center gap-1.5 text-center text-sm">
           <span className="sr-only">
             {es ? "Ecuación: " : "Equation: "}
