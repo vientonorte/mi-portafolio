@@ -63,29 +63,105 @@ export const PERFIL_CYCLE: PerfilStep[] = [
   },
 ];
 
+/**
+ * Campos del perfil + score 1–5 para radar “Dónde sumo”.
+ * Scores: evidencia de trayectoria (SURA wealth, DS, a11y, micro1, VN).
+ */
+export type PerfilFieldAxis = {
+  id: string;
+  labelEs: string;
+  labelEn: string;
+  detailEs: string;
+  detailEn: string;
+  /** Intensidad 1–5 (eje del radar) */
+  score: number;
+};
+
+export const PERFIL_FIELD_AXES: readonly PerfilFieldAxis[] = [
+  {
+    id: "diseno",
+    labelEs: "Diseño",
+    labelEn: "Design",
+    detailEs: "Experiencia y comportamiento — interfaces de producto",
+    detailEn: "Experience and behavior — product interfaces",
+    score: 5,
+  },
+  {
+    id: "datos",
+    labelEs: "Datos",
+    labelEn: "Data",
+    detailEs: "Evidencia y medición — analytics, embudos, KPIs",
+    detailEn: "Evidence and measurement — analytics, funnels, KPIs",
+    score: 4,
+  },
+  {
+    id: "tecnologia",
+    labelEs: "Tecnología",
+    labelEn: "Technology",
+    detailEs: "Automatización y capacidad — systems, handoff, tools",
+    detailEn: "Automation and capacity — systems, handoff, tools",
+    score: 4,
+  },
+  {
+    id: "negocio",
+    labelEs: "Negocio",
+    labelEn: "Business",
+    detailEs: "Valor y priorización — product/wealth, P0–P2",
+    detailEn: "Value and prioritization — product/wealth, P0–P2",
+    score: 5,
+  },
+  {
+    id: "regulacion",
+    labelEs: "Regulación",
+    labelEn: "Regulation",
+    detailEs: "Límites institucionales — CMF, compliance UX",
+    detailEn: "Institutional limits — CMF, compliance UX",
+    score: 5,
+  },
+  {
+    id: "privacidad",
+    labelEs: "Privacidad",
+    labelEn: "Privacy",
+    detailEs: "Poder sobre los datos — privacy dashboard, minimización",
+    detailEn: "Power over data — privacy dashboard, minimization",
+    score: 4,
+  },
+  {
+    id: "ia",
+    labelEs: "IA",
+    labelEn: "AI",
+    detailEs: "Multiplicación de capacidad — micro1 AI data, anotación/QA",
+    detailEn: "Capability multiplier — micro1 AI data, annotation/QA",
+    score: 4,
+  },
+  {
+    id: "finanzas",
+    labelEs: "Finanzas",
+    labelEn: "Finance",
+    detailEs: "Restricciones y sostenibilidad — wealth / fondos",
+    detailEn: "Constraints and sustainability — wealth / funds",
+    score: 4,
+  },
+  {
+    id: "comunicacion",
+    labelEs: "Comunicación",
+    labelEn: "Communication",
+    detailEs: "Legitimación y alineación — puentes negocio·diseño·tech",
+    detailEn: "Legitimacy and alignment — business·design·tech bridges",
+    score: 4,
+  },
+] as const;
+
+/** @deprecated use PERFIL_FIELD_AXES — kept for callers expecting es/en arrays */
 export const PERFIL_FIELDS = {
-  es: [
-    { label: "Diseño", detail: "Experiencia y comportamiento" },
-    { label: "Datos", detail: "Evidencia y medición" },
-    { label: "Tecnología", detail: "Automatización y capacidad" },
-    { label: "Negocio", detail: "Valor y priorización" },
-    { label: "Regulación", detail: "Límites institucionales" },
-    { label: "Privacidad", detail: "Poder sobre los datos" },
-    { label: "IA", detail: "Multiplicación de capacidad" },
-    { label: "Finanzas", detail: "Restricciones y sostenibilidad" },
-    { label: "Comunicación", detail: "Legitimación y alineación" },
-  ],
-  en: [
-    { label: "Design", detail: "Experience and behavior" },
-    { label: "Data", detail: "Evidence and measurement" },
-    { label: "Technology", detail: "Automation and capacity" },
-    { label: "Business", detail: "Value and prioritization" },
-    { label: "Regulation", detail: "Institutional limits" },
-    { label: "Privacy", detail: "Power over data" },
-    { label: "AI", detail: "Capability multiplier" },
-    { label: "Finance", detail: "Constraints and sustainability" },
-    { label: "Communication", detail: "Legitimacy and alignment" },
-  ],
+  es: PERFIL_FIELD_AXES.map((a) => ({
+    label: a.labelEs,
+    detail: a.detailEs,
+  })),
+  en: PERFIL_FIELD_AXES.map((a) => ({
+    label: a.labelEn,
+    detail: a.detailEn,
+  })),
 } as const;
 
 export const PERFIL_DOES = {
