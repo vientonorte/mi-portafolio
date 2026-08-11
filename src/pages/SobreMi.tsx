@@ -1,7 +1,7 @@
 import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
+import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { ProfileScope } from '../components/organisms/ProfileScope';
-import { InterfaceWall } from '../components/organisms/InterfaceWall';
 import { Experience } from '../components/organisms/Experience';
 import { Contact } from '../components/organisms/Contact';
 
@@ -39,16 +39,19 @@ const SobreMi = () => {
         keywords={t.seo.keywords}
         url={canonicalFromPath('/sobre-mi')}
       />
-      {/* Card-sort recruiter
-          L1 Identidad (ficha)
-          L2a Método
-          L2b Alcance
-          L2c Galería interfaces (mismo patrón Projects)
-          L3 Timeline · Contacto */}
+      {/*
+        Card-sort:
+        L1 Perfil
+        L2a Método en una mirada
+        L2b Evidencia Método Ro · VN (NO galería general portafolio)
+        L2c Alcance
+        L3 Timeline · Contacto
+        Enterprise SURA/Transvip/Karri → /proyectos
+      */}
       <About />
       <Skills />
+      <MetodoRoEvidence />
       <ProfileScope />
-      <InterfaceWall />
       <Experience />
       <Contact />
     </PageShell>

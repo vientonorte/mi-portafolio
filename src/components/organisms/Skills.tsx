@@ -47,14 +47,14 @@ export function Skills() {
       aria-labelledby="skills-heading"
     >
       <SectionHeader
-        badge="Stack"
+        badge={es ? "Método Ro" : "Método Ro"}
         badgeIcon={Sparkles}
         titleId="skills-heading"
         title={es ? "Método en una mirada" : "Method at a glance"}
         description={
           es
-            ? "Journey, flows, test, system — del craft (no stock genérico)."
-            : "Journey, flows, test, system — from craft (not generic stock)."
+            ? "Fases del craft. Abajo: evidencia de casos VN (no el portafolio enterprise)."
+            : "Craft phases. Below: VN case evidence (not the enterprise portfolio)."
         }
       />
 
