@@ -3,7 +3,7 @@ import type { Language } from "./i18n";
 export const SEO_SITE = {
   /** Canon público Viento Norte — sin prefijo /mi-portafolio/ */
   baseUrl: "https://vientonorte.io",
-  ogImage: "https://vientonorte.io/images/branding/og-portfolio.png",
+  ogImage: "https://vientonorte.io/images/branding/og-home-1200.png",
   brand: "Viento Norte",
   role: "UXtech · Front office",
   /** SEO orgánico (root) */

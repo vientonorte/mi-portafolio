@@ -68,13 +68,13 @@ def main() -> None:
         print("archived isologo", ISO)
     draw_card(
         "Viento Norte",
-        "Software que se instala. Cliente dueño del dato.",
-        "UXtech · módulos a medida",
+        "Diseño que reduce el ruido.",
+        "UXtech · consultoría",
         OUT / "og-home-1200.png",
     )
     draw_card(
         "Consultoría UX",
-        "Diagnóstico, prototipo o proceso. Kickoff en 30 min.",
+        "Un flujo WCAG. Luego herramientas en tu perímetro.",
         "Viento Norte · pymes",
         OUT / "og-consultoria-1200.png",
     )
