@@ -10,15 +10,21 @@ function repoConfig(env) {
 
 export function shouldAutoPublish(entry) {
   const path = entry.path || '';
+  const role = entry.role || '';
   return (
     path.startsWith('branding/') ||
     path.startsWith('og-') ||
-    entry.id === 'branding.ogPortfolio'
+    path.startsWith('favicon') ||
+    path.startsWith('icon-') ||
+    entry.id === 'branding.ogPortfolio' ||
+    ['share_home', 'share_consultoria', 'schema', 'favicon', 'logo', 'apple'].includes(role)
   );
 }
 
 function repoPath(entry) {
+  if (entry.repoPath) return entry.repoPath;
   if (entry.path.startsWith('profile')) return `public/${entry.path}`;
+  if (/^(favicon\.|icon-)/.test(entry.path)) return `public/${entry.path}`;
   return `public/images/${entry.path}`;
 }
 

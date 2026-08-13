@@ -101,7 +101,13 @@ export const portfolioImages = {
   },
   branding: {
     ogPortfolio: img("branding/og-portfolio.png"),
+    ogHome: img("branding/og-home-1200.png"),
+    ogConsultoria: img("branding/og-consultoria-1200.png"),
+    isologo: img("branding/isologo-512.png"),
     profilePhoto: `${base}profile-photo.jpg?v=20260703b`,
+    favicon: `${base}favicon.ico`,
+    schemaLogo: `${base}icon-512x512.png`,
+    appleTouch: `${base}icon-192x192.png`,
   },
   /** Monogramas para marcas sin wordmark oficial en el repo */
   brands: {

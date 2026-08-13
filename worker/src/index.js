@@ -13,6 +13,7 @@ import {
 import {
   handlePublicManifest,
   handleListImages,
+  handleCreateImage,
   handleUploadImage,
   handlePatchImage,
   handleDeleteImage,
@@ -166,6 +167,9 @@ export default {
     // ── Imágenes admin ──
     if (path === '/api/admin/images' && request.method === 'GET') {
       return handleListImages(request, env, cors);
+    }
+    if (path === '/api/admin/images' && request.method === 'POST') {
+      return handleCreateImage(request, env, cors);
     }
 
     const publishMatch = path.match(/^\/api\/admin\/images\/([^/]+)\/publish$/);

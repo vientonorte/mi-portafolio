@@ -8,6 +8,8 @@ export interface AdminImageRecord {
   path: string;
   category: string;
   label: string;
+  role?: string;
+  custom?: boolean;
   overridden: boolean;
   updatedAt?: string;
   prUrl?: string;
@@ -112,6 +114,18 @@ export async function listAdminImages(): Promise<AdminImageRecord[]> {
   return data.images;
 }
 
+export async function createAdminImage(
+  file: File,
+  fields: { label: string; role: string; alt?: string }
+): Promise<ImagePublishResult> {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("label", fields.label);
+  form.append("role", fields.role);
+  if (fields.alt) form.append("alt", fields.alt);
+  return adminFetch<ImagePublishResult>(ADMIN_ROUTES.images, { method: "POST", body: form });
+}
+
 export async function uploadAdminImage(id: string, file: File, alt?: string): Promise<ImagePublishResult> {
   const form = new FormData();
   form.append("file", file);
@@ -130,10 +144,14 @@ export async function publishAdminImage(id: string): Promise<ImagePublishResult>
   );
 }
 
-export async function updateAdminImageMeta(id: string, alt: string): Promise<AdminImageRecord> {
+export async function updateAdminImageMeta(
+  id: string,
+  patch: string | { alt?: string; label?: string; role?: string }
+): Promise<AdminImageRecord> {
+  const body = typeof patch === "string" ? { alt: patch } : patch;
   const data = await adminFetch<{ image: AdminImageRecord }>(
     `${ADMIN_ROUTES.images}/${encodeURIComponent(id)}`,
-    { method: "PATCH", body: JSON.stringify({ alt }) }
+    { method: "PATCH", body: JSON.stringify(body) }
   );
   return data.image;
 }
@@ -215,6 +233,7 @@ export function registryToAdminPreview(entry: ImageRegistryEntry): AdminImageRec
     path: entry.path,
     category: entry.category,
     label: entry.label,
+    role: entry.role,
     overridden: false,
   };
 }

@@ -1,7 +1,13 @@
 /** Catálogo espejo de src/data/image-registry.ts */
 export const IMAGE_REGISTRY = [
-  { id: 'branding.profilePhoto', category: 'Branding', label: 'Foto de perfil', path: 'profile-photo.jpg', alt: 'Rodrigo Gaete — Lead UX Designer' },
-  { id: 'branding.ogPortfolio', category: 'Branding', label: 'OG / PWA', path: 'branding/og-portfolio.png', alt: 'Portfolio Rodrigo Gaete' },
+  { id: 'branding.profilePhoto', category: 'Branding', label: 'Foto de perfil', path: 'profile-photo.jpg', alt: 'Rodrigo Gaete — Lead UX Designer', role: 'gallery' },
+  { id: 'branding.ogHome', category: 'Branding', label: 'Share redes · home', path: 'branding/og-home-1200.png', alt: 'Viento Norte — share home', role: 'share_home' },
+  { id: 'branding.ogConsultoria', category: 'Branding', label: 'Share redes · consultoría', path: 'branding/og-consultoria-1200.png', alt: 'Viento Norte — share consultoría', role: 'share_consultoria' },
+  { id: 'branding.ogPortfolio', category: 'Branding', label: 'OG / PWA (legacy)', path: 'branding/og-portfolio.png', alt: 'Viento Norte share', role: 'share_home' },
+  { id: 'branding.isologo', category: 'Branding', label: 'Logo / isologo', path: 'branding/isologo-512.png', alt: 'Isologo Viento Norte', role: 'logo' },
+  { id: 'branding.favicon', category: 'Branding', label: 'Favicon', path: 'favicon.ico', repoPath: 'public/favicon.ico', alt: 'Favicon Viento Norte', role: 'favicon' },
+  { id: 'branding.schemaLogo', category: 'Branding', label: 'Schema.org logo', path: 'icon-512x512.png', repoPath: 'public/icon-512x512.png', alt: 'Logo schema Viento Norte', role: 'schema' },
+  { id: 'branding.appleTouch', category: 'Branding', label: 'Apple / PWA', path: 'icon-192x192.png', repoPath: 'public/icon-192x192.png', alt: 'Apple touch Viento Norte', role: 'apple' },
   { id: 'sura.riaOnboarding', category: 'SURA', label: 'RIA onboarding', path: 'sura/ria-onboarding.png', alt: 'Onboarding RIA SURA US' },
   { id: 'sura.webPrototype', category: 'SURA', label: 'Prototipo web', path: 'sura/web-prototype.png', alt: 'Prototipo web SURA' },
   { id: 'sura.benchmarkNavigation', category: 'SURA', label: 'Benchmark navegación', path: 'sura/benchmark-navigation.png', alt: 'Benchmark de navegación' },

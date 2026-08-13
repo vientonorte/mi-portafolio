@@ -19,7 +19,7 @@ Vamos excelente: el CMS ya es el tablero de las mismas BDs que alimentan landing
 | Agenda | tab Agenda | `GET/PATCH /api/admin/bookings` | Ver slot + link Calendar, cambiar estado |
 | Diagnósticos | tab Diagnósticos | `GET/PATCH /api/admin/diagnosticos` | Ver fricción + respuesta, estado |
 | Servicios / casos | tabs | `GET /api/admin/services` · `/cases` | Catálogo **solo lectura** (Radar/Marco/Ops + módulos) |
-| Fotos / OG | `#/admin/fotos` | `GET/POST/PATCH /api/admin/images` · `POST .../publish` | Subir a **R2**. `branding/*` abre **PR automático** a `public/images/` (Pages). Botón «Publicar PR» para el resto |
+| Fotos / OG | `#/admin/fotos` | `GET/POST /api/admin/images` · `POST .../:id` · PATCH label/rol/alt · publish | Subir **con nombre + aplicación** (share home/consultoría, schema, favicon, logo, Apple, FAQ, galería). Roles cableados abren PR a Pages. |
 | Público | web + agentes | `/api/health` `/services` `/cases` `/company` `/contact` `/leads` `/booking` `/diagnostico` | Captura y catálogo |
 | Agentes | MCP | `list_services` `get_cases` `get_company_info` `submit_lead` `book_call` `request_diagnostico` | Misma BD |
 

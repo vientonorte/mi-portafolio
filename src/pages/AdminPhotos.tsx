@@ -11,6 +11,7 @@ import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
 import { ResponsiveImage } from "../components/atoms/ResponsiveImage";
 import { IMAGE_CATEGORIES, IMAGE_REGISTRY } from "../data/image-registry";
+import { IMAGE_WEB_ROLES, roleDef } from "../data/image-roles";
 import { ADMIN_GITHUB_USER } from "../lib/admin-config";
 import { ROUTES } from "../lib/routes";
 import {
@@ -24,6 +25,7 @@ import {
   revertAdminImage,
   startGithubLogin,
   publishAdminImage,
+  createAdminImage,
   uploadAdminImage,
   updateAdminImageMeta,
   registryToAdminPreview,
@@ -40,6 +42,9 @@ export default function AdminPhotos() {
   const [error, setError] = useState<string | null>(null);
   const [category, setCategory] = useState<string>("all");
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [newName, setNewName] = useState("");
+  const [newRole, setNewRole] = useState<string>("gallery");
+  const [newFile, setNewFile] = useState<File | null>(null);
 
   const refreshSession = useCallback(async () => {
     try {
@@ -116,6 +121,33 @@ export default function AdminPhotos() {
     setImages(IMAGE_REGISTRY.map(registryToAdminPreview));
   };
 
+  const handleCreate = async () => {
+    if (!newFile || !newName.trim()) {
+      setError("Nombre y archivo son obligatorios.");
+      return;
+    }
+    setBusyId("create");
+    setError(null);
+    try {
+      const result = await createAdminImage(newFile, {
+        label: newName.trim(),
+        role: newRole,
+        alt: newName.trim(),
+      });
+      await refreshImages(true);
+      setNewName("");
+      setNewFile(null);
+      setNewRole("gallery");
+      if (result.publishError) {
+        setError(`Subida OK. PR no abierto: ${result.publishError}`);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error subiendo imagen");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   const handleUpload = async (id: string, file: File) => {
     setBusyId(id);
     setError(null);
@@ -175,10 +207,10 @@ export default function AdminPhotos() {
       <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-8">
         <header className="space-y-2">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Admin privado</p>
-          <h1 className="text-3xl font-bold">Fotos del portafolio</h1>
+          <h1 className="text-3xl font-bold">Fotos del sitio</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Sube a R2. Las de <code className="text-sm">branding/</code> (OG) abren un PR a{" "}
-            <code className="text-sm">public/images/</code> para que Pages las sirva a LinkedIn/Meta.
+            Subí una foto, dale un nombre y elegí si alimenta share, schema, favicon, logo o FAQ.
+            Las de aplicación web abren PR a Pages (crawlers). Galería queda en R2.
           </p>
           <Button asChild variant="outline" className="min-h-[44px] w-fit">
             <Link to={ROUTES.admin}>
@@ -232,6 +264,66 @@ export default function AdminPhotos() {
           </div>
         )}
 
+        {session?.ok ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Subir foto</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium" htmlFor="foto-nombre">
+                    Nombre
+                  </label>
+                  <Input
+                    id="foto-nombre"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="Ej. Card LinkedIn agosto"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium" htmlFor="foto-rol">
+                    Aplicación en la web
+                  </label>
+                  <select
+                    id="foto-rol"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    value={newRole}
+                    onChange={(e) => setNewRole(e.target.value)}
+                  >
+                    {IMAGE_WEB_ROLES.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-muted-foreground">{roleDef(newRole)?.hint}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-input px-3 py-2 text-sm">
+                  <Upload className="h-4 w-4" />
+                  {newFile ? newFile.name : "Elegir archivo"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(e) => setNewFile(e.target.files?.[0] ?? null)}
+                  />
+                </label>
+                <Button
+                  type="button"
+                  disabled={busyId === "create" || !newFile || !newName.trim()}
+                  onClick={handleCreate}
+                >
+                  Subir
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
+
         <div className="flex flex-wrap gap-2">
           <Button
             size="sm"
@@ -267,6 +359,9 @@ export default function AdminPhotos() {
                   <div>
                     <p className="font-medium text-sm">{image.label}</p>
                     <p className="text-xs text-muted-foreground font-mono">{image.path}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {roleDef(image.role)?.label || "Galería"}
+                    </p>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     {image.overridden && <Badge>Override</Badge>}
@@ -283,6 +378,36 @@ export default function AdminPhotos() {
                   </div>
                 </div>
 
+                <Input
+                  defaultValue={image.label}
+                  disabled={!session?.ok || busyId === image.id}
+                  onBlur={(e) => {
+                    if (session?.ok && e.target.value !== image.label) {
+                      void updateAdminImageMeta(image.id, { label: e.target.value }).then((updated) => {
+                        setImages((prev) => prev.map((img) => (img.id === image.id ? updated : img)));
+                      });
+                    }
+                  }}
+                  aria-label={`Nombre ${image.label}`}
+                />
+                <select
+                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-xs"
+                  disabled={!session?.ok || busyId === image.id}
+                  defaultValue={image.role || "gallery"}
+                  aria-label={`Aplicación ${image.label}`}
+                  onChange={(e) => {
+                    if (!session?.ok) return;
+                    void updateAdminImageMeta(image.id, { role: e.target.value }).then((updated) => {
+                      setImages((prev) => prev.map((img) => (img.id === image.id ? updated : img)));
+                    });
+                  }}
+                >
+                  {IMAGE_WEB_ROLES.map((role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.label}
+                    </option>
+                  ))}
+                </select>
                 <Input
                   defaultValue={image.alt}
                   disabled={!session?.ok || busyId === image.id}
