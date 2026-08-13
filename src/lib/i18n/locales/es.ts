@@ -239,7 +239,7 @@ export default {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
-      stickyCta: 'Empezar',
+      stickyCta: 'Agendar',
       entry: {
         selectedPackage: 'Modalidad elegida:',
         changePackage: 'Cambiar',
@@ -253,8 +253,8 @@ export default {
           'Diagnóstico, prototipo, proceso de equipo o app funcional.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
-        ctaPrimary: 'Empezar',
-        ctaSecondary: 'Ver opciones',
+        ctaPrimary: 'Agendar en Google Calendar',
+        ctaSecondary: 'Ver alcances',
         /** Free a11y — con agenda: copy de Calendar; sin agenda: mensaje */
         ctaFreeLink: 'Revisión gratis de un flujo crítico',
         ctaFreeLinkSchedule: 'Reservar 30 min gratis en Google Calendar',

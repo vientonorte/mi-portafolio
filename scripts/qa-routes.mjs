@@ -52,10 +52,7 @@ const PROJECT_IDS = [
 const SECTION_CHECKS = [
   { path: '/', sectionId: 'inicio', label: 'Home embudo #inicio' },
   { path: '/', sectionId: 'modalidades', label: 'Home embudo #modalidades' },
-  { path: '/', sectionId: 'consultoria-onboarding', label: 'Home embudo #onboarding' },
-  { path: '/', sectionId: 'metodo-n2n', label: 'Home embudo #metodo-n2n' },
-  { path: '/', sectionId: 'partner-educacion', label: 'Home embudo #partner-educacion' },
-  { path: '/', sectionId: 'consultoria-demo', label: 'Home embudo #consultoria-demo' },
+  { path: '/', sectionId: 'mas-del-sitio', label: 'Home embudo #mas-del-sitio' },
   { path: '/', sectionId: 'contacto', label: 'Home embudo #contacto' },
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];

@@ -14,7 +14,10 @@ import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { ContactAssistant } from "./ContactAssistant";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
-import { FreeA11yScheduleCta } from "../molecules/FreeA11yScheduleCta";
+import {
+  consultingMotiveMessage,
+  type ContactMotive,
+} from "../../lib/consulting-contact-motive";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -64,7 +67,10 @@ export function Contact({
 
   const sessionSnapshot = readContactSession();
   const [activeTab, setActiveTab] = useState<ContactTab>(() =>
-    effectiveDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
+    isConsulting ? "form" : effectiveDraft ? "assistant" : (sessionSnapshot?.activeTab ?? "assistant")
+  );
+  const [motive, setMotive] = useState<ContactMotive>(
+    () => (effectiveDraft?.packageId as ContactMotive) || "simple"
   );
   const [sharedIdentity, setSharedIdentity] = useState<ContactSharedIdentity>(() => ({
     name: sessionSnapshot?.name ?? "",
@@ -138,7 +144,7 @@ export function Contact({
         message: sharedMessage,
         _gotcha: gotcha,
         source: "form",
-        intent: effectiveDraft?.intent,
+        intent: effectiveDraft?.intent ?? motive,
         conversationTitle: effectiveDraft?.conversationTitle,
         consent: sharedIdentity.consent,
         language,
@@ -230,13 +236,33 @@ export function Contact({
           </Badge>
         </div>
 
-        {/* Agenda Google free a11y — visible en contacto (no solo toast post-envío) */}
-        <div className="mx-auto mb-8 max-w-3xl">
-          <FreeA11yScheduleCta
-            origin={isConsulting ? "consultoria-contact" : "contact"}
-            layout="card"
-          />
-        </div>
+        {isConsulting ? (
+          <div className="mx-auto mb-8 flex max-w-3xl flex-wrap justify-center gap-2">
+            {(
+              [
+                ["radar", language === "es" ? "Diagnóstico" : "Diagnostic"],
+                ["marco", language === "es" ? "Prototipo" : "Prototype"],
+                ["ops", language === "es" ? "Proceso" : "Process"],
+                ["help", language === "es" ? "Necesito ayuda" : "I need help"],
+                ["simple", language === "es" ? "Contacto simple" : "Simple note"],
+              ] as const
+            ).map(([id, label]) => (
+              <Button
+                key={id}
+                type="button"
+                size="sm"
+                variant={motive === id ? "default" : "outline"}
+                onClick={() => {
+                  setMotive(id);
+                  setSharedMessage(consultingMotiveMessage(id, language));
+                  setActiveTab("form");
+                }}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        ) : null}
 
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           <div className="space-y-4 md:space-y-6">

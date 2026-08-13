@@ -1,5 +1,4 @@
-import { ArrowRight, Clock, Gift, Package, Smartphone, Star } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, Clock, Package, Smartphone, Star } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
@@ -12,10 +11,6 @@ import {
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
-import {
-  freeRadarHasSchedule,
-  openFreeRadarEntry,
-} from "../../lib/free-radar-entry";
 import { cn } from "../../lib/utils";
 
 export type PackageSelectOptions = { appGoal?: boolean };
@@ -28,7 +23,6 @@ interface ConsultoriaPackagesProps {
 }
 
 export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProps) {
-  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
@@ -40,17 +34,6 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
     });
     onSelectPackage?.(id, options);
   };
-
-  const freeRadar = (mode: "auto" | "schedule" | "message" = "auto") => {
-    trackEvent("consultoria_free_radar", {
-      source: "packages_strip",
-      mode,
-      has_schedule: freeRadarHasSchedule(),
-    });
-    openFreeRadarEntry(navigate, language, "consultoria-packages", { mode });
-  };
-
-  const scheduleReady = freeRadarHasSchedule();
 
   return (
     <PageSection
@@ -148,60 +131,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
         ))}
       </ul>
 
-      {/* Entrada gratis Radar — copy público (SEM es interno, no en UI) */}
-      <Card className="mt-5 border-2 border-primary/35 bg-primary/5 shadow-none">
-        <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex gap-3 min-w-0">
-            <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white"
-              aria-hidden
-            >
-              <Gift className="h-5 w-5" />
-            </span>
-            <div className="min-w-0 space-y-1">
-              <Badge
-                variant="outline"
-                className="border-primary/30 font-normal normal-case tracking-normal"
-              >
-                {t.freeStripBadge}
-              </Badge>
-              <p className="text-base font-semibold tracking-tight">
-                {t.freeStripTitle}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t.freeStripBody}
-              </p>
-            </div>
-          </div>
-          <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
-            <Button
-              className="funnel-cta-primary w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
-              onClick={() => freeRadar(scheduleReady ? "schedule" : "auto")}
-            >
-              {scheduleReady ? t.freeStripCtaSchedule : t.freeStripCta}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Button>
-            {scheduleReady ? (
-              <Button
-                variant="outline"
-                className="w-full min-h-[40px]"
-                onClick={() => freeRadar("message")}
-              >
-                {t.freeStripCtaMessage}
-              </Button>
-            ) : null}
-            <Button
-              variant="ghost"
-              className="w-full min-h-[40px] text-muted-foreground"
-              onClick={() => select("radar")}
-            >
-              {t.freeStripSecondary}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* App punta a punta — un interlocutor, no “red” en vitrina */}
+      {/* Herramientas: escribe, no agenda (Calendar es único en el hero) */}
       <Card className="mt-3 border border-primary/20 bg-surface-matte-elevated shadow-none">
         <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3 min-w-0">

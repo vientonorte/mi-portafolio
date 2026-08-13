@@ -239,7 +239,7 @@ export default {
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
-      stickyCta: 'Start',
+      stickyCta: 'Book a slot',
       entry: {
         selectedPackage: 'Selected format:',
         changePackage: 'Change',
@@ -253,8 +253,8 @@ export default {
           'Diagnostic, prototype, team process, or working app.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
-        ctaPrimary: 'Start',
-        ctaSecondary: 'See options',
+        ctaPrimary: 'Book on Google Calendar',
+        ctaSecondary: 'See scopes',
         /** Lead magnet — regulated-product job language, not WCAG jargon in the link */
         ctaFreeLink: 'Free review of one critical flow',
         ctaFreeLinkSchedule: 'Book 30 free minutes on Google Calendar',

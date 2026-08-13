@@ -3,46 +3,30 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { useNavigate } from "react-router-dom";
 import { trackEvent } from "../../lib/analytics";
-import {
-  freeRadarHasSchedule,
-  openFreeRadarEntry,
-} from "../../lib/free-radar-entry";
-import { cn } from "../../lib/utils";
-import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
+import { openCalendarBooking } from "../../lib/site-contact";
 import { scrollToSection } from "../../lib/scroll-to-section";
 
 interface ConsultoriaLandingHeroProps {
-  onStartOnboarding?: (
-    packageId?: ConsultingPackageId,
-    options?: { c1Goal?: boolean; appGoal?: boolean }
-  ) => void;
   onExploreEvidence?: () => void;
 }
 
 /**
- * Hero consultoría — mínimo conversion:
- * Empezar · Ver opciones · link free sutil.
- * Sin grilla de 4 ofertas (duplicaba #modalidades).
- *
- * Decider 2026-08-03 (DS Map · no re-Map):
- * - Empezar → onboarding en la **misma superficie** (home o SEM), nunca “saltar” a SEM desde home.
- * - SEM `/#/consultoria` es solo **entrada paid**; home SEO convierte in-place.
- * - Rechazado: “¿tour módulos fullscreen convierte más que embudo home?”
+ * Hero FO: un solo CTA = Google Calendar.
+ * Alcance y mail viven más abajo; método/casos en páginas interiores.
  */
 export function ConsultoriaLandingHero({
-  onStartOnboarding,
   onExploreEvidence,
 }: ConsultoriaLandingHeroProps) {
-  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const es = language === "es";
 
-  const startPrimary = () => {
-    trackEvent("consultoria_hero_cta", { action: "primary_onboarding" });
-    onStartOnboarding?.();
+  const bookCalendar = () => {
+    trackEvent("consultoria_hero_cta", { action: "calendar_booking" });
+    if (!openCalendarBooking()) {
+      scrollToSection("contacto");
+    }
   };
 
   const seeOptions = () => {
@@ -52,16 +36,6 @@ export function ConsultoriaLandingHero({
       return;
     }
     scrollToSection("modalidades");
-  };
-
-  const freeRadar = () => {
-    trackEvent("consultoria_hero_cta", {
-      action: "free_radar_entry",
-      has_schedule: freeRadarHasSchedule(),
-    });
-    openFreeRadarEntry(navigate, language, "consultoria-hero", {
-      mode: freeRadarHasSchedule() ? "schedule" : "auto",
-    });
   };
 
   return (
@@ -91,41 +65,23 @@ export function ConsultoriaLandingHero({
             {t.description}
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+          <div className="flex flex-col items-center justify-center gap-3">
             <Button
               size="lg"
               className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90 focus-visible:ring-offset-2"
-              onClick={startPrimary}
+              onClick={bookCalendar}
             >
               {t.ctaPrimary}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="funnel-cta-ghost min-h-[48px] border-primary/30 bg-background/80 font-semibold hover:border-primary/50"
-              onClick={seeOptions}
-            >
-              {t.ctaSecondary}
-            </Button>
-          </div>
-
-          <p className="text-sm text-muted-foreground">
             <button
               type="button"
-              onClick={freeRadar}
-              className={cn(
-                "funnel-link underline-offset-4 hover:text-foreground hover:underline",
-                "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                freeRadarHasSchedule() &&
-                  "font-medium text-primary underline decoration-primary/40"
-              )}
+              onClick={seeOptions}
+              className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             >
-              {freeRadarHasSchedule()
-                ? t.ctaFreeLinkSchedule ?? t.ctaFreeLink
-                : t.ctaFreeLink}
+              {t.ctaSecondary}
             </button>
-          </p>
+          </div>
 
           <ul
             className="flex flex-wrap items-center justify-center gap-2"
