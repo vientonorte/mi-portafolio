@@ -3,6 +3,26 @@
 **Fecha:** 2026-08-13  
 **Host:** `https://contact.vientonorte.io` (alias `mi-portafolio-contact.vientonorte.workers.dev`)
 
+## SSOT · contratos live (GET)
+
+Verificado 2026-08-13 contra prod. `time` en health cambia en cada request.
+
+`GET https://contact.vientonorte.io/api/health`
+
+```json
+{"ok":true,"service":"vientonorte-api","time":"2026-08-13T19:51:54.961Z","kv":true}
+```
+
+`GET https://contact.vientonorte.io/mcp`
+
+```json
+{"ok":true,"name":"vientonorte","version":"1.0.0","protocol":"2024-11-05","transport":"json-rpc","tools":["list_services","get_cases","get_company_info","submit_lead","book_call","request_diagnostico"]}
+```
+
+- **GET `/mcp`** = discovery (este JSON).  
+- **POST `/mcp`** = JSON-RPC (initialize / tools/list / tools/call).  
+- Escritura MCP (`submit_lead`, `book_call`, `request_diagnostico`) exige `VN_API_KEY` (aún no está en secrets).
+
 Arquitectura: **Landing → APIs → MCP → Admin UI** sobre las mismas colecciones KV.
 
 ## Decisiones (cerradas con evidencia del repo)
@@ -72,6 +92,8 @@ El worker completo (`wrangler.toml`) necesita KV. El deploy `wrangler.contact.to
 cd worker
 npx wrangler deploy
 ```
+
+Capacidades del CMS y backlog (OG, Meta, LinkedIn, Google, agentes): [`CMS-ADMIN-CAPABILIDADES.md`](./CMS-ADMIN-CAPABILIDADES.md).
 
 ## QA local
 

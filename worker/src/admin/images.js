@@ -1,6 +1,7 @@
 import { json } from '../lib/cors.js';
 import { readSession } from '../lib/session.js';
 import { IMAGE_REGISTRY, REGISTRY_BY_ID } from '../data/image-registry.js';
+import { publishImagePr, shouldAutoPublish } from './github-content.js';
 
 const MANIFEST_KEY = 'image:manifest';
 
@@ -35,6 +36,8 @@ function buildImageRecord(entry, manifest, env) {
     label: entry.label,
     overridden,
     updatedAt: override?.updatedAt,
+    prUrl: override?.prUrl,
+    prNumber: override?.prNumber,
   };
 }
 
@@ -73,7 +76,8 @@ export async function handleUploadImage(request, env, cors, imageId) {
   }
 
   const r2Key = `portfolio/${entry.path}`;
-  await env.IMAGES_BUCKET.put(r2Key, file.stream(), {
+  const bytes = await file.arrayBuffer();
+  await env.IMAGES_BUCKET.put(r2Key, bytes, {
     httpMetadata: { contentType },
   });
 
@@ -85,10 +89,59 @@ export async function handleUploadImage(request, env, cors, imageId) {
     updatedAt: new Date().toISOString(),
     updatedBy: user.login,
   };
-  await saveManifest(env, manifest);
 
+  let publish = null;
+  let publishError = null;
+  if (shouldAutoPublish(entry)) {
+    try {
+      publish = await publishImagePr(env, entry, bytes, user.login);
+      manifest[imageId].prUrl = publish.html_url;
+      manifest[imageId].prNumber = publish.number;
+    } catch (err) {
+      publishError = err.message || 'No se pudo abrir el PR';
+      console.warn('[images] publish PR failed:', publishError);
+    }
+  }
+
+  await saveManifest(env, manifest);
   const image = buildImageRecord(entry, manifest, env);
-  return json({ image }, 200, cors);
+  return json({ image, publish, publishError }, 200, cors);
+}
+
+export async function handlePublishImage(request, env, cors, imageId) {
+  const user = await readSession(request, env);
+  if (!user) return json({ ok: false, error: 'No autorizado' }, 401, cors);
+
+  const entry = REGISTRY_BY_ID[imageId];
+  if (!entry) return json({ ok: false, error: 'Imagen no encontrada' }, 404, cors);
+
+  const r2Key = `portfolio/${entry.path}`;
+  const obj = await env.IMAGES_BUCKET.get(r2Key);
+  if (!obj) {
+    return json({ ok: false, error: 'No hay override en R2 para publicar' }, 404, cors);
+  }
+
+  try {
+    const bytes = await obj.arrayBuffer();
+    const publish = await publishImagePr(env, entry, bytes, user.login);
+    const manifest = await getManifest(env);
+    manifest[imageId] = {
+      ...(manifest[imageId] || {}),
+      path: entry.path,
+      prUrl: publish.html_url,
+      prNumber: publish.number,
+      updatedAt: new Date().toISOString(),
+      updatedBy: user.login,
+    };
+    await saveManifest(env, manifest);
+    return json(
+      { ok: true, publish, image: buildImageRecord(entry, manifest, env) },
+      200,
+      cors
+    );
+  } catch (err) {
+    return json({ ok: false, error: err.message || 'PR falló' }, 502, cors);
+  }
 }
 
 export async function handlePatchImage(request, env, cors, imageId) {

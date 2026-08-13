@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, Database, ImageIcon, LogOut, RefreshCw, Search } from "lucide-react";
+import { CalendarDays, Database, ImageIcon, KeyRound, LogOut, RefreshCw, Search } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { ADMIN_GITHUB_USER } from "../lib/admin-config";
 import { ROUTES } from "../lib/routes";
 import {
+  adminBootstrap,
   adminLogout,
   getAdminOverview,
   getAdminSession,
@@ -35,13 +36,14 @@ import {
   listAdminCollection,
   passkeyLoginBegin,
   passkeyLoginFinish,
+  passkeyRegisterBegin,
+  passkeyRegisterFinish,
   patchAdminRecord,
-  startGithubLogin,
   type AdminCollection,
   type AdminOverview,
   type AdminRecord,
 } from "../lib/admin-api";
-import { isPasskeySupported, loginWithPasskey } from "../lib/admin-passkey";
+import { createPasskey, isPasskeySupported, loginWithPasskey } from "../lib/admin-passkey";
 
 const STATUSES: Record<AdminCollection, string[]> = {
   leads: ["nuevo", "contactado", "cerrado"],
@@ -81,6 +83,7 @@ export default function AdminHub() {
   const [rows, setRows] = useState<AdminRecord[]>([]);
   const [catalog, setCatalog] = useState<AdminRecord[]>([]);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [bootstrapCode, setBootstrapCode] = useState("");
 
   const refreshSession = useCallback(async () => {
     try {
@@ -149,7 +152,27 @@ export default function AdminHub() {
     void refreshTab(tab);
   }, [query, refreshTab, session?.ok, statusFilter, tab]);
 
-  const handleGithub = () => startGithubLogin(ROUTES.admin);
+  const handleBootstrap = async () => {
+    setError(null);
+    try {
+      await adminBootstrap(bootstrapCode.trim());
+      const ok = await refreshSession();
+      if (ok) await loadOverview();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Código inválido");
+    }
+  };
+
+  const handleRegisterPasskey = async () => {
+    setError(null);
+    try {
+      const options = await passkeyRegisterBegin();
+      const body = await createPasskey(options);
+      await passkeyRegisterFinish(body);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error registrando passkey");
+    }
+  };
 
   const handlePasskeyLogin = async () => {
     setError(null);
@@ -221,14 +244,24 @@ export default function AdminHub() {
           ) : (
             <p className="text-sm text-muted-foreground">Este dispositivo no soporta passkey.</p>
           )}
-          <details className="text-sm text-muted-foreground">
+          <details className="text-sm text-muted-foreground" open>
             <summary className="cursor-pointer select-none">Primera vez</summary>
             <p className="mt-2 mb-3">
-              Solo @{ADMIN_GITHUB_USER}. Después registra la passkey y no vuelvas a usar GitHub aquí.
+              Código de arranque (mail a tu Gmail). Luego registra la passkey.
             </p>
-            <Button variant="outline" className="min-h-[44px]" onClick={handleGithub}>
-              GitHub (bootstrap)
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Input
+                type="password"
+                autoComplete="one-time-code"
+                className="min-h-[44px]"
+                placeholder="Código"
+                value={bootstrapCode}
+                onChange={(e) => setBootstrapCode(e.target.value)}
+              />
+              <Button className="min-h-[44px]" onClick={() => void handleBootstrap()}>
+                Entrar con código
+              </Button>
+            </div>
           </details>
         </div>
       </PageShell>
@@ -248,6 +281,12 @@ export default function AdminHub() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            {isPasskeySupported() ? (
+              <Button variant="outline" className="min-h-[44px]" onClick={() => void handleRegisterPasskey()}>
+                <KeyRound className="mr-2 h-4 w-4" aria-hidden />
+                Registrar passkey
+              </Button>
+            ) : null}
             <Button asChild variant="outline" className="min-h-[44px]">
               <Link to={ROUTES.adminPhotos}>
                 <ImageIcon className="mr-2 h-4 w-4" aria-hidden />

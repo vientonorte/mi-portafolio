@@ -24,6 +24,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ### Docs
 - `docs/API-KICKOFF.md`
+- `docs/CMS-ADMIN-CAPABILIDADES.md` — qué hace `#/admin`, por qué el share usa OG genérico, backlog de APIs/agentes (Meta/LinkedIn/Google).
+- `docs/AUDITORIA-ADS-INSTAGRAM.md` — gate spend Google Ads / IG.
+
+### Added
+- OG 1200×630 (home + consultoría) y rutas de share **sin hash** `/s/` · `/s/consultoria`.
 
 ---
 
