@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-13] — Admin fotos: nombre + aplicación web
+
+### Added
+- `#/admin/fotos`: subir foto con **nombre** y **aplicación** (share home/consultoría, schema, favicon, logo, Apple/PWA, FAQ, galería).
+- `POST /api/admin/images` crea slot cableado o `custom.*` en KV/R2.
+
+---
+
 ## [2026-08-13] — Kick-off consultora: landing + APIs + MCP + admin BD
 
 ### Added

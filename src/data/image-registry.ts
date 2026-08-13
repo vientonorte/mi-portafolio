@@ -7,6 +7,7 @@ export interface ImageRegistryEntry {
   path: string;
   defaultUrl: string;
   alt: string;
+  role?: string;
 }
 
 function entry(
@@ -23,7 +24,13 @@ function entry(
 /** Catálogo editable — fotos en public/images/ y profile-photo.jpg */
 export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("branding.profilePhoto", "Branding", "Foto de perfil", "profile-photo.jpg", portfolioImages.branding.profilePhoto, "Rodrigo Gaete, UX Lead"),
-  entry("branding.ogPortfolio", "Branding", "OG / PWA", "branding/og-portfolio.png", portfolioImages.branding.ogPortfolio, "Viento Norte · UXtech · módulos a medida"),
+  entry("branding.ogHome", "Branding", "Share redes · home", "branding/og-home-1200.png", portfolioImages.branding.ogHome, "Viento Norte — share home"),
+  entry("branding.ogConsultoria", "Branding", "Share redes · consultoría", "branding/og-consultoria-1200.png", portfolioImages.branding.ogConsultoria, "Viento Norte — share consultoría"),
+  entry("branding.ogPortfolio", "Branding", "OG / PWA (legacy)", "branding/og-portfolio.png", portfolioImages.branding.ogPortfolio, "Viento Norte · UXtech · módulos a medida"),
+  entry("branding.isologo", "Branding", "Logo / isologo", "branding/isologo-512.png", portfolioImages.branding.isologo, "Isologo Viento Norte"),
+  entry("branding.favicon", "Branding", "Favicon", "favicon.ico", portfolioImages.branding.favicon, "Favicon Viento Norte"),
+  entry("branding.schemaLogo", "Branding", "Schema.org logo", "icon-512x512.png", portfolioImages.branding.schemaLogo, "Logo schema Viento Norte"),
+  entry("branding.appleTouch", "Branding", "Apple / PWA", "icon-192x192.png", portfolioImages.branding.appleTouch, "Apple touch Viento Norte"),
   entry("sura.riaOnboarding", "SURA", "RIA onboarding", "sura/ria-onboarding.png", portfolioImages.sura.riaOnboarding, "Onboarding RIA SURA US"),
   entry("sura.webPrototype", "SURA", "Prototipo web RIA", "sura/web-prototype.png", portfolioImages.sura.webPrototype, "Prototipo web SURA — plataforma inversiones / RIA"),
   entry("sura.componentPipeline", "SURA", "Pipeline componentes", "sura/component-pipeline.png", portfolioImages.sura.componentPipeline, "Pipeline MVP — Explorar, Refinar, Documentar, Implementar"),
