@@ -15,4 +15,11 @@ export const ADMIN_ROUTES = {
   logout: `${ADMIN_API_BASE}/api/admin/auth/logout`,
   images: `${ADMIN_API_BASE}/api/admin/images`,
   manifest: `${ADMIN_API_BASE}/api/images/manifest`,
+  overview: `${ADMIN_API_BASE}/api/admin/overview`,
+  leads: `${ADMIN_API_BASE}/api/admin/leads`,
+  bookings: `${ADMIN_API_BASE}/api/admin/bookings`,
+  diagnosticos: `${ADMIN_API_BASE}/api/admin/diagnosticos`,
+  services: `${ADMIN_API_BASE}/api/admin/services`,
+  cases: `${ADMIN_API_BASE}/api/admin/cases`,
+  health: `${ADMIN_API_BASE}/api/health`,
 } as const;

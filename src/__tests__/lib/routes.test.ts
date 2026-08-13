@@ -6,6 +6,7 @@ import {
   isConsultingOfferPath,
   isConsultingFunnelPath,
   isConsultingPath,
+  isAdminPath,
 } from '@/lib/routes';
 
 describe('routes', () => {
@@ -38,5 +39,14 @@ describe('routes', () => {
 
     expect(isConsultingPath('/')).toBe(true);
     expect(isConsultingPath('/consultoria')).toBe(true);
+  });
+
+  it('admin hub and photos are admin paths', () => {
+    expect(ROUTES.admin).toBe('/admin');
+    expect(ROUTES.adminPhotos).toBe('/admin/fotos');
+    expect(isAdminPath('/admin')).toBe(true);
+    expect(isAdminPath('/admin/fotos')).toBe(true);
+    expect(isAdminPath('/contacto')).toBe(false);
+    expect(isAdminPath('/proyectos')).toBe(false);
   });
 });

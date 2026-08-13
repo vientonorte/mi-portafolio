@@ -27,6 +27,9 @@ export const ROUTES = {
    */
   consultingFunnel: "/",
 
+  /** Panel interno. No está en nav. Gate passkey. */
+  admin: "/admin",
+
   /** Deep link a un módulo del tour SEM. */
   consultingModule: (moduleId: string) =>
     `/consultoria/modulos/${encodeURIComponent(moduleId)}`,
@@ -88,6 +91,11 @@ export function isConsultingPath(pathname: string): boolean {
   return (
     isConsultingFunnelPath(pathname) || isConsultingOfferPath(pathname)
   );
+}
+
+export function isAdminPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === ROUTES.admin || path.startsWith(`${ROUTES.admin}/`);
 }
 
 export function isProcessPath(pathname: string): boolean {

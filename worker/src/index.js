@@ -16,6 +16,22 @@ import {
   handlePatchImage,
   handleDeleteImage,
 } from './admin/images.js';
+import {
+  handleCreateBooking,
+  handleCreateDiagnostico,
+  handleCreateLead,
+  handleGetCases,
+  handleGetCompany,
+  handleGetServices,
+  handleHealth,
+} from './api/public.js';
+import {
+  handleAdminCatalog,
+  handleListCollection,
+  handleOverview,
+  handlePatchCollection,
+} from './api/admin-data.js';
+import { handleMcp } from './mcp/server.js';
 
 export default {
   async fetch(request, env) {
@@ -30,9 +46,37 @@ export default {
       return new Response(null, { status: 204, headers: cors });
     }
 
-    // ── Contact (existente) ──
+    // ── Health + catálogo público ──
+    if (path === '/api/health' && request.method === 'GET') {
+      return handleHealth(env, cors);
+    }
+    if (path === '/api/services' && request.method === 'GET') {
+      return handleGetServices(cors);
+    }
+    if (path === '/api/cases' && request.method === 'GET') {
+      return handleGetCases(cors);
+    }
+    if (path === '/api/company' && request.method === 'GET') {
+      return handleGetCompany(cors);
+    }
+
+    // ── Escritura pública ──
     if (path === '/api/contact' && request.method === 'POST') {
       return handleContact(request, env, cors);
+    }
+    if (path === '/api/leads' && request.method === 'POST') {
+      return handleCreateLead(request, env, cors);
+    }
+    if (path === '/api/booking' && request.method === 'POST') {
+      return handleCreateBooking(request, env, cors);
+    }
+    if (path === '/api/diagnostico' && request.method === 'POST') {
+      return handleCreateDiagnostico(request, env, cors);
+    }
+
+    // ── MCP (JSON-RPC) ──
+    if (path === '/mcp' || path === '/api/mcp') {
+      return handleMcp(request, env, cors);
     }
 
     // ── Manifest público ──
@@ -71,6 +115,35 @@ export default {
     }
     if (path === '/api/admin/auth/logout' && request.method === 'POST') {
       return json({ ok: true }, 200, { ...cors, 'Set-Cookie': clearSessionCookie() });
+    }
+
+    // ── Admin data browser ──
+    if (path === '/api/admin/overview' && request.method === 'GET') {
+      return handleOverview(request, env, cors);
+    }
+    if (path === '/api/admin/services' && request.method === 'GET') {
+      return handleAdminCatalog(request, env, cors, 'services');
+    }
+    if (path === '/api/admin/cases' && request.method === 'GET') {
+      return handleAdminCatalog(request, env, cors, 'cases');
+    }
+
+    const collectionMatch = path.match(/^\/api\/admin\/(leads|bookings|diagnosticos)$/);
+    if (collectionMatch && request.method === 'GET') {
+      return handleListCollection(request, env, cors, collectionMatch[1]);
+    }
+
+    const collectionItemMatch = path.match(
+      /^\/api\/admin\/(leads|bookings|diagnosticos)\/([^/]+)$/
+    );
+    if (collectionItemMatch && request.method === 'PATCH') {
+      return handlePatchCollection(
+        request,
+        env,
+        cors,
+        collectionItemMatch[1],
+        decodeURIComponent(collectionItemMatch[2])
+      );
     }
 
     // ── Imágenes admin ──

@@ -133,6 +133,12 @@ export function Hero(_props: HeroProps) {
               </span>
               <span className="block text-foreground">{t.headlineFocus}</span>
             </motion.h1>
+            <motion.p
+              variants={itemVariants}
+              className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+            >
+              {t.valueProp}
+            </motion.p>
           </div>
 
           <motion.div variants={itemVariants} className="w-full">

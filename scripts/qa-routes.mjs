@@ -22,6 +22,7 @@ const STATIC_ROUTES = [
   '/consultoria',
   '/consultoria/embudo',
   '/consultoria/modulos/dashboard',
+  '/admin',
   '/admin/fotos',
   '/cases',
   '/cases/process/ux-analytics',

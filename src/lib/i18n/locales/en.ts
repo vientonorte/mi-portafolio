@@ -99,8 +99,8 @@ export default {
             'UX pattern in SURA Investments: predictive fund search with progressive disclosure and WCAG 2.2 AA — product evidence, not a case study.',
         },
         admin: {
-          title: 'Photo admin',
-          description: 'Private portfolio image editor.',
+          title: 'Admin · Viento Norte',
+          description: 'Internal panel: leads, bookings, diagnostics, and catalog.',
         },
       },
     },
@@ -409,9 +409,9 @@ export default {
       },
       packagesSection: {
         badge: 'How you hire',
-        title: 'Three formats + app if you need it',
+        title: 'Three formats + modules that install',
         description:
-          'Pick diagnostic, prototype, or team process. If you need an app in production, use the strip below.',
+          'Interfaces, Design Systems, and research/AI data. Pick diagnostic, prototype, or process. You keep the data and the code.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaForm: 'Write',
@@ -712,10 +712,10 @@ export default {
 
     // Hero
     hero: {
-      label: 'Design Ops for regulated products',
+      label: 'UXtech · custom modules',
       headlineLead: 'Design that',
       headlineFocus: 'cuts the noise.',
-      valueProp: 'UX Lead · Design Ops for regulated products — fintech and mobility.',
+      valueProp: 'We turn complexity into decision capacity. Software that installs. Client owns the data.',
       specialties: ['Compliance', 'Premium UX', 'Fintech', 'Mobility'],
       unifiedBanner: {
         groupLabel: 'What do you need?',
@@ -1171,7 +1171,7 @@ export default {
         sending: 'Sending…',
         editMessage: 'You can edit the message before sending',
         privacyNote:
-          'Your data goes to Google Forms (Viento Norte). You get an email copy; we receive it at contacto@vientonorte.cl — no marketing.',
+          'Your data goes to the Viento Norte Worker and Google Forms. We keep the lead to reply — no marketing.',
         success: 'Done! I\'ll reply within 24 hours.',
       },
       social: {
@@ -1430,7 +1430,7 @@ export default {
       consulting: 'Consulting',
       grafo: 'Graph',
       autosuggest: 'Autosuggest Funds',
-      admin: 'Photo admin',
+      admin: 'Admin',
       notFound: 'Not found',
     },
 
@@ -1445,7 +1445,7 @@ export default {
       contact: {
         title: 'Contact form',
         body:
-          'If you submit the form or assistant, your name, email, and message are sent over HTTPS to Google Forms (Viento Norte account). Google may email you a copy of your response and notify us at contacto@vientonorte.cl (forwarded to gaete.gaona@gmail.com). We do not store that data in site databases or use it for marketing. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
+          'If you submit the form, assistant, or an agent tool, your name, email, and message are sent over HTTPS to the Viento Norte Cloudflare Worker and, in parallel, to Google Forms. We keep the lead in the internal panel to reply. We do not use it for marketing or sell it. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
       },
       retention: {
         title: 'Retention',

@@ -9,18 +9,20 @@ routes = [
 ]
 
 [vars]
-ALLOWED_ORIGIN = "https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173"
+ALLOWED_ORIGIN = "https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,http://localhost:3000,http://localhost:5173,http://localhost:4173,http://127.0.0.1:5173"
 CONTACT_FROM = "contacto@vientonorte.io"
-CONTACT_FROM_NAME = "Rodrigo Gaete · Portfolio"
+CONTACT_FROM_NAME = "Viento Norte"
 # Inbox privado — override con secret si prefieres: wrangler secret put CONTACT_INBOX
 CONTACT_INBOX = "gaete.gaona@gmail.com"
 ADMIN_GITHUB_USER = "vientonorte"
 STATIC_IMAGE_BASE = "https://vientonorte.io/mi-portafolio"
 WEBAUTHN_RP_ID = "vientonorte.io"
+# Agenda pública de 30 min (override: wrangler secret / var)
+CALENDAR_BOOKING_URL = ""
 # R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"  # tras habilitar acceso público al bucket
 
 # Secrets (wrangler secret put):
-#   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+#   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, VN_API_KEY
 
 [[send_email]]
 name = "EMAIL"

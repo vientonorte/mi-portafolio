@@ -36,7 +36,49 @@ async function adminFetch<T>(
   return data;
 }
 
-export function startGithubLogin(returnTo = "/admin/fotos") {
+export type AdminCollection = "leads" | "bookings" | "diagnosticos";
+
+export interface AdminRecord {
+  id: string;
+  createdAt?: string;
+  updatedAt?: string;
+  status?: string;
+  name?: string | { es?: string; en?: string };
+  title?: string | { es?: string; en?: string };
+  email?: string;
+  message?: string;
+  intent?: string;
+  source?: string;
+  notes?: string;
+  calendarUrl?: string;
+  friction?: string;
+  company?: string;
+  url?: string;
+  kind?: string;
+  active?: boolean;
+  published?: boolean;
+  response?: { es?: string; en?: string };
+  [key: string]: unknown;
+}
+
+export interface AdminOverview {
+  today: { leads: number; bookings: number; diagnosticos: number };
+  week: { leads: number; bookings: number; diagnosticos: number };
+  totals: {
+    leads: number;
+    bookings: number;
+    diagnosticos: number;
+    services: number;
+    cases: number;
+  };
+  recent: {
+    leads: AdminRecord[];
+    bookings: AdminRecord[];
+    diagnosticos: AdminRecord[];
+  };
+}
+
+export function startGithubLogin(returnTo = "/admin") {
   const url = new URL(ADMIN_ROUTES.githubStart);
   url.searchParams.set("return_to", returnTo);
   window.location.href = url.toString();
@@ -108,6 +150,39 @@ export async function passkeyLoginFinish(body: AuthenticationResponseJSON): Prom
     method: "POST",
     body: JSON.stringify(body),
   });
+}
+
+export async function getAdminOverview(): Promise<AdminOverview> {
+  const data = await adminFetch<{ overview: AdminOverview }>(ADMIN_ROUTES.overview);
+  return data.overview;
+}
+
+export async function listAdminCollection(
+  collection: AdminCollection,
+  params: { q?: string; status?: string } = {}
+): Promise<AdminRecord[]> {
+  const url = new URL(ADMIN_ROUTES[collection]);
+  if (params.q) url.searchParams.set("q", params.q);
+  if (params.status) url.searchParams.set("status", params.status);
+  const data = await adminFetch<{ items: AdminRecord[] }>(url.toString());
+  return data.items;
+}
+
+export async function patchAdminRecord(
+  collection: AdminCollection,
+  id: string,
+  patch: { status?: string; notes?: string }
+): Promise<AdminRecord> {
+  const data = await adminFetch<{ item: AdminRecord }>(
+    `${ADMIN_ROUTES[collection]}/${encodeURIComponent(id)}`,
+    { method: "PATCH", body: JSON.stringify(patch) }
+  );
+  return data.item;
+}
+
+export async function listAdminCatalog(kind: "services" | "cases"): Promise<AdminRecord[]> {
+  const data = await adminFetch<{ items: AdminRecord[] }>(ADMIN_ROUTES[kind]);
+  return data.items;
 }
 
 export function registryToAdminPreview(entry: ImageRegistryEntry): AdminImageRecord {

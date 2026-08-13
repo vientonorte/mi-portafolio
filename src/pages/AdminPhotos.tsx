@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { KeyRound, LogOut, RefreshCw, ShieldCheck, Upload } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Database, KeyRound, LogOut, RefreshCw, ShieldCheck, Upload } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
@@ -11,6 +12,7 @@ import { Badge } from "../components/ui/badge";
 import { ResponsiveImage } from "../components/atoms/ResponsiveImage";
 import { IMAGE_CATEGORIES, IMAGE_REGISTRY } from "../data/image-registry";
 import { ADMIN_GITHUB_USER } from "../lib/admin-config";
+import { ROUTES } from "../lib/routes";
 import {
   adminLogout,
   getAdminSession,
@@ -174,6 +176,12 @@ export default function AdminPhotos() {
             Edita las imágenes contenidas en <code className="text-sm">public/images/</code> y{" "}
             <code className="text-sm">profile-photo.jpg</code>. Solo @{ADMIN_GITHUB_USER} en GitHub.
           </p>
+          <Button asChild variant="outline" className="min-h-[44px] w-fit">
+            <Link to={ROUTES.admin}>
+              <Database className="mr-2 h-4 w-4" aria-hidden />
+              Ver leads y bases
+            </Link>
+          </Button>
         </header>
 
         {error && (

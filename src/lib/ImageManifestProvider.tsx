@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { ADMIN_ROUTES } from "./admin-config";
 import { ImageManifestContext } from "./image-manifest-context";
 import { fetchAndApplyManifest } from "./image-overrides";
-import { ROUTES } from "./routes";
+import { isAdminPath } from "./routes";
 
 /** Manifest remoto solo en admin (evita CORS en GitHub Pages hasta ACAO en el Worker). */
 const PUBLIC_MANIFEST_ENABLED = import.meta.env.VITE_IMAGE_MANIFEST_PUBLIC === "true";
@@ -11,8 +11,7 @@ const PUBLIC_MANIFEST_ENABLED = import.meta.env.VITE_IMAGE_MANIFEST_PUBLIC === "
 export function ImageManifestProvider({ children }: { children: ReactNode }) {
   const [version, setVersion] = useState(0);
   const location = useLocation();
-  const isAdminRoute =
-    (location.pathname.replace(/\/+$/, "") || "/") === ROUTES.adminPhotos;
+  const isAdminRoute = isAdminPath(location.pathname);
   const shouldFetch = isAdminRoute || PUBLIC_MANIFEST_ENABLED;
 
   useEffect(() => {

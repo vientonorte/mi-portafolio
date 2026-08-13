@@ -5,6 +5,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-13] — Kick-off consultora: landing + APIs + MCP + admin BD
+
+### Added
+- **APIs de negocio** en el Worker (`/api/health`, `/api/services`, `/api/cases`, `/api/company`, `/api/leads`, `/api/booking`, `/api/diagnostico`).
+- **MCP JSON-RPC** en `POST /mcp` (`list_services`, `get_cases`, `get_company_info`, `submit_lead`, `book_call`, `request_diagnostico`). Escritura con `VN_API_KEY`.
+- **Admin data browser** en `#/admin`: overview, tablas de leads/agenda/diagnósticos (cambio de estado) y catálogo de servicios/casos. Auth GitHub/passkey existente.
+- Persistencia de leads del formulario de contacto en `ADMIN_KV`.
+
+### Changed
+- Confirmación de contacto: «desde **vientonorte.io**», voz Viento Norte (ya no “portafolio” / “te responderé”).
+- Booking: `book_call` + registro opcional en `/api/booking` si hay identidad de sesión. Journey: `docs/BOOKING-JOURNEY.md`.
+- HashRouter emite `page_view` al dataLayer. Receta GTM: `docs/GTM-KICKOFF.md`.
+- Home: value prop y strip de modalidades alineados a UXtech / dueño del dato.
+- SEO i18n home: `Viento Norte · UXtech` (Helmet ya coincidía con `index.html`).
+- Privacidad: declara almacenamiento de leads en el Worker.
+- Rutas: `consultingFunnel` = `/` (canon FO). Alias legacy `/consultoria/embudo`.
+
+### Docs
+- `docs/API-KICKOFF.md`
+
+---
+
 ## [2026-08-03] — SEO root + SEM `/#/consultoria` (audit QA)
 
 ### Fixed

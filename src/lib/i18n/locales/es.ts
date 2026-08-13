@@ -99,8 +99,8 @@ export default {
             'Patrón UX en SURA Inversiones: búsqueda predictiva de fondos con progressive disclosure y WCAG 2.2 AA — evidencia de producto, no case study.',
         },
         admin: {
-          title: 'Admin fotos',
-          description: 'Editor privado de imágenes del portafolio.',
+          title: 'Admin · Viento Norte',
+          description: 'Panel interno: leads, agenda, diagnósticos y catálogo.',
         },
       },
     },
@@ -409,9 +409,9 @@ export default {
       },
       packagesSection: {
         badge: 'Cómo se contrata',
-        title: 'Tres formatos + app si la necesitas',
+        title: 'Tres formatos + módulos que se instalan',
         description:
-          'Elige diagnóstico, prototipo o proceso de equipo. Si necesitas una app en producción, usa la franja de abajo.',
+          'Interfaces, Design Systems y research/AI data. Elige diagnóstico, prototipo o proceso. El cliente queda dueño del dato y del código.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaForm: 'Escribir',
@@ -712,10 +712,10 @@ export default {
 
     // Hero
     hero: {
-      label: 'Design Ops en productos regulados',
+      label: 'UXtech · módulos a medida',
       headlineLead: 'Diseño que',
       headlineFocus: 'reduce el ruido.',
-      valueProp: 'UX Lead · Design Ops en productos regulados — fintech y mobility.',
+      valueProp: 'Transformamos complejidad en capacidad de decisión. Software que se instala. Cliente dueño del dato.',
       specialties: ['Cumplimiento', 'Experiencias premium', 'Fintech', 'Mobility'],
       unifiedBanner: {
         groupLabel: '¿Qué necesitas?',
@@ -1413,7 +1413,7 @@ export default {
       consulting: 'Consultoría',
       grafo: 'Grafo',
       autosuggest: 'Autosuggest Fondos',
-      admin: 'Admin fotos',
+      admin: 'Admin',
       notFound: 'No encontrado',
     },
 
@@ -1428,7 +1428,7 @@ export default {
       contact: {
         title: 'Formulario de contacto',
         body:
-          'Si envías el formulario o el asistente, tu nombre, email y mensaje se transmiten por HTTPS a Google Forms (cuenta Viento Norte). Google puede enviarte copia de tu respuesta y notificarnos en contacto@vientonorte.cl (reenvío a gaete.gaona@gmail.com). No almacenamos esos datos en bases de datos del sitio ni los usamos para marketing. Base legal: consentimiento explícito (Ley 21.719).',
+          'Si envías el formulario, el asistente o una tool de agente, tu nombre, email y mensaje se transmiten por HTTPS al Worker de Viento Norte (Cloudflare) y, en paralelo, a Google Forms. Conservamos el lead en el panel interno para responder. No los usamos para marketing ni los vendemos. Base legal: consentimiento explícito (Ley 21.719).',
       },
       retention: {
         title: 'Conservación',
