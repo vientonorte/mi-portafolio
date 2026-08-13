@@ -60,7 +60,7 @@ export function ConsultoriaLandingHero({
       has_schedule: freeRadarHasSchedule(),
     });
     openFreeRadarEntry(navigate, language, "consultoria-hero", {
-      mode: freeRadarHasSchedule() ? "schedule" : "auto",
+      mode: "message",
     });
   };
 

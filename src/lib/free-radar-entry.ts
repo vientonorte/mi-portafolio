@@ -1,11 +1,8 @@
 /**
- * Lead magnet · Probar gratis (Diagnóstico de un flujo / a11y WCAG 2.2 AA).
- * 1 flujo accesible → conversación por Diagnóstico completo 5–7 días.
- * NO redirige a /auditoria (mentoría portfolio).
- *
- * Prioridad de canal:
- * 1. Google Calendar Appointment Schedule (agendar online)
- * 2. Formulario de contacto con mensaje prearmado (fallback)
+ * Lead magnet · revisión WCAG 2.2 AA de un flujo (no heurístico pago).
+ * Orden comercial: form (sitio + nombre + tel + mail) → informe → Calendar ≥48 h
+ * → cita = walkthrough del informe + venta de Herramientas Digitales.
+ * NO redirige a /auditoria. Calendar (mode schedule) solo post-envío.
  */
 
 import type { NavigateFunction } from "react-router-dom";
@@ -22,22 +19,22 @@ import {
 import { recordBookingIntent } from "./vn-booking";
 
 export const FREE_RADAR_ENTRY_MESSAGE: Record<Language, string> = {
-  es: `Hola Viento Norte — quiero la revisión gratis de accesibilidad de un flujo.
+  es: `Hola Viento Norte — quiero la revisión gratis WCAG 2.2 AA de un flujo.
 
-Qué revisar: [link o describe el flujo]
-Empresa o producto: [breve]
-Horario preferido (si no agendaste en Calendar): [día / franja CLT]
+Sitio web: [https://…]
+Flujo a revisar (onboarding, pago o acceso): [cuál]
+Empresa: [breve]
 
-Si sirve, hablamos del Diagnóstico completo (5–7 días).
+Tras el envío agendamos ≥48 h: en la cita recorro el informe (no discovery en blanco).
 
 Gracias.`,
-  en: `Hi Viento Norte — I want a free accessibility review of one flow.
+  en: `Hi Viento Norte — I want the free WCAG 2.2 AA review of one flow.
 
-What to review: [link or describe the flow]
-Company or product: [brief]
-Preferred time (if you did not book on Calendar): [day / slot, America/Santiago]
+Website: [https://…]
+Flow to review (onboarding, payment, or access): [which]
+Company: [brief]
 
-If it helps, we can talk about the full Diagnostic (5–7 days).
+After sending we book ≥48 h out: the call is a walkthrough of the report (not a blank discovery).
 
 Thanks.`,
 };
@@ -45,7 +42,7 @@ Thanks.`,
 export type FreeRadarEntryMode = "auto" | "schedule" | "message";
 
 export interface OpenFreeRadarEntryOptions {
-  /** auto = Calendar si hay URL, si no formulario. schedule = fuerza Calendar o form. message = solo form. */
+  /** auto | message = form primero. schedule = Calendar (solo después de enviar el form). */
   mode?: FreeRadarEntryMode;
 }
 
@@ -99,22 +96,24 @@ export function openFreeRadarEntry(
     return "contact_form";
   }
 
-  if (mode === "schedule" || mode === "auto") {
+  if (mode === "auto") {
+    openMessage();
+    return "contact_form";
+  }
+
+  if (mode === "schedule") {
     if (A11Y_FREE_SCHEDULE_URL) {
       trackGenerateLead(origin, "google_calendar");
       void recordBookingIntent({
         origin,
         intent: "radar-free",
-        notes: "Agenda 30 min · revisión de un flujo (vientonorte.io)",
+        notes: "Agenda ≥48 h · walkthrough informe WCAG (vientonorte.io)",
       });
       openA11yFreeScheduleOrFallback(openMessage);
       return "google_calendar";
     }
-    if (mode === "schedule") {
-      // Sin URL de agenda: degradar a formulario (mismo mensaje freemium)
-      openMessage();
-      return "contact_form";
-    }
+    openMessage();
+    return "contact_form";
   }
 
   openMessage();

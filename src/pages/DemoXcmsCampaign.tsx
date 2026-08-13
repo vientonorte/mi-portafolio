@@ -99,7 +99,7 @@ export default function DemoXcmsCampaign() {
       cta: "schedule",
       ...readDemoUtms(),
     });
-    openFreeRadarEntry(navigate, language, "free-radar", { mode: "schedule" });
+    openFreeRadarEntry(navigate, language, "free-radar", { mode: "message" });
   };
 
   const openConsulting = () => {

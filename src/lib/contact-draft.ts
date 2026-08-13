@@ -33,6 +33,10 @@ export interface ContactSharedIdentity {
   name: string;
   email: string;
   consent: boolean;
+  /** Gratis a11y: sitio a auditar (Ley 21.719 — solo para el informe). */
+  website?: string;
+  /** Gratis a11y: contacto para la cita. */
+  phone?: string;
 }
 
 export type ContactLocationState = {
@@ -47,6 +51,8 @@ const EMPTY_IDENTITY: ContactSharedIdentity = {
   name: "",
   email: "",
   consent: false,
+  website: "",
+  phone: "",
 };
 
 export function emptyContactIdentity(): ContactSharedIdentity {

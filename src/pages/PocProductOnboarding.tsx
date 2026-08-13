@@ -328,7 +328,7 @@ export default function PocProductOnboarding({
   }, [screens]);
 
   const openSchedule = () => {
-    openFreeRadarEntry(navigate, language, "free-radar", { mode: "schedule" });
+    openFreeRadarEntry(navigate, language, "free-radar", { mode: "message" });
   };
 
   const lang = es ? "es" : "en";

@@ -22,8 +22,8 @@ export const CONSULTING_PACKAGES: ConsultingPackage[] = [
     name: { es: "Diagnóstico", en: "Diagnostic" },
     packLabel: { es: "Radar", en: "Radar" },
     tagline: {
-      es: "Diagnóstico express en 5–7 días: usabilidad, accesibilidad y plan de mejoras.",
-      en: "Express diagnostic in 5–7 days: usability, accessibility, and improvement plan.",
+      es: "Diagnóstico heurístico a medida (5–7 días). Distinto de la revisión gratis WCAG AA de un flujo.",
+      en: "Custom heuristic diagnostic (5–7 days). Not the free single-flow WCAG AA review.",
     },
     duration: { es: "5–7 días hábiles", en: "5–7 business days" },
     youGet: {

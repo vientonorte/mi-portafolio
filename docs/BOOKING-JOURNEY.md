@@ -3,18 +3,19 @@
 Marca: **Viento Norte** · superficie: **vientonorte.io** (no “portafolio”).
 
 ```
-Descubrir → Decidir → Agendar → Confirmar → Follow-up
-   web         pack      Calendar      Google + mail     Admin / call
+Descubrir → Form (sitio+datos) → Informe WCAG → Calendar ≥48 h → Cita (walkthrough + HD)
 ```
+
+Gratis = **solo WCAG 2.2 AA de un flujo**. Diagnóstico pago = heurístico a medida.  
+Cita = recorrer el informe **y** vender **Herramientas Digitales** (proceso manual → dispositivo propio, 21.719 honesto, monitoreo).
 
 | Paso | Actor | Superficie | Evento | Dato |
 |------|-------|------------|--------|------|
 | 1. Descubrir | Visitante | Hero / modalidades / `#contacto` | `page_view` | path HashRouter |
-| 2. Decidir 30 min | Visitante | CTA «Abrir agenda» o form | `generate_lead` (`channel=google_calendar` o `contact_form`) | origin, package |
-| 3. Agendar | Visitante | Google Appointment Schedule | `book_call` | origin; si hay nombre+email de sesión → `POST /api/booking` |
-| 4a. Confirmar Calendar | Google | Mail de Calendar al visitante | (fuera de VN) | slot |
-| 4b. Confirmar web | Worker | Mail VN si usó el form | `submit_contact_form` | lead en KV |
-| 5. Follow-up | VN | `#/admin` Bookings / Leads | PATCH estado | nuevo → contactado |
+| 2. Form 1 min | Visitante | Contacto (nombre, email, tel, sitio) | `generate_lead` `channel=contact_form` | origin, package radar-free |
+| 3. Informe | VN + agente | Drive `A11y-Gratis` | (ops) | URL + flujo |
+| 4. Agendar ≥48 h | Visitante | Google Appointment (post-envío) | `book_call` | slot; humano: min lead time 48 h en Calendar |
+| 5. Cita | VN | Meet | walkthrough + oferta HD | no discovery en blanco |
 
 ## Copy de confirmación (canon)
 

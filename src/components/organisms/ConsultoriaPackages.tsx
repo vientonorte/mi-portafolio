@@ -176,19 +176,15 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
             <Button
               className="funnel-cta-primary w-full min-h-[44px] bg-brand-gradient font-semibold hover:opacity-90"
-              onClick={() => freeRadar(scheduleReady ? "schedule" : "auto")}
+              onClick={() => freeRadar("message")}
             >
-              {scheduleReady ? t.freeStripCtaSchedule : t.freeStripCta}
+              {t.freeStripCta}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Button>
             {scheduleReady ? (
-              <Button
-                variant="outline"
-                className="w-full min-h-[40px]"
-                onClick={() => freeRadar("message")}
-              >
-                {t.freeStripCtaMessage}
-              </Button>
+              <p className="text-xs text-muted-foreground text-center sm:text-left">
+                {t.freeStripAfterForm}
+              </p>
             ) : null}
             <Button
               variant="ghost"

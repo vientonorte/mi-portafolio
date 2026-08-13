@@ -26,6 +26,25 @@ describe("openFreeRadarEntry", () => {
     vi.stubGlobal("open", openSpy);
   });
 
+  it("mode auto opens the form first even if Calendar URL exists", async () => {
+    vi.doMock("../../lib/site-contact", () => ({
+      A11Y_FREE_SCHEDULE_URL: "https://calendar.app.google/vn-a11y-test",
+      openA11yFreeScheduleOrFallback: vi.fn(),
+    }));
+
+    const { openFreeRadarEntry } = await import("../../lib/free-radar-entry");
+    const channel = openFreeRadarEntry(
+      navigateSpy as unknown as NavigateFunction,
+      "es",
+      "consultoria-hero",
+      { mode: "auto" }
+    );
+
+    expect(channel).toBe("contact_form");
+    expect(navigateSpy).toHaveBeenCalled();
+    expect(openSpy).not.toHaveBeenCalled();
+  });
+
   it("opens Google Calendar when schedule URL is configured (mode schedule)", async () => {
     vi.doMock("../../lib/site-contact", () => ({
       A11Y_FREE_SCHEDULE_URL: "https://calendar.app.google/vn-a11y-test",
@@ -75,7 +94,7 @@ describe("openFreeRadarEntry", () => {
     expect(opts.packageId).toBe("radar");
     expect(opts.consultingQ1).toBe("radar-free");
     expect(opts.intent).toBe("consulting");
-    expect(String(opts.message)).toMatch(/revisión gratis de accesibilidad/i);
+    expect(String(opts.message)).toMatch(/revisión gratis WCAG/i);
   });
 
   it("mode message always opens contact form even if schedule exists", async () => {

@@ -30,7 +30,6 @@ import {
   SITE_CONTACT,
 } from "../../lib/site-contact";
 import type { ConsultingPackageId } from "../../data/vientonorte-consulting";
-import { FreeA11yScheduleCta } from "../molecules/FreeA11yScheduleCta";
 import { cn } from "../ui/utils";
 
 interface ContactAssistantProps {
@@ -165,6 +164,8 @@ export function ContactAssistant({
   );
   const [recruiterMode, setRecruiterMode] = useState(contactDraft?.recruiterMode ?? "");
   const [consultingQ1, setConsultingQ1] = useState(contactDraft?.consultingQ1 ?? "");
+  const isFreeA11yPath =
+    contactDraft?.consultingQ1 === "radar-free" || consultingQ1 === "radar-free";
   const [packageId, setPackageId] = useState<ConsultingPackageId | undefined>(
     contactDraft?.packageId
   );
@@ -282,6 +283,16 @@ export function ContactAssistant({
       next.message = t.form.errors.messageMin;
     }
     if (!sharedIdentity.consent) next.consent = t.form.consentRequired;
+    if (isFreeA11yPath) {
+      const site = (sharedIdentity.website ?? "").trim();
+      if (!site) next.website = t.form.errors.websiteRequired;
+      else if (!/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}([/?#].*)?$/i.test(site)) {
+        next.website = t.form.errors.websiteInvalid;
+      }
+      const digits = (sharedIdentity.phone ?? "").replace(/\D/g, "");
+      if (!digits) next.phone = t.form.errors.phoneRequired;
+      else if (digits.length < 8) next.phone = t.form.errors.phoneMin;
+    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -296,10 +307,22 @@ export function ContactAssistant({
     setIsSubmitting(true);
     try {
       const intentLabel = intent ? a.intents[intent] : "";
+      const site = (sharedIdentity.website ?? "").trim();
+      const phone = (sharedIdentity.phone ?? "").trim();
+      const outboundMessage = isFreeA11yPath
+        ? [
+            sharedMessage.trim(),
+            "",
+            site ? `Sitio: ${site}` : null,
+            phone ? `Tel: ${phone}` : null,
+          ]
+            .filter(Boolean)
+            .join("\n")
+        : sharedMessage.trim();
       const result = await submitContactMessage({
         name: sharedIdentity.name.trim(),
         email: sharedIdentity.email.trim(),
-        message: sharedMessage.trim(),
+        message: outboundMessage,
         _gotcha: gotcha,
         source: "assistant",
         intent: intentLabel,
@@ -328,10 +351,10 @@ export function ContactAssistant({
           toast.success(a.success, {
             description:
               language === "es"
-                ? "¿Prefieres un slot ahora? Agenda 30 min en Google Calendar."
-                : "Prefer a slot now? Book 30 min on Google Calendar.",
+                ? "Elegí un slot a ≥48 h: llegamos a la cita con el informe WCAG."
+                : "Pick a slot ≥48 h out so the WCAG report is ready for the call.",
             action: {
-              label: language === "es" ? "Agendar" : "Book",
+              label: language === "es" ? "Agendar ≥48 h" : "Book ≥48 h",
               onClick: () => {
                 window.open(
                   A11Y_FREE_SCHEDULE_URL,
@@ -415,15 +438,7 @@ export function ContactAssistant({
         )}
       </div>
 
-      {/* Agenda Google visible en embudo (no solo toast post-submit) */}
-      {A11Y_FREE_SCHEDULE_URL ? (
-        <FreeA11yScheduleCta
-          origin={
-            surface === "consulting" ? "consultoria-contact" : "contact-assistant"
-          }
-          layout="compact"
-        />
-      ) : null}
+      {/* Calendar solo post-envío (toast). Form primero: sitio + datos. */}
 
       {!skipWizard && (
         <div
@@ -658,6 +673,55 @@ export function ContactAssistant({
                   </p>
                 )}
               </div>
+
+              {isFreeA11yPath ? (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="assistant-website">
+                      {t.form.website}{" "}
+                      <span className="text-destructive" aria-hidden>*</span>
+                    </Label>
+                    <Input
+                      id="assistant-website"
+                      type="url"
+                      value={sharedIdentity.website ?? ""}
+                      onChange={(e) => {
+                        onIdentityChange({ website: e.target.value });
+                        setErrors((prev) => ({ ...prev, website: "" }));
+                      }}
+                      placeholder={t.form.websitePlaceholder}
+                      autoComplete="url"
+                      inputMode="url"
+                      aria-invalid={!!errors.website}
+                    />
+                    {errors.website && (
+                      <p className="text-sm text-destructive">{errors.website}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="assistant-phone">
+                      {t.form.phone}{" "}
+                      <span className="text-destructive" aria-hidden>*</span>
+                    </Label>
+                    <Input
+                      id="assistant-phone"
+                      type="tel"
+                      value={sharedIdentity.phone ?? ""}
+                      onChange={(e) => {
+                        onIdentityChange({ phone: e.target.value });
+                        setErrors((prev) => ({ ...prev, phone: "" }));
+                      }}
+                      placeholder={t.form.phonePlaceholder}
+                      autoComplete="tel"
+                      inputMode="tel"
+                      aria-invalid={!!errors.phone}
+                    />
+                    {errors.phone && (
+                      <p className="text-sm text-destructive">{errors.phone}</p>
+                    )}
+                  </div>
+                </div>
+              ) : null}
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">

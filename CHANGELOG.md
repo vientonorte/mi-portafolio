@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-13] — Consultoría: form-first gratis + Herramientas Digitales
+
+### Changed
+- Gratis a11y: **formulario primero** (sitio, nombre, teléfono, correo). Calendar ≥48 h solo después de enviar. La cita es walkthrough del informe WCAG (no discovery).
+- Gratis = **solo WCAG 2.2 AA de un flujo**. Diagnóstico pago = heurístico a medida.
+- 4º segmento: **Herramientas Digitales** (proceso manual → dispositivo propio, 21.719 honesto, monitoreo). App punta a punta sale de la vitrina.
+
+---
+
 ## [2026-08-13] — Kick-off consultora: landing + APIs + MCP + admin BD
 
 ### Added

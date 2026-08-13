@@ -53,8 +53,8 @@ export const SERVICES = [
     packLabel: { es: 'Radar', en: 'Radar' },
     duration: { es: '5–7 días hábiles', en: '5–7 business days' },
     tagline: {
-      es: 'Diagnóstico express: usabilidad, accesibilidad y plan de mejoras.',
-      en: 'Express diagnostic: usability, accessibility, and improvement plan.',
+      es: 'Diagnóstico heurístico a medida (5–7 días). Distinto de la revisión gratis WCAG AA.',
+      en: 'Custom heuristic diagnostic (5–7 days). Not the free WCAG AA review.',
     },
   },
   {
