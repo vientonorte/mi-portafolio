@@ -57,9 +57,16 @@ export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
   return false;
 }
 
-/** CTA único de agendamiento (Google Appointment). */
+/** CTA único de agendamiento (Google Appointment) + registro Worker. */
 export function openCalendarBooking(): boolean {
   if (!A11Y_FREE_SCHEDULE_URL) return false;
+  void import("./vn-booking").then(({ recordBookingIntent }) =>
+    recordBookingIntent({
+      origin: "calendar-cta",
+      intent: "radar-free",
+      notes: "Click Agendar · Google Appointment",
+    })
+  );
   window.open(A11Y_FREE_SCHEDULE_URL, "_blank", "noopener,noreferrer");
   return true;
 }
