@@ -184,10 +184,18 @@ export const analytics = {
  * @param title - Page title
  */
 export const trackPageView = (path: string, title?: string) => {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("config", "GA_MEASUREMENT_ID", {
+  if (typeof window === "undefined") return;
+  const w = window as Window & { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer ?? [];
+  w.dataLayer.push({
+    event: "page_view",
+    page_path: path,
+    page_title: title ?? document.title,
+  });
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "page_view", {
       page_path: path,
-      page_title: title
+      page_title: title ?? document.title,
     });
   }
 };

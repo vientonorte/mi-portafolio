@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isConsultingOfferPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { isAdminPath, isConsultingOfferPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -36,6 +36,7 @@ const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
 const CompanyDetailRoute = lazyWithRetry(() => import('./pages/CompanyDetailRoute'));
 const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRoute'));
 const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
+const AdminHub = lazyWithRetry(() => import('./pages/AdminHub'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
 
 const OFFER_MODULE_IDS = new Set([
@@ -133,6 +134,8 @@ function AppRoutes() {
   const isDeepPage = isDeepPortfolioPage(pathname);
   /** Tour fullscreen: sin dock/header del sitio (chrome propio del tour). */
   const isOfferLanding = isConsultingOfferPath(pathname);
+  /** Panel interno: sin nav pública (seguridad por diseño). */
+  const isAdmin = isAdminPath(pathname);
 
   return (
     <PortfolioChrome>
@@ -141,7 +144,7 @@ function AppRoutes() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      {!isDeepPage && !isOfferLanding && <RouterNavigation />}
+      {!isDeepPage && !isOfferLanding && !isAdmin && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -175,14 +178,15 @@ function AppRoutes() {
               element={<Navigate to={ROUTES.consulting} replace />}
             />
             <Route path={ROUTES.demoXcms} element={<DemoXcmsCampaign />} />
+            <Route path={ROUTES.admin} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>
       </main>
       {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
-      {!isDeepPage && !isOfferLanding && <BottomNav />}
-      {isDeepPage && !isOfferLanding && <DeepPageNav />}
+      {!isDeepPage && !isOfferLanding && !isAdmin && <BottomNav />}
+      {isDeepPage && !isOfferLanding && !isAdmin && <DeepPageNav />}
     </PortfolioChrome>
   );
 }

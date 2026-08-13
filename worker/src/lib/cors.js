@@ -1,15 +1,19 @@
-export function corsHeaders(origin) {
-  return {
+export function corsHeaders(origin, { credentials = true } = {}) {
+  const headers = {
     'Access-Control-Allow-Origin': origin,
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-VN-API-KEY',
     'Access-Control-Max-Age': '86400',
   };
+  if (credentials && origin !== '*') {
+    headers['Access-Control-Allow-Credentials'] = 'true';
+  }
+  return headers;
 }
 
 export function isAllowedOrigin(request, env) {
   const origin = request.headers.get('Origin') || '';
+  if (!origin) return '*';
   const allowed = (env.ALLOWED_ORIGIN || '')
     .split(',')
     .map((s) => s.trim())

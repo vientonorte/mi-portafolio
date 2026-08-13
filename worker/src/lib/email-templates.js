@@ -20,7 +20,7 @@ export function escapeHtml(str) {
 
 export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, source, subject }) {
   const text = [
-    'Nuevo mensaje desde el portafolio',
+    'Nuevo mensaje desde vientonorte.io',
     '',
     `Nombre: ${safeName}`,
     `Email: ${safeEmail}`,
@@ -46,7 +46,7 @@ export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, sour
     </tr>
     <tr>
       <td style="padding:28px 24px">
-        <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#888">Viento Norte · Portfolio</p>
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#888">Viento Norte · vientonorte.io</p>
         <h1 style="margin:0 0 20px;font-size:20px;font-weight:600;line-height:1.3">${escapeHtml(subject)}</h1>
         <table role="presentation" width="100%" style="margin-bottom:20px;font-size:14px">
           <tr><td style="padding:6px 0;color:#666;width:100px">Nombre</td><td style="padding:6px 0;font-weight:500">${escapeHtml(safeName)}</td></tr>
@@ -78,24 +78,26 @@ export function buildVisitorConfirmation({ safeName, publicFromEmail, language =
     ? [
         `Hi ${safeName},`,
         '',
-        'We received your inquiry through the portfolio. I will reply within 24 business hours.',
+        'We received your message from vientonorte.io. Viento Norte will reply within 24 business hours.',
         '',
         'Your email is used only to respond to this contact — we do not share it with third parties.',
         '',
         `If you did not send this request, ignore this email or write to ${publicFromEmail}.`,
         '',
-        '— Rodrigo Gaete · UX Lead',
+        '— Viento Norte',
+        'vientonorte.io',
       ].join('\n')
     : [
         `Hola ${safeName},`,
         '',
-        'Recibimos tu consulta desde el portafolio. Te responderé en menos de 24 horas hábiles.',
+        'Recibimos tu consulta desde vientonorte.io. Viento Norte te responde en menos de 24 horas hábiles.',
         '',
         'Tu email se usa solo para responder este contacto — no lo compartimos con terceros.',
         '',
         `Si no enviaste esta solicitud, ignora este correo o escribe a ${publicFromEmail}.`,
         '',
-        '— Rodrigo Gaete · UX Lead',
+        '— Viento Norte',
+        'vientonorte.io',
       ].join('\n');
 
   const footer = isEn ? PRIVACY_FOOTER_EN : PRIVACY_FOOTER_ES;
@@ -113,8 +115,8 @@ export function buildVisitorConfirmation({ safeName, publicFromEmail, language =
         <p style="margin:0 0 12px;font-size:15px;line-height:1.5">${isEn ? 'Hi' : 'Hola'} <strong>${escapeHtml(safeName)}</strong>,</p>
         <p style="margin:0 0 12px;font-size:14px;line-height:1.6;color:#333">
           ${isEn
-            ? 'We received your inquiry through the portfolio. I will reply within <strong>24 business hours</strong>.'
-            : 'Recibimos tu consulta desde el portafolio. Te responderé en <strong>menos de 24 horas hábiles</strong>.'}
+            ? 'We received your message from <strong>vientonorte.io</strong>. Viento Norte will reply within <strong>24 business hours</strong>.'
+            : 'Recibimos tu consulta desde <strong>vientonorte.io</strong>. Viento Norte te responde en <strong>menos de 24 horas hábiles</strong>.'}
         </p>
         <p style="margin:0;font-size:13px;line-height:1.5;color:#666">
           ${isEn

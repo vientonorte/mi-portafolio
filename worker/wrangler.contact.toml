@@ -14,7 +14,7 @@ routes = [
 [vars]
 ALLOWED_ORIGIN = "https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173"
 CONTACT_FROM = "contacto@vientonorte.io"
-CONTACT_FROM_NAME = "Rodrigo Gaete · Portfolio"
+CONTACT_FROM_NAME = "Viento Norte"
 CONTACT_INBOX = "gaete.gaona@gmail.com"
 
 [[send_email]]

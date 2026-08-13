@@ -19,6 +19,7 @@ import {
   A11Y_FREE_SCHEDULE_URL,
   openA11yFreeScheduleOrFallback,
 } from "./site-contact";
+import { recordBookingIntent } from "./vn-booking";
 
 export const FREE_RADAR_ENTRY_MESSAGE: Record<Language, string> = {
   es: `Hola Viento Norte — quiero la revisión gratis de accesibilidad de un flujo.
@@ -101,6 +102,11 @@ export function openFreeRadarEntry(
   if (mode === "schedule" || mode === "auto") {
     if (A11Y_FREE_SCHEDULE_URL) {
       trackGenerateLead(origin, "google_calendar");
+      void recordBookingIntent({
+        origin,
+        intent: "radar-free",
+        notes: "Agenda 30 min · revisión de un flujo (vientonorte.io)",
+      });
       openA11yFreeScheduleOrFallback(openMessage);
       return "google_calendar";
     }

@@ -1,4 +1,5 @@
 import { json } from './lib/cors.js';
+import { persistLead } from './api/public.js';
 import { buildAdminEmail, buildVisitorConfirmation } from './lib/email-templates.js';
 
 const MAX_NAME = 120;
@@ -131,10 +132,10 @@ export async function handleContact(request, env, cors) {
 
   const inbox = env.CONTACT_INBOX || DEFAULT_INBOX;
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.cl';
-  const fromName = env.CONTACT_FROM_NAME || 'Rodrigo Gaete · Portfolio';
+  const fromName = env.CONTACT_FROM_NAME || 'Viento Norte';
   const subject = safeIntent
-    ? `Portfolio · ${safeIntent} · ${safeName}`
-    : `Portfolio · mensaje de ${safeName}`;
+    ? `VN · ${safeIntent} · ${safeName}`
+    : `VN · mensaje de ${safeName}`;
 
   const { text, html } = buildAdminEmail({
     safeName,
@@ -144,6 +145,21 @@ export async function handleContact(request, env, cors) {
     source: safeSource,
     subject,
   });
+
+  let stored = null;
+  try {
+    stored = await persistLead(env, {
+      name: safeName,
+      email: safeEmail,
+      message: safeMessage,
+      intent: safeIntent,
+      source: safeSource,
+      language: safeLanguage,
+      channel: 'contact',
+    });
+  } catch (err) {
+    console.warn('[contact] persist lead failed:', err?.message || err);
+  }
 
   const sent = await sendContactEmail(env, {
     inbox,
@@ -157,17 +173,19 @@ export async function handleContact(request, env, cors) {
     html,
   });
 
-  if (!sent.ok) {
+  if (!sent.ok && !stored) {
     return json({ ok: false, error: 'No se pudo enviar el mensaje.' }, 502, cors);
   }
 
-  await sendVisitorConfirmation(env, {
-    safeName,
-    safeEmail,
-    fromEmail,
-    fromName,
-    language: safeLanguage,
-  });
+  if (sent.ok) {
+    await sendVisitorConfirmation(env, {
+      safeName,
+      safeEmail,
+      fromEmail,
+      fromName,
+      language: safeLanguage,
+    });
+  }
 
-  return json({ ok: true }, 200, cors);
+  return json({ ok: true, leadId: stored?.id || null, emailed: Boolean(sent.ok) }, 200, cors);
 }

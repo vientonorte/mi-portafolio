@@ -1,5 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { trackPageView } from "../../lib/analytics";
 import { runRouteScrollToTop } from "../../lib/navigate-to-section";
 import type { SectionScrollState } from "../../lib/navigate-to-section";
 
@@ -16,6 +17,10 @@ function normalizePath(path: string): string {
 export function ScrollManager() {
   const location = useLocation();
   const prevPathRef = useRef(normalizePath(location.pathname));
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.hash, document.title);
+  }, [location.pathname, location.hash]);
 
   useLayoutEffect(() => {
     const path = normalizePath(location.pathname);

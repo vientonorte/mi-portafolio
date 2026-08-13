@@ -1,3 +1,9 @@
+# Worker Viento Norte — contacto, APIs, MCP, admin
+
+Relay de contacto **y** capa de negocio del kick-off: catálogo, leads, agenda, diagnósticos, MCP y panel.
+
+Contrato: [`docs/API-KICKOFF.md`](../docs/API-KICKOFF.md).
+
 # Contact relay — mi-portafolio
 
 Reenvía el formulario de contacto a tu Gmail **sin publicar** `gaete.gaona@gmail.com` en el sitio.
