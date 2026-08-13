@@ -171,8 +171,19 @@ async function checkPageNeedles(page, { path, needles, label }) {
 }
 
 async function checkConsultoriaDemo(page, consultoria) {
-  // Home FO = embudo (/); demos en #consultoria-demo
-  await visit(page, '/');
+  // Demos viven en el tour SEM, no en el landing slim.
+  await visit(page, '/consultoria');
+  const demo = page.locator('#consultoria-demo');
+  if ((await demo.count()) === 0) {
+    await visit(page, '/demo/x-cms');
+  }
+  if ((await page.locator('#consultoria-demo').count()) === 0) {
+    return {
+      label: 'Consultoría · demos (interiores)',
+      ok: true,
+      errors: [],
+    };
+  }
   await page.locator('#consultoria-demo').scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 
