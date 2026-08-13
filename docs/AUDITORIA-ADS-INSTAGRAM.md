@@ -85,3 +85,5 @@ Instagram orgánico (bio + stories con `/s/consultoria`) **sí** se puede en cua
 | Instagram Ads | **No** | Meta BM + pixel + GTM |
 
 *Sin evidencia local de matrix 100 en este turno — no firmo spend.*
+
+Checklist para poner cada canal en verde: [`CHECKLIST-CANALES-PAID.md`](./CHECKLIST-CANALES-PAID.md).
