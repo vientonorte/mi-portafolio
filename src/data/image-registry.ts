@@ -23,7 +23,7 @@ function entry(
 /** Catálogo editable — fotos en public/images/ y profile-photo.jpg */
 export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("branding.profilePhoto", "Branding", "Foto de perfil", "profile-photo.jpg", portfolioImages.branding.profilePhoto, "Rodrigo Gaete, UX Lead"),
-  entry("branding.ogPortfolio", "Branding", "OG / PWA", "branding/og-portfolio.png", portfolioImages.branding.ogPortfolio, "Portfolio Rodrigo Gaete"),
+  entry("branding.ogPortfolio", "Branding", "OG / PWA", "branding/og-portfolio.png", portfolioImages.branding.ogPortfolio, "Viento Norte · UXtech · módulos a medida"),
   entry("sura.riaOnboarding", "SURA", "RIA onboarding", "sura/ria-onboarding.png", portfolioImages.sura.riaOnboarding, "Onboarding RIA SURA US"),
   entry("sura.webPrototype", "SURA", "Prototipo web RIA", "sura/web-prototype.png", portfolioImages.sura.webPrototype, "Prototipo web SURA — plataforma inversiones / RIA"),
   entry("sura.componentPipeline", "SURA", "Pipeline componentes", "sura/component-pipeline.png", portfolioImages.sura.componentPipeline, "Pipeline MVP — Explorar, Refinar, Documentar, Implementar"),

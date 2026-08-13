@@ -33,6 +33,7 @@ import {
   handlePatchCollection,
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
+import { handleShare } from './api/share.js';
 
 export default {
   async fetch(request, env) {
@@ -44,6 +45,9 @@ export default {
     }
     if (path === '/api/admin/auth/bootstrap-form' && request.method === 'POST') {
       return handleBootstrapForm(request, env);
+    }
+    if (path === '/s' || path.startsWith('/s/')) {
+      return handleShare(url);
     }
 
     const origin = isAllowedOrigin(request, env);

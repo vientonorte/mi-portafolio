@@ -13,6 +13,9 @@ export const SEO_SITE = {
    * Message-match: landing oferta `/#/consultoria` — no gastar SEM sin Test path.
    */
   semOfferUrl: "https://vientonorte.io/#/consultoria",
+  /** URL de share para crawlers (sin hash). */
+  shareHomeUrl: "https://vientonorte.io/s/",
+  shareConsultoriaUrl: "https://vientonorte.io/s/consultoria",
   /** Legacy path (GitHub project pages / bookmarks) */
   legacyBasePath: "/mi-portafolio",
 } as const;
