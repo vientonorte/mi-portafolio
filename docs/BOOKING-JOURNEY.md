@@ -11,7 +11,7 @@ Descubrir → Decidir → Agendar → Confirmar → Follow-up
 |------|-------|------------|--------|------|
 | 1. Descubrir | Visitante | Hero / modalidades / `#contacto` | `page_view` | path HashRouter |
 | 2. Decidir 30 min | Visitante | CTA «Abrir agenda» o form | `generate_lead` (`channel=google_calendar` o `contact_form`) | origin, package |
-| 3. Agendar | Visitante | Google Appointment Schedule | `book_call` | origin; si hay nombre+email de sesión → `POST /api/booking` |
+| 3. Agendar | Visitante | Google Appointment Schedule | `book_call` + **siempre** `POST /api/booking` | click queda en `#/admin` Agenda; mail a `CONTACT_INBOX`. Identidad si hay sesión o sync Calendar |
 | 4a. Confirmar Calendar | Google | Mail de Calendar al visitante | (fuera de VN) | slot |
 | 4b. Confirmar web | Worker | Mail VN si usó el form | `submit_contact_form` | lead en KV |
 | 5. Follow-up | VN | `#/admin` Bookings / Leads | PATCH estado | nuevo → contactado |

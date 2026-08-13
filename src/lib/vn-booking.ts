@@ -5,8 +5,8 @@ import { trackEvent } from "./analytics";
 export type BookingIntent = "kickoff" | "radar-free" | "consulting";
 
 /**
- * Registra la intención de agenda en el Worker (best-effort).
- * Si no hay nombre/email de sesión, no inventa identidad — solo analytics.
+ * Siempre registra el click de agenda en el Worker y dispara mail a VN.
+ * Si hay sesión, adjunta nombre/email. Si no, queda status abierto.
  */
 export async function recordBookingIntent(params: {
   origin: string;
@@ -24,17 +24,13 @@ export async function recordBookingIntent(params: {
     has_identity: Boolean(name && email),
   });
 
-  if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return;
-  }
-
   try {
     await fetch(`${ADMIN_API_BASE}/api/booking`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
-        name,
-        email,
+        name: name.length >= 2 ? name : "Agenda abierta",
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "",
         notes: params.notes ?? "",
         intent: params.intent ?? "kickoff",
         origin: params.origin,

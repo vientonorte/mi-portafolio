@@ -56,6 +56,11 @@ export interface AdminRecord {
   name?: string | { es?: string; en?: string };
   title?: string | { es?: string; en?: string };
   email?: string;
+  phone?: string;
+  website?: string;
+  startAt?: string;
+  origin?: string;
+  eventId?: string;
   message?: string;
   intent?: string;
   source?: string;

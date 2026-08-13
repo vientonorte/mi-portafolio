@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-13] — Agenda: registro + mail automáticos
+
+### Changed
+- Click **Agendar** siempre escribe en KV (`bookings`) y avisa a `contacto` inbox.
+- Sync de cita Google (eventId, slot, sitio, tel) sin exigir sesión previa.
+
+---
+
 ## [2026-08-13] — Landing: Calendar único + contacto por mail
 
 ### Changed

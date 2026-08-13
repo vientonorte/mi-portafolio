@@ -432,6 +432,15 @@ function RecentList({ title, items }: { title: string; items: AdminRecord[] }) {
                   <Badge variant={statusVariant(item.status)}>{item.status || "—"}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{item.email}</p>
+                {item.startAt ? (
+                  <p className="text-sm">Cita: {formatWhen(item.startAt)}</p>
+                ) : null}
+                {item.website ? (
+                  <p className="text-xs break-all text-muted-foreground">{item.website}</p>
+                ) : null}
+                {item.phone ? (
+                  <p className="text-xs text-muted-foreground">Tel {item.phone}</p>
+                ) : null}
                 <p className="text-xs text-muted-foreground">{formatWhen(item.createdAt)}</p>
               </li>
             ))}
@@ -519,8 +528,34 @@ function RecordsTable({
 function DetailCell({ row, collection }: { row: AdminRecord; collection: AdminCollection }) {
   if (collection === "bookings") {
     return (
-      <div className="space-y-1">
-        <p>{row.intent || row.notes || "—"}</p>
+      <div className="space-y-1 text-foreground">
+        {row.startAt ? <p className="font-medium">Slot: {formatWhen(row.startAt)}</p> : null}
+        {row.phone ? (
+          <p>
+            Tel:{" "}
+            <a className="underline-offset-2 hover:underline" href={`tel:${row.phone}`}>
+              {row.phone}
+            </a>
+          </p>
+        ) : null}
+        {row.website ? (
+          <p className="break-all">
+            Sitio:{" "}
+            <a
+              className="text-primary underline-offset-2 hover:underline"
+              href={row.website}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {row.website}
+            </a>
+          </p>
+        ) : null}
+        {row.notes ? <p className="whitespace-pre-wrap text-muted-foreground">{row.notes}</p> : null}
+        <p className="text-xs text-muted-foreground">
+          {row.intent || "agenda"} {row.origin ? `· ${row.origin}` : ""}
+        </p>
+        <p className="text-xs">Siguiente: informe WCAG del sitio → walkthrough en la cita.</p>
         {row.calendarUrl ? (
           <a
             href={String(row.calendarUrl)}
@@ -529,7 +564,7 @@ function DetailCell({ row, collection }: { row: AdminRecord; collection: AdminCo
             rel="noreferrer"
           >
             <CalendarDays className="h-3.5 w-3.5" aria-hidden />
-            Calendar
+            Abrir Calendar / Meet
           </a>
         ) : null}
       </div>
@@ -543,7 +578,21 @@ function DetailCell({ row, collection }: { row: AdminRecord; collection: AdminCo
       </div>
     );
   }
-  return <p className="line-clamp-3">{row.message || row.intent || "—"}</p>;
+  return (
+    <div className="space-y-1">
+      {row.startAt ? <p className="font-medium">Cita: {formatWhen(row.startAt)}</p> : null}
+      {row.phone ? <p>Tel: {row.phone}</p> : null}
+      {row.website ? (
+        <p className="break-all">
+          Sitio:{" "}
+          <a href={row.website} className="text-primary" target="_blank" rel="noreferrer">
+            {row.website}
+          </a>
+        </p>
+      ) : null}
+      <p className="line-clamp-4 whitespace-pre-wrap">{row.message || row.intent || "—"}</p>
+    </div>
+  );
 }
 
 function CatalogTable({ rows, kind }: { rows: AdminRecord[]; kind: "services" | "cases" }) {
