@@ -78,6 +78,13 @@ export interface AdminOverview {
   };
 }
 
+export async function adminBootstrap(code: string): Promise<{ ok: boolean; user?: string }> {
+  return adminFetch(ADMIN_ROUTES.bootstrap, {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+}
+
 export function startGithubLogin(returnTo = "/admin") {
   const url = new URL(ADMIN_ROUTES.githubStart);
   url.searchParams.set("return_to", returnTo);

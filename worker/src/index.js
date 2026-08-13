@@ -2,6 +2,7 @@ import { corsHeaders, isAllowedOrigin, json } from './lib/cors.js';
 import { readSession, clearSessionCookie } from './lib/session.js';
 import { handleContact } from './contact.js';
 import { handleGithubAuth, handleGithubCallback } from './admin/github-auth.js';
+import { handleBootstrap, handleBootstrapForm, handleBootstrapPage } from './admin/bootstrap.js';
 import {
   handlePasskeyRegisterBegin,
   handlePasskeyRegisterFinish,
@@ -35,12 +36,20 @@ import { handleMcp } from './mcp/server.js';
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+
+    if (path === '/admin-gate' && request.method === 'GET') {
+      return handleBootstrapPage();
+    }
+    if (path === '/api/admin/auth/bootstrap-form' && request.method === 'POST') {
+      return handleBootstrapForm(request, env);
+    }
+
     const origin = isAllowedOrigin(request, env);
     if (!origin) return new Response('Forbidden', { status: 403 });
 
     const cors = corsHeaders(origin);
-    const url = new URL(request.url);
-    const path = url.pathname;
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: cors });
@@ -90,6 +99,9 @@ export default {
     }
     if (path === '/api/admin/auth/github/callback' && request.method === 'GET') {
       return handleGithubCallback(request, env, cors, url);
+    }
+    if (path === '/api/admin/auth/bootstrap' && request.method === 'POST') {
+      return handleBootstrap(request, env, cors);
     }
 
     // ── Passkey ──

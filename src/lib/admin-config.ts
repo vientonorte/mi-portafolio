@@ -7,6 +7,7 @@ export const ADMIN_GITHUB_USER = "vientonorte";
 
 export const ADMIN_ROUTES = {
   githubStart: `${ADMIN_API_BASE}/api/admin/auth/github`,
+  bootstrap: `${ADMIN_API_BASE}/api/admin/auth/bootstrap`,
   passkeyRegisterBegin: `${ADMIN_API_BASE}/api/admin/auth/passkey/register/begin`,
   passkeyRegisterFinish: `${ADMIN_API_BASE}/api/admin/auth/passkey/register/finish`,
   passkeyLoginBegin: `${ADMIN_API_BASE}/api/admin/auth/passkey/login/begin`,
