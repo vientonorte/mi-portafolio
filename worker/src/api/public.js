@@ -1,6 +1,6 @@
 import { json } from '../lib/cors.js';
 import { getCases, getCompany, getServices } from '../data/catalog.js';
-import { listRecords, newId, nowIso, prependRecord } from '../lib/store.js';
+import { listRecords, newId, nowIso, prependRecord, updateRecord } from '../lib/store.js';
 import { notifyInbox, notifyVisitor } from '../lib/notify.js';
 
 const MAX_NAME = 120;
@@ -61,6 +61,54 @@ export async function persistLead(env, fields) {
   };
   await prependRecord(env, 'leads', record);
   return record;
+}
+
+async function upsertLeadFromBooking(env, booking) {
+  const email = typeof booking.email === 'string' ? booking.email.trim().toLowerCase() : '';
+  if (!isValidEmail(email)) return null;
+  const leads = await listRecords(env, 'leads');
+  const existing = leads.find(
+    (item) =>
+      item.email === email &&
+      (item.eventId === booking.eventId || item.source === 'calendar')
+  );
+  const message = [
+    booking.startAt ? `Cita: ${booking.startAt}` : null,
+    booking.phone ? `Tel: ${booking.phone}` : null,
+    booking.website ? `Sitio a revisar: ${booking.website}` : null,
+    booking.notes || null,
+    'Siguiente: informe WCAG de un flujo → walkthrough en la cita.',
+  ]
+    .filter(Boolean)
+    .join('\n');
+  if (existing) {
+    return updateRecord(env, 'leads', existing.id, {
+      name: booking.name || existing.name,
+      phone: booking.phone || existing.phone,
+      website: booking.website || existing.website,
+      startAt: booking.startAt || existing.startAt,
+      eventId: booking.eventId || existing.eventId,
+      message,
+      updatedAt: nowIso(),
+    });
+  }
+  return persistLead(env, {
+    name: booking.name || email,
+    email,
+    message,
+    intent: booking.intent || 'radar-free',
+    source: 'calendar',
+    language: 'es',
+    channel: 'calendar',
+  }).then(async (lead) => {
+    await updateRecord(env, 'leads', lead.id, {
+      phone: booking.phone || '',
+      website: booking.website || '',
+      startAt: booking.startAt || '',
+      eventId: booking.eventId || '',
+    });
+    return lead;
+  });
 }
 
 export async function handleCreateLead(request, env, cors, { persistOnly = false } = {}) {
@@ -127,7 +175,19 @@ export async function handleCreateBooking(request, env, cors) {
     const existing = await listRecords(env, 'bookings');
     const dup = existing.find((item) => item.eventId === eventId);
     if (dup) {
-      return json({ ok: true, booking: dup, deduped: true }, 200, cors);
+      const merged = {
+        phone: phone || dup.phone || '',
+        website: website || dup.website || '',
+        startAt: startAt || dup.startAt || '',
+        notes: notes || dup.notes || '',
+        name: nameRaw.length >= 2 ? name : dup.name,
+        email: email || dup.email || '',
+        calendarUrl: htmlLink || dup.calendarUrl || url,
+        updatedAt: nowIso(),
+      };
+      const updated = await updateRecord(env, 'bookings', dup.id, merged);
+      await upsertLeadFromBooking(env, { ...dup, ...merged, intent, origin });
+      return json({ ok: true, booking: updated, deduped: true }, 200, cors);
     }
   }
 
@@ -148,6 +208,7 @@ export async function handleCreateBooking(request, env, cors) {
     calendarUrl: htmlLink || url,
   };
   await prependRecord(env, 'bookings', record);
+  await upsertLeadFromBooking(env, record);
 
   const subject = email
     ? `VN · agenda · ${name}${startAt ? ` · ${startAt}` : ''}`
