@@ -102,12 +102,9 @@ describe("getDockNavAction", () => {
     });
   });
 
-  it("funnel (home): liquid center scrolls to kickoff; inicio/contacto anchors", () => {
-    expect(getDockNavAction("consultoria", "funnel")).toEqual({
-      kind: "anchor",
-      target: "#consultoria-onboarding",
-      homeRoute: "/",
-    });
+  it("funnel (home): liquid center is Calendar or #contacto; inicio/contacto anchors", () => {
+    const center = getDockNavAction("consultoria", "funnel");
+    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
     expect(getDockNavAction("inicio", "funnel")).toEqual({
       kind: "anchor",
       target: "#inicio",
@@ -128,14 +125,11 @@ describe("getDockNavItems", () => {
     expect(ids[1]).toBe(DOCK_CENTER_ID);
   });
 
-  it("funnel dock keeps 3 slots with kickoff action on center", () => {
+  it("funnel dock keeps 3 slots with Calendar or contact on center", () => {
     const items = getDockNavItems("funnel", labels, "Proceso");
     expect(items.map((i) => i.id)).toEqual(["inicio", "consultoria", "contacto"]);
-    expect(items[1]!.action).toEqual({
-      kind: "anchor",
-      target: "#consultoria-onboarding",
-      homeRoute: "/",
-    });
+    const center = items[1]!.action;
+    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
   });
 });
 

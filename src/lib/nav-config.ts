@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { NavigateFunction } from "react-router-dom";
 import { ROUTES, isConsultingOfferPath, isProcessPath } from "./routes";
+import { A11Y_FREE_SCHEDULE_URL } from "./site-contact";
 import { VIENTO_NORTE_LINKS } from "./viento-norte-links";
 import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
@@ -168,11 +169,14 @@ export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAc
     }
     return { kind: "contact", target: ROUTES.contact };
   }
-  // Embudo (home): liquid CTA = kickoff — no SEM tour
+  // Embudo (home): liquid CTA = Calendar (único agendamiento)
   if (id === "consultoria" && variant === "funnel") {
+    if (A11Y_FREE_SCHEDULE_URL) {
+      return { kind: "external", target: A11Y_FREE_SCHEDULE_URL };
+    }
     return {
       kind: "anchor",
-      target: `#${CONSULTORIA_FUNNEL_KICKOFF_ID}`,
+      target: "#contacto",
       homeRoute: ROUTES.home,
     };
   }

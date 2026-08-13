@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-13] — Landing: Calendar único + contacto por mail
+
+### Changed
+- Hero y sticky: **un** CTA de Google Calendar.
+- Alcance (packs) y contacto: mail con motivo (diagnóstico / prototipo / proceso / ayuda / simple).
+- Fuera del landing: onboarding, N2N, edu y demos (viven en `/proceso`, `/proyectos`, `/#/consultoria`).
+
 ## [2026-08-13] — Admin fotos: nombre + aplicación web
 
 ### Added

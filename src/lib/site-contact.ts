@@ -57,6 +57,13 @@ export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
   return false;
 }
 
+/** CTA único de agendamiento (Google Appointment). */
+export function openCalendarBooking(): boolean {
+  if (!A11Y_FREE_SCHEDULE_URL) return false;
+  window.open(A11Y_FREE_SCHEDULE_URL, "_blank", "noopener,noreferrer");
+  return true;
+}
+
 /**
  * Relay Cloudflare Worker — POST formulario de contacto.
  * Canónico: contact.vientonorte.io · fallback workers.dev si DNS aún no propagó.
