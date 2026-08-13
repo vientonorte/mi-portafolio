@@ -18,18 +18,19 @@ ADMIN_GITHUB_USER = "vientonorte"
 STATIC_IMAGE_BASE = "https://vientonorte.io/mi-portafolio"
 WEBAUTHN_RP_ID = "vientonorte.io"
 # Agenda pública de 30 min (override: wrangler secret / var)
-CALENDAR_BOOKING_URL = ""
+CALENDAR_BOOKING_URL = "https://calendar.app.google/NvXgpHrpSnJ2186X7"
 # R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"  # tras habilitar acceso público al bucket
 
 # Secrets (wrangler secret put):
-#   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, VN_API_KEY
+#   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET,
+#   VN_API_KEY, GITHUB_CONTENTS_TOKEN (repo contents+PR → PR desde #/admin/fotos)
 
 [[send_email]]
 name = "EMAIL"
 
 [[kv_namespaces]]
 binding = "ADMIN_KV"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "169497b8c5ee4f4eb98ee8788b8f6a82"
 
 [[r2_buckets]]
 binding = "IMAGES_BUCKET"

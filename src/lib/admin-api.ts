@@ -10,6 +10,14 @@ export interface AdminImageRecord {
   label: string;
   overridden: boolean;
   updatedAt?: string;
+  prUrl?: string;
+  prNumber?: number;
+}
+
+export interface ImagePublishResult {
+  image: AdminImageRecord;
+  publish?: { number: number; html_url: string; path?: string };
+  publishError?: string;
 }
 
 interface ApiOptions {
@@ -104,15 +112,22 @@ export async function listAdminImages(): Promise<AdminImageRecord[]> {
   return data.images;
 }
 
-export async function uploadAdminImage(id: string, file: File, alt?: string): Promise<AdminImageRecord> {
+export async function uploadAdminImage(id: string, file: File, alt?: string): Promise<ImagePublishResult> {
   const form = new FormData();
   form.append("file", file);
   if (alt) form.append("alt", alt);
-  const data = await adminFetch<{ image: AdminImageRecord }>(
+  const data = await adminFetch<ImagePublishResult>(
     `${ADMIN_ROUTES.images}/${encodeURIComponent(id)}`,
     { method: "POST", body: form }
   );
-  return data.image;
+  return data;
+}
+
+export async function publishAdminImage(id: string): Promise<ImagePublishResult> {
+  return adminFetch<ImagePublishResult>(
+    `${ADMIN_ROUTES.images}/${encodeURIComponent(id)}/publish`,
+    { method: "POST", body: "{}" }
+  );
 }
 
 export async function updateAdminImageMeta(id: string, alt: string): Promise<AdminImageRecord> {

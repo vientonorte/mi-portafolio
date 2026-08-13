@@ -23,6 +23,7 @@ import {
   passkeyRegisterFinish,
   revertAdminImage,
   startGithubLogin,
+  publishAdminImage,
   uploadAdminImage,
   updateAdminImageMeta,
   registryToAdminPreview,
@@ -119,8 +120,11 @@ export default function AdminPhotos() {
     setBusyId(id);
     setError(null);
     try {
-      const updated = await uploadAdminImage(id, file);
-      setImages((prev) => prev.map((img) => (img.id === id ? updated : img)));
+      const result = await uploadAdminImage(id, file);
+      setImages((prev) => prev.map((img) => (img.id === id ? result.image : img)));
+      if (result.publishError) {
+        setError(`Subida OK. PR no abierto: ${result.publishError}`);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error subiendo imagen");
     } finally {
@@ -173,8 +177,8 @@ export default function AdminPhotos() {
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Admin privado</p>
           <h1 className="text-3xl font-bold">Fotos del portafolio</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Edita las imágenes contenidas en <code className="text-sm">public/images/</code> y{" "}
-            <code className="text-sm">profile-photo.jpg</code>. Solo @{ADMIN_GITHUB_USER} en GitHub.
+            Sube a R2. Las de <code className="text-sm">branding/</code> (OG) abren un PR a{" "}
+            <code className="text-sm">public/images/</code> para que Pages las sirva a LinkedIn/Meta.
           </p>
           <Button asChild variant="outline" className="min-h-[44px] w-fit">
             <Link to={ROUTES.admin}>
@@ -264,7 +268,19 @@ export default function AdminPhotos() {
                     <p className="font-medium text-sm">{image.label}</p>
                     <p className="text-xs text-muted-foreground font-mono">{image.path}</p>
                   </div>
-                  {image.overridden && <Badge>Override</Badge>}
+                  <div className="flex flex-col items-end gap-1">
+                    {image.overridden && <Badge>Override</Badge>}
+                    {image.prNumber && image.prUrl ? (
+                      <a
+                        className="text-xs text-primary underline-offset-2 hover:underline"
+                        href={image.prUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        PR #{image.prNumber}
+                      </a>
+                    ) : null}
+                  </div>
                 </div>
 
                 <Input
@@ -295,6 +311,28 @@ export default function AdminPhotos() {
                         }}
                       />
                     </label>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      disabled={busyId === image.id}
+                      onClick={async () => {
+                        setBusyId(image.id);
+                        setError(null);
+                        try {
+                          const result = await publishAdminImage(image.id);
+                          setImages((prev) =>
+                            prev.map((img) => (img.id === image.id ? result.image : img))
+                          );
+                        } catch (err) {
+                          setError(err instanceof Error ? err.message : "No se pudo abrir el PR");
+                        } finally {
+                          setBusyId(null);
+                        }
+                      }}
+                    >
+                      Publicar PR
+                    </Button>
                     {image.overridden && (
                       <Button
                         size="sm"

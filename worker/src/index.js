@@ -16,6 +16,7 @@ import {
   handleUploadImage,
   handlePatchImage,
   handleDeleteImage,
+  handlePublishImage,
 } from './admin/images.js';
 import {
   handleCreateBooking,
@@ -165,6 +166,11 @@ export default {
     // ── Imágenes admin ──
     if (path === '/api/admin/images' && request.method === 'GET') {
       return handleListImages(request, env, cors);
+    }
+
+    const publishMatch = path.match(/^\/api\/admin\/images\/([^/]+)\/publish$/);
+    if (publishMatch && request.method === 'POST') {
+      return handlePublishImage(request, env, cors, decodeURIComponent(publishMatch[1]));
     }
 
     const imageMatch = path.match(/^\/api\/admin\/images\/([^/]+)$/);
