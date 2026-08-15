@@ -71,6 +71,7 @@ export function initGTM(gtmId: string): void {
     const noscript = document.createElement('noscript');
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.googletagmanager.com/ns.html?id=${gtmId}`;
+    iframe.title = 'Google Tag Manager';
     iframe.height = '0';
     iframe.width = '0';
     iframe.style.display = 'none';

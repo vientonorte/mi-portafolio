@@ -90,6 +90,8 @@ jobs:
           VITE_VIDEO_CALL_URL: ${{ secrets.VITE_VIDEO_CALL_URL }}
 
       - name: Artifact smoke (domain root)
+        env:
+          VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}
         run: |
           set -euo pipefail
           test -f dist/index.html
@@ -100,6 +102,12 @@ jobs:
           fi
           JS=$(find dist/assets -name '*.js' | wc -l | tr -d ' ')
           test "$JS" -ge 1
+          if [ -n "${VITE_GTM_ID:-}" ]; then
+            grep -R -q -- "$VITE_GTM_ID" dist/assets || {
+              echo "VITE_GTM_ID set but ID missing from bundle" >&2
+              exit 1
+            }
+          fi
 
       - name: SPA fallback + legacy /mi-portafolio redirect
         run: |
