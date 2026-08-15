@@ -1,7 +1,8 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
 **Decider:** Rö · **Actualizado:** 2026-08-15  
-**Loop D:** en curso (DS instrumentación · contenedor `GTM-PM5LBQRP` · secret `VITE_GTM_ID`).  
+**Loop D:** `page_view` live (T4 PASS). Faltan tags GTM `generate_lead` / `book_call` (v3 humano).  
+**SEM landing:** `/#/consultoria` = funnel 3 packs + OB (`#184` `f022f2c`). No pagar a `/`.  
 **Loop E→F: PARKED** hasta que Rö diga *activar campañas*. No Ads, no IG Ads, no spend.  
 **Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde **y** el Decider reactive ese loop.  
 **Final URL de paid y de bio:** `https://vientonorte.io/s/consultoria`  
