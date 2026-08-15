@@ -12,6 +12,7 @@ export async function recordBookingIntent(params: {
   origin: string;
   intent?: BookingIntent;
   notes?: string;
+  packageId?: string;
 }): Promise<void> {
   const session = readContactSession();
   const name = session?.name.trim() ?? "";
@@ -22,6 +23,7 @@ export async function recordBookingIntent(params: {
     origin: params.origin,
     intent: params.intent ?? "kickoff",
     has_identity: Boolean(name && email),
+    package_id: params.packageId,
   });
 
   try {

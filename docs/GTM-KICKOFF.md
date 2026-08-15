@@ -38,6 +38,18 @@ Variables de capa de datos: `lead_type`, `channel`, `origin`, `package_id`, `pag
 
 GA4: un tag **GA4 Event** por conversión, event name igual al custom event (o `generate_lead` → GA4 `generate_lead`).
 
+### v3 · receta UI (humano · no hay MCP GTM)
+
+1. Etiquetas → Nueva → **Google Analytics: evento de GA4**.
+2. ID de medición: `G-G7JXJKGCDV` (o “Etiqueta de Google” existente).
+3. Nombre del evento: `generate_lead`.
+4. Activador: **Evento personalizado** · nombre `generate_lead`.
+5. Repetir para `book_call`.
+6. Enviar → Publicar versión `v3 eventos lead`.
+7. GA4 → Admin → Eventos clave → marcar esos dos.
+
+`package_id` via dataLayer (`radar` | `marco` | `ops`).
+
 ## 3. QA
 
 ```text

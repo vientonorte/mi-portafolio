@@ -4,6 +4,7 @@ import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandingHero";
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
+import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
 import { Contact } from "../components/organisms/Contact";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { StickyCTA } from "../components/molecules/StickyCTA";
@@ -22,6 +23,8 @@ import {
 } from "../lib/navigate-to-section";
 import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
 import { scrollToSection } from "../lib/scroll-to-section";
+import { parsePackFromSearch } from "../lib/consulting-pack-url";
+import { CONSULTORIA_FUNNEL_KICKOFF_ID } from "../lib/nav-config";
 import type { ProcessNavSection } from "../hooks/useProcessSectionSpy";
 
 type ConsultoriaLocationState = SectionScrollState & {
@@ -38,7 +41,7 @@ export default function ConsultoriaVientoNorte() {
 
   const [selectedPackage, setSelectedPackage] = useState<
     ConsultingPackageId | undefined
-  >(() => entryState?.recommendedPackage);
+  >(() => entryState?.recommendedPackage ?? parsePackFromSearch(location.search));
 
   useEffect(() => {
     const state = location.state as ConsultoriaLocationState | null;
@@ -54,9 +57,11 @@ export default function ConsultoriaVientoNorte() {
     });
   }, [location.pathname, location.state, navigate]);
 
-  const goContactWithPackage = (packageId?: ConsultingPackageId) => {
+  const goOnboardWithPackage = (packageId?: ConsultingPackageId) => {
     if (packageId) setSelectedPackage(packageId);
-    requestAnimationFrame(() => scrollToSection("contacto"));
+    requestAnimationFrame(() =>
+      scrollToSection(CONSULTORIA_FUNNEL_KICKOFF_ID)
+    );
   };
 
   const contactDraft = useMemo<ContactDraft>(
@@ -76,7 +81,12 @@ export default function ConsultoriaVientoNorte() {
   const funnelSections: ProcessNavSection[] = useMemo(
     () => [
       { id: "modalidades", label: funnelNav.packages, number: "01" },
-      { id: "contacto", label: funnelNav.contact, number: "02" },
+      {
+        id: CONSULTORIA_FUNNEL_KICKOFF_ID,
+        label: funnelNav.start,
+        number: "02",
+      },
+      { id: "contacto", label: funnelNav.contact, number: "03" },
     ],
     [funnelNav.contact, funnelNav.packages]
   );
@@ -109,7 +119,7 @@ export default function ConsultoriaVientoNorte() {
         data-role={isHomeSurface ? "fo-home" : "fo-sem-offer"}
         data-first-value-budget-ms={29000}
         data-calendar-sla-ms={30000}
-        data-analytics="deferred-no-gtm"
+        data-analytics="gtm-pm5lbqrp"
       >
         <SEOHead
           {...(isHomeSurface ? t.seo.pages.home : t.seo.pages.consultoria)}
@@ -139,8 +149,10 @@ export default function ConsultoriaVientoNorte() {
         />
 
         <ConsultoriaPackages
-          onSelectPackage={(id) => goContactWithPackage(id)}
+          onSelectPackage={(id) => goOnboardWithPackage(id)}
         />
+
+        <ConsultoriaOnboarding packageId={selectedPackage} />
 
         <section
           id="mas-del-sitio"
@@ -174,7 +186,13 @@ export default function ConsultoriaVientoNorte() {
           label={t.consultoria.stickyCta}
           ariaLabel={t.consultoria.stickyCta}
           onClick={() => {
-            if (!openCalendarBooking()) scrollToSection("contacto");
+            if (
+              !openCalendarBooking({
+                packageId: selectedPackage,
+                origin: "sticky-cta",
+              })
+            )
+              scrollToSection("contacto");
           }}
           showAfterScroll={480}
         />

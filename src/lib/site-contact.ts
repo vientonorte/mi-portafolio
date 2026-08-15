@@ -1,7 +1,10 @@
 /** Contacto canónico — Viento Norte / Rodrigo Gaete */
 
+import type { ConsultingPackageId } from "../data/vientonorte-consulting";
+import { withPackQuery } from "./consulting-pack-url";
+
 /** Alias público (Email Routing → inbox privado). No publicar Gmail en el sitio. */
-export const PUBLIC_CONTACT_EMAIL = 'contacto@vientonorte.io';
+export const PUBLIC_CONTACT_EMAIL = "contacto@vientonorte.io";
 
 /**
  * Inbox real para FormSubmit (action del form, no se muestra en UI).
@@ -58,16 +61,28 @@ export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
 }
 
 /** CTA único de agendamiento (Google Appointment) + registro Worker. */
-export function openCalendarBooking(): boolean {
+export function openCalendarBooking(opts?: {
+  packageId?: ConsultingPackageId;
+  origin?: string;
+}): boolean {
   if (!A11Y_FREE_SCHEDULE_URL) return false;
+  const packageId = opts?.packageId;
+  const origin = opts?.origin ?? "calendar-cta";
   void import("./vn-booking").then(({ recordBookingIntent }) =>
     recordBookingIntent({
-      origin: "calendar-cta",
-      intent: "radar-free",
-      notes: "Click Agendar · Google Appointment",
+      origin,
+      intent: packageId ? "consulting" : "radar-free",
+      notes: packageId
+        ? `Click Agendar · pack ${packageId}`
+        : "Click Agendar · Google Appointment",
+      packageId,
     })
   );
-  window.open(A11Y_FREE_SCHEDULE_URL, "_blank", "noopener,noreferrer");
+  window.open(
+    withPackQuery(A11Y_FREE_SCHEDULE_URL, packageId),
+    "_blank",
+    "noopener,noreferrer"
+  );
   return true;
 }
 
