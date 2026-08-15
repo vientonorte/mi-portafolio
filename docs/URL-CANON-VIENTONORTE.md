@@ -8,7 +8,7 @@
 | Superficie | Path | Live | Rol |
 |------------|------|------|-----|
 | **Home = embudo FO** | `/` | https://vientonorte.io/ | Conversión: packs, kickoff, Calendar free, contacto |
-| **Oferta SEM** | `/#/consultoria` | https://vientonorte.io/#/consultoria | Landing paid / story módulos (fullscreen) |
+| **Oferta SEM** | `/#/consultoria` | https://vientonorte.io/#/consultoria | Landing paid · 3 packs + OB |
 | Módulo SEM | `/#/consultoria/modulos/:id` | … | Deep link tour |
 | Proceso | `/#/proceso` | … | Macros método |
 | Demo X\|CMS | `/#/demo/x-cms` | … | Gate campaña |

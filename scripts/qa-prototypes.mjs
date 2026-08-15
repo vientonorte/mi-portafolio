@@ -171,8 +171,8 @@ async function checkPageNeedles(page, { path, needles, label }) {
 }
 
 async function checkConsultoriaDemo(page, consultoria) {
-  // Demos viven en el tour SEM, no en el landing slim.
-  await visit(page, '/consultoria');
+  // Demos viven en el tour de módulos, no en el landing SEM slim.
+  await visit(page, '/consultoria/modulos/dashboard');
   const demo = page.locator('#consultoria-demo');
   if ((await demo.count()) === 0) {
     await visit(page, '/demo/x-cms');

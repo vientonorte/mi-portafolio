@@ -324,6 +324,18 @@ export default {
           fit: 'Budget',
           ariaLabel: 'Consulting funnel',
         },
+        onboarding: {
+          badge: 'Start',
+          titleEmpty: 'Pick a scope and book',
+          titlePack: 'Start {name}',
+          bodyEmpty:
+            'Diagnostic, prototype, or process. 30 min on Calendar or a short email.',
+          bodyPack:
+            'Calendar or email. If you added the pack field on the booking page, it arrives prefilled.',
+          packLabel: 'Format',
+          ctaCalendar: 'Book 30 min',
+          ctaMail: 'Write by email',
+        },
       },
       n2n: {
         badge: 'How we work',

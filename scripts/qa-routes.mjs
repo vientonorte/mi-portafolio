@@ -47,13 +47,17 @@ const PROJECT_IDS = [
   'framework',
 ];
 
-// Home FO = embudo (/). SEM tour = /consultoria (fullscreen, sin estas anclas).
+// Home FO + SEM paid = mismo funnel (packs + OB). Tour = /consultoria/modulos/:id
 // Legacy /consultoria/embudo redirige a / — las secciones se checan en home.
 const SECTION_CHECKS = [
   { path: '/', sectionId: 'inicio', label: 'Home embudo #inicio' },
   { path: '/', sectionId: 'modalidades', label: 'Home embudo #modalidades' },
+  { path: '/', sectionId: 'consultoria-onboarding', label: 'Home embudo #consultoria-onboarding' },
   { path: '/', sectionId: 'mas-del-sitio', label: 'Home embudo #mas-del-sitio' },
   { path: '/', sectionId: 'contacto', label: 'Home embudo #contacto' },
+  { path: '/consultoria', sectionId: 'modalidades', label: 'SEM #modalidades' },
+  { path: '/consultoria', sectionId: 'consultoria-onboarding', label: 'SEM #consultoria-onboarding' },
+  { path: '/consultoria', sectionId: 'contacto', label: 'SEM #contacto' },
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];
 
@@ -130,13 +134,17 @@ async function checkRoute(page, { path, label }) {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
     // #main siempre en el shell; tour oferta es fixed (puede no “visible” a PW por height)
     await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
-    if (path === '/' || path === '/consultoria/embudo') {
+    if (
+      path === '/' ||
+      path === '/consultoria/embudo' ||
+      path === '/consultoria'
+    ) {
       await page.waitForSelector('[data-testid="consultoria-funnel"]', {
         state: 'attached',
         timeout: 20000,
       });
     }
-    if (path === '/consultoria' || path.startsWith('/consultoria/modulos/')) {
+    if (path.startsWith('/consultoria/modulos/')) {
       await page.waitForSelector('[data-testid="consultoria-offer"]', {
         state: 'attached',
         timeout: 20000,

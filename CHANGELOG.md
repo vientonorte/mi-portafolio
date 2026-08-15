@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-15] — SEM: `/#/consultoria` = funnel 3 packs + OB
+
+### Changed
+- Paid landing `/#/consultoria` usa el mismo funnel que home (Diagnóstico · Prototipo · Proceso), no el tour fullscreen.
+- **Empezar** en cada pack hace scroll a `#consultoria-onboarding` con `package_id`.
+- Calendar abre con `?pack=` (campo que Rö añade en Appointment).
+- Tour de módulos queda en `/#/consultoria/modulos/:id`.
+
+### Docs
+- `docs/BLUEPRINT-SEO-SEM.md` — checklist SEO/SEM y Decide de URLs.
+
 ## [2026-08-13] — Agenda: registro + mail automáticos
 
 ### Changed

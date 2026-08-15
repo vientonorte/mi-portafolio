@@ -48,14 +48,13 @@ const OFFER_MODULE_IDS = new Set([
   'reportes',
 ]);
 
-/** Landing oferta = tour módulos (ex-POC). Deep link opcional por moduleId. */
+/** SEM paid = funnel 3 packs + OB. Tour de módulos solo en deep link. */
 function ConsultoriaOfferPage() {
   const { moduleId } = useParams<{ moduleId?: string }>();
-  const initial =
-    moduleId && OFFER_MODULE_IDS.has(moduleId)
-      ? (moduleId as PocModuleId)
-      : undefined;
-  return <PocProductOnboarding initialModuleId={initial} />;
+  if (moduleId && OFFER_MODULE_IDS.has(moduleId)) {
+    return <PocProductOnboarding initialModuleId={moduleId as PocModuleId} />;
+  }
+  return <Home />;
 }
 
 function LegacyCasesProcessRedirect() {

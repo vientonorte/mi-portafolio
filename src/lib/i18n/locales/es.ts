@@ -85,7 +85,7 @@ export default {
           /** SEM final URL: https://vientonorte.io/#/consultoria — message-match Ads */
           title: 'Consultoría UX · Elige tu alcance',
           description:
-            'Diagnóstico, prototipo, proceso de equipo o app. Design sprint y flujos UX. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Pymes · kickoff <24 h.',
+            'Diagnóstico 5–7 días, prototipo o proceso de equipo. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',
           keywords:
             'consultoría UX, design sprint, arquitectura fintech, flujos UX, UXtech, módulos producto, accesibilidad WCAG, front office, Viento Norte',
         },
@@ -323,6 +323,18 @@ export default {
           contact: 'Contacto',
           fit: 'Presupuesto',
           ariaLabel: 'Embudo de consultoría',
+        },
+        onboarding: {
+          badge: 'Empezar',
+          titleEmpty: 'Elige un alcance y agenda',
+          titlePack: 'Empezar {name}',
+          bodyEmpty:
+            'Diagnóstico, prototipo o proceso. 30 min en Calendar o un mail con el motivo.',
+          bodyPack:
+            'Calendar o mail. Si añadiste el campo pack en la agenda, llega prellenado.',
+          packLabel: 'Modalidad',
+          ctaCalendar: 'Agendar 30 min',
+          ctaMail: 'Escribir por mail',
         },
       },
       n2n: {

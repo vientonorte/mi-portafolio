@@ -16,8 +16,9 @@ export const ROUTES = {
   designSystem: "/design-system",
 
   /**
-   * Landing SEM / paid · tour oferta módulos-producto (fullscreen Apple).
-   * Ads final URL: https://vientonorte.io/#/consultoria
+   * Landing SEM / paid · funnel 3 packs + OB (mismo craft que home).
+   * Ads crawler: https://vientonorte.io/s/consultoria
+   * Tour módulos: /consultoria/modulos/:id
    */
   consulting: "/consultoria",
 
