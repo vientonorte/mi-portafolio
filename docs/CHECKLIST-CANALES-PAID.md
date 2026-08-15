@@ -1,12 +1,13 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
-**Decider:** Rö · **Actualizado:** 2026-08-13  
-**Loop D→E→F: PARKED** hasta que Rö diga *activar campañas*. No GTM, no Ads, no IG Ads, no spend.  
-**Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde **y** el Decider reactive este loop.  
+**Decider:** Rö · **Actualizado:** 2026-08-15  
+**Loop D:** en curso (DS instrumentación · contenedor `GTM-PM5LBQRP` · secret `VITE_GTM_ID`).  
+**Loop E→F: PARKED** hasta que Rö diga *activar campañas*. No Ads, no IG Ads, no spend.  
+**Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde **y** el Decider reactive ese loop.  
 **Final URL de paid y de bio:** `https://vientonorte.io/s/consultoria`  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
-Evidencia live 13 ago: `/s/consultoria` **200** · OG home `og-home-1200.png` **1200×630** · GTM en HTML **0** · PR #172/#174/#180 **merged** `b3301ca`. Residual humano (parked con el loop): LinkedIn Post Inspector / Meta Debugger scrape.
+Evidencia 15 ago: `/s/consultoria` **200** · OG `og-home-1200.png` **1200×630** · secret `VITE_GTM_ID` · **no** `VITE_GA_MEASUREMENT_ID` · #181 merged `1602ed6`. Residual humano: GTM Preview + tags GA4 en el contenedor · LinkedIn/Meta scrape (A).
 
 ---
 
@@ -61,11 +62,11 @@ Misma cuenta Google que GSC / Calendar / Forms.
 
 Código ya emite `generate_lead`, `book_call`, `submit_contact_form`, `page_view`. Falta el contenedor.
 
-- [ ] Crear contenedor GTM Web **Viento Norte / vientonorte.io** → anotar `GTM-XXXX`
-- [ ] `gh secret set VITE_GTM_ID -R vientonorte/mi-portafolio -b 'GTM-XXXX'`
-- [ ] Opcional: `gh secret set VITE_GA_MEASUREMENT_ID` (`G-XXXX`)
-- [ ] Redeploy Pages
-- [ ] View-source `vientonorte.io` contiene `gtm.js?id=GTM-`
+- [x] Crear contenedor GTM Web **Viento Norte / vientonorte.io** → `GTM-PM5LBQRP`
+- [x] `gh secret set VITE_GTM_ID` (15 ago)
+- [ ] `VITE_GA_MEASUREMENT_ID` — **no** (apuesta A: GA4 = tag en GTM)
+- [ ] Redeploy Pages con el secret (run dispatch 15 ago)
+- [ ] Bundle live contiene `GTM-PM5LBQRP` (no view-source estático: `initGTM` es JS)
 - [ ] GTM Preview: click agenda o form → evento `generate_lead` o `book_call`
 - [ ] Tag GA4 Event (o Ads conversion) escuchando esos custom events
 - [ ] Receta: `docs/GTM-KICKOFF.md`

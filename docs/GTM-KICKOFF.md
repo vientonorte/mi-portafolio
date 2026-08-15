@@ -1,23 +1,23 @@
 # GTM kick-off · wire de conversión
 
 **Estado código:** dataLayer + `initGTM` listos.  
-**Estado prod:** sin `VITE_GTM_ID` en GitHub Secrets → el HTML live **no** carga `gtm.js`.
+**Contenedor:** `GTM-PM5LBQRP` (Web · Viento Norte / vientonorte.io).  
+**Secret:** `VITE_GTM_ID` seteado 2026-08-15. **No** `VITE_GA_MEASUREMENT_ID` (apuesta A: GA4 = tag dentro de GTM).  
+**Anti-patrón:** no pegar el snippet oficial en `index.html`. El build inyecta vía `AnalyticsProvider` → `initGTM`.
 
-No hay `GTM-XXXX` en el vault. El contenedor se crea una vez en tagmanager.google.com (cuenta Viento Norte).
+El ID es público (sale en el bundle). El valor vive en GitHub Secrets para no hardcodear.
 
-## 1. Crear contenedor (humano, 2 min)
+## 1. Contenedor (hecho)
 
-1. [Google Tag Manager](https://tagmanager.google.com/) → cuenta **Viento Norte** → contenedor **vientonorte.io** (Web).
-2. Copiar el ID `GTM-XXXXXXX`.
-3. En el repo:
+1. [Google Tag Manager](https://tagmanager.google.com/) → cuenta **Viento Norte** → contenedor **vientonorte.io** (Web) → `GTM-PM5LBQRP`.
+2. Repo:
 
 ```bash
-gh secret set VITE_GTM_ID -R vientonorte/mi-portafolio -b 'GTM-XXXXXXX'
-# opcional, mismo contenedor + GA4:
-# gh secret set VITE_GA_MEASUREMENT_ID -R vientonorte/mi-portafolio -b 'G-XXXXXXXX'
+gh secret set VITE_GTM_ID -R vientonorte/mi-portafolio -b 'GTM-PM5LBQRP'
+# no setear VITE_GA_MEASUREMENT_ID salvo apuesta B (doble snippet)
 ```
 
-4. Redeploy Pages (`workflow_dispatch` Deploy to GitHub Pages). El build ya pasa `VITE_GTM_ID` a Vite.
+3. Redeploy Pages (`workflow_dispatch` Deploy to GitHub Pages). Vite recibe `VITE_GTM_ID`.
 
 ## 2. Tags de conversión (mismo contenedor)
 
