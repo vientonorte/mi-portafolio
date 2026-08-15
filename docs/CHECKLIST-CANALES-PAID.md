@@ -65,8 +65,8 @@ Código ya emite `generate_lead`, `book_call`, `submit_contact_form`, `page_view
 - [x] Crear contenedor GTM Web **Viento Norte / vientonorte.io** → `GTM-PM5LBQRP`
 - [x] `gh secret set VITE_GTM_ID` (15 ago)
 - [ ] `VITE_GA_MEASUREMENT_ID` — **no** (apuesta A: GA4 = tag en GTM)
-- [ ] Redeploy Pages con el secret (run dispatch 15 ago)
-- [ ] Bundle live contiene `GTM-PM5LBQRP` (no view-source estático: `initGTM` es JS)
+- [x] Redeploy Pages con el secret ([run 31908951330](https://github.com/vientonorte/mi-portafolio/actions/runs/31908951330) success)
+- [x] Bundle live contiene `GTM-PM5LBQRP` (`/assets/index-DklCOEAE.js` · no view-source estático: `initGTM` es JS)
 - [ ] GTM Preview: click agenda o form → evento `generate_lead` o `book_call`
 - [ ] Tag GA4 Event (o Ads conversion) escuchando esos custom events
 - [ ] Receta: `docs/GTM-KICKOFF.md`
