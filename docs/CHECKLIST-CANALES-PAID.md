@@ -1,11 +1,12 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
 **Decider:** Rö · **Actualizado:** 2026-08-13  
-**Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde.  
+**Loop D→E→F: PARKED** hasta que Rö diga *activar campañas*. No GTM, no Ads, no IG Ads, no spend.  
+**Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde **y** el Decider reactive este loop.  
 **Final URL de paid y de bio:** `https://vientonorte.io/s/consultoria`  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
-Evidencia live al escribir esto: `/s/consultoria` en Pages **404** · Worker `contact.vientonorte.io/s/consultoria` **200** · `og-consultoria-1200.png` en `.io` **404** · GTM en HTML **0** · PR #172 **OPEN / CONFLICTING**.
+Evidencia live 13 ago: `/s/consultoria` **200** · OG home `og-home-1200.png` **1200×630** · GTM en HTML **0** · PR #172/#174/#180 **merged** `b3301ca`. Residual humano (parked con el loop): LinkedIn Post Inspector / Meta Debugger scrape.
 
 ---
 
@@ -122,12 +123,15 @@ CMS: `#/admin/fotos` sube branding y **abre PR** a `public/images/` (Worker live
 
 ---
 
-## Estado rápido (rellenar)
+## Estado rápido (13 ago)
 
 | Canal | Checklist | ¿Habilitado? |
 |-------|-----------|----------------|
-| Share LinkedIn/WA | A | [ ] |
-| IG orgánico | A+B | [ ] |
-| Google Business | C | [ ] |
-| Google Ads | A+D+E | [ ] |
-| Instagram Ads | A+B+D+F | [ ] |
+| Share LinkedIn/WA | A | **código live** · scrape humano **parked** |
+| IG orgánico | A+B | No · parked |
+| Google Business | C | No · parked |
+| GTM / medición | D | **PARKED** (bloquea E/F) |
+| Google Ads | A+D+E | **PARKED** · $0 |
+| Instagram Ads | A+B+D+F | **PARKED** · $0 |
+
+Reactivar: frase Decider **«activar campañas»** → primero D (GTM), después E/F. Hasta entonces este archivo no es trabajo de FO.
