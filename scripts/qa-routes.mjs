@@ -53,7 +53,7 @@ const SECTION_CHECKS = [
   { path: '/', sectionId: 'inicio', label: 'Home embudo #inicio' },
   { path: '/', sectionId: 'modalidades', label: 'Home embudo #modalidades' },
   { path: '/', sectionId: 'consultoria-onboarding', label: 'Home embudo #consultoria-onboarding' },
-  { path: '/', sectionId: 'mas-del-sitio', label: 'Home embudo #mas-del-sitio' },
+  { path: '/', sectionId: 'consultoria-demo', label: 'Home embudo #consultoria-demo' },
   { path: '/', sectionId: 'contacto', label: 'Home embudo #contacto' },
   { path: '/consultoria', sectionId: 'modalidades', label: 'SEM #modalidades' },
   { path: '/consultoria', sectionId: 'consultoria-onboarding', label: 'SEM #consultoria-onboarding' },
