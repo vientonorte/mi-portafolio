@@ -31,11 +31,16 @@ type ConsultoriaLocationState = SectionScrollState & {
   recommendedPackage?: ConsultingPackageId;
 };
 
-export default function ConsultoriaVientoNorte() {
+export default function ConsultoriaVientoNorte({
+  variant = "home",
+}: {
+  variant?: "home" | "sem";
+}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const isSem = variant === "sem";
 
   const entryState = location.state as ConsultoriaLocationState | null;
 
@@ -116,7 +121,8 @@ export default function ConsultoriaVientoNorte() {
       <div
         data-surface="consultoria-funnel"
         data-testid="consultoria-funnel"
-        data-role={isHomeSurface ? "fo-home" : "fo-sem-offer"}
+        data-role={isSem ? "fo-sem-offer" : "fo-home"}
+        data-funnel="modalidades-empezar-contacto"
         data-first-value-budget-ms={29000}
         data-calendar-sla-ms={30000}
         data-analytics="gtm-pm5lbqrp"
@@ -150,10 +156,13 @@ export default function ConsultoriaVientoNorte() {
 
         <ConsultoriaPackages
           onSelectPackage={(id) => goOnboardWithPackage(id)}
+          showAppStrip={!isSem}
         />
 
         <ConsultoriaOnboarding packageId={selectedPackage} />
 
+        {isSem ? null : (
+        <>
         <section
           id="metodo-n2n"
           className="container mx-auto max-w-2xl px-4 py-8 text-center"
@@ -207,6 +216,8 @@ export default function ConsultoriaVientoNorte() {
               : "Method, cases, and the full offer live on interior pages."}
           </p>
         </section>
+        </>
+        )}
 
         <Contact
           key={selectedPackage ?? "none"}

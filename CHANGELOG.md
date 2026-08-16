@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — `/#/consultoria` = solo funnel 01–02–03
+
+### Changed
+- SEM ya no reusa el home. Path: Modalidades → Empezar → Contacto.
+- App strip, método y demos quedan fuera de `/#/consultoria` (siguen en `/` o interiores).
+
 ## [2026-08-15] — SEM: `/#/consultoria` = funnel 3 packs + OB
 
 ### Changed

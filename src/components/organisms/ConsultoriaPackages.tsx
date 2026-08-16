@@ -20,9 +20,13 @@ interface ConsultoriaPackagesProps {
     packageId: ConsultingPackageId,
     options?: PackageSelectOptions
   ) => void;
+  showAppStrip?: boolean;
 }
 
-export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProps) {
+export function ConsultoriaPackages({
+  onSelectPackage,
+  showAppStrip = true,
+}: ConsultoriaPackagesProps) {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
@@ -131,7 +135,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
         ))}
       </ul>
 
-      {/* Herramientas: escribe, no agenda (Calendar es único en el hero) */}
+      {showAppStrip ? (
       <Card className="mt-3 border border-primary/20 bg-surface-matte-elevated shadow-none">
         <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3 min-w-0">
@@ -160,6 +164,7 @@ export function ConsultoriaPackages({ onSelectPackage }: ConsultoriaPackagesProp
           </Button>
         </CardContent>
       </Card>
+      ) : null}
 
       <p className="mt-6 text-center text-xs text-muted-foreground">{t.note}</p>
     </PageSection>
