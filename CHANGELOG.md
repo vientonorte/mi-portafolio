@@ -5,6 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Demo: sesión real, no solo Start
+
+### Changed
+- Admin Demos mide vista, start, tiempo en vivo (tick 5 s), abandono y CTAs.
+- Mapa = clics/movimiento sobre poster y chrome. El iframe de Figma no se lee.
+
+## [2026-08-16] — Demo Diagnóstico 1 min
+
+### Changed
+- Reloj de `/#/demo/diagnostic` de 3 min a **1 min** (poster; 3 min era largo).
+
+## [2026-08-16] — GEES Sites oculta
+
+### Changed
+- `duct-juice-51509104.figma.site` ya no se iframea ni se abre desde el FO. Diagnóstico usa poster; la card va a `/#/demo/diagnostic`.
+
 ## [2026-08-16] — Heatmap admin de demos
 
 ### Added

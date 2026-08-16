@@ -67,6 +67,7 @@ export async function handleDemoHeatRead(request, env, cors) {
     const bucket = await readBucket(env, id);
     paths[id] = {
       counts: bucket.counts,
+      sessions: bucket.sessions,
       grid: bucket.grid,
       hits: bucket.hits.slice(0, 240),
       updatedAt: bucket.updatedAt,

@@ -16,7 +16,7 @@ describe("service-path-demos", () => {
       HERO_ROLES.map((r) => r.id)
     );
     for (const demo of SERVICE_PATH_DEMOS) {
-      expect(demo.durationSec).toBeGreaterThanOrEqual(3 * 60);
+      expect(demo.durationSec).toBeGreaterThanOrEqual(60);
       expect(demo.durationSec).toBeLessThanOrEqual(5 * 60);
       expect(demo.warnSec).toBeGreaterThan(0);
       expect(demo.warnSec).toBeLessThan(demo.durationSec);
@@ -31,7 +31,8 @@ describe("service-path-demos", () => {
     expect(getServicePathDemo("prototype")?.durationSec).toBe(
       DEMO_X_CMS_DURATION_SEC
     );
-    expect(getServicePathDemo("diagnostic")?.durationSec).toBe(3 * 60);
+    expect(getServicePathDemo("diagnostic")?.durationSec).toBe(60);
+    expect(getServicePathDemo("diagnostic")?.iframeUrl).toBeUndefined();
     expect(getServicePathDemo("process")?.durationSec).toBe(4 * 60);
     expect(getServicePathDemo("app")?.durationSec).toBe(5 * 60);
   });

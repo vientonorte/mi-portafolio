@@ -64,6 +64,10 @@ export default function TimedServiceDemo({
   const scheduleReady = freeRadarHasSchedule();
   const endedTitleRef = useRef<HTMLHeadingElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const liveStartedAt = useRef<number | null>(null);
+  const lastTickAt = useRef<number | null>(null);
+  const lastMoveAt = useRef(0);
 
   const pathId = forcedPath ?? resolveServicePathId(rawPathId);
   const demo = pathId ? getServicePathDemo(pathId) : undefined;
@@ -113,7 +117,11 @@ export default function TimedServiceDemo({
               package_id: demo.packageId,
               ...utm,
             });
-            queueDemoHeat(demo.id, { type: "end", phase: "ended", el: "timeout" });
+            const started = liveStartedAt.current;
+            const ms = started ? Date.now() - started : 0;
+            liveStartedAt.current = null;
+            lastTickAt.current = null;
+            queueDemoHeat(demo.id, { type: "end", phase: "ended", el: "timeout", ms });
             if (demo.id === "prototype") {
               trackEvent("demo_x_cms_ended", {
                 category: "campaign",
@@ -155,6 +163,8 @@ export default function TimedServiceDemo({
         ...utm,
       });
     }
+    liveStartedAt.current = Date.now();
+    lastTickAt.current = Date.now();
     queueDemoHeat(demo.id, { type: "start", phase: "live", el: "start" });
   }, [demo]);
 
@@ -206,8 +216,17 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
 
   useEffect(() => {
     if (!demo) return;
-    const onClick = (event: MouseEvent) => {
-      const box = surfaceRef.current?.getBoundingClientRect();
+    queueDemoHeat(demo.id, { type: "view", phase: "gate", el: "view" });
+  }, [demo]);
+
+  useEffect(() => {
+    if (!demo) return;
+
+    const stageBox = () =>
+      (stageRef.current ?? surfaceRef.current)?.getBoundingClientRect();
+
+    const onPointerDown = (event: PointerEvent) => {
+      const box = stageBox();
       if (!box) return;
       const point = pointInSurface(event.clientX, event.clientY, box);
       if (!point) return;
@@ -219,17 +238,74 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
         el: heatElName(event.target),
       });
     };
-    const onLeave = () => {
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (phase !== "live") return;
+      const now = Date.now();
+      if (now - lastMoveAt.current < 450) return;
+      lastMoveAt.current = now;
+      const box = stageBox();
+      if (!box) return;
+      const point = pointInSurface(event.clientX, event.clientY, box);
+      if (!point) return;
+      queueDemoHeat(demo.id, {
+        type: "move",
+        x: point.x,
+        y: point.y,
+        phase: "live",
+        el: "stage",
+      });
+    };
+
+    const flushLeave = () => {
+      if (phase === "live" && liveStartedAt.current) {
+        const now = Date.now();
+        const sinceTick = lastTickAt.current ? now - lastTickAt.current : 0;
+        queueDemoHeat(demo.id, {
+          type: "leave",
+          phase: "live",
+          el: "leave",
+          ms: sinceTick,
+        });
+        liveStartedAt.current = null;
+        lastTickAt.current = null;
+      }
       void flushDemoHeat();
     };
-    document.addEventListener("click", onClick, true);
-    window.addEventListener("pagehide", onLeave);
+
+    const onHidden = () => {
+      if (document.visibilityState === "hidden") flushLeave();
+    };
+
+    const root = surfaceRef.current;
+    root?.addEventListener("pointerdown", onPointerDown);
+    root?.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("visibilitychange", onHidden);
+    window.addEventListener("pagehide", flushLeave);
     return () => {
-      document.removeEventListener("click", onClick, true);
-      window.removeEventListener("pagehide", onLeave);
+      root?.removeEventListener("pointerdown", onPointerDown);
+      root?.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("visibilitychange", onHidden);
+      window.removeEventListener("pagehide", flushLeave);
       void flushDemoHeat();
     };
   }, [demo, phase]);
+
+  useEffect(() => {
+    if (!demo || phase !== "live" || paused) return;
+    const id = window.setInterval(() => {
+      const now = Date.now();
+      const prev = lastTickAt.current ?? now;
+      lastTickAt.current = now;
+      queueDemoHeat(demo.id, {
+        type: "tick",
+        phase: "live",
+        el: "tick",
+        ms: now - prev,
+      });
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [demo, phase, paused]);
 
   const mins = demo ? demoMinutes(demo) : 0;
   const restrictions = useMemo(() => {
@@ -417,7 +493,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
               </CardContent>
             </Card>
 
-            <figure className="overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted">
+            <figure
+              ref={stageRef}
+              data-heat="poster"
+              className="overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted"
+            >
               <img
                 src={demo.poster}
                 alt={caption}
@@ -432,7 +512,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
 
         {(phase === "live" || phase === "ended") && (
           <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted shadow-sm">
+            <div
+              ref={stageRef}
+              data-heat="stage"
+              className="relative overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted shadow-sm"
+            >
               {phase === "live" && demo.iframeUrl ? (
                 <iframe
                   title={iframeTitle}

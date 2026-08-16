@@ -12,7 +12,7 @@
 | Módulo SEM | `/#/consultoria/modulos/:id` | … | Deep link tour |
 | Proceso | `/#/proceso` | … | Macros método |
 | Demo X\|CMS | `/#/demo/x-cms` | … | Gate campaña · alias de Prototipo |
-| Demo Diagnóstico | `/#/demo/diagnostic` | … | Reloj 3 min |
+| Demo Diagnóstico | `/#/demo/diagnostic` | … | Reloj 1 min |
 | Demo Prototipo | `/#/demo/prototype` | … | Reloj 5 min |
 | Demo Proceso | `/#/demo/process` | … | Reloj 4 min |
 | Demo App | `/#/demo/app` | … | Reloj 5 min |

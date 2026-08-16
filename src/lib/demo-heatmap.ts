@@ -3,8 +3,12 @@ import type { ServicePathId } from "../data/service-path-demos";
 
 export type DemoHeatType =
   | "click"
+  | "move"
+  | "view"
   | "start"
   | "end"
+  | "leave"
+  | "tick"
   | "pause"
   | "add_minute"
   | "cta_schedule"
@@ -14,6 +18,7 @@ export type DemoHeatEvent = {
   type: DemoHeatType;
   x?: number;
   y?: number;
+  ms?: number;
   phase?: string;
   el?: string;
 };

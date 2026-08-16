@@ -16,6 +16,13 @@ function maxCell(grid: number[]) {
   return grid.reduce((m, n) => (n > m ? n : m), 0);
 }
 
+function fmtMs(ms: number) {
+  if (!ms) return "0s";
+  const s = Math.round(ms / 1000);
+  if (s < 60) return `${s}s`;
+  return `${Math.floor(s / 60)}m ${s % 60}s`;
+}
+
 export function DemoHeatmapPanel({
   paths,
 }: {
@@ -25,6 +32,10 @@ export function DemoHeatmapPanel({
   const bucket = paths[active];
   const peak = bucket ? maxCell(bucket.grid) : 0;
   const demo = SERVICE_PATH_DEMOS.find((d) => d.id === active);
+  const sess = bucket?.sessions;
+  const started = sess?.started ?? bucket?.counts.start ?? 0;
+  const dwell = sess?.dwellMs ?? 0;
+  const avg = started ? dwell / started : 0;
 
   const cells = useMemo(() => {
     if (!bucket) return [];
@@ -38,13 +49,14 @@ export function DemoHeatmapPanel({
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Clics en el chrome de la demo (gate, reloj, CTAs). El iframe del producto
-        es otro origen: no se ve el interior.
+        Sesión real: vista, start, tiempo en vivo, abandono y CTAs. El mapa
+        son clics y movimiento sobre el poster / chrome VN. Un iframe de
+        Figma Sites no se puede leer (otro origen).
       </p>
       <div className="flex flex-wrap gap-2">
         {PATHS.map((id) => {
-          const hits = paths[id]?.counts.click ?? 0;
-          const starts = paths[id]?.counts.start ?? 0;
+          const n = paths[id]?.sessions?.started ?? paths[id]?.counts.start ?? 0;
+          const d = paths[id]?.sessions?.dwellMs ?? 0;
           return (
             <Button
               key={id}
@@ -56,11 +68,20 @@ export function DemoHeatmapPanel({
             >
               {id}
               <Badge variant="secondary" className="ml-2">
-                {starts} / {hits}
+                {n} · {fmtMs(d)}
               </Badge>
             </Button>
           );
         })}
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Metric label="Sesiones start" value={String(started)} />
+        <Metric label="Tiempo medio" value={fmtMs(avg)} />
+        <Metric
+          label="Fin / abandono / CTA"
+          value={`${sess?.ended ?? 0} / ${sess?.left ?? 0} / ${sess?.cta ?? 0}`}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -68,14 +89,14 @@ export function DemoHeatmapPanel({
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-medium">
               <Flame className="h-4 w-4" aria-hidden />
-              Heatmap · {demo?.caption.es ?? active}
+              Mapa · {demo?.caption.es ?? active}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div
               className="relative aspect-[16/10] overflow-hidden rounded-lg border bg-muted"
               role="img"
-              aria-label={`Mapa de clics de la demo ${active}`}
+              aria-label={`Mapa de la demo ${active}`}
             >
               {demo ? (
                 <img
@@ -101,25 +122,30 @@ export function DemoHeatmapPanel({
               </div>
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              {bucket?.updatedAt
-                ? `Último hit ${new Date(bucket.updatedAt).toLocaleString("es-CL")}`
-                : "Sin hits todavía. Abrí la demo y hacé clic en Start / CTAs."}
+              {peak
+                ? `Último hit ${
+                    bucket?.updatedAt
+                      ? new Date(bucket.updatedAt).toLocaleString("es-CL")
+                      : "—"
+                  }`
+                : "Mapa vacío: no hubo clics en el poster. Abrí la demo, tocá la imagen, esperá 5 s y volvé."}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Acciones</CardTitle>
+            <CardTitle className="text-sm font-medium">Eventos</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
+            <Stat label="Vistas gate" value={bucket?.counts.view} />
             <Stat label="Start" value={bucket?.counts.start} />
-            <Stat label="Fin (reloj)" value={bucket?.counts.end} />
-            <Stat label="Pausa" value={bucket?.counts.pause} />
-            <Stat label="+1 min" value={bucket?.counts.add_minute} />
+            <Stat label="Tick 5s" value={bucket?.counts.tick as number | undefined} />
+            <Stat label="Abandono" value={bucket?.counts.leave} />
+            <Stat label="Fin reloj" value={bucket?.counts.end} />
             <Stat label="CTA agenda" value={bucket?.counts.cta_schedule} />
             <Stat label="CTA consultoría" value={bucket?.counts.cta_consult} />
-            <Stat label="Clics chrome" value={bucket?.counts.click} />
+            <Stat label="Clics poster/chrome" value={bucket?.counts.click} />
             <Button asChild variant="outline" className="mt-2 min-h-11 w-full">
               <Link to={ROUTES.serviceDemo(active)}>Abrir demo</Link>
             </Button>
@@ -127,6 +153,19 @@ export function DemoHeatmapPanel({
         </Card>
       </div>
     </div>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <Card>
+      <CardHeader className="pb-1">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-2xl font-semibold tabular-nums">{value}</p>
+      </CardContent>
+    </Card>
   );
 }
 
