@@ -420,6 +420,13 @@ export default {
         footnoteTitle: 'Nota',
         footnote: 'El playbook vive fuera del camino principal de la landing para no saturar.',
       },
+      pathDemos: {
+        badge: 'Demos con reloj',
+        title: 'Prueba el path antes de agendar',
+        description:
+          'Cada servicio tiene una demo con límite de tiempo. Sin datos reales. Al terminar, agenda o escribe.',
+        cta: 'Ver demo · {min} min',
+      },
       packagesSection: {
         badge: 'Cómo se contrata',
         title: 'Tres formatos + módulos que se instalan',
@@ -427,6 +434,7 @@ export default {
           'Interfaces, Design Systems y research/AI data. Elige diagnóstico, prototipo o proceso. El cliente queda dueño del dato y del código.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
+        ctaDemo: 'Ver demo · {min} min',
         ctaForm: 'Escribir',
         note: 'Sin precios en la web: se cierran en el kickoff.',
         freeStripBadge: 'Gratis · entrada a Diagnóstico',

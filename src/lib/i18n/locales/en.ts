@@ -420,6 +420,13 @@ export default {
         footnoteTitle: 'Note',
         footnote: 'The playbook is off the main landing path so the page stays light.',
       },
+      pathDemos: {
+        badge: 'Timed demos',
+        title: 'Try the path before you book',
+        description:
+          'Each service has a time-limited demo. No real data. When it ends, book or write.',
+        cta: 'See demo · {min} min',
+      },
       packagesSection: {
         badge: 'How you hire',
         title: 'Three formats + modules that install',
@@ -427,6 +434,7 @@ export default {
           'Interfaces, Design Systems, and research/AI data. Pick diagnostic, prototype, or process. You keep the data and the code.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
+        ctaDemo: 'See demo · {min} min',
         ctaForm: 'Write',
         note: 'No prices on the site — closed at kickoff.',
         freeStripBadge: 'Free · entry to Diagnostic',

@@ -65,8 +65,16 @@ describe('translations', () => {
         const packages = translations[lang].consultoria.packagesSection;
         expect(packages).toHaveProperty('cta');
         expect(packages).toHaveProperty('ctaForm');
+        expect(packages).toHaveProperty('ctaDemo');
         expect(packages.cta.length).toBeGreaterThan(0);
         expect(packages.ctaForm.length).toBeGreaterThan(0);
+        expect(packages.ctaDemo).toContain('{min}');
+      });
+
+      it('has timed path demos copy', () => {
+        const pathDemos = translations[lang].consultoria.pathDemos;
+        expect(pathDemos.title.length).toBeGreaterThan(8);
+        expect(pathDemos.cta).toContain('{min}');
       });
 
       it('has about section with required keys', () => {

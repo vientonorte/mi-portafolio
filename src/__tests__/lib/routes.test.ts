@@ -41,6 +41,14 @@ describe('routes', () => {
     expect(isConsultingPath('/consultoria')).toBe(true);
   });
 
+  it('builds timed demo paths per service', () => {
+    expect(ROUTES.serviceDemo('diagnostic')).toBe('/demo/diagnostic');
+    expect(ROUTES.serviceDemo('prototype')).toBe('/demo/prototype');
+    expect(ROUTES.serviceDemo('process')).toBe('/demo/process');
+    expect(ROUTES.serviceDemo('app')).toBe('/demo/app');
+    expect(ROUTES.demoXcms).toBe('/demo/x-cms');
+  });
+
   it('admin hub and photos are admin paths', () => {
     expect(ROUTES.admin).toBe('/admin');
     expect(ROUTES.adminPhotos).toBe('/admin/fotos');

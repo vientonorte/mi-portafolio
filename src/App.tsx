@@ -35,6 +35,7 @@ const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
 const PocProductOnboarding = lazyWithRetry(() => import('./pages/PocProductOnboarding'));
 const DemoXcmsCampaign = lazyWithRetry(() => import('./pages/DemoXcmsCampaign'));
+const TimedServiceDemo = lazyWithRetry(() => import('./pages/TimedServiceDemo'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
 const CompanyDetailRoute = lazyWithRetry(() => import('./pages/CompanyDetailRoute'));
 const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRoute'));
@@ -180,6 +181,10 @@ function AppRoutes() {
               element={<Navigate to={ROUTES.consulting} replace />}
             />
             <Route path={ROUTES.demoXcms} element={<DemoXcmsCampaign />} />
+            <Route
+              path="/demo/:pathId"
+              element={<TimedServiceDemo />}
+            />
             <Route path={ROUTES.admin} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />

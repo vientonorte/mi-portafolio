@@ -22,6 +22,7 @@ export type ContactCtaOrigin =
   | "nav"
   | "contact"
   | "contact-assistant"
+  | "service-path-demo"
   | "other";
 
 export interface OpenContactAssistantOptions {
