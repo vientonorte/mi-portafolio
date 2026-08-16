@@ -32,6 +32,7 @@ describe("service-path-demos", () => {
       DEMO_X_CMS_DURATION_SEC
     );
     expect(getServicePathDemo("diagnostic")?.durationSec).toBe(3 * 60);
+    expect(getServicePathDemo("diagnostic")?.iframeUrl).toBeUndefined();
     expect(getServicePathDemo("process")?.durationSec).toBe(4 * 60);
     expect(getServicePathDemo("app")?.durationSec).toBe(5 * 60);
   });

@@ -4,10 +4,7 @@
  */
 import type { HeroRoleId } from "./consultoria-hero-roles";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
-import {
-  CONSULTORIA_DEMO_GEES,
-  CONSULTORIA_DEMO_X_CMS,
-} from "./consultoria-demos";
+import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
 import { TRANSVIP_APP_PROTO_URL } from "./value-content-arsenal";
 import type { Language } from "../lib/i18n";
 import { portfolioImages } from "../lib/portfolio-image-urls";
@@ -38,7 +35,6 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     packageId: "radar",
     durationSec: 3 * 60,
     warnSec: 45,
-    iframeUrl: CONSULTORIA_DEMO_GEES.figmaSitesUrl,
     poster: portfolioImages.consultoria.geesDashboard,
     caption: {
       es: "GEES · propuesta de diagnóstico",

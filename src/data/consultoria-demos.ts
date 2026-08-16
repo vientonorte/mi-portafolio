@@ -27,10 +27,9 @@ export const CONSULTORIA_DEMO_X_CMS = {
   poster: "xCmsDashboard",
 } as const satisfies ConsultoriaDemoConfig;
 
-/** GEES · consultoría / propuesta ejecutiva */
+/** GEES · consultoría / propuesta ejecutiva. Sites URL oculta (no iframe, no href público). */
 export const CONSULTORIA_DEMO_GEES = {
   id: "gees-propuesta",
-  figmaSitesUrl: "https://duct-juice-51509104.figma.site",
   poster: "geesDashboard",
 } as const satisfies ConsultoriaDemoConfig;
 

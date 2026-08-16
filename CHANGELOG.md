@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — GEES Sites oculta
+
+### Changed
+- `duct-juice-51509104.figma.site` ya no se iframea ni se abre desde el FO. Diagnóstico usa poster; la card va a `/#/demo/diagnostic`.
+
 ## [2026-08-16] — Heatmap admin de demos
 
 ### Added
