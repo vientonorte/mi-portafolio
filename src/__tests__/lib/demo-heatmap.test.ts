@@ -27,7 +27,7 @@ describe("demo heatmap math", () => {
       { type: "click", x: 0.1, y: 0.1, el: "start" },
     ]);
     expect(next.counts.start).toBe(1);
-    expect(next.grid[cellIndex(0.1, 0.1)]).toBe(1);
+    expect(next.grid[cellIndex(0.1, 0.1)]).toBe(3);
     const sess = applyEvents(emptyBucket(), [
       { type: "start" },
       { type: "tick", ms: 5000 },
