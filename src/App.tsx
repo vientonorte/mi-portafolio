@@ -21,6 +21,9 @@ import type { PocModuleId } from './data/poc-product-modules';
 
 // Lazy load pages — evita project-registry y assets pesados en el chunk inicial
 const Home = lazyWithRetry(() => import('./pages/Home'));
+const ConsultoriaVientoNorte = lazyWithRetry(
+  () => import('./pages/ConsultoriaVientoNorte')
+);
 const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
@@ -54,7 +57,7 @@ function ConsultoriaOfferPage() {
   if (moduleId && OFFER_MODULE_IDS.has(moduleId)) {
     return <PocProductOnboarding initialModuleId={moduleId as PocModuleId} />;
   }
-  return <Home />;
+  return <ConsultoriaVientoNorte variant="sem" />;
 }
 
 function LegacyCasesProcessRedirect() {

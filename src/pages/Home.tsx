@@ -1,5 +1,8 @@
 /**
- * Home FO = embudo de conversión Viento Norte (empresa).
- * SEM / paid landing = /#/consultoria (tour oferta, fullscreen).
+ * Home FO = marca + oferta. SEM paid = /#/consultoria (solo funnel 01–03).
  */
-export { default } from "./ConsultoriaVientoNorte";
+import ConsultoriaVientoNorte from "./ConsultoriaVientoNorte";
+
+export default function Home() {
+  return <ConsultoriaVientoNorte variant="home" />;
+}
