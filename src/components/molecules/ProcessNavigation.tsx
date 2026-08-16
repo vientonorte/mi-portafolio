@@ -19,7 +19,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
     <>
       {/* Mobile: sticky horizontal section nav */}
       <nav
-        className="process-nav-mobile xl:hidden sticky z-40 border-b border-border/50 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
+        className="process-nav-mobile lg:hidden sticky z-40 border-b border-border/50 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
         style={{ top: "var(--process-nav-mobile-top, 3.25rem)" }}
         aria-label={mobileAriaLabel ?? "Secciones de la página"}
       >
@@ -60,7 +60,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
             ? { duration: 0 }
             : { duration: 0.25, ease: [0.4, 0, 0.2, 1], delay: 0.15 }
         }
-        className="hidden xl:block fixed right-8 top-1/2 -translate-y-1/2 z-30"
+        className="hidden lg:block fixed right-6 top-1/2 z-30 -translate-y-1/2"
       >
         <Card className="p-4 bg-background/95 backdrop-blur-lg border-2 shadow-xl max-w-[200px]">
           <nav aria-label={mobileAriaLabel ?? "Process navigation"}>
