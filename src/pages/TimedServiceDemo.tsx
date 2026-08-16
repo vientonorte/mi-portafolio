@@ -39,6 +39,12 @@ import {
   resolveServicePathId,
   type ServicePathId,
 } from "../data/service-path-demos";
+import {
+  flushDemoHeat,
+  heatElName,
+  pointInSurface,
+  queueDemoHeat,
+} from "../lib/demo-heatmap";
 import { cn } from "../lib/utils";
 
 type Phase = "gate" | "live" | "ended";
@@ -57,6 +63,7 @@ export default function TimedServiceDemo({
   const es = language === "es";
   const scheduleReady = freeRadarHasSchedule();
   const endedTitleRef = useRef<HTMLHeadingElement>(null);
+  const surfaceRef = useRef<HTMLDivElement>(null);
 
   const pathId = forcedPath ?? resolveServicePathId(rawPathId);
   const demo = pathId ? getServicePathDemo(pathId) : undefined;
@@ -106,6 +113,7 @@ export default function TimedServiceDemo({
               package_id: demo.packageId,
               ...utm,
             });
+            queueDemoHeat(demo.id, { type: "end", phase: "ended", el: "timeout" });
             if (demo.id === "prototype") {
               trackEvent("demo_x_cms_ended", {
                 category: "campaign",
@@ -147,6 +155,7 @@ export default function TimedServiceDemo({
         ...utm,
       });
     }
+    queueDemoHeat(demo.id, { type: "start", phase: "live", el: "start" });
   }, [demo]);
 
   const openSchedule = () => {
@@ -158,6 +167,7 @@ export default function TimedServiceDemo({
       package_id: demo.packageId,
       ...readDemoUtms(),
     });
+    queueDemoHeat(demo.id, { type: "cta_schedule", phase, el: "cta-schedule" });
     openFreeRadarEntry(navigate, language, "service-path-demo", {
       mode: "schedule",
     });
@@ -173,6 +183,7 @@ export default function TimedServiceDemo({
       package_id: demo.packageId,
       ...utm,
     });
+    queueDemoHeat(demo.id, { type: "cta_consult", phase, el: "cta-consult" });
     navigateToContactAssistant(navigate, {
       origin: "service-path-demo",
       intent: "consulting",
@@ -192,6 +203,33 @@ Company: [name]
 Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
     });
   };
+
+  useEffect(() => {
+    if (!demo) return;
+    const onClick = (event: MouseEvent) => {
+      const box = surfaceRef.current?.getBoundingClientRect();
+      if (!box) return;
+      const point = pointInSurface(event.clientX, event.clientY, box);
+      if (!point) return;
+      queueDemoHeat(demo.id, {
+        type: "click",
+        x: point.x,
+        y: point.y,
+        phase,
+        el: heatElName(event.target),
+      });
+    };
+    const onLeave = () => {
+      void flushDemoHeat();
+    };
+    document.addEventListener("click", onClick, true);
+    window.addEventListener("pagehide", onLeave);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      window.removeEventListener("pagehide", onLeave);
+      void flushDemoHeat();
+    };
+  }, [demo, phase]);
 
   const mins = demo ? demoMinutes(demo) : 0;
   const restrictions = useMemo(() => {
@@ -239,6 +277,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
       />
 
       <div
+        ref={surfaceRef}
         className="container mx-auto max-w-5xl"
         data-surface="timed-demo"
         data-testid="timed-service-demo"
@@ -294,7 +333,13 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                   variant="outline"
                   className="min-h-11"
                   aria-pressed={paused}
-                  onClick={() => setPaused((p) => !p)}
+                  data-heat="pause"
+                  onClick={() => {
+                    setPaused((p) => {
+                      if (!p) queueDemoHeat(demo.id, { type: "pause", phase: "live", el: "pause" });
+                      return !p;
+                    });
+                  }}
                 >
                   {paused ? (
                     <Play className="mr-2 h-4 w-4" aria-hidden />
@@ -307,7 +352,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                   type="button"
                   variant="outline"
                   className="min-h-11"
-                  onClick={() => setRemaining((r) => r + 60)}
+                  data-heat="add-minute"
+                  onClick={() => {
+                    setRemaining((r) => r + 60);
+                    queueDemoHeat(demo.id, { type: "add_minute", phase: "live", el: "add-minute" });
+                  }}
                 >
                   <Plus className="mr-2 h-4 w-4" aria-hidden />
                   {copy.addMinute}
@@ -345,6 +394,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                     type="button"
                     size="lg"
                     className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
+                    data-heat="start"
                     onClick={startDemo}
                   >
                     <Play className="mr-2 h-4 w-4" aria-hidden />
@@ -435,6 +485,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                           <Button
                             type="button"
                             className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
+                            data-heat="cta-schedule"
                             onClick={openSchedule}
                           >
                             <Calendar className="mr-2 h-4 w-4" aria-hidden />
@@ -445,6 +496,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                           type="button"
                           variant="outline"
                           className="min-h-11"
+                          data-heat="cta-consult"
                           onClick={openConsulting}
                         >
                           {copy.ctaConsult}

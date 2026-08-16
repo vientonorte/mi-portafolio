@@ -22,5 +22,6 @@ export const ADMIN_ROUTES = {
   diagnosticos: `${ADMIN_API_BASE}/api/admin/diagnosticos`,
   services: `${ADMIN_API_BASE}/api/admin/services`,
   cases: `${ADMIN_API_BASE}/api/admin/cases`,
+  demoHeat: `${ADMIN_API_BASE}/api/admin/demo/heat`,
   health: `${ADMIN_API_BASE}/api/health`,
 } as const;
