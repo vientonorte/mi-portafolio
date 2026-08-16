@@ -44,7 +44,7 @@ export function ConsultoriaOnboarding({ packageId }: ConsultoriaOnboardingProps)
       aria-labelledby="consultoria-onboarding-heading"
     >
       <div className="container mx-auto max-w-xl rounded-2xl border-2 border-primary/25 bg-background p-5 shadow-sm md:p-6">
-        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-primary">
+        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-foreground">
           02 · {copy.badge}
         </p>
         <h2
