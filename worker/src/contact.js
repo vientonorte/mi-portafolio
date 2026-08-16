@@ -1,6 +1,7 @@
 import { json } from './lib/cors.js';
 import { persistLead } from './api/public.js';
 import { buildAdminEmail, buildVisitorConfirmation } from './lib/email-templates.js';
+import { sendGa4MpEvent } from './lib/ga4-mp.js';
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
@@ -184,6 +185,21 @@ export async function handleContact(request, env, cors) {
       fromEmail,
       fromName,
       language: safeLanguage,
+    });
+  }
+
+  if (stored || sent.ok) {
+    const packageId =
+      typeof body.packageId === 'string'
+        ? body.packageId.trim().slice(0, 40)
+        : '';
+    await sendGa4MpEvent(env, {
+      eventName: 'generate_lead',
+      params: {
+        lead_type: safeIntent || 'contact',
+        channel: 'contact',
+        package_id: packageId,
+      },
     });
   }
 

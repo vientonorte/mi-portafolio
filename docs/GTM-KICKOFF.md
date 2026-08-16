@@ -4,6 +4,10 @@
 **Contenedor:** `GTM-PM5LBQRP` (Web · Viento Norte / vientonorte.io).  
 **GA4:** `G-G7JXJKGCDV` — solo como **Etiqueta de Google** dentro de GTM.  
 **Secret:** `VITE_GTM_ID` seteado 2026-08-15. **No** `VITE_GA_MEASUREMENT_ID` (apuesta A: no segundo snippet gtag).  
+**Measurement Protocol (Worker):** secreto `GA4_MP_API_SECRET` (apodo GA4 `ia`) vía `wrangler secret put`.  
+`GA4_MEASUREMENT_ID=G-G7JXJKGCDV` en `worker/wrangler.toml`.  
+El Worker manda `generate_lead` / `book_call` al persistir lead o agenda. **Nunca** commitear el valor del secreto.
+
 **Anti-patrón:** no pegar el snippet GTM ni el de `gtag.js` en el `index.html` del SPA (ahí entra por `VITE_GTM_ID` + `initGTM`).  
 **Excepción:** `public/s/consultoria/index.html` sí lleva el snippet `GTM-PM5LBQRP` (sin `gtag.js`). Es la final URL paid; GA4/Ads leen ese HTML y lo marcaban *Sin etiquetar*.
 

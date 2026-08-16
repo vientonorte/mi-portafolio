@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Measurement Protocol desde el Worker
+
+### Added
+- El API manda `generate_lead` y `book_call` a GA4 (`G-G7JXJKGCDV`) al guardar lead o agenda.
+- Secreto `GA4_MP_API_SECRET` solo en Wrangler (no en git).
+
 ## [2026-08-16] — `/s/consultoria` lleva GTM
 
 ### Fixed
