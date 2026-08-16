@@ -39,6 +39,12 @@ import {
   resolveServicePathId,
   type ServicePathId,
 } from "../data/service-path-demos";
+import {
+  flushDemoHeat,
+  heatElName,
+  pointInSurface,
+  queueDemoHeat,
+} from "../lib/demo-heatmap";
 import { cn } from "../lib/utils";
 
 type Phase = "gate" | "live" | "ended";
@@ -57,6 +63,11 @@ export default function TimedServiceDemo({
   const es = language === "es";
   const scheduleReady = freeRadarHasSchedule();
   const endedTitleRef = useRef<HTMLHeadingElement>(null);
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const liveStartedAt = useRef<number | null>(null);
+  const lastTickAt = useRef<number | null>(null);
+  const lastMoveAt = useRef(0);
 
   const pathId = forcedPath ?? resolveServicePathId(rawPathId);
   const demo = pathId ? getServicePathDemo(pathId) : undefined;
@@ -106,6 +117,11 @@ export default function TimedServiceDemo({
               package_id: demo.packageId,
               ...utm,
             });
+            const started = liveStartedAt.current;
+            const ms = started ? Date.now() - started : 0;
+            liveStartedAt.current = null;
+            lastTickAt.current = null;
+            queueDemoHeat(demo.id, { type: "end", phase: "ended", el: "timeout", ms });
             if (demo.id === "prototype") {
               trackEvent("demo_x_cms_ended", {
                 category: "campaign",
@@ -147,6 +163,9 @@ export default function TimedServiceDemo({
         ...utm,
       });
     }
+    liveStartedAt.current = Date.now();
+    lastTickAt.current = Date.now();
+    queueDemoHeat(demo.id, { type: "start", phase: "live", el: "start" });
   }, [demo]);
 
   const openSchedule = () => {
@@ -158,6 +177,7 @@ export default function TimedServiceDemo({
       package_id: demo.packageId,
       ...readDemoUtms(),
     });
+    queueDemoHeat(demo.id, { type: "cta_schedule", phase, el: "cta-schedule" });
     openFreeRadarEntry(navigate, language, "service-path-demo", {
       mode: "schedule",
     });
@@ -173,6 +193,7 @@ export default function TimedServiceDemo({
       package_id: demo.packageId,
       ...utm,
     });
+    queueDemoHeat(demo.id, { type: "cta_consult", phase, el: "cta-consult" });
     navigateToContactAssistant(navigate, {
       origin: "service-path-demo",
       intent: "consulting",
@@ -192,6 +213,99 @@ Company: [name]
 Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
     });
   };
+
+  useEffect(() => {
+    if (!demo) return;
+    queueDemoHeat(demo.id, { type: "view", phase: "gate", el: "view" });
+  }, [demo]);
+
+  useEffect(() => {
+    if (!demo) return;
+
+    const stageBox = () =>
+      (stageRef.current ?? surfaceRef.current)?.getBoundingClientRect();
+
+    const onPointerDown = (event: PointerEvent) => {
+      const box = stageBox();
+      if (!box) return;
+      const point = pointInSurface(event.clientX, event.clientY, box);
+      if (!point) return;
+      queueDemoHeat(demo.id, {
+        type: "click",
+        x: point.x,
+        y: point.y,
+        phase,
+        el: heatElName(event.target),
+      });
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (phase !== "live") return;
+      const now = Date.now();
+      if (now - lastMoveAt.current < 450) return;
+      lastMoveAt.current = now;
+      const box = stageBox();
+      if (!box) return;
+      const point = pointInSurface(event.clientX, event.clientY, box);
+      if (!point) return;
+      queueDemoHeat(demo.id, {
+        type: "move",
+        x: point.x,
+        y: point.y,
+        phase: "live",
+        el: "stage",
+      });
+    };
+
+    const flushLeave = () => {
+      if (phase === "live" && liveStartedAt.current) {
+        const now = Date.now();
+        const sinceTick = lastTickAt.current ? now - lastTickAt.current : 0;
+        queueDemoHeat(demo.id, {
+          type: "leave",
+          phase: "live",
+          el: "leave",
+          ms: sinceTick,
+        });
+        liveStartedAt.current = null;
+        lastTickAt.current = null;
+      }
+      void flushDemoHeat();
+    };
+
+    const onHidden = () => {
+      if (document.visibilityState === "hidden") flushLeave();
+    };
+
+    const root = surfaceRef.current;
+    root?.addEventListener("pointerdown", onPointerDown);
+    root?.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("visibilitychange", onHidden);
+    window.addEventListener("pagehide", flushLeave);
+    return () => {
+      root?.removeEventListener("pointerdown", onPointerDown);
+      root?.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("visibilitychange", onHidden);
+      window.removeEventListener("pagehide", flushLeave);
+      void flushDemoHeat();
+    };
+  }, [demo, phase]);
+
+  useEffect(() => {
+    if (!demo || phase !== "live" || paused) return;
+    const id = window.setInterval(() => {
+      const now = Date.now();
+      const prev = lastTickAt.current ?? now;
+      lastTickAt.current = now;
+      queueDemoHeat(demo.id, {
+        type: "tick",
+        phase: "live",
+        el: "tick",
+        ms: now - prev,
+      });
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [demo, phase, paused]);
 
   const mins = demo ? demoMinutes(demo) : 0;
   const restrictions = useMemo(() => {
@@ -239,6 +353,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
       />
 
       <div
+        ref={surfaceRef}
         className="container mx-auto max-w-5xl"
         data-surface="timed-demo"
         data-testid="timed-service-demo"
@@ -294,7 +409,13 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                   variant="outline"
                   className="min-h-11"
                   aria-pressed={paused}
-                  onClick={() => setPaused((p) => !p)}
+                  data-heat="pause"
+                  onClick={() => {
+                    setPaused((p) => {
+                      if (!p) queueDemoHeat(demo.id, { type: "pause", phase: "live", el: "pause" });
+                      return !p;
+                    });
+                  }}
                 >
                   {paused ? (
                     <Play className="mr-2 h-4 w-4" aria-hidden />
@@ -307,7 +428,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                   type="button"
                   variant="outline"
                   className="min-h-11"
-                  onClick={() => setRemaining((r) => r + 60)}
+                  data-heat="add-minute"
+                  onClick={() => {
+                    setRemaining((r) => r + 60);
+                    queueDemoHeat(demo.id, { type: "add_minute", phase: "live", el: "add-minute" });
+                  }}
                 >
                   <Plus className="mr-2 h-4 w-4" aria-hidden />
                   {copy.addMinute}
@@ -345,6 +470,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                     type="button"
                     size="lg"
                     className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
+                    data-heat="start"
                     onClick={startDemo}
                   >
                     <Play className="mr-2 h-4 w-4" aria-hidden />
@@ -367,7 +493,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
               </CardContent>
             </Card>
 
-            <figure className="overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted">
+            <figure
+              ref={stageRef}
+              data-heat="poster"
+              className="overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted"
+            >
               <img
                 src={demo.poster}
                 alt={caption}
@@ -382,7 +512,11 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
 
         {(phase === "live" || phase === "ended") && (
           <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted shadow-sm">
+            <div
+              ref={stageRef}
+              data-heat="stage"
+              className="relative overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted shadow-sm"
+            >
               {phase === "live" && demo.iframeUrl ? (
                 <iframe
                   title={iframeTitle}
@@ -435,6 +569,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                           <Button
                             type="button"
                             className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
+                            data-heat="cta-schedule"
                             onClick={openSchedule}
                           >
                             <Calendar className="mr-2 h-4 w-4" aria-hidden />
@@ -445,6 +580,7 @@ Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
                           type="button"
                           variant="outline"
                           className="min-h-11"
+                          data-heat="cta-consult"
                           onClick={openConsulting}
                         >
                           {copy.ctaConsult}

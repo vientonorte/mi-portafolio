@@ -230,6 +230,43 @@ export async function listAdminCatalog(kind: "services" | "cases"): Promise<Admi
   return data.items;
 }
 
+export type DemoHeatCounts = {
+  view?: number;
+  start: number;
+  end: number;
+  leave?: number;
+  tick?: number;
+  pause: number;
+  add_minute: number;
+  cta_schedule: number;
+  cta_consult: number;
+  click: number;
+  move?: number;
+};
+
+export type DemoHeatSessions = {
+  started: number;
+  ended: number;
+  left: number;
+  cta: number;
+  dwellMs: number;
+};
+
+export type DemoHeatBucket = {
+  counts: DemoHeatCounts;
+  sessions?: DemoHeatSessions;
+  grid: number[];
+  hits: { x: number; y: number; phase?: string; el?: string; t?: string }[];
+  updatedAt: string | null;
+};
+
+export async function getAdminDemoHeat(path?: string): Promise<Record<string, DemoHeatBucket>> {
+  const url = new URL(ADMIN_ROUTES.demoHeat);
+  if (path) url.searchParams.set("path", path);
+  const data = await adminFetch<{ paths: Record<string, DemoHeatBucket> }>(url.toString());
+  return data.paths;
+}
+
 export function registryToAdminPreview(entry: ImageRegistryEntry): AdminImageRecord {
   return {
     id: entry.id,

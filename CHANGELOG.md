@@ -11,6 +11,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 - Cobertura GA4 *Sin etiquetar*: el HTML share ahora incluye `gtag.js` `G-G7JXJKGCDV` (lo que el crawler de la Etiqueta de Google busca).
 - Sin GTM en esa hop de 2 s (el SPA sigue solo con `initGTM`) para no duplicar `page_view`.
 
+## [2026-08-16] — Demo: sesión real, no solo Start
+
+### Changed
+- Admin Demos mide vista, start, tiempo en vivo (tick 5 s), abandono y CTAs.
+- Mapa = clics/movimiento sobre poster y chrome. El iframe de Figma no se lee.
+
+## [2026-08-16] — Demo Diagnóstico 1 min
+
+### Changed
+- Reloj de `/#/demo/diagnostic` de 3 min a **1 min** (poster; 3 min era largo).
+
+## [2026-08-16] — GEES Sites oculta
+
+### Changed
+- `duct-juice-51509104.figma.site` ya no se iframea ni se abre desde el FO. Diagnóstico usa poster; la card va a `/#/demo/diagnostic`.
+
+## [2026-08-16] — Heatmap admin de demos
+
+### Added
+- `#/admin` pestaña **Demos**: mapa de clics del chrome (gate, reloj, CTAs) por path.
+- Worker `POST /api/demo/heat` (público, sin PII) y `GET /api/admin/demo/heat` (sesión).
+- El iframe del producto no se mide (otro origen).
+
 ## [2026-08-16] — Measurement Protocol desde el Worker
 
 ### Added
