@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — `/s/consultoria` lleva la Etiqueta de Google
+
+### Fixed
+- Cobertura GA4 *Sin etiquetar*: el HTML share ahora incluye `gtag.js` `G-G7JXJKGCDV` (lo que el crawler de la Etiqueta de Google busca).
+- Sin GTM en esa hop de 2 s (el SPA sigue solo con `initGTM`) para no duplicar `page_view`.
+
 ## [2026-08-16] — Demo: sesión real, no solo Start
 
 ### Changed

@@ -9,7 +9,7 @@
 El Worker manda `generate_lead` / `book_call` al persistir lead o agenda. **Nunca** commitear el valor del secreto.
 
 **Anti-patrón:** no pegar el snippet GTM ni el de `gtag.js` en el `index.html` del SPA (ahí entra por `VITE_GTM_ID` + `initGTM`).  
-**Excepción:** `public/s/consultoria/index.html` sí lleva el snippet `GTM-PM5LBQRP` (sin `gtag.js`). Es la final URL paid; GA4/Ads leen ese HTML y lo marcaban *Sin etiquetar*.
+**Excepción share:** `public/s/consultoria/index.html` lleva el snippet oficial **gtag.js** `G-G7JXJKGCDV` (mismo Google tag que `GT-P8VJH8TQ`). La cobertura de *Etiqueta de Google* busca ese ID en el source; `GTM-PM5LBQRP` no alcanza. El SPA no lleva gtag paralelo.
 
 El ID es público (sale en el bundle). El valor vive en GitHub Secrets para no hardcodear.
 
