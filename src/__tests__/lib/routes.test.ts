@@ -7,6 +7,7 @@ import {
   isConsultingFunnelPath,
   isConsultingPath,
   isAdminPath,
+  isTimedDemoPath,
 } from '@/lib/routes';
 
 describe('routes', () => {
@@ -39,6 +40,17 @@ describe('routes', () => {
 
     expect(isConsultingPath('/')).toBe(true);
     expect(isConsultingPath('/consultoria')).toBe(true);
+  });
+
+  it('builds timed demo paths per service', () => {
+    expect(ROUTES.serviceDemo('diagnostic')).toBe('/demo/diagnostic');
+    expect(ROUTES.serviceDemo('prototype')).toBe('/demo/prototype');
+    expect(ROUTES.serviceDemo('process')).toBe('/demo/process');
+    expect(ROUTES.serviceDemo('app')).toBe('/demo/app');
+    expect(ROUTES.demoXcms).toBe('/demo/x-cms');
+    expect(isTimedDemoPath('/demo/x-cms')).toBe(true);
+    expect(isTimedDemoPath('/demo/diagnostic')).toBe(true);
+    expect(isTimedDemoPath('/consultoria')).toBe(false);
   });
 
   it('admin hub and photos are admin paths', () => {

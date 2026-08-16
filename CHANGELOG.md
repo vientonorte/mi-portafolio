@@ -5,6 +5,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Demo timed: marca VN + a11y AA
+
+### Changed
+- `/#/demo/*` usa PageShell, Badge, Card y tokens de marca (gradiente VN).
+- Reloj ajustable: **Pausar** y **Sumar 1 min** (WCAG 2.2.1).
+- Contraste, alt del poster, diálogo de fin con foco, sin debug de sessionStorage.
+
+## [2026-08-16] — Mobile: chrome sin solapes en funnel y demos
+
+### Fixed
+- Pill **Agendar** ya no tapa cards ni dock en móvil (solo desktop).
+- Demos `/#/demo/*` sin dock del sitio (el iframe no queda debajo).
+- TOC 01–02–03 con target 44px; overflow-x `clip` para que el sticky no se caiga.
+- Cards y hero: menos transform/animación en touch.
+
+## [2026-08-16] — Demo con reloj en cada path de servicio
+
+### Added
+- Cada path (Diagnóstico · Prototipo · Proceso · App) tiene demo con límite de tiempo: 3 / 5 / 4 / 5 min.
+- Rutas: `/#/demo/diagnostic` · `/#/demo/prototype` · `/#/demo/process` · `/#/demo/app`.
+- `/#/demo/x-cms` sigue siendo el alias de campaña del prototipo (5 min).
+- Home muestra las 4 demos. En las cards de pack: **Ver demo · N min**. SEM no añade sección extra.
+
 ## [2026-08-16] — `/#/consultoria` = solo funnel 01–02–03
 
 ### Changed

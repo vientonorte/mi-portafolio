@@ -1,4 +1,5 @@
-import { ArrowRight, Clock, Package, Smartphone, Star } from "lucide-react";
+import { ArrowRight, Clock, Package, Play, Smartphone, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { Badge } from "../ui/badge";
@@ -8,9 +9,15 @@ import {
   CONSULTING_PACKAGES,
   type ConsultingPackageId,
 } from "../../data/vientonorte-consulting";
+import {
+  demoMinutes,
+  getServicePathDemo,
+  packToServicePath,
+} from "../../data/service-path-demos";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
+import { ROUTES } from "../../lib/routes";
 import { cn } from "../../lib/utils";
 
 export type PackageSelectOptions = { appGoal?: boolean };
@@ -27,6 +34,7 @@ export function ConsultoriaPackages({
   onSelectPackage,
   showAppStrip = true,
 }: ConsultoriaPackagesProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
   const rec = useTranslation(language).consultoria.recommended;
@@ -37,6 +45,21 @@ export function ConsultoriaPackages({
       app: Boolean(options?.appGoal),
     });
     onSelectPackage?.(id, options);
+  };
+
+  const openDemo = (
+    pathId: ReturnType<typeof packToServicePath> | "app",
+    origin: string,
+    packId?: ConsultingPackageId
+  ) => {
+    const demo = getServicePathDemo(pathId);
+    if (!demo) return;
+    trackEvent("service_path_demo_open", {
+      path_id: demo.id,
+      package_id: packId ?? demo.packageId,
+      origin,
+    });
+    navigate(ROUTES.serviceDemo(demo.id));
   };
 
   return (
@@ -67,7 +90,7 @@ export function ConsultoriaPackages({
               )}
             >
               <CardHeader className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                     {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
                     <Badge
@@ -115,7 +138,7 @@ export function ConsultoriaPackages({
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex flex-col gap-2">
                 <Button
                   className={cn(
                     "w-full min-h-[44px]",
@@ -129,6 +152,21 @@ export function ConsultoriaPackages({
                   {t.cta}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Button>
+                {(() => {
+                  const demo = getServicePathDemo(packToServicePath(pkg.id));
+                  if (!demo) return null;
+                  return (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="w-full min-h-[44px] text-muted-foreground"
+                      onClick={() => openDemo(demo.id, "pack-card", pkg.id)}
+                    >
+                      <Play className="mr-2 h-4 w-4" aria-hidden />
+                      {t.ctaDemo.replace("{min}", String(demoMinutes(demo)))}
+                    </Button>
+                  );
+                })()}
               </CardFooter>
             </Card>
           </li>
@@ -154,14 +192,25 @@ export function ConsultoriaPackages({
               </p>
             </div>
           </div>
-          <Button
-            className="w-full min-h-[44px] shrink-0 sm:w-auto"
-            variant="outline"
-            onClick={() => select("marco", { appGoal: true })}
-          >
-            {t.appStripCta}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Button>
+          <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
+            <Button
+              className="w-full min-h-[44px] sm:w-auto"
+              variant="outline"
+              onClick={() => select("marco", { appGoal: true })}
+            >
+              {t.appStripCta}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full min-h-[44px] text-muted-foreground sm:w-auto"
+              onClick={() => openDemo("app", "app-strip", "marco")}
+            >
+              <Play className="mr-2 h-4 w-4" aria-hidden />
+              {t.ctaDemo.replace("{min}", "5")}
+            </Button>
+          </div>
         </CardContent>
       </Card>
       ) : null}

@@ -85,14 +85,14 @@ export function ConsultoriaLandingHero({
                   mode: "auto",
                 });
               }}
-              className="min-h-[44px] text-sm font-medium text-primary underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-primary underline-offset-4 hover:underline"
             >
               {t.ctaFreeA11y}
             </button>
             <button
               type="button"
               onClick={seeOptions}
-              className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              className="inline-flex min-h-11 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             >
               {t.ctaSecondary}
             </button>

@@ -38,8 +38,16 @@ export const ROUTES = {
   /**
    * Demo X|CMS con gate de campaña (Ads / SEO / LinkedIn).
    * No abrir Figma Sites en crudo desde ads.
+   * Alias de `/demo/prototype`.
    */
   demoXcms: "/demo/x-cms",
+
+  /**
+   * Demo con reloj por path de servicio.
+   * `diagnostic` | `prototype` | `process` | `app` (+ alias radar/marco/ops).
+   */
+  serviceDemo: (pathId: string) =>
+    `/demo/${encodeURIComponent(pathId)}`,
 
   /**
    * @deprecated Legacy POC path — redirect a ROUTES.consulting (SEM).
@@ -72,6 +80,12 @@ export function isConsultingOfferPath(pathname: string): boolean {
   if (path === ROUTES.consulting) return true;
   if (path.startsWith(`${ROUTES.consulting}/modulos`)) return true;
   return false;
+}
+
+/** Demo con reloj: chrome propio, sin dock ni toolbar del sitio. */
+export function isTimedDemoPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === ROUTES.demoXcms || path.startsWith("/demo/");
 }
 
 /**
