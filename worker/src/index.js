@@ -36,6 +36,7 @@ import {
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
+import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
 
 export default {
   async fetch(request, env) {
@@ -88,6 +89,9 @@ export default {
     if (path === '/api/diagnostico' && request.method === 'POST') {
       return handleCreateDiagnostico(request, env, cors);
     }
+    if (path === '/api/demo/heat' && request.method === 'POST') {
+      return handleDemoHeatIngest(request, env, cors);
+    }
 
     // ── MCP (JSON-RPC) ──
     if (path === '/mcp' || path === '/api/mcp') {
@@ -138,6 +142,9 @@ export default {
     // ── Admin data browser ──
     if (path === '/api/admin/overview' && request.method === 'GET') {
       return handleOverview(request, env, cors);
+    }
+    if (path === '/api/admin/demo/heat' && request.method === 'GET') {
+      return handleDemoHeatRead(request, env, cors);
     }
     if (path === '/api/admin/services' && request.method === 'GET') {
       return handleAdminCatalog(request, env, cors, 'services');

@@ -44,6 +44,8 @@ Cambio de estado de un lead (nuevo → contactado → cerrado) **es la mantenimi
 | POST | `/api/contact` `/api/leads` | escribe **leads** + mail |
 | POST | `/api/booking` | escribe **bookings** |
 | POST | `/api/diagnostico` | escribe **diagnosticos** |
+| POST | `/api/demo/heat` | clics demo (sin PII) → KV `vn:demo-heat:{path}` |
+| GET | `/api/admin/demo/heat` | heatmap admin (sesión) |
 | GET | `/s` `/s/consultoria` | HTML OG para crawlers |
 
 ### MCP
@@ -59,6 +61,7 @@ Cliente: URL `https://contact.vientonorte.io/mcp`.
 | `vn:leads` | array de leads (máx. 2000) |
 | `vn:bookings` | reservas |
 | `vn:diagnosticos` | intakes |
+| `vn:demo-heat:{path}` | grid + counts heatmap demo |
 | `image:manifest` | overrides R2 |
 | `passkey:credentials` | passkeys admin |
 | `vn_admin_session` cookie | no está en KV; HMAC `SESSION_SECRET` |

@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Heatmap admin de demos
+
+### Added
+- `#/admin` pestaña **Demos**: mapa de clics del chrome (gate, reloj, CTAs) por path.
+- Worker `POST /api/demo/heat` (público, sin PII) y `GET /api/admin/demo/heat` (sesión).
+- El iframe del producto no se mide (otro origen).
+
 ## [2026-08-16] — Measurement Protocol desde el Worker
 
 ### Added

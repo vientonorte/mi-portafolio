@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, Database, ImageIcon, KeyRound, LogOut, RefreshCw, Search } from "lucide-react";
+import { CalendarDays, Database, Flame, ImageIcon, KeyRound, LogOut, RefreshCw, Search } from "lucide-react";
+import { DemoHeatmapPanel } from "../components/admin/DemoHeatmapPanel";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
@@ -30,6 +31,7 @@ import { ROUTES } from "../lib/routes";
 import {
   adminBootstrap,
   adminLogout,
+  getAdminDemoHeat,
   getAdminOverview,
   getAdminSession,
   listAdminCatalog,
@@ -42,6 +44,7 @@ import {
   type AdminCollection,
   type AdminOverview,
   type AdminRecord,
+  type DemoHeatBucket,
 } from "../lib/admin-api";
 import { createPasskey, isPasskeySupported, loginWithPasskey } from "../lib/admin-passkey";
 
@@ -82,6 +85,7 @@ export default function AdminHub() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [rows, setRows] = useState<AdminRecord[]>([]);
   const [catalog, setCatalog] = useState<AdminRecord[]>([]);
+  const [demoHeat, setDemoHeat] = useState<Record<string, DemoHeatBucket>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
   const [bootstrapCode, setBootstrapCode] = useState("");
 
@@ -119,6 +123,7 @@ export default function AdminHub() {
       setError(null);
       try {
         if (next === "overview") await loadOverview();
+        else if (next === "demos") setDemoHeat(await getAdminDemoHeat());
         else if (next === "leads" || next === "bookings" || next === "diagnosticos") {
           await loadCollection(next);
         } else if (next === "services" || next === "cases") {
@@ -314,6 +319,10 @@ export default function AdminHub() {
                 <TabsTrigger value="bookings">Agenda</TabsTrigger>
                 <TabsTrigger value="diagnosticos">Diagnósticos</TabsTrigger>
                 <TabsTrigger value="services">Servicios</TabsTrigger>
+                <TabsTrigger value="demos">
+                  <Flame className="mr-1 h-3.5 w-3.5" aria-hidden />
+                  Demos
+                </TabsTrigger>
                 <TabsTrigger value="cases">Casos</TabsTrigger>
               </TabsList>
               <Button
@@ -381,6 +390,9 @@ export default function AdminHub() {
             </TabsContent>
             <TabsContent value="cases">
               <CatalogTable rows={tab === "cases" ? catalog : []} kind="cases" />
+            </TabsContent>
+            <TabsContent value="demos">
+              <DemoHeatmapPanel paths={demoHeat} />
             </TabsContent>
         </Tabs>
       </div>
