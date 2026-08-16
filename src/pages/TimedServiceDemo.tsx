@@ -1,8 +1,8 @@
 /**
- * Demo con reloj para un path de servicio.
- * Gate en vientonorte.io → iframe / poster + timer + CTAs.
+ * Demo con reloj por path de servicio.
+ * Brand FO (tokens + PageShell) · WCAG 2.2 AA (tiempo ajustable, contraste, foco).
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -10,20 +10,25 @@ import {
   Clock,
   ExternalLink,
   Lock,
+  Pause,
   Play,
+  Plus,
   Shield,
 } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
+import { PageShell } from "../components/layout/PageShell";
+import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
 import { useLanguage } from "../lib/LanguageContext";
+import { useTranslation } from "../lib/i18n";
 import { trackEvent } from "../lib/analytics";
 import { freeRadarHasSchedule, openFreeRadarEntry } from "../lib/free-radar-entry";
 import { navigateToContactAssistant } from "../lib/navigate-to-contact";
 import { ROUTES } from "../lib/routes";
 import { canonicalFromPath } from "../lib/seo";
+import { withHomeCrumb } from "../lib/breadcrumb-helpers";
 import {
-  DEMO_RESTRICTIONS,
-  DEMO_UTM_STORAGE_KEY,
   captureDemoUtmsFromSearch,
   formatMmSs,
   readDemoUtms,
@@ -47,13 +52,17 @@ export default function TimedServiceDemo({
   const location = useLocation();
   const { pathId: rawPathId } = useParams<{ pathId?: string }>();
   const { language } = useLanguage();
+  const i18n = useTranslation(language);
+  const copy = i18n.consultoria.timedDemo;
   const es = language === "es";
   const scheduleReady = freeRadarHasSchedule();
+  const endedTitleRef = useRef<HTMLHeadingElement>(null);
 
   const pathId = forcedPath ?? resolveServicePathId(rawPathId);
   const demo = pathId ? getServicePathDemo(pathId) : undefined;
 
   const [phase, setPhase] = useState<Phase>("gate");
+  const [paused, setPaused] = useState(false);
   const [remaining, setRemaining] = useState(demo?.durationSec ?? 0);
 
   useEffect(() => {
@@ -81,13 +90,14 @@ export default function TimedServiceDemo({
   }, [demo, location.search, location.hash]);
 
   useEffect(() => {
-    if (!demo || phase !== "live") return;
+    if (!demo || phase !== "live" || paused) return;
     const id = window.setInterval(() => {
       setRemaining((r) => {
         if (r <= 1) {
           window.clearInterval(id);
           queueMicrotask(() => {
             setPhase("ended");
+            setPaused(false);
             const utm = readDemoUtms();
             trackEvent("demo_path_ended", {
               category: "campaign",
@@ -110,11 +120,17 @@ export default function TimedServiceDemo({
       });
     }, 1000);
     return () => window.clearInterval(id);
-  }, [demo, phase]);
+  }, [demo, phase, paused]);
+
+  useEffect(() => {
+    if (phase !== "ended") return;
+    endedTitleRef.current?.focus();
+  }, [phase]);
 
   const startDemo = useCallback(() => {
     if (!demo) return;
     setRemaining(demo.durationSec);
+    setPaused(false);
     setPhase("live");
     const utm = readDemoUtms();
     trackEvent("demo_path_start", {
@@ -158,102 +174,60 @@ export default function TimedServiceDemo({
       ...utm,
     });
     navigateToContactAssistant(navigate, {
-      origin: "other",
+      origin: "service-path-demo",
       intent: "consulting",
       source: "cta",
       packageId: demo.packageId,
       conversationTitle: es
-        ? `Demo ${demo.caption.es} · quiero este path`
-        : `Demo ${demo.caption.en} · I want this path`,
+        ? `Demo ${demo.caption.es} · quiero este servicio`
+        : `Demo ${demo.caption.en} · I want this service`,
       message: es
-        ? `Hola Viento Norte — vi la demo del path ${demo.id} (${demoMinutes(demo)} min).
+        ? `Hola Viento Norte — vi la demo ${demo.caption.es} (${demoMinutes(demo)} min).
 
 Empresa: [nombre]
-Siguiente paso: ${demo.packageId}${demo.appGoal ? " · app punta a punta" : ""}.
-
-UTM: ${JSON.stringify(utm ?? {})}`
-        : `Hi Viento Norte — I viewed the ${demo.id} path demo (${demoMinutes(demo)} min).
+Siguiente paso: ${demo.packageId}${demo.appGoal ? " · app punta a punta" : ""}.`
+        : `Hi Viento Norte — I viewed the ${demo.caption.en} demo (${demoMinutes(demo)} min).
 
 Company: [name]
-Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.
-
-UTM: ${JSON.stringify(utm ?? {})}`,
+Next step: ${demo.packageId}${demo.appGoal ? " · end-to-end app" : ""}.`,
     });
   };
 
-  const t = useMemo(() => {
-    if (!demo) return null;
-    const mins = demoMinutes(demo);
-    const time = formatMmSs(demo.durationSec);
-    return es
-      ? {
-          title: `Demo ${demo.caption.es} · ${mins} min`,
-          desc: demo.body.es,
-          kicker: demo.kicker.es,
-          headline: demo.headline.es,
-          body: demo.body.es,
-          start: `Iniciar demo (${time})`,
-          rules: "Reglas de la sesión",
-          restrictions: [
-            `Sesión limitada a ${mins} minutos por visita.`,
-            "Solo exploración — sin editar, exportar ni datos reales.",
-            "Al terminar, el panel se bloquea y te ofrecemos el siguiente paso.",
-            ...DEMO_RESTRICTIONS.es.slice(2, 3),
-          ],
-          live: "Demo en curso",
-          timeLeft: "Tiempo restante",
-          endedTitle: "Sesión de demo terminada",
-          endedBody:
-            "El panel se bloqueó. Siguiente paso: agenda 30 min o cuéntanos qué path necesitás.",
-          ctaSchedule: "Agenda Google · 30 min",
-          ctaConsult: "Quiero este servicio",
-          ctaAgain: `Otra sesión de ${mins} min`,
-          openTab: "Abrir en pestaña (sin reloj)",
-          note: "Si el proto es cross-origin, el iframe puede no cargar. El límite de tiempo y los CTAs se aplican en Viento Norte.",
-          caption: demo.caption.es,
-        }
-      : {
-          title: `Demo ${demo.caption.en} · ${mins} min`,
-          desc: demo.body.en,
-          kicker: demo.kicker.en,
-          headline: demo.headline.en,
-          body: demo.body.en,
-          start: `Start demo (${time})`,
-          rules: "Session rules",
-          restrictions: [
-            `Session limited to ${mins} minutes per visit.`,
-            "Explore only — no edit, export, or real data.",
-            "When time ends the panel locks and we offer the next step.",
-            ...DEMO_RESTRICTIONS.en.slice(2, 3),
-          ],
-          live: "Demo in progress",
-          timeLeft: "Time left",
-          endedTitle: "Demo session ended",
-          endedBody:
-            "The panel is locked. Next: book 30 minutes or tell us which path you need.",
-          ctaSchedule: "Google Calendar · 30 min",
-          ctaConsult: "I want this service",
-          ctaAgain: `Another ${mins}-min session`,
-          openTab: "Open in a tab (no timer)",
-          note: "Cross-origin protos may not load in the frame. Time limit and CTAs are enforced on Viento Norte.",
-          caption: demo.caption.en,
-        };
-  }, [demo, es]);
+  const mins = demo ? demoMinutes(demo) : 0;
+  const restrictions = useMemo(() => {
+    if (!demo) return [];
+    return [
+      copy.restrictionTime.replace("{min}", String(mins)),
+      copy.restrictionExplore,
+      copy.restrictionLock,
+      copy.restrictionData,
+    ];
+  }, [copy, demo, mins]);
 
-  if (!pathId || !demo || !t) {
+  if (!pathId || !demo) {
     return <Navigate to={ROUTES.home} replace />;
   }
 
   const warn = phase === "live" && remaining <= demo.warnSec;
-  const iframeTitle = es
-    ? `Demo ${demo.caption.es}`
-    : `Demo ${demo.caption.en}`;
+  const caption = demo.caption[language];
+  const iframeTitle = es ? `Demo ${caption}` : `Demo ${caption}`;
+  const seoTitle = `${caption} · ${mins} min`;
 
   return (
-    <>
+    <PageShell
+      showLogoText={false}
+      crumbs={withHomeCrumb(i18n.breadcrumbs.home, () => navigate(ROUTES.home), [
+        {
+          label: i18n.breadcrumbs.consulting,
+          onClick: () => navigate(ROUTES.consulting),
+        },
+        { label: copy.crumb, current: true },
+      ])}
+      contentClassName="section-pad-default"
+    >
       <SEOHead
-        title={t.title}
-        description={t.desc}
+        title={seoTitle}
+        description={demo.body[language]}
         url={canonicalFromPath(
           forcedPath ? ROUTES.demoXcms : ROUTES.serviceDemo(demo.id)
         )}
@@ -265,57 +239,102 @@ UTM: ${JSON.stringify(utm ?? {})}`,
       />
 
       <div
-        className="min-h-dvh bg-[#050a14] pb-[env(safe-area-inset-bottom,0px)] text-[#f7f2e7]"
+        className="container mx-auto max-w-5xl"
         data-surface="timed-demo"
         data-testid="timed-service-demo"
         data-path={demo.id}
         data-package={demo.packageId}
         data-duration-sec={demo.durationSec}
+        data-phase={phase}
       >
-        <div className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-12">
-          <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#1A8FDC]">
-                {t.kicker}
-              </p>
-              <h1 className="mt-2 whitespace-pre-line text-3xl font-semibold tracking-tight md:text-4xl">
-                {phase === "ended" ? t.endedTitle : t.headline}
-              </h1>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/65 md:text-base">
-                {phase === "ended" ? t.endedBody : t.body}
-              </p>
-            </div>
-            {phase === "live" && (
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 space-y-3">
+            <Badge
+              variant="outline"
+              className="border-primary/25 font-normal text-foreground"
+            >
+              {demo.kicker[language]}
+            </Badge>
+            <h1
+              id="timed-demo-heading"
+              className="whitespace-pre-line text-3xl font-bold tracking-tight md:text-4xl"
+            >
+              {phase === "ended" ? copy.endedTitle : demo.headline[language]}
+            </h1>
+            <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
+              {phase === "ended" ? copy.endedBody : demo.body[language]}
+            </p>
+          </div>
+
+          {phase === "live" && (
+            <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
               <div
                 className={cn(
-                  "flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-lg tabular-nums",
+                  "inline-flex min-h-11 items-center gap-2 rounded-full border-2 px-4 py-2 font-mono text-lg tabular-nums",
                   warn
-                    ? "border-amber-400/50 bg-amber-500/15 text-amber-100"
-                    : "border-white/15 bg-black/40 text-white"
+                    ? "border-foreground bg-muted text-foreground"
+                    : "border-border bg-card text-foreground"
                 )}
                 role="timer"
-                aria-live="polite"
-                aria-label={`${t.timeLeft}: ${formatMmSs(remaining)}`}
+                aria-live={warn ? "assertive" : "polite"}
+                aria-atomic="true"
+                aria-label={`${copy.timeLeft}: ${formatMmSs(remaining)}${
+                  paused ? ` · ${copy.paused}` : ""
+                }${warn ? ` · ${copy.warn}` : ""}`}
               >
-                <Clock className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
+                <Clock className="h-4 w-4 shrink-0" aria-hidden />
                 {formatMmSs(remaining)}
               </div>
-            )}
-          </header>
+              {warn ? (
+                <p className="text-sm font-medium text-foreground">{copy.warn}</p>
+              ) : null}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="min-h-11"
+                  aria-pressed={paused}
+                  onClick={() => setPaused((p) => !p)}
+                >
+                  {paused ? (
+                    <Play className="mr-2 h-4 w-4" aria-hidden />
+                  ) : (
+                    <Pause className="mr-2 h-4 w-4" aria-hidden />
+                  )}
+                  {paused ? copy.resume : copy.pause}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="min-h-11"
+                  onClick={() => setRemaining((r) => r + 60)}
+                >
+                  <Plus className="mr-2 h-4 w-4" aria-hidden />
+                  {copy.addMinute}
+                </Button>
+              </div>
+            </div>
+          )}
+        </header>
 
-          {phase === "gate" && (
-            <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-              <div className="space-y-6">
+        {phase === "gate" && (
+          <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+            <Card className="border-2 border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-sm">
+              <CardContent className="space-y-6 p-6">
                 <div>
-                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-                    {t.rules}
-                  </p>
+                  <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">
+                    {copy.rules}
+                  </h2>
                   <ul className="space-y-2">
-                    {t.restrictions.map((r) => (
+                    {restrictions.map((r) => (
                       <li
                         key={r}
-                        className="flex gap-2 text-sm text-white/75 before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-[#1A8FDC] before:content-['']"
+                        className="flex gap-2 text-sm leading-relaxed text-muted-foreground"
                       >
+                        <span
+                          className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                          aria-hidden
+                        />
                         {r}
                       </li>
                     ))}
@@ -325,128 +344,157 @@ UTM: ${JSON.stringify(utm ?? {})}`,
                   <Button
                     type="button"
                     size="lg"
-                    className="min-h-[44px] bg-[#1A8FDC] text-white hover:bg-[#1570b0]"
+                    className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
                     onClick={startDemo}
                   >
                     <Play className="mr-2 h-4 w-4" aria-hidden />
-                    {t.start}
+                    {copy.start.replace("{time}", formatMmSs(demo.durationSec))}
                   </Button>
                   <Button
                     type="button"
                     size="lg"
                     variant="outline"
-                    className="min-h-[44px] border-white/20 bg-transparent text-white hover:bg-white/10"
+                    className="min-h-11"
                     onClick={() => navigate(ROUTES.consulting)}
                   >
-                    {es ? "Ver modalidades" : "See formats"}
+                    {copy.ctaFormats}
                   </Button>
                 </div>
-                <p className="flex items-start gap-2 text-xs text-white/45">
-                  <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-                  {t.note}
+                <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <Shield className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                  {copy.note}
                 </p>
-              </div>
-              <figure className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40">
+              </CardContent>
+            </Card>
+
+            <figure className="overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted">
+              <img
+                src={demo.poster}
+                alt={caption}
+                className="aspect-[16/10] w-full object-cover object-top"
+              />
+              <figcaption className="border-t border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+                {caption}
+              </figcaption>
+            </figure>
+          </div>
+        )}
+
+        {(phase === "live" || phase === "ended") && (
+          <div className="space-y-4">
+            <div className="relative overflow-hidden rounded-xl border-2 border-[color:var(--logo-surface-border)] bg-muted shadow-sm">
+              {phase === "live" && demo.iframeUrl ? (
+                <iframe
+                  title={iframeTitle}
+                  src={demo.iframeUrl}
+                  className="h-[min(55dvh,520px)] w-full bg-background md:h-[min(70vh,720px)]"
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : phase === "live" ? (
                 <img
                   src={demo.poster}
-                  alt=""
-                  className="aspect-[16/10] w-full object-cover object-top opacity-90"
+                  alt={caption}
+                  className="h-[min(55dvh,520px)] w-full object-cover object-top md:h-[min(70vh,720px)]"
                 />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-xs text-white/70">
-                  {t.caption}
-                </figcaption>
-              </figure>
-            </div>
-          )}
-
-          {(phase === "live" || phase === "ended") && (
-            <div className="space-y-4">
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl">
-                {phase === "live" && demo.iframeUrl ? (
-                  <iframe
-                    title={iframeTitle}
-                    src={demo.iframeUrl}
-                    className="h-[min(55dvh,520px)] w-full bg-black md:h-[min(70vh,720px)]"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                ) : phase === "live" ? (
-                  <img
-                    src={demo.poster}
-                    alt={t.caption}
-                    className="h-[min(55dvh,520px)] w-full object-cover object-top md:h-[min(70vh,720px)]"
-                  />
-                ) : (
-                  <div className="flex h-[min(50vh,480px)] flex-col items-center justify-center gap-4 bg-[#0a1220] p-8 text-center">
-                    <Lock className="h-10 w-10 text-white/40" aria-hidden />
-                    <p className="max-w-md text-sm text-white/60">{t.endedBody}</p>
-                  </div>
-                )}
-                {phase === "ended" && (
-                  <div className="absolute inset-0 flex items-end justify-center bg-black/50 p-6 backdrop-blur-[2px]">
-                    <div className="w-full max-w-lg rounded-2xl border border-white/15 bg-[#0a1220]/95 p-6 shadow-xl">
-                      <p className="text-lg font-semibold">{t.endedTitle}</p>
-                      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                        {scheduleReady ? (
-                          <Button
-                            type="button"
-                            className="min-h-[44px] bg-[#1A8FDC] text-white hover:bg-[#1570b0]"
-                            onClick={openSchedule}
-                          >
-                            <Calendar className="mr-2 h-4 w-4" />
-                            {t.ctaSchedule}
-                          </Button>
-                        ) : null}
-                        <Button
-                          type="button"
-                          className="min-h-[44px] bg-white text-[#050a14] hover:bg-white/90"
-                          onClick={openConsulting}
-                        >
-                          {t.ctaConsult}
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="min-h-[44px] border-white/20 text-white hover:bg-white/10"
-                          onClick={startDemo}
-                        >
-                          {t.ctaAgain}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {phase === "live" && demo.iframeUrl && (
-                <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-white/45">
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                    {t.live}
-                  </span>
-                  <button
-                    type="button"
-                    className="inline-flex min-h-[44px] items-center gap-1 underline-offset-2 hover:text-white/70 hover:underline"
-                    onClick={() =>
-                      window.open(demo.iframeUrl, "_blank", "noopener,noreferrer")
-                    }
-                  >
-                    {t.openTab}
-                    <ExternalLink className="h-3 w-3" />
-                  </button>
+              ) : (
+                <div className="flex h-[min(40vh,360px)] flex-col items-center justify-center gap-3 bg-muted p-8 text-center">
+                  <Lock className="h-10 w-10 text-muted-foreground" aria-hidden />
+                  <p className="max-w-md text-sm text-muted-foreground">
+                    {copy.endedBody}
+                  </p>
                 </div>
               )}
 
               {phase === "ended" && (
-                <p className="text-center text-xs text-white/40">
-                  sessionStorage · {DEMO_UTM_STORAGE_KEY}
-                </p>
+                <div
+                  className="absolute inset-0 flex items-end justify-center bg-background/70 p-4 backdrop-blur-[2px] sm:p-6"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="timed-demo-ended-title"
+                  aria-describedby="timed-demo-ended-body"
+                >
+                  <Card className="w-full max-w-lg border-2 border-primary/25 bg-card shadow-lg">
+                    <CardContent className="space-y-4 p-6">
+                      <h2
+                        id="timed-demo-ended-title"
+                        ref={endedTitleRef}
+                        tabIndex={-1}
+                        className="text-lg font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      >
+                        {copy.endedTitle}
+                      </h2>
+                      <p
+                        id="timed-demo-ended-body"
+                        className="text-sm text-muted-foreground"
+                      >
+                        {copy.endedBody}
+                      </p>
+                      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                        {scheduleReady ? (
+                          <Button
+                            type="button"
+                            className="min-h-11 bg-brand-gradient font-semibold hover:opacity-90"
+                            onClick={openSchedule}
+                          >
+                            <Calendar className="mr-2 h-4 w-4" aria-hidden />
+                            {copy.ctaSchedule}
+                          </Button>
+                        ) : null}
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="min-h-11"
+                          onClick={openConsulting}
+                        >
+                          {copy.ctaConsult}
+                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="min-h-11"
+                          onClick={startDemo}
+                        >
+                          {copy.ctaAgain.replace("{min}", String(mins))}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
               )}
             </div>
-          )}
-        </div>
+
+            {phase === "live" && demo.iframeUrl ? (
+              <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    className={cn(
+                      "h-2 w-2 rounded-full",
+                      paused
+                        ? "bg-muted-foreground"
+                        : "bg-primary motion-safe:animate-pulse"
+                    )}
+                    aria-hidden
+                  />
+                  {paused ? copy.paused : copy.live}
+                </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="min-h-11"
+                  onClick={() =>
+                    window.open(demo.iframeUrl, "_blank", "noopener,noreferrer")
+                  }
+                >
+                  {copy.openTab}
+                  <ExternalLink className="ml-2 h-4 w-4" aria-hidden />
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        )}
       </div>
-    </>
+    </PageShell>
   );
 }

@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Demo timed: marca VN + a11y AA
+
+### Changed
+- `/#/demo/*` usa PageShell, Badge, Card y tokens de marca (gradiente VN).
+- Reloj ajustable: **Pausar** y **Sumar 1 min** (WCAG 2.2.1).
+- Contraste, alt del poster, diálogo de fin con foco, sin debug de sessionStorage.
+
 ## [2026-08-16] — Mobile: chrome sin solapes en funnel y demos
 
 ### Fixed

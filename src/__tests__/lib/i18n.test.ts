@@ -75,6 +75,10 @@ describe('translations', () => {
         const pathDemos = translations[lang].consultoria.pathDemos;
         expect(pathDemos.title.length).toBeGreaterThan(8);
         expect(pathDemos.cta).toContain('{min}');
+        const timed = translations[lang].consultoria.timedDemo;
+        expect(timed.pause.length).toBeGreaterThan(2);
+        expect(timed.addMinute.length).toBeGreaterThan(2);
+        expect(timed.restrictionTime).toContain('{min}');
       });
 
       it('has about section with required keys', () => {
