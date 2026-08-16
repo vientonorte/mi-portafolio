@@ -7,14 +7,14 @@ const html = readFileSync(
   "utf8"
 );
 
-describe("share /s/consultoria GTM", () => {
-  it("embeds the single GTM container and no parallel gtag snippet", () => {
-    expect(html).toContain("GTM-PM5LBQRP");
-    expect(html).toContain('data-gtm-id');
-    expect(html).toContain("page_location");
-    expect(html).toContain("/s/consultoria/");
-    expect(html).not.toMatch(/gtag\/js\?id=G-/);
-    expect(html).not.toContain("G-G7JXJKGCDV");
+describe("share /s/consultoria Google tag", () => {
+  it("embeds gtag.js with G-G7JXJKGCDV for tag-coverage crawlers", () => {
+    expect(html).toContain("gtag/js?id=G-G7JXJKGCDV");
+    expect(html).toContain('data-ga4-id="G-G7JXJKGCDV"');
+    expect(html).toContain('gtag("config", "G-G7JXJKGCDV"');
+    expect(html).toContain("https://vientonorte.io/s/consultoria/");
+    expect(html).not.toContain("GTM-PM5LBQRP");
+    expect(html).not.toContain("gtag/js?id=GT-");
   });
 
   it("keeps Ads click IDs on the funnel redirect", () => {
@@ -22,7 +22,7 @@ describe("share /s/consultoria GTM", () => {
     expect(html).toContain("#/consultoria");
   });
 
-  it("names the noscript iframe for a11y", () => {
-    expect(html).toMatch(/iframe[\s\S]*title="Google Tag Manager"/);
+  it("does not add a GTM noscript iframe on the share hop", () => {
+    expect(html).not.toMatch(/googletagmanager\.com\/ns\.html/);
   });
 });

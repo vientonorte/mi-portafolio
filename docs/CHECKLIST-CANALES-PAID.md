@@ -67,7 +67,8 @@ Código ya emite `generate_lead`, `book_call`, `submit_contact_form`, `page_view
 - [x] `gh secret set VITE_GTM_ID` (15 ago)
 - [ ] `VITE_GA_MEASUREMENT_ID` — **no** (apuesta A: GA4 = tag en GTM)
 - [x] Redeploy Pages con el secret ([run 31908951330](https://github.com/vientonorte/mi-portafolio/actions/runs/31908951330) success)
-- [x] Bundle live contiene `GTM-PM5LBQRP` (`/assets/index-DklCOEAE.js` · no view-source estático: `initGTM` es JS)
+- [x] Bundle live contiene `GTM-PM5LBQRP` (`initGTM` en el SPA)
+- [x] `/s/consultoria` view-source contiene `gtag/js?id=G-G7JXJKGCDV` (cobertura Etiqueta de Google; no GTM en esa hop)
 - [ ] GTM Preview: click agenda o form → evento `generate_lead` o `book_call`
 - [ ] Tag GA4 Event (o Ads conversion) escuchando esos custom events
 - [ ] Receta: `docs/GTM-KICKOFF.md`

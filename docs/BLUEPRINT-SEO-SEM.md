@@ -33,7 +33,7 @@ Vault (misma decisión): `Viento Norte/Resources/SEM/2026-08-15 BLUEPRINT SEO-SE
 
 | # | Check |
 |---|--------|
-| D1 | GTM `GTM-PM5LBQRP` + GA4 `G-G7JXJKGCDV` · `page_view` |
+| D1 | SPA: GTM `GTM-PM5LBQRP` · share `/s/consultoria`: gtag `G-G7JXJKGCDV` · `page_view` |
 | D2 | Tag evento `generate_lead` + `book_call` (GTM v3 · humano) |
 | D3 | Evento clave GA4 |
 | D4 | Filtro IP `casa-vn` Activo |
