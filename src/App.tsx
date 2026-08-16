@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isAdminPath, isConsultingOfferPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { isAdminPath, isConsultingOfferPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -137,8 +137,11 @@ function AppRoutes() {
   const isDeepPage = isDeepPortfolioPage(pathname);
   /** Tour fullscreen: sin dock/header del sitio (chrome propio del tour). */
   const isOfferLanding = isConsultingOfferPath(pathname);
+  /** Demo con reloj: sin dock (el iframe no puede quedar bajo el nav). */
+  const isTimedDemo = isTimedDemoPath(pathname);
   /** Panel interno: sin nav pública (seguridad por diseño). */
   const isAdmin = isAdminPath(pathname);
+  const hideSiteChrome = isOfferLanding || isTimedDemo || isAdmin;
 
   return (
     <PortfolioChrome>
@@ -147,7 +150,7 @@ function AppRoutes() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      {!isDeepPage && !isOfferLanding && !isAdmin && <RouterNavigation />}
+      {!isDeepPage && !hideSiteChrome && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -192,8 +195,8 @@ function AppRoutes() {
         </Suspense>
       </main>
       {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
-      {!isDeepPage && !isOfferLanding && !isAdmin && <BottomNav />}
-      {isDeepPage && !isOfferLanding && !isAdmin && <DeepPageNav />}
+      {!isDeepPage && !hideSiteChrome && <BottomNav />}
+      {isDeepPage && !hideSiteChrome && <DeepPageNav />}
     </PortfolioChrome>
   );
 }

@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Mobile: chrome sin solapes en funnel y demos
+
+### Fixed
+- Pill **Agendar** ya no tapa cards ni dock en móvil (solo desktop).
+- Demos `/#/demo/*` sin dock del sitio (el iframe no queda debajo).
+- TOC 01–02–03 con target 44px; overflow-x `clip` para que el sticky no se caiga.
+- Cards y hero: menos transform/animación en touch.
+
 ## [2026-08-16] — Demo con reloj en cada path de servicio
 
 ### Added

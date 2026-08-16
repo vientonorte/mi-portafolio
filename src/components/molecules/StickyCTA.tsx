@@ -62,9 +62,9 @@ export function StickyCTA({
                   ease: [0.22, 1, 0.36, 1],
                 }
           }
-          className="fixed bottom-[var(--back-to-top-offset)] left-1/2 z-40 -translate-x-1/2"
+          className="pointer-events-none fixed bottom-[var(--back-to-top-offset)] left-1/2 z-40 hidden w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 lg:block"
         >
-          <div className="funnel-sticky-shell relative">
+          <div className="funnel-sticky-shell pointer-events-auto relative">
             {/* Glow effect */}
             {!shouldReduceMotion && (
               <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-150" />

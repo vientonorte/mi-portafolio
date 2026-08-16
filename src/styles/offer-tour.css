@@ -194,7 +194,12 @@
     transform var(--funnel-base) var(--funnel-ease),
     box-shadow var(--funnel-base) var(--funnel-ease),
     border-color var(--funnel-fast) var(--funnel-ease-soft);
-  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-surface="consultoria-funnel"] .funnel-pack-card {
+    will-change: transform;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -207,8 +212,10 @@
   }
 }
 
-[data-surface="consultoria-funnel"] .funnel-pack-card:active {
-  transform: translateY(-1px) scale(0.995);
+@media (hover: hover) and (pointer: fine) {
+  [data-surface="consultoria-funnel"] .funnel-pack-card:active {
+    transform: translateY(-1px) scale(0.995);
+  }
 }
 
 [data-surface="consultoria-funnel"] .funnel-link {
@@ -231,6 +238,12 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  [data-surface="consultoria-funnel"] .funnel-section-enter {
+    animation: none;
   }
 }
 

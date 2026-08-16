@@ -90,7 +90,7 @@ export function ConsultoriaPackages({
               )}
             >
               <CardHeader className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                     {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
                     <Badge

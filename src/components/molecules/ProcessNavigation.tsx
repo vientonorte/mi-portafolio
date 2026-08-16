@@ -19,7 +19,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
     <>
       {/* Mobile: sticky horizontal section nav */}
       <nav
-        className="process-nav-mobile lg:hidden sticky z-40 border-b border-border/50 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/85"
+        className="process-nav-mobile lg:hidden sticky z-[45] border-b border-border/60 bg-background shadow-[0_8px_16px_-12px_rgba(15,23,42,0.28)]"
         style={{ top: "var(--process-nav-mobile-top, 3.25rem)" }}
         aria-label={mobileAriaLabel ?? "Secciones de la página"}
       >
@@ -33,7 +33,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
                     type="button"
                     onClick={() => scrollToSection(section.id)}
                     aria-current={isActive ? "true" : undefined}
-                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none ${
+                    className={`flex min-h-11 items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                       isActive
                         ? "border-primary bg-primary text-primary-foreground shadow-sm"
                         : "border-border/70 bg-muted/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"

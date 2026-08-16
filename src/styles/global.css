@@ -80,14 +80,14 @@ html {
     /* Never trap page scroll (body lock is only while mobile menu open) */
     height: auto;
     min-height: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-y: auto;
 }
 
 body {
     min-height: 100%;
     height: auto;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-y: auto;
 }
 
@@ -383,6 +383,32 @@ html.dark .liquid-nav-cta__halo {
   z-index: 50;
 }
 
+/*
+ * html/body overflow-x (hidden|clip) + overflow-y:auto hace que
+ * position:sticky no pinne en mobile. Chrome de funnel/toolbar
+ * pasa a fixed bajo lg.
+ */
+@media (max-width: 1023.98px) {
+  .subpage-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  html[data-nav="subpage"] .page-shell {
+    padding-top: var(--header-height);
+  }
+
+  .process-nav-mobile {
+    position: fixed;
+    top: var(--process-nav-mobile-top, var(--header-height));
+    left: 0;
+    right: 0;
+  }
+}
+
 /* Rare: toolbar under global header if both ever coexist (should not on deep pages). */
 html[data-nav="site"] .subpage-toolbar {
   top: var(--header-height);
@@ -398,6 +424,21 @@ html[data-nav="site"] [data-surface="consultoria-funnel"] {
   padding-top: var(--header-height);
 }
 
+@media (max-width: 1023.98px) {
+  html[data-nav="site"] [data-surface="consultoria-funnel"] {
+    padding-top: calc(var(--header-height) + 3.9rem);
+  }
+
+  html[data-nav="subpage"] [data-surface="consultoria-funnel"] {
+    padding-top: 3.9rem;
+  }
+
+  html[data-nav="site"],
+  html[data-nav="subpage"] {
+    scroll-padding-top: calc(var(--header-height) + 3.9rem);
+  }
+}
+
 html[data-nav="site"] .process-nav-mobile {
   --process-nav-mobile-top: var(--header-height);
 }
@@ -408,7 +449,7 @@ html[data-nav="site"] .process-nav-mobile {
  * y que el contenido no quede “bajo” el sticky al anclar.
  */
 html[data-nav="subpage"] {
-  --header-height: 3.75rem; /* ~ py-3 + logo sm + border */
+  --header-height: 4.125rem; /* toolbar real ~66px en 390px */
   scroll-padding-top: calc(var(--header-height) + 0.5rem);
 }
 
@@ -459,7 +500,9 @@ html[data-nav="subpage"] main {
  * Especificidad ≥ html[data-nav=subpage] main — si no, el pad del dock gana.
  */
 main:has([data-surface="consultoria-offer"]),
-html[data-nav="subpage"] main:has([data-surface="consultoria-offer"]) {
+html[data-nav="subpage"] main:has([data-surface="consultoria-offer"]),
+main:has([data-surface="timed-demo"]),
+html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
   padding-bottom: 0;
 }
 

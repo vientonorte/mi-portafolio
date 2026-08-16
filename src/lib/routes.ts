@@ -82,6 +82,12 @@ export function isConsultingOfferPath(pathname: string): boolean {
   return false;
 }
 
+/** Demo con reloj: chrome propio, sin dock ni toolbar del sitio. */
+export function isTimedDemoPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === ROUTES.demoXcms || path.startsWith("/demo/");
+}
+
 /**
  * Embudo FO: home `/` o legacy `/consultoria/embudo` (antes del redirect).
  */

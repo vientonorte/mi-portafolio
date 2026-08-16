@@ -265,13 +265,14 @@ UTM: ${JSON.stringify(utm ?? {})}`,
       />
 
       <div
-        className="min-h-screen bg-[#050a14] text-[#f7f2e7]"
+        className="min-h-dvh bg-[#050a14] pb-[env(safe-area-inset-bottom,0px)] text-[#f7f2e7]"
+        data-surface="timed-demo"
         data-testid="timed-service-demo"
         data-path={demo.id}
         data-package={demo.packageId}
         data-duration-sec={demo.durationSec}
       >
-        <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-12">
+        <div className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-12">
           <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#1A8FDC]">
@@ -365,7 +366,7 @@ UTM: ${JSON.stringify(utm ?? {})}`,
                   <iframe
                     title={iframeTitle}
                     src={demo.iframeUrl}
-                    className="h-[min(70vh,720px)] w-full bg-black"
+                    className="h-[min(55dvh,520px)] w-full bg-black md:h-[min(70vh,720px)]"
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
@@ -373,7 +374,7 @@ UTM: ${JSON.stringify(utm ?? {})}`,
                   <img
                     src={demo.poster}
                     alt={t.caption}
-                    className="h-[min(70vh,720px)] w-full object-cover object-top"
+                    className="h-[min(55dvh,520px)] w-full object-cover object-top md:h-[min(70vh,720px)]"
                   />
                 ) : (
                   <div className="flex h-[min(50vh,480px)] flex-col items-center justify-center gap-4 bg-[#0a1220] p-8 text-center">
