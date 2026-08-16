@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Demo: sesión real, no solo Start
+
+### Changed
+- Admin Demos mide vista, start, tiempo en vivo (tick 5 s), abandono y CTAs.
+- Mapa = clics/movimiento sobre poster y chrome. El iframe de Figma no se lee.
+
 ## [2026-08-16] — Demo Diagnóstico 1 min
 
 ### Changed

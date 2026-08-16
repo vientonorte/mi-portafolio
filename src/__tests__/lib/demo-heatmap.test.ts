@@ -28,5 +28,10 @@ describe("demo heatmap math", () => {
     ]);
     expect(next.counts.start).toBe(1);
     expect(next.grid[cellIndex(0.1, 0.1)]).toBe(1);
+    const sess = applyEvents(emptyBucket(), [
+      { type: "start" },
+      { type: "tick", ms: 5000 },
+    ]);
+    expect(sess.sessions.dwellMs).toBe(5000);
   });
 });

@@ -28,4 +28,15 @@ describe('demo-heat', () => {
     expect(next.grid[cellIndex(0.1, 0.1)]).toBe(1);
     expect(next.hits).toHaveLength(1);
   });
+
+  it("accumulates session dwell from tick and leave", () => {
+    const next = applyEvents(emptyBucket(), [
+      { type: "start" },
+      { type: "tick", ms: 5000 },
+      { type: "leave", ms: 2000 },
+    ]);
+    expect(next.sessions.started).toBe(1);
+    expect(next.sessions.left).toBe(1);
+    expect(next.sessions.dwellMs).toBe(7000);
+  });
 });

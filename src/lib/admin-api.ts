@@ -231,17 +231,30 @@ export async function listAdminCatalog(kind: "services" | "cases"): Promise<Admi
 }
 
 export type DemoHeatCounts = {
+  view?: number;
   start: number;
   end: number;
+  leave?: number;
+  tick?: number;
   pause: number;
   add_minute: number;
   cta_schedule: number;
   cta_consult: number;
   click: number;
+  move?: number;
+};
+
+export type DemoHeatSessions = {
+  started: number;
+  ended: number;
+  left: number;
+  cta: number;
+  dwellMs: number;
 };
 
 export type DemoHeatBucket = {
   counts: DemoHeatCounts;
+  sessions?: DemoHeatSessions;
   grid: number[];
   hits: { x: number; y: number; phase?: string; el?: string; t?: string }[];
   updatedAt: string | null;
