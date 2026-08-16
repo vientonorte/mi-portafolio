@@ -36,6 +36,7 @@ export async function recordBookingIntent(params: {
         notes: params.notes ?? "",
         intent: params.intent ?? "kickoff",
         origin: params.origin,
+        packageId: params.packageId,
       }),
     });
   } catch {

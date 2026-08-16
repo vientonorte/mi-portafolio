@@ -2,6 +2,7 @@ import { json } from '../lib/cors.js';
 import { getCases, getCompany, getServices } from '../data/catalog.js';
 import { listRecords, newId, nowIso, prependRecord, updateRecord } from '../lib/store.js';
 import { notifyInbox, notifyVisitor } from '../lib/notify.js';
+import { ga4MpConfigured, sendGa4MpEvent } from '../lib/ga4-mp.js';
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
@@ -27,6 +28,7 @@ export function handleHealth(env, cors) {
       service: 'vientonorte-api',
       time: nowIso(),
       kv: Boolean(env.ADMIN_KV),
+      ga4Mp: ga4MpConfigured(env),
     },
     200,
     cors
@@ -145,6 +147,17 @@ export async function handleCreateLead(request, env, cors, { persistOnly = false
     channel: 'leads',
   });
 
+  const packageId =
+    typeof body.packageId === 'string' ? body.packageId.trim().slice(0, 40) : '';
+  await sendGa4MpEvent(env, {
+    eventName: 'generate_lead',
+    params: {
+      lead_type: intent || 'form',
+      channel: 'leads',
+      package_id: packageId,
+    },
+  });
+
   return json({ ok: true, lead: { id: record.id, status: record.status } }, 201, cors);
 }
 
@@ -161,6 +174,12 @@ export async function handleCreateBooking(request, env, cors) {
   const notes = typeof body.notes === 'string' ? body.notes.trim().slice(0, MAX_TEXT) : '';
   const intent = typeof body.intent === 'string' ? body.intent.trim().slice(0, 80) : 'kickoff';
   const origin = typeof body.origin === 'string' ? body.origin.trim().slice(0, 80) : '';
+  const packageId =
+    typeof body.packageId === 'string'
+      ? body.packageId.trim().slice(0, 40)
+      : typeof body.package_id === 'string'
+        ? body.package_id.trim().slice(0, 40)
+        : '';
   const phone = typeof body.phone === 'string' ? body.phone.trim().slice(0, 40) : '';
   const website = typeof body.website === 'string' ? body.website.trim().slice(0, 400) : '';
   const startAt = typeof body.startAt === 'string' ? body.startAt.trim().slice(0, 40) : '';
@@ -187,6 +206,14 @@ export async function handleCreateBooking(request, env, cors) {
       };
       const updated = await updateRecord(env, 'bookings', dup.id, merged);
       await upsertLeadFromBooking(env, { ...dup, ...merged, intent, origin });
+      await sendGa4MpEvent(env, {
+        eventName: 'book_call',
+        params: {
+          origin,
+          intent,
+          package_id: packageId,
+        },
+      });
       return json({ ok: true, booking: updated, deduped: true }, 200, cors);
     }
   }
@@ -209,6 +236,14 @@ export async function handleCreateBooking(request, env, cors) {
   };
   await prependRecord(env, 'bookings', record);
   await upsertLeadFromBooking(env, record);
+  await sendGa4MpEvent(env, {
+    eventName: 'book_call',
+    params: {
+      origin,
+      intent,
+      package_id: packageId,
+    },
+  });
 
   const subject = email
     ? `VN · agenda · ${name}${startAt ? ` · ${startAt}` : ''}`

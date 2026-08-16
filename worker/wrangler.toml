@@ -21,9 +21,12 @@ WEBAUTHN_RP_ID = "vientonorte.io"
 CALENDAR_BOOKING_URL = "https://calendar.app.google/NvXgpHrpSnJ2186X7"
 # R2_PUBLIC_BASE = "https://pub-xxxx.r2.dev"  # tras habilitar acceso público al bucket
 
+GA4_MEASUREMENT_ID = "G-G7JXJKGCDV"
+
 # Secrets (wrangler secret put):
 #   CONTACT_INBOX, SESSION_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET,
 #   VN_API_KEY, GITHUB_CONTENTS_TOKEN (repo contents+PR → PR desde #/admin/fotos)
+#   GA4_MP_API_SECRET (Measurement Protocol · nunca en git)
 
 [[send_email]]
 name = "EMAIL"
