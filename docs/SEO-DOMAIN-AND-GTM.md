@@ -16,10 +16,13 @@
 
 ## Search Console
 
-Ver guía hub: `vientonorte.github.io/docs/SEO-AND-SEARCH-CONSOLE.md`
+**16 ago 2026 — vinculación GA4 creada (humano).**  
+Tipo: **prefijo de URL** `https://vientonorte.io/` · property `vientonorte.io`.  
+GA4 `G-G7JXJKGCDV` ↔ esa property. Datos orgánicos en GA4 pueden tardar 24–48 h.
 
-1. Property dominio `vientonorte.io`  
-2. Sitemap principal: `https://vientonorte.io/sitemap.xml`  
+1. Property **prefijo** `https://vientonorte.io/` (hecha). Property de **dominio** (DNS) = opcional, cubre http/www.
+2. Sitemap: `https://vientonorte.io/sitemap.xml` — enviar en GSC si aún no está.
+3. Verificación en repo: `public/google5858e011b32ea566.html`  
 
 ## GTM unificado (plan-gtm) — parked post-Test path
 

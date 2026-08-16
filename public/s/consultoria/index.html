@@ -67,12 +67,60 @@
         ]
       }
     </script>
-    <meta http-equiv="refresh" content="0;url=https://vientonorte.io/#/consultoria" />
+    <!--
+      Final URL paid / GA4 “Detalles de páginas”.
+      El SPA carga GTM por initGTM; este HTML estático no ejecuta la app,
+      así que el crawler veía “Sin etiquetar”. Un solo contenedor, sin gtag.js.
+    -->
     <script>
-      location.replace("https://vientonorte.io/#/consultoria");
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "page_view",
+        page_path: "/s/consultoria",
+        page_location: "https://vientonorte.io/s/consultoria/",
+        page_title: "Consultoría UX · Viento Norte",
+      });
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        j.setAttribute("data-gtm-id", i);
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PM5LBQRP");
+    </script>
+    <meta
+      http-equiv="refresh"
+      content="2;url=https://vientonorte.io/#/consultoria"
+    />
+    <script>
+      (function () {
+        var q = window.location.search || "";
+        var dest = "https://vientonorte.io/" + q + "#/consultoria" + q;
+        function go() {
+          window.location.replace(dest);
+        }
+        var gtm = document.querySelector('script[data-gtm-id="GTM-PM5LBQRP"]');
+        if (gtm) gtm.addEventListener("load", function () { window.setTimeout(go, 400); });
+        window.setTimeout(go, 1500);
+      })();
     </script>
   </head>
   <body>
-    <p><a href="https://vientonorte.io/#/consultoria">Consultoría Viento Norte</a></p>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PM5LBQRP"
+        title="Google Tag Manager"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+    <p>
+      <a href="https://vientonorte.io/#/consultoria">Consultoría Viento Norte</a>
+    </p>
   </body>
 </html>

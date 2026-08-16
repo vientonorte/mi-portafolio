@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — `/s/consultoria` lleva GTM
+
+### Fixed
+- La final URL paid ya no está “sin etiquetar”: snippet `GTM-PM5LBQRP` en el HTML estático (sin segundo gtag).
+- El redirect a `/#/consultoria` espera el hit y conserva `gclid` / UTM.
+
 ## [2026-08-16] — Demo timed: marca VN + a11y AA
 
 ### Changed
