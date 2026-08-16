@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-16] — Demo Diagnóstico 1 min
+
+### Changed
+- Reloj de `/#/demo/diagnostic` de 3 min a **1 min** (poster; 3 min era largo).
+
 ## [2026-08-16] — GEES Sites oculta
 
 ### Changed

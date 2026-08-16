@@ -33,24 +33,24 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
   {
     id: "diagnostic",
     packageId: "radar",
-    durationSec: 3 * 60,
-    warnSec: 45,
+    durationSec: 60,
+    warnSec: 15,
     poster: portfolioImages.consultoria.geesDashboard,
     caption: {
       es: "GEES · propuesta de diagnóstico",
       en: "GEES · diagnostic proposal",
     },
     kicker: {
-      es: "Path Diagnóstico · Radar · 3 min",
-      en: "Diagnostic path · Radar · 3 min",
+      es: "Path Diagnóstico · Radar · 1 min",
+      en: "Diagnostic path · Radar · 1 min",
     },
     headline: {
       es: "Así se ve un diagnóstico.\nLuego el informe.",
       en: "This is what a diagnostic looks like.\nThen the report.",
     },
     body: {
-      es: "Demo de 3 minutos: propuesta ejecutiva publicada. Sin datos de tu empresa. Al terminar, agenda Radar o pide la revisión gratis de un flujo.",
-      en: "3-minute demo: published executive proposal. No data from your company. Then book Radar or request the free flow review.",
+      es: "Demo de 1 minuto: propuesta ejecutiva. Sin datos de tu empresa. Al terminar, agenda Radar o pide la revisión gratis de un flujo.",
+      en: "1-minute demo: executive proposal. No data from your company. Then book Radar or request the free flow review.",
     },
   },
   {
