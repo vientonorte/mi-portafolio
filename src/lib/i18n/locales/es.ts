@@ -254,7 +254,8 @@ export default {
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar en Google Calendar',
-        ctaSecondary: 'Ver alcances',
+        ctaSecondary: 'Ver opciones',
+        ctaFreeA11y: 'Gratis · accesibilidad',
         /** Free a11y — con agenda: copy de Calendar; sin agenda: mensaje */
         ctaFreeLink: 'Revisión gratis de un flujo crítico',
         ctaFreeLinkSchedule: 'Reservar 30 min gratis en Google Calendar',

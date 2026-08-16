@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -5,6 +6,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { openCalendarBooking } from "../../lib/site-contact";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
 import { scrollToSection } from "../../lib/scroll-to-section";
 
 interface ConsultoriaLandingHeroProps {
@@ -18,6 +20,7 @@ interface ConsultoriaLandingHeroProps {
 export function ConsultoriaLandingHero({
   onExploreEvidence,
 }: ConsultoriaLandingHeroProps) {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const es = language === "es";
@@ -74,6 +77,18 @@ export function ConsultoriaLandingHero({
               {t.ctaPrimary}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Button>
+            <button
+              type="button"
+              onClick={() => {
+                trackEvent("consultoria_hero_cta", { action: "free_a11y" });
+                openFreeRadarEntry(navigate, language, "consultoria-hero", {
+                  mode: "auto",
+                });
+              }}
+              className="min-h-[44px] text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {t.ctaFreeA11y}
+            </button>
             <button
               type="button"
               onClick={seeOptions}

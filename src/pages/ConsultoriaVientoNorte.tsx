@@ -155,6 +155,49 @@ export default function ConsultoriaVientoNorte() {
         <ConsultoriaOnboarding packageId={selectedPackage} />
 
         <section
+          id="metodo-n2n"
+          className="container mx-auto max-w-2xl px-4 py-8 text-center"
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {t.consultoria.n2n.badge}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t.consultoria.n2n.description}
+          </p>
+          <Link
+            className="mt-3 inline-block text-sm underline-offset-4 hover:underline"
+            to={ROUTES.process}
+          >
+            {language === "es" ? "Ver método" : "See method"}
+          </Link>
+        </section>
+
+        <section
+          id="consultoria-demo"
+          className="container mx-auto max-w-2xl px-4 pb-8 text-center"
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {funnelNav.evidence}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {language === "es"
+              ? "Demos y casos viven en páginas interiores, no en este landing SEM."
+              : "Demos and cases live on interior pages, not on this SEM landing."}
+          </p>
+          <div className="mt-3 flex flex-wrap justify-center gap-3 text-sm">
+            <Link className="underline-offset-4 hover:underline" to={ROUTES.projects}>
+              {language === "es" ? "Proyectos" : "Projects"}
+            </Link>
+            <Link
+              className="underline-offset-4 hover:underline"
+              to={ROUTES.consultingModule("dashboard")}
+            >
+              {language === "es" ? "Tour de módulos" : "Module tour"}
+            </Link>
+          </div>
+        </section>
+
+        <section
           id="mas-del-sitio"
           className="container mx-auto max-w-2xl px-4 py-8 text-center"
         >
@@ -163,17 +206,6 @@ export default function ConsultoriaVientoNorte() {
               ? "Método, casos y oferta completa están en páginas interiores."
               : "Method, cases, and the full offer live on interior pages."}
           </p>
-          <div className="flex flex-wrap justify-center gap-3 text-sm">
-            <Link className="underline-offset-4 hover:underline" to={ROUTES.process}>
-              {language === "es" ? "Proceso" : "Process"}
-            </Link>
-            <Link className="underline-offset-4 hover:underline" to={ROUTES.projects}>
-              {language === "es" ? "Proyectos" : "Projects"}
-            </Link>
-            <Link className="underline-offset-4 hover:underline" to={ROUTES.consulting}>
-              {language === "es" ? "Oferta / tour" : "Offer / tour"}
-            </Link>
-          </div>
         </section>
 
         <Contact

@@ -254,7 +254,8 @@ export default {
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book on Google Calendar',
-        ctaSecondary: 'See scopes',
+        ctaSecondary: 'See options',
+        ctaFreeA11y: 'Free · accessibility',
         /** Lead magnet — regulated-product job language, not WCAG jargon in the link */
         ctaFreeLink: 'Free review of one critical flow',
         ctaFreeLinkSchedule: 'Book 30 free minutes on Google Calendar',
@@ -1058,7 +1059,7 @@ export default {
     
     // Contact
     contact: {
-      badge: 'Let\'s talk',
+      badge: "Let's talk",
       title: 'Get in touch',
       description: 'Available for freelance projects and full-time opportunities. Typical reply: under 24 h.',
       responseBadge: 'Typical reply: under 24 h',
