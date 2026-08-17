@@ -37,7 +37,7 @@ export default {
         'Viento Norte, UXtech, consultoría UX, módulos a medida, front office, fintech, Design Ops, accesibilidad WCAG, dueño del dato, pyme Chile',
       pages: {
         home: {
-          title: 'Viento Norte · UXtech · Módulos a medida',
+          title: 'Tecnología para empresas · Viento Norte',
           description:
             'Tecnología para empresas: diagnóstico, prototipo, proceso de equipo o app. Software que se instala, dueño del dato. Consultoría y craft enterprise.',
         },
