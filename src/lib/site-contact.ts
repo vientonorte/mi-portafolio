@@ -105,6 +105,11 @@ export function getCvDownloadUrl(language: 'es' | 'en' = 'es'): string {
   return `${import.meta.env.BASE_URL}${file}`;
 }
 
+export function getCvDocxUrl(language: 'es' | 'en' = 'es'): string {
+  const file = language === 'en' ? CV_DOCX_EN : CV_DOCX_ES;
+  return `${import.meta.env.BASE_URL}${file}`;
+}
+
 export function getContactMailtoUrl(): string {
   return `mailto:${PUBLIC_CONTACT_EMAIL}`;
 }
