@@ -37,7 +37,7 @@ export default {
         'Viento Norte, UXtech, UX consulting, custom modules, front office, fintech, Design Ops, WCAG accessibility, own your data, SMB',
       pages: {
         home: {
-          title: 'Viento Norte · UXtech · Custom modules',
+          title: 'Technology for business · Viento Norte',
           description:
             'Technology for businesses: diagnostic, prototype, team process, or working app. Software you install — own your data. Consulting and enterprise craft.',
         },

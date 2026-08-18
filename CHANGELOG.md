@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-17] — SEO P0: title y HTML para crawlers
+
+### Changed
+- Title de home (Helmet + `index.html`): **Tecnología para empresas · Viento Norte**.
+- `/s/` y `/s/consultoria`: H1 + Diagnóstico · Prototipo · Proceso · App. Description con el query.
+- Canonical de `/s/consultoria` = `https://vientonorte.io/s/consultoria/` (ya no el hash).
+- `sitemap.xml` solo lista `/`, `/s/` y `/s/consultoria/`. Sin `#/`.
+
 ## [2026-08-16] — `/s/consultoria` lleva la Etiqueta de Google
 
 ### Fixed
