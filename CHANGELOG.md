@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-18] — Admin Overview: subdominios (Option A)
+
+### Added
+- `#/admin` Overview muestra `updated` de `finanzas.vientonorte.io`. Si ≠ Calendar 18 ago → badge **stale** + P0 `wrangler deploy --keep-vars`.
+- Clic abre el subdominio en pestaña nueva. Sin iframe. `noIndex` se mantiene. SEM $0.
+
 ## [2026-08-18] — CV: PDF + Word ATS
 
 ### Changed

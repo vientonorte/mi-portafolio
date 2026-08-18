@@ -77,5 +77,7 @@ describe("SEO P0 · sitemap HTTP only", () => {
       "<loc>https://vientonorte.io/s/consultoria/</loc>"
     );
     expect(sitemap).not.toMatch(/<loc>https:\/\/vientonorte\.io\/#\//);
+    expect(sitemap).not.toContain("/admin");
+    expect(sitemap).not.toContain("finanzas.vientonorte.io");
   });
 });
