@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-18] — CV ATS ES/EN
+
+### Changed
+- `public/cv-rodrigo-gaete-ux.pdf` y `-en.pdf` salen de los ATS de escritorio. Locale EN baja el EN.
+- También en `public/` y `docs/entregables/`: `Rodrigo-Gaete-CV-ES-ATS.docx` / `EN`.
+
 ## [2026-08-18] — Tag Assistant no pierde `/s/consultoria`
 
 ### Fixed
