@@ -21,7 +21,7 @@ import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
 import { analytics } from "../../lib/analytics";
-import { getCvDownloadUrl } from "../../lib/site-contact";
+import { getCvDocxUrl, getCvDownloadUrl } from "../../lib/site-contact";
 import { cn } from "../../lib/utils";
 import {
   PERFIL_CYCLE,
@@ -157,7 +157,19 @@ export function About() {
               className="border-2 group min-h-11"
             >
               <Download className="mr-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              CV PDF
+              PDF
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => {
+                analytics.downloadCV();
+                window.open(getCvDocxUrl(language), "_blank", "noopener,noreferrer");
+              }}
+              className="border-2 group min-h-11"
+            >
+              <Download className="mr-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              Word (ATS)
             </Button>
             <Button
               type="button"

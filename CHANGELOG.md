@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-18] — CV: PDF + Word ATS
+
+### Changed
+- About: dos botones, **PDF** y **Word (ATS)**, según locale ES/EN.
+
 ## [2026-08-18] — CV PDF = ATS del otro chat
 
 ### Changed
