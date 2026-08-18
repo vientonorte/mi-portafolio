@@ -56,6 +56,7 @@ desktop.ini
 *.ogg
 *.pdf
 !public/cv-rodrigo-gaete-ux.pdf
+!public/cv-rodrigo-gaete-ux-en.pdf
 !public/resources/**/*.pdf
 # Staging Figma hashes archivados (VB 2026-07-21) — no re-versionar PNG
 archive/src-assets-hash-*/
@@ -79,6 +80,10 @@ archive/src-assets-hash-*/
 # Documentos y hojas de cálculo
 *.doc
 *.docx
+!public/Rodrigo-Gaete-CV-ES-ATS.docx
+!public/Rodrigo-Gaete-CV-EN-ATS.docx
+!docs/entregables/Rodrigo-Gaete-CV-ES-ATS.docx
+!docs/entregables/Rodrigo-Gaete-CV-EN-ATS.docx
 *.xls
 *.xlsx
 *.ppt
