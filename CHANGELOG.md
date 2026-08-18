@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-18] — CV PDF = ATS del otro chat
+
+### Changed
+- Los PDF públicos ya no son el print HTML de Chrome: mismo texto que `Rodrigo-Gaete-CV-*-ATS.docx` (1 columna, Arial).
+
 ## [2026-08-18] — CV ATS ES/EN
 
 ### Changed
