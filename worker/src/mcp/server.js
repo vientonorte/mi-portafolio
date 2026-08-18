@@ -1,11 +1,18 @@
 import { json } from '../lib/cors.js';
 import { getCases, getCompany, getServices } from '../data/catalog.js';
+import { SKILLS_CATALOG, getSkill, getSkills } from '../data/skills.js';
 import { newId, nowIso, prependRecord } from '../lib/store.js';
 
 const PROTOCOL = '2024-11-05';
-const SERVER_INFO = { name: 'vientonorte', version: '1.0.0' };
+const SERVER_INFO = { name: 'vientonorte', version: '1.1.0' };
 
-const READ_TOOLS = new Set(['list_services', 'get_cases', 'get_company_info']);
+const READ_TOOLS = new Set([
+  'list_services',
+  'get_cases',
+  'get_company_info',
+  'list_skills',
+  'get_skill',
+]);
 const WRITE_TOOLS = new Set(['submit_lead', 'book_call', 'request_diagnostico']);
 
 function tool(name, description, properties, required = []) {
@@ -28,6 +35,12 @@ function toolsList() {
     }),
     tool('get_cases', 'Casos publicados de Viento Norte (SURA, Transvip, Karri, X|CMS).', {}),
     tool('get_company_info', 'Propuesta de valor, ejes, contacto y diferenciadores.', {}),
+    tool('list_skills', 'Catálogo público de skills VN (MCP + @vientonorte/skills).', {
+      kind: { type: 'string', enum: ['all', 'router', 'vn', 'qa', 'ops'], description: 'Filtro opcional' },
+    }),
+    tool('get_skill', 'Detalle de una skill VN por id o slash (ej. vn-agent).', {
+      id: { type: 'string', description: 'id o slash sin /' },
+    }, ['id']),
     tool(
       'submit_lead',
       'Captura un lead de contacto. Requiere API key.',
@@ -102,6 +115,19 @@ async function callTool(name, args, env) {
   }
   if (name === 'get_cases') return textResult({ cases: getCases() });
   if (name === 'get_company_info') return textResult({ company: getCompany() });
+  if (name === 'list_skills') {
+    const kind = a.kind || 'all';
+    return textResult({
+      hosted: SKILLS_CATALOG.hosted,
+      metodo_ro: SKILLS_CATALOG.metodo_ro,
+      skills: getSkills(kind),
+    });
+  }
+  if (name === 'get_skill') {
+    const skill = getSkill(a.id);
+    if (!skill) throw new Error('skill no encontrada');
+    return textResult({ skill, metodo_ro: SKILLS_CATALOG.metodo_ro });
+  }
 
   if (name === 'submit_lead') {
     if (!a.name || String(a.name).trim().length < 2) throw new Error('name inválido');
