@@ -152,7 +152,7 @@ export function About() {
               variant="outline"
               onClick={() => {
                 analytics.downloadCV();
-                window.open(getCvDownloadUrl(), "_blank", "noopener,noreferrer");
+                window.open(getCvDownloadUrl(language), "_blank", "noopener,noreferrer");
               }}
               className="border-2 group min-h-11"
             >

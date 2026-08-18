@@ -94,11 +94,15 @@ export const CONTACT_API_URL =
   import.meta.env.VITE_CONTACT_API_URL ??
   'https://contact.vientonorte.io/api/contact';
 
-/** CV público — servido desde public/ (GitHub Pages: /mi-portafolio/cv-rodrigo-gaete-ux.pdf) */
+/** CV público — PDF ATS desde public/ (ES default · EN si locale en). */
 export const CV_ASSET = 'cv-rodrigo-gaete-ux.pdf';
+export const CV_ASSET_EN = 'cv-rodrigo-gaete-ux-en.pdf';
+export const CV_DOCX_ES = 'Rodrigo-Gaete-CV-ES-ATS.docx';
+export const CV_DOCX_EN = 'Rodrigo-Gaete-CV-EN-ATS.docx';
 
-export function getCvDownloadUrl(): string {
-  return `${import.meta.env.BASE_URL}${CV_ASSET}`;
+export function getCvDownloadUrl(language: 'es' | 'en' = 'es'): string {
+  const file = language === 'en' ? CV_ASSET_EN : CV_ASSET;
+  return `${import.meta.env.BASE_URL}${file}`;
 }
 
 export function getContactMailtoUrl(): string {
