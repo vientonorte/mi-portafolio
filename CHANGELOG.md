@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-18] — Tag Assistant no pierde `/s/consultoria`
+
+### Fixed
+- El hop ya no redirige al SPA si llega Tag Assistant, `gtm_debug` o un bot de cobertura Ads. Ahí se queda el `gtag G-`; el SPA sigue sin segundo gtag.
+
 ## [2026-08-17] — SEO P0: title y HTML para crawlers
 
 ### Changed

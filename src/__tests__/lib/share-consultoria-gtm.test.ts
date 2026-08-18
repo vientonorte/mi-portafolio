@@ -22,6 +22,13 @@ describe("share /s/consultoria Google tag", () => {
     expect(html).toContain("#/consultoria");
   });
 
+  it("stays on /s/consultoria for Tag Assistant and coverage bots", () => {
+    expect(html).toContain("tagassistant");
+    expect(html).toContain("gtm_debug");
+    expect(html).toContain("AdsBot-Google");
+    expect(html).toMatch(/if \(stay\)/);
+  });
+
   it("does not add a GTM noscript iframe on the share hop", () => {
     expect(html).not.toMatch(/googletagmanager\.com\/ns\.html/);
   });

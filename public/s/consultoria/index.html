@@ -103,6 +103,21 @@
     <script>
       (function () {
         var q = window.location.search || "";
+        var ref = document.referrer || "";
+        var ua = navigator.userAgent || "";
+        // Tag Assistant / GTM Preview / coverage crawler: no saltar al SPA
+        // (el SPA no lleva gtag G-; el hop muere y Google dice “sin etiquetas”).
+        var stay =
+          /[?&](gtm_debug|gtm_preview|gtm_auth|g_gtm)=/i.test(q) ||
+          /tagassistant\.google\.com/i.test(ref) ||
+          /Google-Ads|AdsBot-Google|Google Tag Assistant|Google-InspectionTool|Storebot-Google/i.test(
+            ua
+          );
+        if (stay) {
+          var meta = document.querySelector('meta[http-equiv="refresh"]');
+          if (meta) meta.parentNode.removeChild(meta);
+          return;
+        }
         var dest = "https://vientonorte.io/" + q + "#/consultoria" + q;
         function go() {
           window.location.replace(dest);
