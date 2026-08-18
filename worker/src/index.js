@@ -26,6 +26,8 @@ import {
   handleGetCases,
   handleGetCompany,
   handleGetServices,
+  handleGetSkill,
+  handleGetSkills,
   handleHealth,
 } from './api/public.js';
 import {
@@ -74,6 +76,12 @@ export default {
     }
     if (path === '/api/company' && request.method === 'GET') {
       return handleGetCompany(cors);
+    }
+    if (path === '/api/skills' && request.method === 'GET') {
+      return handleGetSkills(env, cors, url.searchParams.get('kind'));
+    }
+    if (path.startsWith('/api/skills/') && request.method === 'GET') {
+      return handleGetSkill(path.slice('/api/skills/'.length), cors);
     }
 
     // ── Escritura pública ──

@@ -16,7 +16,7 @@ Verificado 2026-08-13 contra prod. `time` en health cambia en cada request.
 `GET https://contact.vientonorte.io/mcp`
 
 ```json
-{"ok":true,"name":"vientonorte","version":"1.0.0","protocol":"2024-11-05","transport":"json-rpc","tools":["list_services","get_cases","get_company_info","submit_lead","book_call","request_diagnostico"]}
+{"ok":true,"name":"vientonorte","version":"1.1.0","protocol":"2024-11-05","transport":"json-rpc","tools":["list_services","get_cases","get_company_info","list_skills","get_skill","submit_lead","book_call","request_diagnostico"]}
 ```
 
 - **GET `/mcp`** = discovery (este JSON).  
@@ -44,6 +44,7 @@ Arquitectura: **Landing → APIs → MCP → Admin UI** sobre las mismas colecci
 | GET | `/api/services` | no |
 | GET | `/api/cases` | no |
 | GET | `/api/company` | no |
+| GET | `/api/skills` · `/api/skills/:id` | no |
 | POST | `/api/contact` | consentimiento + persist lead |
 | POST | `/api/leads` | consentimiento |
 | POST | `/api/booking` | no (registra + devuelve Calendar) |
@@ -71,7 +72,8 @@ X-VN-API-KEY: <secret>   # solo tools de escritura
 
 Tools:
 
-- `list_services` · `get_cases` · `get_company_info` (públicas)
+- `list_services` · `get_cases` · `get_company_info` · `list_skills` · `get_skill` (públicas)
+- Catálogo skills: `GET /api/skills` · package `@vientonorte/skills` · hosted `/ops/skills/` · KV `vn:skills`
 - `submit_lead` · `book_call` · `request_diagnostico` (API key)
 
 Secret:
