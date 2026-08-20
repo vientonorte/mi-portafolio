@@ -502,8 +502,8 @@ export default {
         title: 'Empecemos',
         description: 'Cuatro pasos cortos. Eliges entregable y dejamos el mensaje listo.',
         points: [
-          'Diagnóstico · Prototipo · Proceso · App de punta a punta',
-          'App en uso: un solo interlocutor de idea a release',
+          'Diagnóstico · Prototipo · Proceso',
+          'Kickoff 30 min. Precio en la llamada',
           'Respuesta en menos de 24 h hábiles',
         ],
       },

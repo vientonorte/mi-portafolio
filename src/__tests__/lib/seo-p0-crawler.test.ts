@@ -13,12 +13,7 @@ const shareConsultoria = readFileSync(
 );
 const sitemap = readFileSync(resolve(root, "public/sitemap.xml"), "utf8");
 
-const PATHS = [
-  "Diagnóstico",
-  "Prototipo",
-  "Proceso de equipo",
-  "App de punta a punta",
-];
+const PATHS = ["Diagnóstico", "Prototipo", "Proceso de equipo"];
 
 describe("SEO P0 · title home vs query", () => {
   it("home title leads with Tecnología para empresas and stays ≤60", () => {
@@ -37,7 +32,7 @@ describe("SEO P0 · title home vs query", () => {
 });
 
 describe("SEO P0 · crawler HTML /s/", () => {
-  it("share home has H1, four paths, and query in title/description", () => {
+  it("share home has H1, three paths, and query in title/description", () => {
     expect(shareHome).toMatch(/<h1>\s*Tecnología para empresas\s*<\/h1>/);
     for (const name of PATHS) {
       expect(shareHome).toContain(name);
@@ -51,7 +46,7 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareHome).toContain('content="5;url=https://vientonorte.io/"');
   });
 
-  it("share consultoria has H1, four paths, query, and no hash canonical", () => {
+  it("share consultoria has H1, three paths, query, and no hash canonical", () => {
     expect(shareConsultoria).toMatch(/<h1>\s*Tecnología para empresas\s*<\/h1>/);
     for (const name of PATHS) {
       expect(shareConsultoria).toContain(name);

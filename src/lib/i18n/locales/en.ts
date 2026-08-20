@@ -502,8 +502,8 @@ export default {
         title: "Let's start",
         description: 'Four short steps. Pick a deliverable and leave a ready message.',
         points: [
-          'Diagnostic · Prototype · Process · App end to end',
-          'Live app: one partner from idea to release',
+          'Diagnostic · Prototype · Process',
+          'Kickoff 30 min. Price on the call',
           'Reply within 24 business hours',
         ],
       },
