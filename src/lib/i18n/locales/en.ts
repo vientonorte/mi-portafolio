@@ -248,7 +248,7 @@ export default {
         badge: 'Viento Norte · SMBs',
         principleBadge: 'UX consulting',
         title: 'Technology for business.',
-        titleAccent: 'Choose your scope.',
+        titleAccent: '',
         description:
           'Diagnostic, prototype, or team process. 30 min kickoff. Price on the call.',
         transparencyLine:
@@ -328,11 +328,10 @@ export default {
         onboarding: {
           badge: 'Start',
           titleEmpty: 'Pick a scope and book',
-          titlePack: 'Start {name}',
+          titlePack: '30 min kickoff · {name}',
           bodyEmpty:
             'Diagnostic, prototype, or process. 30 min on Calendar or a short email.',
-          bodyPack:
-            'Calendar or email. If you added the pack field on the booking page, it arrives prefilled.',
+          bodyPack: 'Price on the call. One CTA above: Book 30 min.',
           packLabel: 'Format',
           ctaCalendar: 'Book 30 min',
           ctaMail: 'Write by email',
@@ -458,7 +457,7 @@ export default {
         description:
           'One tap: Diagnostic, Prototype, or Team process. One step: Book 30 min. No prices on the site.',
         freeNote:
-          'Same calendar if you only want a WCAG review of one flow.',
+          'Free · accessibility of one flow — same calendar as Diagnostic.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaDemo: 'See demo · {min} min',
@@ -1110,7 +1109,7 @@ export default {
         badge: 'Viento Norte · SMBs',
         title: 'Write and we close scope',
         description:
-          'End of the funnel: diagnostic, prototype, process, or app. Reply within 24 business hours.',
+          'End of the funnel: diagnostic, prototype, or process. Reply within 24 business hours.',
         responseBadge: 'Reply <24 business hours',
         infoTitle: 'Consulting contact',
         infoDescription: 'UX consulting for SMBs · remote or hybrid',

@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
+
+### Changed
+- Un H1 (sin duplicar «Elige tu alcance»). Alcance es **h2**. Un Agendar 30 min si hay pack.
+- Copy SEM: sin app / Design Ops / `vientonorte.cl`. Selección con tokens `--vn-color-brand`.
+
 ## [2026-08-20] — `/poc#/auditoria` deprecado
 
 ### Changed

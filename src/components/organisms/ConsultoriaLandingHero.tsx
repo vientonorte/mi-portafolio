@@ -30,8 +30,13 @@ export function ConsultoriaLandingHero() {
             id="consultoria-hero-heading"
             className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.5rem] md:leading-[1.12]"
           >
-            {t.title}{" "}
-            <span className="text-brand-gradient">{t.titleAccent}</span>
+            {t.title}
+            {t.titleAccent ? (
+              <>
+                {" "}
+                <span className="text-brand-gradient">{t.titleAccent}</span>
+              </>
+            ) : null}
           </h1>
 
           <p className="mx-auto max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">

@@ -75,6 +75,7 @@ export function ConsultoriaPackages({
         title={t.title}
         description={t.description}
         titleId="consultoria-packages-heading"
+        titleAs="h2"
         align="left"
       />
 
@@ -88,10 +89,11 @@ export function ConsultoriaPackages({
           return (
             <label
               key={pkg.id}
+              data-selected={checked ? "true" : "false"}
               className={cn(
-                "funnel-pack-card flex cursor-pointer flex-col rounded-2xl border-2 bg-surface-matte-elevated p-5 shadow-sm transition-colors",
+                "funnel-pack-card flex min-h-[44px] cursor-pointer flex-col rounded-2xl border-2 bg-surface-matte-elevated p-5 shadow-sm transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2",
                 checked
-                  ? "border-primary ring-2 ring-primary/30"
+                  ? "border-[color:var(--vn-color-brand)]"
                   : "border-[color:var(--logo-surface-border)] hover:border-primary/40"
               )}
             >
@@ -147,10 +149,9 @@ export function ConsultoriaPackages({
           {landing.onboarding.ctaCalendar}
         </Button>
         <p className="max-w-xl text-sm text-muted-foreground">
-          {t.freeNote}{" "}
           <button
             type="button"
-            className="font-medium text-primary underline-offset-4 hover:underline"
+            className="min-h-11 text-left font-normal text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             onClick={() => {
               trackEvent("consultoria_hero_cta", { action: "free_a11y_note" });
               openFreeRadarEntry(navigate, language, "consultoria-packages", {
@@ -158,7 +159,7 @@ export function ConsultoriaPackages({
               });
             }}
           >
-            {landing.ctaFreeA11y}
+            {t.freeNote}
           </button>
         </p>
       </div>

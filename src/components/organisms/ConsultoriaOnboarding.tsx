@@ -64,13 +64,15 @@ export function ConsultoriaOnboarding({ packageId }: ConsultoriaOnboardingProps)
           </p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-          <Button
-            className="min-h-[44px] bg-brand-gradient font-semibold"
-            onClick={book}
-          >
-            <Calendar className="mr-2 h-4 w-4" aria-hidden />
-            {copy.ctaCalendar}
-          </Button>
+          {pkg ? null : (
+            <Button
+              className="min-h-[44px] bg-brand-gradient font-semibold"
+              onClick={book}
+            >
+              <Calendar className="mr-2 h-4 w-4" aria-hidden />
+              {copy.ctaCalendar}
+            </Button>
+          )}
           <Button
             variant="outline"
             className="min-h-[44px]"
