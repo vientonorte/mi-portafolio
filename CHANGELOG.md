@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-20] — `/s/consultoria` GTM, sin gtag paralelo
+
+### Changed
+- Share paid: snippet `GTM-PM5LBQRP`. Quitado `gtag.js` `G-G7JXJKGCDV` (duplicaba `page_view`).
+- Hop 1.5 s al SPA; Tag Assistant / `gtm_debug` se quedan en `/s/consultoria`.
+
 ## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
 
 ### Changed
