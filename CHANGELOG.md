@@ -5,6 +5,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
+
+### Changed
+- Un H1 (sin duplicar «Elige tu alcance»). Alcance es **h2**. Un Agendar 30 min si hay pack.
+- Copy SEM: sin app / Design Ops / `vientonorte.cl`. Selección con tokens `--vn-color-brand`.
+
+## [2026-08-20] — `/poc#/auditoria` deprecado
+
+### Changed
+- `https://vientonorte.io/poc#/auditoria` redirige a `/#/consultoria`. No es freemium.
+- `/#/auditoria` = muestra mentoría, `noindex`. Paid = `/s/consultoria`.
+
+## [2026-08-20] — Radio de tres nombres (consultoría SEM)
+
+### Changed
+- `/#/consultoria`: tres radios Diagnóstico / Prototipo / Proceso. SKU Radar·Marco·Ops no se pinta.
+- Un CTA **Agendar 30 min** (`?pack=` interno). Gratis = nota, misma agenda Diagnóstico.
+- Hero sin Calendar ni CTAs duales. `/s/consultoria` lista 3 alcances + kickoff 30 min.
+
 ## [2026-08-18] — CV: PDF + Word ATS
 
 ### Changed

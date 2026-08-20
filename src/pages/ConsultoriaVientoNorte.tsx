@@ -63,13 +63,6 @@ export default function ConsultoriaVientoNorte({
     });
   }, [location.pathname, location.state, navigate]);
 
-  const goOnboardWithPackage = (packageId?: ConsultingPackageId) => {
-    if (packageId) setSelectedPackage(packageId);
-    requestAnimationFrame(() =>
-      scrollToSection(CONSULTORIA_FUNNEL_KICKOFF_ID)
-    );
-  };
-
   const contactDraft = useMemo<ContactDraft>(
     () => ({
       message: selectedPackage
@@ -151,13 +144,20 @@ export default function ConsultoriaVientoNorte({
           Hero ofertas → detalle entregables → onboarding → método → prueba.
           Sin calculadora ni árbol (duplicaban la decisión del hero).
         */}
-        <ConsultoriaLandingHero
-          onExploreEvidence={() => scrollToSection("modalidades")}
-        />
+        <ConsultoriaLandingHero />
 
         <ConsultoriaPackages
-          onSelectPackage={(id) => goOnboardWithPackage(id)}
-          showAppStrip={!isSem}
+          selectedPackageId={selectedPackage}
+          onSelectPackage={(id) => {
+            setSelectedPackage(id);
+            const params = new URLSearchParams(location.search);
+            params.set("pack", id);
+            navigate(
+              { pathname: location.pathname, search: `?${params.toString()}` },
+              { replace: true, state: { recommendedPackage: id } }
+            );
+          }}
+          showAppStrip={false}
         />
 
         <ConsultoriaOnboarding packageId={selectedPackage} />

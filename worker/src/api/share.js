@@ -1,9 +1,4 @@
-const PATHS = [
-  "Diagnóstico",
-  "Prototipo",
-  "Proceso de equipo",
-  "App de punta a punta",
-];
+const PATHS = ["Diagnóstico", "Prototipo", "Proceso de equipo"];
 
 const PAGES = {
   "": {

@@ -248,9 +248,9 @@ export default {
         badge: 'Viento Norte · pymes',
         principleBadge: 'Consultoría UX',
         title: 'Tecnología para empresas.',
-        titleAccent: 'Elige tu alcance.',
+        titleAccent: '',
         description:
-          'Diagnóstico, prototipo, proceso de equipo o app funcional.',
+          'Diagnóstico, prototipo o proceso de equipo. Kickoff 30 min. Precio en la llamada.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar en Google Calendar',
@@ -261,7 +261,7 @@ export default {
         ctaFreeLinkSchedule: 'Reservar 30 min gratis en Google Calendar',
         ctaFree: 'Pedir revisión gratis',
         trustLine: 'Respuesta en menos de 24 h',
-        trustChips: ['Respuesta <24 h', '5–7 días', 'Sin precios en la web'],
+        trustChips: ['Respuesta <24 h', 'Kickoff 30 min', 'Sin precios en la web'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
@@ -273,12 +273,12 @@ export default {
           prototype: {
             title: 'Prototipo',
             hint: 'Pantallas listas para construir',
-            cta: 'Empezar Marco',
+            cta: 'Empezar Prototipo',
           },
           process: {
             title: 'Proceso de equipo',
             hint: 'Guía de cómo diseñan y entregan',
-            cta: 'Empezar Ops',
+            cta: 'Empezar Proceso',
           },
           app: {
             title: 'App de punta a punta',
@@ -328,11 +328,10 @@ export default {
         onboarding: {
           badge: 'Empezar',
           titleEmpty: 'Elige un alcance y agenda',
-          titlePack: 'Empezar {name}',
+          titlePack: 'Kickoff 30 min · {name}',
           bodyEmpty:
             'Diagnóstico, prototipo o proceso. 30 min en Calendar o un mail con el motivo.',
-          bodyPack:
-            'Calendar o mail. Si añadiste el campo pack en la agenda, llega prellenado.',
+          bodyPack: 'Precio en la llamada. Un solo CTA arriba: Agendar 30 min.',
           packLabel: 'Modalidad',
           ctaCalendar: 'Agendar 30 min',
           ctaMail: 'Escribir por mail',
@@ -454,9 +453,11 @@ export default {
       },
       packagesSection: {
         badge: 'Cómo se contrata',
-        title: 'Tres formatos + módulos que se instalan',
+        title: 'Elige tu alcance',
         description:
-          'Interfaces, Design Systems y research/AI data. Elige diagnóstico, prototipo o proceso. El cliente queda dueño del dato y del código.',
+          'Un tap: Diagnóstico, Prototipo o Proceso de equipo. Un solo paso: Agendar 30 min. Sin precios en la web.',
+        freeNote:
+          'Gratis · accesibilidad de un flujo — misma agenda que Diagnóstico.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaDemo: 'Ver demo · {min} min',
@@ -501,8 +502,8 @@ export default {
         title: 'Empecemos',
         description: 'Cuatro pasos cortos. Eliges entregable y dejamos el mensaje listo.',
         points: [
-          'Diagnóstico · Prototipo · Proceso · App de punta a punta',
-          'App en uso: un solo interlocutor de idea a release',
+          'Diagnóstico · Prototipo · Proceso',
+          'Kickoff 30 min. Precio en la llamada',
           'Respuesta en menos de 24 h hábiles',
         ],
       },
@@ -1113,7 +1114,7 @@ export default {
         badge: 'Viento Norte · pymes',
         title: 'Escribe y cerramos alcance',
         description:
-          'Cierre del embudo: diagnóstico, prototipo, proceso o app. Respuesta en menos de 24 h hábiles.',
+          'Cierre del embudo: diagnóstico, prototipo o proceso. Respuesta en menos de 24 h hábiles.',
         responseBadge: 'Respuesta <24 h hábiles',
         infoTitle: 'Contacto consultoría',
         infoDescription: 'Consultoría UX para pymes · remoto o híbrido',
@@ -1222,7 +1223,7 @@ export default {
         sending: 'Enviando…',
         editMessage: 'Puedes editar el mensaje antes de enviar',
         privacyNote:
-          'Tus datos van a Google Forms (Viento Norte). Recibes copia por email; nos llega a contacto@vientonorte.cl — sin marketing.',
+          'Tus datos van al relay de Viento Norte. Recibes copia por email; nos llega a contacto@vientonorte.io — sin marketing.',
         success: '¡Listo! Te responderé en menos de 24 horas.',
       },
       social: {

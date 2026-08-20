@@ -59,18 +59,20 @@ export function ConsultoriaOnboarding({ packageId }: ConsultoriaOnboardingProps)
         {pkg ? (
           <p className="mt-3 flex flex-wrap items-center gap-2 text-sm">
             <span className="text-muted-foreground">{copy.packLabel}</span>
-            <Badge variant="outline">{pkg.packLabel[language]}</Badge>
+            <Badge variant="outline">{pkg.name[language]}</Badge>
             <span>{pkg.youGet[language]}</span>
           </p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-          <Button
-            className="min-h-[44px] bg-brand-gradient font-semibold"
-            onClick={book}
-          >
-            <Calendar className="mr-2 h-4 w-4" aria-hidden />
-            {copy.ctaCalendar}
-          </Button>
+          {pkg ? null : (
+            <Button
+              className="min-h-[44px] bg-brand-gradient font-semibold"
+              onClick={book}
+            >
+              <Calendar className="mr-2 h-4 w-4" aria-hidden />
+              {copy.ctaCalendar}
+            </Button>
+          )}
           <Button
             variant="outline"
             className="min-h-[44px]"

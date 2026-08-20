@@ -50,6 +50,12 @@ export const ROUTES = {
     `/demo/${encodeURIComponent(pathId)}`,
 
   /**
+   * @deprecated Legacy POC prefix — HTTP `/poc` y hash `/#/poc/*`.
+   * `/poc#/auditoria` NO es freemium. Redirect a ROUTES.consulting.
+   */
+  pocRoot: "/poc",
+
+  /**
    * @deprecated Legacy POC path — redirect a ROUTES.consulting (SEM).
    */
   pocProductOnboarding: "/poc/product-onboarding",
@@ -64,6 +70,8 @@ export const ROUTES = {
 export const LEGACY_ROUTES = {
   cases: "/cases",
   casesProcess: (processId: string) => `/cases/process/${processId}`,
+  /** HTTP /poc y /poc#/auditoria → SEM (no mentoría) */
+  pocRoot: "/poc",
   /** POC tour → SEM oferta */
   pocProductOnboarding: "/poc/product-onboarding",
   /** Embudo viejo → home */
@@ -106,6 +114,12 @@ export function isConsultingPath(pathname: string): boolean {
   return (
     isConsultingFunnelPath(pathname) || isConsultingOfferPath(pathname)
   );
+}
+
+/** Prefijo POC deprecado (`/poc`, `/poc/product-onboarding`, `/poc#/auditoria`). */
+export function isDeprecatedPocPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return path === "/poc" || path.startsWith("/poc/");
 }
 
 export function isAdminPath(pathname: string): boolean {

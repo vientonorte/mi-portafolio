@@ -182,7 +182,7 @@ async function checkRoute(page, { path, label }) {
   }
 }
 
-/** Home FO = embudo: hero #inicio + CTAs (ya no path cards de portafolio). */
+/** Home FO = Radio: H1 en #inicio, CTA único en #modalidades (no CTAs en hero). */
 async function checkHeroMobileSuggestions(browser) {
   const ctx = await browser.newContext({
     serviceWorkers: 'block',
@@ -193,19 +193,23 @@ async function checkHeroMobileSuggestions(browser) {
     await mPage.goto(hashUrl('/'), { waitUntil: 'domcontentloaded', timeout: 45000 });
     await mPage.waitForSelector('[data-testid="consultoria-funnel"]', { timeout: 25000 });
     await mPage.waitForSelector('#inicio', { timeout: 15000 });
-    const startCta = mPage.locator('#inicio').getByRole('button').first();
-    const visible = await startCta.isVisible();
-    const modalidades = await mPage.locator('#modalidades').count();
+    const h1 = mPage.locator('#inicio h1').first();
+    const h1Visible = await h1.isVisible();
+    const radios = mPage.locator('#modalidades [role="radiogroup"]');
+    const cta = mPage.locator('#modalidades').getByRole('button').first();
+    const hasRadios = (await radios.count()) > 0;
+    const ctaVisible = await cta.isVisible();
+    const ok = h1Visible && hasRadios && ctaVisible;
     return {
       label: 'Home embudo mobile hero',
-      ok: visible && modalidades > 0,
-      errors:
-        visible && modalidades > 0
-          ? []
-          : [
-              !visible ? 'CTA no visible en #inicio' : '',
-              modalidades === 0 ? 'falta #modalidades' : '',
-            ].filter(Boolean),
+      ok,
+      errors: ok
+        ? []
+        : [
+            !h1Visible ? 'H1 no visible en #inicio' : '',
+            !hasRadios ? 'falta radiogroup en #modalidades' : '',
+            !ctaVisible ? 'CTA no visible en #modalidades' : '',
+          ].filter(Boolean),
     };
   } catch (err) {
     return { label: 'Home embudo mobile hero', ok: false, errors: [err.message.split('\n')[0]] };
