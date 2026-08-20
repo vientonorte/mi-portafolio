@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-20] — Radio de tres nombres (consultoría SEM)
+
+### Changed
+- `/#/consultoria`: tres radios Diagnóstico / Prototipo / Proceso. SKU Radar·Marco·Ops no se pinta.
+- Un CTA **Agendar 30 min** (`?pack=` interno). Gratis = nota, misma agenda Diagnóstico.
+- Hero sin Calendar ni CTAs duales. `/s/consultoria` lista 3 alcances + kickoff 30 min.
+
 ## [2026-08-18] — CV: PDF + Word ATS
 
 ### Changed

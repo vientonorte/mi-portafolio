@@ -1,65 +1,64 @@
-import { ArrowRight, Clock, Package, Play, Smartphone, Star } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Calendar, Clock } from "lucide-react";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import {
   CONSULTING_PACKAGES,
   type ConsultingPackageId,
 } from "../../data/vientonorte-consulting";
-import {
-  demoMinutes,
-  getServicePathDemo,
-  packToServicePath,
-} from "../../data/service-path-demos";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
-import { ROUTES } from "../../lib/routes";
+import { openCalendarBooking } from "../../lib/site-contact";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
+import { scrollToSection } from "../../lib/scroll-to-section";
 import { cn } from "../../lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export type PackageSelectOptions = { appGoal?: boolean };
 
 interface ConsultoriaPackagesProps {
+  selectedPackageId?: ConsultingPackageId;
   onSelectPackage?: (
     packageId: ConsultingPackageId,
     options?: PackageSelectOptions
   ) => void;
+  /** Home FO only. SEM Radio = tres nombres, sin 4ª card. */
   showAppStrip?: boolean;
 }
 
 export function ConsultoriaPackages({
+  selectedPackageId,
   onSelectPackage,
-  showAppStrip = true,
+  showAppStrip = false,
 }: ConsultoriaPackagesProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.packagesSection;
-  const rec = useTranslation(language).consultoria.recommended;
+  const landing = useTranslation(language).consultoria.landing;
+  void showAppStrip;
 
-  const select = (id: ConsultingPackageId, options?: PackageSelectOptions) => {
+  const select = (id: ConsultingPackageId) => {
     trackEvent("consultoria_package_select", {
       package_id: id,
-      app: Boolean(options?.appGoal),
+      radio: true,
     });
-    onSelectPackage?.(id, options);
+    onSelectPackage?.(id);
   };
 
-  const openDemo = (
-    pathId: ReturnType<typeof packToServicePath> | "app",
-    origin: string,
-    packId?: ConsultingPackageId
-  ) => {
-    const demo = getServicePathDemo(pathId);
-    if (!demo) return;
-    trackEvent("service_path_demo_open", {
-      path_id: demo.id,
-      package_id: packId ?? demo.packageId,
-      origin,
+  const book = () => {
+    trackEvent("consultoria_hero_cta", {
+      action: "calendar_booking",
+      package_id: selectedPackageId ?? "none",
     });
-    navigate(ROUTES.serviceDemo(demo.id));
+    if (
+      !openCalendarBooking({
+        packageId: selectedPackageId,
+        origin: "scope-radio",
+      })
+    ) {
+      scrollToSection("contacto");
+    }
   };
 
   return (
@@ -73,147 +72,96 @@ export function ConsultoriaPackages({
     >
       <SectionHeader
         badge={t.badge}
-        badgeIcon={Package}
         title={t.title}
         description={t.description}
         titleId="consultoria-packages-heading"
         align="left"
       />
 
-      <ul className="grid gap-5 md:grid-cols-3" role="list">
-        {CONSULTING_PACKAGES.map((pkg) => (
-          <li key={pkg.id} className="h-full">
-            <Card
+      <div
+        role="radiogroup"
+        aria-labelledby="consultoria-packages-heading"
+        className="grid gap-4 md:grid-cols-3"
+      >
+        {CONSULTING_PACKAGES.map((pkg) => {
+          const checked = selectedPackageId === pkg.id;
+          return (
+            <label
+              key={pkg.id}
               className={cn(
-                "funnel-pack-card flex h-full flex-col border-2 border-[color:var(--logo-surface-border)] bg-surface-matte-elevated shadow-sm",
-                pkg.featured && "border-primary/40 ring-1 ring-primary/30 shadow-md"
+                "funnel-pack-card flex cursor-pointer flex-col rounded-2xl border-2 bg-surface-matte-elevated p-5 shadow-sm transition-colors",
+                checked
+                  ? "border-primary ring-2 ring-primary/30"
+                  : "border-[color:var(--logo-surface-border)] hover:border-primary/40"
               )}
             >
-              <CardHeader className="space-y-3">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-                    {/* packLabel técnico (Radar · Marco · Ops); nombre humano abajo */}
-                    <Badge
-                      variant="outline"
-                      className="border-border text-foreground"
-                    >
-                      {pkg.packLabel[language]}
-                    </Badge>
-                    {pkg.featured ? (
-                      <Badge className="gap-1 bg-foreground text-background hover:bg-foreground/90">
-                        <Star className="h-3 w-3" aria-hidden />
-                        {rec}
-                      </Badge>
-                    ) : null}
-                  </div>
-                  <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="h-3.5 w-3.5" aria-hidden />
-                    {pkg.duration[language]}
-                  </span>
-                </div>
-                <CardTitle className="text-xl">{pkg.name[language]}</CardTitle>
-                <p className="text-xs font-medium text-primary/90">
-                  {pkg.youGet[language]}
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {pkg.tagline[language]}
-                </p>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-foreground">
-                  {t.deliverablesLabel}
-                </p>
-                <ul className="space-y-2" role="list">
-                  {pkg.deliverables[language].map((d) => (
-                    <li
-                      key={d}
-                      className="flex gap-2 text-sm text-muted-foreground"
-                    >
-                      <span
-                        className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                        aria-hidden
-                      />
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter className="flex flex-col gap-2">
-                <Button
+              <input
+                type="radio"
+                name="consultoria-alcance"
+                value={pkg.id}
+                checked={checked}
+                onChange={() => select(pkg.id)}
+                className="sr-only"
+              />
+              <span className="flex items-start justify-between gap-3">
+                <span className="text-lg font-semibold tracking-tight">
+                  {pkg.name[language]}
+                </span>
+                <span
                   className={cn(
-                    "w-full min-h-[44px]",
-                    pkg.featured
-                      ? "funnel-cta-primary bg-brand-gradient font-semibold hover:opacity-90"
-                      : "funnel-cta-ghost"
+                    "mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
+                    checked
+                      ? "border-primary bg-primary"
+                      : "border-muted-foreground/40"
                   )}
-                  variant={pkg.featured ? "default" : "outline"}
-                  onClick={() => select(pkg.id)}
+                  aria-hidden
                 >
-                  {t.cta}
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Button>
-                {(() => {
-                  const demo = getServicePathDemo(packToServicePath(pkg.id));
-                  if (!demo) return null;
-                  return (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="w-full min-h-[44px] text-muted-foreground"
-                      onClick={() => openDemo(demo.id, "pack-card", pkg.id)}
-                    >
-                      <Play className="mr-2 h-4 w-4" aria-hidden />
-                      {t.ctaDemo.replace("{min}", String(demoMinutes(demo)))}
-                    </Button>
-                  );
-                })()}
-              </CardFooter>
-            </Card>
-          </li>
-        ))}
-      </ul>
+                  {checked ? (
+                    <span className="h-2 w-2 rounded-full bg-primary-foreground" />
+                  ) : null}
+                </span>
+              </span>
+              <span className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground">
+                <Clock className="h-3.5 w-3.5" aria-hidden />
+                {pkg.duration[language]}
+              </span>
+              <span className="mt-2 text-sm font-medium text-primary/90">
+                {pkg.youGet[language]}
+              </span>
+              <span className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                {pkg.tagline[language]}
+              </span>
+            </label>
+          );
+        })}
+      </div>
 
-      {showAppStrip ? (
-      <Card className="mt-3 border border-primary/20 bg-surface-matte-elevated shadow-none">
-        <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex gap-3 min-w-0">
-            <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-logo-surface text-primary"
-              aria-hidden
-            >
-              <Smartphone className="h-5 w-5" />
-            </span>
-            <div className="min-w-0 space-y-1">
-              <p className="text-base font-semibold tracking-tight">
-                {t.appStripTitle}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t.appStripBody}
-              </p>
-            </div>
-          </div>
-          <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
-            <Button
-              className="w-full min-h-[44px] sm:w-auto"
-              variant="outline"
-              onClick={() => select("marco", { appGoal: true })}
-            >
-              {t.appStripCta}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full min-h-[44px] text-muted-foreground sm:w-auto"
-              onClick={() => openDemo("app", "app-strip", "marco")}
-            >
-              <Play className="mr-2 h-4 w-4" aria-hidden />
-              {t.ctaDemo.replace("{min}", "5")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-      ) : null}
+      <div className="mt-6 flex flex-col items-stretch gap-3 sm:items-start">
+        <Button
+          size="lg"
+          className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90"
+          disabled={!selectedPackageId}
+          onClick={book}
+        >
+          <Calendar className="mr-2 h-4 w-4" aria-hidden />
+          {landing.onboarding.ctaCalendar}
+        </Button>
+        <p className="max-w-xl text-sm text-muted-foreground">
+          {t.freeNote}{" "}
+          <button
+            type="button"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+            onClick={() => {
+              trackEvent("consultoria_hero_cta", { action: "free_a11y_note" });
+              openFreeRadarEntry(navigate, language, "consultoria-packages", {
+                mode: "auto",
+              });
+            }}
+          >
+            {landing.ctaFreeA11y}
+          </button>
+        </p>
+      </div>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">{t.note}</p>
     </PageSection>

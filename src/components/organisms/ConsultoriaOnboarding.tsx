@@ -59,7 +59,7 @@ export function ConsultoriaOnboarding({ packageId }: ConsultoriaOnboardingProps)
         {pkg ? (
           <p className="mt-3 flex flex-wrap items-center gap-2 text-sm">
             <span className="text-muted-foreground">{copy.packLabel}</span>
-            <Badge variant="outline">{pkg.packLabel[language]}</Badge>
+            <Badge variant="outline">{pkg.name[language]}</Badge>
             <span>{pkg.youGet[language]}</span>
           </p>
         ) : null}

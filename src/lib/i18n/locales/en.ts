@@ -85,7 +85,7 @@ export default {
           /** SEM final URL: https://vientonorte.io/#/consultoria — Ads message-match */
           title: 'UX Consulting · Choose your scope',
           description:
-            'Diagnostic, prototype, team process, or app. Design sprint and UX flows. Free: WCAG 2.2 AA on one critical flow. SMBs · kickoff <24h.',
+            'Diagnostic, prototype, or team process. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
           keywords:
             'UX consulting, design sprint, fintech architecture, UX flows, UXtech, product modules, WCAG accessibility, front office, Viento Norte',
         },
@@ -250,7 +250,7 @@ export default {
         title: 'Technology for business.',
         titleAccent: 'Choose your scope.',
         description:
-          'Diagnostic, prototype, team process, or working app.',
+          'Diagnostic, prototype, or team process. 30 min kickoff. Price on the call.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book on Google Calendar',
@@ -261,7 +261,7 @@ export default {
         ctaFreeLinkSchedule: 'Book 30 free minutes on Google Calendar',
         ctaFree: 'Request free review',
         trustLine: 'Reply within 24 h',
-        trustChips: ['Reply <24 h', '5–7 days', 'No prices on the site'],
+        trustChips: ['Reply <24 h', '30 min kickoff', 'No prices on the site'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -273,12 +273,12 @@ export default {
           prototype: {
             title: 'Prototype',
             hint: 'Screens ready to build',
-            cta: 'Start Marco',
+            cta: 'Start Prototype',
           },
           process: {
             title: 'Team process',
             hint: 'How the team designs and delivers',
-            cta: 'Start Ops',
+            cta: 'Start Process',
           },
           app: {
             title: 'App end to end',
@@ -454,9 +454,11 @@ export default {
       },
       packagesSection: {
         badge: 'How you hire',
-        title: 'Three formats + modules that install',
+        title: 'Choose your scope',
         description:
-          'Interfaces, Design Systems, and research/AI data. Pick diagnostic, prototype, or process. You keep the data and the code.',
+          'One tap: Diagnostic, Prototype, or Team process. One step: Book 30 min. No prices on the site.',
+        freeNote:
+          'Same calendar if you only want a WCAG review of one flow.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaDemo: 'See demo · {min} min',

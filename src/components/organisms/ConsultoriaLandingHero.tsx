@@ -1,45 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { trackEvent } from "../../lib/analytics";
-import { openCalendarBooking } from "../../lib/site-contact";
-import { openFreeRadarEntry } from "../../lib/free-radar-entry";
-import { scrollToSection } from "../../lib/scroll-to-section";
-
-interface ConsultoriaLandingHeroProps {
-  onExploreEvidence?: () => void;
-}
 
 /**
- * Hero FO: un solo CTA = Google Calendar.
- * Alcance y mail viven más abajo; método/casos en páginas interiores.
+ * Hero SEM/FO · Radio de tres nombres.
+ * Alcance y CTA único viven en #modalidades. Calendar no va en el hero (parking DS).
  */
-export function ConsultoriaLandingHero({
-  onExploreEvidence,
-}: ConsultoriaLandingHeroProps) {
-  const navigate = useNavigate();
+export function ConsultoriaLandingHero() {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const es = language === "es";
-
-  const bookCalendar = () => {
-    trackEvent("consultoria_hero_cta", { action: "calendar_booking" });
-    if (!openCalendarBooking()) {
-      scrollToSection("contacto");
-    }
-  };
-
-  const seeOptions = () => {
-    trackEvent("consultoria_hero_cta", { action: "secondary_modalidades" });
-    if (onExploreEvidence) {
-      onExploreEvidence();
-      return;
-    }
-    scrollToSection("modalidades");
-  };
 
   return (
     <section
@@ -67,36 +37,6 @@ export function ConsultoriaLandingHero({
           <p className="mx-auto max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
             {t.description}
           </p>
-
-          <div className="flex flex-col items-center justify-center gap-3">
-            <Button
-              size="lg"
-              className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90 focus-visible:ring-offset-2"
-              onClick={bookCalendar}
-            >
-              {t.ctaPrimary}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Button>
-            <button
-              type="button"
-              onClick={() => {
-                trackEvent("consultoria_hero_cta", { action: "free_a11y" });
-                openFreeRadarEntry(navigate, language, "consultoria-hero", {
-                  mode: "auto",
-                });
-              }}
-              className="inline-flex min-h-11 items-center text-sm font-medium text-primary underline-offset-4 hover:underline"
-            >
-              {t.ctaFreeA11y}
-            </button>
-            <button
-              type="button"
-              onClick={seeOptions}
-              className="inline-flex min-h-11 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-            >
-              {t.ctaSecondary}
-            </button>
-          </div>
 
           <ul
             className="flex flex-wrap items-center justify-center gap-2"

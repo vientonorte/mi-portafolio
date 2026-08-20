@@ -250,7 +250,7 @@ export default {
         title: 'Tecnología para empresas.',
         titleAccent: 'Elige tu alcance.',
         description:
-          'Diagnóstico, prototipo, proceso de equipo o app funcional.',
+          'Diagnóstico, prototipo o proceso de equipo. Kickoff 30 min. Precio en la llamada.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar en Google Calendar',
@@ -261,7 +261,7 @@ export default {
         ctaFreeLinkSchedule: 'Reservar 30 min gratis en Google Calendar',
         ctaFree: 'Pedir revisión gratis',
         trustLine: 'Respuesta en menos de 24 h',
-        trustChips: ['Respuesta <24 h', '5–7 días', 'Sin precios en la web'],
+        trustChips: ['Respuesta <24 h', 'Kickoff 30 min', 'Sin precios en la web'],
         segmentsLabel: '¿Qué necesitas?',
         segmentsHint: 'Un clic = servicio y lo que te llevas.',
         segments: {
@@ -273,12 +273,12 @@ export default {
           prototype: {
             title: 'Prototipo',
             hint: 'Pantallas listas para construir',
-            cta: 'Empezar Marco',
+            cta: 'Empezar Prototipo',
           },
           process: {
             title: 'Proceso de equipo',
             hint: 'Guía de cómo diseñan y entregan',
-            cta: 'Empezar Ops',
+            cta: 'Empezar Proceso',
           },
           app: {
             title: 'App de punta a punta',
@@ -454,9 +454,11 @@ export default {
       },
       packagesSection: {
         badge: 'Cómo se contrata',
-        title: 'Tres formatos + módulos que se instalan',
+        title: 'Elige tu alcance',
         description:
-          'Interfaces, Design Systems y research/AI data. Elige diagnóstico, prototipo o proceso. El cliente queda dueño del dato y del código.',
+          'Un tap: Diagnóstico, Prototipo o Proceso de equipo. Un solo paso: Agendar 30 min. Sin precios en la web.',
+        freeNote:
+          'Misma agenda si solo querés la revisión WCAG de un flujo.',
         deliverablesLabel: 'Incluye',
         cta: 'Empezar',
         ctaDemo: 'Ver demo · {min} min',
