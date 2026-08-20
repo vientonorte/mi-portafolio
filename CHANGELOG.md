@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-20] — `/poc#/auditoria` deprecado
+
+### Changed
+- `https://vientonorte.io/poc#/auditoria` redirige a `/#/consultoria`. No es freemium.
+- `/#/auditoria` = muestra mentoría, `noindex`. Paid = `/s/consultoria`.
+
 ## [2026-08-20] — Radio de tres nombres (consultoría SEM)
 
 ### Changed

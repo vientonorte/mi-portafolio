@@ -8,6 +8,7 @@ import {
   isConsultingPath,
   isAdminPath,
   isTimedDemoPath,
+  isDeprecatedPocPath,
 } from '@/lib/routes';
 
 describe('routes', () => {
@@ -51,6 +52,14 @@ describe('routes', () => {
     expect(isTimedDemoPath('/demo/x-cms')).toBe(true);
     expect(isTimedDemoPath('/demo/diagnostic')).toBe(true);
     expect(isTimedDemoPath('/consultoria')).toBe(false);
+  });
+
+  it('deprecated /poc (incl. /poc#/auditoria) is not SEM', () => {
+    expect(isDeprecatedPocPath('/poc')).toBe(true);
+    expect(isDeprecatedPocPath('/poc/product-onboarding')).toBe(true);
+    expect(isDeprecatedPocPath('/auditoria')).toBe(false);
+    expect(isDeprecatedPocPath('/consultoria')).toBe(false);
+    expect(LEGACY_ROUTES.pocRoot).toBe('/poc');
   });
 
   it('admin hub and photos are admin paths', () => {

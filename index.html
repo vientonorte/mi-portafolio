@@ -2,16 +2,22 @@
 <html lang="es">
   <head>
     <script>
-      // Legacy /mi-portafolio/* → root (preserves hash). Soft-404 SPA shell also hits this.
+      // Legacy paths. Soft-404 SPA shell also hits this (Pages 404.html = index).
       (function () {
         var p = location.pathname || "/";
+        var q = location.search || "";
         if (p === "/mi-portafolio" || p.indexOf("/mi-portafolio/") === 0) {
           var h = location.hash || "#/";
           if (h.charAt(0) !== "#") h = "#" + h;
           if (h.indexOf("#/mi-portafolio") === 0) {
             h = "#" + (h.slice("#/mi-portafolio".length) || "/");
           }
-          location.replace("https://vientonorte.io/" + h + location.search);
+          location.replace("https://vientonorte.io/" + h + q);
+          return;
+        }
+        // Deprecated: /poc#/auditoria is NOT freemium. Paid = /s/consultoria.
+        if (p === "/poc" || p.indexOf("/poc/") === 0) {
+          location.replace(location.origin + "/#/consultoria" + q);
         }
       })();
     </script>
