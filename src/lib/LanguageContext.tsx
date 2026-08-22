@@ -12,7 +12,6 @@ import {
   getTranslationSync,
   isTranslationLoaded,
   loadTranslation,
-  preloadAllTranslations,
 } from "./i18n/loader";
 import { TranslationProvider } from "./i18n/TranslationContext";
 
@@ -60,33 +59,25 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [isSwitching, setIsSwitching] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Bootstrap: carga ES+EN y activa el guardado; sin gap al invertir el toggle
+  // Bootstrap: solo el locale activo (es default). EN se carga en el toggle.
   useEffect(() => {
     let cancelled = false;
+    if (isTranslationLoaded(initialLang)) return;
 
     (async () => {
       try {
-        const all = await preloadAllTranslations();
-        if (cancelled) return;
         const lang = readStoredLanguage();
-        setLocale({ language: lang, dictionary: all[lang] });
+        const dict = await loadTranslation(lang);
+        if (cancelled) return;
+        setLocale({ language: lang, dictionary: dict });
       } catch (err) {
         if (cancelled) return;
         console.error("[i18n] bootstrap failed", err);
-        // Fallback: al menos el locale inicial
-        try {
-          const dict = await loadTranslation(initialLang);
-          if (cancelled) return;
-          setLocale({ language: initialLang, dictionary: dict });
-        } catch (err2) {
-          if (cancelled) return;
-          console.error("[i18n] fallback load failed", err2);
-          setLoadError(
-            initialLang === "es"
-              ? "No se pudo cargar el idioma. Recarga la página."
-              : "Could not load language. Please reload."
-          );
-        }
+        setLoadError(
+          initialLang === "es"
+            ? "No se pudo cargar el idioma. Recarga la página."
+            : "Could not load language. Please reload."
+        );
       }
     })();
 
@@ -100,7 +91,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLocale((prev) => {
       if (lang === prev.language) return prev;
 
-      // Cache hit (típico tras preload): un solo setState → sin carrera ES→EN ni EN→ES
+      // Cache hit (tras toggle previo): un solo setState → sin carrera ES→EN ni EN→ES
       if (isTranslationLoaded(lang)) {
         persistLanguage(lang);
         return { language: lang, dictionary: getTranslationSync(lang) };

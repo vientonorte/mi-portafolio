@@ -40,7 +40,10 @@
 |-------|--------|
 | `/#/consultoria/embudo` | `/` (home) |
 | `/#/poc/product-onboarding` | `/#/consultoria` (SEM) |
+| **`/poc` · `/poc#/auditoria`** | **`/#/consultoria`** (deprecado · no freemium) |
 | `/mi-portafolio/…` | root `.io` |
+
+`/#/auditoria` sigue vivo como **muestra mentoría** (noIndex). **Nunca** Ads ni lead pyme. Freemium = nota a11y en `/#/consultoria` → Calendar Diagnóstico. Paid crawler = `/s/consultoria`.
 
 ## Repo git
 

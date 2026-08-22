@@ -49,11 +49,18 @@ export function ServicePathDemos() {
             <li key={role.id}>
               <Card className="flex h-full flex-col overflow-hidden border-2 border-[color:var(--logo-surface-border)] bg-surface-matte-elevated">
                 <figure className="relative aspect-[16/9] overflow-hidden border-b border-[color:var(--logo-surface-border)] bg-muted">
-                  <img
-                    src={demo.poster}
-                    alt=""
-                    className="h-full w-full object-cover object-top"
-                  />
+                  <picture>
+                    {demo.posterWebp ? (
+                      <source type="image/webp" srcSet={demo.posterWebp} />
+                    ) : null}
+                    <img
+                      src={demo.poster}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover object-top"
+                    />
+                  </picture>
                   <figcaption className="sr-only">
                     {demo.caption[language]}
                   </figcaption>

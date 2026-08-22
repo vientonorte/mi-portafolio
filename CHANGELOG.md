@@ -5,6 +5,45 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-22] — Hero home: Agendar de vuelta
+
+### Fixed
+- `ConsultoriaLandingHero` otra vez abre Google Calendar desde el primer fold (`Agendar` + `Gratis · accesibilidad`). El parking DS lo había dejado solo en `#modalidades`.
+
+## [2026-08-22] — CWV: recortar render delay CSR
+
+### Changed
+- LCP shell estático en `index.html` (H1 + copy de `section-header__description`); se oculta cuando pinta `#inicio`.
+- Chillax desde `/fonts/chillax/` + preload 400/700; sin preconnect a Fontshare.
+- Demos del home: `loading="lazy"` + WebP (PNG fallback).
+- `Logo` no importa `motion` en el path del nav; i18n bootstrap carga solo el locale activo.
+
+## [2026-08-20] — `/s/consultoria` GTM, sin gtag paralelo
+
+### Changed
+- Share paid: snippet `GTM-PM5LBQRP`. Quitado `gtag.js` `G-G7JXJKGCDV` (duplicaba `page_view`).
+- Hop 1.5 s al SPA; Tag Assistant / `gtm_debug` se quedan en `/s/consultoria`.
+- Tests del hop alineados al canon (GTM + noscript; no gtag paralelo).
+
+## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
+
+### Changed
+- Un H1 (sin duplicar «Elige tu alcance»). Alcance es **h2**. Un Agendar 30 min si hay pack.
+- Copy SEM: sin app / Design Ops / `vientonorte.cl`. Selección con tokens `--vn-color-brand`.
+
+## [2026-08-20] — `/poc#/auditoria` deprecado
+
+### Changed
+- `https://vientonorte.io/poc#/auditoria` redirige a `/#/consultoria`. No es freemium.
+- `/#/auditoria` = muestra mentoría, `noindex`. Paid = `/s/consultoria`.
+
+## [2026-08-20] — Radio de tres nombres (consultoría SEM)
+
+### Changed
+- `/#/consultoria`: tres radios Diagnóstico / Prototipo / Proceso. SKU Radar·Marco·Ops no se pinta.
+- Un CTA **Agendar 30 min** (`?pack=` interno). Gratis = nota, misma agenda Diagnóstico.
+- Hero sin Calendar ni CTAs duales. `/s/consultoria` lista 3 alcances + kickoff 30 min.
+
 ## [2026-08-18] — Admin Overview: subdominios (Option A)
 
 ### Added

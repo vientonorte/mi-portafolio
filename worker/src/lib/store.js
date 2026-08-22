@@ -2,6 +2,7 @@ const KEYS = {
   leads: 'vn:leads',
   bookings: 'vn:bookings',
   diagnosticos: 'vn:diagnosticos',
+  skills: 'vn:skills',
 };
 
 const MAX_RECORDS = 2000;

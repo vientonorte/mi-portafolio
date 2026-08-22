@@ -7,13 +7,14 @@ const html = readFileSync(
   "utf8"
 );
 
-describe("share /s/consultoria Google tag", () => {
-  it("embeds gtag.js with G-G7JXJKGCDV for tag-coverage crawlers", () => {
-    expect(html).toContain("gtag/js?id=G-G7JXJKGCDV");
-    expect(html).toContain('data-ga4-id="G-G7JXJKGCDV"');
-    expect(html).toContain('gtag("config", "G-G7JXJKGCDV"');
+describe("share /s/consultoria GTM", () => {
+  it("embeds GTM-PM5LBQRP and not a parallel gtag.js", () => {
+    expect(html).toContain("GTM-PM5LBQRP");
+    expect(html).toContain("googletagmanager.com/gtm.js?id=");
     expect(html).toContain("https://vientonorte.io/s/consultoria/");
-    expect(html).not.toContain("GTM-PM5LBQRP");
+    expect(html).not.toContain("gtag/js?id=G-G7JXJKGCDV");
+    expect(html).not.toContain('data-ga4-id="G-G7JXJKGCDV"');
+    expect(html).not.toContain('gtag("config"');
     expect(html).not.toContain("gtag/js?id=GT-");
   });
 
@@ -29,7 +30,8 @@ describe("share /s/consultoria Google tag", () => {
     expect(html).toMatch(/if \(stay\)/);
   });
 
-  it("does not add a GTM noscript iframe on the share hop", () => {
-    expect(html).not.toMatch(/googletagmanager\.com\/ns\.html/);
+  it("includes the official GTM noscript iframe with accessible title", () => {
+    expect(html).toMatch(/googletagmanager\.com\/ns\.html\?id=GTM-PM5LBQRP/);
+    expect(html).toContain('title="Google Tag Manager"');
   });
 });

@@ -196,6 +196,13 @@
     border-color var(--funnel-fast) var(--funnel-ease-soft);
 }
 
+[data-surface="consultoria-funnel"] .funnel-pack-card[data-selected="true"] {
+  border-color: var(--vn-color-brand, var(--primary));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--vn-color-brand, var(--primary)) 38%, transparent),
+    0 12px 28px -14px color-mix(in srgb, var(--vn-color-brand-dark, #0d1b3d) 28%, transparent);
+}
+
 @media (hover: hover) and (pointer: fine) {
   [data-surface="consultoria-funnel"] .funnel-pack-card {
     will-change: transform;
