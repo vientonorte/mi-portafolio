@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-22] — Hero home: Agendar de vuelta
+
+### Fixed
+- `ConsultoriaLandingHero` otra vez abre Google Calendar desde el primer fold (`Agendar` + `Gratis · accesibilidad`). El parking DS lo había dejado solo en `#modalidades`.
+
 ## [2026-08-22] — CWV: recortar render delay CSR
 
 ### Changed

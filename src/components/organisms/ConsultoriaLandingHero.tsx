@@ -1,15 +1,39 @@
+import { Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
+import { analytics } from "../../lib/analytics";
+import { openFreeRadarEntry } from "../../lib/free-radar-entry";
+import { openCalendarBooking } from "../../lib/site-contact";
+import { scrollToSection } from "../../lib/scroll-to-section";
 
 /**
  * Hero SEM/FO · Radio de tres nombres.
- * Alcance y CTA único viven en #modalidades. Calendar no va en el hero (parking DS).
+ * CTA de agenda vive otra vez en el hero (Decider: restaurar capacidad de agendar).
+ * Alcance sigue en #modalidades.
  */
 export function ConsultoriaLandingHero() {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const es = language === "es";
+
+  const bookKickoff = () => {
+    analytics.generateLead({
+      lead_type: "kickoff",
+      channel: "google_calendar",
+      origin: "hero",
+    });
+    if (!openCalendarBooking({ origin: "hero" })) {
+      scrollToSection("contacto");
+    }
+  };
+
+  const bookFree = () => {
+    openFreeRadarEntry(navigate, language, "hero");
+  };
 
   return (
     <section
@@ -56,6 +80,34 @@ export function ConsultoriaLandingHero() {
               </li>
             ))}
           </ul>
+
+          <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <Button
+              size="lg"
+              data-testid="hero-agendar"
+              className="min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90"
+              onClick={bookKickoff}
+            >
+              <Calendar className="h-4 w-4" aria-hidden />
+              {t.ctaPrimary}
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              data-testid="hero-gratis-a11y"
+              className="min-h-[48px]"
+              onClick={bookFree}
+            >
+              {t.ctaFreeA11y}
+            </Button>
+          </div>
+          <Button
+            variant="link"
+            className="min-h-[44px] text-muted-foreground"
+            onClick={() => scrollToSection("modalidades")}
+          >
+            {t.ctaSecondary}
+          </Button>
         </div>
       </div>
     </section>
