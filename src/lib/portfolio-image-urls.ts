@@ -20,6 +20,7 @@ export const portfolioImages = {
     benchmarkNavigation: img("sura/benchmark-navigation.png"),
     analyticsGa4: img("sura/analytics-ga4.png"),
     iaAutomationDashboard: img("sura/ia-automation-dashboard.png"),
+    iaAutomationDashboardWebp: img("sura/ia-automation-dashboard.webp"),
     hotjarDashboard: img("sura/hotjar-dashboard.png"),
     bookingFlowchart: img("sura/booking-flowchart.png"),
     onboardingFlags: img("sura/onboarding-flags.png"),
@@ -30,6 +31,7 @@ export const portfolioImages = {
     logo: img("transvip/logo.svg", true),
     appDesktop: img("transvip/app-desktop.png"),
     appMobile: img("transvip/app-mobile.png"),
+    appMobileWebp: img("transvip/app-mobile.webp"),
     figmaPrototype: img("transvip/figma-prototype.png"),
     productVision: img("transvip/product-vision.png"),
   },
@@ -45,7 +47,9 @@ export const portfolioImages = {
   },
   consultoria: {
     xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
+    xCmsDashboardWebp: img("consultoria/x-cms-dashboard.webp"),
     geesDashboard: img("consultoria/gees-dashboard.png", true),
+    geesDashboardWebp: img("consultoria/gees-dashboard.webp", true),
   },
   /**
    * Mockups reales del tour oferta (POC product-onboarding).

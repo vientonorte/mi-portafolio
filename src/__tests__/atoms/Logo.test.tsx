@@ -43,6 +43,11 @@ describe('Logo', () => {
     const { container } = renderWithLanguage(<Logo size="lg" />);
     expect(container.querySelector('.flex.min-w-0.items-center')).toHaveClass('gap-3.5');
   });
+
+  it('still renders the mark when animated (motion is lazy)', async () => {
+    const { container } = renderWithLanguage(<Logo animated />);
+    expect(container.querySelector('svg')).toBeInTheDocument();
+  });
 });
 
 describe('LogoMark', () => {
