@@ -69,27 +69,21 @@
       }
     </script>
     <!--
-      Final URL paid. La cobertura de “Etiqueta de Google” busca gtag.js
-      + el ID G- en el source; el contenedor GTM no cuenta para ese
-      informe. El SPA sigue solo con initGTM — no pegar este snippet
-      en index.html.
+      Final URL paid. GTM-PM5LBQRP (GA4 vive como Etiqueta de Google
+      dentro del contenedor). No gtag.js paralelo: duplica page_view.
+      SPA: initGTM via VITE_GTM_ID — no pegar este snippet en index.html.
     -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-G7JXJKGCDV"
-      data-ga4-id="G-G7JXJKGCDV"
-    ></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-G7JXJKGCDV", {
-        page_path: "/s/consultoria",
-        page_location: "https://vientonorte.io/s/consultoria/",
-        page_title: "Consultoría UX · Viento Norte",
-      });
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PM5LBQRP");
     </script>
     <meta
       http-equiv="refresh"
@@ -100,8 +94,7 @@
         var q = window.location.search || "";
         var ref = document.referrer || "";
         var ua = navigator.userAgent || "";
-        // Tag Assistant / GTM Preview / coverage crawler: no saltar al SPA
-        // (el SPA no lleva gtag G-; el hop muere y Google dice “sin etiquetas”).
+        // Tag Assistant / GTM Preview / coverage: no saltar al SPA
         var stay =
           /[?&](gtm_debug|gtm_preview|gtm_auth|g_gtm)=/i.test(q) ||
           /tagassistant\.google\.com/i.test(ref) ||
@@ -114,19 +107,22 @@
           return;
         }
         var dest = "https://vientonorte.io/" + q + "#/consultoria" + q;
-        function go() {
+        window.setTimeout(function () {
           window.location.replace(dest);
-        }
-        var tag = document.querySelector('script[data-ga4-id="G-G7JXJKGCDV"]');
-        if (tag)
-          tag.addEventListener("load", function () {
-            window.setTimeout(go, 400);
-          });
-        window.setTimeout(go, 1500);
+        }, 1500);
       })();
     </script>
   </head>
   <body>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PM5LBQRP"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+        title="Google Tag Manager"
+      ></iframe
+    ></noscript>
     <main>
       <h1>Tecnología para empresas</h1>
       <p>
