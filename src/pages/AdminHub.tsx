@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, Database, Flame, ImageIcon, KeyRound, LogOut, RefreshCw, Search } from "lucide-react";
 import { DemoHeatmapPanel } from "../components/admin/DemoHeatmapPanel";
+import { SurfaceCards } from "../components/admin/SurfaceCards";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
 import { useLanguage } from "../lib/LanguageContext";
@@ -46,6 +47,12 @@ import {
   type AdminRecord,
   type DemoHeatBucket,
 } from "../lib/admin-api";
+import {
+  fetchContactHealth,
+  fetchFinanzasSurface,
+  type ContactSurface,
+  type FinanzasSurface,
+} from "../lib/admin-surfaces";
 import { createPasskey, isPasskeySupported, loginWithPasskey } from "../lib/admin-passkey";
 
 const STATUSES: Record<AdminCollection, string[]> = {
@@ -81,6 +88,8 @@ export default function AdminHub() {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState("overview");
   const [overview, setOverview] = useState<AdminOverview | null>(null);
+  const [finanzas, setFinanzas] = useState<FinanzasSurface | null>(null);
+  const [contact, setContact] = useState<ContactSurface | null>(null);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [rows, setRows] = useState<AdminRecord[]>([]);
@@ -101,8 +110,17 @@ export default function AdminHub() {
   }, []);
 
   const loadOverview = useCallback(async () => {
-    const data = await getAdminOverview();
-    setOverview(data);
+    const [ov, f, c] = await Promise.allSettled([
+      getAdminOverview(),
+      fetchFinanzasSurface(),
+      fetchContactHealth(),
+    ]);
+    if (f.status === "fulfilled") setFinanzas(f.value);
+    else setFinanzas({ updated: null, stale: true, evidence: "NO DATO" });
+    if (c.status === "fulfilled") setContact(c.value);
+    else setContact({ ok: null, evidence: "NO DATO" });
+    if (ov.status === "fulfilled") setOverview(ov.value);
+    else throw ov.reason;
   }, []);
 
   const loadCollection = useCallback(async (collection: AdminCollection) => {
@@ -154,6 +172,8 @@ export default function AdminHub() {
   useEffect(() => {
     if (!session?.ok) return;
     if (tab === "overview") return;
+    // Tab/filter refresh: setState lives in refreshTab (pre-existing hub).
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- async tab load
     void refreshTab(tab);
   }, [query, refreshTab, session?.ok, statusFilter, tab]);
 
@@ -337,6 +357,7 @@ export default function AdminHub() {
             </div>
 
             <TabsContent value="overview" className="space-y-6">
+              <SurfaceCards finanzas={finanzas} contact={contact} />
               <div className="grid gap-4 sm:grid-cols-3">
                 <Metric title="Leads hoy / semana" today={overview?.today.leads} week={overview?.week.leads} total={overview?.totals.leads} />
                 <Metric title="Agenda hoy / semana" today={overview?.today.bookings} week={overview?.week.bookings} total={overview?.totals.bookings} />
