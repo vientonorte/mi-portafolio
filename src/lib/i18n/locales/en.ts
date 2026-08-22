@@ -85,7 +85,7 @@ export default {
           /** SEM final URL: https://vientonorte.io/#/consultoria — Ads message-match */
           title: 'UX Consulting · Choose your scope',
           description:
-            'Diagnostic, prototype, team process, or app. Design sprint and UX flows. Free: WCAG 2.2 AA on one critical flow. SMBs · kickoff <24h.',
+            'Diagnostic, prototype, or team process. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
           keywords:
             'UX consulting, design sprint, fintech architecture, UX flows, UXtech, product modules, WCAG accessibility, front office, Viento Norte',
         },
@@ -248,9 +248,9 @@ export default {
         badge: 'Viento Norte · SMBs',
         principleBadge: 'UX consulting',
         title: 'Technology for business.',
-        titleAccent: 'Choose your scope.',
+        titleAccent: '',
         description:
-          'Diagnostic, prototype, team process, or working app.',
+          'Diagnostic, prototype, or team process. 30 min kickoff. Price on the call.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book on Google Calendar',
@@ -261,7 +261,7 @@ export default {
         ctaFreeLinkSchedule: 'Book 30 free minutes on Google Calendar',
         ctaFree: 'Request free review',
         trustLine: 'Reply within 24 h',
-        trustChips: ['Reply <24 h', '5–7 days', 'No prices on the site'],
+        trustChips: ['Reply <24 h', '30 min kickoff', 'No prices on the site'],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -273,12 +273,12 @@ export default {
           prototype: {
             title: 'Prototype',
             hint: 'Screens ready to build',
-            cta: 'Start Marco',
+            cta: 'Start Prototype',
           },
           process: {
             title: 'Team process',
             hint: 'How the team designs and delivers',
-            cta: 'Start Ops',
+            cta: 'Start Process',
           },
           app: {
             title: 'App end to end',
@@ -328,11 +328,10 @@ export default {
         onboarding: {
           badge: 'Start',
           titleEmpty: 'Pick a scope and book',
-          titlePack: 'Start {name}',
+          titlePack: '30 min kickoff · {name}',
           bodyEmpty:
             'Diagnostic, prototype, or process. 30 min on Calendar or a short email.',
-          bodyPack:
-            'Calendar or email. If you added the pack field on the booking page, it arrives prefilled.',
+          bodyPack: 'Price on the call. One CTA above: Book 30 min.',
           packLabel: 'Format',
           ctaCalendar: 'Book 30 min',
           ctaMail: 'Write by email',
@@ -454,9 +453,11 @@ export default {
       },
       packagesSection: {
         badge: 'How you hire',
-        title: 'Three formats + modules that install',
+        title: 'Choose your scope',
         description:
-          'Interfaces, Design Systems, and research/AI data. Pick diagnostic, prototype, or process. You keep the data and the code.',
+          'One tap: Diagnostic, Prototype, or Team process. One step: Book 30 min. No prices on the site.',
+        freeNote:
+          'Free · accessibility of one flow — same calendar as Diagnostic.',
         deliverablesLabel: 'Includes',
         cta: 'Start',
         ctaDemo: 'See demo · {min} min',
@@ -501,8 +502,8 @@ export default {
         title: "Let's start",
         description: 'Four short steps. Pick a deliverable and leave a ready message.',
         points: [
-          'Diagnostic · Prototype · Process · App end to end',
-          'Live app: one partner from idea to release',
+          'Diagnostic · Prototype · Process',
+          'Kickoff 30 min. Price on the call',
           'Reply within 24 business hours',
         ],
       },
@@ -1108,7 +1109,7 @@ export default {
         badge: 'Viento Norte · SMBs',
         title: 'Write and we close scope',
         description:
-          'End of the funnel: diagnostic, prototype, process, or app. Reply within 24 business hours.',
+          'End of the funnel: diagnostic, prototype, or process. Reply within 24 business hours.',
         responseBadge: 'Reply <24 business hours',
         infoTitle: 'Consulting contact',
         infoDescription: 'UX consulting for SMBs · remote or hybrid',

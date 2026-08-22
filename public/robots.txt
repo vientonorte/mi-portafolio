@@ -10,4 +10,8 @@ Disallow: /admin/
 Disallow: /#/admin
 Disallow: /#/admin/fotos
 Disallow: /#/grafo
+Disallow: /poc
+Disallow: /poc/
+Disallow: /#/poc
+Disallow: /#/auditoria
 Disallow: /ops/

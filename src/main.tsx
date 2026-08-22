@@ -58,10 +58,34 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     });
 }
 
+function dismissLcpShell() {
+  const shell = document.getElementById('lcp-shell');
+  const root = document.getElementById('root');
+  if (!shell || !root) return;
+  const hide = () => {
+    shell.setAttribute('hidden', '');
+    shell.setAttribute('aria-hidden', 'true');
+  };
+  const ready = () => Boolean(root.querySelector('#inicio, #consultoria-hero-heading'));
+  if (ready()) {
+    hide();
+    return;
+  }
+  const observer = new MutationObserver(() => {
+    if (ready()) {
+      observer.disconnect();
+      hide();
+    }
+  });
+  observer.observe(root, { childList: true, subtree: true });
+}
+
 const rootEl = document.getElementById('root');
 if (!rootEl) {
   throw new Error('No se encontró #root en index.html');
 }
+
+dismissLcpShell();
 
 ReactDOM.createRoot(rootEl).render(
   <React.StrictMode>

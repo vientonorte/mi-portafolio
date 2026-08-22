@@ -1,5 +1,6 @@
 import { json } from '../lib/cors.js';
 import { getCases, getCompany, getServices } from '../data/catalog.js';
+import { SKILLS_CATALOG, getSkill, getSkills } from '../data/skills.js';
 import { listRecords, newId, nowIso, prependRecord, updateRecord } from '../lib/store.js';
 import { notifyInbox, notifyVisitor } from '../lib/notify.js';
 import { ga4MpConfigured, sendGa4MpEvent } from '../lib/ga4-mp.js';
@@ -45,6 +46,28 @@ export function handleGetCases(cors) {
 
 export function handleGetCompany(cors) {
   return json({ ok: true, company: getCompany() }, 200, cors);
+}
+
+export async function handleGetSkills(env, cors, kind) {
+  const fromKv = env.ADMIN_KV ? await listRecords(env, 'skills') : [];
+  const skills = fromKv.length ? fromKv : getSkills(kind);
+  return json(
+    {
+      ok: true,
+      source: fromKv.length ? 'kv' : 'catalog',
+      hosted: SKILLS_CATALOG.hosted,
+      metodo_ro: SKILLS_CATALOG.metodo_ro,
+      skills,
+    },
+    200,
+    cors
+  );
+}
+
+export function handleGetSkill(id, cors) {
+  const skill = getSkill(id);
+  if (!skill) return json({ ok: false, error: 'skill no encontrada' }, 404, cors);
+  return json({ ok: true, skill, metodo_ro: SKILLS_CATALOG.metodo_ro }, 200, cors);
 }
 
 export async function persistLead(env, fields) {

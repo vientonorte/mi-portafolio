@@ -166,6 +166,7 @@ export default function AuditoriaPortfolio() {
         keywords={t.seo.keywords}
         url={canonicalFromPath("/auditoria")}
         type="article"
+        noIndex
       />
 
       <header

@@ -171,6 +171,15 @@ function AppRoutes() {
             <Route path="/empresa/:companyId" element={<CompanyDetailRoute />} />
             <Route path="/proyecto/:projectId" element={<ProjectDetailRoute />} />
             <Route path="/auditoria" element={<AuditoriaPortfolio />} />
+            {/* /poc y /poc#/auditoria deprecados → SEM. Freemium ≠ mentoría. */}
+            <Route
+              path="/poc"
+              element={<Navigate to={ROUTES.consulting} replace />}
+            />
+            <Route
+              path="/poc/*"
+              element={<Navigate to={ROUTES.consulting} replace />}
+            />
             {/* Embudo legacy → home */}
             <Route
               path={LEGACY_ROUTES.consultingFunnelLegacy}

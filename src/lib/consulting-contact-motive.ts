@@ -12,8 +12,8 @@ const MOTIVE_COPY: Record<ContactMotive, { es: string; en: string }> = {
     en: "Reason: Prototype / screens ready to build.\n\n",
   },
   ops: {
-    es: "Motivo: Proceso de equipo / Design Ops.\n\n",
-    en: "Reason: Team process / Design Ops.\n\n",
+    es: "Motivo: Proceso de equipo.\n\n",
+    en: "Reason: Team process.\n\n",
   },
   help: {
     es: "Motivo: necesito ayuda para elegir alcance.\n\n",

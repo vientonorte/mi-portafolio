@@ -31,7 +31,7 @@ Demo campaña → /#/demo/x-cms
 | `/consultoria/modulos/:moduleId` | Deep link módulo SEM | … |
 | `/consultoria/embudo` | **Legacy** → `/` | redirect |
 | `/demo/x-cms` | Demo campaña | https://vientonorte.io/#/demo/x-cms |
-| `/poc/product-onboarding` | Legacy → SEM | redirect |
+| `/poc` · `/poc#/auditoria` | **Deprecado** → SEM | redirect `/#/consultoria` |
 | `/proceso` | Macros de método | https://vientonorte.io/#/proceso |
 
 **Local:** home `http://127.0.0.1:5173/#/` · SEM `…/#/consultoria`

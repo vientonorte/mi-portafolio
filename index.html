@@ -2,16 +2,22 @@
 <html lang="es">
   <head>
     <script>
-      // Legacy /mi-portafolio/* → root (preserves hash). Soft-404 SPA shell also hits this.
+      // Legacy paths. Soft-404 SPA shell also hits this (Pages 404.html = index).
       (function () {
         var p = location.pathname || "/";
+        var q = location.search || "";
         if (p === "/mi-portafolio" || p.indexOf("/mi-portafolio/") === 0) {
           var h = location.hash || "#/";
           if (h.charAt(0) !== "#") h = "#" + h;
           if (h.indexOf("#/mi-portafolio") === 0) {
             h = "#" + (h.slice("#/mi-portafolio".length) || "/");
           }
-          location.replace("https://vientonorte.io/" + h + location.search);
+          location.replace("https://vientonorte.io/" + h + q);
+          return;
+        }
+        // Deprecated: /poc#/auditoria is NOT freemium. Paid = /s/consultoria.
+        if (p === "/poc" || p.indexOf("/poc/") === 0) {
+          location.replace(location.origin + "/#/consultoria" + q);
         }
       })();
     </script>
@@ -125,8 +131,20 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/icon-192x192.png" />
 
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin="anonymous" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="%BASE_URL%fonts/chillax/chillax-400.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="%BASE_URL%fonts/chillax/chillax-700.woff2"
+      crossorigin
+    />
 
     <!-- CSR fallback: feedback while JS hydrates (Gemini QA + brand VN) -->
     <style>
@@ -178,10 +196,54 @@
           border-top-color: #1a8fdc;
         }
       }
+      /* Static LCP: texto del documento (no React). Se oculta cuando pinta #inicio. */
+      #lcp-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        background: #050a14;
+        color: #f7f2e7;
+        text-align: center;
+        pointer-events: none;
+      }
+      #lcp-shell[hidden] {
+        display: none !important;
+      }
+      #lcp-shell h1 {
+        margin: 0;
+        max-width: 40rem;
+        font-family: Chillax, ui-sans-serif, system-ui, sans-serif;
+        font-size: clamp(1.875rem, 4vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.12;
+      }
+      #lcp-shell p {
+        margin: 0;
+        max-width: 36rem;
+        font-family: Chillax, ui-sans-serif, system-ui, sans-serif;
+        font-size: clamp(1rem, 2.2vw, 1.125rem);
+        font-weight: 400;
+        line-height: 1.55;
+        color: rgba(247, 242, 231, 0.72);
+      }
     </style>
   </head>
 
   <body>
+    <div id="lcp-shell" aria-hidden="true">
+      <h1>Tecnología para empresas.</h1>
+      <p class="section-header__description">
+        Un tap: Diagnóstico, Prototipo o Proceso de equipo. Un solo paso: Agendar
+        30 min. Sin precios en la web.
+      </p>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
