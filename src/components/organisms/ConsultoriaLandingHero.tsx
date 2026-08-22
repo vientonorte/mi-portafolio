@@ -24,15 +24,15 @@ export function ConsultoriaLandingHero() {
     analytics.generateLead({
       lead_type: "kickoff",
       channel: "google_calendar",
-      origin: "hero",
+      origin: "consultoria-hero",
     });
-    if (!openCalendarBooking({ origin: "hero" })) {
+    if (!openCalendarBooking({ origin: "consultoria-hero" })) {
       scrollToSection("contacto");
     }
   };
 
   const bookFree = () => {
-    openFreeRadarEntry(navigate, language, "hero");
+    openFreeRadarEntry(navigate, language, "consultoria-hero");
   };
 
   return (

@@ -34,6 +34,6 @@ describe("ConsultoriaLandingHero", () => {
     expect(agendar).toHaveTextContent(/Agendar/i);
     expect(screen.getByTestId("hero-gratis-a11y")).toBeInTheDocument();
     await user.click(agendar);
-    expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "hero" });
+    expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "consultoria-hero" });
   });
 });
