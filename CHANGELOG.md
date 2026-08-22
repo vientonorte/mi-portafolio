@@ -10,6 +10,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 ### Changed
 - Share paid: snippet `GTM-PM5LBQRP`. Quitado `gtag.js` `G-G7JXJKGCDV` (duplicaba `page_view`).
 - Hop 1.5 s al SPA; Tag Assistant / `gtm_debug` se quedan en `/s/consultoria`.
+- Tests del hop alineados al canon (GTM + noscript; no gtag paralelo).
 
 ## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
 
