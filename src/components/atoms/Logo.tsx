@@ -1,5 +1,4 @@
-import { useId } from "react";
-import { motion } from "motion/react";
+import { lazy, Suspense, useId } from "react";
 import { SEO_SITE } from "../../lib/seo";
 import { BRAND_GRADIENT_STOPS, BRAND_MARK } from "../../lib/brand-mark";
 import { cn } from "../../lib/utils";
@@ -25,6 +24,10 @@ interface LogoProps {
   /** Si se pasa, el lockup es botón accesible (nav / SEM) */
   onClick?: () => void;
 }
+
+const LogoAnimatedMark = lazy(() =>
+  import("./LogoAnimatedMark").then((mod) => ({ default: mod.LogoAnimatedMark }))
+);
 
 const sizes = {
   sm: { mark: 28, text: "text-base", role: "text-[10px]", spacing: "gap-2.5" },
@@ -170,13 +173,9 @@ export function Logo({
       )}
     >
       {animated ? (
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        >
-          {markNode}
-        </motion.div>
+        <Suspense fallback={markNode}>
+          <LogoAnimatedMark>{markNode}</LogoAnimatedMark>
+        </Suspense>
       ) : (
         markNode
       )}

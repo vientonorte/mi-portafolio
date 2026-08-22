@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-22] — CWV: recortar render delay CSR
+
+### Changed
+- LCP shell estático en `index.html` (H1 + copy de `section-header__description`); se oculta cuando pinta `#inicio`.
+- Chillax desde `/fonts/chillax/` + preload 400/700; sin preconnect a Fontshare.
+- Demos del home: `loading="lazy"` + WebP (PNG fallback).
+- `Logo` no importa `motion` en el path del nav; i18n bootstrap carga solo el locale activo.
+
 ## [2026-08-20] — Radio `?pack=ops` al listón Design Ops
 
 ### Changed
@@ -23,6 +31,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 - `/#/consultoria`: tres radios Diagnóstico / Prototipo / Proceso. SKU Radar·Marco·Ops no se pinta.
 - Un CTA **Agendar 30 min** (`?pack=` interno). Gratis = nota, misma agenda Diagnóstico.
 - Hero sin Calendar ni CTAs duales. `/s/consultoria` lista 3 alcances + kickoff 30 min.
+
+## [2026-08-22] — CWV: recortar render delay CSR
+
+### Changed
+- LCP shell estático en `index.html` (H1 + copy de `section-header__description`); se oculta cuando pinta `#inicio`.
+- Chillax desde `/fonts/chillax/` + preload 400/700; sin preconnect a Fontshare.
+- Demos del home: `loading="lazy"` + WebP (PNG fallback).
+- `Logo` no importa `motion` en el path del nav; i18n bootstrap carga solo el locale activo.
 
 ## [2026-08-18] — CV: PDF + Word ATS
 
