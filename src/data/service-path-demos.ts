@@ -20,6 +20,7 @@ export type ServicePathDemo = {
   warnSec: number;
   iframeUrl?: string;
   poster: string;
+  posterWebp?: string;
   caption: Record<Language, string>;
   kicker: Record<Language, string>;
   headline: Record<Language, string>;
@@ -36,6 +37,7 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     durationSec: 60,
     warnSec: 15,
     poster: portfolioImages.consultoria.geesDashboard,
+    posterWebp: portfolioImages.consultoria.geesDashboardWebp,
     caption: {
       es: "GEES · propuesta de diagnóstico",
       en: "GEES · diagnostic proposal",
@@ -60,6 +62,7 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     warnSec: 60,
     iframeUrl: CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
     poster: portfolioImages.consultoria.xCmsDashboard,
+    posterWebp: portfolioImages.consultoria.xCmsDashboardWebp,
     caption: {
       es: "X|CMS · prototipo publicado",
       en: "X|CMS · published prototype",
@@ -84,6 +87,7 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     warnSec: 60,
     iframeUrl: DEI_OPS_SITE,
     poster: portfolioImages.sura.iaAutomationDashboard,
+    posterWebp: portfolioImages.sura.iaAutomationDashboardWebp,
     caption: {
       es: "DEI Dashboard · proceso de equipo",
       en: "DEI Dashboard · team process",
@@ -109,6 +113,7 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     warnSec: 60,
     iframeUrl: TRANSVIP_APP_PROTO_URL,
     poster: portfolioImages.transvip.appMobile,
+    posterWebp: portfolioImages.transvip.appMobileWebp,
     caption: {
       es: "Transvip · app en uso",
       en: "Transvip · live app",
