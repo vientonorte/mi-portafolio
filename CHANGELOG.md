@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-22] — Sobre mí: chips VB 7+ / 3+ lead
+
+### Fixed
+- QA VB-SOBRE-MI en `/#/sobre-mi`: chips **7+ años** (craft) y **3+ lead** (mobility→wealth) otra vez visibles. Rail: SURA 23–26 · VN ahora. Copy i18n ya no pinta Lead UX como cargo actual.
+
 ## [2026-08-22] — Hero home: Agendar de vuelta
 
 ### Fixed

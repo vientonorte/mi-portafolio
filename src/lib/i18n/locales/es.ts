@@ -59,7 +59,7 @@ export default {
         about: {
           title: 'Sobre mí',
           description:
-            'Rodrigo Gaete, UX Lead en fintech y mobility. Design Ops, research, design systems y casos en SURA, Transvip y Karri.',
+            'Rodrigo Gaete, UX Manager en Viento Norte. Antes UX Lead en SURA Investments. Design Ops, research, design systems. SURA, Transvip y Karri.',
         },
         contact: {
           title: 'Contacto',
@@ -998,10 +998,10 @@ export default {
     // About
     about: {
       badge: 'Sobre mí',
-      title: '3+ años. 2 verticales. Impacto regional.',
-      subtitle: 'Lead UX · Fintech & Mobility',
+      title: 'UX Manager · Viento Norte',
+      subtitle: '7+ años craft · 3+ lead mobility→wealth',
       description:
-        'De Senior Product Designer en Transvip/Karri a UX Lead en SURA Investments (Wealth, 5+ países). Research, Design Sprints, design system y resultados medibles — incluido −40% onboarding.',
+        'Hoy UX Manager en Viento Norte (n2n) y AI Trainer en micro1. Antes UX Lead en SURA Investments (Wealth, 5+ países, hasta jun. 2026). Research, Design Sprints, design system y −40% onboarding.',
       philosophy: {
         idea: {
           title: 'Idea',
