@@ -11,6 +11,7 @@ import './styles/design-system.css';
 import './styles/offer-tour.css';
 import { ErrorBoundary } from './components/organisms/ErrorBoundary';
 import { normalizeDoubleHashUrl } from './lib/normalize-hash-url';
+import { attachLcpShell } from './lib/lcp-shell';
 
 function bootstrapTheme() {
   try {
@@ -26,18 +27,16 @@ function bootstrapTheme() {
 bootstrapTheme();
 normalizeDoubleHashUrl();
 
-try {
-  sessionStorage.removeItem('rg-chunk-reload');
-} catch {
-  /* ignore */
-}
-
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   const base = import.meta.env.BASE_URL;
-  let reloadedForSw = false;
+  const SW_RELOAD_KEY = 'vn-sw-controller-reload';
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (reloadedForSw) return;
-    reloadedForSw = true;
+    try {
+      if (sessionStorage.getItem(SW_RELOAD_KEY)) return;
+      sessionStorage.setItem(SW_RELOAD_KEY, '1');
+    } catch {
+      return;
+    }
     window.location.reload();
   });
 
@@ -58,34 +57,16 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     });
 }
 
-function dismissLcpShell() {
-  const shell = document.getElementById('lcp-shell');
-  const root = document.getElementById('root');
-  if (!shell || !root) return;
-  const hide = () => {
-    shell.setAttribute('hidden', '');
-    shell.setAttribute('aria-hidden', 'true');
-  };
-  const ready = () => Boolean(root.querySelector('#inicio, #consultoria-hero-heading'));
-  if (ready()) {
-    hide();
-    return;
-  }
-  const observer = new MutationObserver(() => {
-    if (ready()) {
-      observer.disconnect();
-      hide();
-    }
-  });
-  observer.observe(root, { childList: true, subtree: true });
-}
-
 const rootEl = document.getElementById('root');
 if (!rootEl) {
   throw new Error('No se encontró #root en index.html');
 }
 
-dismissLcpShell();
+attachLcpShell({
+  root: rootEl,
+  shell: document.getElementById('lcp-shell'),
+  hash: window.location.hash,
+});
 
 ReactDOM.createRoot(rootEl).render(
   <React.StrictMode>

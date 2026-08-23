@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-22] — Recarga /#/sobre-mi: LCP shell no tapa inner routes
+
+### Fixed
+- El overlay LCP de home (#206) esperaba `#inicio`. En `/#/sobre-mi` nunca llega: recarga = pantalla “Tecnología para empresas” colgada.
+- Inner hash (`sobre-mi`, `contacto`, …) oculta el shell **antes del paint**. Home/SEM siguen con LCP.
+- Ya no se borra `rg-chunk-reload` al boot (loop 503 tras deploy). SW `controllerchange` una vez por sesión.
+
 ## [2026-08-22] — Sobre mí: chips VB 7+ / 3+ lead
 
 ### Fixed

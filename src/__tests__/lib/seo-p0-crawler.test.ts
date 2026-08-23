@@ -28,6 +28,8 @@ describe("SEO P0 · title home vs query", () => {
     expect(indexHtml).toContain(
       "<title>Tecnología para empresas · Viento Norte</title>"
     );
+    expect(indexHtml).toContain('data-vn-route');
+    expect(indexHtml).toContain('html[data-vn-route="inner"] #lcp-shell');
   });
 });
 

@@ -215,6 +215,10 @@
       #lcp-shell[hidden] {
         display: none !important;
       }
+      /* Inner HashRouter routes: never paint the home LCP overlay on reload. */
+      html[data-vn-route="inner"] #lcp-shell {
+        display: none !important;
+      }
       #lcp-shell h1 {
         margin: 0;
         max-width: 40rem;
@@ -237,6 +241,16 @@
   </head>
 
   <body>
+    <script>
+      (function () {
+        var h = (location.hash || "#/").replace(/^#/, "").split("?")[0] || "/";
+        if (h.charAt(0) !== "/") h = "/" + h;
+        if (h.length > 1 && h.slice(-1) === "/") h = h.slice(0, -1);
+        if (h !== "/" && h !== "/consultoria") {
+          document.documentElement.setAttribute("data-vn-route", "inner");
+        }
+      })();
+    </script>
     <div id="lcp-shell" aria-hidden="true">
       <h1>Tecnología para empresas.</h1>
       <p class="section-header__description">
