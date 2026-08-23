@@ -15,7 +15,7 @@ const STAGES = {
     {
       id: "regional",
       label: "Regional",
-      sub: "SURA · 5+ países",
+      sub: "SURA 23–26 · 5+ países",
     },
     {
       id: "international",
@@ -25,7 +25,7 @@ const STAGES = {
     {
       id: "vn",
       label: "Viento Norte",
-      sub: "UX Manager · n2n",
+      sub: "ahora · UX Manager n2n",
     },
   ],
   en: [
@@ -37,7 +37,7 @@ const STAGES = {
     {
       id: "regional",
       label: "Regional",
-      sub: "SURA · 5+ countries",
+      sub: "SURA 23–26 · 5+ countries",
     },
     {
       id: "international",
@@ -47,7 +47,7 @@ const STAGES = {
     {
       id: "vn",
       label: "Viento Norte",
-      sub: "UX Manager · n2n",
+      sub: "now · UX Manager n2n",
     },
   ],
 } as const;

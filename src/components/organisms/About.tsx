@@ -15,6 +15,8 @@ import {
   Equal,
   ChevronDown,
   ChevronUp,
+  Timer,
+  Layers2,
 } from "lucide-react";
 import { ProfileAvatar } from "../atoms/ProfileAvatar";
 import { PageSection } from "../layout/PageSection";
@@ -58,6 +60,18 @@ const roles = {
 
 /** Chips visibles sin expandir (ruido bajo). */
 const ROLE_CHIPS_INITIAL = 4;
+
+/** VB-SOBRE-MI VB-3 / VB-4 — craft vs lead, visibles en el primer fold. */
+const STAT_CHIPS = {
+  es: [
+    { icon: Timer, label: "7+ años", detail: "Craft UX/UI · Viento Norte 2019–" },
+    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
+  ],
+  en: [
+    { icon: Timer, label: "7+ years", detail: "UX/UI craft · Viento Norte 2019–" },
+    { icon: Layers2, label: "3+ lead", detail: "Mobility → Wealth (Transvip · SURA)" },
+  ],
+} as const;
 
 const LINE = {
   es: "Interfaces de producto en empresas reales. Hoy: Viento Norte (n2n) y micro1 (AI data, EE.UU.). Antes: UX Lead SURA (regional, hasta jun. 2026).",
@@ -145,6 +159,27 @@ export function About() {
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
             {LINE[language]}
           </p>
+
+          <ul
+            className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start"
+            aria-label={es ? "Años de oficio y liderazgo" : "Years of craft and lead"}
+          >
+            {STAT_CHIPS[language].map((chip) => {
+              const Icon = chip.icon;
+              return (
+                <li key={chip.label}>
+                  <span
+                    className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-primary/25 bg-primary/5 px-2.5 py-1 text-[11px] font-semibold text-primary"
+                    title={chip.detail}
+                  >
+                    <Icon className="h-3.5 w-3.5" aria-hidden />
+                    {chip.label}
+                    <span className="font-medium text-muted-foreground">· {chip.detail}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
 
           <div className="mt-4 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-start sm:gap-3">
             <Button
@@ -253,7 +288,7 @@ export function About() {
         {/* Dot rail — same pattern as timeline / Flujo Mejora Continua */}
         <div
           className="mt-5 flex flex-wrap items-center justify-center gap-1 sm:gap-2"
-          role="tablist"
+          role="group"
           aria-label={es ? "Pasos del ciclo" : "Cycle steps"}
         >
           {PERFIL_CYCLE.map((s, i) => {
@@ -263,8 +298,7 @@ export function About() {
               <button
                 key={s.n}
                 type="button"
-                role="tab"
-                aria-selected={selected}
+                aria-pressed={selected}
                 aria-controls="perfil-step-panel"
                 id={`perfil-step-tab-${s.n}`}
                 onClick={() => setActiveStep(i)}
@@ -298,7 +332,6 @@ export function About() {
         {/* Un solo panel de detalle */}
         <div
           id="perfil-step-panel"
-          role="tabpanel"
           aria-labelledby={`perfil-step-tab-${step.n}`}
           className="mt-4 rounded-xl border border-border/50 bg-card/80 px-4 py-4 text-center sm:px-6"
           aria-live="polite"
