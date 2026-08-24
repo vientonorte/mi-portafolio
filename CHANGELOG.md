@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-24] — Privacidad estática Polijuego (`/s/polijuego-privacy/`)
+
+### Added
+- HTML crawlable para Play: no account; no network for game content; AES-256-GCM vault on device; Keychain/Keystore ThisDeviceOnly; export JSON only on user action; purge rotates key and deletes file; no ads/analytics.
+- Sin GTM, sin hop HashRouter, sin reusar FO privacy. `sitemap.xml` lista `https://vientonorte.io/s/polijuego-privacy/`.
+
 ## [2026-08-22] — Recarga /#/sobre-mi: LCP shell no tapa inner routes
 
 ### Fixed
