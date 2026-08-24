@@ -72,9 +72,9 @@ export default {
             'Figma-ready tokens (Tokens Studio, W3C, CSS), minimal RG brand, matte surfaces, and measurable-evidence patterns from the Lead UX portfolio.',
         },
         privacy: {
-          title: 'Privacy',
+          title: 'Privacy · Viento Norte',
           description:
-            'Portfolio privacy policy. No tracking cookies or data without consent.',
+            'Privacy by design: minimization, purpose, control. No ad cookies, no data sales.',
         },
         audit: {
           title: 'UX/UI Portfolio Audit',
@@ -1482,32 +1482,71 @@ export default {
     },
 
     privacyPage: {
-      title: 'Privacy Policy',
-      updated: 'Last updated: July 2026',
-      analytics: {
-        title: 'Navigation and analytics',
-        body:
-          'This site may record anonymous navigation events (pages visited, CTA clicks) only if analytics is enabled in production. We do not use advertising cookies or sell data.',
-      },
-      contact: {
-        title: 'Contact form',
-        body:
-          'If you submit the form, assistant, or an agent tool, your name, email, and message are sent over HTTPS to the Viento Norte Cloudflare Worker and, in parallel, to Google Forms. We keep the lead in the internal panel to reply. We do not use it for marketing or sell it. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
-      },
-      retention: {
-        title: 'Retention',
-        body:
-          'Contact messages are kept in the controller\'s inbox as long as needed to reply and follow up professionally (up to 12 months unless legally required otherwise).',
-      },
-      rights: {
-        title: 'Your rights',
-        body:
-          'You may request access, correction, or deletion of data you sent us by writing to',
-      },
-      controller: {
-        title: 'Controller',
-        body: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
-      },
+      badge: 'Privacy by design',
+      title: 'Fair data. Zero noise.',
+      lead:
+        'We process the minimum needed to reply. No ad cookies, no sales, no required account. Chile Law 21.719.',
+      updated: 'Updated: 24 Aug 2026',
+      principles: [
+        {
+          title: 'Minimization',
+          body: 'Name, email, and message only if you send them. Nothing else by default.',
+        },
+        {
+          title: 'Purpose',
+          body: 'Reply to your inquiry or kickoff. No ad profiling.',
+        },
+        {
+          title: 'Control',
+          body: 'Access, rectification, erasure, objection, portability, restriction: one email.',
+        },
+        {
+          title: 'No sale',
+          body: 'We do not sell data. No advertising cookies.',
+        },
+      ],
+      inventoryTitle: 'What we process on this site',
+      inventoryHint:
+        'The form, assistant, or an agent tool send over HTTPS to the Worker (Cloudflare) and Google Forms. Page analytics only if enabled in production (e.g. GTM on /s/consultoria).',
+      inventoryHead: ['Data', 'Purpose', 'Legal basis', 'Retention'],
+      inventoryRows: [
+        {
+          data: 'Name, email, message',
+          purpose: 'Reply and follow up',
+          basis: 'Consent (Law 21.719)',
+          keep: 'Up to 12 months, unless legally required',
+        },
+        {
+          data: 'Page events (if analytics on)',
+          purpose: 'Improve the site',
+          basis: 'No ad cookies; anonymous events',
+          keep: 'Aggregated, never sold',
+        },
+      ],
+      notTitle: 'What we do not do',
+      notItems: [
+        'Advertising cookies or ad pixels in this policy.',
+        'Sell or share data for third-party marketing.',
+        'Require an account to read the site.',
+        'Mix the Polijuego board with the consulting form.',
+      ],
+      rightsTitle: 'Your rights (ARSOPL)',
+      rightsLead:
+        'Write to contacto@vientonorte.io. Response window: 15 business days.',
+      rights: [
+        { label: 'Access' },
+        { label: 'Rectification' },
+        { label: 'Erasure' },
+        { label: 'Objection' },
+        { label: 'Portability' },
+        { label: 'Restriction' },
+      ],
+      appTitle: 'R.A.D.A.R. El Polijuego app',
+      appBody:
+        'The native game does not use this page. On-device board, AES-256-GCM vault, zero network for content, in-app purge.',
+      appCta: 'Read the app policy',
+      controllerTitle: 'Controller',
+      controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     },
 
     footer: {

@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-24] — Privacy by design en UI de políticas
+
+### Changed
+- `/#/privacy`: layout VN (badge, título Chillax, cards 4 principios, inventario, ARSOPL como acciones, enlace a la app). Copy Ley 21.719. ES/EN.
+- `/s/polijuego-privacy/`: misma jerarquía visual (badge, rule, cards). Sin GTM. Needles de crawler intactos.
+
 ## [2026-08-24] — Privacidad estática Polijuego (`/s/polijuego-privacy/`)
 
 ### Added
