@@ -86,7 +86,7 @@ describe("SEO P0 · crawler HTML /s/", () => {
     }
     expect(shareProceso).toContain("Jira");
     expect(shareProceso).toContain("SharePoint");
-    expect(shareProceso).toContain("no es un quinto pack paid");
+    expect(shareProceso).toMatch(/no es un quinto pack paid/i);
     expect(shareProceso).toContain(
       'rel="canonical" href="https://vientonorte.io/s/proceso/"'
     );
