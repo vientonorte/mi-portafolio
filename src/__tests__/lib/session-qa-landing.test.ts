@@ -54,6 +54,9 @@ describe("session QA · i18n parity", () => {
       "landing.title",
       "landing.titleAccent",
       "landing.description",
+      "landing.principleBadge",
+      "landing.storyLabel",
+      "landing.storyTiles",
       "landing.ctaPrimary",
       "landing.ctaSecondary",
       "landing.metrics",
@@ -74,6 +77,10 @@ describe("session QA · i18n parity", () => {
     }
     expect(es.consultoria.landing.metrics).toHaveLength(4);
     expect(en.consultoria.landing.metrics).toHaveLength(4);
+    expect(es.consultoria.landing.storyTiles).toHaveLength(4);
+    expect(en.consultoria.landing.storyTiles).toHaveLength(4);
+    expect(es.consultoria.landing.principleBadge).toMatch(/reduce el ruido/i);
+    expect(en.consultoria.landing.principleBadge).toMatch(/cuts the noise/i);
   });
 });
 

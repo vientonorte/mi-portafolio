@@ -36,4 +36,27 @@ describe("ConsultoriaLandingHero", () => {
     await user.click(agendar);
     expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "consultoria-hero" });
   });
+
+  it("tells brand story without Radar, auditoria, or personal name", () => {
+    const { container } = renderHero();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /Tecnología para empresas/i
+    );
+    expect(screen.getByText(/Diseño que reduce el ruido/i)).toBeInTheDocument();
+    const tiles = screen.getByTestId("hero-story-tiles");
+    expect(tiles).toHaveTextContent(/Revisión de un flujo/i);
+    expect(tiles).toHaveTextContent(/En su CMS o CRM/i);
+    expect(tiles).toHaveTextContent(/Diagnóstico 5–7 días/i);
+    const imgs = screen.getAllByRole("img");
+    expect(imgs).toHaveLength(4);
+    expect(imgs.map((img) => img.getAttribute("src"))).toEqual([
+      "/images/ads/01-1200x627-revision-flujo.png",
+      "/images/ads/02-1200x627-tecnologia-empresas.png",
+      "/images/ads/03-1080x1080-cms-crm.png",
+      "/images/ads/04-1080x1080-diagnostico.png",
+    ]);
+    expect(container.textContent).not.toMatch(/Radar/i);
+    expect(container.textContent).not.toMatch(/auditor[íi]a/i);
+    expect(container.textContent).not.toMatch(/Rodrigo/i);
+  });
 });

@@ -62,6 +62,8 @@ describe("SEO P0 · crawler HTML /s/", () => {
       expect(shareConsultoria).toContain(name);
     }
     expect(shareConsultoria).toMatch(/Tecnología para empresas:/);
+    expect(shareConsultoria).toContain("el flujo que usa tu cliente");
+    expect(shareConsultoria).toContain("CMS o CRM");
     expect(shareConsultoria).toContain(
       'rel="canonical" href="https://vientonorte.io/s/consultoria/"'
     );
