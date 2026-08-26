@@ -1,10 +1,10 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
-**Decider:** Rö · **Actualizado:** 2026-08-15  
-**Loop D:** `page_view` live (T4 PASS). Faltan tags GTM `generate_lead` / `book_call` (v3 humano).  
-**SEM landing:** `/#/consultoria` = funnel 3 packs + OB (`#184` `f022f2c`). No pagar a `/`.  
-**Loop E→F: PARKED** hasta que Rö diga *activar campañas*. No Ads, no IG Ads, no spend.  
-**Regla:** no gastar en Ads/IG hasta la sección **E** y **F** en verde **y** el Decider reactive ese loop.  
+**Decider:** Rö · **Actualizado:** 2026-08-26  
+**Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · final `/s/consultoria` · conversión = eventos, no clic de página (3) UTM después del hash + Vite `npm run dev` (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
+**Loop D:** tags GTM v4 live. Preview **Gratis → `GA4 · generate_lead` Activado 1 vez** (26 ago) · `book_call` PASS 20 ago y 26 ago.  
+**SEM landing:** `/#/consultoria` in-app · crawler/paid = `/s/consultoria`. No pagar a `/`.  
+**Loop E:** Decider 26 ago *activar campañas*. RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Techo = humano. No publicado en Ads UI hasta que Rö pegue. F sigue parked.  
 **Final URL de paid y de bio:** `https://vientonorte.io/s/consultoria`  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
@@ -68,9 +68,10 @@ Código ya emite `generate_lead`, `book_call`, `submit_contact_form`, `page_view
 - [ ] `VITE_GA_MEASUREMENT_ID` — **no** (apuesta A: GA4 = tag en GTM)
 - [x] Redeploy Pages con el secret ([run 31908951330](https://github.com/vientonorte/mi-portafolio/actions/runs/31908951330) success)
 - [x] Bundle live contiene `GTM-PM5LBQRP` (`initGTM` en el SPA)
-- [x] `/s/consultoria` view-source contiene `GTM-PM5LBQRP` (sin gtag.js paralelo)
-- [ ] GTM Preview: click agenda o form → evento `generate_lead` o `book_call`
-- [ ] Tag GA4 Event (o Ads conversion) escuchando esos custom events
+- [x] `/s/consultoria` view-source contiene `GTM-PM5LBQRP` (sin gtag.js paralelo) · hop #205 merged 22 ago
+- [x] Tag GA4 Event `generate_lead` **y** `book_call` en contenedor (v4 · 20 ago)
+- [x] GTM Preview Chrome · Agendar → `GA4 · book_call` Activado 1 vez (20 ago)
+- [x] GTM Preview · **Gratis · accesibilidad** → `GA4 · generate_lead` Activado 1 vez (26 ago Safari)
 - [ ] Receta: `docs/GTM-KICKOFF.md`
 
 **Sin D en verde: Google Ads e IG Ads siguen No.**
@@ -81,15 +82,16 @@ Código ya emite `generate_lead`, `book_call`, `submit_contact_form`, `page_view
 
 Requiere **A + D** (+ C recomendado).
 
-- [ ] A (share) PASS
-- [ ] D (GTM + `generate_lead`) PASS
-- [ ] Test path FO en `/ops` — H4 Empezar in-page, H5 Calendar &lt;30s, S2 SEM
-- [ ] Local: `npm run dev` + `bash ~/.grok/skills/google-ads-vn/scripts/local-ads-scenarios.sh http://127.0.0.1:5173`
-- [ ] Anuncio: “revisión gratis de un flujo / accesibilidad” **≠** mentoría /auditoria
-- [ ] Final URL = `https://vientonorte.io/s/consultoria`
-- [ ] UTM: `utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
-- [ ] Conversión en Ads = el tag de `generate_lead` o Calendar (no “clic en página”)
-- [ ] Techo de prueba bajo, Decider Rö; **no** inventar CPC
+- [ ] A (share) PASS · scrape LinkedIn/Meta parked
+- [x] D (GTM + `generate_lead`) PASS · Preview 26 ago
+- [x] Test path FO H4/H5/S2 · firmado 18 ago
+- [x] Local: `local-ads-scenarios.sh` 133/133 PASS 26 ago
+- [x] Anuncio RSA Diagnóstico / a11y ≠ `/auditoria` · vault `SEM/2026-08-26 RSA piloto a11y.md`
+- [x] Final URL = `https://vientonorte.io/s/consultoria/` + UTM `a11y_gratis_pymes`
+- [x] UTM: `utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
+- [x] Conversión = `generate_lead` + `book_call` (no clic de página) · importar en Ads UI
+- [x] Techo **150.000 CLP / 30 d** (~5.000/día) · mix 100% Search · research 26 ago
+- [ ] RSA pegado y piloto **publicado** en Google Ads UI
 
 **Canal habilitado al cerrar E:** Google Ads piloto.
 
@@ -126,15 +128,15 @@ CMS: `#/admin/fotos` sube branding y **abre PR** a `public/images/` (Worker live
 
 ---
 
-## Estado rápido (13 ago)
+## Estado rápido (26 ago)
 
 | Canal | Checklist | ¿Habilitado? |
 |-------|-----------|----------------|
 | Share LinkedIn/WA | A | **código live** · scrape humano **parked** |
 | IG orgánico | A+B | No · parked |
 | Google Business | C | No · parked |
-| GTM / medición | D | **PARKED** (bloquea E/F) |
-| Google Ads | A+D+E | **PARKED** · $0 |
+| GTM / medición | D | Preview Gratis **PASS** 26 ago |
+| Google Ads | A+D+E | RSA **armado** · *activar campañas* dicha · **no** publicado en UI · techo humano |
 | Instagram Ads | A+B+D+F | **PARKED** · $0 |
 
-Reactivar: frase Decider **«activar campañas»** → primero D (GTM), después E/F. Hasta entonces este archivo no es trabajo de FO.
+Pegar RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Copy: Diagnóstico / a11y, no Radar.
