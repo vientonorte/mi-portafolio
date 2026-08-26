@@ -3,6 +3,7 @@
 export type ImageWebRole =
   | "share_home"
   | "share_consultoria"
+  | "share_proceso"
   | "schema"
   | "favicon"
   | "logo"
@@ -30,6 +31,12 @@ export const IMAGE_WEB_ROLES: ImageRoleDef[] = [
     label: "Share redes · consultoría",
     hint: "Card al pegar /s/consultoria. PNG 1200×630.",
     slotId: "branding.ogConsultoria",
+  },
+  {
+    id: "share_proceso",
+    label: "Share redes · proceso",
+    hint: "Card al pegar /s/proceso. PNG 1200×630.",
+    slotId: "branding.ogProceso",
   },
   {
     id: "schema",

@@ -47,9 +47,9 @@ export default {
             'Case studies with evidence and metrics at SURA Investments, Transvip, and Karri. Fintech, mobility, enterprise.',
         },
         cases: {
-          title: 'UX Framework & Cases',
+          title: 'UX process',
           description:
-            '5 UX processes — analytics, research, design, testing, refinement. Applied at SURA, Transvip, and Karri.',
+            'Design that cuts the noise. 5 phases on your CMS or CRM: analytics, research, design, testing, refinement.',
         },
         framework: {
           title: 'UX Framework — 5 Processes',
@@ -72,9 +72,9 @@ export default {
             'Figma-ready tokens (Tokens Studio, W3C, CSS), minimal RG brand, matte surfaces, and measurable-evidence patterns from the Lead UX portfolio.',
         },
         privacy: {
-          title: 'Privacy',
+          title: 'Privacy · Viento Norte',
           description:
-            'Portfolio privacy policy. No tracking cookies or data without consent.',
+            'Privacy by design: minimization, purpose, control. No ad cookies, no data sales.',
         },
         audit: {
           title: 'UX/UI Portfolio Audit',
@@ -1262,6 +1262,7 @@ export default {
     caseStudies: {
       hero: {
         badge: 'Method in production',
+        tagline: 'Design that cuts the noise.',
         title: 'UX Process based on continuous improvement',
         description: '5 macro-processes applied in real environments — SURA, Transvip, and Karri — with measurable results in onboarding, activation, and NPS.',
         metricsTitle: 'Production results',
@@ -1360,12 +1361,26 @@ export default {
         stripLabel: 'Method-to-result summary by phase',
       },
       navMobile: 'UX process sections',
+      capa: {
+        badge: 'Method layer',
+        title: 'On your CMS or CRM',
+        lead: 'Same method: product branding, analytics, applied research, content, and social — on your stack. Not a fifth paid pack.',
+        stack: 'End-to-end front applied to your CMS or CRM — Jira, SharePoint, Salesforce, headless. The data and tenant stay yours.',
+        items: [
+          { title: 'Branding', body: 'Visual system and VN wordmark in the product.' },
+          { title: 'Analytics', body: 'Funnels and CRM/CMS. Data-led decisions.' },
+          { title: 'Applied research', body: 'Research on your flow, not showcase fieldwork.' },
+          { title: 'Newsletter / CM', body: 'Mail sequence and tone. Publish with a Decider.' },
+          { title: 'Social', body: 'Calendar and tone; no auto-post without OK.' },
+        ],
+      },
       cta: {
         viewProjects: 'Explore business',
+        consulting: 'Book a diagnostic',
         backToPortfolio: 'Back to portfolio',
         sectionLabel: 'Real business',
         title: 'Want to see this framework in action?',
-        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri.',
+        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri. Paid entry stays diagnostic / accessibility of one flow.',
       },
     },
 
@@ -1482,32 +1497,71 @@ export default {
     },
 
     privacyPage: {
-      title: 'Privacy Policy',
-      updated: 'Last updated: July 2026',
-      analytics: {
-        title: 'Navigation and analytics',
-        body:
-          'This site may record anonymous navigation events (pages visited, CTA clicks) only if analytics is enabled in production. We do not use advertising cookies or sell data.',
-      },
-      contact: {
-        title: 'Contact form',
-        body:
-          'If you submit the form, assistant, or an agent tool, your name, email, and message are sent over HTTPS to the Viento Norte Cloudflare Worker and, in parallel, to Google Forms. We keep the lead in the internal panel to reply. We do not use it for marketing or sell it. Legal basis: explicit consent (Chile Data Protection Law 21.719).',
-      },
-      retention: {
-        title: 'Retention',
-        body:
-          'Contact messages are kept in the controller\'s inbox as long as needed to reply and follow up professionally (up to 12 months unless legally required otherwise).',
-      },
-      rights: {
-        title: 'Your rights',
-        body:
-          'You may request access, correction, or deletion of data you sent us by writing to',
-      },
-      controller: {
-        title: 'Controller',
-        body: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
-      },
+      badge: 'Privacy by design',
+      title: 'Fair data. Zero noise.',
+      lead:
+        'We process the minimum needed to reply. No ad cookies, no sales, no required account. Chile Law 21.719.',
+      updated: 'Updated: 24 Aug 2026',
+      principles: [
+        {
+          title: 'Minimization',
+          body: 'Name, email, and message only if you send them. Nothing else by default.',
+        },
+        {
+          title: 'Purpose',
+          body: 'Reply to your inquiry or kickoff. No ad profiling.',
+        },
+        {
+          title: 'Control',
+          body: 'Access, rectification, erasure, objection, portability, restriction: one email.',
+        },
+        {
+          title: 'No sale',
+          body: 'We do not sell data. No advertising cookies.',
+        },
+      ],
+      inventoryTitle: 'What we process on this site',
+      inventoryHint:
+        'The form, assistant, or an agent tool send over HTTPS to the Worker (Cloudflare) and Google Forms. Page analytics only if enabled in production (e.g. GTM on /s/consultoria).',
+      inventoryHead: ['Data', 'Purpose', 'Legal basis', 'Retention'],
+      inventoryRows: [
+        {
+          data: 'Name, email, message',
+          purpose: 'Reply and follow up',
+          basis: 'Consent (Law 21.719)',
+          keep: 'Up to 12 months, unless legally required',
+        },
+        {
+          data: 'Page events (if analytics on)',
+          purpose: 'Improve the site',
+          basis: 'No ad cookies; anonymous events',
+          keep: 'Aggregated, never sold',
+        },
+      ],
+      notTitle: 'What we do not do',
+      notItems: [
+        'Advertising cookies or ad pixels in this policy.',
+        'Sell or share data for third-party marketing.',
+        'Require an account to read the site.',
+        'Mix the Polijuego board with the consulting form.',
+      ],
+      rightsTitle: 'Your rights (ARSOPL)',
+      rightsLead:
+        'Write to contacto@vientonorte.io. Response window: 15 business days.',
+      rights: [
+        { label: 'Access' },
+        { label: 'Rectification' },
+        { label: 'Erasure' },
+        { label: 'Objection' },
+        { label: 'Portability' },
+        { label: 'Restriction' },
+      ],
+      appTitle: 'R.A.D.A.R. El Polijuego app',
+      appBody:
+        'The native game does not use this page. On-device board, AES-256-GCM vault, zero network for content, in-app purge.',
+      appCta: 'Read the app policy',
+      controllerTitle: 'Controller',
+      controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     },
 
     footer: {

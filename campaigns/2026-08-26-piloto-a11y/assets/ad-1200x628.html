@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    @font-face {
+      font-family: Chillax;
+      src: url("../../../public/fonts/chillax/chillax-600.woff2") format("woff2");
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: Chillax;
+      src: url("../../../public/fonts/chillax/chillax-400.woff2") format("woff2");
+      font-weight: 400;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1200px; height: 628px; overflow: hidden; }
+    body {
+      background: #0A0A0A;
+      color: #f7f2e7;
+      font-family: Chillax, "Helvetica Neue", sans-serif;
+      position: relative;
+    }
+    .bar { height: 8px; background: linear-gradient(90deg, #F5A020, #E8401C); }
+    .pad { padding: 48px 64px 40px; height: 620px; display: flex; flex-direction: column; }
+    .row { display: flex; gap: 28px; align-items: center; }
+    .logo { width: 120px; height: 120px; border-radius: 16px; }
+    .badge { color: #E8401C; font-size: 22px; font-weight: 600; letter-spacing: 0.02em; margin-top: 28px; }
+    h1 { font-size: 64px; font-weight: 600; line-height: 1.05; margin-top: 12px; color: #fff; }
+    .sub { font-size: 28px; color: #c8c2b8; margin-top: 16px; font-weight: 400; max-width: 920px; }
+    .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+    .cta {
+      background: #E8401C; color: #fff; font-size: 22px; font-weight: 600;
+      padding: 16px 28px; border-radius: 8px;
+    }
+    .url { color: #E8401C; font-size: 22px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="pad">
+    <div class="row">
+      <img class="logo" src="../../../public/images/branding/isologo-512.png" alt="" />
+    </div>
+    <p class="badge">Viento Norte · pymes</p>
+    <h1>Revisión gratis de un flujo</h1>
+    <p class="sub">Diagnóstico UX · WCAG 2.2 AA. Kickoff 30 min.</p>
+    <div class="foot">
+      <span class="cta">Agendar 30 min</span>
+      <span class="url">vientonorte.io/s/consultoria</span>
+    </div>
+  </div>
+</body>
+</html>

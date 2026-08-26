@@ -3,6 +3,7 @@ export const IMAGE_REGISTRY = [
   { id: 'branding.profilePhoto', category: 'Branding', label: 'Foto de perfil', path: 'profile-photo.jpg', alt: 'Rodrigo Gaete — Lead UX Designer', role: 'gallery' },
   { id: 'branding.ogHome', category: 'Branding', label: 'Share redes · home', path: 'branding/og-home-1200.png', alt: 'Viento Norte — share home', role: 'share_home' },
   { id: 'branding.ogConsultoria', category: 'Branding', label: 'Share redes · consultoría', path: 'branding/og-consultoria-1200.png', alt: 'Viento Norte — share consultoría', role: 'share_consultoria' },
+  { id: 'branding.ogProceso', category: 'Branding', label: 'Share redes · proceso', path: 'branding/og-proceso-1200.png', alt: 'Viento Norte — share proceso', role: 'share_proceso' },
   { id: 'branding.ogPortfolio', category: 'Branding', label: 'OG / PWA (legacy)', path: 'branding/og-portfolio.png', alt: 'Viento Norte share', role: 'share_home' },
   { id: 'branding.isologo', category: 'Branding', label: 'Logo / isologo', path: 'branding/isologo-512.png', alt: 'Isologo Viento Norte', role: 'logo' },
   { id: 'branding.favicon', category: 'Branding', label: 'Favicon', path: 'favicon.ico', repoPath: 'public/favicon.ico', alt: 'Favicon Viento Norte', role: 'favicon' },

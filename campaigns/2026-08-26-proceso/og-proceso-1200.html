@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    @font-face {
+      font-family: Chillax;
+      src: url("../../public/fonts/chillax/chillax-600.woff2") format("woff2");
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: Chillax;
+      src: url("../../public/fonts/chillax/chillax-400.woff2") format("woff2");
+      font-weight: 400;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      background: #0A0A0A;
+      color: #f7f2e7;
+      font-family: Chillax, "Helvetica Neue", sans-serif;
+    }
+    .bar { height: 8px; background: linear-gradient(90deg, #F5A020, #E8401C); }
+    .pad { padding: 44px 64px 36px; height: 622px; display: flex; flex-direction: column; }
+    .logo { width: 96px; height: 96px; border-radius: 16px; }
+    .badge { color: #E8401C; font-size: 22px; font-weight: 600; margin-top: 24px; }
+    h1 { font-size: 58px; font-weight: 600; line-height: 1.08; margin-top: 10px; color: #fff; }
+    .sub { font-size: 26px; color: #c8c2b8; margin-top: 16px; font-weight: 400; max-width: 980px; }
+    .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+    .url { color: #E8401C; font-size: 22px; font-weight: 600; }
+    .brand { color: #f7f2e7; font-size: 22px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="pad">
+    <img class="logo" src="../../public/images/branding/isologo-512.png" alt="" />
+    <p class="badge">Viento Norte · método</p>
+    <h1>Diseño que reduce el ruido</h1>
+    <p class="sub">5 fases sobre tu CMS o CRM. Analytics, research, diseño, testing, refinamiento.</p>
+    <div class="foot">
+      <span class="brand">Proceso UX</span>
+      <span class="url">vientonorte.io/s/proceso</span>
+    </div>
+  </div>
+</body>
+</html>

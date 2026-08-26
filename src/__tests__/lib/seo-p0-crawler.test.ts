@@ -11,6 +11,10 @@ const shareConsultoria = readFileSync(
   resolve(root, "public/s/consultoria/index.html"),
   "utf8"
 );
+const shareProceso = readFileSync(
+  resolve(root, "public/s/proceso/index.html"),
+  "utf8"
+);
 const polijuegoPrivacy = readFileSync(
   resolve(root, "public/s/polijuego-privacy/index.html"),
   "utf8"
@@ -69,6 +73,36 @@ describe("SEO P0 · crawler HTML /s/", () => {
     );
   });
 
+  it("share proceso has method H1, five phases, /s/canonical, hop to hash", () => {
+    expect(shareProceso).toMatch(/<h1>\s*Diseño que reduce el ruido\s*<\/h1>/);
+    for (const phase of [
+      "UX Analytics",
+      "UX Research",
+      "UX/UI Design",
+      "UX Testing",
+      "Refinamiento",
+    ]) {
+      expect(shareProceso).toContain(phase);
+    }
+    expect(shareProceso).toContain("Jira");
+    expect(shareProceso).toContain("SharePoint");
+    expect(shareProceso).toMatch(/no es un quinto pack paid/i);
+    expect(shareProceso).toContain(
+      'rel="canonical" href="https://vientonorte.io/s/proceso/"'
+    );
+    expect(shareProceso).not.toContain(
+      'rel="canonical" href="https://vientonorte.io/#/proceso"'
+    );
+    expect(shareProceso).toContain(
+      'content="5;url=https://vientonorte.io/#/proceso"'
+    );
+    expect(shareProceso).toContain("og-proceso-1200.png");
+    expect(shareProceso).toContain("GTM-PM5LBQRP");
+    expect(shareProceso).not.toContain("gtag.js");
+    expect(shareProceso).not.toMatch(/Radar/i);
+    expect(shareProceso).not.toContain("/auditoria");
+  });
+
   it("polijuego privacy is static, crawlable, and not FO /#/privacy", () => {
     expect(polijuegoPrivacy).toMatch(/<h1>\s*Privacidad · R\.A\.D\.A\.R\. El Polijuego\s*<\/h1>/);
     expect(polijuegoPrivacy).toContain("no account");
@@ -102,6 +136,7 @@ describe("SEO P0 · sitemap HTTP only", () => {
     expect(sitemap).toContain(
       "<loc>https://vientonorte.io/s/polijuego-privacy/</loc>"
     );
+    expect(sitemap).toContain("<loc>https://vientonorte.io/s/proceso/</loc>");
     expect(sitemap).not.toMatch(/<loc>https:\/\/vientonorte\.io\/#\//);
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");

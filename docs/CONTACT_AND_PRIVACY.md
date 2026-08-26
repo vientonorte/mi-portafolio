@@ -2,7 +2,7 @@
 
 Runbook operativo del formulario de contacto, asistente guiado y cumplimiento Ley 21.719 (Chile).
 
-**Última actualización:** julio 2026  
+**Última actualización:** 24 ago 2026  
 **Estado:** producción — Google Forms (si configurado) → FormSubmit respaldo
 
 ---
@@ -11,10 +11,11 @@ Runbook operativo del formulario de contacto, asistente guiado y cumplimiento Le
 
 | Qué ve el visitante | Qué ocurre detrás |
 |---------------------|-------------------|
-| `contacto@vientonorte.cl` (mailto, footer, contacto) | Alias de marca; no expone Gmail |
+| `contacto@vientonorte.io` (mailto, footer, contacto) | Alias de marca; no expone Gmail |
 | Formulario o asistente con checkbox de consentimiento | POST HTTPS → Google Forms → copia al remitente + notificación al inbox |
 | **Gratis · accesibilidad** (Radar freemium) | Si hay `VITE_A11Y_FREE_SCHEDULE_URL` → Google Calendar Appointment Schedule; si no → form prearmado |
-| Enlace a `/privacy` | Política bilingüe ES/EN |
+| Enlace a `/#/privacy` | Política del **sitio** (Privacy by design, Ley 21.719, noIndex) |
+| App Polijuego | HTML crawlable `https://vientonorte.io/s/polijuego-privacy/` (vault / purge / cero red) |
 | Si todo falla | Toast con fallback `mailto:` |
 
 ### Agenda Google · auditoría a11y gratis

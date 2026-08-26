@@ -5,6 +5,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-26] — Branding proceso (DS A)
+
+### Added
+- HTML crawler `/s/proceso/` (hop a `/#/proceso`, GTM, OG 1200×630). Sitemap +1 loc.
+- Capa de método en `/#/proceso` (branding, analytics, research, CM, social) sobre CMS/CRM del cliente. CTA **Agendar diagnóstico** → `/#/consultoria`.
+
+### Changed
+- Toolbar proceso: isologo + wordmark VN. Tagline *Diseño que reduce el ruido.* Cinco fases intactas.
+
+### Not
+- `/s/consultoria`, RSA, Radio, GTM eventos, tour Apple.
+
+## [2026-08-24] — Privacy by design en UI de políticas
+
+### Changed
+- `/#/privacy`: layout VN (badge, título Chillax, cards 4 principios, inventario, ARSOPL como acciones, enlace a la app). Copy Ley 21.719. ES/EN.
+- `/s/polijuego-privacy/`: misma jerarquía visual (badge, rule, cards). Sin GTM. Needles de crawler intactos.
+
 ## [2026-08-24] — Privacidad estática Polijuego (`/s/polijuego-privacy/`)
 
 ### Added

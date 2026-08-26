@@ -17,7 +17,7 @@ export function shouldAutoPublish(entry) {
     path.startsWith('favicon') ||
     path.startsWith('icon-') ||
     entry.id === 'branding.ogPortfolio' ||
-    ['share_home', 'share_consultoria', 'schema', 'favicon', 'logo', 'apple'].includes(role)
+    ['share_home', 'share_consultoria', 'share_proceso', 'schema', 'favicon', 'logo', 'apple'].includes(role)
   );
 }
 

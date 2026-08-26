@@ -29,6 +29,8 @@
         --vn-marfil: #f7f2e7;
         --vn-pizarra: #4a5568;
         --vn-azul-evo: #1a8fdc;
+        --vn-rojo: #e8401c;
+        --vn-border: rgba(13, 27, 61, 0.12);
       }
       * {
         box-sizing: border-box;
@@ -45,16 +47,41 @@
         margin: 0 auto;
         padding: 2rem 1.25rem 4rem;
       }
+      .badge {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        padding: 0 1rem;
+        border: 2px solid rgba(26, 143, 220, 0.25);
+        border-radius: 999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        background: #fff;
+      }
       h1 {
         font-family: "DM Serif Display", Georgia, serif;
         font-size: 2rem;
         line-height: 1.2;
         font-weight: 400;
-        margin: 0 0 0.5rem;
+        margin: 1rem 0 0.5rem;
       }
-      h2 {
+      .rule {
+        width: 5rem;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #e8401c, #1a8fdc);
+        margin: 1rem 0 1.5rem;
+      }
+      .card {
+        border: 1px solid var(--vn-border);
+        border-radius: 1rem;
+        padding: 1.25rem 1.25rem 1rem;
+        background: #fff;
+        margin: 0 0 0.75rem;
+      }
+      .card h2 {
         font-size: 1.125rem;
-        margin: 1.75rem 0 0.5rem;
+        margin: 0 0 0.5rem;
       }
       p,
       li {
@@ -75,28 +102,35 @@
   </head>
   <body>
     <main>
+      <p class="badge">Privacy by design</p>
       <p class="meta">
         Viento Norte · bundle <code>io.vientonorte.polijuego</code>
       </p>
       <h1>Privacidad · R.A.D.A.R. El Polijuego</h1>
+      <div class="rule" aria-hidden="true"></div>
       <p class="lead">
         Política de privacidad de la app nativa RADAR El Polijuego (v1 Free).
         Página HTML estática. No es la política de consultoría ni el formulario
         de contacto del sitio.
       </p>
 
+      <article class="card">
       <h2>Sin cuenta</h2>
       <p>
         No account. No hay cuenta, no hay registro y no hay servidor de
         identidad. El juego no pide email ni perfil.
       </p>
+      </article>
 
+      <article class="card">
       <h2>Cero red de contenido</h2>
       <p>
         No network for game content. v1 Free no envía cartas, notas, tableros ni
         partidas a internet. El contenido del juego vive en este dispositivo.
       </p>
+      </article>
 
+      <article class="card">
       <h2>Qué se guarda (vault)</h2>
       <p>
         AES-256-GCM vault on device. El tablero (sesiones, cartas, notas,
@@ -104,32 +138,41 @@
         clave está en Keychain/Keystore ThisDeviceOnly
         (<code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code>).
       </p>
+      </article>
 
+      <article class="card">
       <h2>Export JSON</h2>
       <p>
         Export JSON only on user action. «Exportar JSON» genera un archivo en
         claro en el share sheet. Solo ocurre si lo pides; no hay backup en la
         nube.
       </p>
+      </article>
 
+      <article class="card">
       <h2>Purge</h2>
       <p>
         Purge rotates key and deletes file. «Borrar todos mis datos» rota la
         clave, borra el archivo del vault y elimina sesiones y notas de este
         teléfono. No se puede deshacer. No hay cuenta que borrar en un servidor.
       </p>
+      </article>
 
+      <article class="card">
       <h2>Sin anuncios ni analítica</h2>
       <p>
         No ads/analytics. No hay SDK de anuncios ni de analytics. Las salas
         remotas y las compras in-app no están en esta versión.
       </p>
+      </article>
 
+      <article class="card">
       <h2>Quién publica</h2>
       <p>
         Viento Norte ·
         <a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a>
       </p>
+      </article>
       <p class="meta">Actualizado 24 ago 2026 · v1 Free</p>
 
       <h2 lang="en">English (store crawlers)</h2>

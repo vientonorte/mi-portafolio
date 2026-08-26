@@ -20,6 +20,15 @@ export const IMAGE_WEB_ROLES = [
     alt: 'Viento Norte — share consultoría',
   },
   {
+    id: 'share_proceso',
+    label: 'Share redes · proceso',
+    hint: 'Card /s/proceso. 1200×630.',
+    slotId: 'branding.ogProceso',
+    path: 'branding/og-proceso-1200.png',
+    category: 'Branding',
+    alt: 'Viento Norte — share proceso',
+  },
+  {
     id: 'schema',
     label: 'Schema.org (logo)',
     hint: 'JSON-LD Organization.logo. Cuadrado ≥512.',

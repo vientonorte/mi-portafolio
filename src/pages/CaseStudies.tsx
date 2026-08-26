@@ -12,7 +12,7 @@ import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { GradientHeading } from "../components/atoms/GradientHeading";
-import { canonicalFromPath } from "../lib/seo";
+import { canonicalFromPath, SEO_SITE } from "../lib/seo";
 import { ROUTES } from "../lib/routes";
 import { FlagshipCaseStudy } from "../components/organisms/FlagshipCaseStudy";
 import { processesData } from "../data/processes-data";
@@ -87,8 +87,10 @@ export default function CaseStudies({
         {...t.seo.pages.cases}
         keywords={t.seo.keywords}
         url={canonicalFromPath(ROUTES.process)}
+        image={SEO_SITE.ogProceso}
       />
       <SubpageToolbar
+        showLogoText
         crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate("/"), [
           { label: t.breadcrumbs.process, current: true },
         ])}
@@ -138,6 +140,13 @@ export default function CaseStudies({
                 {t.caseStudies.hero.badge}
               </Badge>
             </motion.div>
+
+            <p
+              className="mb-4 text-lg font-semibold tracking-tight text-foreground md:text-xl"
+              style={{ fontFamily: "var(--font-chillax)" }}
+            >
+              {t.caseStudies.hero.tagline}
+            </p>
             
             {/* MEGA TITLE con gradiente animado */}
             <h1 className="subpage-hero__title mb-6">
@@ -403,6 +412,28 @@ export default function CaseStudies({
               ariaLabel={t.caseStudies.bridge.stripLabel}
             />
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-10 rounded-xl border border-border bg-muted/30 p-4 md:p-6"
+          >
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <Badge variant="outline">{t.caseStudies.capa.badge}</Badge>
+              <h3 className="text-lg font-bold">{t.caseStudies.capa.title}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-2">{t.caseStudies.capa.lead}</p>
+            <p className="text-sm mb-4">{t.caseStudies.capa.stack}</p>
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {t.caseStudies.capa.items.map((item) => (
+                <li key={item.title} className="rounded-lg border border-border/80 bg-background p-3">
+                  <p className="text-sm font-semibold">{item.title}</p>
+                  <p className="text-xs text-muted-foreground mt-1 leading-snug">{item.body}</p>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </section>
 
@@ -611,6 +642,21 @@ export default function CaseStudies({
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                size="lg"
+                onClick={() => navigate(ROUTES.consulting)}
+                className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden text-lg px-8 py-6 h-auto"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                />
+                <span className="relative flex items-center gap-2">
+                  {t.caseStudies.cta.consulting}
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
               {onNavigateToFramework && (
                 <Button
                   size="lg"
@@ -623,18 +669,11 @@ export default function CaseStudies({
               )}
               <Button
                 size="lg"
+                variant="outline"
                 onClick={onBack}
-                className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden text-lg px-8 py-6 h-auto"
+                className="text-lg px-8 py-6 h-auto border-2"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                  animate={{ x: ["-100%", "200%"] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                />
-                <span className="relative flex items-center gap-2">
-                  {t.caseStudies.cta.viewProjects}
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
+                {t.caseStudies.cta.viewProjects}
               </Button>
             </div>
           </motion.div>
