@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Index · VN Campaign assets · piloto a11y</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="Índice de piezas Figma 07 para Ads: revisión de un flujo, CMS/CRM, diagnóstico. No Radar."
+    />
+    <style>
+      :root {
+        --ink: #0a0a0a;
+        --cream: #e8e5df;
+        --red: #ff1d25;
+        --orange: #ff931e;
+        --mute: #b4b4b4;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        background: var(--ink);
+        color: var(--cream);
+        padding: 32px 24px 64px;
+        max-width: 1100px;
+        margin-inline: auto;
+      }
+      .bar { height: 6px; background: var(--red); margin-bottom: 28px; }
+      h1 { font-size: 1.75rem; font-weight: 700; margin: 0 0 8px; }
+      .kicker { letter-spacing: 0.16em; text-transform: uppercase; font-size: 11px; color: var(--mute); }
+      p.lead { color: var(--mute); max-width: 62ch; line-height: 1.45; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px; }
+      .chips span {
+        border: 1px solid #323232;
+        background: #181818;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      h2 { font-size: 1.1rem; margin: 32px 0 12px; }
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 720px) {
+        .grid { grid-template-columns: 1fr 1fr; }
+      }
+      figure {
+        margin: 0;
+        border: 1px solid #323232;
+        background: #121212;
+        overflow: hidden;
+      }
+      img { display: block; width: 100%; height: auto; }
+      figcaption { padding: 12px 14px 16px; font-size: 13px; color: var(--mute); }
+      figcaption strong { color: var(--cream); display: block; margin-bottom: 4px; }
+      a { color: var(--orange); }
+      table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #222; vertical-align: top; }
+      th { color: var(--orange); font-weight: 600; }
+      code { font-size: 12px; color: var(--cream); }
+    </style>
+  </head>
+  <body>
+    <div class="bar" aria-hidden="true"></div>
+    <p class="kicker">Viento Norte · pymes</p>
+    <h1>Index · Campaign assets · piloto a11y</h1>
+    <p class="lead">
+      Piezas Figma 07 (personas + stack) para Google Ads y el hero FO.
+      Copy Diagnóstico / a11y. No Radar, no Auditoría, no tour Apple, no rostro.
+      Isologo circular, sin recuadro blanco.
+    </p>
+    <div class="chips">
+      <span>#FF1D25</span><span>#FF931E</span><span>#0A0A0A</span>
+      <span>PNG 1×</span><span>150k Search</span><span>Meta PARKED</span>
+    </div>
+
+    <h2>Contexto valor · Ads y hero</h2>
+    <div class="grid">
+      <figure>
+        <img src="01-1200x627-revision-flujo.png" width="1200" height="627" alt="Revisión gratis de un flujo" />
+        <figcaption><strong>01 · 1200×627</strong> Revisión gratis de un flujo · WCAG 2.2 AA</figcaption>
+      </figure>
+      <figure>
+        <img src="02-1200x627-tecnologia-empresas.png" width="1200" height="627" alt="Tecnología para empresas" />
+        <figcaption><strong>02 · 1200×627</strong> El flujo que usa tu cliente</figcaption>
+      </figure>
+      <figure>
+        <img src="03-1080x1080-cms-crm.png" width="1080" height="1080" alt="En su CMS o CRM" />
+        <figcaption><strong>03 · 1080×1080</strong> En su CMS o CRM</figcaption>
+      </figure>
+      <figure>
+        <img src="04-1080x1080-diagnostico.png" width="1080" height="1080" alt="Diagnóstico UX 5–7 días" />
+        <figcaption><strong>04 · 1080×1080</strong> Diagnóstico UX 5–7 días</figcaption>
+      </figure>
+    </div>
+
+    <h2>Archivo Figma</h2>
+    <p class="lead">
+      <a href="https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45/VN-%C2%B7-Campaign-assets-%C2%B7-piloto-a11y?node-id=0-1">00 · Index</a>
+      ·
+      <a href="https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45?node-id=13-2">07 · Contexto</a>
+      ·
+      <a href="https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45?node-id=17-2">08 · Instagram</a>
+      ·
+      <a href="https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45?node-id=4-6">06 · RSA</a>
+    </p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Página</th><th>Uso</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>00</td><td>Index</td><td>Inventario, tokens, reglas</td></tr>
+        <tr><td>01–02</td><td>LinkedIn / Meta</td><td>Paid PARKED</td></tr>
+        <tr><td>03</td><td>Display IAB</td><td>No gasta el 150k</td></tr>
+        <tr><td>04–05</td><td>OG / Logos</td><td>Circular, sin recuadro blanco</td></tr>
+        <tr><td>06</td><td>RSA paste</td><td>CID 811-405-3092 · no publicar Smart</td></tr>
+        <tr><td>07</td><td>Contexto valor</td><td>Estas 4 PNG · Ads + hero FO</td></tr>
+        <tr><td>08</td><td>Instagram</td><td>Orgánico · Meta paid PARKED</td></tr>
+      </tbody>
+    </table>
+
+    <h2>URLs</h2>
+    <p class="lead">
+      Final paid: <code>https://vientonorte.io/s/consultoria/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=a11y_gratis_pymes</code><br />
+      Hero local: <code>http://127.0.0.1:5173/#/</code><br />
+      Conversión: GA4 <code>generate_lead</code> / <code>book_call</code>
+    </p>
+  </body>
+</html>

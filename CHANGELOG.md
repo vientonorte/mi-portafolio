@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-26] — Hero: storytelling de marca (flujo · CMS/CRM)
+
+### Changed
+- Hero home/SEM (`ConsultoriaLandingHero`): kicker **Diseño que reduce el ruido** + 4 teselas de contexto (personas/tecnología) alineadas al universo Figma 07/08.
+- Teselas con PNG Figma (`/images/ads/01–04`): revisión de un flujo, reserva, CMS/CRM, diagnóstico. No lockup solo.
+- H1 SEM intacto: **Tecnología para empresas.** Sin Radar, sin auditoría, sin rostro.
+- Copy de valor: el flujo que usa tu cliente, en su CMS o CRM; Diagnóstico 5–7 días; gratis a11y de un flujo.
+- `/s/consultoria`, `/s/`, `index.html` (meta + LCP shell) con el mismo relato para message-match Ads.
+
 ## [2026-08-26] — Branding proceso (DS A)
 
 ### Added
