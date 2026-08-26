@@ -1,6 +1,6 @@
 # Piloto a11y · ago 2026
 
-Techo **150.000 CLP** · 100% Google Search. No Meta/LinkedIn este ciclo.
+Techo **150.000 CLP** · 100% Google Search. LinkedIn = **config PAUSED** 27 ago (no mix). Meta parked.
 
 - RSA / keywords: vault `Viento Norte/Resources/SEM/2026-08-26 RSA piloto a11y.md`
 - Research + proyecciones: `…/SEM/2026-08-26 RESEARCH proyecciones 150k.md`
@@ -17,4 +17,4 @@ Techo **150.000 CLP** · 100% Google Search. No Meta/LinkedIn este ciclo.
 | `assets/ad-logo-512.png` | 512×512 | Logo medio |
 | `assets/ad-logo-128.png` | 128×128 | Logo mínimo |
 
-Copy exacta (HTML). Marca isologo, sin rostro. Search usa el RSA de texto; estos PNG no se pautan este mes.
+Copy exacta (HTML). Marca isologo, sin rostro. Search usa el RSA de texto. `ad-1200x628.png` se **sube** a LinkedIn Campaign Manager en PAUSED (no ACTIVE este mes).

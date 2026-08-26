@@ -97,6 +97,24 @@ Requiere **A + D** (+ C recomendado).
 
 ---
 
+## G · LinkedIn Ads (**configurar**, no gastar)
+
+Requiere **A** (scrape). D (GTM) ya PASS. **No** come el techo 150k.
+
+- [ ] A scrape: [Post Inspector](https://www.linkedin.com/post-inspector/) `/s/consultoria` → card 1200
+- [ ] Página empresa **Viento Norte** (vault hoy solo perfil personal)
+- [ ] Campaign Manager · editor Classic · objective **Website visits**
+- [ ] Campaign group + campaign + ad = **PAUSED** (mín. UI ~USD 10/día **sin** ACTIVE)
+- [ ] Final URL `https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
+- [ ] Creative `campaigns/2026-08-26-piloto-a11y/assets/ad-1200x628.png` · copy Diagnóstico/a11y · no Radar
+- [ ] Insight Tag Partner ID → GTM **LinkedIn Insight 2.0** · trigger All Pages + History Change · **unpublished**
+- [ ] Spend CM = **0**
+
+SSOT: vault `Resources/SEM/2026-08-26 LinkedIn config PAUSED.md`.  
+**Canal habilitado al cerrar G:** cuenta lista. Pauta LI = mes futuro (≥300k). Este mes **No**.
+
+---
+
 ## F · Instagram Ads (Meta)
 
 Requiere **A + B + D**.
@@ -120,8 +138,9 @@ Requiere **A + B + D**.
 A share  →  B IG orgánico
          →  C Google Business
          →  D GTM/GA
-              →  E Google Ads
-              →  F Instagram Ads
+              →  E Google Ads (spend 150k)
+              →  G LinkedIn Ads (config PAUSED, $0)
+              →  F Instagram Ads (parked)
 ```
 
 CMS: `#/admin/fotos` sube branding y **abre PR** a `public/images/` (Worker live). Merge de ese PR = parte de A.
@@ -137,6 +156,8 @@ CMS: `#/admin/fotos` sube branding y **abre PR** a `public/images/` (Worker live
 | Google Business | C | No · parked |
 | GTM / medición | D | Preview Gratis **PASS** 26 ago |
 | Google Ads | A+D+E | RSA **armado** · *activar campañas* dicha · **no** publicado en UI · techo humano |
+| LinkedIn Ads | A+G | **config 27 ago** · PAUSED · $0 · no mix 150k |
 | Instagram Ads | A+B+D+F | **PARKED** · $0 |
+| Google SEO / GSC | — | verify+sitemap 03 ago · **inspección `/s/consultoria` 27 ago** |
 
 Pegar RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Copy: Diagnóstico / a11y, no Radar.
