@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-26] — Branding proceso (DS A)
+
+### Added
+- HTML crawler `/s/proceso/` (hop a `/#/proceso`, GTM, OG 1200×630). Sitemap +1 loc.
+- Capa de método en `/#/proceso` (branding, analytics, research, CM, social) sobre CMS/CRM del cliente. CTA **Agendar diagnóstico** → `/#/consultoria`.
+
+### Changed
+- Toolbar proceso: isologo + wordmark VN. Tagline *Diseño que reduce el ruido.* Cinco fases intactas.
+
+### Not
+- `/s/consultoria`, RSA, Radio, GTM eventos, tour Apple.
+
 ## [2026-08-24] — Privacy by design en UI de políticas
 
 ### Changed

@@ -47,9 +47,9 @@ export default {
             'Casos con evidencia y métricas en SURA Investments, Transvip y Karri. Fintech, mobility y enterprise.',
         },
         cases: {
-          title: 'Framework UX y casos',
+          title: 'Proceso UX',
           description:
-            '5 procesos UX — analytics, research, diseño, testing y refinamiento. Aplicados en SURA, Transvip y Karri.',
+            'Diseño que reduce el ruido. 5 fases sobre tu CMS o CRM: analytics, research, diseño, testing, refinamiento.',
         },
         framework: {
           title: 'Framework UX — 5 procesos',
@@ -1245,6 +1245,7 @@ export default {
     caseStudies: {
       hero: {
         badge: 'Método en producción',
+        tagline: 'Diseño que reduce el ruido.',
         title: 'Proceso UX basado en mejora continua',
         description: '5 macroprocesos aplicados en entornos reales — SURA, Transvip y Karri — con resultados medibles en onboarding, activación y NPS.',
         metricsTitle: 'Resultados en producción',
@@ -1343,12 +1344,26 @@ export default {
         stripLabel: 'Resumen método a resultado por fase',
       },
       navMobile: 'Secciones del proceso UX',
+      capa: {
+        badge: 'Capa de método',
+        title: 'Sobre tu CMS o CRM',
+        lead: 'Mismo método: branding de producto, analytics, research aplicado, contenidos y automatización social — sobre tu stack. No es un quinto pack paid.',
+        stack: 'Front de punta a punta aplicado a tu CMS o CRM — Jira, SharePoint, Salesforce, headless. El dato y el tenant siguen siendo tuyos.',
+        items: [
+          { title: 'Branding', body: 'Sistema visual y wordmark VN en el producto.' },
+          { title: 'Analytics', body: 'Funnels y CRM/CMS. Decisiones con data.' },
+          { title: 'Research aplicado', body: 'Research sobre tu flujo, no campo de vitrina.' },
+          { title: 'Newsletter / CM', body: 'Secuencia de mail y tono. Publicar con Decider.' },
+          { title: 'Social', body: 'Calendario y tono; no auto-post sin ok.' },
+        ],
+      },
       cta: {
         viewProjects: 'Explorar negocios',
+        consulting: 'Agendar diagnóstico',
         backToPortfolio: 'Volver al portfolio',
         sectionLabel: 'Negocios reales',
         title: '¿Quieres ver este framework en acción?',
-        description: 'Explora los casos completos por negocio donde apliqué esta metodología en SURA, Transvip y Karri.',
+        description: 'Explora los casos completos por negocio donde apliqué esta metodología en SURA, Transvip y Karri. La entrada paid sigue siendo diagnóstico / accesibilidad de un flujo.',
       },
     },
 

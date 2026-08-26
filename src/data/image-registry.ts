@@ -26,6 +26,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("branding.profilePhoto", "Branding", "Foto de perfil", "profile-photo.jpg", portfolioImages.branding.profilePhoto, "Rodrigo Gaete, UX Lead"),
   entry("branding.ogHome", "Branding", "Share redes · home", "branding/og-home-1200.png", portfolioImages.branding.ogHome, "Viento Norte — share home"),
   entry("branding.ogConsultoria", "Branding", "Share redes · consultoría", "branding/og-consultoria-1200.png", portfolioImages.branding.ogConsultoria, "Viento Norte — share consultoría"),
+  entry("branding.ogProceso", "Branding", "Share redes · proceso", "branding/og-proceso-1200.png", portfolioImages.branding.ogProceso, "Viento Norte — share proceso"),
   entry("branding.ogPortfolio", "Branding", "OG / PWA (legacy)", "branding/og-portfolio.png", portfolioImages.branding.ogPortfolio, "Viento Norte · UXtech · módulos a medida"),
   entry("branding.isologo", "Branding", "Logo / isologo", "branding/isologo-512.png", portfolioImages.branding.isologo, "Isologo Viento Norte"),
   entry("branding.favicon", "Branding", "Favicon", "favicon.ico", portfolioImages.branding.favicon, "Favicon Viento Norte"),

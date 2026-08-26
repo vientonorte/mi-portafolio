@@ -20,6 +20,12 @@
     <priority>0.96</priority>
   </url>
   <url>
+    <loc>https://vientonorte.io/s/proceso/</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://vientonorte.io/s/polijuego-privacy/</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>yearly</changefreq>
