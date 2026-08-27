@@ -39,7 +39,7 @@ export default {
         home: {
           title: 'Tecnología para empresas · Viento Norte',
           description:
-            'Tecnología para empresas: el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.',
+            'Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.',
         },
         proyectos: {
           title: 'Negocios · UX Lead',
@@ -85,7 +85,7 @@ export default {
           /** SEM final URL: https://vientonorte.io/#/consultoria — message-match Ads */
           title: 'Consultoría UX · Elige tu alcance',
           description:
-            'Diagnóstico 5–7 días del flujo que usa tu cliente, en su CMS o CRM. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',
+            'Diagnóstico 5–7 días: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',
           keywords:
             'consultoría UX, design sprint, arquitectura fintech, flujos UX, UXtech, módulos producto, accesibilidad WCAG, front office, Viento Norte',
         },
@@ -250,7 +250,7 @@ export default {
         title: 'Tecnología para empresas.',
         titleAccent: '',
         description:
-          'El flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',
+          'Operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',
         transparencyLine:
           'Entrada gratis a Diagnóstico: revisión WCAG 2.2 AA de un flujo crítico. Si aplica, conversemos el Diagnóstico completo (5–7 días).',
         ctaPrimary: 'Agendar en Google Calendar',
