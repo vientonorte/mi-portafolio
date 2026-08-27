@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-26] — Sitemap: no gastar crawl en `/s/`
+
+### Changed
+- `public/sitemap.xml`: se saca `https://vientonorte.io/s/` (canonical a home = duplicado). Quedan `/`, `/s/consultoria/`, `/s/proceso/` y privacy legal.
+
+---
+
 ## [2026-08-26] — Hero: storytelling de marca (flujo · CMS/CRM)
 
 ### Changed
