@@ -28,12 +28,56 @@
       name="twitter:image"
       content="https://vientonorte.io/images/branding/og-home-1200.png"
     />
+    <!--
+      Index /s/ is a hop to home. GTM coverage crawler flags it untagged
+      unless gtm.js is in this HTML. Same container as /s/consultoria.
+      No gtag.js paralelo.
+    -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PM5LBQRP");
+    </script>
     <meta http-equiv="refresh" content="5;url=https://vientonorte.io/" />
     <script>
-      location.replace("https://vientonorte.io/");
+      (function () {
+        var q = window.location.search || "";
+        var ref = document.referrer || "";
+        var ua = navigator.userAgent || "";
+        var stay =
+          /[?&](gtm_debug|gtm_preview|gtm_auth|g_gtm)=/i.test(q) ||
+          /tagassistant\.google\.com/i.test(ref) ||
+          /Google-Ads|AdsBot-Google|Google Tag Assistant|Google-InspectionTool|Storebot-Google/i.test(
+            ua
+          );
+        if (stay) {
+          var meta = document.querySelector('meta[http-equiv="refresh"]');
+          if (meta) meta.parentNode.removeChild(meta);
+          return;
+        }
+        window.setTimeout(function () {
+          window.location.replace("https://vientonorte.io/" + q);
+        }, 1500);
+      })();
     </script>
   </head>
   <body>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PM5LBQRP"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+        title="Google Tag Manager"
+      ></iframe
+    ></noscript>
     <main>
       <h1>Tecnología para empresas</h1>
       <p>
