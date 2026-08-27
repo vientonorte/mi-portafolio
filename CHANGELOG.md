@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-27] — SEM: operaciones digitales en `/s/consultoria`
+
+### Changed
+- Meta, OG, JSON-LD y cuerpo crawler de `/s/consultoria` nombran **operaciones digitales** (message match AG-D) sin cambiar H1 ni el imán gratis de un flujo.
+- `og-consultoria-1200.png`: lockup oficial (isologo degradé + wordmark **Viento Norte**) junto al asset de reserva; H1 **Tecnología para empresas**; sub ops + un flujo WCAG.
+- Ads `01–05`: wordmark **Viento Norte** junto al isologo. `05-1200x627-operaciones-digitales.png` (AG-D).
+
 ## [2026-08-26] — Hero: storytelling de marca (flujo · CMS/CRM)
 
 ### Changed

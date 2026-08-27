@@ -39,7 +39,7 @@ export default {
         home: {
           title: 'Technology for business · Viento Norte',
           description:
-            'Technology for business: the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: accessibility of one flow. 30 min kickoff.',
+            'Technology for business: digital operations and the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: accessibility of one flow. 30 min kickoff.',
         },
         proyectos: {
           title: 'Business · UX Lead',
@@ -250,7 +250,7 @@ export default {
         title: 'Technology for business.',
         titleAccent: '',
         description:
-          'The flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
+          'Digital operations and the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book on Google Calendar',
