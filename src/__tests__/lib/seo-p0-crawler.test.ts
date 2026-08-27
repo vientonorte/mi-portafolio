@@ -54,6 +54,11 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareHome).toMatch(/Tecnología para empresas:/);
     expect(shareHome).toContain('rel="canonical" href="https://vientonorte.io/"');
     expect(shareHome).toContain('content="5;url=https://vientonorte.io/"');
+    expect(shareHome).toContain("GTM-PM5LBQRP");
+    expect(shareHome).toContain("googletagmanager.com/gtm.js?id=");
+    expect(shareHome).not.toContain("gtag/js?id=");
+    expect(shareHome).toContain("gtm_debug");
+    expect(shareHome).toContain("tagassistant");
   });
 
   it("share consultoria has H1, three paths, query, and no hash canonical", () => {
