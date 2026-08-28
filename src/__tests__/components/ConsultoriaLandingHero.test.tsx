@@ -60,5 +60,6 @@ describe("ConsultoriaLandingHero", () => {
     expect(img).toHaveAttribute("loading", "eager");
     expect(container.textContent).toMatch(/X\|CMS/);
     expect(container.textContent).not.toMatch(/Radar/i);
+    expect(container.textContent).not.toMatch(/Viento Norte/);
   });
 });

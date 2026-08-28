@@ -2,8 +2,6 @@ import { Calendar, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { DeviceMockup } from "../molecules/DeviceMockup";
-import { LogoMarkSvg } from "../atoms/Logo";
-import { SEO_SITE } from "../../lib/seo";
 import { ROUTES } from "../../lib/routes";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -93,19 +91,6 @@ export function ConsultoriaLandingHero() {
           </div>
 
           <div className="order-2 space-y-5 lg:order-1 lg:col-span-5">
-            <div className="flex items-center gap-3">
-              <LogoMarkSvg
-                size={36}
-                showPlate
-                plate="floating"
-                interactive
-                className="logo-mark--on-dark"
-              />
-              <p className="text-sm font-semibold tracking-tight text-[#E8E5DF]">
-                {SEO_SITE.brand}
-              </p>
-            </div>
-
             <p className="inline-flex min-h-8 items-center rounded-full border border-[#FF931E]/40 bg-[#FF931E]/10 px-3 text-xs font-medium text-[#FF931E]">
               {t.xcmsLabel}
             </p>
