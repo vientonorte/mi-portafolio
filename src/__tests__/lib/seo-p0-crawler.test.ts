@@ -135,9 +135,9 @@ describe("SEO P0 · crawler HTML /s/", () => {
 });
 
 describe("SEO P0 · sitemap HTTP only", () => {
-  it("lists / /s/ /s/consultoria/ and no hash locs", () => {
+  it("lists / /s/consultoria/ /s/proceso/ and no hash locs", () => {
     expect(sitemap).toContain("<loc>https://vientonorte.io/</loc>");
-    expect(sitemap).toContain("<loc>https://vientonorte.io/s/</loc>");
+    expect(sitemap).not.toContain("<loc>https://vientonorte.io/s/</loc>");
     expect(sitemap).toContain(
       "<loc>https://vientonorte.io/s/consultoria/</loc>"
     );

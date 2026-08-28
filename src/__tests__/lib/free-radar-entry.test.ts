@@ -44,10 +44,19 @@ describe("openFreeRadarEntry", () => {
     );
 
     expect(channel).toBe("google_calendar");
-    expect(openSpy).toHaveBeenCalledWith(
-      "https://calendar.app.google/vn-a11y-test",
-      "_blank",
-      "noopener,noreferrer"
+    expect(trackEventSpy).toHaveBeenCalledWith(
+      "generate_lead",
+      expect.objectContaining({ channel: "google_calendar" })
+    );
+    expect(openSpy).not.toHaveBeenCalled();
+    await vi.waitFor(
+      () =>
+        expect(openSpy).toHaveBeenCalledWith(
+          "https://calendar.app.google/vn-a11y-test",
+          "_blank",
+          "noopener,noreferrer"
+        ),
+      { timeout: 1000 }
     );
     expect(navigateSpy).not.toHaveBeenCalled();
   });
