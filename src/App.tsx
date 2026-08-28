@@ -29,6 +29,7 @@ const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
 const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
 const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
+const News = lazyWithRetry(() => import('./pages/News'));
 const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
@@ -161,6 +162,8 @@ function AppRoutes() {
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/news/:slug" element={<News />} />
+            <Route path={ROUTES.news} element={<News />} />
             <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />
