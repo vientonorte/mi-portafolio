@@ -46,6 +46,7 @@ export const portfolioImages = {
     uxValueChain: img("framework/ux-value-chain.png"),
   },
   consultoria: {
+    heroOps: img("consultoria/x-cms-dashboard.png"),
     xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
     xCmsDashboardWebp: img("consultoria/x-cms-dashboard.webp"),
     geesDashboard: img("consultoria/gees-dashboard.png", true),

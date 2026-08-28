@@ -7,6 +7,15 @@ import { ConsultoriaLandingHero } from "@/components/organisms/ConsultoriaLandin
 import { LanguageProvider } from "@/lib/LanguageContext";
 
 const openCalendarBooking = vi.fn(() => true);
+const navigate = vi.fn();
+
+vi.mock("react-router-dom", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-router-dom")>();
+  return {
+    ...actual,
+    useNavigate: () => navigate,
+  };
+});
 
 vi.mock("@/lib/site-contact", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/lib/site-contact")>();
@@ -27,36 +36,30 @@ function renderHero() {
 }
 
 describe("ConsultoriaLandingHero", () => {
-  it("restores Agendar in the home hero", async () => {
+  it("opens X|CMS demo and still offers Agendar", async () => {
     const user = userEvent.setup();
     renderHero();
-    const agendar = screen.getByTestId("hero-agendar");
-    expect(agendar).toHaveTextContent(/Agendar/i);
+    expect(screen.getByTestId("hero-demo-xcms")).toHaveTextContent(/X\|CMS/i);
+    expect(screen.getByTestId("hero-agendar")).toHaveTextContent(/Agendar/i);
     expect(screen.getByTestId("hero-gratis-a11y")).toBeInTheDocument();
-    await user.click(agendar);
+    await user.click(screen.getByTestId("hero-demo-xcms"));
+    expect(navigate).toHaveBeenCalledWith("/demo/x-cms");
+    await user.click(screen.getByTestId("hero-agendar"));
     expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "consultoria-hero" });
   });
 
-  it("tells brand story without Radar, auditoria, or personal name", () => {
+  it("shows X|CMS product mockup, not a lifestyle cafe photo", () => {
     const { container } = renderHero();
+    expect(container.querySelector("[data-hero-version='3']")).toBeTruthy();
+    expect(container.querySelector("[data-product='x-cms']")).toBeTruthy();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       /Tecnología para empresas/i
     );
-    expect(screen.getByText(/Diseño que reduce el ruido/i)).toBeInTheDocument();
-    const tiles = screen.getByTestId("hero-story-tiles");
-    expect(tiles).toHaveTextContent(/Revisión de un flujo/i);
-    expect(tiles).toHaveTextContent(/En su CMS o CRM/i);
-    expect(tiles).toHaveTextContent(/Diagnóstico 5–7 días/i);
-    const imgs = screen.getAllByRole("img");
-    expect(imgs).toHaveLength(4);
-    expect(imgs.map((img) => img.getAttribute("src"))).toEqual([
-      "/images/ads/01-1200x627-revision-flujo.png",
-      "/images/ads/02-1200x627-tecnologia-empresas.png",
-      "/images/ads/03-1080x1080-cms-crm.png",
-      "/images/ads/04-1080x1080-diagnostico.png",
-    ]);
+    const img = screen.getByRole("img", { name: /CMS/i });
+    expect(img.getAttribute("src") ?? "").toMatch(/x-cms-dashboard/);
+    expect(img).toHaveAttribute("loading", "eager");
+    expect(container.textContent).toMatch(/X\|CMS/);
     expect(container.textContent).not.toMatch(/Radar/i);
-    expect(container.textContent).not.toMatch(/auditor[íi]a/i);
-    expect(container.textContent).not.toMatch(/Rodrigo/i);
+    expect(container.textContent).not.toMatch(/Viento Norte/);
   });
 });

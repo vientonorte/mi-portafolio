@@ -8,6 +8,7 @@ export type ImageWebRole =
   | "favicon"
   | "logo"
   | "apple"
+  | "hero_consultoria"
   | "faq"
   | "gallery";
 
@@ -61,6 +62,12 @@ export const IMAGE_WEB_ROLES: ImageRoleDef[] = [
     label: "Apple / PWA",
     hint: "icon-192. Cuadrado.",
     slotId: "branding.appleTouch",
+  },
+  {
+    id: "hero_consultoria",
+    label: "Hero · operaciones CMS",
+    hint: "Pantalla de producto (CMS/CRM), no lifestyle. 16:10 o 1200×630. Alt obligatorio.",
+    slotId: "branding.heroConsultoria",
   },
   {
     id: "faq",

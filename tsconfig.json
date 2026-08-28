@@ -44,6 +44,7 @@
     "src/components/ui/drawer.tsx",
     "src/components/ui/resizable.tsx",
     "src/data/projects-data.ts",
-    "src/vite.config.ts"
+    "src/vite.config.ts",
+    "src/**/*.figma.ts"
   ]
 }

@@ -68,6 +68,15 @@ export const IMAGE_WEB_ROLES = [
     alt: 'Apple touch Viento Norte',
   },
   {
+    id: 'hero_consultoria',
+    label: 'Hero · operaciones CMS',
+    hint: 'Pantalla de producto (CMS/CRM), no lifestyle. 16:10. Alt obligatorio.',
+    slotId: 'branding.heroConsultoria',
+    path: 'consultoria/x-cms-dashboard.png',
+    category: 'Consultoría',
+    alt: 'Dashboard CMS — operaciones digitales en el stack del cliente',
+  },
+  {
     id: 'faq',
     label: 'FAQ / ayuda',
     hint: 'Sin cable HTML automático.',

@@ -425,17 +425,17 @@ html[data-nav="site"] [data-surface="consultoria-funnel"] {
 }
 
 @media (max-width: 1023.98px) {
+  /* Funnel FO: sin pills 01–03 (dock cubre). Solo header. */
   html[data-nav="site"] [data-surface="consultoria-funnel"] {
-    padding-top: calc(var(--header-height) + 3.9rem);
+    padding-top: var(--header-height);
   }
 
   html[data-nav="subpage"] [data-surface="consultoria-funnel"] {
-    padding-top: 3.9rem;
+    padding-top: 0;
   }
 
-  html[data-nav="site"],
-  html[data-nav="subpage"] {
-    scroll-padding-top: calc(var(--header-height) + 3.9rem);
+  html[data-nav="site"] {
+    scroll-padding-top: calc(var(--header-height) + 0.5rem);
   }
 }
 
