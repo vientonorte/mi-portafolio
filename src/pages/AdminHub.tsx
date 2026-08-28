@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { CalendarDays, Database, Flame, ImageIcon, KeyRound, LogOut, RefreshCw, Search } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { CalendarDays, Database, Flame, ImageIcon, KeyRound, LogOut, Map, RefreshCw, Search } from "lucide-react";
 import { DemoHeatmapPanel } from "../components/admin/DemoHeatmapPanel";
+import { RoadmapPanel } from "../components/admin/RoadmapPanel";
 import { SurfaceCards } from "../components/admin/SurfaceCards";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { PageShell } from "../components/layout/PageShell";
@@ -83,10 +84,13 @@ function statusVariant(status?: string): "default" | "secondary" | "outline" | "
 export default function AdminHub() {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const location = useLocation();
   const [session, setSession] = useState<{ ok: boolean; user?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [tab, setTab] = useState("overview");
+  const [tab, setTab] = useState(
+    location.pathname.includes("/admin/roadmap") ? "roadmap" : "overview",
+  );
   const [overview, setOverview] = useState<AdminOverview | null>(null);
   const [finanzas, setFinanzas] = useState<FinanzasSurface | null>(null);
   const [contact, setContact] = useState<ContactSurface | null>(null);
@@ -335,6 +339,10 @@ export default function AdminHub() {
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <TabsList className="flex flex-wrap h-auto">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="roadmap">
+                  <Map className="mr-1 h-3.5 w-3.5" aria-hidden />
+                  Roadmap
+                </TabsTrigger>
                 <TabsTrigger value="leads">Leads</TabsTrigger>
                 <TabsTrigger value="bookings">Agenda</TabsTrigger>
                 <TabsTrigger value="diagnosticos">Diagnósticos</TabsTrigger>
@@ -358,6 +366,7 @@ export default function AdminHub() {
 
             <TabsContent value="overview" className="space-y-6">
               <SurfaceCards finanzas={finanzas} contact={contact} />
+              <RoadmapPanel />
               <div className="grid gap-4 sm:grid-cols-3">
                 <Metric title="Leads hoy / semana" today={overview?.today.leads} week={overview?.week.leads} total={overview?.totals.leads} />
                 <Metric title="Agenda hoy / semana" today={overview?.today.bookings} week={overview?.week.bookings} total={overview?.totals.bookings} />
@@ -365,6 +374,10 @@ export default function AdminHub() {
               </div>
               <RecentList title="Últimos leads" items={overview?.recent.leads ?? []} />
               <RecentList title="Últimas reservas" items={overview?.recent.bookings ?? []} />
+            </TabsContent>
+
+            <TabsContent value="roadmap">
+              <RoadmapPanel />
             </TabsContent>
 
             {(["leads", "bookings", "diagnosticos"] as const).map((collection) => (

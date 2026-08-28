@@ -30,6 +30,8 @@ export const ROUTES = {
 
   /** Panel interno. No está en nav. Gate passkey. */
   admin: "/admin",
+  /** Roadmap interno (misma sesión admin). */
+  adminRoadmap: "/admin/roadmap",
 
   /** Deep link a un módulo del tour SEM. */
   consultingModule: (moduleId: string) =>

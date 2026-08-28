@@ -198,6 +198,7 @@ function AppRoutes() {
               element={<TimedServiceDemo />}
             />
             <Route path={ROUTES.admin} element={<AdminHub />} />
+            <Route path={ROUTES.adminRoadmap} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
