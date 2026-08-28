@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-28] — CI Tests + sitemap `/s/`
+
+### Fixed
+- `openFreeRadarEntry` test: Calendar abre a los 300 ms (GTM CE `generate_lead` primero). El job Tests ya no bloquea Deploy Pages.
+
+### Changed
+- `public/sitemap.xml`: se saca `https://vientonorte.io/s/` (canonical a home = duplicado). Quedan `/`, `/s/consultoria/`, `/s/proceso/` y privacy legal.
+
+---
+
 ## [2026-08-28] — Hero v3: X|CMS producto estrella
 
 ### Changed
