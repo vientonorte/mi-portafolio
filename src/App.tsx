@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isAdminPath, isConsultingOfferPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { isAdminPath, isConsultingModuleTourPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -135,13 +135,13 @@ function GlobalNotFoundPage() {
 function AppRoutes() {
   const pathname = useLocation().pathname;
   const isDeepPage = isDeepPortfolioPage(pathname);
-  /** Tour fullscreen: sin dock/header del sitio (chrome propio del tour). */
-  const isOfferLanding = isConsultingOfferPath(pathname);
+  /** Tour módulos fullscreen: sin dock. Landing `/consultoria` SÍ lleva DeepPageNav. */
+  const isModuleTour = isConsultingModuleTourPath(pathname);
   /** Demo con reloj: sin dock (el iframe no puede quedar bajo el nav). */
   const isTimedDemo = isTimedDemoPath(pathname);
   /** Panel interno: sin nav pública (seguridad por diseño). */
   const isAdmin = isAdminPath(pathname);
-  const hideSiteChrome = isOfferLanding || isTimedDemo || isAdmin;
+  const hideSiteChrome = isModuleTour || isTimedDemo || isAdmin;
 
   return (
     <PortfolioChrome>
@@ -154,7 +154,7 @@ function AppRoutes() {
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
-            {/* Home FO = embudo. SEM paid = /consultoria (tour fullscreen). */}
+            {/* Home FO = embudo. SEM paid = /consultoria (dock sí). Tour módulos = fullscreen. */}
             <Route path="/" element={<Home />} />
             <Route path="/proyectos" element={<Proyectos />} />
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
@@ -198,6 +198,7 @@ function AppRoutes() {
               element={<TimedServiceDemo />}
             />
             <Route path={ROUTES.admin} element={<AdminHub />} />
+            <Route path={ROUTES.adminRoadmap} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>

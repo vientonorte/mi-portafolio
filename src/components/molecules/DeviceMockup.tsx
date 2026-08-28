@@ -69,6 +69,8 @@ export function DeviceMockup({
   }
 
   const screen = (
+    fit: "contain" | "cover" = "contain",
+  ) => (
     <div className="overflow-hidden rounded-lg bg-[#0a0a0a] ring-1 ring-black/40">
       {/* Browser chrome */}
       <div
@@ -89,7 +91,14 @@ export function DeviceMockup({
       <img
         src={src}
         alt={alt}
-        className="aspect-[16/10] w-full object-cover object-top"
+        width={1440}
+        height={900}
+        className={cn(
+          "block h-auto w-full bg-[#0a0a0a]",
+          fit === "contain"
+            ? "object-contain object-top"
+            : "aspect-[16/10] object-cover object-top",
+        )}
         loading={loading}
         decoding="async"
       />
@@ -106,7 +115,7 @@ export function DeviceMockup({
           />
         ) : null}
         <div className="relative rounded-xl bg-[#2c2c2e] p-1.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.75)] ring-1 ring-white/12">
-          {screen}
+          {screen("contain")}
         </div>
         {caption ? (
           <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
@@ -117,24 +126,24 @@ export function DeviceMockup({
     );
   }
 
-  /* laptop — default */
+  /* laptop — 16:10 capture (1440×900) at column width; contain, no crop */
   return (
-    <figure className={cn("relative w-full", className)}>
+    <figure className={cn("relative mx-auto w-full overflow-x-clip", className)}>
       {glow ? (
         <div
-          className="pointer-events-none absolute -inset-10 rounded-[2.5rem] bg-white/[0.04] blur-3xl motion-reduce:hidden"
+          className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-white/[0.04] blur-2xl motion-reduce:hidden lg:-inset-8"
           aria-hidden
         />
       ) : null}
 
-      {/* Lid / bezel */}
-      <div className="relative mx-auto w-full max-w-xl">
+      {/* Lid / bezel — full column; chin 108% is clipped by overflow-x-clip */}
+      <div className="relative mx-auto w-full">
         <div className="rounded-[14px] bg-gradient-to-b from-[#3a3a3c] via-[#2c2c2e] to-[#1d1d1f] p-[9px] pb-[11px] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/12">
           {/* Camera */}
           <div className="mb-1.5 flex justify-center" aria-hidden>
             <span className="h-1.5 w-1.5 rounded-full bg-black/80 ring-1 ring-white/10" />
           </div>
-          {screen}
+          {screen("contain")}
         </div>
 
         {/* Hinge */}

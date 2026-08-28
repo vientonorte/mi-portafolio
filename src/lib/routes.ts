@@ -30,6 +30,8 @@ export const ROUTES = {
 
   /** Panel interno. No está en nav. Gate passkey. */
   admin: "/admin",
+  /** Roadmap interno (misma sesión admin). */
+  adminRoadmap: "/admin/roadmap",
 
   /** Deep link a un módulo del tour SEM. */
   consultingModule: (moduleId: string) =>
@@ -88,6 +90,11 @@ export function isConsultingOfferPath(pathname: string): boolean {
   if (path === ROUTES.consulting) return true;
   if (path.startsWith(`${ROUTES.consulting}/modulos`)) return true;
   return false;
+}
+
+/** Tour fullscreen de módulos — sin dock/header. `/consultoria` landing SÍ lleva dock. */
+export function isConsultingModuleTourPath(pathname: string): boolean {
+  return normalizePathname(pathname).startsWith(`${ROUTES.consulting}/modulos`);
 }
 
 /** Demo con reloj: chrome propio, sin dock ni toolbar del sitio. */

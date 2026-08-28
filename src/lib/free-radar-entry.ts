@@ -107,7 +107,10 @@ export function openFreeRadarEntry(
         intent: "radar-free",
         notes: "Agenda 30 min · revisión de un flujo (vientonorte.io)",
       });
-      openA11yFreeScheduleOrFallback(openMessage);
+      // Let GTM CE · generate_lead evaluate before Calendar steals the tab.
+      window.setTimeout(() => {
+        openA11yFreeScheduleOrFallback(openMessage);
+      }, 300);
       return "google_calendar";
     }
     if (mode === "schedule") {

@@ -39,6 +39,8 @@ Ad / LinkedIn / SEO
 
 + UTMs capturados en `vn_demo_x_cms_utm`.
 
+GTM: `CE · demo_funnel` + `GA4 · demo_funnel` (no evento clave). Receta: `docs/GTM-KICKOFF.md` v5. Import: `docs/gtm/demo-funnel-import.json`.
+
 ## URLs de anuncio (ejemplos)
 
 ```text

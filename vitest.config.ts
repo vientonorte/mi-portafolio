@@ -61,7 +61,6 @@ export default defineConfig({
     maxWorkers: 1,
     fileParallelism: false,
     isolate: true,
-    execArgv: ['--max-old-space-size=4096'],
     testTimeout: 30_000,
     hookTimeout: 30_000,
     coverage: {

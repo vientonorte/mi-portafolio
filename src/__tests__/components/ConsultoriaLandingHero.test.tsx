@@ -56,6 +56,10 @@ describe("ConsultoriaLandingHero", () => {
       /Tecnología para empresas/i
     );
     const img = screen.getByRole("img", { name: /CMS/i });
+    const h1 = screen.getByRole("heading", { level: 1 });
+    expect(
+      Boolean(h1.compareDocumentPosition(img) & Node.DOCUMENT_POSITION_FOLLOWING),
+    ).toBe(true);
     expect(img.getAttribute("src") ?? "").toMatch(/x-cms-dashboard/);
     expect(img).toHaveAttribute("loading", "eager");
     expect(container.textContent).toMatch(/X\|CMS/);
