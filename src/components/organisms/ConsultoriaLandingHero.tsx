@@ -1,39 +1,43 @@
-import { Calendar } from "lucide-react";
+import { Calendar, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { DeviceMockup } from "../molecules/DeviceMockup";
+import { LogoMarkSvg } from "../atoms/Logo";
+import { SEO_SITE } from "../../lib/seo";
+import { ROUTES } from "../../lib/routes";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
-import { analytics } from "../../lib/analytics";
+import { analytics, trackEvent } from "../../lib/analytics";
 import { openFreeRadarEntry } from "../../lib/free-radar-entry";
 import { openCalendarBooking } from "../../lib/site-contact";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { getPortfolioImages, resolveImageUrl } from "../../lib/image-overrides";
+import { useImageManifestVersion } from "../../lib/image-manifest-context";
 
-/** Figma 07 · contexto valor (personas + stack). Archivo campañas C2ZgaajABQa3NiFJTnFF45. */
-const STORY_IMAGES: Record<string, string> = {
-  flujo: "/images/ads/01-1200x627-revision-flujo.png",
-  reserva: "/images/ads/02-1200x627-tecnologia-empresas.png",
-  stack: "/images/ads/03-1080x1080-cms-crm.png",
-  diagnostico: "/images/ads/04-1080x1080-diagnostico.png",
-};
+const HERO_SLOT = "branding.heroConsultoria";
 
 /**
- * Hero SEM/FO · Radio de tres nombres.
- * H1 = message-match Ads (“Tecnología para empresas.”).
- * Relato = universo marca Figma 07/08: un flujo · personas · CMS/CRM · diagnóstico.
- * CTA de agenda vive en el hero. Alcance sigue en #modalidades.
+ * Hero FO/SEM v3 — mockup X|CMS (producto estrella).
+ * Demo: /#/demo/x-cms · eventos dataLayer demo_x_cms_* (GTM CE: no).
  */
 export function ConsultoriaLandingHero() {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
-  const es = language === "es";
+  useImageManifestVersion();
+  const images = getPortfolioImages();
+  const mediaSrc = resolveImageUrl(HERO_SLOT, images.consultoria.heroOps);
+  const mediaAlt =
+    t.storyTiles.find((tile) => tile.id === "stack")?.alt ??
+    "X|CMS — dashboard de operaciones en el CMS del cliente";
+  const descId = "consultoria-hero-desc";
 
   const bookKickoff = () => {
     analytics.generateLead({
       lead_type: "kickoff",
       channel: "google_calendar",
       origin: "consultoria-hero",
+      package_id: "marco",
     });
     if (!openCalendarBooking({ origin: "consultoria-hero" })) {
       scrollToSection("contacto");
@@ -44,127 +48,121 @@ export function ConsultoriaLandingHero() {
     openFreeRadarEntry(navigate, language, "consultoria-hero");
   };
 
+  const openXcmsDemo = () => {
+    trackEvent("hero_x_cms_open", {
+      category: "engagement",
+      surface: "consultoria-hero",
+      product: "x-cms",
+      path_id: "prototype",
+    });
+    navigate(ROUTES.demoXcms);
+  };
+
   return (
     <section
       id="inicio"
-      className="funnel-section-enter section-pad-default section-atmosphere section-atmosphere-matte relative overflow-hidden border-b border-border/40 scroll-mt-[calc(var(--header-height)+0.75rem)]"
+      data-hero-version="3"
+      data-hero-ui="vn-design-ops"
+      data-product="x-cms"
+      className="funnel-section-enter relative overflow-hidden border-b border-border/40 scroll-mt-[calc(var(--header-height)+0.75rem)] bg-[#0A0A0A] text-[#E8E5DF]"
       aria-labelledby="consultoria-hero-heading"
     >
-      <div className="container relative mx-auto max-w-5xl">
-        <div className="mx-auto space-y-6 text-center">
-          <div className="mx-auto max-w-2xl space-y-6">
-            <Badge
-              variant="outline"
-              className="border-primary/25 font-normal text-foreground"
+      <div className="h-1.5 w-full bg-brand-gradient" aria-hidden />
+      <div className="container relative mx-auto max-w-6xl px-4 py-8 md:py-12">
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
+          <div className="order-1 lg:order-2 lg:col-span-7" data-testid="hero-ops-media">
+            <button
+              type="button"
+              onClick={openXcmsDemo}
+              className="hero-xcms-hit"
+              aria-label={t.ctaDemo}
             >
-              {t.badge}
-            </Badge>
+              <span className="hero-xcms-play" aria-hidden>
+                <Play className="h-3.5 w-3.5" />
+                {t.ctaDemo}
+              </span>
+              <DeviceMockup
+                variant="laptop"
+                src={mediaSrc}
+                alt={mediaAlt}
+                caption={t.xcmsCaption}
+                addressBar="x-cms · operaciones"
+                loading="eager"
+              />
+            </button>
+          </div>
 
-            <p
-              className="font-mono text-xs uppercase text-muted-foreground"
-              style={{ letterSpacing: "0.18em" }}
-            >
+          <div className="order-2 space-y-5 lg:order-1 lg:col-span-5">
+            <div className="flex items-center gap-3">
+              <LogoMarkSvg
+                size={36}
+                showPlate
+                plate="floating"
+                interactive
+                className="logo-mark--on-dark"
+              />
+              <p className="text-sm font-semibold tracking-tight text-[#E8E5DF]">
+                {SEO_SITE.brand}
+              </p>
+            </div>
+
+            <p className="inline-flex min-h-8 items-center rounded-full border border-[#FF931E]/40 bg-[#FF931E]/10 px-3 text-xs font-medium text-[#FF931E]">
+              {t.xcmsLabel}
+            </p>
+
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">
               {t.principleBadge}
             </p>
 
             <h1
               id="consultoria-hero-heading"
-              className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.5rem] md:leading-[1.12]"
+              className="text-[1.75rem] font-bold leading-tight tracking-tight text-[#E8E5DF] sm:text-4xl"
             >
               {t.title}
-              {t.titleAccent ? (
-                <>
-                  {" "}
-                  <span className="text-brand-gradient">{t.titleAccent}</span>
-                </>
-              ) : null}
             </h1>
 
-            <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p
+              id={descId}
+              className="max-w-xl text-sm leading-relaxed text-white/60 md:text-base"
+            >
               {t.description}
             </p>
-          </div>
 
-          <ul
-            className="grid gap-3 text-left sm:grid-cols-2"
-            role="list"
-            aria-label={t.storyLabel}
-            data-testid="hero-story-tiles"
-          >
-            {t.storyTiles.map((tile) => (
-              <li
-                key={tile.id}
-                className="overflow-hidden rounded-2xl border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated/90"
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Button
+                type="button"
+                size="lg"
+                data-testid="hero-demo-xcms"
+                aria-describedby={descId}
+                className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold text-white hover:opacity-90"
+                onClick={openXcmsDemo}
               >
-                <img
-                  src={STORY_IMAGES[tile.id]}
-                  alt={tile.alt}
-                  width={1200}
-                  height={630}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-[16/10] w-full object-cover object-center"
-                  data-testid={`hero-story-img-${tile.id}`}
-                />
-                <div className="p-4">
-                  <p
-                    className="font-mono text-[11px] uppercase text-muted-foreground"
-                    style={{ letterSpacing: "0.16em" }}
-                  >
-                    {tile.label}
-                  </p>
-                  <p className="mt-1 text-sm font-semibold tracking-tight text-foreground">
-                    {tile.title}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    {tile.hint}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <ul
-            className="flex flex-wrap items-center justify-center gap-2"
-            role="list"
-            aria-label={es ? "Compromisos" : "Commitments"}
-          >
-            {t.trustChips.map((chip) => (
-              <li key={chip}>
-                <span className="inline-flex min-h-[32px] items-center rounded-full border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated/90 px-3 py-1 text-xs font-medium text-muted-foreground">
-                  {chip}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <Button
-              size="lg"
-              data-testid="hero-agendar"
-              className="min-h-[48px] bg-brand-gradient px-8 font-semibold hover:opacity-90"
-              onClick={bookKickoff}
-            >
-              <Calendar className="h-4 w-4" aria-hidden />
-              {t.ctaPrimary}
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              data-testid="hero-gratis-a11y"
-              className="min-h-[48px]"
-              onClick={bookFree}
-            >
-              {t.ctaFreeA11y}
-            </Button>
+                <Play className="h-4 w-4" aria-hidden />
+                {t.ctaDemo}
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                data-testid="hero-agendar"
+                aria-describedby={descId}
+                className="funnel-cta-ghost min-h-[48px] border-white/20 bg-transparent text-[#E8E5DF] hover:bg-white/5"
+                onClick={bookKickoff}
+              >
+                <Calendar className="h-4 w-4" aria-hidden />
+                {t.ctaPrimary}
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                data-testid="hero-gratis-a11y"
+                className="funnel-link min-h-[44px] px-0 text-white/55 hover:text-[#E8E5DF]"
+                onClick={bookFree}
+              >
+                {t.ctaFreeA11y}
+              </Button>
+            </div>
           </div>
-          <Button
-            variant="link"
-            className="min-h-[44px] text-muted-foreground"
-            onClick={() => scrollToSection("modalidades")}
-          >
-            {t.ctaSecondary}
-          </Button>
         </div>
       </div>
     </section>

@@ -628,6 +628,11 @@
     stroke-opacity: var(--logo-track-opacity);
   }
 
+  .logo-mark--on-dark .logo-mark-track {
+    stroke: #e8e5df;
+    stroke-opacity: 0.4;
+  }
+
   .logo-mark-core-shine {
     opacity: var(--logo-shine-opacity);
   }

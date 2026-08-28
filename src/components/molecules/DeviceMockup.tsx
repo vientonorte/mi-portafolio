@@ -15,6 +15,8 @@ type DeviceMockupProps = {
   className?: string;
   /** Soft ambient glow behind device */
   glow?: boolean;
+  addressBar?: string;
+  loading?: "eager" | "lazy";
 };
 
 export function DeviceMockup({
@@ -24,13 +26,15 @@ export function DeviceMockup({
   variant = "laptop",
   className,
   glow = true,
+  addressBar = "x-cms · local",
+  loading = "lazy",
 }: DeviceMockupProps) {
   if (variant === "phone") {
     return (
       <figure className={cn("relative mx-auto w-full max-w-[280px]", className)}>
         {glow ? (
           <div
-            className="pointer-events-none absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl"
+            className="pointer-events-none absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl motion-reduce:hidden"
             aria-hidden
           />
         ) : null}
@@ -45,7 +49,7 @@ export function DeviceMockup({
               src={src}
               alt={alt}
               className="aspect-[9/19.5] w-full object-cover object-top"
-              loading="lazy"
+              loading={loading}
               decoding="async"
             />
           </div>
@@ -78,7 +82,7 @@ export function DeviceMockup({
         </span>
         <div className="ml-2 flex min-w-0 flex-1 items-center justify-center">
           <div className="w-full max-w-[220px] truncate rounded-md bg-black/40 px-3 py-1 text-center text-[10px] text-white/35">
-            x-cms · local
+            {addressBar}
           </div>
         </div>
       </div>
@@ -86,7 +90,7 @@ export function DeviceMockup({
         src={src}
         alt={alt}
         className="aspect-[16/10] w-full object-cover object-top"
-        loading="lazy"
+        loading={loading}
         decoding="async"
       />
     </div>
@@ -97,7 +101,7 @@ export function DeviceMockup({
       <figure className={cn("relative w-full", className)}>
         {glow ? (
           <div
-            className="pointer-events-none absolute -inset-8 rounded-[2rem] bg-white/[0.035] blur-2xl"
+            className="pointer-events-none absolute -inset-8 rounded-[2rem] bg-white/[0.035] blur-2xl motion-reduce:hidden"
             aria-hidden
           />
         ) : null}
@@ -118,7 +122,7 @@ export function DeviceMockup({
     <figure className={cn("relative w-full", className)}>
       {glow ? (
         <div
-          className="pointer-events-none absolute -inset-10 rounded-[2.5rem] bg-white/[0.04] blur-3xl"
+          className="pointer-events-none absolute -inset-10 rounded-[2.5rem] bg-white/[0.04] blur-3xl motion-reduce:hidden"
           aria-hidden
         />
       ) : null}

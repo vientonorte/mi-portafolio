@@ -32,6 +32,14 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry("branding.favicon", "Branding", "Favicon", "favicon.ico", portfolioImages.branding.favicon, "Favicon Viento Norte"),
   entry("branding.schemaLogo", "Branding", "Schema.org logo", "icon-512x512.png", portfolioImages.branding.schemaLogo, "Logo schema Viento Norte"),
   entry("branding.appleTouch", "Branding", "Apple / PWA", "icon-192x192.png", portfolioImages.branding.appleTouch, "Apple touch Viento Norte"),
+  entry(
+    "branding.heroConsultoria",
+    "Consultoría",
+    "Hero · operaciones CMS",
+    "consultoria/x-cms-dashboard.png",
+    portfolioImages.consultoria.xCmsDashboard,
+    "Dashboard CMS — operaciones digitales en el stack del cliente"
+  ),
   entry("sura.riaOnboarding", "SURA", "RIA onboarding", "sura/ria-onboarding.png", portfolioImages.sura.riaOnboarding, "Onboarding RIA SURA US"),
   entry("sura.webPrototype", "SURA", "Prototipo web RIA", "sura/web-prototype.png", portfolioImages.sura.webPrototype, "Prototipo web SURA — plataforma inversiones / RIA"),
   entry("sura.componentPipeline", "SURA", "Pipeline componentes", "sura/component-pipeline.png", portfolioImages.sura.componentPipeline, "Pipeline MVP — Explorar, Refinar, Documentar, Implementar"),

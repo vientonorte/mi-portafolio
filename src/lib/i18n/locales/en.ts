@@ -247,6 +247,10 @@ export default {
       landing: {
         badge: 'Viento Norte · SMBs',
         principleBadge: 'Design that cuts the noise',
+        opsLabel: 'Digital operations',
+        xcmsLabel: 'X|CMS',
+        xcmsCaption: 'X|CMS · 5 min demo',
+        ctaDemo: 'View X|CMS demo',
         title: 'Technology for business.',
         titleAccent: '',
         description:

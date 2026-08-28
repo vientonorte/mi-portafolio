@@ -247,6 +247,10 @@ export default {
       landing: {
         badge: 'Viento Norte · pymes',
         principleBadge: 'Diseño que reduce el ruido',
+        opsLabel: 'Operaciones digitales',
+        xcmsLabel: 'X|CMS',
+        xcmsCaption: 'X|CMS · demo 5 min',
+        ctaDemo: 'Ver demo X|CMS',
         title: 'Tecnología para empresas.',
         titleAccent: '',
         description:
