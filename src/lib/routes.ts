@@ -90,6 +90,11 @@ export function isConsultingOfferPath(pathname: string): boolean {
   return false;
 }
 
+/** Tour fullscreen de módulos — sin dock/header. `/consultoria` landing SÍ lleva dock. */
+export function isConsultingModuleTourPath(pathname: string): boolean {
+  return normalizePathname(pathname).startsWith(`${ROUTES.consulting}/modulos`);
+}
+
 /** Demo con reloj: chrome propio, sin dock ni toolbar del sitio. */
 export function isTimedDemoPath(pathname: string): boolean {
   const path = normalizePathname(pathname);

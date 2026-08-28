@@ -89,7 +89,7 @@ export function DeviceMockup({
       <img
         src={src}
         alt={alt}
-        className="aspect-[16/10] w-full object-cover object-top"
+        className="aspect-[16/10] h-auto w-full max-h-[min(42vh,20rem)] object-contain object-top bg-[#0a0a0a] lg:max-h-[min(52vh,28rem)]"
         loading={loading}
         decoding="async"
       />
@@ -117,18 +117,18 @@ export function DeviceMockup({
     );
   }
 
-  /* laptop — default */
+  /* laptop — lid 92% so the 108% chin stays inside the column */
   return (
-    <figure className={cn("relative w-full", className)}>
+    <figure className={cn("relative mx-auto w-full max-w-md overflow-x-clip lg:max-w-lg", className)}>
       {glow ? (
         <div
-          className="pointer-events-none absolute -inset-10 rounded-[2.5rem] bg-white/[0.04] blur-3xl motion-reduce:hidden"
+          className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-white/[0.04] blur-2xl motion-reduce:hidden lg:-inset-8"
           aria-hidden
         />
       ) : null}
 
       {/* Lid / bezel */}
-      <div className="relative mx-auto w-full max-w-xl">
+      <div className="relative mx-auto w-[92%]">
         <div className="rounded-[14px] bg-gradient-to-b from-[#3a3a3c] via-[#2c2c2e] to-[#1d1d1f] p-[9px] pb-[11px] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/12">
           {/* Camera */}
           <div className="mb-1.5 flex justify-center" aria-hidden>

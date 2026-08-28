@@ -8,7 +8,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 ## [2026-08-28] — Hero v3: X|CMS producto estrella
 
 ### Changed
-- Hero SEM (`ConsultoriaLandingHero`): mockup laptop X|CMS (`data-hero-version="3"`) en vez de teselas de anuncio o foto lifestyle. Chip + CTA **Ver demo** → `/#/demo/x-cms` (`hero_x_cms_open` dataLayer). **Agendar** sigue `generate_lead` kickoff. **Gratis · accesibilidad** intacto. Sin lockup **Viento Norte** (ya está en nav).
+- Hero SEM (`ConsultoriaLandingHero`): mockup laptop X|CMS (`data-hero-version="3"`) en vez de teselas de anuncio o foto lifestyle. Chip + CTA **Ver demo** → `/#/demo/x-cms` (`hero_x_cms_open` dataLayer). **Agendar** sigue `generate_lead` kickoff. **Gratis · accesibilidad** intacto. Sin lockup **Viento Norte** (ya está en nav). Mobile: H1 antes del mockup; laptop contenido (`object-contain`, chin dentro de columna). Dock de `/#/consultoria` intacto (solo tour `/modulos` es fullscreen).
 - Pills del embudo (Modalidades / Empezar / Contacto) ocultas en mobile consultoría (`ProcessNavigation showMobile={false}`); el dock las cubría.
 - Admin: rol `hero_consultoria` → slot `branding.heroConsultoria`. Worker spec en `image-roles.js` (live = `wrangler deploy --keep-vars`, no este PR).
 - Code Connect parserless: `ConsultoriaLandingHero.figma.ts` + `DeviceMockup` en archivo Figma campaign assets.

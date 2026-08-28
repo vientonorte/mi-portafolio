@@ -62,35 +62,13 @@ export function ConsultoriaLandingHero() {
       data-hero-version="3"
       data-hero-ui="vn-design-ops"
       data-product="x-cms"
-      className="funnel-section-enter relative overflow-hidden border-b border-border/40 scroll-mt-[calc(var(--header-height)+0.75rem)] bg-[#0A0A0A] text-[#E8E5DF]"
+      className="funnel-section-enter relative overflow-x-clip border-b border-border/40 scroll-mt-[calc(var(--header-height)+0.75rem)] bg-[#0A0A0A] text-[#E8E5DF]"
       aria-labelledby="consultoria-hero-heading"
     >
       <div className="h-1.5 w-full bg-brand-gradient" aria-hidden />
       <div className="container relative mx-auto max-w-6xl px-4 py-8 md:py-12">
-        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
-          <div className="order-1 lg:order-2 lg:col-span-7" data-testid="hero-ops-media">
-            <button
-              type="button"
-              onClick={openXcmsDemo}
-              className="hero-xcms-hit"
-              aria-label={t.ctaDemo}
-            >
-              <span className="hero-xcms-play" aria-hidden>
-                <Play className="h-3.5 w-3.5" />
-                {t.ctaDemo}
-              </span>
-              <DeviceMockup
-                variant="laptop"
-                src={mediaSrc}
-                alt={mediaAlt}
-                caption={t.xcmsCaption}
-                addressBar="x-cms · operaciones"
-                loading="eager"
-              />
-            </button>
-          </div>
-
-          <div className="order-2 space-y-5 lg:order-1 lg:col-span-5">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10 xl:gap-12">
+          <div className="space-y-5 lg:col-span-5">
             <p className="inline-flex min-h-8 items-center rounded-full border border-[#FF931E]/40 bg-[#FF931E]/10 px-3 text-xs font-medium text-[#FF931E]">
               {t.xcmsLabel}
             </p>
@@ -147,6 +125,28 @@ export function ConsultoriaLandingHero() {
                 {t.ctaFreeA11y}
               </Button>
             </div>
+          </div>
+
+          <div className="min-w-0 lg:col-span-7" data-testid="hero-ops-media">
+            <button
+              type="button"
+              onClick={openXcmsDemo}
+              className="hero-xcms-hit"
+              aria-label={t.ctaDemo}
+            >
+              <span className="hero-xcms-play" aria-hidden>
+                <Play className="h-3.5 w-3.5" />
+                {t.ctaDemo}
+              </span>
+              <DeviceMockup
+                variant="laptop"
+                src={mediaSrc}
+                alt={mediaAlt}
+                caption={t.xcmsCaption}
+                addressBar="x-cms · operaciones"
+                loading="eager"
+              />
+            </button>
           </div>
         </div>
       </div>
