@@ -38,6 +38,9 @@ Trigger tipo **Custom Event** · `Event name` = nombre de `dataLayer.event`:
 | `page_view` | HashRouter path | No (métrica) |
 | `hero_path_card` | Camino hero | No |
 | `home_package_select` | Pack home | No |
+| `hero_x_cms_open` | Hero → demo X\|CMS | **No** (embudo) |
+| `demo_x_cms_view` / `_start` / `_ended` / `_cta` | Demo producto estrella | **No** (embudo) |
+| `demo_path_view` / `_start` / `_ended` / `_cta` | Demos por path (Diagnóstico/Prototipo/…) | **No** (embudo) |
 
 Variables de capa de datos: `lead_type`, `channel`, `origin`, `package_id`, `page_path`.
 
@@ -54,6 +57,31 @@ GA4: un tag **GA4 Event** por conversión, event name igual al custom event (o `
 7. GA4 → Admin → Eventos clave → marcar esos dos.
 
 `package_id` via dataLayer (`radar` | `marco` | `ops`).
+
+### v5 · demo funnel (medir, no conversión Ads)
+
+**Live 28 ago 13:08 CL:** contenedor **versión 6** `v5 demo funnel` publicada. Tags: `GA4 · demo_funnel` (CE · demo_funnel) + `generate_lead` / `book_call` / Etiqueta de Google intactos. **No** evento clave.
+
+dataLayer ya emite los eventos. Sin CE + GA4 Event, GA4 `collect` = solo `page_view`.
+
+1. Activador **Evento personalizado** `CE · demo_funnel` · regex  
+   `^(hero_x_cms_open|demo_x_cms_.+|demo_path_.+)$`
+2. Variables de capa: `event`, `path_id`, `package_id`, `surface`, `cta`, `reason`, `duration_sec`, `product`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`.
+3. Etiqueta **GA4 · demo_funnel** · evento = `{{DLV · event}}` · ID `G-G7JXJKGCDV` · params = esas DLV.
+4. **No** marcar como evento clave. Conversiones siguen `generate_lead` / `book_call`.
+5. Enviar → Publicar versión `v5 demo funnel`.
+6. Preview Chrome: `/#/demo/x-cms` → Iniciar → `demo_x_cms_start` en Capa de datos **y** `GA4 · demo_funnel` en Etiquetas activadas.
+
+Script (scope Tag Manager, no `cloud-platform`):
+
+```bash
+# API: Google bloquea tagmanager.* en el client gcloud (app no verificada).
+# Importar en UI (Safari o Chrome logueado):
+# Admin → Importar contenedor → docs/gtm/demo-funnel-import.json
+# → Combinar · Renombrar tags en conflicto → Confirmar → Enviar → Publicar v5 demo funnel
+python3 scripts/gtm-upsert-demo-funnel.py          # si hay ADC con tagmanager.edit.containers
+python3 scripts/gtm-upsert-demo-funnel.py --publish
+```
 
 ## 3. QA
 
