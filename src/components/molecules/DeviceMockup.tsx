@@ -91,11 +91,13 @@ export function DeviceMockup({
       <img
         src={src}
         alt={alt}
-        width={1920}
-        height={1002}
+        width={1440}
+        height={900}
         className={cn(
           "block h-auto w-full bg-[#0a0a0a]",
-          fit === "contain" ? "object-contain object-top" : "aspect-[16/10] object-cover object-top",
+          fit === "contain"
+            ? "object-contain object-top"
+            : "aspect-[16/10] object-cover object-top",
         )}
         loading={loading}
         decoding="async"
@@ -124,7 +126,7 @@ export function DeviceMockup({
     );
   }
 
-  /* laptop — full column width so the 1920×1002 dashboard is fully visible */
+  /* laptop — 16:10 capture (1440×900) at column width; contain, no crop */
   return (
     <figure className={cn("relative mx-auto w-full overflow-x-clip", className)}>
       {glow ? (
