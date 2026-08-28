@@ -76,6 +76,11 @@ export default {
           description:
             'Privacy by design: minimización, finalidad, control. Sin cookies publicitarias ni venta de datos.',
         },
+        news: {
+          title: 'News para empresas',
+          description:
+            'Newsletter mensual: privacidad, automatización y accesibilidad para empresas. Casos públicos, sin KPI inventados.',
+        },
         audit: {
           title: 'Auditoría Portfolio UX/UI',
           description:
@@ -1505,6 +1510,7 @@ export default {
       about: 'Sobre mí',
       contact: 'Contacto',
       privacy: 'Privacidad',
+      news: 'News',
       designSystem: 'Design System',
       audit: 'Auditoría',
       consulting: 'Consultoría',

@@ -13,6 +13,9 @@ export const ROUTES = {
   company: (companyId: string) => `/empresa/${companyId}`,
   contact: "/contacto",
   privacy: "/privacy",
+  /** Newsletter SEO (crawler `/s/news/`, SPA `/#/news`). */
+  news: "/news",
+  newsEdition: (slug: string) => `/news/${encodeURIComponent(slug)}`,
   designSystem: "/design-system",
 
   /**
