@@ -85,15 +85,7 @@ python3 scripts/gtm-upsert-demo-funnel.py --publish
 
 ## 3. QA
 
-**28 ago 13:26 CL · Chrome logueado (no MCP):**  
-`https://vientonorte.io/?gtm_preview=env-3&gtm_auth=0-HrpEcf84rFaQHBbedGUg&gtm_debug=x#/consultoria`  
-Clic **Gratis · accesibilidad** (`hero-gratis-a11y`).
-
-| Hit | Evidencia |
-|-----|-----------|
-| `en=generate_lead` | `analytics.google.com/g/collect` `tid=G-G7JXJKGCDV` `gtm=…z89258073653` (contenedor 258073653) `_c=1` |
-| `en=book_call` | mismo collect, hit siguiente |
-| Tag Assistant UI | timeout “No se ha podido conectar” (extensión). No contradice el collect. |
+**28 ago 12:53 Tag Assistant (UI que pegó Rö):** Activadas = solo `GA4 · vientonorte.io` 1×. `GA4 · generate_lead` y `GA4 · book_call` **no activadas** (page_view, sin clic Gratis en esa sesión conectada). PASS = esas dos en Activadas. `g/collect en=generate_lead` puede salir por `gtag("event")` del SPA **sin** la etiqueta Event.
 
 ```text
 vientonorte.io → DevTools → window.dataLayer
