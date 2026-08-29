@@ -4,10 +4,12 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
+/** ESLint 10: no mezclar `extends` + `plugins` en el mismo objeto (ConfigError Unexpected key "plugins"). */
 export default tseslint.config(
   { ignores: ['dist', 'coverage', 'V2'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,

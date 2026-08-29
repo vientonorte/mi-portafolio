@@ -15,6 +15,8 @@ type DeviceMockupProps = {
   className?: string;
   /** Soft ambient glow behind device */
   glow?: boolean;
+  addressBar?: string;
+  loading?: "eager" | "lazy";
 };
 
 export function DeviceMockup({
@@ -24,13 +26,15 @@ export function DeviceMockup({
   variant = "laptop",
   className,
   glow = true,
+  addressBar = "x-cms · local",
+  loading = "lazy",
 }: DeviceMockupProps) {
   if (variant === "phone") {
     return (
       <figure className={cn("relative mx-auto w-full max-w-[280px]", className)}>
         {glow ? (
           <div
-            className="pointer-events-none absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl"
+            className="pointer-events-none absolute -inset-10 rounded-full bg-white/[0.04] blur-3xl motion-reduce:hidden"
             aria-hidden
           />
         ) : null}
@@ -45,7 +49,7 @@ export function DeviceMockup({
               src={src}
               alt={alt}
               className="aspect-[9/19.5] w-full object-cover object-top"
-              loading="lazy"
+              loading={loading}
               decoding="async"
             />
           </div>
@@ -65,6 +69,8 @@ export function DeviceMockup({
   }
 
   const screen = (
+    fit: "contain" | "cover" = "contain",
+  ) => (
     <div className="overflow-hidden rounded-lg bg-[#0a0a0a] ring-1 ring-black/40">
       {/* Browser chrome */}
       <div
@@ -78,15 +84,22 @@ export function DeviceMockup({
         </span>
         <div className="ml-2 flex min-w-0 flex-1 items-center justify-center">
           <div className="w-full max-w-[220px] truncate rounded-md bg-black/40 px-3 py-1 text-center text-[10px] text-white/35">
-            x-cms · local
+            {addressBar}
           </div>
         </div>
       </div>
       <img
         src={src}
         alt={alt}
-        className="aspect-[16/10] w-full object-cover object-top"
-        loading="lazy"
+        width={1440}
+        height={900}
+        className={cn(
+          "block h-auto w-full bg-[#0a0a0a]",
+          fit === "contain"
+            ? "object-contain object-top"
+            : "aspect-[16/10] object-cover object-top",
+        )}
+        loading={loading}
         decoding="async"
       />
     </div>
@@ -97,12 +110,12 @@ export function DeviceMockup({
       <figure className={cn("relative w-full", className)}>
         {glow ? (
           <div
-            className="pointer-events-none absolute -inset-8 rounded-[2rem] bg-white/[0.035] blur-2xl"
+            className="pointer-events-none absolute -inset-8 rounded-[2rem] bg-white/[0.035] blur-2xl motion-reduce:hidden"
             aria-hidden
           />
         ) : null}
         <div className="relative rounded-xl bg-[#2c2c2e] p-1.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.75)] ring-1 ring-white/12">
-          {screen}
+          {screen("contain")}
         </div>
         {caption ? (
           <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
@@ -113,24 +126,24 @@ export function DeviceMockup({
     );
   }
 
-  /* laptop — default */
+  /* laptop — 16:10 capture (1440×900) at column width; contain, no crop */
   return (
-    <figure className={cn("relative w-full", className)}>
+    <figure className={cn("relative mx-auto w-full overflow-x-clip", className)}>
       {glow ? (
         <div
-          className="pointer-events-none absolute -inset-10 rounded-[2.5rem] bg-white/[0.04] blur-3xl"
+          className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-white/[0.04] blur-2xl motion-reduce:hidden lg:-inset-8"
           aria-hidden
         />
       ) : null}
 
-      {/* Lid / bezel */}
-      <div className="relative mx-auto w-full max-w-xl">
+      {/* Lid / bezel — full column; chin 108% is clipped by overflow-x-clip */}
+      <div className="relative mx-auto w-full">
         <div className="rounded-[14px] bg-gradient-to-b from-[#3a3a3c] via-[#2c2c2e] to-[#1d1d1f] p-[9px] pb-[11px] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/12">
           {/* Camera */}
           <div className="mb-1.5 flex justify-center" aria-hidden>
             <span className="h-1.5 w-1.5 rounded-full bg-black/80 ring-1 ring-white/10" />
           </div>
-          {screen}
+          {screen("contain")}
         </div>
 
         {/* Hinge */}

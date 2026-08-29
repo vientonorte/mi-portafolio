@@ -5,6 +5,57 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-08-28] — CI Tests + sitemap `/s/`
+
+### Fixed
+- `openFreeRadarEntry` test: Calendar abre a los 300 ms (GTM CE `generate_lead` primero). El job Tests ya no bloquea Deploy Pages.
+
+### Changed
+- `public/sitemap.xml`: se saca `https://vientonorte.io/s/` (canonical a home = duplicado). Quedan `/`, `/s/consultoria/`, `/s/proceso/` y privacy legal.
+
+---
+
+## [2026-08-28] — Hero v3: X|CMS producto estrella
+
+### Changed
+- Hero SEM (`ConsultoriaLandingHero`): mockup laptop X|CMS (`data-hero-version="3"`) en vez de teselas de anuncio o foto lifestyle. Chip + CTA **Ver demo** → `/#/demo/x-cms` (`hero_x_cms_open` dataLayer). **Agendar** sigue `generate_lead` kickoff. **Gratis · accesibilidad** intacto. Sin lockup **Viento Norte** (ya está en nav). Mobile: H1 antes del mockup; laptop contenido (`object-contain`, chin dentro de columna). Dock de `/#/consultoria` intacto (solo tour `/modulos` es fullscreen).
+- Pills del embudo (Modalidades / Empezar / Contacto) ocultas en mobile consultoría (`ProcessNavigation showMobile={false}`); el dock las cubría.
+- Admin: rol `hero_consultoria` → slot `branding.heroConsultoria`. Worker spec en `image-roles.js` (live = `wrangler deploy --keep-vars`, no este PR).
+- Code Connect parserless: `ConsultoriaLandingHero.figma.ts` + `DeviceMockup` en archivo Figma campaign assets.
+
+### Not
+- No merge a `main`. Live HTML `/s/consultoria` sigue last-mod 27 ago hasta deploy.
+- `hero_x_cms_open` / `demo_x_cms_*` = dataLayer; no hay CE GTM. Preview `generate_lead` = Chrome humano.
+- No se commitea `hero-reserva.jpg` ni duplicados iCloud `* 2.*`.
+
+## [2026-08-27] — SEM: operaciones digitales en `/s/consultoria`
+
+### Changed
+- Meta, OG, JSON-LD y cuerpo crawler de `/s/consultoria` nombran **operaciones digitales** (message match AG-D) sin cambiar H1 ni el imán gratis de un flujo.
+- `og-consultoria-1200.png`: lockup oficial (isologo degradé + wordmark **Viento Norte**) junto al asset de reserva; H1 **Tecnología para empresas**; sub ops + un flujo WCAG.
+- Ads `01–05`: wordmark **Viento Norte** junto al isologo. `05-1200x627-operaciones-digitales.png` (AG-D).
+
+## [2026-08-26] — Hero: storytelling de marca (flujo · CMS/CRM)
+
+### Changed
+- Hero home/SEM (`ConsultoriaLandingHero`): kicker **Diseño que reduce el ruido** + 4 teselas de contexto (personas/tecnología) alineadas al universo Figma 07/08.
+- Teselas con PNG Figma (`/images/ads/01–04`): revisión de un flujo, reserva, CMS/CRM, diagnóstico. No lockup solo.
+- H1 SEM intacto: **Tecnología para empresas.** Sin Radar, sin auditoría, sin rostro.
+- Copy de valor: el flujo que usa tu cliente, en su CMS o CRM; Diagnóstico 5–7 días; gratis a11y de un flujo.
+- `/s/consultoria`, `/s/`, `index.html` (meta + LCP shell) con el mismo relato para message-match Ads.
+
+## [2026-08-26] — Branding proceso (DS A)
+
+### Added
+- HTML crawler `/s/proceso/` (hop a `/#/proceso`, GTM, OG 1200×630). Sitemap +1 loc.
+- Capa de método en `/#/proceso` (branding, analytics, research, CM, social) sobre CMS/CRM del cliente. CTA **Agendar diagnóstico** → `/#/consultoria`.
+
+### Changed
+- Toolbar proceso: isologo + wordmark VN. Tagline *Diseño que reduce el ruido.* Cinco fases intactas.
+
+### Not
+- `/s/consultoria`, RSA, Radio, GTM eventos, tour Apple.
+
 ## [2026-08-24] — Privacy by design en UI de políticas
 
 ### Changed

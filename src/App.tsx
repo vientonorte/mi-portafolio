@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isAdminPath, isConsultingOfferPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { isAdminPath, isConsultingModuleTourPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -29,6 +29,7 @@ const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
 const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
 const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
+const News = lazyWithRetry(() => import('./pages/News'));
 const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
@@ -135,13 +136,13 @@ function GlobalNotFoundPage() {
 function AppRoutes() {
   const pathname = useLocation().pathname;
   const isDeepPage = isDeepPortfolioPage(pathname);
-  /** Tour fullscreen: sin dock/header del sitio (chrome propio del tour). */
-  const isOfferLanding = isConsultingOfferPath(pathname);
+  /** Tour módulos fullscreen: sin dock. Landing `/consultoria` SÍ lleva DeepPageNav. */
+  const isModuleTour = isConsultingModuleTourPath(pathname);
   /** Demo con reloj: sin dock (el iframe no puede quedar bajo el nav). */
   const isTimedDemo = isTimedDemoPath(pathname);
   /** Panel interno: sin nav pública (seguridad por diseño). */
   const isAdmin = isAdminPath(pathname);
-  const hideSiteChrome = isOfferLanding || isTimedDemo || isAdmin;
+  const hideSiteChrome = isModuleTour || isTimedDemo || isAdmin;
 
   return (
     <PortfolioChrome>
@@ -154,13 +155,15 @@ function AppRoutes() {
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
-            {/* Home FO = embudo. SEM paid = /consultoria (tour fullscreen). */}
+            {/* Home FO = embudo. SEM paid = /consultoria (dock sí). Tour módulos = fullscreen. */}
             <Route path="/" element={<Home />} />
             <Route path="/proyectos" element={<Proyectos />} />
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/news/:slug" element={<News />} />
+            <Route path={ROUTES.news} element={<News />} />
             <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />
@@ -198,6 +201,7 @@ function AppRoutes() {
               element={<TimedServiceDemo />}
             />
             <Route path={ROUTES.admin} element={<AdminHub />} />
+            <Route path={ROUTES.adminRoadmap} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>

@@ -4,6 +4,7 @@ import {
   LEGACY_ROUTES,
   isProcessPath,
   isConsultingOfferPath,
+  isConsultingModuleTourPath,
   isConsultingFunnelPath,
   isConsultingPath,
   isAdminPath,
@@ -38,6 +39,9 @@ describe('routes', () => {
     expect(isConsultingOfferPath('/consultoria/modulos/dashboard')).toBe(true);
     expect(isConsultingOfferPath('/')).toBe(false);
     expect(isConsultingOfferPath('/consultoria/embudo')).toBe(false);
+
+    expect(isConsultingModuleTourPath('/consultoria')).toBe(false);
+    expect(isConsultingModuleTourPath('/consultoria/modulos/dashboard')).toBe(true);
 
     expect(isConsultingPath('/')).toBe(true);
     expect(isConsultingPath('/consultoria')).toBe(true);

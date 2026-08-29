@@ -20,6 +20,15 @@ export const IMAGE_WEB_ROLES = [
     alt: 'Viento Norte — share consultoría',
   },
   {
+    id: 'share_proceso',
+    label: 'Share redes · proceso',
+    hint: 'Card /s/proceso. 1200×630.',
+    slotId: 'branding.ogProceso',
+    path: 'branding/og-proceso-1200.png',
+    category: 'Branding',
+    alt: 'Viento Norte — share proceso',
+  },
+  {
     id: 'schema',
     label: 'Schema.org (logo)',
     hint: 'JSON-LD Organization.logo. Cuadrado ≥512.',
@@ -57,6 +66,15 @@ export const IMAGE_WEB_ROLES = [
     repoPath: 'public/icon-192x192.png',
     category: 'Branding',
     alt: 'Apple touch Viento Norte',
+  },
+  {
+    id: 'hero_consultoria',
+    label: 'Hero · operaciones CMS',
+    hint: 'Pantalla de producto (CMS/CRM), no lifestyle. 16:10. Alt obligatorio.',
+    slotId: 'branding.heroConsultoria',
+    path: 'consultoria/x-cms-dashboard.png',
+    category: 'Consultoría',
+    alt: 'Dashboard CMS — operaciones digitales en el stack del cliente',
   },
   {
     id: 'faq',

@@ -11,11 +11,21 @@ const shareConsultoria = readFileSync(
   resolve(root, "public/s/consultoria/index.html"),
   "utf8"
 );
+const shareProceso = readFileSync(
+  resolve(root, "public/s/proceso/index.html"),
+  "utf8"
+);
 const polijuegoPrivacy = readFileSync(
   resolve(root, "public/s/polijuego-privacy/index.html"),
   "utf8"
 );
 const sitemap = readFileSync(resolve(root, "public/sitemap.xml"), "utf8");
+const shareNews = readFileSync(resolve(root, "public/s/news/index.html"), "utf8");
+const aliasNews = readFileSync(resolve(root, "public/news/index.html"), "utf8");
+const shareNewsA11y = readFileSync(
+  resolve(root, "public/s/news/accesibilidad-transvip/index.html"),
+  "utf8"
+);
 
 const PATHS = ["Diagnóstico", "Prototipo", "Proceso de equipo"];
 
@@ -50,6 +60,11 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareHome).toMatch(/Tecnología para empresas:/);
     expect(shareHome).toContain('rel="canonical" href="https://vientonorte.io/"');
     expect(shareHome).toContain('content="5;url=https://vientonorte.io/"');
+    expect(shareHome).toContain("GTM-PM5LBQRP");
+    expect(shareHome).toContain("googletagmanager.com/gtm.js?id=");
+    expect(shareHome).not.toContain("gtag/js?id=");
+    expect(shareHome).toContain("gtm_debug");
+    expect(shareHome).toContain("tagassistant");
   });
 
   it("share consultoria has H1, three paths, query, and no hash canonical", () => {
@@ -58,6 +73,9 @@ describe("SEO P0 · crawler HTML /s/", () => {
       expect(shareConsultoria).toContain(name);
     }
     expect(shareConsultoria).toMatch(/Tecnología para empresas:/);
+    expect(shareConsultoria).toContain("el flujo que usa tu cliente");
+    expect(shareConsultoria).toContain("operaciones digitales");
+    expect(shareConsultoria).toContain("CMS o CRM");
     expect(shareConsultoria).toContain(
       'rel="canonical" href="https://vientonorte.io/s/consultoria/"'
     );
@@ -67,6 +85,36 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareConsultoria).toContain(
       'content="5;url=https://vientonorte.io/#/consultoria"'
     );
+  });
+
+  it("share proceso has method H1, five phases, /s/canonical, hop to hash", () => {
+    expect(shareProceso).toMatch(/<h1>\s*Diseño que reduce el ruido\s*<\/h1>/);
+    for (const phase of [
+      "UX Analytics",
+      "UX Research",
+      "UX/UI Design",
+      "UX Testing",
+      "Refinamiento",
+    ]) {
+      expect(shareProceso).toContain(phase);
+    }
+    expect(shareProceso).toContain("Jira");
+    expect(shareProceso).toContain("SharePoint");
+    expect(shareProceso).toMatch(/no es un quinto pack paid/i);
+    expect(shareProceso).toContain(
+      'rel="canonical" href="https://vientonorte.io/s/proceso/"'
+    );
+    expect(shareProceso).not.toContain(
+      'rel="canonical" href="https://vientonorte.io/#/proceso"'
+    );
+    expect(shareProceso).toContain(
+      'content="5;url=https://vientonorte.io/#/proceso"'
+    );
+    expect(shareProceso).toContain("og-proceso-1200.png");
+    expect(shareProceso).toContain("GTM-PM5LBQRP");
+    expect(shareProceso).not.toContain("gtag.js");
+    expect(shareProceso).not.toMatch(/Radar/i);
+    expect(shareProceso).not.toContain("/auditoria");
   });
 
   it("polijuego privacy is static, crawlable, and not FO /#/privacy", () => {
@@ -93,17 +141,56 @@ describe("SEO P0 · crawler HTML /s/", () => {
 });
 
 describe("SEO P0 · sitemap HTTP only", () => {
-  it("lists / /s/ /s/consultoria/ and no hash locs", () => {
+  it("lists / /s/consultoria/ /s/proceso/ /s/news/ and no hash locs", () => {
     expect(sitemap).toContain("<loc>https://vientonorte.io/</loc>");
-    expect(sitemap).toContain("<loc>https://vientonorte.io/s/</loc>");
+    expect(sitemap).not.toContain("<loc>https://vientonorte.io/s/</loc>");
     expect(sitemap).toContain(
       "<loc>https://vientonorte.io/s/consultoria/</loc>"
     );
     expect(sitemap).toContain(
       "<loc>https://vientonorte.io/s/polijuego-privacy/</loc>"
     );
+    expect(sitemap).toContain("<loc>https://vientonorte.io/s/proceso/</loc>");
+    expect(sitemap).toContain("<loc>https://vientonorte.io/s/news/</loc>");
+    expect(sitemap).toContain(
+      "<loc>https://vientonorte.io/s/news/accesibilidad-transvip/</loc>"
+    );
     expect(sitemap).not.toMatch(/<loc>https:\/\/vientonorte\.io\/#\//);
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
+  });
+});
+
+describe("SEO P0 · news hops", () => {
+  it("index has H1, three topics, /s/ canonical, hop to hash", () => {
+    expect(shareNews).toMatch(
+      /<h1>\s*Privacidad, automatización y accesibilidad para empresas\s*<\/h1>/
+    );
+    expect(shareNews).toContain("accesibilidad-transvip");
+    expect(shareNews).toContain("automatizacion-sura");
+    expect(shareNews).toContain("privacidad-flujo");
+    expect(shareNews).toContain(
+      'rel="canonical" href="https://vientonorte.io/s/news/"'
+    );
+    expect(shareNews).toContain('content="5;url=https://vientonorte.io/#/news"');
+    expect(shareNews).toContain("GTM-PM5LBQRP");
+    expect(shareNews).not.toContain("gtag.js");
+    expect(shareNews).not.toMatch(/Radar/i);
+    expect(aliasNews).toContain(
+      'rel="canonical" href="https://vientonorte.io/s/news/"'
+    );
+  });
+
+  it("Transvip edition cites hub metrics and no invented CPC", () => {
+    expect(shareNewsA11y).toMatch(
+      /<h1>\s*Un flujo de reserva que se puede usar\s*<\/h1>/
+    );
+    expect(shareNewsA11y).toContain("−40% tiempo de reserva");
+    expect(shareNewsA11y).toContain("transvipHub");
+    expect(shareNewsA11y).toContain(
+      'rel="canonical" href="https://vientonorte.io/s/news/accesibilidad-transvip/"'
+    );
+    expect(shareNewsA11y).not.toContain("CPC");
+    expect(shareNewsA11y).not.toMatch(/Radar/i);
   });
 });

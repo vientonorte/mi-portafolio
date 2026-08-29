@@ -46,6 +46,7 @@ export const portfolioImages = {
     uxValueChain: img("framework/ux-value-chain.png"),
   },
   consultoria: {
+    heroOps: img("consultoria/x-cms-dashboard.png"),
     xCmsDashboard: img("consultoria/x-cms-dashboard.png"),
     xCmsDashboardWebp: img("consultoria/x-cms-dashboard.webp"),
     geesDashboard: img("consultoria/gees-dashboard.png", true),
@@ -107,6 +108,7 @@ export const portfolioImages = {
     ogPortfolio: img("branding/og-portfolio.png"),
     ogHome: img("branding/og-home-1200.png"),
     ogConsultoria: img("branding/og-consultoria-1200.png"),
+    ogProceso: img("branding/og-proceso-1200.png"),
     isologo: img("branding/isologo-512.png"),
     profilePhoto: `${base}profile-photo.jpg?v=20260703b`,
     favicon: `${base}favicon.ico`,

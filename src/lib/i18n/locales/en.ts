@@ -39,7 +39,7 @@ export default {
         home: {
           title: 'Technology for business · Viento Norte',
           description:
-            'Technology for businesses: diagnostic, prototype, team process, or working app. Software you install — own your data. Consulting and enterprise craft.',
+            'Technology for business: digital operations and the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: accessibility of one flow. 30 min kickoff.',
         },
         proyectos: {
           title: 'Business · UX Lead',
@@ -47,9 +47,9 @@ export default {
             'Case studies with evidence and metrics at SURA Investments, Transvip, and Karri. Fintech, mobility, enterprise.',
         },
         cases: {
-          title: 'UX Framework & Cases',
+          title: 'UX process',
           description:
-            '5 UX processes — analytics, research, design, testing, refinement. Applied at SURA, Transvip, and Karri.',
+            'Design that cuts the noise. 5 phases on your CMS or CRM: analytics, research, design, testing, refinement.',
         },
         framework: {
           title: 'UX Framework — 5 Processes',
@@ -76,6 +76,11 @@ export default {
           description:
             'Privacy by design: minimization, purpose, control. No ad cookies, no data sales.',
         },
+        news: {
+          title: 'News for business',
+          description:
+            'Monthly newsletter: privacy, automation, and accessibility for companies. Public cases, no invented KPIs.',
+        },
         audit: {
           title: 'UX/UI Portfolio Audit',
           description:
@@ -85,7 +90,7 @@ export default {
           /** SEM final URL: https://vientonorte.io/#/consultoria — Ads message-match */
           title: 'UX Consulting · Choose your scope',
           description:
-            'Diagnostic, prototype, or team process. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
+            'Diagnostic in 5–7 days of the flow your customer already uses, in their CMS or CRM. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
           keywords:
             'UX consulting, design sprint, fintech architecture, UX flows, UXtech, product modules, WCAG accessibility, front office, Viento Norte',
         },
@@ -246,11 +251,15 @@ export default {
       },
       landing: {
         badge: 'Viento Norte · SMBs',
-        principleBadge: 'UX consulting',
+        principleBadge: 'Design that cuts the noise',
+        opsLabel: 'Digital operations',
+        xcmsLabel: 'X|CMS',
+        xcmsCaption: 'X|CMS · 5 min demo',
+        ctaDemo: 'View X|CMS demo',
         title: 'Technology for business.',
         titleAccent: '',
         description:
-          'Diagnostic, prototype, or team process. 30 min kickoff. Price on the call.',
+          'Digital operations and the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',
         transparencyLine:
           'Free Diagnostic entry: WCAG 2.2 AA review of one critical flow. If it fits, let’s talk full Diagnostic (5–7 days).',
         ctaPrimary: 'Book on Google Calendar',
@@ -262,6 +271,37 @@ export default {
         ctaFree: 'Request free review',
         trustLine: 'Reply within 24 h',
         trustChips: ['Reply <24 h', '30 min kickoff', 'No prices on the site'],
+        storyLabel: 'Value context',
+        storyTiles: [
+          {
+            id: 'flujo',
+            label: 'People',
+            title: 'Review of one flow',
+            hint: 'Free: WCAG 2.2 AA on the flow your customer already uses.',
+            alt: 'Two people review a form flow on a laptop with an accessibility checklist.',
+          },
+          {
+            id: 'reserva',
+            label: 'People',
+            title: 'The flow that books',
+            hint: 'Onboarding, payment, or booking: the step where people drop off.',
+            alt: 'A customer using the booking flow on a laptop, in their own workplace.',
+          },
+          {
+            id: 'stack',
+            label: 'Technology',
+            title: 'In their CMS or CRM',
+            hint: 'The system they already run. We fit the flow — no stack swap.',
+            alt: 'Laptop with a CMS and a monitor with checkout: the flow lives in their stack.',
+          },
+          {
+            id: 'diagnostico',
+            label: 'Technology',
+            title: 'Diagnostic in 5–7 days',
+            hint: 'Report + plan. Price on the 30 min kickoff.',
+            alt: 'UX diagnostic screen with prioritized findings on the flow.',
+          },
+        ],
         segmentsLabel: 'What do you need?',
         segmentsHint: 'One tap = service and what you get.',
         segments: {
@@ -1262,6 +1302,7 @@ export default {
     caseStudies: {
       hero: {
         badge: 'Method in production',
+        tagline: 'Design that cuts the noise.',
         title: 'UX Process based on continuous improvement',
         description: '5 macro-processes applied in real environments — SURA, Transvip, and Karri — with measurable results in onboarding, activation, and NPS.',
         metricsTitle: 'Production results',
@@ -1360,12 +1401,26 @@ export default {
         stripLabel: 'Method-to-result summary by phase',
       },
       navMobile: 'UX process sections',
+      capa: {
+        badge: 'Method layer',
+        title: 'On your CMS or CRM',
+        lead: 'Same method: product branding, analytics, applied research, content, and social — on your stack. Not a fifth paid pack.',
+        stack: 'End-to-end front applied to your CMS or CRM — Jira, SharePoint, Salesforce, headless. The data and tenant stay yours.',
+        items: [
+          { title: 'Branding', body: 'Visual system and VN wordmark in the product.' },
+          { title: 'Analytics', body: 'Funnels and CRM/CMS. Data-led decisions.' },
+          { title: 'Applied research', body: 'Research on your flow, not showcase fieldwork.' },
+          { title: 'Newsletter / CM', body: 'Mail sequence and tone. Publish with a Decider.' },
+          { title: 'Social', body: 'Calendar and tone; no auto-post without OK.' },
+        ],
+      },
       cta: {
         viewProjects: 'Explore business',
+        consulting: 'Book a diagnostic',
         backToPortfolio: 'Back to portfolio',
         sectionLabel: 'Real business',
         title: 'Want to see this framework in action?',
-        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri.',
+        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri. Paid entry stays diagnostic / accessibility of one flow.',
       },
     },
 
@@ -1472,6 +1527,7 @@ export default {
       about: 'About',
       contact: 'Contact',
       privacy: 'Privacy',
+      news: 'News',
       designSystem: 'Design System',
       audit: 'Audit',
       consulting: 'Consulting',

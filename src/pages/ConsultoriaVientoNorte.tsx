@@ -137,6 +137,7 @@ export default function ConsultoriaVientoNorte({
         <ProcessNavigation
           sections={funnelSections}
           mobileAriaLabel={funnelNav.ariaLabel}
+          showMobile={false}
         />
 
         {/*

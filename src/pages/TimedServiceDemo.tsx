@@ -170,13 +170,24 @@ export default function TimedServiceDemo({
 
   const openSchedule = () => {
     if (!demo) return;
+    const utm = readDemoUtms();
     trackEvent("demo_path_cta", {
       category: "conversion",
       cta: "schedule",
       path_id: demo.id,
       package_id: demo.packageId,
-      ...readDemoUtms(),
+      ...utm,
     });
+    if (demo.id === "prototype") {
+      trackEvent("demo_x_cms_cta", {
+        category: "conversion",
+        cta: "schedule",
+        surface: "demo_x_cms",
+        path_id: demo.id,
+        package_id: demo.packageId,
+        ...utm,
+      });
+    }
     queueDemoHeat(demo.id, { type: "cta_schedule", phase, el: "cta-schedule" });
     openFreeRadarEntry(navigate, language, "service-path-demo", {
       mode: "schedule",
@@ -193,6 +204,16 @@ export default function TimedServiceDemo({
       package_id: demo.packageId,
       ...utm,
     });
+    if (demo.id === "prototype") {
+      trackEvent("demo_x_cms_cta", {
+        category: "conversion",
+        cta: "consulting_module",
+        surface: "demo_x_cms",
+        path_id: demo.id,
+        package_id: demo.packageId,
+        ...utm,
+      });
+    }
     queueDemoHeat(demo.id, { type: "cta_consult", phase, el: "cta-consult" });
     navigateToContactAssistant(navigate, {
       origin: "service-path-demo",

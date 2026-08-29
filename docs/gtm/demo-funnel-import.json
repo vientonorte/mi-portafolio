@@ -1,0 +1,102 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2026-08-28 16:00:00",
+  "containerVersion": {
+    "path": "accounts/6365610691/containers/258073653/versions/0",
+    "accountId": "6365610691",
+    "containerId": "258073653",
+    "containerVersionId": "0",
+    "container": {
+      "path": "accounts/6365610691/containers/258073653",
+      "accountId": "6365610691",
+      "containerId": "258073653",
+      "name": "vientonorte.io",
+      "publicId": "GTM-PM5LBQRP",
+      "usageContext": ["WEB"],
+      "fingerprint": "0",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6365610691/containers/258073653/workspaces"
+    },
+    "tag": [
+      {
+        "accountId": "6365610691",
+        "containerId": "258073653",
+        "tagId": "8001",
+        "name": "GA4 · demo_funnel",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "sendEcommerceData",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "{{DLV · event}}"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "G-G7JXJKGCDV"
+          },
+          {
+            "type": "LIST",
+            "key": "eventParameters",
+            "list": [
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "path_id"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · path_id}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "package_id"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · package_id}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "surface"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · surface}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "cta"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · cta}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "reason"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · reason}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "duration_sec"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · duration_sec}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "product"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · product}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "utm_source"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · utm_source}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "utm_medium"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · utm_medium}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "utm_campaign"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · utm_campaign}}"}]},
+              {"type": "MAP", "map": [{"type": "TEMPLATE", "key": "name", "value": "utm_content"}, {"type": "TEMPLATE", "key": "value", "value": "{{DLV · utm_content}}"}]}
+            ]
+          }
+        ],
+        "fingerprint": "0",
+        "firingTriggerId": ["8002"],
+        "tagFiringOption": "ONCE_PER_EVENT"
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "6365610691",
+        "containerId": "258073653",
+        "triggerId": "8002",
+        "name": "CE · demo_funnel",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "^(hero_x_cms_open|demo_x_cms_.+|demo_path_.+)$"},
+              {"type": "BOOLEAN", "key": "negate", "value": "false"}
+            ]
+          }
+        ],
+        "fingerprint": "0"
+      }
+    ],
+    "variable": [
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8010", "name": "DLV · event", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "event"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8011", "name": "DLV · path_id", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "path_id"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8012", "name": "DLV · package_id", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "package_id"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8013", "name": "DLV · surface", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "surface"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8014", "name": "DLV · cta", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "cta"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8015", "name": "DLV · reason", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "reason"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8016", "name": "DLV · duration_sec", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "duration_sec"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8017", "name": "DLV · product", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "product"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8018", "name": "DLV · utm_source", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "utm_source"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8019", "name": "DLV · utm_medium", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "utm_medium"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8020", "name": "DLV · utm_campaign", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "utm_campaign"}], "fingerprint": "0"},
+      {"accountId": "6365610691", "containerId": "258073653", "variableId": "8021", "name": "DLV · utm_content", "type": "v", "parameter": [{"type": "INTEGER", "key": "dataLayerVersion", "value": "2"}, {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}, {"type": "TEMPLATE", "key": "name", "value": "utm_content"}], "fingerprint": "0"}
+    ],
+    "fingerprint": "0",
+    "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6365610691/containers/258073653/workspaces"
+  }
+}

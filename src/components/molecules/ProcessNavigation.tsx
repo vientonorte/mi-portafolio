@@ -9,15 +9,21 @@ import {
 interface ProcessNavigationProps {
   sections: ProcessNavSection[];
   mobileAriaLabel?: string;
+  /** Home/SEM FO: dock cubre 01–03. Default true (detalle de caso). */
+  showMobile?: boolean;
 }
 
-export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigationProps) {
+export function ProcessNavigation({
+  sections,
+  mobileAriaLabel,
+  showMobile = true,
+}: ProcessNavigationProps) {
   const { activeSection, visitedSections, scrollToSection } = useProcessSectionSpy(sections);
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <>
-      {/* Mobile: sticky horizontal section nav */}
+      {showMobile ? (
       <nav
         className="process-nav-mobile lg:hidden sticky z-[45] border-b border-border/60 bg-background shadow-[0_8px_16px_-12px_rgba(15,23,42,0.28)]"
         style={{ top: "var(--process-nav-mobile-top, 3.25rem)" }}
@@ -48,6 +54,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
           </ul>
         </div>
       </nav>
+      ) : null}
 
       {/* Desktop: lateral TOC */}
       <motion.div
@@ -60,7 +67,7 @@ export function ProcessNavigation({ sections, mobileAriaLabel }: ProcessNavigati
             ? { duration: 0 }
             : { duration: 0.25, ease: [0.4, 0, 0.2, 1], delay: 0.15 }
         }
-        className="hidden lg:block fixed right-6 top-1/2 z-30 -translate-y-1/2"
+        className="hidden xl:block fixed right-6 top-1/2 z-30 -translate-y-1/2"
       >
         <Card className="p-4 bg-background/95 backdrop-blur-lg border-2 shadow-xl max-w-[200px]">
           <nav aria-label={mobileAriaLabel ?? "Process navigation"}>

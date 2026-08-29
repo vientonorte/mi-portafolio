@@ -3,10 +3,12 @@
 export type ImageWebRole =
   | "share_home"
   | "share_consultoria"
+  | "share_proceso"
   | "schema"
   | "favicon"
   | "logo"
   | "apple"
+  | "hero_consultoria"
   | "faq"
   | "gallery";
 
@@ -32,6 +34,12 @@ export const IMAGE_WEB_ROLES: ImageRoleDef[] = [
     slotId: "branding.ogConsultoria",
   },
   {
+    id: "share_proceso",
+    label: "Share redes · proceso",
+    hint: "Card al pegar /s/proceso. PNG 1200×630.",
+    slotId: "branding.ogProceso",
+  },
+  {
     id: "schema",
     label: "Schema.org (logo)",
     hint: "JSON-LD Organization.logo. Cuadrado ≥512.",
@@ -54,6 +62,12 @@ export const IMAGE_WEB_ROLES: ImageRoleDef[] = [
     label: "Apple / PWA",
     hint: "icon-192. Cuadrado.",
     slotId: "branding.appleTouch",
+  },
+  {
+    id: "hero_consultoria",
+    label: "Hero · operaciones CMS",
+    hint: "Pantalla de producto (CMS/CRM), no lifestyle. 16:10 o 1200×630. Alt obligatorio.",
+    slotId: "branding.heroConsultoria",
   },
   {
     id: "faq",
