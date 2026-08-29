@@ -51,4 +51,9 @@ export interface AnalyticsConfig {
   enabled?: boolean;
   /** Superficie lógica (hub | portafolio) para un solo contenedor GTM */
   surface?: 'hub' | 'portafolio' | string;
+  /**
+   * ID de conversión de Google Ads — formato completo `AW-XXXXXXXXXX/YYYYYY`.
+   * Se usa para disparar el evento `conversion` (BOOK_APPOINTMENT) al agendar.
+   */
+  adsConversionId?: string;
 }

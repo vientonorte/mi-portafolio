@@ -43,6 +43,7 @@ export class VNTracker {
       debug: config.debug ?? false,
       enabled: config.enabled ?? false,
       surface: config.surface ?? 'portafolio',
+      adsConversionId: config.adsConversionId ?? '',
     };
   }
 
