@@ -6,7 +6,7 @@
 
 import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import { VNTracker } from './tracker';
-import { initGA4, initGTM } from './gtm';
+import { initGA4, initGTM, initGoogleAdsTag } from './gtm';
 import type { AnalyticsConfig } from './types';
 
 const AnalyticsContext = createContext<VNTracker | null>(null);
@@ -43,7 +43,8 @@ export function AnalyticsProvider({
     if (!config.enabled) return;
     if (config.ga4Id) initGA4(config.ga4Id);
     if (config.gtmId) initGTM(config.gtmId);
-  }, [config.enabled, config.ga4Id, config.gtmId]);
+    if (config.adsConversionId) initGoogleAdsTag(config.adsConversionId);
+  }, [config.enabled, config.ga4Id, config.gtmId, config.adsConversionId]);
 
   return (
     <AnalyticsContext.Provider value={tracker}>

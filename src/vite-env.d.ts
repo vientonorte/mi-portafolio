@@ -16,6 +16,12 @@ interface ImportMetaEnv {
   readonly VITE_A11Y_FREE_SCHEDULE_URL?: string;
   /** Agenda genérica (partner edu); fallback de a11y si no hay schedule dedicado */
   readonly VITE_VIDEO_CALL_URL?: string;
+  /**
+   * ID de conversión de Google Ads — formato `AW-XXXXXXXXXX/YYYYYY`.
+   * Se obtiene en Google Ads → Conversiones → Reservar cita → Fragmento de evento.
+   * Campaña: a11y_gratis_pymes · Acción: BOOK_APPOINTMENT
+   */
+  readonly VITE_GOOGLE_ADS_CONVERSION_ID?: string;
 }
 
 interface ImportMeta {

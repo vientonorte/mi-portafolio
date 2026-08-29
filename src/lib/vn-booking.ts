@@ -1,6 +1,7 @@
 import { ADMIN_API_BASE } from "./admin-config";
 import { readContactSession } from "./contact-draft-storage";
 import { trackEvent } from "./analytics";
+import { fireAdsConversion } from "../vn-core/analytics/gtm";
 
 export type BookingIntent = "kickoff" | "radar-free" | "consulting";
 
@@ -39,6 +40,14 @@ export async function recordBookingIntent(params: {
         packageId: params.packageId,
       }),
     });
+
+    // Google Ads conversion — BOOK_APPOINTMENT (campaña a11y_gratis_pymes)
+    // Se dispara después de registrar la intención en el Worker para evitar
+    // inflar métricas cuando la red falla antes de confirmar la reserva.
+    const adsConversionId = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_ID;
+    if (adsConversionId) {
+      fireAdsConversion(adsConversionId);
+    }
   } catch {
     /* Worker no desplegado o red — el Calendar igual abre */
   }

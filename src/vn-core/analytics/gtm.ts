@@ -41,6 +41,69 @@ export function initGA4(ga4Id: string): void {
   document.head.appendChild(script);
 }
 
+/**
+ * Configura la cuenta de Google Ads (AW-XXXXXXXXXX) en el gtag existente.
+ * Debe llamarse después de `initGA4` cuando `ga4Id` está disponible,
+ * o por sí solo cuando solo se usan conversiones de Ads sin GA4.
+ *
+ * @param conversionId - ID completo de conversión: `AW-XXXXXXXXXX/YYYYYY`
+ *                       o solo el account ID `AW-XXXXXXXXXX`.
+ */
+export function initGoogleAdsTag(conversionId: string): void {
+  if (typeof window === 'undefined') return;
+  // Extraer solo la parte AW-XXXXXXXXXX (sin el sufijo /label)
+  const accountId = conversionId.split('/')[0];
+  if (!accountId.startsWith('AW-')) return;
+  // Guard de doble init — debe comprobarse antes de cualquier efecto secundario
+  if (document.querySelector(`meta[data-aw-id="${accountId}"]`)) return;
+
+  // Marcar como inicializado antes de cualquier llamada a gtag (evita re-entradas)
+  const marker = document.createElement('meta');
+  marker.setAttribute('data-aw-id', accountId);
+  marker.setAttribute('hidden', '');
+  document.head.appendChild(marker);
+
+  window.dataLayer = window.dataLayer ?? [];
+  if (!window.gtag) {
+    window.gtag = function gtag(...args: unknown[]) {
+      window.dataLayer.push(args);
+    };
+    window.gtag('js', new Date());
+  }
+  window.gtag('config', accountId);
+
+  // Solo carga el script si no hay ya un gtag.js en el documento
+  const hasGtagScript = Boolean(
+    document.querySelector('script[data-ga4-id]') ||
+      document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
+  );
+  if (!hasGtagScript) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${accountId}`;
+    document.head.appendChild(script);
+  }
+}
+
+/**
+ * Dispara un evento de conversión de Google Ads.
+ * Requiere que `initGoogleAdsTag` haya sido llamado previamente.
+ *
+ * @param sendTo - Valor `send_to`: `AW-XXXXXXXXXX/YYYYYY`
+ * @param params - Parámetros adicionales (value, currency, transaction_id, etc.)
+ *
+ * @example
+ * fireAdsConversion('AW-123456789/AbCdEfGhIjK');
+ */
+export function fireAdsConversion(
+  sendTo: string,
+  params?: Record<string, unknown>
+): void {
+  if (typeof window === 'undefined') return;
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', 'conversion', { send_to: sendTo, ...params });
+}
+
 export function initGTM(gtmId: string): void {
   if (typeof window === 'undefined') return;
   if (document.querySelector(`script[data-gtm-id="${gtmId}"]`)) return; // ya inicializado
