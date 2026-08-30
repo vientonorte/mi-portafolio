@@ -32,7 +32,11 @@ export function initGA4(ga4Id: string): void {
     window.dataLayer.push(args);
   };
   window.gtag('js', new Date());
-  window.gtag('config', ga4Id, { send_page_view: false });
+  window.gtag('config', ga4Id, {
+    send_page_view: false,
+    // Incluir la URL completa para preservar parámetros UTM en la sesión inicial
+    page_location: typeof location !== 'undefined' ? location.href : undefined,
+  });
 
   const script = document.createElement('script');
   script.async = true;
@@ -71,6 +75,10 @@ export function initGoogleAdsTag(conversionId: string): void {
     window.gtag('js', new Date());
   }
   window.gtag('config', accountId);
+
+  // Habilitar señales de Google Ads para que GA4 pueda atribuir sesiones
+  // al canal correcto y cruzar datos con la cuenta de Ads vinculada.
+  window.gtag('set', 'allow_ad_personalization_signals', true);
 
   // Solo carga el script si no hay ya un gtag.js en el documento
   const hasGtagScript = Boolean(

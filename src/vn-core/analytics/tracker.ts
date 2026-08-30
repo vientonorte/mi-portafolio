@@ -104,12 +104,20 @@ export class VNTracker {
    * tracker.page('/dashboard', 'Dashboard — DashFin');
    */
   page(path: string, title: string): void {
-    const data = {
+    // Incluir la URL completa para que GA4 preserve los parámetros UTM
+    // que vienen en el query string (p.ej. ?utm_source=google&utm_medium=cpc).
+    // Sin `page_location`, HashRouter descarta el search y la sesión pierde
+    // la atribución de campaña de Google Ads.
+    const pageLocation =
+      typeof window !== 'undefined' ? window.location.href : undefined;
+
+    const data: Record<string, unknown> = {
       event: 'page_view',
       page_path: path,
       page_title: title,
       vn_project: this.config.project,
     };
+    if (pageLocation) data['page_location'] = pageLocation;
 
     this.log('page_view', data);
     if (!this.config.enabled) return;
@@ -120,6 +128,7 @@ export class VNTracker {
       window.gtag('event', 'page_view', {
         page_path: path,
         page_title: title,
+        ...(pageLocation ? { page_location: pageLocation } : {}),
       });
     }
   }

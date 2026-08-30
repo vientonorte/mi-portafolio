@@ -72,12 +72,16 @@ export const analytics = {
     channel?: string;
     origin?: string;
     package_id?: string;
+    campaign_id?: string;
   }) =>
     trackEvent("generate_lead", {
       category: "conversion",
       lead_type: params.lead_type ?? "free_a11y",
       freemium: true,
       ...params,
+      // campaign_id permite cruzar este evento en GA4 → Adquisición
+      // con la campaña exacta de Google Ads que generó la sesión.
+      campaign_id: params.campaign_id ?? "a11y_gratis_pymes",
     }),
   
   clickDesignSystem: () => trackEvent("click_design_system", {
