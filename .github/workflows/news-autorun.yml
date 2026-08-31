@@ -1,0 +1,52 @@
+name: News autorun · LinkedIn SEO
+
+# Publica la edición del mes (published: null → fecha) y genera el pack
+# de share para el newsletter "Flujos" en LinkedIn.
+# Nota: push con GITHUB_TOKEN NO dispara CI → se dispara deploy.yml explícito.
+on:
+  schedule:
+    - cron: "0 13 * * 2"   # mar 13:00 UTC · ventana LinkedIn orgánico (mar-jue mañanas)
+    - cron: "0 12 * * 6"   # sáb: regen hops/SEO (no publica nada nuevo)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: news-autorun
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publicar edición del mes + pack LinkedIn
+        id: news
+        run: node scripts/news-autorun.mjs >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Regenerar share pages estáticas (si el generador existe)
+        run: |
+          if [ -f scripts/build-news-hops.py ]; then
+            python3 scripts/build-news-hops.py
+          fi
+
+      - name: Commit + push a main
+        run: |
+          git config user.name "vn-news-bot"
+          git config user.email "news@vientonorte.io"
+          git add src/data/news-editions.json public/sitemap.xml public/s/news
+          if git diff --cached --quiet; then
+            echo "Sin cambios — nada que publicar"
+          else
+            git commit -m "news: publicar edición del mes + SEO LinkedIn pack (autorun)"
+            git push
+          fi
+
+      - name: Disparar deploy (post-publish)
+        if: steps.news.outputs.published == 'true'
+        run: gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
