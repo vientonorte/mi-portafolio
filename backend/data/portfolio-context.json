@@ -1,0 +1,572 @@
+{
+  "experience": [
+    {
+      "company": "micro1",
+      "position": "AI Trainer / Gameplay Data Capture Specialist · Jornada parcial",
+      "period": "Jul 2026 — Actualidad",
+      "location": "Estados Unidos · Remoto",
+      "stage": "AI · Data capture",
+      "context": "Entrenamiento de modelos y captura sistemática de gameplay en títulos AAA con herramientas in-house.",
+      "role": "Jugar, grabar, anotar y catalogar sesiones; feedback con experts y leads; troubleshooting de workflows de captura.",
+      "impact": "Datos de gameplay seguros, catalogados y transferidos según guideline de proyecto",
+      "achievements": [
+        "Captura remota de datos de gameplay con atención a exactitud y detalle",
+        "Organización y anotación de sesiones; storage y handoff seguros",
+        "QA de grabación: validación de integridad, sync y handoff antes de transferencia"
+      ],
+      "tools": [
+        "Captura de datos remota",
+        "Anotación",
+        "QA de grabación"
+      ]
+    },
+    {
+      "company": "Viento Norte",
+      "position": "UX Manager · Jornada completa",
+      "period": "Mar 2019 — Actualidad · 7 años 6 meses",
+      "location": "Gran Santiago, RM, Chile · Remoto",
+      "stage": "Consultoría · N2N",
+      "context": "Consultora tecnológica: experiencia digital para negocios regulados y operaciones con cumplimiento por diseño.",
+      "role": "Implementación n2n de operaciones digitales y UX; diseño aplicado a negocio, web y experiencia de cliente.",
+      "impact": "Interfaces + n2n: e-comm, educación, enterprise y FO con dueño del dato",
+      "achievements": [
+        "UI/UX de producto: e-comm (Monitas), educación (Edu21), patrones y funnels nacionales",
+        "Operaciones digitales con cumplimiento por diseño (n2n) y design ops",
+        "Liderazgo de marca Viento Norte: consultoría, demos y delivery multi-vertical"
+      ],
+      "tools": [
+        "Desarrollo web",
+        "Diseño de experiencia del cliente",
+        "Figma",
+        "Design Ops"
+      ]
+    },
+    {
+      "company": "SURA Investments",
+      "position": "UX Lead · Associate, Estrategia Digital",
+      "period": "Sept 2023 — Jun 2026 · 2 años 10 meses",
+      "location": "Chile · Híbrido",
+      "stage": "Wealth · Regional",
+      "context": "Plataformas de inversión y corredores en un entorno regulado, multi-país y multi-perfil.",
+      "role": "Liderazgo UX/UI en células de Wealth Management: design thinking con negocio, PMs, POs y tech leads.",
+      "impact": "−40% fricción en onboarding · alcance 5+ países · handoff con design system",
+      "achievements": [
+        "Experiencias accesibles y alineadas a cumplimiento (WCAG / privacidad por diseño)",
+        "Evolución de productos regionales con design system y criterios de aceptación claros",
+        "Facilitación de sprints y discovery con áreas de negocio en iniciativas multi-país"
+      ],
+      "tools": [
+        "Figma",
+        "Design Thinking",
+        "Accesibilidad",
+        "Jira",
+        "Confluence"
+      ]
+    },
+    {
+      "company": "Desafío Latam",
+      "position": "Docente Carrera UX UI · Jornada parcial",
+      "period": "Abr 2023 — May 2025 · 2 años 2 meses",
+      "location": "Chile · Remoto",
+      "stage": "Docencia · Transferencia",
+      "context": "Formación profesional UX/UI en modalidad remota: cerrar la brecha entre práctica de industria y malla.",
+      "role": "Facilitación de ramos UX y UI: Design Thinking, atomic design y evaluación de proyectos finales.",
+      "impact": "Transferencia de método a una nueva generación de diseñadores",
+      "achievements": [
+        "Articulación de dinámicas entre conocimiento práctico y plan formativo",
+        "Evaluación de proyectos finales integradores con criterios de industria",
+        "Diseño UI con design system coherente (atomic + responsive)"
+      ],
+      "tools": [
+        "Figma",
+        "Design Thinking",
+        "Design Systems",
+        "Wireframing"
+      ]
+    },
+    {
+      "company": "Transvip Chile",
+      "position": "Senior Product Designer",
+      "period": "Jul 2022 — Sept 2023",
+      "location": "Chile · Remoto",
+      "stage": "Mobility · Premium",
+      "context": "Producto mobility premium: reserva, app pasajeros y sistemas internos bajo presión de entrega.",
+      "role": "Liderazgo UX/UI en sprints con POs, stakeholders y gerencia de Tecnología y Producto.",
+      "impact": "Design system web + app · discovery activo · handoff Figma navegable",
+      "achievements": [
+        "Design system funcional con mejora continua para web y aplicación",
+        "Discovery: usabilidad, benchmarks, encuestas y análisis de métricas",
+        "Accesibilidad y prototipos alta fidelidad como handoff a desarrollo",
+        "Refinamiento de flujos de reserva y experiencia premium"
+      ],
+      "tools": [
+        "Figma",
+        "Google Analytics",
+        "User Testing",
+        "Design Systems",
+        "Accesibilidad"
+      ]
+    },
+    {
+      "company": "Karri by Transvip",
+      "position": "Lead UX — Vertical Shoppers",
+      "period": "2022 — 2023",
+      "location": "Chile · Remoto",
+      "stage": "Mobility · Shoppers",
+      "context": "Shoppers sin transparencia de ganancias: alta fricción en onboarding y abandono del funnel.",
+      "role": "Lead UX de la vertical: calculadora, notificaciones y priorización con research.",
+      "impact": "+35% activación · +58% engagement · −42% abandono onboarding",
+      "achievements": [
+        "Calculadora de ganancias y transparencia financiera",
+        "Hub de notificaciones y optimización de onboarding",
+        "Priorización de mejoras con pruebas internas y externas"
+      ],
+      "tools": [
+        "Figma",
+        "Analytics",
+        "User Research",
+        "Prototyping"
+      ]
+    },
+    {
+      "company": "Walmart Chile (Data Conversion Service)",
+      "position": "Diseñador web",
+      "period": "May — Jun 2022",
+      "location": "Chile",
+      "stage": "Retail · Enterprise",
+      "context": "Canales digitales de un retailer enterprise con plazos cortos y alto volumen.",
+      "role": "Diseño y contenido web en equipo de conversión y diseño.",
+      "impact": "Entregables web de corto plazo alineados a canales del retailer",
+      "achievements": [
+        "Diseño y contenido para canales digitales",
+        "Colaboración con equipo de diseño en entregables de alta rotación"
+      ],
+      "tools": [
+        "Figma",
+        "Adobe Creative Suite"
+      ]
+    },
+    {
+      "company": "Havas Group Chile",
+      "position": "Desarrollador web · Jornada completa",
+      "period": "Nov 2021 — Abr 2022 · 6 meses",
+      "location": "Chile",
+      "stage": "Agencia · Telco",
+      "context": "Equipo de mejoras Claro Chile: navegación, tienda y comunicaciones diarias.",
+      "role": "Maquetación y rediseño front en el squad de mejoras del operador.",
+      "impact": "Navegación principal y tienda de equipos rediseñadas · landings y mailings diarios",
+      "achievements": [
+        "Rediseño de navegación principal de Claro Chile",
+        "Rediseño de la tienda de equipos",
+        "HTML de landings, mailings y comunicaciones diarias"
+      ],
+      "tools": [
+        "HTML",
+        "CSS Flexbox",
+        "Wireframing",
+        "Responsive"
+      ]
+    },
+    {
+      "company": "Valuesite Ltda",
+      "position": "Líder de diseño · Jornada completa",
+      "period": "Jun — Nov 2021 · 6 meses",
+      "location": "Chile",
+      "stage": "Producto · Design Ops",
+      "context": "App y landing para vertical de movilidad/servicios con necesidad de sistema y KIT UI.",
+      "role": "Liderazgo de diseño, marketing y comercial bajo estrategia ágil centrada en personas.",
+      "impact": "Design system AquiVoy Express · KIT UI · prototipo AVEM en Figma",
+      "achievements": [
+        "Lineamientos del sistema de diseño de AquiVoy Express y KIT UI",
+        "Prototipo interactivo AVEM Landing Page publicado en Figma",
+        "Mejora continua de UX en productos digitales del portafolio"
+      ],
+      "tools": [
+        "Figma",
+        "Design Systems",
+        "Agile"
+      ]
+    },
+    {
+      "company": "Maraña Agencia Digital",
+      "position": "Diseñador UX UI · Jornada completa",
+      "period": "Feb 2020 — May 2021 · 1 año 4 meses",
+      "location": "Región Metropolitana, Chile",
+      "stage": "Agencia · Digitalización",
+      "context": "Clientes que necesitaban digitalizar negocios e instituciones desde la propuesta de valor.",
+      "role": "UX/UI y facilitación de workshops de diseño con foco comercial.",
+      "impact": "De propuesta de valor a productos digitales entregables para clientes de agencia",
+      "achievements": [
+        "Workshops con clientes en digitalización de negocios e instituciones",
+        "Diseño de valor a producto/servicio digital",
+        "Wireframing y entregables UX/UI para el pipeline de agencia"
+      ],
+      "tools": [
+        "Figma",
+        "Design Thinking",
+        "Workshops",
+        "Wireframing"
+      ]
+    },
+    {
+      "company": "Empresas Pareti",
+      "position": "Community Manager · Jornada completa",
+      "period": "Oct 2019 — Feb 2020 · 5 meses",
+      "location": "Región de Valparaíso, Chile",
+      "stage": "Retail · Growth",
+      "context": "Retail y e-commerce con necesidad de SEO/SEM y presencia digital coherente.",
+      "role": "Contenidos y desarrollo web accesible junto a Diseño y E-commerce.",
+      "impact": "SEO/SEM alineados · e-commerce accesible y responsivo",
+      "achievements": [
+        "Contenidos SEO y SEM con estrategia conjunta Diseño + E-commerce",
+        "Desarrollo web de e-commerce accesible y responsivo",
+        "Coordinación de comunicaciones digitales"
+      ],
+      "tools": [
+        "Adobe Creative Suite",
+        "Google Analytics",
+        "SEO",
+        "SEM"
+      ]
+    },
+    {
+      "company": "Profesional independiente",
+      "position": "Diseñador freelance",
+      "period": "Ene 2017 — Actualidad",
+      "location": "Chile · Remoto",
+      "stage": "Consultoría · Multi-rubro",
+      "context": "Proyectos para agencias, retail, educación y consultoría digital a lo largo de 9+ años.",
+      "role": "Diseño web, CM, tutoría y consultorías bajo demanda.",
+      "impact": "9+ años de práctica · tutoría magíster · portal IBM y entregables HTML/CSS",
+      "achievements": [
+        "Diseño web, fotografía digital, community management y consultorías multi-rubro",
+        "Tutorías para estudiantes de magíster en marketing y proyectos con agencias",
+        "Portal IBM (remoto) y otros entregables HTML/CSS — casos en expansión en el portafolio"
+      ],
+      "tools": [
+        "Figma",
+        "Adobe Creative Suite",
+        "SEO",
+        "Wireframing"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "company": "SURA Investments",
+      "projectName": "Implementación UX Enterprise Regional",
+      "role": "Lead UX | Estrategia Digital",
+      "period": "2023 - Presente",
+      "description": "Liderazgo en la implementación de experiencia usuaria para iniciativas regionales y locales a nivel tecnológico en el sector financiero.",
+      "tags": [
+        "Fintech",
+        "Enterprise",
+        "Design Thinking",
+        "Regional"
+      ]
+    },
+    {
+      "company": "SURA Investments",
+      "projectName": "Rediseño Plataforma de Inversiones Digital",
+      "role": "Lead UX | Asociado Estrategia Digital",
+      "period": "2023 - 2024",
+      "description": "Mejora de experiencia usuaria en plataforma de inversiones y RIA para clientes institucionales y retail — progressive disclosure, dashboards y onboarding multi-perfil.",
+      "tags": [
+        "Investment Platform",
+        "Financial UX",
+        "Dashboard Design"
+      ]
+    },
+    {
+      "company": "SURA Investments",
+      "projectName": "Ecosistema Digital Sitios Públicos & Onboarding",
+      "role": "Lead UX | Digital Strategy & Onboarding",
+      "period": "2023 - 2025",
+      "description": "Rediseño completo del ecosistema de +20 sitios web públicos para SURA Investments Regional, implementando arquitectura unificada, CMS, Design System y flujos de onboarding digital optimizados con manejo de casos de error.",
+      "tags": [
+        "Web Ecosystem",
+        "Digital Strategy",
+        "CMS",
+        "Onboarding",
+        "Design System"
+      ]
+    },
+    {
+      "company": "SURA Investments",
+      "projectName": "Diseño UX UI RIA SURA US",
+      "role": "Lead UX/UI Designer",
+      "period": "2024 - 2025",
+      "description": "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
+      "tags": [
+        "RIA Platform",
+        "Financial UX",
+        "Onboarding",
+        "Multi-role System",
+        "US Market"
+      ]
+    },
+    {
+      "company": "SURA Investments",
+      "projectName": "Dashboard de Análisis con IA",
+      "role": "Lead UX · Estrategia Digital",
+      "period": "2025 - Presente",
+      "description": "POC inicial de dashboard para análisis y automatización de procesos con IA — exploración de flujos, métricas operativas y orquestación de tareas en contexto enterprise.",
+      "tags": [
+        "AI",
+        "Automation",
+        "Dashboard",
+        "POC",
+        "Process Design",
+        "Enterprise"
+      ]
+    },
+    {
+      "company": "Transvip",
+      "projectName": "Rediseño App Pasajeros Premium",
+      "role": "Senior Product Designer",
+      "period": "2022-2023",
+      "description": "Rediseño completo de la aplicación de pasajeros de Transvip, enfocada en simplificar el proceso de reserva de traslados al aeropuerto y mejorar la experiencia de usuarios premium.",
+      "tags": [
+        "Mobility",
+        "Premium Service",
+        "Mobile App",
+        "UX Research"
+      ]
+    },
+    {
+      "company": "Transvip / Karri",
+      "projectName": "Karri - Calculadora de Ganancias",
+      "role": "Lead UX Designer",
+      "period": "2022-2023",
+      "description": "Sistema de simulación de ingresos para shoppers que permite calcular ganancias proyectadas basadas en parámetros reales de trabajo.",
+      "tags": [
+        "Figma",
+        "React Native",
+        "UX Research",
+        "Mobile First"
+      ]
+    },
+    {
+      "company": "Transvip / Karri",
+      "projectName": "Karri - Sistema de Notificaciones + Onboarding",
+      "role": "Lead UX Designer",
+      "period": "2022-2023",
+      "description": "Hub centralizado de notificaciones y flujo de autenticación optimizado para shoppers.",
+      "tags": [
+        "Figma",
+        "React Native",
+        "Information Architecture",
+        "Mobile UX"
+      ]
+    },
+    {
+      "company": "Transvip / Karri",
+      "projectName": "Karri - Workshop de Estrategia de Producto",
+      "role": "Lead UX Designer & Workshop Facilitator",
+      "period": "Agosto 2023",
+      "description": "Taller intensivo de 3 sesiones que alineó al equipo en estrategia de producto, journey y OKRs.",
+      "tags": [
+        "Design Sprint",
+        "Facilitation",
+        "Product Strategy",
+        "OKR Planning"
+      ]
+    },
+    {
+      "company": "Proyecto Personal",
+      "projectName": "UX Tools Collection",
+      "role": "UX Designer & Developer",
+      "period": "2024 - Presente",
+      "description": "Colección de herramientas y recursos para diseñadores UX. Incluye frameworks, plantillas, y utilidades prácticas para optimizar el flujo de trabajo en proyectos de diseño de experiencia de usuario.",
+      "tags": [
+        "Tools",
+        "UX Resources",
+        "Web Development",
+        "Design Systems"
+      ]
+    }
+  ],
+  "perfilCycle": [
+    {
+      "n": 1,
+      "titleEs": "Observa",
+      "titleEn": "Observe",
+      "bodyEs": "Analiza el contexto, identifica patrones, actores y tensiones.",
+      "bodyEn": "Analyze context; spot patterns, actors, and tensions."
+    },
+    {
+      "n": 2,
+      "titleEs": "Entiende",
+      "titleEn": "Understand",
+      "bodyEs": "Comprende estructuras, incentivos y restricciones invisibles.",
+      "bodyEn": "Grasp structures, incentives, and hidden constraints."
+    },
+    {
+      "n": 3,
+      "titleEs": "Diseña",
+      "titleEn": "Design",
+      "bodyEs": "Define estrategias, modela soluciones, prioriza impacto.",
+      "bodyEn": "Define strategy, model solutions, prioritize impact."
+    },
+    {
+      "n": 4,
+      "titleEs": "Interviene",
+      "titleEn": "Intervene",
+      "bodyEs": "Implementa en pequeño, valida con usuarios y datos.",
+      "bodyEn": "Ship small; validate with users and data."
+    },
+    {
+      "n": 5,
+      "titleEs": "Mide",
+      "titleEn": "Measure",
+      "bodyEs": "Mide impacto real, aprende, ajusta y vuelve a iterar.",
+      "bodyEn": "Measure real impact, learn, adjust, iterate."
+    },
+    {
+      "n": 6,
+      "titleEs": "Escala",
+      "titleEn": "Scale",
+      "bodyEs": "Escala lo que funciona, documenta y convierte en capacidad.",
+      "bodyEn": "Scale what works; document and turn into capability."
+    }
+  ],
+  "perfilAxes": [
+    {
+      "id": "diseno",
+      "labelEs": "Diseño",
+      "labelEn": "Design",
+      "detailEs": "Experiencia y comportamiento — interfaces de producto",
+      "detailEn": "Experience and behavior — product interfaces",
+      "score": 5
+    },
+    {
+      "id": "datos",
+      "labelEs": "Datos",
+      "labelEn": "Data",
+      "detailEs": "Evidencia y medición — analytics, embudos, KPIs",
+      "detailEn": "Evidence and measurement — analytics, funnels, KPIs",
+      "score": 4
+    },
+    {
+      "id": "tecnologia",
+      "labelEs": "Tecnología",
+      "labelEn": "Technology",
+      "detailEs": "Automatización y capacidad — systems, handoff, tools",
+      "detailEn": "Automation and capacity — systems, handoff, tools",
+      "score": 4
+    },
+    {
+      "id": "negocio",
+      "labelEs": "Negocio",
+      "labelEn": "Business",
+      "detailEs": "Valor y priorización — product/wealth, P0–P2",
+      "detailEn": "Value and prioritization — product/wealth, P0–P2",
+      "score": 5
+    },
+    {
+      "id": "regulacion",
+      "labelEs": "Regulación",
+      "labelEn": "Regulation",
+      "detailEs": "Límites institucionales — CMF, compliance UX",
+      "detailEn": "Institutional limits — CMF, compliance UX",
+      "score": 5
+    },
+    {
+      "id": "privacidad",
+      "labelEs": "Privacidad",
+      "labelEn": "Privacy",
+      "detailEs": "Poder sobre los datos — privacy dashboard, minimización",
+      "detailEn": "Power over data — privacy dashboard, minimization",
+      "score": 4
+    },
+    {
+      "id": "ia",
+      "labelEs": "IA",
+      "labelEn": "AI",
+      "detailEs": "Multiplicación de capacidad — micro1 AI data, anotación/QA",
+      "detailEn": "Capability multiplier — micro1 AI data, annotation/QA",
+      "score": 4
+    },
+    {
+      "id": "finanzas",
+      "labelEs": "Finanzas",
+      "labelEn": "Finance",
+      "detailEs": "Restricciones y sostenibilidad — wealth / fondos",
+      "detailEn": "Constraints and sustainability — wealth / funds",
+      "score": 4
+    },
+    {
+      "id": "comunicacion",
+      "labelEs": "Comunicación",
+      "labelEn": "Communication",
+      "detailEs": "Legitimación y alineación — puentes negocio·diseño·tech",
+      "detailEn": "Legitimacy and alignment — business·design·tech bridges",
+      "score": 4
+    }
+  ],
+  "perfilDoes": [
+    "Convierte problemas complejos en sistemas de decisión simples y accionables.",
+    "Diseña experiencias centradas en las personas con enfoque en negocio y datos.",
+    "Usa IA, automatización y datos para multiplicar impacto y eficiencia.",
+    "Construye puentes entre tecnología, negocio, diseño y regulación."
+  ],
+  "perfilTools": [
+    "Figma / FigJam",
+    "Analytics / Data",
+    "IA & automatización",
+    "Design Systems",
+    "GitHub / Obsidian",
+    "MacBook / iPad / iPhone"
+  ],
+  "perfilIdentity": [
+    "Nació para entender sistemas complejos y convertirlos en soluciones simples y útiles.",
+    "Empático, ético y colaborativo. Diseño centrado en personas y en datos.",
+    "Curioso, autodidacta y resiliente — siempre explorando nuevas fronteras."
+  ],
+  "equation": {
+    "parts": [
+      "Curiosidad",
+      "Sistemas",
+      "Estrategia"
+    ],
+    "result": "Impacto",
+    "tagline": "Menos dependencia, más capacidad de maniobra."
+  },
+  "quote": "No se trata de hacer más. Se trata de diseñar mejores sistemas para tomar mejores decisiones.",
+  "tagline": "Transforma complejidad en capacidad de decisión",
+  "nortamiento": "Vivir con propósito: crear sistemas que generen valor y libertad para mí y quienes me rodean.",
+  "n2nPhases": [
+    {
+      "id": "brief",
+      "step": "01",
+      "title": "Entender",
+      "outcome": "Problema, usuarios y meta en una página."
+    },
+    {
+      "id": "thinking",
+      "step": "02",
+      "title": "Explorar",
+      "outcome": "Ideas priorizadas antes de dibujar la solución."
+    },
+    {
+      "id": "sprint",
+      "step": "03",
+      "title": "Probar",
+      "outcome": "Validar en días: seguir, ajustar o parar."
+    },
+    {
+      "id": "proto",
+      "step": "04",
+      "title": "Prototipar",
+      "outcome": "Pantallas navegables de los flujos clave."
+    },
+    {
+      "id": "handoff",
+      "step": "05",
+      "title": "Entregar",
+      "outcome": "Especificaciones listas para construir."
+    }
+  ],
+  "exportedAt": "2026-08-31T22:39:02.475Z",
+  "version": "1.0.0"
+}

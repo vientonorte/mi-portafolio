@@ -7,13 +7,16 @@
   "main": "server.js",
   "scripts": {
     "start": "node --env-file=.env.local server.js",
-    "dev": "nodemon --env-file=.env.local server.js"
+    "dev": "nodemon --env-file=.env.local server.js",
+    "start:ollama": "node --env-file=.env.local ollama-server.js",
+    "dev:ollama": "nodemon --env-file=.env.local ollama-server.js"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "google-auth-library": "^10.5.0",
     "express-rate-limit": "^7.5.0",
+    "node-fetch": "^3.3.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
