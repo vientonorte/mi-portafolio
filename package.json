@@ -114,7 +114,9 @@
     "preprod:quick": "bash scripts/preprod-gate.sh --quick",
     "preprod:dev": "bash scripts/preprod-gate.sh --with-dev",
     "preprod:routes": "bash scripts/preprod-gate.sh --with-routes",
-    "qa:error-ui": "bash scripts/qa-error-ui.sh"
+    "qa:error-ui": "bash scripts/qa-error-ui.sh",
+    "export:skills": "node scripts/export-skills.mjs",
+    "dev:local": "bash scripts/start-local.sh"
   },
   "optionalDependencies": {
     "@rolldown/binding-darwin-arm64": "^1.2.4"

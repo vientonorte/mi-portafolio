@@ -116,3 +116,8 @@ build/
 !.env.example
 V2/antropologia-corrupcion/
 *.make
+
+# Ollama local — generated files
+backend/data/_export-driver.bundled.cjs
+/tmp/ollama*.log
+/tmp/ollama*.pid
