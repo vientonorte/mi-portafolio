@@ -152,6 +152,21 @@ export function isAdsLandingPath(pathname: string): boolean {
   return normalizePathname(pathname) === ROUTES.adsLandingA11y;
 }
 
+/**
+ * Gate único de aislamiento de shell (Navigation / BottomNav / DeepPageNav).
+ * `true` para el tour de módulos, la demo con reloj, `/admin` y la landing
+ * SEM aislada (`/ads/auditoria-accesibilidad`) — evita fuga de clics/nav.
+ * Usado por `AppRoutes` (`src/App.tsx`) y testeado en `routes.test.ts`.
+ */
+export function shouldHideSiteChrome(pathname: string): boolean {
+  return (
+    isConsultingModuleTourPath(pathname) ||
+    isTimedDemoPath(pathname) ||
+    isAdminPath(pathname) ||
+    isAdsLandingPath(pathname)
+  );
+}
+
 export function isProcessPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   return (

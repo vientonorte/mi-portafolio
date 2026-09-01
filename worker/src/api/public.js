@@ -4,6 +4,7 @@ import { SKILLS_CATALOG, getSkill, getSkills } from '../data/skills.js';
 import { listRecords, newId, nowIso, prependRecord, updateRecord } from '../lib/store.js';
 import { notifyInbox, notifyVisitor } from '../lib/notify.js';
 import { ga4MpConfigured, sendGa4MpEvent } from '../lib/ga4-mp.js';
+import { buildKickoffBookingConfirmation } from '../lib/email-templates.js';
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
@@ -20,6 +21,47 @@ function calendarUrl(env) {
     env.A11Y_FREE_SCHEDULE_URL ||
     'https://vientonorte.io/#/contacto'
   );
+}
+
+/**
+ * Comparación en tiempo constante para evitar timing attacks al validar el
+ * secreto del puente Calendar → Worker.
+ */
+function timingSafeStringEqual(a, b) {
+  const bufA = new TextEncoder().encode(a);
+  const bufB = new TextEncoder().encode(b);
+  // Longitud distinta: igual recorremos el máximo largo para no filtrar
+  // la longitud real por timing, y forzamos resultado falso al final.
+  const maxLength = Math.max(bufA.length, bufB.length, 1);
+  let diff = bufA.length === bufB.length ? 0 : 1;
+  for (let i = 0; i < maxLength; i += 1) {
+    const byteA = i < bufA.length ? bufA[i] : 0;
+    const byteB = i < bufB.length ? bufB[i] : 0;
+    diff |= byteA ^ byteB;
+  }
+  return diff === 0;
+}
+
+/**
+ * `eventId` solo lo envía el puente Calendar → Worker (Apps Script) cuando el
+ * evento ya está confirmado en Google Calendar — a diferencia del registro de
+ * click desde el front (sin `eventId`, ver `recordBookingIntent`). Si hay un
+ * secreto configurado, exigimos el header para evitar bookings falsos con
+ * `eventId` inventado. Sin secreto configurado (aún no aprovisionado) se deja
+ * pasar para no romper el flujo mientras se habilita el puente.
+ */
+function isTrustedBookingWebhook(request, env) {
+  const expected = env.VN_BOOKING_WEBHOOK_KEY;
+  if (!expected) {
+    // Transitorio: sin secreto provisto (ver docs/CALENDAR-BOOKING-BRIDGE.md)
+    // aceptamos por compatibilidad, pero dejamos rastro para monitoreo.
+    console.warn(
+      '[booking] VN_BOOKING_WEBHOOK_KEY no configurado: aceptando webhook con eventId sin autenticar.'
+    );
+    return true;
+  }
+  const header = request.headers.get('X-VN-BOOKING-KEY') || '';
+  return timingSafeStringEqual(header, expected);
 }
 
 export function handleHealth(env, cors) {
@@ -213,6 +255,10 @@ export async function handleCreateBooking(request, env, cors) {
   const email = isValidEmail(emailRaw) ? emailRaw : '';
   const url = calendarUrl(env);
 
+  if (eventId && !isTrustedBookingWebhook(request, env)) {
+    return json({ ok: false, error: 'No autorizado' }, 401, cors);
+  }
+
   if (eventId) {
     const existing = await listRecords(env, 'bookings');
     const dup = existing.find((item) => item.eventId === eventId);
@@ -297,27 +343,39 @@ export async function handleCreateBooking(request, env, cors) {
   });
 
   if (email) {
+    const isKickoffFunnel = origin === 'ads-a11y-landing';
+    const visitorEmail = isKickoffFunnel
+      ? buildKickoffBookingConfirmation({
+          safeName: name,
+          startAt,
+          calendarUrl: htmlLink || url,
+        })
+      : {
+          subject: 'Tu cita con Viento Norte está registrada',
+          text: [
+            `Hola ${name},`,
+            '',
+            'Quedó registrada tu agenda con Viento Norte.',
+            startAt ? `Horario: ${startAt}` : 'Te confirmamos el horario en Google Calendar.',
+            website ? `Sitio a revisar: ${website}` : null,
+            '',
+            'En la cita recorremos el informe WCAG del flujo que nos pasaste.',
+            htmlLink || url,
+            '',
+            '— Viento Norte · vientonorte.io',
+          ]
+            .filter(Boolean)
+            .join('\n'),
+          html: `<p>Hola ${name},</p><p>Quedó registrada tu agenda con Viento Norte.</p>${
+            startAt ? `<p>Horario: ${startAt}</p>` : ''
+          }<p><a href="${htmlLink || url}">Abrir Calendar</a></p><p>— Viento Norte</p>`,
+        };
     await notifyVisitor(env, {
       to: email,
       name,
-      subject: 'Tu cita con Viento Norte está registrada',
-      text: [
-        `Hola ${name},`,
-        '',
-        'Quedó registrada tu agenda con Viento Norte.',
-        startAt ? `Horario: ${startAt}` : 'Te confirmamos el horario en Google Calendar.',
-        website ? `Sitio a revisar: ${website}` : null,
-        '',
-        'En la cita recorremos el informe WCAG del flujo que nos pasaste.',
-        htmlLink || url,
-        '',
-        '— Viento Norte · vientonorte.io',
-      ]
-        .filter(Boolean)
-        .join('\n'),
-      html: `<p>Hola ${name},</p><p>Quedó registrada tu agenda con Viento Norte.</p>${
-        startAt ? `<p>Horario: ${startAt}</p>` : ''
-      }<p><a href="${htmlLink || url}">Abrir Calendar</a></p><p>— Viento Norte</p>`,
+      subject: visitorEmail.subject,
+      text: visitorEmail.text,
+      html: visitorEmail.html,
     });
   }
 

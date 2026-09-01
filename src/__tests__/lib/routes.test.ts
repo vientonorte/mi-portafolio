@@ -11,6 +11,7 @@ import {
   isAdsLandingPath,
   isTimedDemoPath,
   isDeprecatedPocPath,
+  shouldHideSiteChrome,
 } from '@/lib/routes';
 
 describe('routes', () => {
@@ -82,5 +83,22 @@ describe('routes', () => {
     expect(isAdsLandingPath('/ads/auditoria-accesibilidad/')).toBe(true);
     expect(isAdsLandingPath('/auditoria')).toBe(false);
     expect(isAdsLandingPath('/consultoria')).toBe(false);
+  });
+
+  it('hides site chrome (Navigation/BottomNav) for the ads landing route', () => {
+    expect(shouldHideSiteChrome('/ads/auditoria-accesibilidad')).toBe(true);
+    expect(shouldHideSiteChrome('/ads/auditoria-accesibilidad/')).toBe(true);
+  });
+
+  it('keeps site chrome visible on unrelated public routes', () => {
+    expect(shouldHideSiteChrome('/')).toBe(false);
+    expect(shouldHideSiteChrome('/consultoria')).toBe(false);
+    expect(shouldHideSiteChrome('/auditoria')).toBe(false);
+  });
+
+  it('also hides chrome for module tour, timed demo and admin (same gate)', () => {
+    expect(shouldHideSiteChrome('/consultoria/modulos/dashboard')).toBe(true);
+    expect(shouldHideSiteChrome('/demo/diagnostic')).toBe(true);
+    expect(shouldHideSiteChrome('/admin')).toBe(true);
   });
 });

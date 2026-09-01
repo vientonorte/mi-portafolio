@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isAdminPath, isAdsLandingPath, isConsultingModuleTourPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -137,15 +137,13 @@ function GlobalNotFoundPage() {
 function AppRoutes() {
   const pathname = useLocation().pathname;
   const isDeepPage = isDeepPortfolioPage(pathname);
-  /** Tour módulos fullscreen: sin dock. Landing `/consultoria` SÍ lleva DeepPageNav. */
-  const isModuleTour = isConsultingModuleTourPath(pathname);
-  /** Demo con reloj: sin dock (el iframe no puede quedar bajo el nav). */
-  const isTimedDemo = isTimedDemoPath(pathname);
-  /** Panel interno: sin nav pública (seguridad por diseño). */
-  const isAdmin = isAdminPath(pathname);
-  /** Landing SEM aislada (Google Ads): sin nav/dock — evita fuga de clics. */
-  const isAdsLanding = isAdsLandingPath(pathname);
-  const hideSiteChrome = isModuleTour || isTimedDemo || isAdmin || isAdsLanding;
+  /**
+   * Gate único de shell (Navigation/BottomNav/DeepPageNav): tour de módulos
+   * fullscreen, demo con reloj, panel `/admin` y la landing SEM aislada
+   * (`/ads/auditoria-accesibilidad`) — evita fuga de clics/nav del tráfico pago.
+   * Ver `shouldHideSiteChrome` en `src/lib/routes.ts`.
+   */
+  const hideSiteChrome = shouldHideSiteChrome(pathname);
 
   return (
     <PortfolioChrome>

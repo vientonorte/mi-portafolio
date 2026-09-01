@@ -47,7 +47,7 @@ Arquitectura: **Landing → APIs → MCP → Admin UI** sobre las mismas colecci
 | GET | `/api/skills` · `/api/skills/:id` | no |
 | POST | `/api/contact` | consentimiento + persist lead |
 | POST | `/api/leads` | consentimiento |
-| POST | `/api/booking` | no (registra + devuelve Calendar) |
+| POST | `/api/booking` | no (registra + devuelve Calendar); si trae `eventId`, exige `X-VN-BOOKING-KEY` cuando `VN_BOOKING_WEBHOOK_KEY` está configurado — ver [`CALENDAR-BOOKING-BRIDGE.md`](./CALENDAR-BOOKING-BRIDGE.md) |
 | POST | `/api/diagnostico` | no |
 
 ## Admin (cookie de sesión)

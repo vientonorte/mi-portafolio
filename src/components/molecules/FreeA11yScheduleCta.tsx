@@ -13,6 +13,7 @@ import {
 } from "../../lib/free-radar-entry";
 import { A11Y_FREE_SCHEDULE_URL } from "../../lib/site-contact";
 import type { ContactCtaOrigin } from "../../lib/navigate-to-contact";
+import { pushDataLayer } from "../../vn-core/analytics/gtm";
 import { cn } from "../../lib/utils";
 
 export interface FreeA11yScheduleCtaProps {
@@ -47,6 +48,16 @@ export function FreeA11yScheduleCta({
   const badge = es ? "Disponible ahora" : "Available now";
 
   const book = () => {
+    // Instrumentación dedicada del funnel SEM aislado (Google Ads):
+    // dataLayer event estructurado para medir el clic de agenda del kickoff
+    // WCAG 2.2 + Ley 21.719, antes de que Calendar tome la pestaña.
+    if (origin === "ads-a11y-landing") {
+      pushDataLayer({
+        event: "agenda_kickoff_click",
+        cta_origin: origin,
+        service_target: "wcag_ley21719_audit",
+      });
+    }
     openFreeRadarEntry(navigate, language, origin, { mode: "schedule" });
   };
 
