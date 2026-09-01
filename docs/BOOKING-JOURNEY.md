@@ -12,6 +12,7 @@ Descubrir → Decidir → Agendar → Confirmar → Follow-up
 | 1. Descubrir | Visitante | Hero / modalidades / `#contacto` | `page_view` | path HashRouter |
 | 2. Decidir 30 min | Visitante | CTA «Abrir agenda» o form | `generate_lead` (`channel=google_calendar` o `contact_form`) | origin, package |
 | 3. Agendar | Visitante | Google Appointment Schedule | `book_call` + **siempre** `POST /api/booking` | click queda en `#/admin` Agenda; mail a `CONTACT_INBOX`. Identidad si hay sesión o sync Calendar |
+| 3b. Confirmar evento real | Apps Script → Worker | Puente Calendar (ver [`CALENDAR-BOOKING-BRIDGE.md`](./CALENDAR-BOOKING-BRIDGE.md)) | `POST /api/booking` con `eventId` + email real | mail de kickoff propio (`buildKickoffBookingConfirmation`) cuando `origin=ads-a11y-landing` |
 | 4a. Confirmar Calendar | Google | Mail de Calendar al visitante | (fuera de VN) | slot |
 | 4b. Confirmar web | Worker | Mail VN si usó el form | `submit_contact_form` | lead en KV |
 | 5. Follow-up | VN | `#/admin` Bookings / Leads | PATCH estado | nuevo → contactado |
@@ -29,3 +30,5 @@ Sin identidad en sesión → Calendar abre igual; no se inventa un booking anón
 ## Fuera de este mapa
 
 Crear el evento en Google Calendar por API (Appointment Schedule ya lo hace). D1. MCP `book_call` es el mismo POST.
+
+Puente Calendar → Worker para el mail de kickoff del funnel `/ads/auditoria-accesibilidad`: [`CALENDAR-BOOKING-BRIDGE.md`](./CALENDAR-BOOKING-BRIDGE.md).

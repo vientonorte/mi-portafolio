@@ -9,6 +9,10 @@
  * - SIN links salientes en la prueba social (texto plano, sin <a> ni logos sin asset real).
  * - Un único CTA: agendar en Google Calendar (mismo canal que FreeA11yScheduleCta).
  * - `noIndex` en SEOHead: tráfico SEM, no debe competir/mezclarse con el SEO orgánico general.
+ * - Mail de confirmación de kickoff: el click ya registra `POST /api/booking`
+ *   (origin `ads-a11y-landing`, ver `recordBookingIntent`); el mail propio con
+ *   el guion de los 30 min lo dispara el puente Calendar → Worker cuando el
+ *   evento se confirma con email real — ver `docs/CALENDAR-BOOKING-BRIDGE.md`.
  */
 import { Calendar, ShieldCheck } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
