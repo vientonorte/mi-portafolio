@@ -43,8 +43,8 @@ export default function LandingAuditoria() {
             (Ley 21.719)
           </h2>
           <ul className="mx-auto mt-8 flex max-w-xl flex-col gap-3 text-left">
-            {BENEFIT_BULLETS.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-2.5">
+            {BENEFIT_BULLETS.map((bullet, index) => (
+              <li key={index} className="flex items-start gap-2.5">
                 <ShieldCheck
                   className="mt-0.5 h-5 w-5 shrink-0 text-primary"
                   aria-hidden

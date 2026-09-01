@@ -41,9 +41,9 @@ describe("LandingAuditoria (ads-a11y-landing)", () => {
 
   it("renders text-based social proof without outbound links", () => {
     renderLanding();
-    expect(screen.getByText(/mandato afp/i)).toBeInTheDocument();
-    expect(screen.getByText(/sura investments/i)).toBeInTheDocument();
-    expect(screen.getByText(/\bria\b/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/mandato afp.*sura investments.*ria/i)
+    ).toBeInTheDocument();
     expect(screen.queryAllByRole("link")).toHaveLength(0);
   });
 });
