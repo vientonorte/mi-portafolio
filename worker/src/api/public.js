@@ -24,6 +24,25 @@ function calendarUrl(env) {
 }
 
 /**
+ * Comparación en tiempo constante para evitar timing attacks al validar el
+ * secreto del puente Calendar → Worker.
+ */
+function timingSafeStringEqual(a, b) {
+  const bufA = new TextEncoder().encode(a);
+  const bufB = new TextEncoder().encode(b);
+  // Longitud distinta: igual recorremos el máximo largo para no filtrar
+  // la longitud real por timing, y forzamos resultado falso al final.
+  const maxLength = Math.max(bufA.length, bufB.length, 1);
+  let diff = bufA.length === bufB.length ? 0 : 1;
+  for (let i = 0; i < maxLength; i += 1) {
+    const byteA = i < bufA.length ? bufA[i] : 0;
+    const byteB = i < bufB.length ? bufB[i] : 0;
+    diff |= byteA ^ byteB;
+  }
+  return diff === 0;
+}
+
+/**
  * `eventId` solo lo envía el puente Calendar → Worker (Apps Script) cuando el
  * evento ya está confirmado en Google Calendar — a diferencia del registro de
  * click desde el front (sin `eventId`, ver `recordBookingIntent`). Si hay un
@@ -35,7 +54,7 @@ function isTrustedBookingWebhook(request, env) {
   const expected = env.VN_BOOKING_WEBHOOK_KEY;
   if (!expected) return true;
   const header = request.headers.get('X-VN-BOOKING-KEY') || '';
-  return header === expected;
+  return timingSafeStringEqual(header, expected);
 }
 
 export function handleHealth(env, cors) {

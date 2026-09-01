@@ -31,7 +31,7 @@ export default function LandingAuditoria() {
   return (
     <div className="ads-landing min-h-screen bg-background">
       <SEOHead
-        title="Cumplimiento digital estructural (WCAG 2.2 + Ley 21.719) · Viento Norte"
+        title="Diagnóstico Técnico (WCAG 2.2 + Ley 21.719)"
         description="Diagnóstico de 5 días: accesibilidad (WCAG 2.2 AA) y privacidad por diseño (Ley 21.719) en un solo flujo crítico. Agenda un kickoff gratis de 30 minutos."
         url={canonicalFromPath(ROUTES.adsLandingA11y)}
         noIndex
