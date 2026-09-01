@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Flame } from "lucide-react";
 import { SERVICE_PATH_DEMOS, type ServicePathId } from "../../data/service-path-demos";
+import { CONSULTORIA_DEMOS, type ConsultoriaDemoId } from "../../data/consultoria-demos";
+import { consultoriaDemoPoster } from "../../lib/consultoria-demo-poster";
 import type { DemoHeatBucket } from "../../lib/admin-api";
 import { ROUTES } from "../../lib/routes";
 import { Badge } from "../ui/badge";
@@ -10,7 +12,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const COLS = 32;
 const ROWS = 18;
-const PATHS = SERVICE_PATH_DEMOS.map((d) => d.id);
+
+type DemoHeatId = ServicePathId | ConsultoriaDemoId;
+
+type HeatEntry = {
+  id: DemoHeatId;
+  caption: string;
+  poster: string;
+  /** Solo las demos con reloj tienen ruta `/demo/:pathId` */
+  timedRoute: boolean;
+};
+
+const ENTRIES: HeatEntry[] = [
+  ...SERVICE_PATH_DEMOS.map((d) => ({
+    id: d.id,
+    caption: d.caption.es,
+    poster: d.poster,
+    timedRoute: true,
+  })),
+  ...CONSULTORIA_DEMOS.map((d) => ({
+    id: d.id,
+    caption: d.label,
+    poster: consultoriaDemoPoster(d),
+    timedRoute: false,
+  })),
+];
+
+const PATHS = ENTRIES.map((e) => e.id);
 
 function maxCell(grid: number[]) {
   return grid.reduce((m, n) => (n > m ? n : m), 0);
@@ -28,10 +56,10 @@ export function DemoHeatmapPanel({
 }: {
   paths: Record<string, DemoHeatBucket>;
 }) {
-  const [active, setActive] = useState<ServicePathId>("diagnostic");
+  const [active, setActive] = useState<DemoHeatId>("diagnostic");
   const bucket = paths[active];
   const peak = bucket ? maxCell(bucket.grid) : 0;
-  const demo = SERVICE_PATH_DEMOS.find((d) => d.id === active);
+  const demo = ENTRIES.find((d) => d.id === active);
   const sess = bucket?.sessions;
   const started = sess?.started ?? bucket?.counts.start ?? 0;
   const dwell = sess?.dwellMs ?? 0;
@@ -89,7 +117,7 @@ export function DemoHeatmapPanel({
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-medium">
               <Flame className="h-4 w-4" aria-hidden />
-              Mapa · {demo?.caption.es ?? active}
+              Mapa · {demo?.caption ?? active}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -147,7 +175,11 @@ export function DemoHeatmapPanel({
             <Stat label="CTA consultoría" value={bucket?.counts.cta_consult} />
             <Stat label="Clics poster/chrome" value={bucket?.counts.click} />
             <Button asChild variant="outline" className="mt-2 min-h-11 w-full">
-              <Link to={ROUTES.serviceDemo(active)}>Abrir demo</Link>
+              {demo?.timedRoute ? (
+                <Link to={ROUTES.serviceDemo(active as ServicePathId)}>Abrir demo</Link>
+              ) : (
+                <Link to={`${ROUTES.home}#consultoria-demo?demo=${active}`}>Ver mockup</Link>
+              )}
             </Button>
           </CardContent>
         </Card>

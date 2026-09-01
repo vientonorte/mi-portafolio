@@ -1,6 +1,19 @@
 /** First-party click heat for timed demos. No PII. */
 
-export const HEAT_PATHS = ['diagnostic', 'prototype', 'process', 'app'];
+/** Timed service-path demos (reloj) + static mockup showcase demos (lightbox). */
+export const HEAT_PATHS = [
+  'diagnostic',
+  'prototype',
+  'process',
+  'app',
+  'x-cms-n2n',
+  'gees-propuesta',
+  'sura-onboarding',
+  'transvip-app',
+  'karri-shoppers',
+  'ads-campaigns',
+  'edu21-edu',
+];
 export const HEAT_COLS = 32;
 export const HEAT_ROWS = 18;
 export const HEAT_MAX_HITS = 800;
