@@ -14,7 +14,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
-import { isAdminPath, isConsultingModuleTourPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
+import { isAdminPath, isAdsLandingPath, isConsultingModuleTourPath, isTimedDemoPath, LEGACY_ROUTES, ROUTES } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
 import type { PocModuleId } from './data/poc-product-modules';
@@ -43,6 +43,7 @@ const ProjectDetailRoute = lazyWithRetry(() => import('./pages/ProjectDetailRout
 const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
 const AdminHub = lazyWithRetry(() => import('./pages/AdminHub'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
+const LandingAuditoria = lazyWithRetry(() => import('./pages/LandingAuditoria'));
 
 const OFFER_MODULE_IDS = new Set([
   'dashboard',
@@ -142,7 +143,9 @@ function AppRoutes() {
   const isTimedDemo = isTimedDemoPath(pathname);
   /** Panel interno: sin nav pública (seguridad por diseño). */
   const isAdmin = isAdminPath(pathname);
-  const hideSiteChrome = isModuleTour || isTimedDemo || isAdmin;
+  /** Landing SEM aislada (Google Ads): sin nav/dock — evita fuga de clics. */
+  const isAdsLanding = isAdsLandingPath(pathname);
+  const hideSiteChrome = isModuleTour || isTimedDemo || isAdmin || isAdsLanding;
 
   return (
     <PortfolioChrome>
@@ -203,6 +206,7 @@ function AppRoutes() {
             <Route path={ROUTES.admin} element={<AdminHub />} />
             <Route path={ROUTES.adminRoadmap} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
+            <Route path={ROUTES.adsLandingA11y} element={<LandingAuditoria />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>

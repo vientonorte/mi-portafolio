@@ -8,6 +8,7 @@ import {
   isConsultingFunnelPath,
   isConsultingPath,
   isAdminPath,
+  isAdsLandingPath,
   isTimedDemoPath,
   isDeprecatedPocPath,
 } from '@/lib/routes';
@@ -73,5 +74,13 @@ describe('routes', () => {
     expect(isAdminPath('/admin/fotos')).toBe(true);
     expect(isAdminPath('/contacto')).toBe(false);
     expect(isAdminPath('/proyectos')).toBe(false);
+  });
+
+  it('ads landing (SEM) is isolated from site chrome and other paths', () => {
+    expect(ROUTES.adsLandingA11y).toBe('/ads/auditoria-accesibilidad');
+    expect(isAdsLandingPath('/ads/auditoria-accesibilidad')).toBe(true);
+    expect(isAdsLandingPath('/ads/auditoria-accesibilidad/')).toBe(true);
+    expect(isAdsLandingPath('/auditoria')).toBe(false);
+    expect(isAdsLandingPath('/consultoria')).toBe(false);
   });
 });

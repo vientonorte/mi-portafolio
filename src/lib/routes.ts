@@ -67,6 +67,13 @@ export const ROUTES = {
 
   audit: "/auditoria",
   adminPhotos: "/admin/fotos",
+
+  /**
+   * Landing aislada 100% SEM (Google Ads) · auditoría de accesibilidad.
+   * Sin header/nav global ni footer (evita fuga de clics del tráfico pago).
+   * noIndex — no debe mezclarse con el SEO orgánico general.
+   */
+  adsLandingA11y: "/ads/auditoria-accesibilidad",
   /** Grafo de fricción institucional — noIndex hasta decisión de visibilidad. */
   grafo: "/grafo",
 } as const;
@@ -135,6 +142,14 @@ export function isDeprecatedPocPath(pathname: string): boolean {
 export function isAdminPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   return path === ROUTES.admin || path.startsWith(`${ROUTES.admin}/`);
+}
+
+/**
+ * Landing aislada para tráfico SEM (Google Ads). Sin dock ni nav pública
+ * (aislamiento de conversión: nada de fugas de clics a otras secciones).
+ */
+export function isAdsLandingPath(pathname: string): boolean {
+  return normalizePathname(pathname) === ROUTES.adsLandingA11y;
 }
 
 export function isProcessPath(pathname: string): boolean {
