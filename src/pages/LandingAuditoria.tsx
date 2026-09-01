@@ -1,36 +1,34 @@
 /**
- * Landing aislada 100% SEM (Google Ads) · auditoría de accesibilidad gratis.
+ * Landing aislada 100% SEM (Google Ads) · diagnóstico Enterprise
+ * (Accesibilidad WCAG 2.2 AA + Privacidad por Diseño, Ley 21.719).
  * Ruta: ROUTES.adsLandingA11y ("/ads/auditoria-accesibilidad").
  *
  * Reglas de aislamiento (evitar fuga de presupuesto / fuga de clics):
  * - SIN header/nav global (Navigation) ni dock (BottomNav) — ver App.tsx (isAdsLandingPath).
  * - SIN footer con links a otras secciones (el sitio ya no tiene footer global, ver App.tsx).
- * - SIN links salientes en la prueba social (solo logos estáticos, sin <a>).
+ * - SIN links salientes en la prueba social (texto plano, sin <a> ni logos sin asset real).
  * - Un único CTA: agendar en Google Calendar (mismo canal que FreeA11yScheduleCta).
  * - `noIndex` en SEOHead: tráfico SEM, no debe competir/mezclarse con el SEO orgánico general.
  */
-import { Calendar } from "lucide-react";
+import { Calendar, ShieldCheck } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { FreeA11yScheduleCta } from "../components/molecules/FreeA11yScheduleCta";
-import { portfolioImages } from "../lib/portfolio-image-urls";
 import { canonicalFromPath } from "../lib/seo";
 import { ROUTES } from "../lib/routes";
 
-/** Prueba social: solo logos estáticos, sin links (evita fuga de clics). */
-const SOCIAL_PROOF_LOGOS: Array<{ src: string; alt: string }> = [
-  { src: portfolioImages.brands.walmart, alt: "Walmart" },
-  { src: portfolioImages.transvip.logo, alt: "Transvip" },
-  { src: portfolioImages.sura.logo, alt: "Sura" },
-  { src: portfolioImages.brands.havas, alt: "Havas" },
-  { src: portfolioImages.karri.logo, alt: "Karri" },
+/** Viñetas de beneficio: riesgo legal (multas + pérdida de clientes), no "diseño bonito". */
+const BENEFIT_BULLETS: string[] = [
+  "Evita multas por incumplimiento de accesibilidad (WCAG 2.2 AA) y de la Ley 21.719 de protección de datos.",
+  "Mitiga el riesgo legal estructural de tu flujo antes de que lo detecte un regulador o un cliente enterprise.",
+  "No pierdas clientes corporativos que exigen cumplimiento como requisito de contrato.",
 ];
 
 export default function LandingAuditoria() {
   return (
     <div className="ads-landing min-h-screen bg-background">
       <SEOHead
-        title="Auditoría de accesibilidad gratis · Viento Norte"
-        description="Revisión gratuita de accesibilidad (WCAG 2.2 AA) de un flujo crítico de tu sitio. Agenda 30 minutos online, sin formularios."
+        title="Cumplimiento digital estructural (WCAG 2.2 + Ley 21.719) · Viento Norte"
+        description="Diagnóstico de 5 días: accesibilidad (WCAG 2.2 AA) y privacidad por diseño (Ley 21.719) en un solo flujo crítico. Agenda un kickoff gratis de 30 minutos."
         url={canonicalFromPath(ROUTES.adsLandingA11y)}
         noIndex
       />
@@ -38,15 +36,26 @@ export default function LandingAuditoria() {
       <main id="main" tabIndex={-1} className="container mx-auto max-w-3xl px-4 py-16 sm:py-24">
         <header className="text-center">
           <h1 className="text-3xl font-black tracking-tight sm:text-5xl">
-            Auditoría de accesibilidad gratis para tu sitio
+            No dejes que un flujo mal diseñado te cueste una multa o un cliente
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
-            Revisamos un flujo crítico (WCAG 2.2 AA) y te entregamos hallazgos accionables
-            en una llamada de 30 minutos — sin formularios ni compromiso.
-          </p>
+          <h2 className="mt-4 text-lg font-semibold text-muted-foreground sm:text-xl">
+            Diagnóstico Enterprise de Accesibilidad (WCAG 2.2 AA) + Privacidad por Diseño
+            (Ley 21.719)
+          </h2>
+          <ul className="mx-auto mt-8 flex max-w-xl flex-col gap-3 text-left">
+            {BENEFIT_BULLETS.map((bullet) => (
+              <li key={bullet} className="flex items-start gap-2.5">
+                <ShieldCheck
+                  className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                  aria-hidden
+                />
+                <span className="text-base text-muted-foreground sm:text-lg">{bullet}</span>
+              </li>
+            ))}
+          </ul>
         </header>
 
-        {/* Prueba social: logos estáticos, sin links salientes. */}
+        {/* Prueba social: texto plano, sin links salientes ni logos sin asset real. */}
         <section
           aria-label="Empresas con las que hemos trabajado"
           className="mt-12"
@@ -54,18 +63,9 @@ export default function LandingAuditoria() {
           <p className="text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Empresas con las que hemos trabajado
           </p>
-          <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 list-none p-0">
-            {SOCIAL_PROOF_LOGOS.map((logo) => (
-              <li key={logo.alt} className="flex items-center">
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  loading="lazy"
-                  className="h-8 w-auto opacity-70 grayscale sm:h-10"
-                />
-              </li>
-            ))}
-          </ul>
+          <p className="mt-4 text-center text-sm font-medium text-muted-foreground sm:text-base">
+            Mandato AFP · SURA Investments · RIA
+          </p>
         </section>
 
         {/* CTA único: agenda Google Calendar. Nada más compite por el clic. */}

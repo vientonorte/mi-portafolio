@@ -37,12 +37,12 @@ export function FreeA11yScheduleCta({
 
   const title =
     es
-      ? "Agenda Google · 30 min gratis"
-      : "Google Calendar · 30 free minutes";
+      ? "Agendar diagnóstico gratuito (30 min)"
+      : "Book your free diagnostic (30 min)";
   const body =
     es
-      ? "Revisión de un flujo crítico (accesibilidad). Elige horario en Calendar de Viento Norte — sin formulario previo."
-      : "Review of one critical flow (accessibility). Pick a slot on Viento Norte Calendar — no form first.";
+      ? "Revisión de un flujo crítico (accesibilidad WCAG 2.2 AA + privacidad por diseño). Elige horario en Calendar de Viento Norte — sin formulario previo."
+      : "Review of one critical flow (WCAG 2.2 AA accessibility + privacy by design). Pick a slot on Viento Norte Calendar — no form first.";
   const cta = es ? "Abrir agenda online" : "Open online schedule";
   const badge = es ? "Disponible ahora" : "Available now";
 
