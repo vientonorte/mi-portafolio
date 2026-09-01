@@ -1,5 +1,8 @@
 import { ADMIN_API_BASE } from "./admin-config";
 import type { ServicePathId } from "../data/service-path-demos";
+import type { ConsultoriaDemoId } from "../data/consultoria-demos";
+
+export type DemoHeatPathId = ServicePathId | ConsultoriaDemoId;
 
 export type DemoHeatType =
   | "click"
@@ -25,7 +28,7 @@ export type DemoHeatEvent = {
 
 const QUEUE: DemoHeatEvent[] = [];
 let flushTimer: number | null = null;
-let activePath: ServicePathId | null = null;
+let activePath: DemoHeatPathId | null = null;
 
 export function heatElName(target: EventTarget | null): string {
   if (!(target instanceof Element)) return "";
@@ -46,7 +49,7 @@ export function pointInSurface(
   return { x, y };
 }
 
-export function queueDemoHeat(pathId: ServicePathId, event: DemoHeatEvent): void {
+export function queueDemoHeat(pathId: DemoHeatPathId, event: DemoHeatEvent): void {
   activePath = pathId;
   QUEUE.push(event);
   if (QUEUE.length >= 8) {

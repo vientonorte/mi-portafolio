@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { Layers, MessageSquare, Sparkles, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -11,33 +11,16 @@ import {
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
-import { getPortfolioImages } from "../../lib/image-overrides";
+import { consultoriaDemoPoster as demoPoster } from "../../lib/consultoria-demo-poster";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../lib/routes";
-
-function demoPoster(config: ConsultoriaDemoConfig): string {
-  const img = getPortfolioImages();
-  switch (config.poster) {
-    case "geesDashboard":
-      return img.consultoria.geesDashboard;
-    case "suraRia":
-      return img.sura.riaOnboarding;
-    case "suraAnalytics":
-      return img.sura.analyticsGa4;
-    case "transvipMobile":
-      return img.transvip.appMobile;
-    case "karriDelivery":
-      return img.karri.deliveryBrand;
-    case "edu21Pitch":
-      return img.edu21.salesPitch;
-    case "coworkingFunnel":
-      return img.methodCoworking.funnelConversion;
-    case "xCmsDashboard":
-    default:
-      return img.consultoria.xCmsDashboard;
-  }
-}
+import {
+  flushDemoHeat,
+  heatElName,
+  pointInSurface,
+  queueDemoHeat,
+} from "../../lib/demo-heatmap";
 
 export function ConsultoriaDemoShowcase() {
   const { language } = useLanguage();
@@ -47,9 +30,18 @@ export function ConsultoriaDemoShowcase() {
     config: ConsultoriaDemoConfig;
     title: string;
   } | null>(null);
+  const lightboxOpenedAt = useRef<number | null>(null);
 
   const goLead = (demoId: string) => {
     trackEvent("consultoria_demo_lead", { demo_id: demoId });
+    if (lightbox) {
+      queueDemoHeat(lightbox.config.id as ConsultoriaDemoId, {
+        type: "cta_consult",
+        el: "cta-consult",
+      });
+      void flushDemoHeat();
+    }
+    lightboxOpenedAt.current = null;
     setLightbox(null);
     if (document.getElementById("consultoria-onboarding")) {
       scrollToSection("consultoria-onboarding");
@@ -64,7 +56,40 @@ export function ConsultoriaDemoShowcase() {
 
   const openMockups = (config: ConsultoriaDemoConfig, title: string) => {
     trackEvent("demo_mockup_open", { demo_id: config.id });
+    queueDemoHeat(config.id as ConsultoriaDemoId, { type: "view", el: "lightbox-open" });
+    lightboxOpenedAt.current = performance.now();
     setLightbox({ config, title });
+  };
+
+  const closeMockups = () => {
+    if (lightbox) {
+      const ms = lightboxOpenedAt.current
+        ? Math.round(performance.now() - lightboxOpenedAt.current)
+        : undefined;
+      queueDemoHeat(lightbox.config.id as ConsultoriaDemoId, {
+        type: "leave",
+        el: "lightbox-close",
+        ms,
+      });
+      void flushDemoHeat();
+    }
+    lightboxOpenedAt.current = null;
+    setLightbox(null);
+  };
+
+  const handlePosterInteraction = (
+    event: ReactMouseEvent<HTMLImageElement>,
+    demoId: ConsultoriaDemoId
+  ) => {
+    const box = event.currentTarget.getBoundingClientRect();
+    const point = pointInSurface(event.clientX, event.clientY, box);
+    if (!point) return;
+    queueDemoHeat(demoId, {
+      type: "click",
+      x: point.x,
+      y: point.y,
+      el: heatElName(event.target),
+    });
   };
 
   return (
@@ -195,7 +220,7 @@ export function ConsultoriaDemoShowcase() {
             type="button"
             className="absolute inset-0 cursor-default"
             aria-label={language === "es" ? "Cerrar" : "Close"}
-            onClick={() => setLightbox(null)}
+            onClick={closeMockups}
           />
           <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-border bg-card shadow-2xl">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
@@ -205,7 +230,7 @@ export function ConsultoriaDemoShowcase() {
                 size="icon"
                 variant="ghost"
                 data-demo-lightbox-close
-                onClick={() => setLightbox(null)}
+                onClick={closeMockups}
                 aria-label={language === "es" ? "Cerrar" : "Close"}
               >
                 <X className="h-5 w-5" />
@@ -215,6 +240,9 @@ export function ConsultoriaDemoShowcase() {
               src={demoPoster(lightbox.config)}
               alt=""
               className="max-h-[70vh] w-full object-contain bg-muted/30"
+              onClick={(event) =>
+                handlePosterInteraction(event, lightbox.config.id as ConsultoriaDemoId)
+              }
             />
             <div className="flex flex-wrap gap-2 border-t border-border p-4">
               <Button
@@ -224,7 +252,7 @@ export function ConsultoriaDemoShowcase() {
               >
                 {demo.ctaSecondary}
               </Button>
-              <Button type="button" variant="outline" onClick={() => setLightbox(null)}>
+              <Button type="button" variant="outline" onClick={closeMockups}>
                 {language === "es" ? "Cerrar" : "Close"}
               </Button>
             </div>
