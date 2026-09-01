@@ -7,7 +7,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics, trackEvent } from "../../lib/analytics";
 import { openFreeRadarEntry } from "../../lib/free-radar-entry";
-import { openCalendarBooking } from "../../lib/site-contact";
+import { openCalendarBooking, hasA11yFreeSchedule } from "../../lib/site-contact";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { getPortfolioImages, resolveImageUrl } from "../../lib/image-overrides";
 import { useImageManifestVersion } from "../../lib/image-manifest-context";
@@ -31,9 +31,11 @@ export function ConsultoriaLandingHero() {
   const descId = "consultoria-hero-desc";
 
   const bookKickoff = () => {
+    // Solo se atribuye a google_calendar si hay agenda configurada;
+    // si no, el CTA degrada a formulario de contacto (evita inflar conversiones).
     analytics.generateLead({
       lead_type: "kickoff",
-      channel: "google_calendar",
+      channel: hasA11yFreeSchedule() ? "google_calendar" : "contact_form",
       origin: "consultoria-hero",
       package_id: "marco",
     });
