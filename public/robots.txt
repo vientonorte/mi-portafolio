@@ -14,4 +14,6 @@ Disallow: /poc
 Disallow: /poc/
 Disallow: /#/poc
 Disallow: /#/auditoria
+Disallow: /ads/
+Disallow: /#/ads/
 Disallow: /ops/

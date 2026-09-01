@@ -23,6 +23,7 @@ export type ContactCtaOrigin =
   | "contact"
   | "contact-assistant"
   | "service-path-demo"
+  | "ads-a11y-landing"
   | "other";
 
 export interface OpenContactAssistantOptions {
