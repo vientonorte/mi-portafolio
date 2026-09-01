@@ -9,7 +9,7 @@
  * - Un único CTA: agendar en Google Calendar (mismo canal que FreeA11yScheduleCta).
  * - `noIndex` en SEOHead: tráfico SEM, no debe competir/mezclarse con el SEO orgánico general.
  */
-import { Calendar, ExternalLink } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { FreeA11yScheduleCta } from "../components/molecules/FreeA11yScheduleCta";
 import { portfolioImages } from "../lib/portfolio-image-urls";
@@ -74,7 +74,6 @@ export default function LandingAuditoria() {
           <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
             <Calendar className="h-3.5 w-3.5" aria-hidden />
             Agenda directa en Google Calendar
-            <ExternalLink className="h-3 w-3" aria-hidden />
           </p>
         </section>
       </main>
