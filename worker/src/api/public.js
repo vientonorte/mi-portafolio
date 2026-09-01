@@ -52,7 +52,14 @@ function timingSafeStringEqual(a, b) {
  */
 function isTrustedBookingWebhook(request, env) {
   const expected = env.VN_BOOKING_WEBHOOK_KEY;
-  if (!expected) return true;
+  if (!expected) {
+    // Transitorio: sin secreto provisto (ver docs/CALENDAR-BOOKING-BRIDGE.md)
+    // aceptamos por compatibilidad, pero dejamos rastro para monitoreo.
+    console.warn(
+      '[booking] VN_BOOKING_WEBHOOK_KEY no configurado: aceptando webhook con eventId sin autenticar.'
+    );
+    return true;
+  }
   const header = request.headers.get('X-VN-BOOKING-KEY') || '';
   return timingSafeStringEqual(header, expected);
 }
