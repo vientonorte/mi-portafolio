@@ -32,7 +32,7 @@ const ENTRIES: HeatEntry[] = [
   })),
   ...CONSULTORIA_DEMOS.map((d) => ({
     id: d.id,
-    caption: d.id,
+    caption: d.label,
     poster: consultoriaDemoPoster(d),
     timedRoute: false,
   })),
@@ -178,7 +178,7 @@ export function DemoHeatmapPanel({
               {demo?.timedRoute ? (
                 <Link to={ROUTES.serviceDemo(active as ServicePathId)}>Abrir demo</Link>
               ) : (
-                <Link to={`${ROUTES.home}#consultoria-demo`}>Ver mockup</Link>
+                <Link to={`${ROUTES.home}#consultoria-demo?demo=${active}`}>Ver mockup</Link>
               )}
             </Button>
           </CardContent>

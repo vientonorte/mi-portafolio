@@ -9,7 +9,6 @@ export const HEAT_PATHS = [
   'x-cms-n2n',
   'gees-propuesta',
   'sura-onboarding',
-  'sura-analytics',
   'transvip-app',
   'karri-shoppers',
   'ads-campaigns',

@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { Layers, MessageSquare, Sparkles, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -13,7 +13,7 @@ import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../lib/analytics";
 import { consultoriaDemoPoster as demoPoster } from "../../lib/consultoria-demo-poster";
 import { scrollToSection } from "../../lib/scroll-to-section";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../lib/routes";
 import {
   flushDemoHeat,
@@ -25,6 +25,7 @@ import {
 export function ConsultoriaDemoShowcase() {
   const { language } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const demo = useTranslation(language).consultoria.demo;
   const [lightbox, setLightbox] = useState<{
     config: ConsultoriaDemoConfig;
@@ -91,6 +92,20 @@ export function ConsultoriaDemoShowcase() {
       el: heatElName(event.target),
     });
   };
+
+  // Deep link desde admin: /#consultoria-demo?demo=<id> abre el mockup directo.
+  useEffect(() => {
+    const hash = location.hash || "";
+    const qIndex = hash.indexOf("?");
+    if (qIndex === -1) return;
+    const demoId = new URLSearchParams(hash.slice(qIndex + 1)).get("demo");
+    if (!demoId) return;
+    const config = CONSULTORIA_DEMOS.find((d) => d.id === demoId);
+    if (!config) return;
+    const item = demo.items[config.id as ConsultoriaDemoId];
+    openMockups(config, item?.projectName ?? config.label);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.hash]);
 
   return (
     <section
