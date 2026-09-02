@@ -1,0 +1,173 @@
+{
+  "customerId": "811-405-3092",
+  "campaign": {
+    "id": "24184249593",
+    "name": "VN · piloto a11y_gratis_pymes"
+  },
+  "account": {
+    "impressions": 1575,
+    "clicks": 139,
+    "ctr": 0.0883,
+    "avgCpcClp": 192,
+    "costClp": 26621,
+    "conversions": 10,
+    "conversionRate": 0.0719,
+    "cpaClp": 2662
+  },
+  "view": {
+    "impressions": 1554,
+    "clicks": 137,
+    "costClp": 22883,
+    "conversions": 9
+  },
+  "keywords": [
+    {
+      "keyword": "tecnologia para pymes",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 1282,
+      "clicks": 109,
+      "ctr": 0.085,
+      "avgCpc": 58,
+      "cost": 6363,
+      "conversions": 7,
+      "conversionRate": 0,
+      "cpa": 909
+    },
+    {
+      "keyword": "digital pymes",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 70,
+      "clicks": 9,
+      "ctr": 0.1286,
+      "avgCpc": 100,
+      "cost": 901,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "accesibilidad",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "https://vientonorte.io/news/?gtm_debug=1788044271128",
+      "impressions": 34,
+      "clicks": 5,
+      "ctr": 0.1471,
+      "avgCpc": 636,
+      "cost": 3178,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "Terminos y condiciones",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 4,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "testing accesibilidad web",
+      "matchType": "BROAD",
+      "status": "INELIGIBLE",
+      "reason": "LOW_SEARCH_VOLUME",
+      "finalUrl": "",
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "auditoría accesibilidad web",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "evaluación accesibilidad web",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "\"auditoría accesibilidad web\"",
+      "matchType": "PHRASE",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 1,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "accesibilidad sitio web",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    },
+    {
+      "keyword": "consultoría accesibilidad",
+      "matchType": "BROAD",
+      "status": "ELIGIBLE",
+      "finalUrl": "",
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "avgCpc": 0,
+      "cost": 0,
+      "conversions": 0,
+      "conversionRate": 0,
+      "cpa": 0
+    }
+  ],
+  "removedKeywordsCount": 7,
+  "removedWhich": "NO DATO",
+  "iaMax": {
+    "impressions": 0,
+    "clicks": 0,
+    "cost": 0
+  }
+}
