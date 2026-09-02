@@ -1,41 +1,54 @@
-import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import http from "node:http";
 import { QueryProcessor } from "./src/query-processor.js";
 
-const dir = path.dirname(fileURLToPath(import.meta.url));
-const PORT = Number(process.env.PORT || 3000);
+const PORT = Number(process.env.PORT) || 3000;
+const processor = new QueryProcessor();
 
-async function mockClient() {
-  const fixture = JSON.parse(await readFile(path.join(dir, "ssot/fixture-2026-09-02.json"), "utf8"));
-  return { async fetchKeywords() { return structuredClone(fixture); } };
+function readJson(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", (c) => chunks.push(c));
+    req.on("end", () => {
+      const raw = Buffer.concat(chunks).toString("utf8").trim();
+      if (!raw) {
+        resolve({});
+        return;
+      }
+      try {
+        resolve(JSON.parse(raw));
+      } catch (err) {
+        reject(err);
+      }
+    });
+    req.on("error", reject);
+  });
 }
 
-const server = createServer(async (req, res) => {
-  try {
-    if (req.method === "GET" && req.url === "/health") {
-      res.writeHead(200, { "content-type": "application/json" });
-      res.end(JSON.stringify({ ok: true, liveAds: false }));
-      return;
-    }
-    if (req.method === "POST" && req.url && req.url.startsWith("/query")) {
-      const chunks = [];
-      for await (const c of req) chunks.push(c);
-      const body = chunks.length ? JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}") : {};
-      const report = await new QueryProcessor({ client: await mockClient() }).fetchKeywords({
-        account: Boolean(body.account),
+const server = http.createServer(async (req, res) => {
+  const url = req.url?.split("?")[0];
+  if (req.method === "POST" && url === "/query") {
+    try {
+      const body = await readJson(req);
+      const result = await processor.fetchKeywords({
+        account: Boolean(body?.account),
       });
-      res.writeHead(200, { "content-type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify(report));
-      return;
+      const json = JSON.stringify(result);
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": Buffer.byteLength(json),
+      });
+      res.end(json);
+    } catch (err) {
+      const json = JSON.stringify({ error: "Bad Request", message: String(err.message || err) });
+      res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
+      res.end(json);
     }
-    res.writeHead(404, { "content-type": "application/json" });
-    res.end(JSON.stringify({ error: "not_found" }));
-  } catch (err) {
-    res.writeHead(500, { "content-type": "application/json" });
-    res.end(JSON.stringify({ error: String(err) }));
+    return;
   }
+  res.writeHead(404, { "Content-Type": "application/json; charset=utf-8" });
+  res.end(JSON.stringify({ error: "Not Found" }));
 });
 
-server.listen(PORT, () => console.log("vn-ads-query mock :" + PORT));
+server.listen(PORT, () => {
+  console.log("vn-ads-query listening on " + PORT);
+});

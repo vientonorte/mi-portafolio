@@ -39,10 +39,10 @@ Desde este directorio:
 
 ```bash
 cd ads-query
-node --test src/query-processor.test.js
+npm test
 ```
 
-o `node --test` via el script `test` en package.json (runtime Node; sin dependencias).
+Equivale a `node --test src/query-processor.test.js` (sin dependencias).
 
 ## Docker
 
