@@ -113,7 +113,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "UI/UX de producto: e-comm (Monitas), educación (Edu21), patrones y funnels nacionales",
         "Operaciones digitales con cumplimiento por diseño (n2n) y design ops",
-        "Liderazgo de marca Viento Norte: consultoría, demos y delivery multi-vertical",
+        "Marca VN: consultoría, demos, FO y práctica independiente (poemario, foto, documental)",
       ],
       tools: ["Desarrollo web", "Diseño de experiencia del cliente", "Figma", "Design Ops"],
     },
@@ -131,7 +131,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "Product UI/UX: e-comm (Monitas), education (Edu21), national patterns and funnels",
         "Digital operations with compliance by design (n2n) and design ops",
-        "Viento Norte brand leadership: consulting, demos, multi-vertical delivery",
+        "VN brand: consulting, demos, FO, and independent practice (poetry, photo, documentary)",
       ],
       tools: ["Web development", "Customer experience design", "Figma", "Design Ops"],
     },
@@ -547,72 +547,6 @@ const experienceCatalog: LocalizedExperience[] = [
   },
   {
     es: {
-      company: "Traducción de Saberes",
-      position: "Director",
-      period: "Ago 2017 — Actualidad",
-      location: "Valdivia, Chile",
-      stage: "Cine",
-      context:
-        "Etnografía audiovisual que busca comprender la realidad material que producen leyes y modelos económicos en contradicción con culturas ancestrales.",
-      role: "Dirección de una serie documental online.",
-      impact: "Serie documental etnográfica online",
-      achievements: [
-        "Serie documental online de etnografía audiovisual",
-      ],
-      tools: ["Documental", "Etnografía"],
-    },
-    en: {
-      company: "Traducción de Saberes",
-      position: "Director",
-      period: "Aug 2017 — Present",
-      location: "Valdivia, Chile",
-      stage: "Film",
-      context:
-        "Audiovisual ethnography that seeks to understand the material reality produced by laws and economic models in contradiction with ancestral cultures.",
-      role: "Directed an online documentary series.",
-      impact: "Online ethnographic documentary series",
-      achievements: [
-        "Online documentary series of audiovisual ethnography",
-      ],
-      tools: ["Documentary", "Ethnography"],
-    },
-  },
-  {
-    es: {
-      company: "Darandar",
-      position: "Director de fotografía",
-      period: "Abr 2019 — May 2019",
-      location: "Valparaíso, Chile",
-      stage: "Cine",
-      context:
-        "Cortometraje audiovisual en torno a la escasez hídrica en la región de Valparaíso.",
-      role: "Dirección de fotografía para la intervención en Sala Negra.",
-      impact: "Cortometraje para intervención en Sala Negra, 2019",
-      achievements: [
-        "Realización pensada para la intervención en Sala Negra durante 2019, con la performance de Andreí Liberana dirigida por Karen Klaassen",
-        "Pieza publicada en Vimeo (vimeo.com/345306652)",
-      ],
-      tools: ["Dirección de fotografía", "Vimeo"],
-    },
-    en: {
-      company: "Darandar",
-      position: "Director of Photography",
-      period: "Apr 2019 — May 2019",
-      location: "Valparaíso, Chile",
-      stage: "Film",
-      context:
-        "Short film about water scarcity in the Valparaíso region.",
-      role: "Director of photography for the Sala Negra intervention.",
-      impact: "Short film for the Sala Negra intervention, 2019",
-      achievements: [
-        "Made for the Sala Negra intervention in 2019, with Andreí Liberana's performance directed by Karen Klaassen",
-        "Published on Vimeo (vimeo.com/345306652)",
-      ],
-      tools: ["Cinematography", "Vimeo"],
-    },
-  },
-  {
-    es: {
       company: "La Negra Colorá",
       position: "Editor digital",
       period: "Jun 2017 — Abr 2019",
@@ -679,7 +613,7 @@ const experienceCatalog: LocalizedExperience[] = [
     es: {
       company: "La Voz de los Cerros",
       position: "Colaborador",
-      period: "—",
+      period: "2015–2017",
       location: "Valparaíso, Chile",
       stage: "Medio · Comunitario",
       context:
@@ -696,7 +630,7 @@ const experienceCatalog: LocalizedExperience[] = [
     en: {
       company: "La Voz de los Cerros",
       position: "Contributor",
-      period: "—",
+      period: "2015–2017",
       location: "Valparaíso, Chile",
       stage: "Media · Community",
       context: "Popular community media outlet in Valparaíso.",
@@ -707,70 +641,6 @@ const experienceCatalog: LocalizedExperience[] = [
         "Public debate shared on social (Instagram @la.voz.de.los.cerros)",
       ],
       tools: ["Instagram", "Social"],
-    },
-  },
-  {
-    es: {
-      company: "Artistas en Resistencia / 18-O",
-      position: "Documentalista",
-      period: "—",
-      location: "Valparaíso, Chile",
-      stage: "Cine",
-      context:
-        "Durante el 18-O documenté los diversos procesos constituyentes que se autoconvocaron en la región de Valparaíso.",
-      role: "Cápsula audiovisual del colectivo Artistas en Resistencia.",
-      impact: "Cápsula audiovisual del colectivo Artistas en Resistencia",
-      achievements: [
-        "Documentación de procesos constituyentes autoconvocados en Valparaíso",
-        "Cápsula audiovisual del colectivo Artistas en Resistencia",
-      ],
-      tools: ["Documental"],
-    },
-    en: {
-      company: "Artistas en Resistencia / 18-O",
-      position: "Documentarian",
-      period: "—",
-      location: "Valparaíso, Chile",
-      stage: "Film",
-      context:
-        "During 18-O I documented the self-convened constituent processes in the Valparaíso region.",
-      role: "Audiovisual capsule of the Artistas en Resistencia collective.",
-      impact: "Audiovisual capsule of the Artistas en Resistencia collective",
-      achievements: [
-        "Documentation of self-convened constituent processes in Valparaíso",
-        "Audiovisual capsule of the Artistas en Resistencia collective",
-      ],
-      tools: ["Documentary"],
-    },
-  },
-  {
-    es: {
-      company: "Sushi del Mar",
-      position: "Fotógrafo de productos",
-      period: "—",
-      location: "Chile",
-      stage: "Fotografía",
-      context: "Productos gourmet para canales digitales.",
-      role: "Sesiones de foodstyling para reflejar los productos en canales digitales.",
-      impact: "Foodstyling de producto para canales digitales",
-      achievements: [
-        "Sesiones de foodstyling para canales digitales",
-      ],
-      tools: ["Foodstyling", "Fotografía"],
-    },
-    en: {
-      company: "Sushi del Mar",
-      position: "Product photographer",
-      period: "—",
-      location: "Chile",
-      stage: "Photography",
-      context: "Gourmet products for digital channels.",
-      role: "Food-styling sessions to show the products on digital channels.",
-      impact: "Product food styling for digital channels",
-      achievements: [
-        "Food-styling sessions for digital channels",
-      ],
-      tools: ["Food styling", "Photography"],
     },
   },
   {
@@ -805,43 +675,6 @@ const experienceCatalog: LocalizedExperience[] = [
         "Behance gallery Sacco-Vanzetti",
       ],
       tools: ["Photography", "Audiovisual", "Behance"],
-    },
-  },
-  {
-    logo: portfolioImages.brands.freelance,
-    es: {
-      company: "Profesional independiente",
-      position: "Diseñador freelance",
-      period: "Ene 2017 — Actualidad",
-      location: "Chile · Remoto",
-      stage: "Consultoría · Multi-rubro",
-      context:
-        "Proyectos para agencias, retail, educación y consultoría digital a lo largo de 9+ años.",
-      role: "Diseño web, CM, tutoría y consultorías bajo demanda.",
-      impact: "9+ años de práctica · tutoría magíster · portal IBM y entregables HTML/CSS",
-      achievements: [
-        "Diseño web, fotografía digital, community management y consultorías multi-rubro",
-        "Tutorías para estudiantes de magíster en marketing y proyectos con agencias",
-        "Portal IBM (remoto) y otros entregables HTML/CSS — casos en expansión en el portafolio",
-      ],
-      tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
-    },
-    en: {
-      company: "Freelance",
-      position: "Freelance Designer",
-      period: "Jan 2017 — Present",
-      location: "Chile · Remote",
-      stage: "Consulting · Multi-industry",
-      context:
-        "Projects for agencies, retail, education, and digital consulting across 9+ years.",
-      role: "Web design, CM, tutoring, and on-demand consulting.",
-      impact: "9+ years of practice · master's tutoring · IBM portal and HTML/CSS work",
-      achievements: [
-        "Web design, digital photography, community management, and multi-industry consulting",
-        "Tutoring for marketing master's students and agency projects",
-        "IBM portal (remote) and other HTML/CSS deliverables — cases expanding in the portfolio",
-      ],
-      tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
     },
   },
 ];

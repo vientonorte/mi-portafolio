@@ -739,6 +739,11 @@ export const companyHubs: CompanyHub[] = [
 
 const khuroPareti = khuroItem("pareti");
 const khuroNumeros = khuroItem("numeros-no-existen");
+const khuroSushi = khuroItem("sushi-del-mar");
+const khuroSaberes = khuroItem("traduccion-saberes");
+const khuroDarandar = khuroItem("darandar");
+const khuroArtistas = khuroItem("artistas-resistencia");
+
 
 const paretiProject: EnhancedProject = {
   id: "pareti",
@@ -789,7 +794,8 @@ const paretiProject: EnhancedProject = {
 
 const numerosNoExistenProject: EnhancedProject = {
   id: "numeros-no-existen",
-  company: khuroNumeros?.company ?? "POEMARIO",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
   role: khuroNumeros?.role ?? "Los Números No Existen",
   period: "2019",
   projectName: "Los Números No Existen",
@@ -808,6 +814,103 @@ const numerosNoExistenProject: EnhancedProject = {
       "Su diseño está pensado para móviles y fue creado bajo la filosofía del código abierto.",
   },
 };
+
+const sushiDelMarProject: EnhancedProject = {
+  id: "sushi-del-mar",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: khuroSushi?.role ?? "Fotógrafo de productos",
+  period: "—",
+  projectName: "Sushi del Mar",
+  description:
+    khuroSushi?.description ??
+    "Sesiones de foodstyling para productos gourmet en canales digitales.",
+  descriptionEN:
+    "Food-styling sessions for Sushi del Mar gourmet products on digital channels.",
+  image: khuroSushi?.image,
+  tags: [...(khuroSushi?.tags ?? ["Foodstyling", "Producto"])],
+  externalLink: khuroSushi?.href,
+  details: {
+    challenge:
+      "Productos gourmet que necesitaban verse con fidelidad en canales digitales.",
+    solution:
+      "Sesiones de foodstyling de producto para Sushi del Mar.",
+    mockups: khuroSushi?.image ? [khuroSushi.image] : undefined,
+  },
+};
+
+const traduccionSaberesProject: EnhancedProject = {
+  id: "traduccion-saberes",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Director",
+  period: "Ago 2017 — Actualidad",
+  projectName: "Traducción de Saberes",
+  description:
+    khuroSaberes?.description ??
+    "Etnografía audiovisual sobre leyes y modelos económicos en contradicción con culturas ancestrales.",
+  descriptionEN:
+    "Audiovisual ethnography that seeks to understand the material reality produced by laws and economic models in contradiction with ancestral cultures, as an online documentary series.",
+  image: khuroSaberes?.image,
+  tags: [...(khuroSaberes?.tags ?? ["Documental", "Etnografía"])],
+  externalLink: khuroSaberes?.href,
+  details: {
+    challenge:
+      "Comprender la realidad material que producen leyes y modelos económicos en contradicción con culturas ancestrales.",
+    solution:
+      "Serie documental online de etnografía audiovisual.",
+    mockups: khuroSaberes?.image ? [khuroSaberes.image] : undefined,
+  },
+};
+
+const darandarProject: EnhancedProject = {
+  id: "darandar",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Director de Fotografía",
+  period: "Abr 2019 — May 2019",
+  projectName: "Darandar",
+  description:
+    khuroDarandar?.description ??
+    "Cortometraje audiovisual en torno a la escasez hídrica en la región de Valparaíso.",
+  descriptionEN:
+    "Short film about water scarcity in the Valparaíso region, made for the Sala Negra intervention in 2019.",
+  image: khuroDarandar?.image,
+  tags: [...(khuroDarandar?.tags ?? ["Cine", "Dirección de fotografía"])],
+  externalLink: khuroDarandar?.href,
+  details: {
+    challenge:
+      "Escasez hídrica en Valparaíso como materia de una intervención en Sala Negra (2019).",
+    solution:
+      "Cortometraje con dirección de fotografía, junto a la performance de Andreí Liberana dirigida por Karen Klaassen.",
+    mockups: khuroDarandar?.image ? [khuroDarandar.image] : undefined,
+  },
+};
+
+const artistasResistenciaProject: EnhancedProject = {
+  id: "artistas-resistencia",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Documentalista",
+  period: "Oct 2019",
+  projectName: "Artistas en Resistencia",
+  description:
+    khuroArtistas?.description ??
+    "Cápsula audiovisual del colectivo Artistas en Resistencia durante el 18-O en Valparaíso.",
+  descriptionEN:
+    "Audiovisual capsule of the Artistas en Resistencia collective during 18-O in Valparaíso.",
+  image: khuroArtistas?.image,
+  tags: [...(khuroArtistas?.tags ?? ["Documental", "18-O", "Valparaíso"])],
+  externalLink: khuroArtistas?.href,
+  details: {
+    challenge:
+      "Documentar procesos constituyentes autoconvocados en Valparaíso durante el 18-O.",
+    solution:
+      "Cápsula audiovisual del colectivo Artistas en Resistencia.",
+    mockups: khuroArtistas?.image ? [khuroArtistas.image] : undefined,
+  },
+};
+
 
 // UX Tools Project
 const uxToolsProject: EnhancedProject = {
@@ -850,7 +953,7 @@ const uxToolsProject: EnhancedProject = {
 };
 
 // Proyectos individuales (no agrupados por empresa)
-export const individualProjects: EnhancedProject[] = [paretiProject, numerosNoExistenProject, uxToolsProject];
+export const individualProjects: EnhancedProject[] = [paretiProject, numerosNoExistenProject, sushiDelMarProject, traduccionSaberesProject, darandarProject, artistasResistenciaProject, uxToolsProject];
 
 // Todos los proyectos para backward compatibility
 export const allProjects = [
