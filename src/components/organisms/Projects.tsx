@@ -11,6 +11,7 @@ import { useImageManifestVersion } from "../../lib/image-manifest-context";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { UpcomingCaseCards } from "./UpcomingCaseCards";
+import { KhuroArchiveCards } from "./KhuroArchiveCards";
 
 export function Projects({
   onNavigateToCaseStudies,
@@ -100,6 +101,7 @@ export function Projects({
         </div>
       </div>
 
+      <KhuroArchiveCards />
       <UpcomingCaseCards />
     </section>
   );
