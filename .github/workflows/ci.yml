@@ -87,6 +87,20 @@ jobs:
       - run: npm test
       - run: npm run qa:nav
 
+
+  ads-query:
+    name: ads-query
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ads-query
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm test
+
   typecheck:
     name: TypeScript
     runs-on: ubuntu-latest
