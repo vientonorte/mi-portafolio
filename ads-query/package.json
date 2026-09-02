@@ -1,0 +1,1 @@
+{"name":"vn-ads-query","version":"0.1.0","private":true,"type":"module","scripts":{"start":"node server.js","test":"node --test src/*.test.js"},"engines":{"node":">=20"}}
