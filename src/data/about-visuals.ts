@@ -1,4 +1,5 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
+import { khuroItem } from "./khuro-portfoliobox";
 
 /** Visual evidence for /sobre-mi — images first, captions short. */
 export type AboutVisualTile = {
@@ -110,6 +111,15 @@ export const EXPERIENCE_COVER: Record<string, string> = {
   karri: portfolioImages.karri.deliveryBrand,
   "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
   "Karri by Transvip": portfolioImages.karri.deliveryBrand,
+  "Empresas Pareti": khuroItem("pareti")?.image ?? "",
+  "Maraña Agencia Digital": khuroItem("marana")?.image ?? "",
+  "La Voz de los Cerros": khuroItem("voz-cerros")?.image ?? "",
+  "Traducción de Saberes": khuroItem("traduccion-saberes")?.image ?? "",
+  Darandar: khuroItem("darandar")?.image ?? "",
+  "Artistas en Resistencia / 18-O": khuroItem("artistas-resistencia")?.image ?? "",
+  "La Negra Colorá": khuroItem("negra-colora")?.image ?? "",
+  "Teatro Di Popolo": khuroItem("teatro-di-popolo")?.image ?? "",
+  "Sushi del Mar": khuroItem("sushi-del-mar")?.image ?? "",
 };
 
 export const METHOD_STRIP = [

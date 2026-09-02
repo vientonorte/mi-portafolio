@@ -167,3 +167,82 @@ export const khuroArchiveItems: KhuroArchiveItem[] =
     ]
   }
 ];
+
+export const KHURO_CDN =
+  "https://dglb26w8rx2ld.cloudfront.net/000_clients/1209346/file";
+
+export function khuroFile(fileName: string): string {
+  return `${KHURO_CDN}/${fileName}`;
+}
+
+export function khuroItem(id: string): KhuroArchiveItem | undefined {
+  return khuroArchiveItems.find((item) => item.id === id);
+}
+
+/** Galería del caso https://khuro.pb.online/pareti (BlogGalleryItems). */
+export const paretiKhuroGallery = {
+  kpi: [
+    { file: "1209346NfQlB0Zr.png", label: "Monitoreo de FB" },
+    { file: "1209346VsEE9ZRE.png", label: "Monitoreo E-commerce" },
+    { file: "120934691Silqum.png", label: "Monitoreo Live Chat Omnicanal" },
+    { file: "12093460cw6Hsgq.png", label: "Monitoreo Google Analytics" },
+  ],
+  web: [
+    { file: "1209346EgCgvgKL.png", label: "www.pareti.cl" },
+    { file: "12093461TlP8xcN.png", label: "www.paretikitchenette.cl" },
+    { file: "1209346t7DrhznZ.png", label: "www.oslo.cl" },
+    { file: "12093461EFPjVzd.png", label: "www.desegunda.cl" },
+    { file: "1209346ferp0Rtr.png", label: "www.lacreole.cl" },
+  ],
+  ux: [
+    { file: "1209346Q3Zp4jvS.png", label: "UX financiamiento estatal" },
+    { file: "1209346oCjO2PbF.png", label: "UX ecommerce Paretikitchenette" },
+    { file: "1209346AQZHNxnA.png", label: "UX garantía clientes web" },
+  ],
+  campaigns: [
+    {
+      label: "KPI MONITOREO PARETIKITCHENETTE",
+      vimeo: "https://vimeo.com/389400000",
+      thumb: "https://i.vimeocdn.com/video/853049647_1080.jpg",
+    },
+    {
+      label: "Diseño Audiovisual de Campaña para RR.SS #VERANOPK",
+      vimeo: "https://vimeo.com/389655495",
+      thumb: "https://i.vimeocdn.com/video/853396486_1080.jpg",
+    },
+    {
+      label: "Diseño Audiovisual Logo Reveal Paretikitchenette",
+      vimeo: "https://vimeo.com/389399454",
+      thumb: "https://i.vimeocdn.com/video/853048963_1920.jpg",
+    },
+    {
+      label: "DISEÑO AUDIOVISUAL GRILLA MENSUAL @LACREOLE.CL",
+      vimeo: "https://vimeo.com/389387272",
+      thumb: "https://i.vimeocdn.com/video/853032428_1920.jpg",
+    },
+    {
+      label: "DISEÑO AUDIOVISUAL CAMPAÑA DE PAGO @LACREOLE.CL",
+      vimeo: "https://vimeo.com/389399470",
+      thumb: "https://i.vimeocdn.com/video/853049018_1920.jpg",
+    },
+    {
+      label: "DISEÑO AUDIOVISUAL GRILLA MENSUAL @PARETIKITCHENETTE",
+      vimeo: "https://vimeo.com/389401800",
+      thumb: "https://i.vimeocdn.com/video/853052146_1920.jpg",
+    },
+    {
+      label: "Diseño Audiovisual Oslo Media Paid",
+      vimeo: "https://vimeo.com/403154643",
+      thumb: "https://i.vimeocdn.com/video/872508456_1920.jpg",
+    },
+  ],
+} as const;
+
+export function paretiMockupUrls(): string[] {
+  return [
+    ...paretiKhuroGallery.kpi.map((item) => khuroFile(item.file)),
+    ...paretiKhuroGallery.web.map((item) => khuroFile(item.file)),
+    ...paretiKhuroGallery.ux.map((item) => khuroFile(item.file)),
+    ...paretiKhuroGallery.campaigns.map((item) => item.thumb),
+  ];
+}

@@ -7,6 +7,11 @@ import { FIGMA_SLIDES_SURA_COLOMBIA } from "./figma-embeds";
 import type { FigmaEmbedConfig } from "./figma-embeds";
 import { RIA_US_PROTO_URL, TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
+import {
+  khuroItem,
+  paretiKhuroGallery,
+  paretiMockupUrls,
+} from "./khuro-portfoliobox";
 
 const {
   sura: suraImg,
@@ -731,6 +736,79 @@ export const companyHubs: CompanyHub[] = [
   transvipHub,
 ];
 
+
+const khuroPareti = khuroItem("pareti");
+const khuroNumeros = khuroItem("numeros-no-existen");
+
+const paretiProject: EnhancedProject = {
+  id: "pareti",
+  company: "Empresas Pareti",
+  companyLogo: portfolioImages.brands.pareti,
+  role: "Community Manager",
+  period: "Oct 2019 — Feb 2020",
+  projectName: "Web, UX y community del holding",
+  description:
+    khuroPareti?.description ??
+    "Community Manager del Grupo Pareti: SEO/SEM, monitoreo de KPI y branding de comunidad.",
+  descriptionEN:
+    "As Community Manager for Grupo Pareti I focused on three digital marketing areas: campaign design (SEO and SEM); audience, campaign, budget and trend monitoring with ongoing KPI reports via Analytics, Ads and Insights; and branding — relationships across community, distributors, sponsors, partners, ambassadors and even competitors.",
+  image: khuroPareti?.image,
+  tags: [...(khuroPareti?.tags ?? ["Community", "SEO", "SEM", "Branding"])],
+  externalLink: "https://khuro.pb.online/pareti",
+  processes: [
+    {
+      name: "Monitoreo KPI",
+      description:
+        "Monitoreo constante de KPI de redes sociales (Facebook, Instagram), Google Ads, Google Analytics y Mailchimp, y del rendimiento de los e-commerce.",
+      tools: ["Analytics", "Ads", "Insights", "Mailchimp"],
+    },
+    {
+      name: "Diseño WEB",
+      description:
+        "Diseño web del sitio principal y de los 4 e-commerce del holding: piezas gráficas y audiovisuales, y reducción de procesos de compra desde la experiencia usuaria.",
+      tools: ["UX", "E-commerce"],
+    },
+    {
+      name: "Diseño UX",
+      description:
+        "Propuestas aplicadas durante la estadía en Pareti S.A a partir de la lectura de comportamiento en canales digitales: financiamiento estatal, e-commerce Paretikitchenette y garantía de clientes web.",
+      tools: ["UX"],
+    },
+  ],
+  details: {
+    challenge:
+      "Dentro de mis funciones como Community Manager de Pareti, estuvo el monitoreo constante de KPI tanto de redes sociales, como Facebook, Instagram, Google Ads, Google Analytics y Mailchimp, y el rendimiento de los e-commerce. Por un lado existe una ventaja obvia en la medición de las campañas y las estrategias digitales en términos cuantitativos, pero por otro lado es fundamental darle una interpretación al comportamiento de los usuarios en nuestros canales digitales.",
+    solution:
+      "Lo transformé en acciones concretas que se reflejan en Diseño UX. Para Pareti S.A estuve a cargo del diseño web de su sitio principal y de los 4 e-commerce del holding, diseñando piezas gráficas y audiovisuales y reduciendo los procesos de compra desde la experiencia usuaria de los clientes web. Constantemente actualizando su contenido y desarrollando un análisis interpretativo entre campañas de pago, interacciones web, benchmarking de la competencia y otros datos en pos de una mejor experiencia usuaria.",
+    learnings: paretiKhuroGallery.campaigns.map(
+      (campaign) => `${campaign.label}: ${campaign.vimeo}`
+    ),
+    mockups: paretiMockupUrls(),
+  },
+};
+
+const numerosNoExistenProject: EnhancedProject = {
+  id: "numeros-no-existen",
+  company: khuroNumeros?.company ?? "POEMARIO",
+  role: khuroNumeros?.role ?? "Los Números No Existen",
+  period: "2019",
+  projectName: "Los Números No Existen",
+  description:
+    khuroNumeros?.description ??
+    "Poemario autogestionado de poesía viajera, diseñado para móviles y creado bajo código abierto.",
+  descriptionEN:
+    "Los números no existen is a self-managed poetry collection that compiles years of travel poetry. Its design is made for mobile and was created under an open-source philosophy.",
+  image: khuroNumeros?.image,
+  tags: [...(khuroNumeros?.tags ?? ["Poesía", "Open source"])],
+  externalLink: "https://khuro.pb.online/portafolio",
+  details: {
+    challenge:
+      "Los números no existen es un poemario autogestionado, que compila años de poesía viajera.",
+    solution:
+      "Su diseño está pensado para móviles y fue creado bajo la filosofía del código abierto.",
+  },
+};
+
 // UX Tools Project
 const uxToolsProject: EnhancedProject = {
   id: "ux-tools",
@@ -772,11 +850,11 @@ const uxToolsProject: EnhancedProject = {
 };
 
 // Proyectos individuales (no agrupados por empresa)
-export const individualProjects: EnhancedProject[] = [uxToolsProject];
+export const individualProjects: EnhancedProject[] = [paretiProject, numerosNoExistenProject, uxToolsProject];
 
 // Todos los proyectos para backward compatibility
 export const allProjects = [
   ...suraHub.projects,
   ...transvipHub.projects,
-  uxToolsProject,
+  ...individualProjects,
 ];
