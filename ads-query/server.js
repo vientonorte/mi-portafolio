@@ -1,8 +1,16 @@
 import http from "node:http";
+import { createQueryProcessorDeps } from "./src/google-ads-client.js";
 import { QueryProcessor } from "./src/query-processor.js";
 
 const PORT = Number(process.env.PORT) || 3000;
-const processor = new QueryProcessor();
+const deps = createQueryProcessorDeps();
+const processor = new QueryProcessor({
+  client: deps.client,
+  customerId: deps.customerId,
+  campaignId: deps.campaignId,
+});
+
+console.log(`vn-ads-query ads client mode: ${deps.mode}`);
 
 function readJson(req) {
   return new Promise((resolve, reject) => {
