@@ -675,6 +675,7 @@ export const transvipHub: CompanyHub = {
           transvipDesktop,
           transvipFigmaPrototype,
           transvipProductVision,
+          "/images/vn-assets/transvip-system-design.png",
         ],
       },
     },

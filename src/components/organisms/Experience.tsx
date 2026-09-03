@@ -7,7 +7,6 @@ import { Briefcase, ChevronRight, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { FigmaLinkOuts } from "../molecules/FigmaLinkOuts";
 import { getExperiences, type ExperienceEntry } from "../../data/experience-data";
 import { EXPERIENCE_COVER } from "../../data/about-visuals";
 import { CompanyLogo } from "../atoms/CompanyLogo";
@@ -29,7 +28,6 @@ export function Experience() {
   const { language } = useLanguage();
   const tRoot = useTranslation(language);
   const t = tRoot.experience;
-  const openFigma = tRoot.upcomingCases.openFigma;
   const experiences = getExperiences(language);
   const es = language === "es";
   const prefersReducedMotion = useReducedMotion();
@@ -243,17 +241,6 @@ export function Experience() {
                                 </li>
                               ))}
                             </ul>
-
-                            {exp.figmaLinks && exp.figmaLinks.length > 0 ? (
-                              <FigmaLinkOuts
-                                links={exp.figmaLinks}
-                                openLabel={openFigma}
-                                dataAttribute={{
-                                  name: "data-experience-figma",
-                                  value: exp.company,
-                                }}
-                              />
-                            ) : null}
 
                             {exp.tools && exp.tools.length > 0 && (
                               <div className="flex flex-wrap gap-1.5">

@@ -4,7 +4,6 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { Experience } from "@/components/organisms/Experience";
 import { LanguageProvider } from "@/lib/LanguageContext";
-import { figmaLinksForExperience } from "@/data/figma-assets-ssot";
 
 function renderExperience() {
   return render(
@@ -17,7 +16,7 @@ function renderExperience() {
 }
 
 describe("Experience figmaLinks", () => {
-  it("muestra Abrir en Figma en la card Viento Norte (craft sin caso FO)", async () => {
+  it("no muestra Abrir en Figma en la card Viento Norte", async () => {
     const user = userEvent.setup();
     const { container } = renderExperience();
     expect(await screen.findByText(/UX Manager/i)).toBeInTheDocument();
@@ -30,11 +29,7 @@ describe("Experience figmaLinks", () => {
       await user.click(vnToggle!);
     }
 
-    const expected = figmaLinksForExperience("Viento Norte");
-    const links = container.querySelectorAll('[data-experience-figma="Viento Norte"]');
-    expect(links.length).toBe(expected.length);
-    expect(Array.from(links).map((el) => el.getAttribute("href"))).toEqual(
-      expected.map((l) => l.url)
-    );
+    expect(screen.queryByText(/Abrir en Figma/i)).toBeNull();
+    expect(container.querySelector("[data-experience-figma]")).toBeNull();
   });
 });

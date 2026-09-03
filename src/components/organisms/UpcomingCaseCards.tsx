@@ -3,9 +3,7 @@ import { Clock } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { FigmaLinkOuts } from "../molecules/FigmaLinkOuts";
 import { upcomingCases } from "../../data/upcoming-cases";
-import { figmaLinksForCase } from "../../data/figma-assets-ssot";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 
@@ -35,7 +33,7 @@ export function UpcomingCaseCards() {
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {upcomingCases.map((item, index) => {
-            const figmaLinks = figmaLinksForCase(item.id, language);
+            const images = item.images ?? [];
             return (
               <motion.article
                 key={item.id}
@@ -66,11 +64,23 @@ export function UpcomingCaseCards() {
                         </Badge>
                       ))}
                     </div>
-                    <FigmaLinkOuts
-                      links={figmaLinks}
-                      openLabel={t.openFigma}
-                      dataAttribute={{ name: "data-upcoming-figma", value: item.id }}
-                    />
+                    {images.length > 0 ? (
+                      <ul
+                        className="mt-4 grid gap-2"
+                        data-upcoming-images={item.id}
+                      >
+                        {images.map((src, imageIndex) => (
+                          <li key={src}>
+                            <img
+                              src={src}
+                              alt={`${item.company} — ${item.title[language]} ${imageIndex + 1}`}
+                              className="w-full rounded-md border border-border/60 bg-muted/30 object-contain"
+                              data-upcoming-image={item.id}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </CardContent>
                 </Card>
               </motion.article>

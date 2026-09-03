@@ -30,6 +30,8 @@ export interface FigmaAsset {
   url: string | null;
   foCaseId: string | null;
   notes: string;
+  /** FO PNG/JPG when a real visual exists. Null/omit = metadata URL only. */
+  localImage?: string | null;
 }
 
 function khuroCdn(id: string): string | null {
@@ -45,7 +47,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/h5663L39FoCWJ3vup0Qp3d/Dashboard-Viento-Norte---Skills",
     foCaseId: null,
-    notes: "experience: Viento Norte; surfaces: docs-vn, vn-agent",
+    notes: "experience: Viento Norte; surfaces: docs-vn, vn-agent; Figma export empty/tiny black strips — NO DATO visual; SSOT url metadata only; not-on-public-FO",
+    localImage: null,
   },
   {
     id: "calor-vn-skills-competencias",
@@ -54,7 +57,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/31Krz3o3QKftMZxJLOgakk/Viento-Norte---Skills-Dashboard",
     foCaseId: null,
-    notes: "experience: Viento Norte",
+    notes: "experience: Viento Norte; Figma export empty/tiny black strips — NO DATO visual; SSOT url metadata only; not-on-public-FO",
+    localImage: null,
   },
   {
     id: "calor-vn-arquitectura-live",
@@ -81,7 +85,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/HQvdOouznRM1x4xhCxpR1m/VN-News-LinkedIn-covers",
     foCaseId: null,
-    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl",
+    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl; FO covers at /images/news/accesibilidad-transvip.png, /images/news/automatizacion-sura.png, /images/news/privacidad-flujo.png — do not duplicate into vn-assets",
+    localImage: "/images/news/accesibilidad-transvip.png",
   },
   {
     id: "calor-vn-campaign-assets-a11y",
@@ -90,7 +95,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45/VN-·-Campaign-assets-·-piloto-a11y",
     foCaseId: null,
-    notes: "experience: Viento Norte; surfaces: google-ads-vn",
+    notes: "experience: Viento Norte; surfaces: google-ads-vn; internal ops INDEX (piloto a11y rules), not a public case mockup; not-on-public-FO",
+    localImage: null,
   },
   {
     id: "calor-vn-log-visual",
@@ -147,7 +153,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/s5lLcHkNalH6p3LKCop7wT/Dashboard-Escenarios-Demanda-SURA---Viento-Norte",
     foCaseId: "sura-inversiones-dashboard",
-    notes: "FO /proyecto/sura-inversiones-dashboard",
+    notes: "FO /proyecto/sura-inversiones-dashboard; labor-claim financial scenario cards (montos demanda/honorarios), NOT SURA Investments dashboard — not-on-public-FO; do not publish local PNG",
+    localImage: null,
   },
   {
     id: "sura-ria-proto",
@@ -174,7 +181,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip",
     foCaseId: "transvip-app-premium",
-    notes: "FO /proyecto/transvip-app-premium; also TRANSVIP_APP_FIGMA_URL",
+    notes: "FO /proyecto/transvip-app-premium; also TRANSVIP_APP_FIGMA_URL; FO image /images/vn-assets/transvip-system-design.png",
+    localImage: "/images/vn-assets/transvip-system-design.png",
   },
   {
     id: "transvip-proto-app",
@@ -192,7 +200,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021",
     foCaseId: "havas-claro",
-    notes: "upcoming havas-claro",
+    notes: "upcoming havas-claro; FO image /images/vn-assets/claro-tienda-comparar.png",
+    localImage: "/images/vn-assets/claro-tienda-comparar.png",
   },
   {
     id: "claro-portal-comercial",
@@ -201,7 +210,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro",
     foCaseId: "havas-claro",
-    notes: "upcoming havas-claro",
+    notes: "upcoming havas-claro; FO image /images/vn-assets/claro-portal-carrito.png; extra mobile /images/vn-assets/claro-portal-mobile.jpg",
+    localImage: "/images/vn-assets/claro-portal-carrito.png",
   },
   {
     id: "valuesite-avem-proto",
@@ -210,7 +220,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "proto",
     url: "https://www.figma.com/proto/xqCj0eIocn9cG6pbPKu6Vy/AVEM-Prototipo-Landing-Page",
     foCaseId: null,
-    notes: "experience: Valuesite Ltda; no FO case",
+    notes: "experience: Valuesite Ltda; no FO case; Figma search empty = NO DATO visual; not-on-public-FO",
+    localImage: null,
   },
   {
     id: "khuro-pareti",

@@ -1,7 +1,6 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import type { Language } from "../lib/i18n";
 import type { UpcomingFigmaLink } from "./upcoming-cases";
-import { figmaLinksForExperience } from "./figma-assets-ssot";
 
 /**
  * Relato por etapa: contexto → rol → impacto (+ evidencia en bullets).
@@ -691,7 +690,6 @@ export function getExperiences(language: Language): ExperienceEntry[] {
     isCurrent: item.isCurrent,
     evidenceSectionId: item.evidenceSectionId,
     evidenceCta: item.evidenceCta,
-    figmaLinks: figmaLinksForExperience(item[language].company, language),
   }));
 }
 

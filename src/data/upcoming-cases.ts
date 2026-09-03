@@ -14,6 +14,8 @@ export interface UpcomingCase {
   tags: string[];
   /** Derived at render from figma-assets-ssot (foCaseId). */
   figmaLinks?: UpcomingFigmaLink[];
+  /** FO images for upcoming cards. Omit when there is no real visual. */
+  images?: string[];
 }
 
 export const upcomingCases: UpcomingCase[] = [
@@ -30,6 +32,11 @@ export const upcomingCases: UpcomingCase[] = [
     },
     period: "Nov 2021 — Abr 2022",
     tags: ["Agency", "Telecom", "B2B"],
+    images: [
+      "/images/vn-assets/claro-tienda-comparar.png",
+      "/images/vn-assets/claro-portal-carrito.png",
+      "/images/vn-assets/claro-portal-mobile.jpg",
+    ],
   },
   {
     id: "ibm-portal",

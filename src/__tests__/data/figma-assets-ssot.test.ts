@@ -96,4 +96,26 @@ describe("figma-assets-ssot", () => {
   it("mantiene ids legacy del strip unmounted", () => {
     expect(FIGMA_CALOR_LEGACY_IDS).toHaveLength(10);
   });
+
+  it("apunta localImage a PNG FO en Transvip/Claro/News y deja Skills/SURA-demanda/AVEM sin visual público", () => {
+    const byId = Object.fromEntries(FIGMA_ASSETS.map((a) => [a.id, a]));
+    expect(byId["transvip-system-design-app"]?.localImage).toBe(
+      "/images/vn-assets/transvip-system-design.png"
+    );
+    expect(byId["claro-tienda-2021"]?.localImage).toBe(
+      "/images/vn-assets/claro-tienda-comparar.png"
+    );
+    expect(byId["claro-portal-comercial"]?.localImage).toBe(
+      "/images/vn-assets/claro-portal-carrito.png"
+    );
+    expect(byId["calor-vn-news-covers"]?.localImage).toBe(
+      "/images/news/accesibilidad-transvip.png"
+    );
+    expect(byId["calor-vn-news-covers"]?.notes).toMatch(/\/images\/news\//);
+    expect(byId["calor-vn-skills-dashboard"]?.localImage ?? null).toBeNull();
+    expect(byId["calor-vn-skills-competencias"]?.localImage ?? null).toBeNull();
+    expect(byId["calor-vn-escenarios-demanda-sura"]?.localImage ?? null).toBeNull();
+    expect(byId["valuesite-avem-proto"]?.localImage ?? null).toBeNull();
+    expect(byId["calor-vn-campaign-assets-a11y"]?.localImage ?? null).toBeNull();
+  });
 });
