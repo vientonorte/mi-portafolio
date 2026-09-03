@@ -1,1 +1,18 @@
-{"name":"vn-ads-query","version":"0.1.0","private":true,"type":"module","scripts":{"start":"node server.js","test":"node --test src/*.test.js"},"engines":{"node":">=20"}}
+{
+  "name": "vn-ads-query",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test src/*.test.js",
+    "query:ssot": "node query-ssot.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "google-ads-api": "^24.1.0"
+  }
+}
