@@ -5,6 +5,7 @@ import {
 } from "./karri-project-stubs";
 import { FIGMA_SLIDES_SURA_COLOMBIA } from "./figma-embeds";
 import type { FigmaEmbedConfig } from "./figma-embeds";
+import type { UpcomingFigmaLink } from "./upcoming-cases";
 import { RIA_US_PROTO_URL, TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
@@ -64,6 +65,8 @@ export interface EnhancedProject {
   externalLink?: string; // External project link
   /** Figma Slides / FigJam embebido en detalle de proyecto */
   figmaEmbed?: FigmaEmbedConfig;
+  /** Derived at render from figma-assets-ssot (foCaseId). */
+  figmaLinks?: UpcomingFigmaLink[];
 
   // Nivel 2: PROCESOS
   processes?: Process[]; // Made optional to prevent errors when undefined

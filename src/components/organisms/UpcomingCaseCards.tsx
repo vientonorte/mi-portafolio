@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Clock, ExternalLink } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { SectionHeader } from "../molecules/SectionHeader";
+import { FigmaLinkOuts } from "../molecules/FigmaLinkOuts";
 import { upcomingCases } from "../../data/upcoming-cases";
+import { figmaLinksForCase } from "../../data/figma-assets-ssot";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 
@@ -32,60 +34,48 @@ export function UpcomingCaseCards() {
           viewport={{ once: true }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {upcomingCases.map((item, index) => (
-            <motion.article
-              key={item.id}
-              initial={prefersReducedMotion ? undefined : { opacity: 0, y: 16 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-            >
-              <Card className="h-full border-dashed border-border/80 bg-muted/20 opacity-90">
-                <CardHeader className="space-y-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <CardTitle className="text-lg">{item.title[language]}</CardTitle>
-                      <CardDescription>{item.company}</CardDescription>
-                    </div>
-                    <Badge variant="outline" className="shrink-0 text-xs text-muted-foreground">
-                      {t.status}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{item.description[language]}</p>
-                  <p className="font-mono text-xs text-muted-foreground/80">{item.period}</p>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
-                        {tag}
+          {upcomingCases.map((item, index) => {
+            const figmaLinks = figmaLinksForCase(item.id, language);
+            return (
+              <motion.article
+                key={item.id}
+                initial={prefersReducedMotion ? undefined : { opacity: 0, y: 16 }}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+              >
+                <Card className="h-full border-dashed border-border/80 bg-muted/20 opacity-90">
+                  <CardHeader className="space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <CardTitle className="text-lg">{item.title[language]}</CardTitle>
+                        <CardDescription>{item.company}</CardDescription>
+                      </div>
+                      <Badge variant="outline" className="shrink-0 text-xs text-muted-foreground">
+                        {t.status}
                       </Badge>
-                    ))}
-                  </div>
-                  {item.figmaLinks && item.figmaLinks.length > 0 ? (
-                    <ul className="mt-4 flex flex-col gap-2">
-                      {item.figmaLinks.map((link) => (
-                        <li key={link.url}>
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-                            data-upcoming-figma={item.id}
-                            aria-label={`${t.openFigma}: ${link.label}`}
-                          >
-                            {t.openFigma}
-                            <span className="text-muted-foreground">· {link.label}</span>
-                            <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-                          </a>
-                        </li>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{item.description[language]}</p>
+                    <p className="font-mono text-xs text-muted-foreground/80">{item.period}</p>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
                       ))}
-                    </ul>
-                  ) : null}
-                </CardContent>
-              </Card>
-            </motion.article>
-          ))}
+                    </div>
+                    <FigmaLinkOuts
+                      links={figmaLinks}
+                      openLabel={t.openFigma}
+                      dataAttribute={{ name: "data-upcoming-figma", value: item.id }}
+                    />
+                  </CardContent>
+                </Card>
+              </motion.article>
+            );
+          })}
         </motion.div>
       </div>
     </section>

@@ -26,7 +26,10 @@ import { SEOHead } from "../components/atoms/SEOHead";
 import { canonicalFromPath, projectPageSeo } from "../lib/seo";
 import { getProjectSeoKeywords } from "../lib/project-metrics";
 import { FigmaEmbed } from "../components/molecules/FigmaEmbed";
+import { FigmaLinkOuts } from "../components/molecules/FigmaLinkOuts";
 import type { FigmaEmbedConfig } from "../data/figma-embeds";
+import { figmaLinksForCase } from "../data/figma-assets-ssot";
+import type { UpcomingFigmaLink } from "../data/upcoming-cases";
 
 interface ProcessApplied {
   id: string;
@@ -67,6 +70,7 @@ interface ProjectData {
   details?: Pick<ProjectDetails, "mockups">;
   externalLink?: string;
   figmaEmbed?: FigmaEmbedConfig;
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 // SURA enhanced project structure
@@ -99,6 +103,7 @@ interface EnhancedProject {
   details: ProjectDetails;
   externalLink?: string;
   figmaEmbed?: FigmaEmbedConfig;
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 interface ProjectDetailProps {
@@ -161,6 +166,7 @@ export default function ProjectDetail({
   const projectId = project.id;
   const externalLink = "externalLink" in project ? project.externalLink : undefined;
   const figmaEmbed = "figmaEmbed" in project ? project.figmaEmbed : undefined;
+  const figmaLinks = projectId ? figmaLinksForCase(projectId, language) : [];
   const pageSeo = projectPageSeo(projectName, hubName, project.description, language);
 
   const navigationSections = buildProjectNavSections(language, {
@@ -357,6 +363,21 @@ export default function ProjectDetail({
                   </Button>
                 </motion.div>
               )}
+              {figmaLinks.length > 0 ? (
+                <motion.div
+                  variants={fadeInVariant}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ duration: 0.8, delay: 0.75 }}
+                  className="mt-6 flex justify-center"
+                >
+                  <FigmaLinkOuts
+                    links={figmaLinks}
+                    openLabel={t.upcomingCases.openFigma}
+                    dataAttribute={projectId ? { name: "data-project-figma", value: projectId } : undefined}
+                  />
+                </motion.div>
+              ) : null}
             </motion.div>
           </div>
         </section>

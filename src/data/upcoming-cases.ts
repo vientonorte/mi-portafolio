@@ -12,6 +12,7 @@ export interface UpcomingCase {
   description: Record<Language, string>;
   period: string;
   tags: string[];
+  /** Derived at render from figma-assets-ssot (foCaseId). */
   figmaLinks?: UpcomingFigmaLink[];
 }
 
@@ -29,16 +30,6 @@ export const upcomingCases: UpcomingCase[] = [
     },
     period: "Nov 2021 — Abr 2022",
     tags: ["Agency", "Telecom", "B2B"],
-    figmaLinks: [
-      {
-        label: "Tienda Claro 2021",
-        url: "https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021",
-      },
-      {
-        label: "Portal Comercial Claro",
-        url: "https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro",
-      },
-    ],
   },
   {
     id: "ibm-portal",
