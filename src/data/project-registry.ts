@@ -35,16 +35,16 @@ export function getCompanyById(companyId: string): CompanyHub | undefined {
 }
 
 export function getProjectById(projectId: string): ProjectLookupResult | undefined {
+  const karri = KARRI_PROJECTS.find((p) => p.id === projectId);
+  if (karri) {
+    return { project: karri, companyId: "transvip", companyName: "Transvip / Karri" };
+  }
+
   for (const hub of companyHubs) {
     const match = hub.projects.find((p) => p.id === projectId);
     if (match) {
       return { project: match, companyId: hub.id, companyName: hub.name };
     }
-  }
-
-  const karri = KARRI_PROJECTS.find((p) => p.id === projectId);
-  if (karri) {
-    return { project: karri, companyId: "transvip", companyName: "Transvip / Karri" };
   }
 
   const individual = individualProjects.find((p) => p.id === projectId);

@@ -26,15 +26,12 @@ const suraAnalyticsGa4 = suraImg.analyticsGa4;
 const suraHotjarDashboard = suraImg.hotjarDashboard;
 const suraBenchmarkNavigation = suraImg.benchmarkNavigation;
 const suraBookingFlowchart = suraImg.bookingFlowchart;
-const suraOnboardingFlags = suraImg.onboardingFlags;
 const suraComponentPipeline = suraImg.componentPipeline;
 const transvipDesktop = transvipImg.appDesktop;
 const transvipMobile = transvipImg.appMobile;
-const transvipProductVision = transvipImg.productVision;
 const transvipFigmaPrototype = transvipImg.figmaPrototype;
 const uxProcessDiagram = suraImg.uxProcess;
 const uxValueChain = frameworkImg.uxValueChain;
-const uxSprintDiagram = suraImg.uxProcess;
 
 export interface Process {
   name: string;
@@ -267,7 +264,7 @@ export const suraHub: CompanyHub = {
           "Design Thinking funciona en enterprise con la estructura correcta",
           "La documentación de lineamientos debe ser viva y evolutiva",
         ],
-        mockups: [uxProcessDiagram, uxValueChain, uxSprintDiagram],
+        mockups: [uxProcessDiagram, uxValueChain],
       },
     },
     {
@@ -386,7 +383,7 @@ export const suraHub: CompanyHub = {
           "Proceso iterativo de 3 semanas permite ajustes ágiles en contexto enterprise",
           "Regulaciones financieras requieren casos de error específicos (cumplimiento, bloqueos)",
         ],
-        mockups: [suraOnboardingFlags, suraRiaOnboarding, suraComponentPipeline],
+        mockups: [suraRiaOnboarding, suraComponentPipeline],
       },
     },
     {
@@ -674,7 +671,9 @@ export const transvipHub: CompanyHub = {
           transvipMobile,
           transvipDesktop,
           transvipFigmaPrototype,
-          transvipProductVision,
+          suraBookingFlowchart,
+          suraHotjarDashboard,
+          suraAnalyticsGa4,
           "/images/vn-assets/transvip-system-design.png",
         ],
       },

@@ -826,43 +826,22 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     },
   },
   {
-    id: "transvip-product-vision",
-    kind: "case",
-    imagePath: img((i) => i.transvip.productVision),
-    href: ROUTES.project("transvip-app-premium"),
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Estrategia de producto",
-        title: "Visión premium Transvip",
-        outcome: "Product vision y discovery activo — alineación stakeholders antes del design system.",
-        metric: "Mobility",
-      },
-      en: {
-        kindLabel: "Product strategy",
-        title: "Transvip premium vision",
-        outcome: "Product vision and active discovery — stakeholder alignment before the design system.",
-        metric: "Mobility",
-      },
-    },
-  },
-  {
     id: "sura-booking-flow",
     kind: "prototype",
-    imagePath: img((i) => i.sura.onboardingFlags),
+    imagePath: img((i) => i.sura.riaOnboarding),
     href: ROUTES.project("sura-ecosistema-digital"),
     bundleId: "ops",
     copy: {
       es: {
         kindLabel: "Flujo documentado",
         title: "Funnel «Hazte cliente» SURA",
-        outcome: "Flowchart de reserva y onboarding — −40% abandono en ecosistema unificado.",
+        outcome: "Onboarding digital en 4 pasos — −40% abandono en ecosistema unificado.",
         metric: "−40% abandono",
       },
       en: {
         kindLabel: "Documented flow",
         title: "SURA «Become a client» funnel",
-        outcome: "Booking and onboarding flowchart — −40% drop-off in the unified ecosystem.",
+        outcome: "Digital onboarding in 4 steps — −40% drop-off in the unified ecosystem.",
         metric: "−40% drop-off",
       },
     },

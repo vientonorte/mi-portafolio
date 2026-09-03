@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import ProjectDetail from "@/pages/ProjectDetail";
 import { LanguageProvider } from "@/lib/LanguageContext";
@@ -37,24 +36,27 @@ function renderProject(project: { id?: string; company: string; projectName: str
 describe("ProjectDetail figma assets as FO images", () => {
   it("muestra el board System Design entre mockups Transvip y no Abrir en Figma", async () => {
     expect(transvipPremium).toBeTruthy();
-    expect(transvipPremium?.details.mockups).toContain(
-      "/images/vn-assets/transvip-system-design.png"
-    );
-    expect(transvipPremium?.details.mockups?.length).toBeGreaterThan(1);
+    const mockups = transvipPremium?.details.mockups ?? [];
+    expect(mockups).toContain("/images/vn-assets/transvip-system-design.png");
+    expect(mockups.join(" ")).not.toMatch(/product-vision/);
+    expect(mockups.some((src) => src.includes("booking-flowchart"))).toBe(true);
+    expect(mockups.some((src) => src.includes("hotjar-dashboard"))).toBe(true);
+    expect(mockups.some((src) => src.includes("analytics-ga4"))).toBe(true);
+    expect(mockups.length).toBeGreaterThan(1);
 
-    const user = userEvent.setup();
     const { container } = renderProject(transvipPremium!);
     expect(
       await screen.findByRole("heading", { level: 1, name: /Rediseño App Pasajeros Premium/i })
     ).toBeInTheDocument();
 
-    const more = screen.queryByRole("button", { name: /capturas más/i });
-    if (more) {
-      await user.click(more);
-    }
+    expect(screen.queryByRole("button", { name: /capturas más/i })).toBeNull();
 
     const markup = container.innerHTML;
     expect(markup).toContain("transvip-system-design.png");
+    expect(markup).toContain("booking-flowchart");
+    expect(markup).toContain("hotjar-dashboard");
+    expect(markup).toContain("analytics-ga4");
+    expect(markup).not.toContain("product-vision");
     expect(screen.queryByText(/Abrir en Figma/i)).toBeNull();
     expect(container.querySelector("[data-project-figma]")).toBeNull();
   });

@@ -35,12 +35,12 @@ export const karriNotificacionesStub: EnhancedProject = {
     "Hub centralizado de notificaciones y flujo de autenticación optimizado para shoppers.",
   descriptionEN:
     "Centralized notification hub and optimized authentication flow for shoppers.",
-  image: karriImg.deliveryBrand,
+  image: karriImg.logo,
   tags: ["Figma", "React Native", "Information Architecture", "Mobile UX"],
   details: {
     challenge: "Notificaciones dispersas y autenticación con alto abandono.",
     solution: "Hub categorizado y onboarding simplificado de 7 a 4 pasos.",
-    mockups: [karriImg.deliveryBrand],
+    mockups: [],
   },
 };
 
@@ -60,6 +60,6 @@ export const karriDesignSprintStub: EnhancedProject = {
   details: {
     challenge: "Información dispersa y falta de consenso sobre la visión del producto Karri.",
     solution: "Brief colaborativo, journey map y OKRs con MVPs priorizados.",
-    mockups: [karriImg.sprintBrief1, karriImg.sprintBrief1],
+    mockups: [karriImg.sprintBrief1, karriImg.okrsBoard],
   },
 };
