@@ -11,7 +11,6 @@ import { useImageManifestVersion } from "../../lib/image-manifest-context";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { UpcomingCaseCards } from "./UpcomingCaseCards";
-import { CalorVnStrip } from "./CalorVnStrip";
 
 export function Projects({
   onNavigateToCaseStudies,
@@ -101,7 +100,6 @@ export function Projects({
         </div>
       </div>
 
-      <CalorVnStrip />
       <UpcomingCaseCards />
     </section>
   );

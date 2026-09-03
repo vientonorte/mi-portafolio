@@ -12,7 +12,7 @@ function renderStrip() {
   );
 }
 
-describe("CalorVnStrip", () => {
+describe.skip("CalorVnStrip (DEPRECATED 2026-09-02: public strip hallucinated; do not mount)", () => {
   it("renderiza cards link-out que abren Figma, sin iframe", async () => {
     const { container } = renderStrip();
 

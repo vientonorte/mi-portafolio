@@ -1,3 +1,4 @@
+/** DEPRECATED 2026-09-02: public Calor VN strip hallucinated; not heatmap. Do not mount. */
 import { Flame } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { SectionHeader } from "../molecules/SectionHeader";

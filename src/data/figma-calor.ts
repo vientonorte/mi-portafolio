@@ -1,3 +1,4 @@
+/** DEPRECATED 2026-09-02: public Calor VN strip hallucinated; not heatmap. Do not mount. */
 /**
  * Calor VN — archivos Figma calientes (editados ~12d, nombrados VN).
  * Link-out only: drafts privados no se embeben (el iframe quedaría en blanco).

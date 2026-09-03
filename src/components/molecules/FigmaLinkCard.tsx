@@ -1,3 +1,4 @@
+/** DEPRECATED 2026-09-02: public Calor VN strip hallucinated; not heatmap. Do not mount. */
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
