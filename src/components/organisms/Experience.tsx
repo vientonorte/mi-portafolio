@@ -26,7 +26,8 @@ function expKey(exp: ExperienceEntry) {
 export function Experience() {
   const navigate = useNavigate();
   const { language } = useLanguage();
-  const t = useTranslation(language).experience;
+  const tRoot = useTranslation(language);
+  const t = tRoot.experience;
   const experiences = getExperiences(language);
   const es = language === "es";
   const prefersReducedMotion = useReducedMotion();

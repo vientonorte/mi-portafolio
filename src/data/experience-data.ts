@@ -1,5 +1,6 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import type { Language } from "../lib/i18n";
+import type { UpcomingFigmaLink } from "./upcoming-cases";
 
 /**
  * Relato por etapa: contexto → rol → impacto (+ evidencia en bullets).
@@ -27,16 +28,18 @@ export interface ExperienceEntry {
   /** Ancla a sección de evidencia visual en /sobre-mi (no /empresa). */
   evidenceSectionId?: string;
   evidenceCta?: { es: string; en: string };
+  /** Derived from figma-assets-ssot for experience-only craft. */
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 type LocalizedExperience = {
   es: Omit<
     ExperienceEntry,
-    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta"
+    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta" | "figmaLinks"
   >;
   en: Omit<
     ExperienceEntry,
-    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta"
+    "logo" | "companyId" | "isCurrent" | "evidenceSectionId" | "evidenceCta" | "figmaLinks"
   >;
   logo?: string;
   companyId?: string;
@@ -113,7 +116,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "UI/UX de producto: e-comm (Monitas), educación (Edu21), patrones y funnels nacionales",
         "Operaciones digitales con cumplimiento por diseño (n2n) y design ops",
-        "Liderazgo de marca Viento Norte: consultoría, demos y delivery multi-vertical",
+        "Marca VN: consultoría, demos, FO y práctica independiente (poemario, foto, documental)",
       ],
       tools: ["Desarrollo web", "Diseño de experiencia del cliente", "Figma", "Design Ops"],
     },
@@ -131,7 +134,7 @@ const experienceCatalog: LocalizedExperience[] = [
       achievements: [
         "Product UI/UX: e-comm (Monitas), education (Edu21), national patterns and funnels",
         "Digital operations with compliance by design (n2n) and design ops",
-        "Viento Norte brand leadership: consulting, demos, multi-vertical delivery",
+        "VN brand: consulting, demos, FO, and independent practice (poetry, photo, documentary)",
       ],
       tools: ["Web development", "Customer experience design", "Figma", "Design Ops"],
     },
@@ -417,6 +420,7 @@ const experienceCatalog: LocalizedExperience[] = [
       role: "UX/UI y facilitación de workshops de diseño con foco comercial.",
       impact: "De propuesta de valor a productos digitales entregables para clientes de agencia",
       achievements: [
+        "Asesor de marketing digital: e-commerce, CMS y planes de marketing",
         "Workshops con clientes en digitalización de negocios e instituciones",
         "Diseño de valor a producto/servicio digital",
         "Wireframing y entregables UX/UI para el pipeline de agencia",
@@ -434,6 +438,7 @@ const experienceCatalog: LocalizedExperience[] = [
       role: "UX/UI and design workshop facilitation with a commercial focus.",
       impact: "From value proposition to shippable digital products for agency clients",
       achievements: [
+        "Digital marketing advisor: e-commerce, CMS, and marketing plans",
         "Workshops for business and institution digitization",
         "Design from value proposition to digital product/service",
         "Wireframing and UX/UI deliverables for the agency pipeline",
@@ -453,6 +458,7 @@ const experienceCatalog: LocalizedExperience[] = [
       role: "Contenidos y desarrollo web accesible junto a Diseño y E-commerce.",
       impact: "SEO/SEM alineados · e-commerce accesible y responsivo",
       achievements: [
+        "Branding y comunidad: informe constante de KPI vía Analytics, Ads e Insights",
         "Contenidos SEO y SEM con estrategia conjunta Diseño + E-commerce",
         "Desarrollo web de e-commerce accesible y responsivo",
         "Coordinación de comunicaciones digitales",
@@ -469,6 +475,7 @@ const experienceCatalog: LocalizedExperience[] = [
       role: "Content and accessible web development with Design and E-commerce.",
       impact: "Aligned SEO/SEM · accessible, responsive e-commerce",
       achievements: [
+        "Branding and community: ongoing KPI reporting via Analytics, Ads, and Insights",
         "SEO and SEM content with Design + E-commerce strategy",
         "Accessible, responsive e-commerce web development",
         "Coordinated digital communications",
@@ -476,41 +483,201 @@ const experienceCatalog: LocalizedExperience[] = [
       tools: ["Adobe Creative Suite", "Google Analytics", "SEO", "SEM"],
     },
   },
+
   {
-    logo: portfolioImages.brands.freelance,
     es: {
-      company: "Profesional independiente",
-      position: "Diseñador freelance",
-      period: "Ene 2017 — Actualidad",
-      location: "Chile · Remoto",
-      stage: "Consultoría · Multi-rubro",
-      context:
-        "Proyectos para agencias, retail, educación y consultoría digital a lo largo de 9+ años.",
-      role: "Diseño web, CM, tutoría y consultorías bajo demanda.",
-      impact: "9+ años de práctica · tutoría magíster · portal IBM y entregables HTML/CSS",
+      company: "Nano Tech",
+      position: "Diseñador",
+      period: "Abr 2019 — Jul 2019",
+      location: "Chile",
+      stage: "Producto · E-commerce",
+      context: "Marca B2B y B2C que necesitaba branding y UX de e-commerce.",
+      role: "Dirigí el desarrollo del branding y la UX del e-commerce.",
+      impact: "Branding y UX de e-commerce para marca B2B y B2C",
       achievements: [
-        "Diseño web, fotografía digital, community management y consultorías multi-rubro",
-        "Tutorías para estudiantes de magíster en marketing y proyectos con agencias",
-        "Portal IBM (remoto) y otros entregables HTML/CSS — casos en expansión en el portafolio",
+        "Branding de marca B2B y B2C",
+        "UX del e-commerce",
       ],
-      tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
+      tools: ["Branding", "UX", "E-commerce"],
     },
     en: {
-      company: "Freelance",
-      position: "Freelance Designer",
-      period: "Jan 2017 — Present",
-      location: "Chile · Remote",
-      stage: "Consulting · Multi-industry",
-      context:
-        "Projects for agencies, retail, education, and digital consulting across 9+ years.",
-      role: "Web design, CM, tutoring, and on-demand consulting.",
-      impact: "9+ years of practice · master's tutoring · IBM portal and HTML/CSS work",
+      company: "Nano Tech",
+      position: "Designer",
+      period: "Apr 2019 — Jul 2019",
+      location: "Chile",
+      stage: "Product · E-commerce",
+      context: "B2B and B2C brand that needed branding and e-commerce UX.",
+      role: "Led branding development and e-commerce UX.",
+      impact: "Branding and e-commerce UX for a B2B and B2C brand",
       achievements: [
-        "Web design, digital photography, community management, and multi-industry consulting",
-        "Tutoring for marketing master's students and agency projects",
-        "IBM portal (remote) and other HTML/CSS deliverables — cases expanding in the portfolio",
+        "B2B and B2C brand branding",
+        "E-commerce UX",
       ],
-      tools: ["Figma", "Adobe Creative Suite", "SEO", "Wireframing"],
+      tools: ["Branding", "UX", "E-commerce"],
+    },
+  },
+  {
+    es: {
+      company: "Monday.com",
+      position: "Partner",
+      period: "Ene 2019 — May 2019",
+      location: "Chile",
+      stage: "Consultoría · Digitalización",
+      context: "Socio de Monday.com, empresa dedicada a la digitalización de negocios.",
+      role: "Dirigí proyectos de transformación digital con clientes de Monday y diseñé estrategias de marketing digital.",
+      impact: "Proyectos de transformación digital y estrategias de marketing digital",
+      achievements: [
+        "Dirección de proyectos de transformación digital con clientes de Monday",
+        "Diseño de estrategias de marketing digital",
+      ],
+      tools: ["Marketing digital", "Transformación digital"],
+    },
+    en: {
+      company: "Monday.com",
+      position: "Partner",
+      period: "Jan 2019 — May 2019",
+      location: "Chile",
+      stage: "Consulting · Digitization",
+      context: "Partner at Monday.com, a company focused on business digitization.",
+      role: "Led digital transformation projects with Monday clients and designed digital marketing strategies.",
+      impact: "Digital transformation projects and digital marketing strategies",
+      achievements: [
+        "Led digital transformation projects with Monday clients",
+        "Designed digital marketing strategies",
+      ],
+      tools: ["Digital marketing", "Digital transformation"],
+    },
+  },
+  {
+    es: {
+      company: "La Negra Colorá",
+      position: "Editor digital",
+      period: "Jun 2017 — Abr 2019",
+      location: "Chile",
+      stage: "Editorial",
+      context: "Medio digital con necesidad de marca, foto y contenidos.",
+      role: "Colaborador como fotoreportero, diseñador multimedia y editor de contenidos.",
+      impact: "Manual de marca, RR.SS. e investigaciones periodísticas",
+      achievements: [
+        "Manual de marca y piezas gráficas",
+        "Administración de RR.SS. y foto-reportaje",
+        "Investigaciones periodísticas",
+      ],
+      tools: ["Marca", "RR.SS", "Fotografía"],
+    },
+    en: {
+      company: "La Negra Colorá",
+      position: "Digital editor",
+      period: "Jun 2017 — Apr 2019",
+      location: "Chile",
+      stage: "Editorial",
+      context: "Digital outlet needing brand, photo, and content.",
+      role: "Contributor as photo reporter, multimedia designer, and content editor.",
+      impact: "Brand manual, social, and journalistic investigations",
+      achievements: [
+        "Brand manual and graphic pieces",
+        "Social media management and photo reporting",
+        "Journalistic investigations",
+      ],
+      tools: ["Brand", "Social", "Photography"],
+    },
+  },
+  {
+    es: {
+      company: "Niño Héroe",
+      position: "Director de fotografía",
+      period: "Oct 2017",
+      location: "Chile",
+      stage: "Cine",
+      context: "Obra de formato corto.",
+      role: "Técnico de iluminación y fotografía; dirección de fotografía.",
+      impact: "Premio del Público Humberto Douvachelle, jul 2017",
+      achievements: [
+        "Premio del Público, jul 2017, Humberto Douvachelle",
+      ],
+      tools: ["Dirección de fotografía"],
+    },
+    en: {
+      company: "Niño Héroe",
+      position: "Director of Photography",
+      period: "Oct 2017",
+      location: "Chile",
+      stage: "Film",
+      context: "Short-format work.",
+      role: "Lighting and photography technician; director of photography.",
+      impact: "Audience Award Humberto Douvachelle, Jul 2017",
+      achievements: [
+        "Audience Award, Jul 2017, Humberto Douvachelle",
+      ],
+      tools: ["Cinematography"],
+    },
+  },
+  {
+    es: {
+      company: "La Voz de los Cerros",
+      position: "Colaborador",
+      period: "2015–2017",
+      location: "Valparaíso, Chile",
+      stage: "Medio · Comunitario",
+      context:
+        "Medio de comunicación popular y comunitario de Valparaíso.",
+      role:
+        "Trabajo colaborativo: contenido escrito, audiovisual y debate público.",
+      impact: "Debate público socializado a través de RR.SS.",
+      achievements: [
+        "Contenido escrito y audiovisual",
+        "Debate público socializado en RR.SS. (Instagram @la.voz.de.los.cerros)",
+      ],
+      tools: ["Instagram", "RR.SS"],
+    },
+    en: {
+      company: "La Voz de los Cerros",
+      position: "Contributor",
+      period: "2015–2017",
+      location: "Valparaíso, Chile",
+      stage: "Media · Community",
+      context: "Popular community media outlet in Valparaíso.",
+      role: "Collaborative work: written and audiovisual content, and public debate.",
+      impact: "Public debate shared on social media",
+      achievements: [
+        "Written and audiovisual content",
+        "Public debate shared on social (Instagram @la.voz.de.los.cerros)",
+      ],
+      tools: ["Instagram", "Social"],
+    },
+  },
+  {
+    es: {
+      company: "Teatro Di Popolo",
+      position: "Fotógrafo audiovisual",
+      period: "Jul 2016 — Oct 2016",
+      location: "Chile",
+      stage: "Fotografía",
+      context: "Registro fotográfico y audiovisual para la compañía.",
+      role: "Registro fotográfico y audiovisual, y teaser para teatros de Chile.",
+      impact: "Registro y teaser Sacco-Vanzetti",
+      achievements: [
+        "Registro fotográfico y audiovisual de la Cía. Teatro Di Popolo",
+        "Teaser audiovisual para teatros de Chile",
+        "Galería Behance Sacco-Vanzetti",
+      ],
+      tools: ["Fotografía", "Audiovisual", "Behance"],
+    },
+    en: {
+      company: "Teatro Di Popolo",
+      position: "Audiovisual photographer",
+      period: "Jul 2016 — Oct 2016",
+      location: "Chile",
+      stage: "Photography",
+      context: "Photographic and audiovisual record for the company.",
+      role: "Photo and audiovisual coverage, plus a teaser for theaters in Chile.",
+      impact: "Sacco-Vanzetti coverage and teaser",
+      achievements: [
+        "Photographic and audiovisual record for Cía. Teatro Di Popolo",
+        "Audiovisual teaser for theaters in Chile",
+        "Behance gallery Sacco-Vanzetti",
+      ],
+      tools: ["Photography", "Audiovisual", "Behance"],
     },
   },
 ];

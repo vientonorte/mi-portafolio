@@ -134,6 +134,7 @@ export default {
       title: 'Casos en preparación',
       description: 'Evidencia visual y métricas en curso para ampliar el hub de negocios.',
       status: 'Evidencia en curso',
+      openFigma: 'Abrir en Figma',
     },
 
     uxAuditBanner: {

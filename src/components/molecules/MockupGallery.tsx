@@ -23,8 +23,8 @@ interface MockupGalleryProps {
   /** Sin cabecera ni wrapper de sección — para anidar dentro de #evidence */
   embedded?: boolean;
   /**
-   * Cuántas capturas mostrar en grilla (default 1 — evita scroll horizontal infinito).
-   * El resto se abre al expandir o en lightbox desde la principal.
+   * Cuántas capturas mostrar en grilla. Default: todas (la evidencia no se esconde).
+   * Pasar un número menor activa "Ver n capturas más". Lightbox se mantiene.
    */
   maxVisible?: number;
 }
@@ -96,7 +96,7 @@ export function MockupGallery({
   language,
   sectionId = "mockups",
   embedded = false,
-  maxVisible = 1,
+  maxVisible,
 }: MockupGalleryProps) {
   const t = useTranslation(language);
   const items = useMemo(() => normalizeMockups(mockups), [mockups]);
@@ -108,7 +108,7 @@ export function MockupGallery({
 
   if (items.length === 0) return null;
 
-  const limit = Math.max(1, maxVisible);
+  const limit = maxVisible == null ? items.length : Math.max(1, maxVisible);
   const hasMore = items.length > limit;
   const visibleItems = expanded || !hasMore ? items : items.slice(0, limit);
   const hiddenCount = items.length - limit;
@@ -128,7 +128,7 @@ export function MockupGallery({
 
   const grid = (
     <div className="space-y-4">
-      {/* Una captura principal — sin carrusel infinito en mobile */}
+      {/* Grilla responsive — sin carrusel infinito en mobile */}
       <div
         className={cn(
           "grid gap-4",
@@ -229,8 +229,8 @@ export function MockupGallery({
           {items.length > 1 && (
             <p className="mt-3 text-xs text-muted-foreground">
               {language === "es"
-                ? `1 captura principal · ${items.length} en total`
-                : `1 featured capture · ${items.length} total`}
+                ? `${items.length} capturas`
+                : `${items.length} captures`}
             </p>
           )}
         </motion.div>

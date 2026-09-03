@@ -5,8 +5,14 @@ import {
 } from "./karri-project-stubs";
 import { FIGMA_SLIDES_SURA_COLOMBIA } from "./figma-embeds";
 import type { FigmaEmbedConfig } from "./figma-embeds";
+import type { UpcomingFigmaLink } from "./upcoming-cases";
 import { RIA_US_PROTO_URL, TRANSVIP_APP_FIGMA_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
+import {
+  khuroItem,
+  paretiKhuroGallery,
+  paretiMockupUrls,
+} from "./khuro-portfoliobox";
 
 const {
   sura: suraImg,
@@ -20,15 +26,12 @@ const suraAnalyticsGa4 = suraImg.analyticsGa4;
 const suraHotjarDashboard = suraImg.hotjarDashboard;
 const suraBenchmarkNavigation = suraImg.benchmarkNavigation;
 const suraBookingFlowchart = suraImg.bookingFlowchart;
-const suraOnboardingFlags = suraImg.onboardingFlags;
 const suraComponentPipeline = suraImg.componentPipeline;
 const transvipDesktop = transvipImg.appDesktop;
 const transvipMobile = transvipImg.appMobile;
-const transvipProductVision = transvipImg.productVision;
 const transvipFigmaPrototype = transvipImg.figmaPrototype;
 const uxProcessDiagram = suraImg.uxProcess;
 const uxValueChain = frameworkImg.uxValueChain;
-const uxSprintDiagram = suraImg.uxProcess;
 
 export interface Process {
   name: string;
@@ -59,6 +62,8 @@ export interface EnhancedProject {
   externalLink?: string; // External project link
   /** Figma Slides / FigJam embebido en detalle de proyecto */
   figmaEmbed?: FigmaEmbedConfig;
+  /** Derived at render from figma-assets-ssot (foCaseId). */
+  figmaLinks?: UpcomingFigmaLink[];
 
   // Nivel 2: PROCESOS
   processes?: Process[]; // Made optional to prevent errors when undefined
@@ -259,7 +264,7 @@ export const suraHub: CompanyHub = {
           "Design Thinking funciona en enterprise con la estructura correcta",
           "La documentación de lineamientos debe ser viva y evolutiva",
         ],
-        mockups: [uxProcessDiagram, uxValueChain, uxSprintDiagram],
+        mockups: [uxProcessDiagram, uxValueChain],
       },
     },
     {
@@ -378,7 +383,7 @@ export const suraHub: CompanyHub = {
           "Proceso iterativo de 3 semanas permite ajustes ágiles en contexto enterprise",
           "Regulaciones financieras requieren casos de error específicos (cumplimiento, bloqueos)",
         ],
-        mockups: [suraOnboardingFlags, suraRiaOnboarding, suraComponentPipeline],
+        mockups: [suraRiaOnboarding, suraComponentPipeline],
       },
     },
     {
@@ -666,7 +671,10 @@ export const transvipHub: CompanyHub = {
           transvipMobile,
           transvipDesktop,
           transvipFigmaPrototype,
-          transvipProductVision,
+          suraBookingFlowchart,
+          suraHotjarDashboard,
+          suraAnalyticsGa4,
+          "/images/vn-assets/transvip-system-design.png",
         ],
       },
     },
@@ -731,6 +739,182 @@ export const companyHubs: CompanyHub[] = [
   transvipHub,
 ];
 
+
+const khuroPareti = khuroItem("pareti");
+const khuroNumeros = khuroItem("numeros-no-existen");
+const khuroSushi = khuroItem("sushi-del-mar");
+const khuroSaberes = khuroItem("traduccion-saberes");
+const khuroDarandar = khuroItem("darandar");
+const khuroArtistas = khuroItem("artistas-resistencia");
+
+
+const paretiProject: EnhancedProject = {
+  id: "pareti",
+  company: "Empresas Pareti",
+  companyLogo: portfolioImages.brands.pareti,
+  role: "Community Manager",
+  period: "Oct 2019 — Feb 2020",
+  projectName: "Web, UX y community del holding",
+  description:
+    khuroPareti?.description ??
+    "Community Manager del Grupo Pareti: SEO/SEM, monitoreo de KPI y branding de comunidad.",
+  descriptionEN:
+    "As Community Manager for Grupo Pareti I focused on three digital marketing areas: campaign design (SEO and SEM); audience, campaign, budget and trend monitoring with ongoing KPI reports via Analytics, Ads and Insights; and branding — relationships across community, distributors, sponsors, partners, ambassadors and even competitors.",
+  image: khuroPareti?.image,
+  tags: [...(khuroPareti?.tags ?? ["Community", "SEO", "SEM", "Branding"])],
+  externalLink: "https://khuro.pb.online/pareti",
+  processes: [
+    {
+      name: "Monitoreo KPI",
+      description:
+        "Monitoreo constante de KPI de redes sociales (Facebook, Instagram), Google Ads, Google Analytics y Mailchimp, y del rendimiento de los e-commerce.",
+      tools: ["Analytics", "Ads", "Insights", "Mailchimp"],
+    },
+    {
+      name: "Diseño WEB",
+      description:
+        "Diseño web del sitio principal y de los 4 e-commerce del holding: piezas gráficas y audiovisuales, y reducción de procesos de compra desde la experiencia usuaria.",
+      tools: ["UX", "E-commerce"],
+    },
+    {
+      name: "Diseño UX",
+      description:
+        "Propuestas aplicadas durante la estadía en Pareti S.A a partir de la lectura de comportamiento en canales digitales: financiamiento estatal, e-commerce Paretikitchenette y garantía de clientes web.",
+      tools: ["UX"],
+    },
+  ],
+  details: {
+    challenge:
+      "Dentro de mis funciones como Community Manager de Pareti, estuvo el monitoreo constante de KPI tanto de redes sociales, como Facebook, Instagram, Google Ads, Google Analytics y Mailchimp, y el rendimiento de los e-commerce. Por un lado existe una ventaja obvia en la medición de las campañas y las estrategias digitales en términos cuantitativos, pero por otro lado es fundamental darle una interpretación al comportamiento de los usuarios en nuestros canales digitales.",
+    solution:
+      "Lo transformé en acciones concretas que se reflejan en Diseño UX. Para Pareti S.A estuve a cargo del diseño web de su sitio principal y de los 4 e-commerce del holding, diseñando piezas gráficas y audiovisuales y reduciendo los procesos de compra desde la experiencia usuaria de los clientes web. Constantemente actualizando su contenido y desarrollando un análisis interpretativo entre campañas de pago, interacciones web, benchmarking de la competencia y otros datos en pos de una mejor experiencia usuaria.",
+    learnings: paretiKhuroGallery.campaigns.map(
+      (campaign) => `${campaign.label}: ${campaign.vimeo}`
+    ),
+    mockups: paretiMockupUrls(),
+  },
+};
+
+const numerosNoExistenProject: EnhancedProject = {
+  id: "numeros-no-existen",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: khuroNumeros?.role ?? "Los Números No Existen",
+  period: "2019",
+  projectName: "Los Números No Existen",
+  description:
+    khuroNumeros?.description ??
+    "Poemario autogestionado de poesía viajera, diseñado para móviles y creado bajo código abierto.",
+  descriptionEN:
+    "Los números no existen is a self-managed poetry collection that compiles years of travel poetry. Its design is made for mobile and was created under an open-source philosophy.",
+  image: khuroNumeros?.image,
+  tags: [...(khuroNumeros?.tags ?? ["Poesía", "Open source"])],
+  externalLink: "https://khuro.pb.online/portafolio",
+  details: {
+    challenge:
+      "Los números no existen es un poemario autogestionado, que compila años de poesía viajera.",
+    solution:
+      "Su diseño está pensado para móviles y fue creado bajo la filosofía del código abierto.",
+  },
+};
+
+const sushiDelMarProject: EnhancedProject = {
+  id: "sushi-del-mar",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: khuroSushi?.role ?? "Fotógrafo de productos",
+  period: "—",
+  projectName: "Sushi del Mar",
+  description:
+    khuroSushi?.description ??
+    "Sesiones de foodstyling para productos gourmet en canales digitales.",
+  descriptionEN:
+    "Food-styling sessions for Sushi del Mar gourmet products on digital channels.",
+  image: khuroSushi?.image,
+  tags: [...(khuroSushi?.tags ?? ["Foodstyling", "Producto"])],
+  externalLink: khuroSushi?.href,
+  details: {
+    challenge:
+      "Productos gourmet que necesitaban verse con fidelidad en canales digitales.",
+    solution:
+      "Sesiones de foodstyling de producto para Sushi del Mar.",
+    mockups: khuroSushi?.image ? [khuroSushi.image] : undefined,
+  },
+};
+
+const traduccionSaberesProject: EnhancedProject = {
+  id: "traduccion-saberes",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Director",
+  period: "Ago 2017 — Actualidad",
+  projectName: "Traducción de Saberes",
+  description:
+    khuroSaberes?.description ??
+    "Etnografía audiovisual sobre leyes y modelos económicos en contradicción con culturas ancestrales.",
+  descriptionEN:
+    "Audiovisual ethnography that seeks to understand the material reality produced by laws and economic models in contradiction with ancestral cultures, as an online documentary series.",
+  image: khuroSaberes?.image,
+  tags: [...(khuroSaberes?.tags ?? ["Documental", "Etnografía"])],
+  externalLink: khuroSaberes?.href,
+  details: {
+    challenge:
+      "Comprender la realidad material que producen leyes y modelos económicos en contradicción con culturas ancestrales.",
+    solution:
+      "Serie documental online de etnografía audiovisual.",
+    mockups: khuroSaberes?.image ? [khuroSaberes.image] : undefined,
+  },
+};
+
+const darandarProject: EnhancedProject = {
+  id: "darandar",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Director de Fotografía",
+  period: "Abr 2019 — May 2019",
+  projectName: "Darandar",
+  description:
+    khuroDarandar?.description ??
+    "Cortometraje audiovisual en torno a la escasez hídrica en la región de Valparaíso.",
+  descriptionEN:
+    "Short film about water scarcity in the Valparaíso region, made for the Sala Negra intervention in 2019.",
+  image: khuroDarandar?.image,
+  tags: [...(khuroDarandar?.tags ?? ["Cine", "Dirección de fotografía"])],
+  externalLink: khuroDarandar?.href,
+  details: {
+    challenge:
+      "Escasez hídrica en Valparaíso como materia de una intervención en Sala Negra (2019).",
+    solution:
+      "Cortometraje con dirección de fotografía, junto a la performance de Andreí Liberana dirigida por Karen Klaassen.",
+    mockups: khuroDarandar?.image ? [khuroDarandar.image] : undefined,
+  },
+};
+
+const artistasResistenciaProject: EnhancedProject = {
+  id: "artistas-resistencia",
+  company: "Viento Norte",
+  companyLogo: portfolioImages.brands.vientoNorte,
+  role: "Documentalista",
+  period: "Oct 2019",
+  projectName: "Artistas en Resistencia",
+  description:
+    khuroArtistas?.description ??
+    "Cápsula audiovisual del colectivo Artistas en Resistencia durante el 18-O en Valparaíso.",
+  descriptionEN:
+    "Audiovisual capsule of the Artistas en Resistencia collective during 18-O in Valparaíso.",
+  image: khuroArtistas?.image,
+  tags: [...(khuroArtistas?.tags ?? ["Documental", "18-O", "Valparaíso"])],
+  externalLink: khuroArtistas?.href,
+  details: {
+    challenge:
+      "Documentar procesos constituyentes autoconvocados en Valparaíso durante el 18-O.",
+    solution:
+      "Cápsula audiovisual del colectivo Artistas en Resistencia.",
+    mockups: khuroArtistas?.image ? [khuroArtistas.image] : undefined,
+  },
+};
+
+
 // UX Tools Project
 const uxToolsProject: EnhancedProject = {
   id: "ux-tools",
@@ -772,11 +956,11 @@ const uxToolsProject: EnhancedProject = {
 };
 
 // Proyectos individuales (no agrupados por empresa)
-export const individualProjects: EnhancedProject[] = [uxToolsProject];
+export const individualProjects: EnhancedProject[] = [paretiProject, numerosNoExistenProject, sushiDelMarProject, traduccionSaberesProject, darandarProject, artistasResistenciaProject, uxToolsProject];
 
 // Todos los proyectos para backward compatibility
 export const allProjects = [
   ...suraHub.projects,
   ...transvipHub.projects,
-  uxToolsProject,
+  ...individualProjects,
 ];

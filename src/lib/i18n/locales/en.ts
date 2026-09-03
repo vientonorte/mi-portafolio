@@ -134,6 +134,7 @@ export default {
       title: 'Cases in progress',
       description: 'Visual evidence and metrics being added to the business hub.',
       status: 'Evidence in progress',
+      openFigma: 'Open in Figma',
     },
 
     uxAuditBanner: {

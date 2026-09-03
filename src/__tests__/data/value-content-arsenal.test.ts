@@ -44,8 +44,7 @@ const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "figjam-audit-board": "sura.hotjarDashboard",
   "consultoria-arbol": "framework.uxValueChain",
   "ux-analytics": "sura.analyticsGa4",
-  "transvip-product-vision": "transvip.productVision",
-  "sura-booking-flow": "sura.onboardingFlags",
+  "sura-booking-flow": "sura.riaOnboarding",
 };
 
 const IMAGE_PATH_SNIPPETS: Record<string, string> = {

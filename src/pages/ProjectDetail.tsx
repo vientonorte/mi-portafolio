@@ -27,6 +27,7 @@ import { canonicalFromPath, projectPageSeo } from "../lib/seo";
 import { getProjectSeoKeywords } from "../lib/project-metrics";
 import { FigmaEmbed } from "../components/molecules/FigmaEmbed";
 import type { FigmaEmbedConfig } from "../data/figma-embeds";
+import type { UpcomingFigmaLink } from "../data/upcoming-cases";
 
 interface ProcessApplied {
   id: string;
@@ -67,6 +68,7 @@ interface ProjectData {
   details?: Pick<ProjectDetails, "mockups">;
   externalLink?: string;
   figmaEmbed?: FigmaEmbedConfig;
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 // SURA enhanced project structure
@@ -99,6 +101,7 @@ interface EnhancedProject {
   details: ProjectDetails;
   externalLink?: string;
   figmaEmbed?: FigmaEmbedConfig;
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 interface ProjectDetailProps {
