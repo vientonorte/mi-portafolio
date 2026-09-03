@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Clock } from "lucide-react";
+import { Clock, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -62,6 +62,26 @@ export function UpcomingCaseCards() {
                       </Badge>
                     ))}
                   </div>
+                  {item.figmaLinks && item.figmaLinks.length > 0 ? (
+                    <ul className="mt-4 flex flex-col gap-2">
+                      {item.figmaLinks.map((link) => (
+                        <li key={link.url}>
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                            data-upcoming-figma={item.id}
+                            aria-label={`${t.openFigma}: ${link.label}`}
+                          >
+                            {t.openFigma}
+                            <span className="text-muted-foreground">· {link.label}</span>
+                            <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </CardContent>
               </Card>
             </motion.article>

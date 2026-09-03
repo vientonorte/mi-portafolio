@@ -16,13 +16,24 @@ const KNOWN_KEYS = [
   "UeFKuIVdcUcHEUw2NG9grC",
   "Ihb2NtY0rBWoAJgdEi7TPn",
   "HQvdOouznRM1x4xhCxpR1m",
+  "C2ZgaajABQa3NiFJTnFF45",
+  "XHlBZYksezyvxKCYAUON92",
+  "s5lLcHkNalH6p3LKCop7wT",
+  "OR8iCIpokgaPKjerCyZAKy",
+  "GkKsVobp04RD2rjGPJN7tv",
+] as const;
+
+const CLARO_ARCHIVE_KEYS = [
+  "lrMqvUERZjDwTwZpQRBSC5",
+  "D39xjsA7ObbhntcDEyPWQG",
+  "CBguM4Y5rIvc9TV5pGhOxL",
 ] as const;
 
 const FORBIDDEN = [/radar/i, /auditor[ií]a/i];
 
 describe("figma-calor", () => {
-  it("expone 5 items de calor conocidos, no un dump de Recents", () => {
-    expect(FIGMA_CALOR_VN).toHaveLength(5);
+  it("expone 10 items de calor conocidos, no un dump de Recents", () => {
+    expect(FIGMA_CALOR_VN).toHaveLength(10);
   });
 
   it("cablea solo las URLs conocidas (file keys) y abre figma.com, no embed", () => {
@@ -31,9 +42,10 @@ describe("figma-calor", () => {
       expect(urls.some((url) => url.includes(key))).toBe(true);
     }
     for (const item of FIGMA_CALOR_VN) {
-      expect(item.shareUrl).toMatch(/^https:\/\/www\.figma\.com\/(design|board)\//);
+      expect(item.shareUrl).toMatch(/^https:\/\/www\.figma\.com\/(design|board|make)\//);
       expect(item.shareUrl).not.toContain("embed.figma.com");
-      expect(["board", "slides", "design"]).toContain(item.kind);
+      expect(item.shareUrl).not.toContain("?t=");
+      expect(["board", "slides", "design", "make"]).toContain(item.kind);
     }
   });
 
@@ -47,6 +59,15 @@ describe("figma-calor", () => {
     expect(byId["calor-vn-skills-dashboard"]?.surfaces).toEqual(["docs-vn", "vn-agent"]);
     expect(byId["calor-vn-arquitectura-live"]?.surfaces).toEqual(["docs-vn"]);
     expect(byId["calor-vn-cliente-entregables"]?.surfaces).toEqual(["lead-a11y-vn"]);
+    expect(byId["calor-vn-campaign-assets-a11y"]?.surfaces).toEqual(["google-ads-vn"]);
+    expect(byId["calor-vn-log-visual"]?.surfaces).toEqual(["docs-vn"]);
+  });
+
+  it("no mete archivo Claro ni MASCOTAPP en el strip de calor VN", () => {
+    const urls = FIGMA_CALOR_VN.map((item) => item.shareUrl).join("\n");
+    for (const key of CLARO_ARCHIVE_KEYS) {
+      expect(urls).not.toContain(key);
+    }
   });
 
   it("copy ES/EN sin Radar ni Auditoría como producto, y sin métricas falsas", () => {

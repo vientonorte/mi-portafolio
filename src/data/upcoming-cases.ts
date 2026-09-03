@@ -1,5 +1,10 @@
 import type { Language } from "../lib/i18n";
 
+export interface UpcomingFigmaLink {
+  label: string;
+  url: string;
+}
+
 export interface UpcomingCase {
   id: string;
   company: string;
@@ -7,6 +12,7 @@ export interface UpcomingCase {
   description: Record<Language, string>;
   period: string;
   tags: string[];
+  figmaLinks?: UpcomingFigmaLink[];
 }
 
 export const upcomingCases: UpcomingCase[] = [
@@ -23,6 +29,16 @@ export const upcomingCases: UpcomingCase[] = [
     },
     period: "Nov 2021 — Abr 2022",
     tags: ["Agency", "Telecom", "B2B"],
+    figmaLinks: [
+      {
+        label: "Tienda Claro 2021",
+        url: "https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021",
+      },
+      {
+        label: "Portal Comercial Claro",
+        url: "https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro",
+      },
+    ],
   },
   {
     id: "ibm-portal",
@@ -35,7 +51,7 @@ export const upcomingCases: UpcomingCase[] = [
       es: "Entregables HTML/CSS y UX para portal remoto — evidencia visual en preparación.",
       en: "HTML/CSS and UX deliverables for a remote portal — visual evidence in progress.",
     },
-    period: "Freelance",
+    period: "Viento Norte",
     tags: ["Enterprise", "Web", "Remote"],
   },
   {

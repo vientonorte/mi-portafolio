@@ -6,7 +6,7 @@
 import type { FigmaEmbedCopy } from "./figma-embeds";
 import { NEWS_CATALOG } from "./news-editions";
 
-export type FigmaCalorKind = "board" | "slides" | "design";
+export type FigmaCalorKind = "board" | "slides" | "design" | "make";
 
 export interface FigmaCalorItem {
   id: string;
@@ -38,6 +38,7 @@ export function figmaCalorKindLabel(
 ): string {
   if (kind === "board") return "FigJam";
   if (kind === "slides") return "Figma Slides";
+  if (kind === "make") return "Figma Make";
   void language;
   return "Figma Design";
 }
@@ -50,6 +51,11 @@ const OPEN_FIGMA = {
 const OPEN_FIGJAM = {
   es: "Abrir FigJam en nueva pestaña",
   en: "Open FigJam in a new tab",
+} as const;
+
+const OPEN_MAKE = {
+  es: "Abrir Figma Make",
+  en: "Open Figma Make",
 } as const;
 
 /** Dashboard 10 Skills → docs-vn / vn-agent */
@@ -185,6 +191,137 @@ export const CALOR_VN_NEWS_COVERS: FigmaCalorItem = {
   },
 };
 
+/** VN Campaign assets piloto a11y → google-ads-vn */
+export const CALOR_VN_CAMPAIGN_ASSETS_A11Y: FigmaCalorItem = {
+  id: "calor-vn-campaign-assets-a11y",
+  kind: "design",
+  shareUrl:
+    "https://www.figma.com/design/C2ZgaajABQa3NiFJTnFF45/VN-·-Campaign-assets-·-piloto-a11y",
+  surfaces: ["google-ads-vn"],
+  copy: {
+    es: {
+      title: "VN · Campaign assets · piloto a11y",
+      subtitle: "Assets de campaña VN — piloto de accesibilidad en diseño",
+      embedTitle: "Figma Design — VN Campaign assets piloto a11y",
+      embedDescription:
+        "Assets de campaña VN. Ábrelo en Figma; el draft no se embebe.",
+      openLabel: OPEN_FIGMA.es,
+    },
+    en: {
+      title: "VN · Campaign assets · a11y pilot",
+      subtitle: "VN campaign assets — accessibility pilot in design",
+      embedTitle: "Figma Design — VN Campaign assets a11y pilot",
+      embedDescription:
+        "VN campaign assets. Open it in Figma; the draft is not embedded.",
+      openLabel: OPEN_FIGMA.en,
+    },
+  },
+};
+
+/** VN LOG visual → docs-vn */
+export const CALOR_VN_LOG_VISUAL: FigmaCalorItem = {
+  id: "calor-vn-log-visual",
+  kind: "board",
+  shareUrl: "https://www.figma.com/board/XHlBZYksezyvxKCYAUON92/VN-LOG-visual",
+  surfaces: ["docs-vn"],
+  copy: {
+    es: {
+      title: "VN LOG visual",
+      subtitle: "Tablero FigJam del log visual Viento Norte",
+      embedTitle: "FigJam — VN LOG visual",
+      embedDescription:
+        "Log visual VN. Ábrelo en Figma; el draft no se embebe.",
+      openLabel: OPEN_FIGJAM.es,
+    },
+    en: {
+      title: "VN visual log",
+      subtitle: "FigJam board of the Viento Norte visual log",
+      embedTitle: "FigJam — VN visual log",
+      embedDescription:
+        "VN visual log. Open it in Figma; the draft is not embedded.",
+      openLabel: OPEN_FIGJAM.en,
+    },
+  },
+};
+
+/** Dashboard Escenarios Demanda SURA */
+export const CALOR_VN_ESCENARIOS_DEMANDA_SURA: FigmaCalorItem = {
+  id: "calor-vn-escenarios-demanda-sura",
+  kind: "design",
+  shareUrl:
+    "https://www.figma.com/design/s5lLcHkNalH6p3LKCop7wT/Dashboard-Escenarios-Demanda-SURA---Viento-Norte",
+  copy: {
+    es: {
+      title: "Dashboard Escenarios Demanda SURA",
+      subtitle: "Escenarios de demanda SURA — archivo de diseño VN",
+      embedTitle: "Figma Design — Dashboard Escenarios Demanda SURA",
+      embedDescription:
+        "Escenarios de demanda SURA. Ábrelo en Figma; el draft no se embebe.",
+      openLabel: OPEN_FIGMA.es,
+    },
+    en: {
+      title: "SURA demand scenarios dashboard",
+      subtitle: "SURA demand scenarios — VN design file",
+      embedTitle: "Figma Design — SURA demand scenarios dashboard",
+      embedDescription:
+        "SURA demand scenarios. Open it in Figma; the draft is not embedded.",
+      openLabel: OPEN_FIGMA.en,
+    },
+  },
+};
+
+/** Design System — Figma Make */
+export const CALOR_VN_DESIGN_SYSTEM_MAKE: FigmaCalorItem = {
+  id: "calor-vn-design-system-make",
+  kind: "make",
+  shareUrl:
+    "https://www.figma.com/make/OR8iCIpokgaPKjerCyZAKy/Rodrigo-Gaete---Desing-System",
+  copy: {
+    es: {
+      title: "Design System",
+      subtitle: "Sistema de diseño — prototipo Figma Make",
+      embedTitle: "Figma Make — Design System",
+      embedDescription:
+        "Sistema de diseño VN. Ábrelo en Figma Make; el draft no se embebe.",
+      openLabel: OPEN_MAKE.es,
+    },
+    en: {
+      title: "Design System",
+      subtitle: "Design system — Figma Make prototype",
+      embedTitle: "Figma Make — Design System",
+      embedDescription:
+        "VN design system. Open it in Figma Make; the draft is not embedded.",
+      openLabel: OPEN_MAKE.en,
+    },
+  },
+};
+
+/** Downloadable Map Module — Figma Make */
+export const CALOR_VN_MAP_MODULE_MAKE: FigmaCalorItem = {
+  id: "calor-vn-map-module-make",
+  kind: "make",
+  shareUrl:
+    "https://www.figma.com/make/GkKsVobp04RD2rjGPJN7tv/Downloadable-Map-Module",
+  copy: {
+    es: {
+      title: "Downloadable Map Module",
+      subtitle: "Módulo de mapa descargable — prototipo Figma Make",
+      embedTitle: "Figma Make — Downloadable Map Module",
+      embedDescription:
+        "Módulo de mapa VN. Ábrelo en Figma Make; el draft no se embebe.",
+      openLabel: OPEN_MAKE.es,
+    },
+    en: {
+      title: "Downloadable Map Module",
+      subtitle: "Downloadable map module — Figma Make prototype",
+      embedTitle: "Figma Make — Downloadable Map Module",
+      embedDescription:
+        "VN map module. Open it in Figma Make; the draft is not embedded.",
+      openLabel: OPEN_MAKE.en,
+    },
+  },
+};
+
 /** Strip corto: solo calor conocido. No dumps de Recents (72 drafts). */
 export const FIGMA_CALOR_VN: readonly FigmaCalorItem[] = [
   CALOR_VN_SKILLS_DASHBOARD,
@@ -192,4 +329,9 @@ export const FIGMA_CALOR_VN: readonly FigmaCalorItem[] = [
   CALOR_VN_ARQUITECTURA_LIVE,
   CALOR_VN_CLIENTE_ENTREGABLES,
   CALOR_VN_NEWS_COVERS,
+  CALOR_VN_CAMPAIGN_ASSETS_A11Y,
+  CALOR_VN_LOG_VISUAL,
+  CALOR_VN_ESCENARIOS_DEMANDA_SURA,
+  CALOR_VN_DESIGN_SYSTEM_MAKE,
+  CALOR_VN_MAP_MODULE_MAKE,
 ];
