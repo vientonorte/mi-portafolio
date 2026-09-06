@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import es from "../../lib/i18n/locales/es";
 import en from "../../lib/i18n/locales/en";
@@ -59,12 +59,11 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareHome).toContain('name="description"');
     expect(shareHome).toMatch(/Tecnología para empresas:/);
     expect(shareHome).toContain('rel="canonical" href="https://vientonorte.io/"');
-    expect(shareHome).toContain('content="5;url=https://vientonorte.io/"');
+    expect(shareHome).not.toContain("http-equiv=\"refresh\"");
+    expect(shareHome).not.toContain("location.replace(");
     expect(shareHome).toContain("GTM-PM5LBQRP");
     expect(shareHome).toContain("googletagmanager.com/gtm.js?id=");
     expect(shareHome).not.toContain("gtag/js?id=");
-    expect(shareHome).toContain("gtm_debug");
-    expect(shareHome).toContain("tagassistant");
   });
 
   it("share consultoria has H1, three paths, query, and no hash canonical", () => {
@@ -82,12 +81,11 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareConsultoria).not.toContain(
       'rel="canonical" href="https://vientonorte.io/#/consultoria"'
     );
-    expect(shareConsultoria).toContain(
-      'content="5;url=https://vientonorte.io/#/consultoria"'
-    );
+    expect(shareConsultoria).not.toContain("http-equiv=\"refresh\"");
+    expect(shareConsultoria).not.toContain("location.replace(");
   });
 
-  it("share proceso has method H1, five phases, /s/canonical, hop to hash", () => {
+  it("share proceso has method H1, five phases, /s/canonical, no hash hop", () => {
     expect(shareProceso).toMatch(/<h1>\s*Diseño que reduce el ruido\s*<\/h1>/);
     for (const phase of [
       "UX Analytics",
@@ -107,9 +105,8 @@ describe("SEO P0 · crawler HTML /s/", () => {
     expect(shareProceso).not.toContain(
       'rel="canonical" href="https://vientonorte.io/#/proceso"'
     );
-    expect(shareProceso).toContain(
-      'content="5;url=https://vientonorte.io/#/proceso"'
-    );
+    expect(shareProceso).not.toContain("http-equiv=\"refresh\"");
+    expect(shareProceso).not.toContain("location.replace(");
     expect(shareProceso).toContain("og-proceso-1200.png");
     expect(shareProceso).toContain("GTM-PM5LBQRP");
     expect(shareProceso).not.toContain("gtag.js");
@@ -161,8 +158,8 @@ describe("SEO P0 · sitemap HTTP only", () => {
   });
 });
 
-describe("SEO P0 · news hops", () => {
-  it("index has H1, three topics, /s/ canonical, hop to hash", () => {
+describe("SEO P0 · news share HTML", () => {
+  it("index has H1, three topics, /s/ canonical, no hash hop", () => {
     expect(shareNews).toMatch(
       /<h1>\s*Privacidad, automatización y accesibilidad para empresas\s*<\/h1>/
     );
@@ -172,7 +169,8 @@ describe("SEO P0 · news hops", () => {
     expect(shareNews).toContain(
       'rel="canonical" href="https://vientonorte.io/s/news/"'
     );
-    expect(shareNews).toContain('content="5;url=https://vientonorte.io/#/news"');
+    expect(shareNews).not.toContain("http-equiv=\"refresh\"");
+    expect(shareNews).not.toContain("location.replace(");
     expect(shareNews).toContain("GTM-PM5LBQRP");
     expect(shareNews).not.toContain("gtag.js");
     expect(shareNews).not.toMatch(/Radar/i);
@@ -192,5 +190,29 @@ describe("SEO P0 · news hops", () => {
     );
     expect(shareNewsA11y).not.toContain("CPC");
     expect(shareNewsA11y).not.toMatch(/Radar/i);
+    expect(shareNewsA11y).not.toContain("http-equiv=\"refresh\"");
+    expect(shareNewsA11y).not.toContain("location.replace(");
+  });
+});
+
+describe("SEO P0 · public/s/** stays on the share URL", () => {
+  it("has no meta-refresh or location.replace in any share HTML", () => {
+    const shareRoot = resolve(root, "public/s");
+    const files: string[] = [];
+    const walk = (dir: string) => {
+      for (const name of readdirSync(dir)) {
+        const p = join(dir, name);
+        if (statSync(p).isDirectory()) walk(p);
+        else if (name.endsWith(".html")) files.push(p);
+      }
+    };
+    walk(shareRoot);
+    expect(files.length).toBeGreaterThan(3);
+    for (const file of files) {
+      const html = readFileSync(file, "utf8");
+      const rel = relative(root, file);
+      expect(html.includes("http-equiv=\"refresh\""), rel).toBe(false);
+      expect(html.includes("location.replace("), rel).toBe(false);
+    }
   });
 });

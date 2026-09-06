@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-06] — GSC: `/s/` estático, sin hop a hash
+
+### Fixed
+- Páginas crawler `public/s/**` ya no hacen meta-refresh 5s ni `location.replace` a `/#/…`. Canonical `/s/…` se queda; Google no ve redirect a hash (Error de redirección). SPA sigue en `/#/…` vía link humano.
+- Mismo corte en `scripts/build-news-hops.py` (regenera news) y `worker/src/api/share.js`.
+- `/s/` home: sin hop a apex. Sitemap sigue omitiendo esa loc.
+
+### Not
+- Ship Pages = merge a `main` + Decider. Este cambio no wrangler.
+
+---
+
 ## [2026-08-28] — CI Tests + sitemap `/s/`
 
 ### Fixed

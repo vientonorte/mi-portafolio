@@ -31,8 +31,6 @@ function html(page) {
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta http-equiv="refresh" content="5;url=${page.dest}">
-<script>location.replace(${JSON.stringify(page.dest)})</script>
 </head><body>
 <main>
 <h1>Tecnología para empresas</h1>
