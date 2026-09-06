@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Generate crawler hops /s/news and /news from src/data/news-editions.json. 0 LLM."""
+"""Generate static crawler HTML /s/news and /news from src/data/news-editions.json. 0 LLM.
+No timed hop to /#/ — GSC treats that as a redirect error.
+SPA stays at /#/news; crawlers index /s/news.
+"""
 from __future__ import annotations
 
 import html
@@ -41,29 +44,7 @@ def hop_html(*, title: str, description: str, canonical: str, hash_path: str, h1
         f.parentNode.insertBefore(j, f);
       }})(window, document, "script", "dataLayer", "{GTM}");
     </script>
-    <meta http-equiv="refresh" content="5;url=https://vientonorte.io/#{hash_path}" />
-    <script>
-      (function () {{
-        var q = window.location.search || "";
-        var ref = document.referrer || "";
-        var ua = navigator.userAgent || "";
-        var stay =
-          /[?&](gtm_debug|gtm_preview|gtm_auth|g_gtm)=/i.test(q) ||
-          /tagassistant\\.google\\.com/i.test(ref) ||
-          /Google-Ads|AdsBot-Google|Google Tag Assistant|Google-InspectionTool|Storebot-Google/i.test(
-            ua
-          );
-        if (stay) {{
-          var meta = document.querySelector('meta[http-equiv="refresh"]');
-          if (meta) meta.parentNode.removeChild(meta);
-          return;
-        }}
-        var dest = "https://vientonorte.io/" + q + "#{hash_path}" + q;
-        window.setTimeout(function () {{
-          window.location.replace(dest);
-        }}, 1500);
-      }})();
-    </script>
+    <!-- SPA {hash_path} is separate. Do not auto-redirect this share URL to hash. -->
   </head>
   <body>
     <noscript

@@ -18,16 +18,10 @@ describe("share /s/consultoria GTM", () => {
     expect(html).not.toContain("gtag/js?id=GT-");
   });
 
-  it("keeps Ads click IDs on the funnel redirect", () => {
-    expect(html).toContain("location.search");
-    expect(html).toContain("#/consultoria");
-  });
-
-  it("stays on /s/consultoria for Tag Assistant and coverage bots", () => {
-    expect(html).toContain("tagassistant");
-    expect(html).toContain("gtm_debug");
-    expect(html).toContain("AdsBot-Google");
-    expect(html).toMatch(/if \(stay\)/);
+  it("does not hop to /#/consultoria (GSC redirect error)", () => {
+    expect(html).not.toContain("http-equiv=\"refresh\"");
+    expect(html).not.toContain("location.replace(");
+    expect(html).not.toContain("location.search");
   });
 
   it("includes the official GTM noscript iframe with accessible title", () => {

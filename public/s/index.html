@@ -29,9 +29,9 @@
       content="https://vientonorte.io/images/branding/og-home-1200.png"
     />
     <!--
-      Index /s/ is a hop to home. GTM coverage crawler flags it untagged
-      unless gtm.js is in this HTML. Same container as /s/consultoria.
-      No gtag paralelo (duplica page_view).
+      /s/ is static share HTML (sitemap omits this loc; canonical is home).
+      No timed hop to apex or hash — GSC treats that as a redirect error.
+      GTM coverage: same container as /s/consultoria. No gtag paralelo.
     -->
     <script>
       (function (w, d, s, l, i) {
@@ -44,28 +44,6 @@
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-PM5LBQRP");
-    </script>
-    <meta http-equiv="refresh" content="5;url=https://vientonorte.io/" />
-    <script>
-      (function () {
-        var q = window.location.search || "";
-        var ref = document.referrer || "";
-        var ua = navigator.userAgent || "";
-        var stay =
-          /[?&](gtm_debug|gtm_preview|gtm_auth|g_gtm)=/i.test(q) ||
-          /tagassistant\.google\.com/i.test(ref) ||
-          /Google-Ads|AdsBot-Google|Google Tag Assistant|Google-InspectionTool|Storebot-Google/i.test(
-            ua
-          );
-        if (stay) {
-          var meta = document.querySelector('meta[http-equiv="refresh"]');
-          if (meta) meta.parentNode.removeChild(meta);
-          return;
-        }
-        window.setTimeout(function () {
-          window.location.replace("https://vientonorte.io/" + q);
-        }, 1500);
-      })();
     </script>
   </head>
   <body>
