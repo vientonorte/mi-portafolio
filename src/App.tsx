@@ -74,7 +74,6 @@ function RouterNavigation() {
     <Navigation
       onNavigateToDesignSystem={() => navigate(ROUTES.designSystem)}
       onNavigateToCaseStudies={() => navigate(ROUTES.process)}
-      onNavigateToAuditoria={() => navigate('/auditoria')}
     />
   );
 }

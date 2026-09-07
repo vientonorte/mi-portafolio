@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-07] — Nav: `nav_click` GTM · sin acceso Auditoría
+
+### Added
+- Clics de header / drawer / dock empujan `nav_click` al dataLayer (`nav_id`, `nav_kind`, `nav_target`) para CE GTM.
+
+### Removed
+- Acceso nav a `/#/auditoria`: fuera del registry, callbacks y `App`. La ruta sigue noIndex (muestra mentoría), no enlazada desde chrome.
+
+---
+
 ## [2026-09-07] — GSC: legado `/mi-portafolio` y `/poc` sin hop a hash
 
 ### Fixed

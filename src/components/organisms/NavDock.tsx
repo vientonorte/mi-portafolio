@@ -37,7 +37,6 @@ export function NavDock({ variant }: NavDockProps) {
     projects: t.nav.projects,
     experience: t.nav.experience,
     consulting: t.nav.consulting,
-    audit: t.nav.audit,
     contact: t.nav.contact,
     about: t.nav.about,
     designSystem: t.nav.designSystem,
