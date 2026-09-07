@@ -192,6 +192,7 @@ jobs:
 
           node scripts/qa-routes.mjs http://127.0.0.1:4173
           node scripts/qa-prototypes.mjs http://127.0.0.1:4173
+          node scripts/qa-hash-ui.mjs http://127.0.0.1:4173
 
   a11y:
     name: Accesibilidad WCAG AA

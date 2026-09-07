@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-07] — QA HashRouter UI (`/#/` only)
+
+### Added
+- `scripts/qa-hash-ui.mjs` + `npm run qa:hash-ui`: Playwright sobre `/#/`, `/#/consultoria`, `/#/proceso`, `/#/design-system` (local `:3000` y live). Nunca `/s/`. Entra al gate preprod y a CI `qa-routes`.
+
+---
+
 ## [2026-09-07] — Nav: `nav_click` GTM · sin acceso Auditoría
 
 ### Added

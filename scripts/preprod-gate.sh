@@ -151,6 +151,24 @@ if [[ "$QUICK" -eq 0 && -d dist ]]; then
   trap - EXIT
 fi
 
+# ── L3b: HashRouter UI (canon humano /#/ · nunca /s/) ──────────
+echo ""
+echo "── hash-ui playwright ──"
+HASH_LOCAL="${HASH_UI_BASE:-http://localhost:3000}"
+if curl -sf -o /dev/null --max-time 3 "$HASH_LOCAL/" || curl -sf -o /dev/null --max-time 3 "$HASH_LOCAL"; then
+  if node scripts/qa-hash-ui.mjs "$HASH_LOCAL" "https://vientonorte.io"; then
+    ok "qa:hash-ui $HASH_LOCAL + live"
+  else
+    bad "qa:hash-ui"
+  fi
+else
+  if node scripts/qa-hash-ui.mjs "https://vientonorte.io"; then
+    ok "qa:hash-ui live (local $HASH_LOCAL down)"
+  else
+    bad "qa:hash-ui live"
+  fi
+fi
+
 # ── L4: Playwright routes (optional) ───────────────────────────
 if [[ "$WITH_ROUTES" -eq 1 ]]; then
   if [[ ! -d dist ]]; then
