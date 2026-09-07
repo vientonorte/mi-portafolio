@@ -14,6 +14,6 @@ export const BRAND_MARK = {
 } as const;
 
 export const BRAND_GRADIENT_STOPS = [
-  { offset: 0, color: "#FF1D25" },
-  { offset: 1, color: "#FF931E" },
+  { offset: 0, color: "#E8401C" },
+  { offset: 1, color: "#1A8FDC" },
 ] as const;

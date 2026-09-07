@@ -1286,9 +1286,9 @@ export default {
     caseStudies: {
       hero: {
         badge: 'Método en producción',
-        tagline: 'Diseño que reduce el ruido.',
-        title: 'Proceso UX basado en mejora continua',
-        description: '5 macroprocesos aplicados en entornos reales — SURA, Transvip y Karri — con resultados medibles en onboarding, activación y NPS.',
+        tagline: 'Proceso UX · Viento Norte',
+        title: 'Diseño que reduce el ruido',
+        description: '5 fases sobre tu CMS o CRM: analytics, research, diseño, testing, refinamiento. El dato y el tenant son tuyos. Diagnóstico 5–7 días; gratis, accesibilidad de un flujo.',
         metricsTitle: 'Resultados en producción',
         stats: {
           processes: 'Macroprocesos',
@@ -1302,7 +1302,7 @@ export default {
         challenge: 'El Desafío',
         process: 'Los 5 Procesos',
         valueChain: 'Cadena de Valor',
-        cta: 'Negocios',
+        cta: 'Consultoría',
       },
       challenge: {
         badge: 'El Desafío',
@@ -1318,7 +1318,7 @@ export default {
         phaseNames: ['Analytics', 'Research', 'Design', 'Testing', 'Refinamiento'],
       },
       process: {
-        badge: 'Mi Proceso',
+        badge: 'Método',
         title: 'Los 5 macroprocesos',
         flowTitle: 'Flujo de Mejora Continua',
         description: 'Cada fase está pensada para agregar valor mediante mejora continua y validación constante.',
@@ -1399,12 +1399,12 @@ export default {
         ],
       },
       cta: {
-        viewProjects: 'Explorar negocios',
+        viewProjects: 'Ver casos',
         consulting: 'Agendar diagnóstico',
-        backToPortfolio: 'Volver al portfolio',
-        sectionLabel: 'Negocios reales',
-        title: '¿Quieres ver este framework en acción?',
-        description: 'Explora los casos completos por negocio donde apliqué esta metodología en SURA, Transvip y Karri. La entrada paid sigue siendo diagnóstico / accesibilidad de un flujo.',
+        backToPortfolio: 'Inicio',
+        sectionLabel: 'Consultoría',
+        title: 'El mismo método, en tu stack',
+        description: 'Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Sobre tu CMS o CRM — el tenant sigue siendo tuyo.',
       },
     },
 

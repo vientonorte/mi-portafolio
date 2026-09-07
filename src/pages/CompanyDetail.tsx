@@ -433,7 +433,7 @@ export default function CompanyDetail({
           <div className="container max-w-7xl mx-auto">
             <SectionDivider 
               number="02" 
-              label={language === "es" ? "Mi Proceso" : "My Process"} 
+              label={language === "es" ? "Método" : "Method"} 
               sectionId="process"
               language={language}
             />

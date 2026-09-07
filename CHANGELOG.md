@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-06] — Tokens VN en FO + valor en proceso
+
+### Changed
+- Paleta runtime (`globals.css` / `design-tokens.ts` / isologo): deja `#FF1D25/#FF931E` y usa `@vientonorte/tokens` (rojo `#E8401C` · azul-evo `#1A8FDC`). Links/`--primary` = azul-evo.
+- `/#/proceso`: H1 **Diseño que reduce el ruido**; CTA consultoría no «Negocios». News: lead sin jerga PAUSED.
+
+### Not
+- Canon UI = HashRouter (`/#/proceso`), no `/s/proceso/index.html`.
+
+---
+
 ## [2026-09-06] — `/s/` chrome VN (DS + landmarks)
 
 ### Fixed

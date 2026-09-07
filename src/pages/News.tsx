@@ -41,8 +41,8 @@ function NewsIndex() {
           </SectionTitle>
           <p className="section-header__description max-w-2xl">
             {es
-              ? "Ediciones mensuales. SSOT en este sitio; LinkedIn importa el cuerpo. Sin KPI que no esté en un hub público. Paid LinkedIn PAUSED."
-              : "Monthly editions. SSOT on this site; LinkedIn imports the body. No KPI that is not on a public hub. LinkedIn ads PAUSED."}
+              ? "Ediciones mensuales: privacidad, automatización y accesibilidad. Casos públicos, sin KPI inventados."
+              : "Monthly editions: privacy, automation, and accessibility. Public cases only — no invented KPIs."}
           </p>
         </div>
 

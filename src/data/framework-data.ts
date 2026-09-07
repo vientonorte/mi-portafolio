@@ -45,7 +45,7 @@ export const frameworkPhases: FrameworkPhase[] = [
     descriptionEN: "Quantitative and qualitative analysis of user behavior. Establishing KPIs and success metrics that guide the entire design process.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
     icon: "BarChart3",
-    color: "#FF1D25",
+    color: "#E8401C",
     objectives: [
       "Identificar métricas clave del negocio y usuarios",
       "Establecer baseline de performance actual",
@@ -384,7 +384,7 @@ export const frameworkPhases: FrameworkPhase[] = [
     descriptionEN: "Design never ends. Post-launch monitoring, success metrics analysis, new opportunity identification and iterative improvement cycles.",
     image: "https://images.unsplash.com/photo-1580070558439-b2696af4600d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
     icon: "RefreshCw",
-    color: "#FF931E",
+    color: "#1A8FDC",
     objectives: [
       "Monitorear impacto real de los cambios implementados",
       "Identificar nuevas oportunidades de mejora",

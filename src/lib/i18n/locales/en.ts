@@ -1303,9 +1303,9 @@ export default {
     caseStudies: {
       hero: {
         badge: 'Method in production',
-        tagline: 'Design that cuts the noise.',
-        title: 'UX Process based on continuous improvement',
-        description: '5 macro-processes applied in real environments — SURA, Transvip, and Karri — with measurable results in onboarding, activation, and NPS.',
+        tagline: 'UX process · Viento Norte',
+        title: 'Design that cuts the noise',
+        description: 'Five phases on your CMS or CRM: analytics, research, design, testing, refinement. Your data and tenant stay yours. Diagnostic in 5–7 days; free, accessibility of one flow.',
         metricsTitle: 'Production results',
         stats: {
           processes: 'Macro-processes',
@@ -1319,7 +1319,7 @@ export default {
         challenge: 'The Challenge',
         process: 'The 5 Processes',
         valueChain: 'Value Chain',
-        cta: 'Business',
+        cta: 'Consulting',
       },
       challenge: {
         badge: 'The Challenge',
@@ -1335,7 +1335,7 @@ export default {
         phaseNames: ['Analytics', 'Research', 'Design', 'Testing', 'Refinement'],
       },
       process: {
-        badge: 'My Process',
+        badge: 'Method',
         title: 'The 5 macro-processes',
         flowTitle: 'Continuous Improvement Flow',
         description: 'Each phase is designed to add value through continuous improvement and constant validation.',
@@ -1416,12 +1416,12 @@ export default {
         ],
       },
       cta: {
-        viewProjects: 'Explore business',
+        viewProjects: 'View cases',
         consulting: 'Book a diagnostic',
-        backToPortfolio: 'Back to portfolio',
-        sectionLabel: 'Real business',
-        title: 'Want to see this framework in action?',
-        description: 'Explore full cases by business where I applied this methodology at SURA, Transvip, and Karri. Paid entry stays diagnostic / accessibility of one flow.',
+        backToPortfolio: 'Home',
+        sectionLabel: 'Consulting',
+        title: 'The same method, on your stack',
+        description: 'Diagnostic in 5–7 days. Free: accessibility of one flow. On your CMS or CRM — the tenant stays yours.',
       },
     },
 
