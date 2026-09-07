@@ -790,8 +790,8 @@ export default {
             id: 'auditoria',
             title: 'Revisar accesibilidad',
             hint: 'Checklist WCAG 2.2 AA y flujos críticos con evidencia documentada.',
-            href: 'route/auditoria',
-            badge: 'Auditoría',
+            href: 'route/radar-gratis',
+            badge: 'Gratis · a11y',
           },
         ],
         projectId: 'sura-ria-us',
@@ -816,7 +816,7 @@ export default {
         tabs: {
           negocios: 'Empresas',
           contacto: 'Reclutadores',
-          auditorias: 'Auditoría',
+          auditorias: 'Gratis',
         },
         suggestions: [
           {
