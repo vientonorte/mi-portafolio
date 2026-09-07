@@ -114,8 +114,8 @@ Prioridad = impacto en share + conversión, reutilizando el Worker + admin.
 URLs de share **sin `#`** (imprescindible para crawlers):
 
 ```
-https://vientonorte.io/s/consultoria  →  200 HTML con og:* de consultoría + redirect JS a /#/consultoria
-https://vientonorte.io/s/            →  home
+https://vientonorte.io/s/consultoria/  →  200 HTML estático (OG + GTM). Sin hop a /#/.
+https://vientonorte.io/s/             →  home (canonical apex; no está en el sitemap)
 ```
 
 Eso es un Worker o Pages function, no un cambio de Helmet.

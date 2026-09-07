@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-07] — GSC: legado `/mi-portafolio` y `/poc` sin hop a hash
+
+### Fixed
+- Live `/mi-portafolio/` devolvía el SPA (200 + `location.replace` a `/#/`) → GSC **Error de redirección**. Deploy ahora **pisa** `dist/mi-portafolio/` y `dist/poc/` con HTML de refresh HTTP (apex y `/s/consultoria/`), no el shell.
+- `/poc` ya no salta a `/#/consultoria`. Sitemap `lastmod` 2026-09-07 para recrawl de `/s/**` post-#241.
+
+### Not
+- `$0` Ads. GTM Preview sigue siendo gate humano (Chrome). No wrangler.
+
+---
+
 ## [2026-09-06] — Tokens VN en FO + valor en proceso
 
 ### Changed

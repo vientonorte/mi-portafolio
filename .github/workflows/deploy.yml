@@ -109,12 +109,27 @@ jobs:
             }
           fi
 
-      - name: SPA fallback + legacy /mi-portafolio redirect
+      - name: SPA fallback + legacy HTTP redirects (no hash hop)
         run: |
+          set -euo pipefail
           cp dist/index.html dist/404.html
-          mkdir -p dist/mi-portafolio
-          if [ ! -f dist/mi-portafolio/index.html ]; then
-            cp public/mi-portafolio/index.html dist/mi-portafolio/index.html
+          mkdir -p dist/mi-portafolio dist/poc
+          cp public/mi-portafolio/index.html dist/mi-portafolio/index.html
+          cp public/poc/index.html dist/poc/index.html
+          if grep -q 'id="root"' dist/mi-portafolio/index.html; then
+            echo "dist/mi-portafolio/index.html is SPA shell" >&2
+            exit 1
+          fi
+          if grep -q 'id="root"' dist/poc/index.html; then
+            echo "dist/poc/index.html is SPA shell" >&2
+            exit 1
+          fi
+          grep -q 'http-equiv="refresh"' dist/mi-portafolio/index.html
+          grep -q 'http-equiv="refresh"' dist/poc/index.html
+          grep -q '/s/consultoria/' dist/index.html
+          if grep -q 'location.origin + "/#/consultoria"' dist/index.html; then
+            echo "index.html still hops /poc to hash" >&2
+            exit 1
           fi
 
       - name: Bundle /ops from hub (preserve ops canvas)

@@ -7,17 +7,21 @@
         var p = location.pathname || "/";
         var q = location.search || "";
         if (p === "/mi-portafolio" || p.indexOf("/mi-portafolio/") === 0) {
-          var h = location.hash || "#/";
-          if (h.charAt(0) !== "#") h = "#" + h;
+          var h = location.hash || "";
           if (h.indexOf("#/mi-portafolio") === 0) {
             h = "#" + (h.slice("#/mi-portafolio".length) || "/");
           }
-          location.replace("https://vientonorte.io/" + h + q);
+          // Empty/#/ → apex HTTP. Hash hops look like GSC "Error de redirección".
+          if (!h || h === "#" || h === "#/") {
+            location.replace("https://vientonorte.io/" + q);
+          } else {
+            location.replace("https://vientonorte.io/" + h + q);
+          }
           return;
         }
         // Deprecated: /poc#/auditoria is NOT freemium. Paid = /s/consultoria.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
-          location.replace(location.origin + "/#/consultoria" + q);
+          location.replace(location.origin + "/s/consultoria/" + q);
         }
       })();
     </script>

@@ -32,7 +32,7 @@
 | Superficie | URL |
 |------------|-----|
 | Home embudo | http://127.0.0.1:5173/#/ |
-| SEM oferta | http://127.0.0.1:5173/#/consultoria |
+| SEM oferta | http://127.0.0.1:3000/#/consultoria |
 
 ## Legacy redirects
 
@@ -40,7 +40,7 @@
 |-------|--------|
 | `/#/consultoria/embudo` | `/` (home) |
 | `/#/poc/product-onboarding` | `/#/consultoria` (SEM) |
-| **`/poc` · `/poc#/auditoria`** | **`/#/consultoria`** (deprecado · no freemium) |
+| **`/poc` · `/poc#/auditoria`** | **`/s/consultoria/`** (HTTP; deprecado · no freemium) |
 | `/mi-portafolio/…` | root `.io` |
 
 `/#/auditoria` sigue vivo como **muestra mentoría** (noIndex). **Nunca** Ads ni lead pyme. Freemium = nota a11y en `/#/consultoria` → Calendar Diagnóstico. Paid crawler = `/s/consultoria`.
