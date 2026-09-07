@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 import {
   DOCK_CENTER_ID,
   NAV_SURFACE,
+  executeNavAction,
   getDockNavAction,
   getDockNavItems,
   getHeaderMoreNavItems,
@@ -16,7 +17,6 @@ const labels = {
   projects: "Negocios",
   experience: "Experiencia",
   consulting: "Consultoría ✦",
-  audit: "Auditoría UX",
   contact: "Contacto",
   about: "Sobre mí",
   designSystem: "Design System",
@@ -45,6 +45,8 @@ describe("NAV_SURFACE", () => {
     expect(NAV_SURFACE.mobileDrawer).toContain("negocios");
     expect(NAV_SURFACE.headerMore).not.toContain("auditoria");
     expect(NAV_SURFACE.mobileDrawer).not.toContain("auditoria");
+    expect(NAV_SURFACE.dock).not.toContain("auditoria");
+    expect(NAV_SURFACE.headerPrimary).not.toContain("auditoria");
   });
 
   it("places mobile more divider at sobre-mi", () => {
@@ -182,5 +184,32 @@ describe("matchNavItemActive", () => {
     );
     expect(matchNavItemActive(consultoria, "/")).toBe(false);
     expect(matchNavItemActive(inicio, "/consultoria")).toBe(false);
+  });
+});
+
+describe("executeNavAction · GTM nav_click", () => {
+  beforeEach(() => {
+    (window as Window & { dataLayer?: unknown[] }).dataLayer = [];
+  });
+
+  it("pushes nav_click before routing (no auditoría access)", () => {
+    const item = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
+    expect(item.id).toBe("proceso");
+    const navigate = vi.fn();
+    executeNavAction(item, {
+      pathname: "/",
+      navigate,
+      pendingScrollRef: { current: null },
+    });
+    const layer = (window as Window & { dataLayer: unknown[] }).dataLayer;
+    expect(layer).toContainEqual(
+      expect.objectContaining({
+        event: "nav_click",
+        nav_id: "proceso",
+        nav_kind: "route",
+        nav_target: "/proceso",
+      })
+    );
+    expect(navigate).toHaveBeenCalledWith("/proceso");
   });
 });

@@ -93,6 +93,13 @@ export const analytics = {
     category: "conversion",
     label: "Contact CTA"
   }),
+
+  /** Clic de chrome nav (header / drawer / dock) → GTM CE `nav_click`. */
+  navClick: (params: { nav_id: string; nav_kind: string; nav_target: string }) =>
+    trackEvent("nav_click", {
+      category: "navigation",
+      ...params,
+    }),
   
   // ===== Navigation Events =====
   viewCompany: (companyId: string, companyName?: string) => trackEvent("view_company", {

@@ -1,6 +1,5 @@
 import {
   Briefcase,
-  ClipboardCheck,
   FolderOpen,
   Home,
   Mail,
@@ -15,13 +14,13 @@ import { VIENTO_NORTE_LINKS } from "./viento-norte-links";
 import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
+import { analytics } from "./analytics";
 
 export type NavItemId =
   | "inicio"
   | "negocios"
   | "experiencia"
   | "consultoria"
-  | "auditoria"
   | "proceso"
   | "contacto"
   | "sobre-mi"
@@ -57,7 +56,6 @@ export interface NavLabels {
   projects: string;
   experience: string;
   consulting: string;
-  audit: string;
   contact: string;
   about: string;
   designSystem: string;
@@ -107,7 +105,6 @@ const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
   negocios: { id: "negocios", icon: Briefcase, labelKey: "projects" },
   experiencia: { id: "experiencia", icon: User, labelKey: "experience" },
   consultoria: { id: "consultoria", icon: Sparkles, labelKey: "consulting" },
-  auditoria: { id: "auditoria", icon: ClipboardCheck, labelKey: "audit" },
   proceso: { id: "proceso", icon: FolderOpen, labelKey: "process" },
   contacto: { id: "contacto", icon: Mail, labelKey: "contact" },
   "sobre-mi": { id: "sobre-mi", icon: User, labelKey: "about" },
@@ -134,8 +131,6 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "consultoria":
       // Center CTA → embudo FO (home), no landing SEM
       return { kind: "route", target: ROUTES.home };
-    case "auditoria":
-      return { kind: "route", target: ROUTES.audit };
     case "proceso":
       return { kind: "route", target: ROUTES.process };
     case "sobre-mi":
@@ -290,7 +285,6 @@ export function getMobileMenuNavItems(labels: NavLabels, processLabel: string): 
 export interface NavRuntimeCallbacks {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
-  onNavigateToAuditoria?: () => void;
 }
 
 export interface NavRuntimeContext {
@@ -303,6 +297,12 @@ export interface NavRuntimeContext {
 export function executeNavAction(item: ResolvedNavItem, ctx: NavRuntimeContext): void {
   const { action } = item;
   const { pathname, navigate, pendingScrollRef, callbacks } = ctx;
+
+  analytics.navClick({
+    nav_id: item.id,
+    nav_kind: action.kind,
+    nav_target: action.target,
+  });
 
   if (action.kind === "external") {
     window.open(action.target, "_blank", "noopener,noreferrer");
@@ -317,10 +317,6 @@ export function executeNavAction(item: ResolvedNavItem, ctx: NavRuntimeContext):
   if (action.kind === "route" || action.kind === "contact") {
     if (item.id === "design-system") {
       callbacks?.onNavigateToDesignSystem?.();
-      return;
-    }
-    if (item.id === "auditoria") {
-      callbacks?.onNavigateToAuditoria?.();
       return;
     }
     navigate(action.target);
@@ -381,7 +377,6 @@ export function matchNavItemActive(
 
   if (item.id === "negocios") return isProjectsPath(normalized);
   if (item.id === "proceso") return isProcessPath(normalized);
-  if (item.id === "auditoria") return normalized === ROUTES.audit;
   if (item.id === "consultoria") {
     // Home embudo: center = kickoff anchor (no “ruta activa”)
     if (normalized === ROUTES.home) return false;

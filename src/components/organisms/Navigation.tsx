@@ -33,13 +33,11 @@ import { cn } from "../../lib/utils";
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
-  onNavigateToAuditoria?: () => void;
 }
 
 export function Navigation({
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
-  onNavigateToAuditoria,
 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMenuOpenRef = useRef(isMenuOpen);
@@ -62,7 +60,6 @@ export function Navigation({
       projects: t.nav.projects,
       experience: t.nav.experience,
       consulting: t.nav.consulting,
-      audit: t.nav.audit,
       contact: t.nav.contact,
       about: t.nav.about,
       designSystem: t.nav.designSystem,
@@ -96,9 +93,8 @@ export function Navigation({
     () => ({
       onNavigateToDesignSystem,
       onNavigateToCaseStudies,
-      onNavigateToAuditoria,
     }),
-    [onNavigateToAuditoria, onNavigateToCaseStudies, onNavigateToDesignSystem]
+    [onNavigateToCaseStudies, onNavigateToDesignSystem]
   );
 
   useEffect(() => {
