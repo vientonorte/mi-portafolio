@@ -71,7 +71,7 @@ export function ConsultoriaLandingHero() {
       <div className="container relative mx-auto max-w-6xl px-4 py-8 md:py-12">
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10 xl:gap-12">
           <div className="space-y-5 lg:col-span-5">
-            <p className="inline-flex min-h-8 items-center rounded-full border border-[#FF931E]/40 bg-[#FF931E]/10 px-3 text-xs font-medium text-[#FF931E]">
+            <p className="inline-flex min-h-8 items-center rounded-full border border-primary/40 bg-primary/10 px-3 text-xs font-medium text-primary">
               {t.xcmsLabel}
             </p>
 

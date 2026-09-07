@@ -5,6 +5,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-06] — Tokens VN en FO + valor en proceso
+
+### Changed
+- Paleta runtime (`globals.css` / `design-tokens.ts` / isologo): deja `#FF1D25/#FF931E` y usa `@vientonorte/tokens` (rojo `#E8401C` · azul-evo `#1A8FDC`). Links/`--primary` = azul-evo.
+- `/#/proceso`: H1 **Diseño que reduce el ruido**; CTA consultoría no «Negocios». News: lead sin jerga PAUSED.
+
+### Not
+- Canon UI = HashRouter (`/#/proceso`), no `/s/proceso/index.html`.
+
+---
+
+## [2026-09-06] — `/s/` chrome VN (DS + landmarks)
+
+### Fixed
+- HTML crawler `/s/**` ya no es un dump sin UI: skip-link, `header` banner, nav Principal, miga, `main#main`, footer, tokens `@vientonorte/*` + Chillax (`/s/share.css`).
+- Polijuego privacy conserva el contenido original (vault / no account) y gana puntos de navegación. News y consultoría usan las mismas cards/CTA 44px.
+- Sigue **sin** meta-refresh ni `location.replace` a `/#/` (GSC).
+
+### Not
+- Ship Pages = merge Decider. Home SPA (`/`) ya pasaba UI; este PR alinea las locs del sitemap.
+
+---
+
 ## [2026-09-06] — GSC: `/s/` estático, sin hop a hash
 
 ### Fixed

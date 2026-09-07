@@ -4,35 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tecnología para empresas · Viento Norte</title>
-    <meta
-      name="description"
-      content="Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min."
-    />
+    <meta name="description" content="Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min." />
     <link rel="canonical" href="https://vientonorte.io/" />
+    <link rel="stylesheet" href="/s/share.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://vientonorte.io/" />
     <meta property="og:title" content="Tecnología para empresas · Viento Norte" />
-    <meta
-      property="og:description"
-      content="Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo."
-    />
+    <meta property="og:description" content="Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min." />
     <meta property="og:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Tecnología para empresas · Viento Norte"
-    />
-    <meta
-      name="twitter:image"
-      content="https://vientonorte.io/images/branding/og-home-1200.png"
-    />
-    <!--
-      /s/ is static share HTML (sitemap omits this loc; canonical is home).
-      No timed hop to apex or hash — GSC treats that as a redirect error.
-      GTM coverage: same container as /s/consultoria. No gtag paralelo.
-    -->
+    <meta name="twitter:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/chillax/chillax-700.woff2" crossorigin />
     <script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -45,6 +30,7 @@
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-PM5LBQRP");
     </script>
+
   </head>
   <body>
     <noscript
@@ -56,21 +42,58 @@
         title="Google Tag Manager"
       ></iframe
     ></noscript>
-    <main>
+    <a class="skip-link" href="#main">Ir al contenido principal</a>
+    <header class="share-banner" role="banner">
+      <div class="share-banner__inner">
+        <a class="share-logo" href="/" aria-label="Viento Norte · Inicio">
+          <img src="/images/branding/isologo-512.png" width="28" height="28" alt="" />
+          <span>Viento Norte</span>
+        </a>
+        <nav class="share-nav" aria-label="Principal">
+        <a href="/" aria-current="page">Inicio</a>
+        <a href="/s/consultoria/">Consultoría</a>
+        <a href="/s/proceso/">Proceso</a>
+        <a href="/s/news/">News</a>
+        </nav>
+      </div>
+    </header>
+    <nav class="share-crumbs" aria-label="Miga de pan">
+      <ol>
+          <li><span aria-current="page">Inicio</span></li>
+      </ol>
+    </nav>
+    <main id="main" class="share-main" tabindex="-1">
       <h1>Tecnología para empresas</h1>
-      <p>
+      <div class="share-rule" aria-hidden="true"></div>
+      <p class="lead">
         Operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM.
         Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.
       </p>
-      <ul>
-        <li>Diagnóstico</li>
-        <li>Prototipo</li>
-        <li>Proceso de equipo</li>
-        <li>Operaciones digitales</li>
-        <li>Revisión gratis de un flujo</li>
-        <li>En su CMS o CRM</li>
+      <ul class="share-cards">
+        <li class="share-card">Diagnóstico</li>
+        <li class="share-card">Prototipo</li>
+        <li class="share-card">Proceso de equipo</li>
+        <li class="share-card">Operaciones digitales</li>
+        <li class="share-card">Revisión gratis de un flujo</li>
+        <li class="share-card">En su CMS o CRM</li>
       </ul>
-      <p><a href="https://vientonorte.io/">Viento Norte</a></p>
+      <p>
+        <a class="share-cta" href="/s/consultoria/">Consultoría</a>
+        <a class="share-cta share-cta--ghost" href="/">Sitio Viento Norte</a>
+      </p>
     </main>
+    <footer class="share-footer">
+      <div class="share-footer__inner">
+        <p>Viento Norte · Diseño que reduce el ruido.</p>
+        <p><a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a></p>
+        <nav aria-label="Pie">
+          <a href="/">Inicio</a>
+          <a href="/s/consultoria/">Consultoría</a>
+          <a href="/s/proceso/">Proceso</a>
+          <a href="/s/news/">News</a>
+          <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>

@@ -22,10 +22,14 @@
    * 10% - Brand gradient (CTAs, highlights)
    * ========================================= */
   
-  /* Paleta de marca - Solo para 10% de uso */
-  --brand-red: #FF1D25;
-  --brand-orange: #FF931E;
-  --brand-gradient: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%);
+  /* Paleta de marca — SSOT /#/design-system · src/data/design-tokens.ts */
+  --brand-red: #E8401C;
+  --brand-orange: #1A8FDC;
+  --brand-gradient: linear-gradient(
+    135deg,
+    var(--brand-red) 0%,
+    var(--brand-orange) 100%
+  );
   --logo-accent: var(--brand-red);
   --logo-track-opacity: 0.14;
   --logo-shine-opacity: 0.48;
@@ -35,8 +39,8 @@
   --profile-focus-scale: 1.08;
   
   /* 70% - Neutros dominantes */
-  --brand-dark: #333333;
-  --brand-light: #f8f8f8;
+  --brand-dark: var(--vn-primitive-azul-noche);
+  --brand-light: var(--vn-primitive-marfil);
   --neutral-50: #fafafa;
   --neutral-100: #f5f5f5;
   --neutral-200: #e5e5e5;
@@ -56,12 +60,12 @@
   --popover-foreground: #171717;
   
   /* 20% - Acentos sutiles */
-  --primary: #FF1D25;
+  --primary: var(--brand-orange);
   --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
   --secondary-foreground: #171717;
   --muted: #f5f5f5;
-  --muted-foreground: #525252;
+  --muted-foreground: var(--vn-primitive-pizarra);
   --bottom-nav-inactive: #404040;
   --accent: #fafafa;
   --accent-foreground: #171717;
@@ -111,7 +115,7 @@
   --stat-tint-violet: #e6e3eb;
   --stat-tint-violet-fg: #625a75;
   --featured-matte: #ebe6de;
-  --featured-matte-accent: rgba(255, 29, 37, 0.06);
+  --featured-matte-accent: color-mix(in srgb, var(--vn-primitive-rojo) 6%, transparent);
 }
 
 .dark {
@@ -131,8 +135,8 @@
   --popover-foreground: #fafafa;
   
   /* 20% - Acentos sutiles dark */
-  --primary: #FF931E;
-  --primary-foreground: #0a0a0a;
+  --primary: var(--brand-orange);
+  --primary-foreground: #ffffff;
   --secondary: #262626;
   --secondary-foreground: #fafafa;
   --muted: #262626;
@@ -154,8 +158,8 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: #171717;
   --sidebar-foreground: #fafafa;
-  --sidebar-primary: #FF931E;
-  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-primary: var(--vn-primitive-azul-evo);
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #262626;
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #262626;
@@ -785,18 +789,18 @@
 /* Utilities para gradiente de marca */
 @layer utilities {
   .bg-brand-gradient {
-    background: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%);
+    background: var(--brand-gradient);
   }
   
   .text-brand-gradient {
-    background: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%);
+    background: var(--brand-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
   .border-brand-gradient {
-    border-image: linear-gradient(135deg, #FF1D25 0%, #FF931E 100%) 1;
+    border-image: var(--brand-gradient) 1;
   }
 }
 

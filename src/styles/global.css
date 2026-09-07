@@ -618,7 +618,7 @@ html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
   z-index: 9999;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  background: #FF1D25;
+  background: var(--vn-color-brand-dark);
   color: #ffffff;
   font-size: 0.875rem;
   font-weight: 600;

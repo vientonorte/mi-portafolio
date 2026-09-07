@@ -92,7 +92,7 @@ describe("session QA · design tokens export", () => {
       global: { spacing: { "1": { value: string } } };
     };
     expect(data.$metadata.tokenSetOrder).toEqual(["global", "light", "dark"]);
-    expect(data.light.color.brand.red.value).toBe("#FF1D25");
+    expect(data.light.color.brand.red.value).toBe("#E8401C");
     expect(data.light.color.brand.red.type).toBe("color");
     expect(data.global.spacing["1"].value).toBe("4");
   });
@@ -101,12 +101,12 @@ describe("session QA · design tokens export", () => {
     const w3c = JSON.parse(buildW3cDesignTokensJson()) as {
       light: { color: { brand: { red: { $value: string } } } };
     };
-    expect(w3c.light.color.brand.red.$value).toBe("#FF1D25");
+    expect(w3c.light.color.brand.red.$value).toBe("#E8401C");
 
     const css = buildCssVariables();
     expect(css).toMatch(/:root\s*\{/);
     expect(css).toMatch(/\.dark\s*\{/);
-    expect(css).toContain("--brand-red: #FF1D25");
+    expect(css).toContain("--brand-red: #E8401C");
 
     expect(buildFigmaHandoffPrompt("es")).toContain("WCAG");
     expect(buildFigmaHandoffPrompt("en")).toContain("375");

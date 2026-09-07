@@ -27,7 +27,7 @@ describe("design-tokens-export", () => {
     const brand = (data.light as { color?: { brand?: { red?: { value: string; type: string } } } })
       .color?.brand?.red;
     expect(brand?.type).toBe("color");
-    expect(brand?.value).toBe("#FF1D25");
+    expect(brand?.value).toBe("#E8401C");
 
     const space1 = (
       data.global as { spacing?: { "1"?: { value: string; type: string } } }
@@ -43,7 +43,7 @@ describe("design-tokens-export", () => {
     };
 
     expect(data.light?.color?.brand?.red?.$type).toBe("color");
-    expect(data.light?.color?.brand?.red?.$value).toBe("#FF1D25");
+    expect(data.light?.color?.brand?.red?.$value).toBe("#E8401C");
     expect(data.spacing?.["1"]?.$type).toBe("dimension");
     expect(data.spacing?.["1"]?.$value).toBe("4px");
   });
@@ -52,8 +52,8 @@ describe("design-tokens-export", () => {
     const css = buildCssVariables();
     expect(css).toContain(":root {");
     expect(css).toContain(".dark {");
-    expect(css).toContain("--brand-red: #FF1D25");
-    expect(css).toContain("--primary: #FF931E"); // dark override
+    expect(css).toContain("--brand-red: #E8401C");
+    expect(css).toContain("--primary: #1A8FDC"); // dark override
   });
 
   it("builds Figma handoff prompt with tokens and frames", () => {
@@ -61,7 +61,7 @@ describe("design-tokens-export", () => {
     const en = buildFigmaHandoffPrompt("en");
 
     expect(es).toContain("# Brief");
-    expect(es).toContain("#FF1D25");
+    expect(es).toContain("#E8401C");
     expect(es).toContain("375");
     expect(es).toContain("WCAG");
     expect(en).toContain("Lead UX");

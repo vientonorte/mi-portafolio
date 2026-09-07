@@ -108,10 +108,10 @@ export default function CaseStudies({
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
-              "radial-gradient(circle at 20% 50%, rgba(255, 29, 37, 0.15) 0%, transparent 50%)",
-              "radial-gradient(circle at 80% 50%, rgba(255, 147, 30, 0.15) 0%, transparent 50%)",
-              "radial-gradient(circle at 50% 80%, rgba(255, 29, 37, 0.15) 0%, transparent 50%)",
-              "radial-gradient(circle at 20% 50%, rgba(255, 29, 37, 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--brand-orange) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 50% 80%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
             ],
           }}
           transition={{ duration: 10, repeat: Infinity }}
@@ -128,9 +128,9 @@ export default function CaseStudies({
             <motion.div
               animate={{
                 boxShadow: [
-                  "0 0 20px rgba(255, 29, 37, 0.3)",
-                  "0 0 40px rgba(255, 147, 30, 0.3)",
-                  "0 0 20px rgba(255, 29, 37, 0.3)",
+                  "var(--vn-shadow-glow)",
+                  "0 0 40px color-mix(in srgb, var(--brand-orange) 28%, transparent)",
+                  "var(--vn-shadow-glow)",
                 ],
               }}
               transition={{ duration: 3, repeat: Infinity }}
@@ -608,8 +608,8 @@ export default function CaseStudies({
                   whileHover={{ scale: 1.05 }}
                   className="flex-1 w-full"
                 >
-                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/30 rounded-xl p-6">
-                    <h4 className="font-bold text-center mb-4 text-purple-600">
+                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl p-6">
+                    <h4 className="font-bold text-center mb-4 text-primary">
                       {t.caseStudies.valueChain.phases.development}
                     </h4>
                     <div className="space-y-2">
