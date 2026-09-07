@@ -77,12 +77,12 @@ export const colorTokensLight: ColorToken[] = [
     description: "Rojo VN · acento 10% CTAs e isologo",
   },
   {
-    name: "Brand Orange",
+    name: "Brand Evo",
     path: "color.brand.orange",
     cssVar: "--brand-orange",
     value: "#1A8FDC",
     group: "brand",
-    description: "Azul-evo VN · extremo del gradiente y links",
+    description: "SSOT /#/design-system · --brand-orange · extremo del gradiente y links",
   },
   {
     name: "Primary",

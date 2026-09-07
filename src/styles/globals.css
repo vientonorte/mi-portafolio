@@ -22,15 +22,15 @@
    * 10% - Brand gradient (CTAs, highlights)
    * ========================================= */
   
-  /* Paleta de marca = @vientonorte/tokens (10% · CTAs / isologo) */
-  --brand-red: var(--vn-primitive-rojo);
-  --brand-orange: var(--vn-primitive-azul-evo);
+  /* Paleta de marca — SSOT /#/design-system · src/data/design-tokens.ts */
+  --brand-red: #E8401C;
+  --brand-orange: #1A8FDC;
   --brand-gradient: linear-gradient(
     135deg,
-    var(--vn-primitive-rojo) 0%,
-    var(--vn-primitive-azul-evo) 100%
+    var(--brand-red) 0%,
+    var(--brand-orange) 100%
   );
-  --logo-accent: var(--vn-color-accent);
+  --logo-accent: var(--brand-red);
   --logo-track-opacity: 0.14;
   --logo-shine-opacity: 0.48;
   --logo-plate-shadow: 0 1px 2px rgba(23, 23, 23, 0.07);
@@ -60,7 +60,7 @@
   --popover-foreground: #171717;
   
   /* 20% - Acentos sutiles */
-  --primary: var(--vn-primitive-azul-evo);
+  --primary: var(--brand-orange);
   --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
   --secondary-foreground: #171717;
@@ -135,7 +135,7 @@
   --popover-foreground: #fafafa;
   
   /* 20% - Acentos sutiles dark */
-  --primary: var(--vn-primitive-azul-evo);
+  --primary: var(--brand-orange);
   --primary-foreground: #ffffff;
   --secondary: #262626;
   --secondary-foreground: #fafafa;

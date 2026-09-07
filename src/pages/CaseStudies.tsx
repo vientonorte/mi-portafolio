@@ -108,10 +108,10 @@ export default function CaseStudies({
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
-              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--vn-primitive-rojo) 15%, transparent) 0%, transparent 50%)",
-              "radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--vn-primitive-azul-evo) 15%, transparent) 0%, transparent 50%)",
-              "radial-gradient(circle at 50% 80%, color-mix(in srgb, var(--vn-primitive-rojo) 15%, transparent) 0%, transparent 50%)",
-              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--vn-primitive-rojo) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--brand-orange) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 50% 80%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--brand-red) 15%, transparent) 0%, transparent 50%)",
             ],
           }}
           transition={{ duration: 10, repeat: Infinity }}
@@ -129,7 +129,7 @@ export default function CaseStudies({
               animate={{
                 boxShadow: [
                   "var(--vn-shadow-glow)",
-                  "0 0 40px color-mix(in srgb, var(--vn-primitive-azul-evo) 28%, transparent)",
+                  "0 0 40px color-mix(in srgb, var(--brand-orange) 28%, transparent)",
                   "var(--vn-shadow-glow)",
                 ],
               }}
