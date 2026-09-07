@@ -43,7 +43,8 @@ describe("NAV_SURFACE", () => {
       expect(NAV_SURFACE.headerPrimary).not.toContain(id);
     }
     expect(NAV_SURFACE.mobileDrawer).toContain("negocios");
-    expect(NAV_SURFACE.mobileDrawer).toContain("auditoria");
+    expect(NAV_SURFACE.headerMore).not.toContain("auditoria");
+    expect(NAV_SURFACE.mobileDrawer).not.toContain("auditoria");
   });
 
   it("places mobile more divider at sobre-mi", () => {
@@ -66,7 +67,6 @@ describe("getHeaderMoreNavItems", () => {
       "experiencia",
       "consultoria",
       "sobre-mi",
-      "auditoria",
       "design-system",
       "uxtools",
     ]);
@@ -76,12 +76,11 @@ describe("getHeaderMoreNavItems", () => {
 describe("getMobileDrawerNavItems", () => {
   it("follows hero-aligned order before more section", () => {
     const items = getMobileDrawerNavItems(labels, "Proceso");
-    expect(items.slice(0, 7).map((item) => item.id)).toEqual([
+    expect(items.slice(0, 6).map((item) => item.id)).toEqual([
       "inicio",
       "negocios",
       "experiencia",
       "consultoria",
-      "auditoria",
       "proceso",
       "contacto",
     ]);
