@@ -23,8 +23,14 @@
     <meta http-equiv="refresh" content="0;url=https://vientonorte.io/" />
     <script>
       (function () {
-        var h = window.location.hash || "#/";
-        if (h.charAt(0) !== "#") h = "#" + h;
+        var h = window.location.hash || "";
+        if (h.indexOf("#/mi-portafolio") === 0) {
+          h = "#" + (h.slice("#/mi-portafolio".length) || "/");
+        }
+        if (!h || h === "#" || h === "#/") {
+          window.location.replace("https://vientonorte.io/");
+          return;
+        }
         window.location.replace("https://vientonorte.io/" + h);
       })();
     </script>

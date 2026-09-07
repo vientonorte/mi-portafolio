@@ -155,6 +155,39 @@ describe("SEO P0 · sitemap HTTP only", () => {
     expect(sitemap).not.toMatch(/<loc>https:\/\/vientonorte\.io\/#\//);
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
+    expect(sitemap).toContain("<lastmod>2026-09-07</lastmod>");
+    expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
+  });
+});
+
+describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
+  const legacyPortfolio = readFileSync(
+    resolve(root, "public/mi-portafolio/index.html"),
+    "utf8"
+  );
+  const legacyPoc = readFileSync(resolve(root, "public/poc/index.html"), "utf8");
+
+  it(" /mi-portafolio refreshes to apex HTTP, not hash", () => {
+    expect(legacyPortfolio).toContain('http-equiv="refresh"');
+    expect(legacyPortfolio).toContain('content="0;url=https://vientonorte.io/"');
+    expect(legacyPortfolio).toContain('name="robots" content="noindex, follow"');
+    expect(legacyPortfolio).not.toContain('id="root"');
+    expect(legacyPortfolio).not.toContain("/#/");
+  });
+
+  it("/poc refreshes to /s/consultoria/, not /#/consultoria", () => {
+    expect(legacyPoc).toContain('http-equiv="refresh"');
+    expect(legacyPoc).toContain(
+      'content="0;url=https://vientonorte.io/s/consultoria/"'
+    );
+    expect(legacyPoc).toContain('name="robots" content="noindex, follow"');
+    expect(legacyPoc).not.toContain('id="root"');
+    expect(legacyPoc).not.toContain("/#/consultoria");
+  });
+
+  it("SPA fallback hops /poc to /s/consultoria/ (HTTP), not hash", () => {
+    expect(indexHtml).toContain('location.origin + "/s/consultoria/"');
+    expect(indexHtml).not.toContain('location.origin + "/#/consultoria"');
   });
 });
 
