@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-06] — `/s/` chrome VN (DS + landmarks)
+
+### Fixed
+- HTML crawler `/s/**` ya no es un dump sin UI: skip-link, `header` banner, nav Principal, miga, `main#main`, footer, tokens `@vientonorte/*` + Chillax (`/s/share.css`).
+- Polijuego privacy conserva el contenido original (vault / no account) y gana puntos de navegación. News y consultoría usan las mismas cards/CTA 44px.
+- Sigue **sin** meta-refresh ni `location.replace` a `/#/` (GSC).
+
+### Not
+- Ship Pages = merge Decider. Home SPA (`/`) ya pasaba UI; este PR alinea las locs del sitemap.
+
+---
+
 ## [2026-09-06] — GSC: `/s/` estático, sin hop a hash
 
 ### Fixed

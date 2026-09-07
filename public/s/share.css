@@ -1,0 +1,306 @@
+/* Static /s/ chrome — @vientonorte/tokens + skip-link / landmarks of FO home.
+   No JS hop to /#/. Crawlers stay on /s/. */
+
+@font-face {
+  font-family: Chillax;
+  src: url("/fonts/chillax/chillax-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Chillax;
+  src: url("/fonts/chillax/chillax-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --vn-primitive-azul-noche: #0d1b3d;
+  --vn-primitive-marfil: #f7f2e7;
+  --vn-primitive-pizarra: #4a5568;
+  --vn-primitive-rojo: #e8401c;
+  --vn-primitive-azul-evo: #1a8fdc;
+  --vn-color-brand: var(--vn-primitive-azul-evo);
+  --vn-color-brand-dark: var(--vn-primitive-azul-noche);
+  --vn-color-accent: var(--vn-primitive-rojo);
+  --vn-color-surface: var(--vn-primitive-marfil);
+  --vn-color-on-surface: var(--vn-primitive-azul-noche);
+  --vn-color-muted: var(--vn-primitive-pizarra);
+  --vn-border-subtle: rgba(13, 27, 61, 0.08);
+  --vn-border-medium: rgba(13, 27, 61, 0.16);
+  --vn-font-display: Chillax, "DM Serif Display", Georgia, serif;
+  --vn-font-ui: Inter, system-ui, sans-serif;
+  --vn-space-2: 8px;
+  --vn-space-3: 12px;
+  --vn-space-4: 16px;
+  --vn-space-6: 24px;
+  --vn-radius-xs: 4px;
+  --vn-radius-md: 16px;
+  --vn-z-nav: 50;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--vn-font-ui);
+  background: var(--vn-color-surface);
+  color: var(--vn-color-on-surface);
+  line-height: 1.55;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--vn-space-2);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: var(--vn-z-nav);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  left: var(--vn-space-2);
+  width: auto;
+  height: auto;
+  background: var(--vn-color-brand-dark);
+  color: var(--vn-color-surface);
+  padding: var(--vn-space-2) var(--vn-space-4);
+  border-radius: var(--vn-radius-xs);
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+  text-decoration: none;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.share-banner {
+  position: sticky;
+  top: 0;
+  z-index: var(--vn-z-nav);
+  border-bottom: 1px solid var(--vn-border-subtle);
+  background: color-mix(in srgb, var(--vn-color-surface) 95%, white);
+  backdrop-filter: blur(16px);
+}
+
+.share-banner__inner,
+.share-crumbs,
+.share-main,
+.share-footer__inner {
+  width: min(72rem, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.share-banner__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vn-space-4);
+  min-height: 56px;
+  padding: var(--vn-space-2) 0;
+}
+
+.share-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 8px;
+  margin-left: -8px;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.share-logo:focus-visible,
+.share-nav a:focus-visible,
+.share-footer a:focus-visible,
+.share-cta:focus-visible {
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+}
+
+.share-logo img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.share-logo span {
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.share-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.share-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--vn-color-on-surface);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.share-nav a[aria-current="page"] {
+  background: rgba(26, 143, 220, 0.12);
+  color: var(--vn-color-brand-dark);
+}
+
+.share-nav a:hover {
+  background: var(--vn-border-subtle);
+}
+
+.share-crumbs {
+  padding: var(--vn-space-3) 0 0;
+  font-size: 0.875rem;
+  color: var(--vn-color-muted);
+}
+
+.share-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.share-crumbs a {
+  color: var(--vn-color-brand);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.share-main {
+  flex: 1;
+  padding: 1.5rem 0 3.5rem;
+}
+
+.share-main h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--vn-font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.share-main h2 {
+  font-family: var(--vn-font-display);
+  font-size: 1.25rem;
+  margin: 1.75rem 0 0.75rem;
+}
+
+.share-main p,
+.share-main li {
+  font-size: 1rem;
+  color: var(--vn-color-on-surface);
+}
+
+.share-main .lead,
+.share-main .meta {
+  color: var(--vn-color-muted);
+}
+
+.share-rule {
+  width: 5rem;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--vn-color-accent), var(--vn-color-brand));
+  margin: 0 0 1.25rem;
+}
+
+.share-cards {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.share-card {
+  border: 1px solid var(--vn-border-medium);
+  border-radius: var(--vn-radius-md);
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.share-card h2 {
+  margin: 0 0 0.5rem;
+}
+
+.share-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 1.25rem;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  border-radius: 999px;
+  background: var(--vn-color-brand-dark);
+  color: var(--vn-color-surface);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.share-cta--ghost {
+  background: transparent;
+  color: var(--vn-color-brand-dark);
+  border: 2px solid var(--vn-border-medium);
+}
+
+.share-footer {
+  border-top: 1px solid var(--vn-border-subtle);
+  background: var(--vn-color-brand-dark);
+  color: var(--vn-color-surface);
+  padding: 1.5rem 0;
+}
+
+.share-footer a {
+  color: var(--vn-color-surface);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.share-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -215,4 +215,29 @@ describe("SEO P0 · public/s/** stays on the share URL", () => {
       expect(html.includes("location.replace("), rel).toBe(false);
     }
   });
+
+  it("uses VN chrome: skip-link, banner, principal nav, main#main, footer", () => {
+    const shareRoot = resolve(root, "public/s");
+    const files: string[] = [];
+    const walk = (dir: string) => {
+      for (const name of readdirSync(dir)) {
+        const p = join(dir, name);
+        if (statSync(p).isDirectory()) walk(p);
+        else if (name.endsWith(".html")) files.push(p);
+      }
+    };
+    walk(shareRoot);
+    for (const file of files) {
+      const html = readFileSync(file, "utf8");
+      const rel = relative(root, file);
+      expect(html.includes('href="/s/share.css"'), rel).toBe(true);
+      expect(html.includes('class="skip-link" href="#main"'), rel).toBe(true);
+      expect(html.includes("Ir al contenido principal"), rel).toBe(true);
+      expect(html.includes('role="banner"'), rel).toBe(true);
+      expect(html.includes('aria-label="Principal"'), rel).toBe(true);
+      expect(html.includes('id="main"'), rel).toBe(true);
+      expect(html.includes("<footer"), rel).toBe(true);
+      expect(html.includes('aria-label="Miga de pan"'), rel).toBe(true);
+    }
+  });
 });

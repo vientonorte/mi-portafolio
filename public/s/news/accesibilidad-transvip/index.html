@@ -6,6 +6,8 @@
     <title>Un flujo de reserva que se puede usar · Viento Norte</title>
     <meta name="description" content="Accesibilidad en movilidad premium: el trámite de traslado, no el overlay. Caso Transvip (hub público)." />
     <link rel="canonical" href="https://vientonorte.io/s/news/accesibilidad-transvip/" />
+    <link rel="stylesheet" href="/s/share.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://vientonorte.io/s/news/accesibilidad-transvip/" />
     <meta property="og:title" content="Un flujo de reserva que se puede usar · Viento Norte" />
@@ -15,6 +17,7 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://vientonorte.io/images/branding/og-consultoria-1200.png" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/chillax/chillax-700.woff2" crossorigin />
     <script>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -39,15 +42,51 @@
         title="Google Tag Manager"
       ></iframe
     ></noscript>
-    <main>
-      <p>Viento Norte · News</p>
+    <a class="skip-link" href="#main">Ir al contenido principal</a>
+    <header class="share-banner" role="banner">
+      <div class="share-banner__inner">
+        <a class="share-logo" href="/" aria-label="Viento Norte · Inicio">
+          <img src="/images/branding/isologo-512.png" width="28" height="28" alt="" />
+          <span>Viento Norte</span>
+        </a>
+        <nav class="share-nav" aria-label="Principal">
+        <a href="/">Inicio</a>
+        <a href="/s/consultoria/">Consultoría</a>
+        <a href="/s/proceso/">Proceso</a>
+        <a href="/s/news/" aria-current="page">News</a>
+        </nav>
+      </div>
+    </header>
+    <nav class="share-crumbs" aria-label="Miga de pan">
+      <ol>
+          <li><a href="/">Inicio</a><span aria-hidden="true"> / </span></li>
+          <li><a href="/s/news/">News</a><span aria-hidden="true"> / </span></li>
+          <li><span aria-current="page">Un flujo de reserva que se puede usar</span></li>
+      </ol>
+    </nav>
+    <main id="main" class="share-main" tabindex="-1">
+      <p class="meta">Viento Norte · News</p>
       <h1>Un flujo de reserva que se puede usar</h1>
-      <p>Accesibilidad en movilidad premium: el trámite de traslado, no el overlay. Caso Transvip (hub público).</p>
+      <div class="share-rule" aria-hidden="true"></div>
+      <p class="lead">Accesibilidad en movilidad premium: el trámite de traslado, no el overlay. Caso Transvip (hub público).</p>
       <p>Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago, confirmación. Si ese flujo no se percibe, no se reserva.</p><p>En Transvip el trabajo fue el trámite de pasajeros premium y un design system web + app con accesibilidad como mejora continua — no un sello ni un overlay. El hub público documenta el corte: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.</p><p>Karri (misma etapa, delivery vertical) aplicó el mismo método a calculadora de ganancias y onboarding de shoppers. No es otra landing: es el flujo que ya usa el cliente.</p><p>Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio.</p>
       <h2>Evidencia (hub público)</h2>
       <ul><li>Design system web + app con mejora continua y accesibilidad</li><li>App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82</li></ul>
-      <p>Fuente: src/data/projects-data.ts · transvipHub</p>
-      <p><a href="/s/consultoria/">Gratis · un flujo WCAG · Agendar 30 min</a></p>
+      <p class="meta">Fuente: src/data/projects-data.ts · transvipHub</p>
+      <p><a class="share-cta" href="/s/consultoria/">Gratis · un flujo WCAG · Agendar 30 min</a></p>
     </main>
+    <footer class="share-footer">
+      <div class="share-footer__inner">
+        <p>Viento Norte · Diseño que reduce el ruido.</p>
+        <p><a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a></p>
+        <nav aria-label="Pie">
+          <a href="/">Inicio</a>
+          <a href="/s/consultoria/">Consultoría</a>
+          <a href="/s/proceso/">Proceso</a>
+          <a href="/s/news/">News</a>
+          <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>
