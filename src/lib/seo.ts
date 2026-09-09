@@ -17,7 +17,8 @@ export const SEO_SITE = {
   shareHomeUrl: "https://vientonorte.io/s/",
   shareConsultoriaUrl: "https://vientonorte.io/s/consultoria",
   shareProcesoUrl: "https://vientonorte.io/s/proceso",
-  shareNewsUrl: "https://vientonorte.io/s/news",
+  /** @deprecated 2026-09-09 — /s/news purged; weekly LI uses shareConsultoriaUrl */
+  shareNewsUrl: "https://vientonorte.io/#/news",
   ogProceso: "https://vientonorte.io/images/branding/og-proceso-1200.png",
   /** Legacy path (GitHub project pages / bookmarks) */
   legacyBasePath: "/mi-portafolio",

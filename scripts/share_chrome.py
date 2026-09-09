@@ -7,7 +7,6 @@ NAV = (
     ("/", "Inicio"),
     ("/s/consultoria/", "Consultoría"),
     ("/s/proceso/", "Proceso"),
-    ("/s/news/", "News"),
 )
 
 
@@ -127,7 +126,6 @@ def render_page(
           <a href="/">Inicio</a>
           <a href="/s/consultoria/">Consultoría</a>
           <a href="/s/proceso/">Proceso</a>
-          <a href="/s/news/">News</a>
           <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
         </nav>
       </div>

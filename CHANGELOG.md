@@ -5,6 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-09] — Purge `/s/news` orphan (LinkedIn OG)
+
+### Fixed
+- LinkedIn OG mostraba **"News para empresas"** porque el hop crawler `/s/news` (y alias `/news`) seguía en hub. Se eliminan `public/s/news/**`, `public/news/**` y `public/images/news/**`.
+- Deploy a `vientonorte.github.io`: force-remove de `s/news`, `news` (y `images/news` si no viene en dist) **antes** de `cp -R dist`, con verificación post-copy para que orphans no sobrevivan.
+- Weekly LinkedIn CTA vuelve a `/s/consultoria/?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo` (+ `utm_content`).
+
+### Deprecated
+- `.github/workflows/news-autorun.yml` (`if: false`) y `scripts/build-news-hops.py` (no-op): no regenerar `/s/news`.
+- Nav/footer `/s/**` sin link News; sitemap sin locs `/s/news*`.
+
+### Not
+- No merge/deploy prod desde este PR. $0 Ads. No wrangler.
+
+---
+
 ## [2026-09-07] — QA HashRouter UI (`/#/` only)
 
 ### Added

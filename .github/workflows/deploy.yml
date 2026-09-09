@@ -159,7 +159,23 @@ jobs:
           cd /tmp/vn-hub-pub
           find . -maxdepth 1 -type f \( -name 'index.html' -o -name '404.html' -o -name 'sw.js' -o -name 'manifest.json' -o -name 'robots.txt' -o -name 'sitemap.xml' -o -name 'favicon.*' -o -name 'icon-*.png' -o -name 'profile-photo.jpg' -o -name 'cv-*.pdf' \) -delete || true
           rm -rf assets fonts images resources mi-portafolio 2>/dev/null || true
+          # Force-remove hub orphans: /s/news and /news must not survive SPA deploy
+          rm -rf s/news news
+          if [ ! -d "$GITHUB_WORKSPACE/dist/images/news" ]; then
+            rm -rf images/news
+          fi
           cp -R "$GITHUB_WORKSPACE/dist/." .
+          # Verify orphans only exist if present in dist (they should not)
+          for orphan in s/news news; do
+            if [ -e "$orphan" ] && [ ! -e "$GITHUB_WORKSPACE/dist/$orphan" ]; then
+              echo "ORPHAN survived publish: $orphan" >&2
+              exit 1
+            fi
+          done
+          if [ -d images/news ] && [ ! -d "$GITHUB_WORKSPACE/dist/images/news" ]; then
+            echo "ORPHAN survived publish: images/news" >&2
+            exit 1
+          fi
           echo "vientonorte.io" > CNAME
           git add -A
           if git diff --cached --quiet; then
