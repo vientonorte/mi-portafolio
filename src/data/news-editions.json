@@ -1,5 +1,5 @@
 {
-  "canonicalIndex": "https://vientonorte.io/s/news/",
+  "canonicalIndex": "https://vientonorte.io/#/news/",
   "spaIndex": "https://vientonorte.io/#/news",
   "aliasIndex": "https://vientonorte.io/news/",
   "figma": {
@@ -18,8 +18,12 @@
     "companyWeekly": "https://www.linkedin.com/company/135136519/admin/page-posts/drafts/"
   },
   "paid": "PAUSED",
-  "topics": ["accesibilidad", "automatizacion", "privacidad"],
-  "utmBase": "https://vientonorte.io/s/news/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
+  "topics": [
+    "accesibilidad",
+    "automatizacion",
+    "privacidad"
+  ],
+  "utmBase": "https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
   "ctaUrl": "https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
   "upcoming": [
     {
@@ -65,8 +69,14 @@
           "Viento Norte opens the same way with Chilean SMBs: free WCAG 2.2 AA on one flow. Then, if it fits, a 5–7 day Diagnostic. No KPIs that are not already in the portfolio."
         ]
       },
-      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nEdición: vientonorte.io/s/news/accesibilidad-transvip/",
-      "hashtags": ["#accesibilidadweb", "#WCAG", "#UXChile", "#VientoNorte", "#operacionesdigitales"]
+      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: vientonorte.io/s/consultoria/",
+      "hashtags": [
+        "#accesibilidadweb",
+        "#WCAG",
+        "#UXChile",
+        "#VientoNorte",
+        "#operacionesdigitales"
+      ]
     },
     {
       "slug": "automatizacion-sura",
@@ -103,8 +113,14 @@
           "If the bottleneck is a digital procedure, the first cut is still one flow (free, WCAG). Automation comes after the procedure can be used."
         ]
       },
-      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nHub público SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nEdición: vientonorte.io/s/news/automatizacion-sura/",
-      "hashtags": ["#automatizacion", "#DesignOps", "#UXChile", "#VientoNorte", "#operacionesdigitales"]
+      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nHub público SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nCTA: vientonorte.io/s/consultoria/",
+      "hashtags": [
+        "#automatizacion",
+        "#DesignOps",
+        "#UXChile",
+        "#VientoNorte",
+        "#operacionesdigitales"
+      ]
     },
     {
       "slug": "privacidad-flujo",
@@ -142,8 +158,14 @@
           "If your product touches personal data in Chile, the first cut is one flow — free, WCAG — then the Diagnostic. CTA at /s/consultoria."
         ]
       },
-      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, y si se puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl método contra-archivo lee opacidad institucional. Las skills de Viento Norte (WCAG, privacidad por diseño, Design Ops en CMS/CRM) son el reverso: trámite legible y mínimo. No es un juicio a una institución: es un mapa para empresas que digitalizan un flujo en Chile.\n\nEdición: vientonorte.io/s/news/privacidad-flujo/",
-      "hashtags": ["#Ley21719", "#privacidadpordiseño", "#WCAG", "#VientoNorte", "#datosChile"]
+      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, y si se puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl método contra-archivo lee opacidad institucional. Las skills de Viento Norte (WCAG, privacidad por diseño, Design Ops en CMS/CRM) son el reverso: trámite legible y mínimo. No es un juicio a una institución: es un mapa para empresas que digitalizan un flujo en Chile.\n\nCTA: vientonorte.io/s/consultoria/",
+      "hashtags": [
+        "#Ley21719",
+        "#privacidadpordiseño",
+        "#WCAG",
+        "#VientoNorte",
+        "#datosChile"
+      ]
     }
   ]
 }

@@ -85,8 +85,8 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/HQvdOouznRM1x4xhCxpR1m/VN-News-LinkedIn-covers",
     foCaseId: null,
-    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl; FO covers at /images/news/accesibilidad-transvip.png, /images/news/automatizacion-sura.png, /images/news/privacidad-flujo.png — do not duplicate into vn-assets",
-    localImage: "/images/news/accesibilidad-transvip.png",
+    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl; covers live in vault SEM/news-covers (LinkedIn attach) — /s/news and /images/news removed 2026-09-09",
+    localImage: null,
   },
   {
     id: "calor-vn-campaign-assets-a11y",

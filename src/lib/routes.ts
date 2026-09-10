@@ -13,7 +13,7 @@ export const ROUTES = {
   company: (companyId: string) => `/empresa/${companyId}`,
   contact: "/contacto",
   privacy: "/privacy",
-  /** Newsletter SEO (crawler `/s/news/`, SPA `/#/news`). */
+  /** Newsletter SPA (`/#/news`). Crawler `/s/news` removed 2026-09-09. */
   news: "/news",
   newsEdition: (slug: string) => `/news/${encodeURIComponent(slug)}`,
   designSystem: "/design-system",

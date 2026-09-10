@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import es from "../../lib/i18n/locales/es";
@@ -20,12 +20,6 @@ const polijuegoPrivacy = readFileSync(
   "utf8"
 );
 const sitemap = readFileSync(resolve(root, "public/sitemap.xml"), "utf8");
-const shareNews = readFileSync(resolve(root, "public/s/news/index.html"), "utf8");
-const aliasNews = readFileSync(resolve(root, "public/news/index.html"), "utf8");
-const shareNewsA11y = readFileSync(
-  resolve(root, "public/s/news/accesibilidad-transvip/index.html"),
-  "utf8"
-);
 
 const PATHS = ["Diagnóstico", "Prototipo", "Proceso de equipo"];
 
@@ -138,7 +132,7 @@ describe("SEO P0 · crawler HTML /s/", () => {
 });
 
 describe("SEO P0 · sitemap HTTP only", () => {
-  it("lists / /s/consultoria/ /s/proceso/ /s/news/ and no hash locs", () => {
+  it("lists / /s/consultoria/ /s/proceso/ and no /s/news or hash locs", () => {
     expect(sitemap).toContain("<loc>https://vientonorte.io/</loc>");
     expect(sitemap).not.toContain("<loc>https://vientonorte.io/s/</loc>");
     expect(sitemap).toContain(
@@ -148,15 +142,14 @@ describe("SEO P0 · sitemap HTTP only", () => {
       "<loc>https://vientonorte.io/s/polijuego-privacy/</loc>"
     );
     expect(sitemap).toContain("<loc>https://vientonorte.io/s/proceso/</loc>");
-    expect(sitemap).toContain("<loc>https://vientonorte.io/s/news/</loc>");
-    expect(sitemap).toContain(
-      "<loc>https://vientonorte.io/s/news/accesibilidad-transvip/</loc>"
-    );
+    expect(sitemap).not.toContain("/s/news");
+    expect(sitemap).not.toContain("<loc>https://vientonorte.io/news/");
     expect(sitemap).not.toMatch(/<loc>https:\/\/vientonorte\.io\/#\//);
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
-    expect(sitemap).toContain("<lastmod>2026-09-07</lastmod>");
+    expect(sitemap).toContain("<lastmod>2026-09-09</lastmod>");
     expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
+    expect(sitemap).not.toMatch(/<lastmod>2026-09-0[0-8]</);
   });
 });
 
@@ -191,40 +184,17 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
   });
 });
 
-describe("SEO P0 · news share HTML", () => {
-  it("index has H1, three topics, /s/ canonical, no hash hop", () => {
-    expect(shareNews).toMatch(
-      /<h1>\s*Privacidad, automatización y accesibilidad para empresas\s*<\/h1>/
-    );
-    expect(shareNews).toContain("accesibilidad-transvip");
-    expect(shareNews).toContain("automatizacion-sura");
-    expect(shareNews).toContain("privacidad-flujo");
-    expect(shareNews).toContain(
-      'rel="canonical" href="https://vientonorte.io/s/news/"'
-    );
-    expect(shareNews).not.toContain("http-equiv=\"refresh\"");
-    expect(shareNews).not.toContain("location.replace(");
-    expect(shareNews).toContain("GTM-PM5LBQRP");
-    expect(shareNews).not.toContain("gtag.js");
-    expect(shareNews).not.toMatch(/Radar/i);
-    expect(aliasNews).toContain(
-      'rel="canonical" href="https://vientonorte.io/s/news/"'
-    );
+describe("SEO P0 · /s/news purged", () => {
+  it("does not ship public/s/news or public/news crawler HTML", () => {
+    expect(existsSync(resolve(root, "public/s/news"))).toBe(false);
+    expect(existsSync(resolve(root, "public/news"))).toBe(false);
+    expect(existsSync(resolve(root, "public/images/news"))).toBe(false);
   });
 
-  it("Transvip edition cites hub metrics and no invented CPC", () => {
-    expect(shareNewsA11y).toMatch(
-      /<h1>\s*Un flujo de reserva que se puede usar\s*<\/h1>/
-    );
-    expect(shareNewsA11y).toContain("−40% tiempo de reserva");
-    expect(shareNewsA11y).toContain("transvipHub");
-    expect(shareNewsA11y).toContain(
-      'rel="canonical" href="https://vientonorte.io/s/news/accesibilidad-transvip/"'
-    );
-    expect(shareNewsA11y).not.toContain("CPC");
-    expect(shareNewsA11y).not.toMatch(/Radar/i);
-    expect(shareNewsA11y).not.toContain("http-equiv=\"refresh\"");
-    expect(shareNewsA11y).not.toContain("location.replace(");
+  it("remaining /s/ chrome has no News nav/footer link", () => {
+    for (const html of [shareHome, shareConsultoria, shareProceso, polijuegoPrivacy]) {
+      expect(html).not.toContain('href="/s/news/"');
+    }
   });
 });
 
