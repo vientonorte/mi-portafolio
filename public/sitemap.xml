@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- SEO orgánico · solo paths HTTP. Google ignora fragments (#/). -->
   <!-- /s/ omitido: canonical a home; no gastar crawl budget en duplicado. -->
-  <!-- /s/news y /news removidos 2026-09-09 (LinkedIn OG orphan). -->
+  <!-- orphan news hops y alias /news removidos 2026-09-09 (LinkedIn OG). -->
   <url>
     <loc>https://vientonorte.io/</loc>
     <lastmod>2026-09-09</lastmod>
