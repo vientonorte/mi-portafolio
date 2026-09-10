@@ -97,7 +97,7 @@ describe("figma-assets-ssot", () => {
     expect(FIGMA_CALOR_LEGACY_IDS).toHaveLength(10);
   });
 
-  it("apunta localImage a PNG FO en Transvip/Claro/News y deja Skills/SURA-demanda/AVEM sin visual público", () => {
+  it("apunta localImage a PNG FO en Transvip/Claro; news covers vault-only; Skills/SURA-demanda/AVEM sin visual público", () => {
     const byId = Object.fromEntries(FIGMA_ASSETS.map((a) => [a.id, a]));
     expect(byId["transvip-system-design-app"]?.localImage).toBe(
       "/images/vn-assets/transvip-system-design.png"
@@ -108,10 +108,9 @@ describe("figma-assets-ssot", () => {
     expect(byId["claro-portal-comercial"]?.localImage).toBe(
       "/images/vn-assets/claro-portal-carrito.png"
     );
-    expect(byId["calor-vn-news-covers"]?.localImage).toBe(
-      "/images/news/accesibilidad-transvip.png"
-    );
-    expect(byId["calor-vn-news-covers"]?.notes).toMatch(/\/images\/news\//);
+    expect(byId["calor-vn-news-covers"]?.localImage ?? null).toBeNull();
+    expect(byId["calor-vn-news-covers"]?.notes).toMatch(/vault-only|SEM\/news-covers/);
+    expect(byId["calor-vn-news-covers"]?.notes).not.toMatch(/\/images\/news\//);
     expect(byId["calor-vn-skills-dashboard"]?.localImage ?? null).toBeNull();
     expect(byId["calor-vn-skills-competencias"]?.localImage ?? null).toBeNull();
     expect(byId["calor-vn-escenarios-demanda-sura"]?.localImage ?? null).toBeNull();

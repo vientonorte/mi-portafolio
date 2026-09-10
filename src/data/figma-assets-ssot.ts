@@ -85,7 +85,7 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: "https://www.figma.com/design/HQvdOouznRM1x4xhCxpR1m/VN-News-LinkedIn-covers",
     foCaseId: null,
-    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl; covers live in vault SEM/news-covers (LinkedIn attach) — /s/news and /images/news removed 2026-09-09",
+    notes: "experience: Viento Norte; also news-editions.json figma.fileUrl; covers vault-only SEM/news-covers (LinkedIn attach) — public orphan news paths purged 2026-09-09",
     localImage: null,
   },
   {
