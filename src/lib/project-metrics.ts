@@ -39,7 +39,58 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
       { label: "Design System", value: "50+" },
     ],
   },
-  "sura-ria-us": {
+  
+  "sura-templates-ui-kit": {
+    es: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+    en: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+  },
+  "sura-brand-audit": {
+    es: [
+      { label: "Sitios", value: "~19" },
+      { label: "Países", value: "4+" },
+    ],
+    en: [
+      { label: "Sites", value: "~19" },
+      { label: "Countries", value: "4+" },
+    ],
+  },
+  "sura-usability-ronda-1": {
+    es: [
+      { label: "Ronda", value: "1" },
+      { label: "Design QA", value: "Sí" },
+    ],
+    en: [
+      { label: "Round", value: "1" },
+      { label: "Design QA", value: "Yes" },
+    ],
+  },
+  "sura-seo-metadata": {
+    es: [
+      { label: "Campos", value: "Title/Meta/Canonical" },
+      { label: "Alcance", value: "Regional" },
+    ],
+    en: [
+      { label: "Fields", value: "Title/Meta/Canonical" },
+      { label: "Scope", value: "Regional" },
+    ],
+  },
+  "sura-wm-notificaciones": {
+    es: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+    en: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+  },
+"sura-ria-us": {
     es: [
       { label: "Prototipos Hi-Fi", value: "8" },
       { label: "Flujos auth", value: "3" },
@@ -124,7 +175,58 @@ const PROJECT_SEO_KEYWORDS: Record<string, Record<Language, string>> = {
     es: "design system, onboarding digital, CMS, cumplimiento, SURA",
     en: "design system, digital onboarding, CMS, compliance, SURA",
   },
-  "sura-ria-us": {
+  
+  "sura-templates-ui-kit": {
+    es: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+    en: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+  },
+  "sura-brand-audit": {
+    es: [
+      { label: "Sitios", value: "~19" },
+      { label: "Países", value: "4+" },
+    ],
+    en: [
+      { label: "Sites", value: "~19" },
+      { label: "Countries", value: "4+" },
+    ],
+  },
+  "sura-usability-ronda-1": {
+    es: [
+      { label: "Ronda", value: "1" },
+      { label: "Design QA", value: "Sí" },
+    ],
+    en: [
+      { label: "Round", value: "1" },
+      { label: "Design QA", value: "Yes" },
+    ],
+  },
+  "sura-seo-metadata": {
+    es: [
+      { label: "Campos", value: "Title/Meta/Canonical" },
+      { label: "Alcance", value: "Regional" },
+    ],
+    en: [
+      { label: "Fields", value: "Title/Meta/Canonical" },
+      { label: "Scope", value: "Regional" },
+    ],
+  },
+  "sura-wm-notificaciones": {
+    es: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+    en: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+  },
+"sura-ria-us": {
     es: "RIA platform, onboarding multi-rol, fintech US, autenticación, SURA",
     en: "RIA platform, multi-role onboarding, US fintech, authentication, SURA",
   },
