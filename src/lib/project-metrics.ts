@@ -39,7 +39,58 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
       { label: "Design System", value: "50+" },
     ],
   },
-  "sura-ria-us": {
+  
+  "sura-templates-ui-kit": {
+    es: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+    en: [
+      { label: "Templates", value: "5" },
+      { label: "UI Kit", value: "Jul 2025" },
+    ],
+  },
+  "sura-brand-audit": {
+    es: [
+      { label: "Sitios", value: "~19" },
+      { label: "Países", value: "4+" },
+    ],
+    en: [
+      { label: "Sites", value: "~19" },
+      { label: "Countries", value: "4+" },
+    ],
+  },
+  "sura-usability-ronda-1": {
+    es: [
+      { label: "Ronda", value: "1" },
+      { label: "Design QA", value: "Sí" },
+    ],
+    en: [
+      { label: "Round", value: "1" },
+      { label: "Design QA", value: "Yes" },
+    ],
+  },
+  "sura-seo-metadata": {
+    es: [
+      { label: "Campos", value: "Title/Meta/Canonical" },
+      { label: "Alcance", value: "Regional" },
+    ],
+    en: [
+      { label: "Fields", value: "Title/Meta/Canonical" },
+      { label: "Scope", value: "Regional" },
+    ],
+  },
+  "sura-wm-notificaciones": {
+    es: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+    en: [
+      { label: "Journeys", value: "40+" },
+      { label: "WM", value: "Chile" },
+    ],
+  },
+"sura-ria-us": {
     es: [
       { label: "Prototipos Hi-Fi", value: "8" },
       { label: "Flujos auth", value: "3" },
@@ -123,6 +174,28 @@ const PROJECT_SEO_KEYWORDS: Record<string, Record<Language, string>> = {
   "sura-ecosistema-digital": {
     es: "design system, onboarding digital, CMS, cumplimiento, SURA",
     en: "design system, digital onboarding, CMS, compliance, SURA",
+  },
+  
+
+  "sura-templates-ui-kit": {
+    es: "templates sitio público, UI Kit Figma, design system, SURA Investments",
+    en: "public site templates, Figma UI Kit, design system, SURA Investments",
+  },
+  "sura-brand-audit": {
+    es: "auditoría de marca, brandbook, tokens, sitios multipaís, SURA",
+    en: "brand audit, brandbook, tokens, multi-country sites, SURA",
+  },
+  "sura-usability-ronda-1": {
+    es: "test moderado, design QA, usabilidad sitio público, SURA",
+    en: "moderated usability test, design QA, public site, SURA",
+  },
+  "sura-seo-metadata": {
+    es: "metadata SEO, canonical, titles, slugs, SURA Investments",
+    en: "SEO metadata, canonical, titles, slugs, SURA Investments",
+  },
+  "sura-wm-notificaciones": {
+    es: "notificaciones WM, comunicaciones, journeys, Wealth Management Chile",
+    en: "WM notifications, communications, journeys, Wealth Management Chile",
   },
   "sura-ria-us": {
     es: "RIA platform, onboarding multi-rol, fintech US, autenticación, SURA",

@@ -160,7 +160,7 @@ export const suraHub: CompanyHub = {
   logo: suraRiaOnboarding,
   industry: "Fintech",
   period: "2023 - Presente",
-  totalProjects: 5,
+  totalProjects: 10,
   description: {
     es: "Lideré la implementación de UX Enterprise para productos financieros digitales a nivel regional, aplicando Design Thinking adaptado a contextos corporativos y regulaciones del sector.",
     en: "Led UX Enterprise implementation for digital financial products across the region, applying Design Thinking adapted to corporate contexts and sector regulations.",
@@ -328,8 +328,8 @@ export const suraHub: CompanyHub = {
       role: "Lead UX | Digital Strategy & Onboarding",
       period: "2023 - 2025",
       projectName: "Ecosistema Digital Sitios Públicos & Onboarding",
-      description: "Rediseño completo del ecosistema de +20 sitios web públicos para SURA Investments Regional, implementando arquitectura unificada, CMS, Design System y flujos de onboarding digital optimizados con manejo de casos de error.",
-      descriptionEN: "Complete redesign of 20+ public websites for SURA Investments Regional: unified architecture, CMS, Design System, and optimized digital onboarding with error handling.",
+      description: "Rediseño del ecosistema de +20 sitios web públicos para SURA Investments Regional (arquitectura unificada, CMS, Design System/UI Kit, templates reutilizables, metadata SEO y flujos de onboarding), con design QA vía test moderado.",
+      descriptionEN: "Redesign of 20+ public websites for SURA Investments Regional: unified architecture, CMS, Design System/UI Kit, reusable templates, SEO metadata, onboarding flows, and design QA via moderated testing.",
       image: suraBenchmarkNavigation,
       tags: ["Web Ecosystem", "Digital Strategy", "CMS", "Onboarding", "Design System"],
       
@@ -521,6 +521,186 @@ export const suraHub: CompanyHub = {
         mockups: [portfolioImages.sura.iaAutomationDashboard],
       },
     },
+    {
+      id: "sura-templates-ui-kit",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "UX Lead | Associate, Digital Strategy",
+      period: "2024 - 2025",
+      projectName: "Sitio Público — templates reutilizables + UI Kit",
+      description:
+        "Sistema de templates reutilizables del Sitio Público (Home + Templates 1–4, desktop y mobile) con tracking de diseño/aprobación y gobernanza del UI Kit SURA Investments en Figma (export Julio 2025). Incluye estructuras y contenidos WM México alineados a los mismos templates.",
+      descriptionEN:
+        "Reusable Public Site template system (Home + Templates 1–4, desktop and mobile) with design/approval tracking and SURA Investments UI Kit governance in Figma (July 2025 export). Includes Mexico WM content structures mapped to the same templates.",
+      image: suraComponentPipeline,
+      tags: ["Design System", "Templates", "Figma", "IA", "Wealth"],
+      processes: [
+        {
+          name: "Information Architecture & Templates",
+          description:
+            "Definición de Home y Templates 1–4 como patrón reutilizable (índices → detalle → anidados → fondos), con variantes desktop/mobile.",
+          tools: ["Figma", "IA", "Content model"],
+        },
+        {
+          name: "UI Kit & Design Ops",
+          description:
+            "Gobierno del UI Kit regional y flujo de prototipos/aprobación por pantalla (diseñador, prioridad, estados).",
+          tools: ["Figma UI Kit", "Design Ops", "Handoff"],
+        },
+      ],
+      details: {
+        challenge:
+          "Sitios públicos regionales sin un sistema de página reutilizable ni kit único de componentes.",
+        solution:
+          "Templates canónicos + UI Kit Figma compartido, con matriz de pantallas y aprobación para handoff a contenido y desarrollo.",
+        metrics: [
+          "Home + Templates 1–4 documentados (desktop/mobile)",
+          "UI Kit Figma Julio 2025 como SSOT de componentes",
+          "Matriz WM México con estados de diseño/aprobación",
+        ],
+        learnings: [
+          "Los templates reducen retrabajo de contenido multi-país",
+          "El tracking de aprobación es parte del Design Ops, no un Excel aparte del diseño",
+        ],
+        mockups: [suraComponentPipeline, suraRiaOnboarding],
+      },
+    },
+    {
+      id: "sura-brand-audit",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "UX Lead | Digital Strategy",
+      period: "2023 - 2025",
+      projectName: "Auditoría de marca multipaís (~19 sitios)",
+      description:
+        "Auditoría de uso de marca en sitios web de SURA Investments y afiliadas (Chile, Perú, México, Uruguay y más): color, gráfica, naming y alineación al brandbook / tokens.",
+      descriptionEN:
+        "Brand-usage audit across SURA Investments and affiliate sites (Chile, Peru, Mexico, Uruguay, and more): color, charts, naming, and brandbook/token alignment.",
+      image: suraBenchmarkNavigation,
+      tags: ["Brand", "Design Tokens", "Regional", "Audit"],
+      processes: [
+        {
+          name: "Heuristic brand audit",
+          description:
+            "Revisión sitio por sitio de estilos, gráficos y naming frente al manual de marca.",
+          tools: ["Heuristic Evaluation", "Brandbook", "Tokens"],
+        },
+      ],
+      details: {
+        challenge:
+          "Ecosistema web fragmentado con desviaciones de marca entre países y propiedades.",
+        solution:
+          "Matriz de auditoría multipaís con hallazgos accionables (color primario, paletas de gráficos, naming).",
+        metrics: [
+          "~19 propiedades web revisadas",
+          "Hallazgos por sitio con criterios de marca",
+        ],
+        mockups: [suraBenchmarkNavigation],
+      },
+    },
+    {
+      id: "sura-usability-ronda-1",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "UX Lead | Research & Design QA",
+      period: "2024 - 2025",
+      projectName: "Test moderado ronda 1 — sitio público",
+      description:
+        "Diseño y ejecución de test de usabilidad moderado (ronda 1) sobre los nuevos flujos del sitio público: matriz de tareas, hallazgos agregados y criterios de design QA para iterar navegación y contenidos.",
+      descriptionEN:
+        "Designed and ran moderated usability testing (round 1) on new public-site flows: task matrix, aggregated findings, and design-QA criteria to iterate navigation and content.",
+      image: uxProcessDiagram,
+      tags: ["Usability", "Design QA", "Research", "Public Site"],
+      processes: [
+        {
+          name: "Moderated testing",
+          description:
+            "Escenario de asesoría/inversión; tareas sobre menú, contenidos y CTAs; captura de hallazgos por participante (agregados en reporte).",
+          tools: ["Moderated test", "Task matrix", "Findings log"],
+        },
+      ],
+      details: {
+        challenge:
+          "Validar percepción y findability en el rediseño del sitio público antes de escalar cambios.",
+        solution:
+          "Ronda 1 moderada con matriz de tareas y backlog de hallazgos para design QA.",
+        metrics: [
+          "Matriz de tareas ronda 1 documentada",
+          "Hallazgos agregados para iteración de navegación/contenido",
+        ],
+        learnings: [
+          "Design QA con usuarios reduce supuestos de menú y jerarquía informativa",
+        ],
+        mockups: [uxProcessDiagram, suraHotjarDashboard],
+      },
+    },
+    {
+      id: "sura-seo-metadata",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "UX Lead | Digital Strategy",
+      period: "2024 - 2025",
+      projectName: "Metadata SEO — titles, descriptions, slugs, canonicals",
+      description:
+        "Definición de metadata SEO del sitio regional (URL/slug, title, meta description, canonical) para páginas de surainvestments.com, alineada a IA y contenidos wealth.",
+      descriptionEN:
+        "Defined regional-site SEO metadata (URL/slug, title, meta description, canonical) for surainvestments.com pages, aligned to IA and wealth content.",
+      image: suraAnalyticsGa4,
+      tags: ["SEO", "IA", "Content", "Metadata"],
+      processes: [
+        {
+          name: "SEO content model",
+          description:
+            "Matriz URL actual → slug nuevo → title → description → canonical por página.",
+          tools: ["SEO", "Content inventory", "IA"],
+        },
+      ],
+      details: {
+        challenge:
+          "Páginas regionales sin metadata consistente ni canonicals claros.",
+        solution:
+          "Matriz de metadata accionable para implementación en CMS/web.",
+        metrics: [
+          "Matriz de metadata por URL/slug",
+          "Titles y descriptions acotados a buenas prácticas",
+        ],
+        mockups: [suraAnalyticsGa4],
+      },
+    },
+    {
+      id: "sura-wm-notificaciones",
+      company: "SURA Investments",
+      companyLogo: suraRiaOnboarding,
+      role: "UX Lead | Digital Strategy",
+      period: "2023 - 2025",
+      projectName: "Mapa de notificaciones y comunicaciones WM Chile",
+      description:
+        "Levantamiento transversal de comunicaciones/notificaciones web de Wealth Management Chile (onboarding, claves, APV, abonos, mandatos, etc.): inventario de piezas, datos variables y journeys para alinear UX y operaciones digitales.",
+      descriptionEN:
+        "Cross-cutting inventory of Wealth Management Chile web communications/notifications (onboarding, credentials, APV, deposits, mandates, etc.): assets, variable data, and journeys to align UX and digital operations.",
+      image: suraBookingFlowchart,
+      tags: ["Journeys", "Communications", "WM", "Ops"],
+      processes: [
+        {
+          name: "Communications inventory",
+          description:
+            "Mapeo de notificaciones por journey (bienvenida, claves, inversiones APV/no APV, mandatos) con adjuntos y data variable.",
+          tools: ["Journey mapping", "Content inventory"],
+        },
+      ],
+      details: {
+        challenge:
+          "Comunicaciones WM fragmentadas entre canales y equipos sin mapa único de piezas.",
+        solution:
+          "Inventario transversal por journey para priorizar UX de mensajes regulados y ops.",
+        metrics: [
+          "40+ piezas/journeys inventariados (WM Chile)",
+          "Cobertura de flujos críticos: onboarding, claves, APV, mandatos",
+        ],
+        mockups: [suraBookingFlowchart],
+      },
+    },
+
   ],
   // Datos específicos de metodología por empresa
   methodologyStats: {

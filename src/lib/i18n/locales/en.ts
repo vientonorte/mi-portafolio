@@ -1469,6 +1469,37 @@ export default {
           'Unification of 20+ public sites with CMS, Design System, and client onboarding flow with error handling.',
         tags: ['CMS', 'Design System', 'Onboarding'],
       },
+
+      'sura-templates-ui-kit': {
+        title: 'Public Site — templates + UI Kit',
+        company: 'SURA Investments',
+        description: 'Home + Templates 1–4 (desktop/mobile) and July 2025 Figma UI Kit, with approval tracking and Mexico WM content structures.',
+        tags: ['Design System', 'Templates', 'Figma', 'Wealth'],
+      },
+      'sura-brand-audit': {
+        title: 'Multi-country brand audit',
+        company: 'SURA Investments',
+        description: 'Review of ~19 sites (CL, PE, MX, UY, and more): color, charts, and naming vs brandbook.',
+        tags: ['Brand', 'Tokens', 'Regional', 'Audit'],
+      },
+      'sura-usability-ronda-1': {
+        title: 'Moderated test round 1 — public site',
+        company: 'SURA Investments',
+        description: 'Moderated usability and design QA on public-site flows: task matrix and aggregated findings.',
+        tags: ['Usability', 'Design QA', 'Research'],
+      },
+      'sura-seo-metadata': {
+        title: 'Regional SEO metadata',
+        company: 'SURA Investments',
+        description: 'Matrix of titles, descriptions, slugs, and canonicals for surainvestments.com.',
+        tags: ['SEO', 'IA', 'Content'],
+      },
+      'sura-wm-notificaciones': {
+        title: 'WM Chile notifications map',
+        company: 'SURA Investments',
+        description: 'Cross-cutting inventory of WM web communications (onboarding, credentials, APV, mandates).',
+        tags: ['Journeys', 'Communications', 'WM'],
+      },
       'transvip-app-premium': {
         title: 'Premium Passenger App',
         company: 'Transvip',

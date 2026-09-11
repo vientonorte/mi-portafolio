@@ -18,6 +18,11 @@ const FEATURED_CASE_STUDY_IDS = [
   "sura-inversiones-dashboard",
   "sura-ia-automation-dashboard",
   "sura-ecosistema-digital",
+  "sura-templates-ui-kit",
+  "sura-brand-audit",
+  "sura-usability-ronda-1",
+  "sura-seo-metadata",
+  "sura-wm-notificaciones",
   "transvip-app-premium",
   "karri-calculadora",
   "karri-notificaciones",
@@ -39,6 +44,16 @@ function imageForProject(
       return images.sura.iaAutomationDashboard;
     case "sura-ecosistema-digital":
       return images.sura.benchmarkNavigation;
+    case "sura-templates-ui-kit":
+      return images.sura.componentPipeline;
+    case "sura-brand-audit":
+      return images.sura.benchmarkNavigation;
+    case "sura-usability-ronda-1":
+      return images.sura.uxProcess;
+    case "sura-seo-metadata":
+      return images.sura.analyticsGa4;
+    case "sura-wm-notificaciones":
+      return images.sura.bookingFlowchart;
     case "transvip-app-premium":
       return images.transvip.appDesktop;
     case "karri-calculadora":
