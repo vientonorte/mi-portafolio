@@ -22,6 +22,7 @@ const Home = lazyWithRetry(() => import('./pages/Home'));
 const ConsultoriaVientoNorte = lazyWithRetry(
   () => import('./pages/ConsultoriaVientoNorte')
 );
+const LandingsHub = lazyWithRetry(() => import('./pages/LandingsHub'));
 const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
@@ -179,6 +180,7 @@ function AppRoutes() {
               path={ROUTES.consulting}
               element={<ConsultoriaVientoNorte variant="sem" />}
             />
+            <Route path={ROUTES.landings} element={<LandingsHub />} />
             <Route
               path={LEGACY_ROUTES.pocProductOnboarding}
               element={<Navigate to={ROUTES.consulting} replace />}

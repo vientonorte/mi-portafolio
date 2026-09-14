@@ -26,6 +26,12 @@ export const ROUTES = {
   consulting: "/consultoria",
 
   /**
+   * IA interna HashRouter (`/#/landings`). No sitemap (hash).
+   * Orgánico = HTTP `/servicios/*`.
+   */
+  landings: "/landings",
+
+  /**
    * Embudo = home. Alias canónico para CTAs internos.
    * Path legacy `/consultoria/embudo` redirige a `/`.
    */

@@ -28,4 +28,8 @@ export const servicios = {
     title: 'Data privacy in the flow',
     lead: 'Privacy by design. Not mentorship.',
   },
+  seguridadDigital: {
+    title: 'Digital security for companies in Chile',
+    lead: 'Law 21.719 · WCAG 2.2 AA. Not guards or antivirus.',
+  },
 };
