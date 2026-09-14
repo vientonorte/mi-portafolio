@@ -1,5 +1,5 @@
-/* Static /s/ chrome — @vientonorte/tokens + skip-link / landmarks of FO home.
-   No JS hop to /#/. Crawlers stay on /s/. */
+/* Static chrome for /servicios/* (orgánico) y leftover /s/.
+   Producto UI = /#/consultoria. Piloto Ads /s/consultoria no se hoppea. */
 
 @font-face {
   font-family: Chillax;
@@ -297,6 +297,59 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
   margin-top: 0.75rem;
+}
+
+/* Apple-style POC teaser on /servicios/* (crawler). CTA → producto /#/consultoria. */
+.share-poc {
+  margin: 2.5rem 0;
+  padding: 2.5rem 1.25rem 2rem;
+  background: #0a0a0a;
+  color: #e8e5df;
+  border-radius: 24px;
+  text-align: center;
+}
+
+.share-poc__kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232, 229, 223, 0.55);
+}
+
+.share-poc h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--vn-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.share-poc p {
+  margin: 0 auto 1.25rem;
+  max-width: 36rem;
+}
+
+.share-poc__device {
+  margin: 0 auto 1.5rem;
+  max-width: 44rem;
+}
+
+.share-poc__device img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
+}
+
+.share-poc .share-cta {
+  background: #fff;
+  color: #0a0a0a;
+}
+
+.share-poc .share-cta:hover {
+  filter: none;
+  background: #e8e5df;
 }
 
 @media (prefers-reduced-motion: reduce) {

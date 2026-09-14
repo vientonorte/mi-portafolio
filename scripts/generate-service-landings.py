@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "src/data/service-landings.json").read_text())
 ORIGIN = DATA["origin"]
 LASTMOD = DATA["lastmod"]
+# Producto UI (HashRouter). No /s/consultoria (piloto Ads).
+PRODUCT_UI = "/#/consultoria"
 
 GTM = """    <script>
       (function (w, d, s, l, i) {
@@ -89,6 +91,18 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     robots = "" if item.get("index", True) else '    <meta name="robots" content="noindex, follow" />\n'
     current = ' aria-current="page"' if item["id"] == "hub" else ""
     kicker = esc(item["kicker"]) if item.get("kicker") else "Viento Norte · Chile"
+    poc_alt = esc(f"Prototipo X|CMS · {item['h1']}")
+    poc_html = f"""      <section class="share-poc" aria-labelledby="poc-apple">
+        <p class="share-poc__kicker">Prototipo</p>
+        <h2 id="poc-apple">El módulo en tu operación</h2>
+        <p>Sin nube obligatoria. El dato queda en tu CMS o CRM. Mismo craft que la oferta.</p>
+        <figure class="share-poc__device">
+          <img src="/images/poc-modules/dashboard.png" width="1200" height="750" alt="{poc_alt}" />
+        </figure>
+        <p>
+          <a class="share-cta" href="{PRODUCT_UI}">Ver prototipo</a>
+        </p>
+      </section>"""
     extra = []
     if item.get("pains"):
         lis = "\n".join(
@@ -161,9 +175,9 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         </a>
         <nav class="share-nav" aria-label="Principal">
           <a href="/">Inicio</a>
-          <a href="/s/consultoria/">Consultoría</a>
+          <a href="/#/consultoria">Consultoría</a>
           <a href="/servicios/"{current}>Servicios</a>
-          <a href="/s/proceso/">Proceso</a>
+          <a href="/#/proceso">Proceso</a>
         </nav>
       </div>
     </header>
@@ -178,14 +192,15 @@ def page_html(item: dict, siblings: list[dict]) -> str:
       <h1>{esc(item["h1"])}</h1>
       <div class="share-rule" aria-hidden="true"></div>
       <p class="lead">{esc(item["description"])}</p>
+{poc_html}
 {extra_html}
       <h2>También</h2>
       <ul class="share-cards">
 {cards}
       </ul>
       <p>
-        <a class="share-cta" href="/s/consultoria/">Hablemos</a>
-        <a class="share-cta share-cta--ghost" href="/s/consultoria/">Gratis · un flujo WCAG</a>
+        <a class="share-cta" href="/#/consultoria">Hablemos</a>
+        <a class="share-cta share-cta--ghost" href="/#/consultoria">Gratis · un flujo WCAG</a>
       </p>
     </main>
     <footer class="share-footer">
