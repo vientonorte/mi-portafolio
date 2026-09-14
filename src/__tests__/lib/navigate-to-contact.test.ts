@@ -63,6 +63,21 @@ describe("navigateToContactAssistant", () => {
     );
   });
 
+  it("free a11y draft never navigates to /auditoria", () => {
+    const navigate = vi.fn();
+    navigateToContactAssistant(navigate, {
+      origin: "free-radar",
+      intent: "consulting",
+      packageId: "radar",
+      consultingQ1: "radar-free",
+      message: "revisión gratis de accesibilidad",
+    });
+    const [to] = navigate.mock.calls[0];
+    expect(to.pathname).toBe("/contacto");
+    expect(to.pathname).not.toBe("/auditoria");
+    expect(JSON.stringify(navigate.mock.calls)).not.toMatch(/\/auditoria/);
+  });
+
   it("adds ?intent= when only intent is provided", () => {
     const navigate = vi.fn();
     navigateToContactAssistant(navigate, { intent: "recruiter" });

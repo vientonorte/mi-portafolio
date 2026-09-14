@@ -271,6 +271,11 @@ function collectParallelResults(
  * Envía contacto en paralelo: Google Forms + Worker (si hay DOM).
  * FormSubmit solo como último respaldo (emails con sponsor en plan free).
  */
+/** Puerto DIP: la UI no elige Forms vs Worker. */
+export type ContactSubmitter = (
+  payload: ContactPayload
+) => Promise<ContactSubmitResult>;
+
 export async function submitContactMessage(
   payload: ContactPayload
 ): Promise<ContactSubmitResult> {

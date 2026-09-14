@@ -2,8 +2,12 @@ import type { NavigateFunction } from "react-router-dom";
 import type { ConsultingPackageId } from "../data/vientonorte-consulting";
 import type { ContactIntent } from "./build-contact-message";
 import type { ContactDraft, ContactDraftSource } from "./contact-draft";
-import { ROUTES } from "./routes";
 import { trackEvent } from "./analytics";
+import {
+  contactPathForSurface,
+  pathIsAuditoriaMentoria,
+  resolveContactSurface,
+} from "./contact-surface";
 
 /** Origins for conversion CTAs that open the intelligent contact form. */
 export type ContactCtaOrigin =
@@ -103,8 +107,14 @@ export function navigateToContactAssistant(
       ? `?intent=${encodeURIComponent(draft.intent)}`
       : "";
 
+  const surface = resolveContactSurface(undefined, draft);
+  const pathname = contactPathForSurface(surface);
+  if (pathIsAuditoriaMentoria(pathname)) {
+    throw new Error("contact assistant must not open /auditoria");
+  }
+
   navigate(
-    { pathname: ROUTES.contact, search },
+    { pathname, search },
     {
       replace: options.replace,
       state: { contactDraft: draft },
