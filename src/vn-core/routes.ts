@@ -19,8 +19,8 @@ export const ROUTES = {
   designSystem: "/design-system",
 
   /**
-   * Landing SEM / paid · funnel 3 packs + OB (mismo craft que home).
-   * Ads crawler: https://vientonorte.io/s/consultoria
+   * Landing producto (HashRouter `/#/consultoria`). DoD = qa:hash-ui.
+   * Piloto Ads leftover (no producto): https://vientonorte.io/s/consultoria
    * Tour módulos: /consultoria/modulos/:id
    */
   consulting: "/consultoria",

@@ -1,11 +1,12 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
 **Decider:** Rö · **Actualizado:** 2026-08-26  
-**Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · final `/s/consultoria` · conversión = eventos, no clic de página (3) UTM después del hash + Vite `npm run dev` (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
+**Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · conversión = eventos, no clic de página (3) UTM después del hash + Vite `npm run dev` (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
 **Loop D:** tags GTM v4 live. Preview **Gratis → `GA4 · generate_lead` Activado 1 vez** (26 ago) · `book_call` PASS 20 ago y 26 ago.  
-**SEM landing:** `/#/consultoria` in-app · crawler/paid = `/s/consultoria`. No pagar a `/`.  
+**Producto UI:** `/#/consultoria`. **Orgánico:** `/servicios/*`. **Piloto Ads (no producto):** `/s/consultoria` se queda 200. No hop. No pagar a `/`.  
 **Loop E:** Decider 26 ago *activar campañas*. RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Techo = humano. No publicado en Ads UI hasta que Rö pegue. F sigue parked.  
-**Final URL de paid y de bio:** `https://vientonorte.io/s/consultoria`  
+**Final URL piloto Ads:** `https://vientonorte.io/s/consultoria`  
+**Bio / orgánico / DoD:** `https://vientonorte.io/#/consultoria` (no `/s/` como producto).  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
 Evidencia 15 ago: `/s/consultoria` **200** · OG `og-home-1200.png` **1200×630** · secret `VITE_GTM_ID` · **no** `VITE_GA_MEASUREMENT_ID` · #181 merged `1602ed6`. Residual humano: GTM Preview + tags GA4 en el contenedor · LinkedIn/Meta scrape (A).

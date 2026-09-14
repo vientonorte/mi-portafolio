@@ -10,7 +10,7 @@ export const DEFAULT_CAMPAIGN_ID = "24184249593";
 export const PAID_FINAL_URL =
   "https://vientonorte.io/s/consultoria/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes";
 
-/** Lock: match type amplia (BROAD) desactivada; landing must be /s/consultoria. */
+/** Lock piloto Ads: BROAD off; final URL sigue /s/consultoria (no es producto UI). */
 export const LOCK = {
   ampliaDesactivada: true,
   allowedPath: "/s/consultoria",

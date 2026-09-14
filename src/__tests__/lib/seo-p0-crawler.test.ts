@@ -41,7 +41,7 @@ describe("SEO P0 · title home vs query", () => {
   });
 });
 
-describe("SEO P0 · crawler HTML /s/", () => {
+describe("SEO P0 · piloto Ads HTML /s/ (no producto; se queda 200)", () => {
   it("share home has H1, three paths, and query in title/description", () => {
     expect(shareHome).toMatch(/<h1>\s*Tecnología para empresas\s*<\/h1>/);
     for (const name of PATHS) {
@@ -132,7 +132,7 @@ describe("SEO P0 · crawler HTML /s/", () => {
 });
 
 describe("SEO P0 · sitemap HTTP only", () => {
-  it("lists / /s/consultoria/ /s/proceso/ and no /s/news or hash locs", () => {
+  it("lists / + /servicios/* + piloto /s/consultoria/; omite /s/ hub, /s/news, hash", () => {
     expect(sitemap).toContain("<loc>https://vientonorte.io/</loc>");
     expect(sitemap).not.toContain("<loc>https://vientonorte.io/s/</loc>");
     expect(sitemap).toContain(
