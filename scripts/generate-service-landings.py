@@ -68,7 +68,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     canon = ORIGIN + item["path"]
     others = [s for s in siblings if s["id"] != item["id"] and s["slug"]]
     cards = "\n".join(
-        f'        <li class="share-card"><h2><a href="{esc(s["path"])}">{esc(s["h1"])}</a></h2></li>'
+        f'        <li class="share-card"><p class="share-card__title"><a href="{esc(s["path"])}">{esc(s["h1"])}</a></p></li>'
         for s in others[:5]
     )
     types = ", ".join(json.dumps(t, ensure_ascii=False) for t in item["serviceType"])
@@ -91,8 +91,11 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     robots = "" if item.get("index", True) else '    <meta name="robots" content="noindex, follow" />\n'
     current = ' aria-current="page"' if item["id"] == "hub" else ""
     kicker = esc(item["kicker"]) if item.get("kicker") else "Viento Norte · Chile"
-    poc_alt = esc(f"Prototipo X|CMS · {item['h1']}")
-    poc_html = f"""      <section class="share-poc" aria-labelledby="poc-apple">
+    # Apple POC = /#/consultoria. Only product landings teaser it; never seguridad/privacidad/WCAG.
+    poc_html = ""
+    if item.get("poc"):
+        poc_alt = esc(f"Prototipo X|CMS · {item['h1']}")
+        poc_html = f"""      <section class="share-poc" aria-labelledby="poc-apple">
         <p class="share-poc__kicker">Prototipo</p>
         <h2 id="poc-apple">El módulo en tu operación</h2>
         <p>Sin nube obligatoria. El dato queda en tu CMS o CRM. Mismo craft que la oferta.</p>
@@ -106,7 +109,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     extra = []
     if item.get("pains"):
         lis = "\n".join(
-            f'        <li class="share-card"><h2>{esc(p["h"])}</h2><p>{esc(p["p"])}</p></li>'
+            f'        <li class="share-card"><p class="share-card__title">{esc(p["h"])}</p><p>{esc(p["p"])}</p></li>'
             for p in item["pains"]
         )
         extra.append(f"      <h2>Qué duele</h2>\n      <ul class=\"share-cards\">\n{lis}\n      </ul>")
@@ -114,9 +117,9 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         extra.append(
             """      <h2>Packs</h2>
       <ul class="share-cards">
-        <li class="share-card"><h2>Diagnóstico</h2><p>Un flujo. WCAG 2.2 AA.</p></li>
-        <li class="share-card"><h2>Prototipo</h2><p>Interfaz en tu CMS o CRM.</p></li>
-        <li class="share-card"><h2>Proceso de equipo</h2><p>Cómo operan juntos.</p></li>
+        <li class="share-card"><p class="share-card__title">Diagnóstico</p><p>Un flujo. WCAG 2.2 AA.</p></li>
+        <li class="share-card"><p class="share-card__title">Prototipo</p><p>Interfaz en tu CMS o CRM.</p></li>
+        <li class="share-card"><p class="share-card__title">Proceso de equipo</p><p>Cómo operan juntos.</p></li>
       </ul>"""
         )
     if item.get("checklist"):
@@ -147,7 +150,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     <title>{esc(item["title"])}</title>
     <meta name="description" content="{esc(item["description"])}" />
 {robots}    <link rel="canonical" href="{esc(canon)}" />
-    <link rel="stylesheet" href="/s/share.css" />
+    <link rel="stylesheet" href="/servicios/share.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{esc(canon)}" />
@@ -188,10 +191,12 @@ def page_html(item: dict, siblings: list[dict]) -> str:
       </ol>
     </nav>
     <main id="main" class="share-main" tabindex="-1">
-      <p class="meta">{kicker}</p>
-      <h1>{esc(item["h1"])}</h1>
-      <div class="share-rule" aria-hidden="true"></div>
-      <p class="lead">{esc(item["description"])}</p>
+      <section class="share-hero" aria-labelledby="page-h1">
+        <div class="share-bar" aria-hidden="true"></div>
+        <p class="meta">{kicker}</p>
+        <h1 id="page-h1">{esc(item["h1"])}</h1>
+        <p class="lead">{esc(item["description"])}</p>
+      </section>
 {poc_html}
 {extra_html}
       <h2>También</h2>

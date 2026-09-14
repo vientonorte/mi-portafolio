@@ -37,6 +37,7 @@
       "priority": 0.88,
       "inSitemap": true,
       "index": true,
+      "poc": true,
       "serviceType": ["Consultoría UX pymes"]
     },
     {
@@ -63,6 +64,7 @@
       "priority": 0.88,
       "inSitemap": true,
       "index": true,
+      "poc": true,
       "serviceType": ["Asistente IA", "Plataforma IA"]
     },
     {
@@ -76,6 +78,7 @@
       "priority": 0.84,
       "inSitemap": true,
       "index": true,
+      "poc": true,
       "serviceType": ["Asistente ecommerce", "Plataforma IA"]
     },
     {
@@ -89,6 +92,7 @@
       "priority": 0.85,
       "inSitemap": true,
       "index": true,
+      "poc": true,
       "serviceType": ["Inteligencia artificial aplicada a negocios"]
     },
     {
