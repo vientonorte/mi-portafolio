@@ -1,4 +1,5 @@
 import { corsHeaders, isAllowedOrigin, json } from './lib/cors.js';
+import { isSharePath } from './lib/public-paths.js';
 import { readSession, clearSessionCookie } from './lib/session.js';
 import { handleContact } from './contact.js';
 import { handleGithubAuth, handleGithubCallback } from './admin/github-auth.js';
@@ -51,7 +52,7 @@ export default {
     if (path === '/api/admin/auth/bootstrap-form' && request.method === 'POST') {
       return handleBootstrapForm(request, env);
     }
-    if (path === '/s' || path.startsWith('/s/')) {
+    if (isSharePath(path)) {
       return handleShare(url);
     }
 
