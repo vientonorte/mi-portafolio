@@ -16,7 +16,7 @@ import { Badge } from "../components/ui/badge";
 import { getConsultingPackage } from "../data/vientonorte-consulting";
 import { scrollToSection } from "../lib/scroll-to-section";
 import { navigateToContactAssistant } from "../lib/navigate-to-contact";
-import { openFreeRadarEntry } from "../lib/free-radar-entry";
+
 
 type ChecklistStatus = "pending" | "in_progress" | "completed";
 
@@ -136,12 +136,7 @@ export default function AuditoriaPortfolio() {
 
   const recommendedPackage = getConsultingPackage("marco");
 
-  /** Banner freemium: agendar a11y gratis (Calendar) o form — no mentoría. */
-  const handleStartConsulting = () => {
-    openFreeRadarEntry(navigate, language, "audit-page", { mode: "auto" });
-  };
-
-  /** CTA de muestra de auditoría (diagnóstico con evidencia). */
+  /** CTA de muestra de auditoría (diagnóstico con evidencia). No free a11y. */
   const handlePaidDiagnostic = () => {
     const message =
       language === "es"
@@ -211,7 +206,7 @@ export default function AuditoriaPortfolio() {
       <PremiumUxAuditBanner
         variant="hero"
         titleTag="p"
-        onStartConsulting={handleStartConsulting}
+        onStartConsulting={handlePaidDiagnostic}
         onViewSampleAudit={() => scrollToSection("audit-executive-summary")}
       />
 

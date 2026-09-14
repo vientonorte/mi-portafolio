@@ -17,8 +17,6 @@ import { isDeepPortfolioPage } from './lib/page-depth';
 import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
 import { useTranslation } from './lib/i18n';
-import type { PocModuleId } from './data/poc-product-modules';
-
 // Lazy load pages — evita project-registry y assets pesados en el chunk inicial
 const Home = lazyWithRetry(() => import('./pages/Home'));
 const ConsultoriaVientoNorte = lazyWithRetry(
@@ -34,7 +32,9 @@ const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
 const AuditoriaPortfolio = lazyWithRetry(() => import('./pages/AuditoriaPortfolio'));
-const PocProductOnboarding = lazyWithRetry(() => import('./pages/PocProductOnboarding'));
+const ConsultoriaModuleRoute = lazyWithRetry(
+  () => import('./pages/ConsultoriaModuleRoute')
+);
 const DemoXcmsCampaign = lazyWithRetry(() => import('./pages/DemoXcmsCampaign'));
 const TimedServiceDemo = lazyWithRetry(() => import('./pages/TimedServiceDemo'));
 const ProcessDetail = lazyWithRetry(() => import('./pages/ProcessDetail'));
@@ -44,24 +44,6 @@ const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
 const AdminHub = lazyWithRetry(() => import('./pages/AdminHub'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
 const LandingAuditoria = lazyWithRetry(() => import('./pages/LandingAuditoria'));
-
-const OFFER_MODULE_IDS = new Set([
-  'dashboard',
-  'riesgo',
-  'inventario',
-  'pedidos',
-  'clientes',
-  'reportes',
-]);
-
-/** SEM paid = funnel 3 packs + OB. Tour de módulos solo en deep link. */
-function ConsultoriaOfferPage() {
-  const { moduleId } = useParams<{ moduleId?: string }>();
-  if (moduleId && OFFER_MODULE_IDS.has(moduleId)) {
-    return <PocProductOnboarding initialModuleId={moduleId as PocModuleId} />;
-  }
-  return <ConsultoriaVientoNorte variant="sem" />;
-}
 
 function LegacyCasesProcessRedirect() {
   const { processId } = useParams<{ processId: string }>();
@@ -189,8 +171,14 @@ function AppRoutes() {
               element={<Navigate to={ROUTES.home} replace />}
             />
             {/* SEM offer — rutas específicas ANTES de /consultoria genérico */}
-            <Route path="/consultoria/modulos/:moduleId" element={<ConsultoriaOfferPage />} />
-            <Route path={ROUTES.consulting} element={<ConsultoriaOfferPage />} />
+            <Route
+              path="/consultoria/modulos/:moduleId"
+              element={<ConsultoriaModuleRoute />}
+            />
+            <Route
+              path={ROUTES.consulting}
+              element={<ConsultoriaVientoNorte variant="sem" />}
+            />
             <Route
               path={LEGACY_ROUTES.pocProductOnboarding}
               element={<Navigate to={ROUTES.consulting} replace />}
