@@ -9,12 +9,17 @@ export const SEO_SITE = {
   /** SEO orgánico (root) */
   seoHomeUrl: "https://vientonorte.io/",
   /**
-   * SEM paid final URL (HashRouter · Google Ads final URL).
-   * Message-match: landing oferta `/#/consultoria` — no gastar SEM sin Test path.
+   * Producto UI (HashRouter). DoD visual = qa:hash-ui, nunca `/s/`.
    */
   semOfferUrl: "https://vientonorte.io/#/consultoria",
-  /** URL de share para crawlers (sin hash). */
+  /**
+   * Leftover share hub. Canonical a home. No es IA pública.
+   */
   shareHomeUrl: "https://vientonorte.io/s/",
+  /**
+   * Piloto Ads / share leftover — no producto.
+   * Se queda 200. No hop. Final URL de campañas actuales.
+   */
   shareConsultoriaUrl: "https://vientonorte.io/s/consultoria",
   shareProcesoUrl: "https://vientonorte.io/s/proceso",
   /** @deprecated 2026-09-09 — /s/news purged; weekly LI uses shareConsultoriaUrl */

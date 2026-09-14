@@ -7,7 +7,7 @@ const html = readFileSync(
   "utf8"
 );
 
-describe("share /s/consultoria GTM", () => {
+describe("piloto Ads /s/consultoria GTM (no producto)", () => {
   it("embeds GTM-PM5LBQRP and not a parallel gtag.js", () => {
     expect(html).toContain("GTM-PM5LBQRP");
     expect(html).toContain("googletagmanager.com/gtm.js?id=");

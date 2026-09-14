@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-14] — Canon: `/s/` no es producto
+
+Decide: UI / DoD = `/#/consultoria`. Orgánico = `/servicios/*`. `/s/consultoria/` = **piloto Ads** (200, no hop).
+
+### Changed
+- `docs/URL-CANON-VIENTONORTE.md`, `BLUEPRINT-SEO-SEM.md`, `CHECKLIST-CANALES-PAID.md`, `SEO-DOMAIN-AND-GTM.md`.
+- Comentarios `vn-core/seo.ts` + `vn-core/routes.ts`. Test `url-canon-piloto.test.ts`.
+
+### Not
+- Sin HTML live. Sin hop. Sin `/consultoria/` HTTP. Ads lock `/s/consultoria` intacto. #261/#262 no merge.
+
+---
+
 ## [2026-09-09] — Purge `/s/news` orphan (LinkedIn OG)
 
 ### Fixed

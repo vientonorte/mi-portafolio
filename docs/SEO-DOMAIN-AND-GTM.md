@@ -10,9 +10,10 @@
 | Prioridad | URL | Rol |
 |-----------|-----|-----|
 | 1 | https://vientonorte.io/ | Home empresa FO |
-| 2 | https://vientonorte.io/#/consultoria | Oferta (tour módulos) |
-| 3 | https://vientonorte.io/#/consultoria/embudo | Embudo packs + free a11y + onboarding |
+| 2 | https://vientonorte.io/#/consultoria | **Producto UI** (packs + OB). DoD = HashRouter |
+| 3 | https://vientonorte.io/servicios/ | **Orgánico** HTTP, sin `/s/` |
 | 4 | https://vientonorte.io/#/contacto | Conversión / contacto |
+| piloto | https://vientonorte.io/s/consultoria/ | Ads leftover. 200. No producto |
 
 ## Search Console
 
