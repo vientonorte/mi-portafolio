@@ -7,7 +7,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ## [2026-09-14] — Seguridad no es el POC Apple
 
-`/servicios/seguridad-privacidad-digital/` es ficha Ley 21.719, no el tour X|CMS. POC Apple = `/#/consultoria`. Teaser dashboard solo en fichas producto (UX/IA). Tokens SPA (Chillax, hero `#0A0A0A`, CTA degradé) + CSS `/servicios/share.css`.
+`/servicios/seguridad-privacidad-digital/` es ficha Ley 21.719, no el tour X|CMS. POC Apple = `/#/consultoria/modulos/dashboard` (PR #130). Embudo SEM = `/#/consultoria`. Teaser dashboard solo en fichas producto (UX/IA). Tokens SPA (Chillax, hero `#0A0A0A`, CTA degradé) + CSS `/servicios/share.css`.
 
 ---
 

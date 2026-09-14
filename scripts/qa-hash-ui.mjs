@@ -12,7 +12,13 @@ const BASES = (process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT_BA
   b.replace(/\/$/, "")
 );
 
-const PATHS = ["/", "/consultoria", "/proceso", "/design-system"];
+const PATHS = [
+  "/",
+  "/consultoria",
+  "/consultoria/modulos/dashboard",
+  "/proceso",
+  "/design-system",
+];
 
 const EXPECT = {
   "/": {
@@ -21,6 +27,9 @@ const EXPECT = {
   "/consultoria": {
     h1Needle: "Tecnología para empresas",
     funnel: true,
+  },
+  "/consultoria/modulos/dashboard": {
+    h1Needle: "Software que se instala",
   },
   "/proceso": {
     h1Needle: "Diseño que reduce el ruido",
@@ -64,7 +73,7 @@ async function checkPage(page, base, path) {
     if (!href.includes("/#") || href.includes("/s/")) {
       errors.push(`no es HashRouter: ${href}`);
     }
-    if (path !== "/" && !href.includes(`#${path}`)) {
+    if (path !== "/" && !href.includes(`#${path}`) && !href.includes(`#${path.replace(/^\//, "")}`)) {
       errors.push(`hash esperado #${path}, got ${href}`);
     }
 

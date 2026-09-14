@@ -8,7 +8,8 @@
 
 | Superficie | Path | Live | Rol |
 |------------|------|------|-----|
-| **UI / DoD / prototipo** | `/#/consultoria` | https://vientonorte.io/#/consultoria | Landing humana. `qa:hash-ui` nunca `/s/` |
+| **UI / DoD / embudo SEM** | `/#/consultoria` | https://vientonorte.io/#/consultoria | 3 packs. `qa:hash-ui` nunca `/s/` |
+| **POC Apple** | `/#/consultoria/modulos/dashboard` | https://vientonorte.io/#/consultoria/modulos/dashboard | Tour #130 · `PocProductOnboarding` |
 | **Orgánico crawler** | `/servicios/<slug>/` | https://vientonorte.io/servicios/ | HTTP sin `/s/`. Google lee esto, no el hash |
 | **Home = embudo FO** | `/` | https://vientonorte.io/ | Packs, kickoff, Calendar free, contacto |
 | Módulo SEM | `/#/consultoria/modulos/:id` | … | Deep link tour |
@@ -18,12 +19,13 @@
 | Ops | `/ops/` | https://vientonorte.io/ops/ | Interno · `noindex` + robots Disallow |
 | **Piloto Ads (no producto)** | `/s/consultoria/` | https://vientonorte.io/s/consultoria/ | Final URL Ads legacy. 200. GTM. **No hop. No IA.** |
 
-**No existe** `https://vientonorte.io/consultoria/` HTTP (404 shell). No crearla: duplica el prototipo.
+**No existe** `https://vientonorte.io/consultoria/` HTTP (404 shell). No crearla.
 
 ## Ads / SEM
 
-**Producto que ve el humano:** `https://vientonorte.io/#/consultoria`  
-**Final URL piloto (campañas actuales):** `https://vientonorte.io/s/consultoria/` — Ads puede seguir. No es diseño.
+**Embudo:** `https://vientonorte.io/#/consultoria`  
+**POC Apple:** `https://vientonorte.io/#/consultoria/modulos/dashboard`  
+**`/s/consultoria/`** deprecado.
 
 No pagar a `/`. No hoppear el piloto mientras sea la única loc comercial en SERP.
 

@@ -47,6 +47,7 @@ describe("service landings registry · Austral", () => {
       if (item.poc) {
         expect(html).toContain('class="share-poc"');
         expect(html).toContain("/images/poc-modules/dashboard.png");
+        expect(html).toContain('href="/#/consultoria/modulos/dashboard"');
       } else {
         expect(html).not.toContain('class="share-poc"');
         expect(html).not.toContain("/images/poc-modules/dashboard.png");

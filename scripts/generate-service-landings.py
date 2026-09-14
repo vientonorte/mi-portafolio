@@ -12,6 +12,8 @@ ORIGIN = DATA["origin"]
 LASTMOD = DATA["lastmod"]
 # Producto UI (HashRouter). No /s/consultoria (piloto Ads).
 PRODUCT_UI = "/#/consultoria"
+# Apple POC (PR #130) — not the SEM funnel.
+POC_APPLE = "/#/consultoria/modulos/dashboard"
 
 GTM = """    <script>
       (function (w, d, s, l, i) {
@@ -103,7 +105,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
           <img src="/images/poc-modules/dashboard.png" width="1200" height="750" alt="{poc_alt}" />
         </figure>
         <p>
-          <a class="share-cta" href="{PRODUCT_UI}">Ver prototipo</a>
+          <a class="share-cta" href="{POC_APPLE}">Ver prototipo</a>
         </p>
       </section>"""
     extra = []
