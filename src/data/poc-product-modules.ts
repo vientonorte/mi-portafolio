@@ -17,6 +17,19 @@ export type PocModuleId =
   | "clientes"
   | "reportes";
 
+const POC_MODULE_IDS: readonly PocModuleId[] = [
+  "dashboard",
+  "riesgo",
+  "inventario",
+  "pedidos",
+  "clientes",
+  "reportes",
+];
+
+export function isPocModuleId(value: unknown): value is PocModuleId {
+  return typeof value === "string" && (POC_MODULE_IDS as readonly string[]).includes(value);
+}
+
 export type PocModule = {
   id: PocModuleId;
   /** Etiqueta corta (nav chips) */
