@@ -1,7 +1,7 @@
 /**
- * Landing oferta consultoría · product-story tour (ex-POC).
- * Rutas SEM: /#/consultoria · /#/consultoria/modulos/:id
- * Embudo FO = home /#/ (CTAs Empezar → ROUTES.home)
+ * POC Apple (PR #130) · product-story tour.
+ * Canon: /#/consultoria/modulos/dashboard (no el embudo /#/consultoria).
+ * Embudo SEM = ConsultoriaVientoNorte /#/consultoria.
  * Física: snap + scroll scrub · micro-interacciones Apple + tokens root.
  * Scope: docs/CONSULTORIA-MVP-SCOPE.md
  *

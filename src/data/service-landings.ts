@@ -16,6 +16,7 @@ export type ServiceLanding = {
   kicker?: string;
   packs?: boolean;
   checklist?: boolean;
+  poc?: boolean;
   pains?: { h: string; p: string }[];
 };
 

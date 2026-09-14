@@ -32,7 +32,7 @@ describe("service landings registry · Austral", () => {
         : "public/servicios/index.html";
       const html = readFileSync(resolve(root, rel), "utf8");
       expect(html.match(/<h1[\s>]/g)?.length).toBe(1);
-      expect(html).toContain(`<h1>${item.h1}</h1>`);
+      expect(html).toContain(`<h1 id="page-h1">${item.h1}</h1>`);
       expect(html).toContain(
         `rel="canonical" href="https://vientonorte.io${item.path}"`
       );
@@ -41,8 +41,17 @@ describe("service landings registry · Austral", () => {
       expect(html).not.toContain('http-equiv="refresh"');
       expect(html).not.toContain('href="/s/consultoria/"');
       expect(html).toContain('href="/#/consultoria"');
-      expect(html).toContain('class="share-poc"');
-      expect(html).toContain("/images/poc-modules/dashboard.png");
+      expect(html).toContain('href="/servicios/share.css"');
+      expect(html).toContain('class="share-hero"');
+      expect(html).toContain('id="page-h1"');
+      if (item.poc) {
+        expect(html).toContain('class="share-poc"');
+        expect(html).toContain("/images/poc-modules/dashboard.png");
+        expect(html).toContain('href="/#/consultoria/modulos/dashboard"');
+      } else {
+        expect(html).not.toContain('class="share-poc"');
+        expect(html).not.toContain("/images/poc-modules/dashboard.png");
+      }
       expect(html).not.toContain("/auditoria");
       expect(item.title.length).toBeLessThanOrEqual(60);
     }
@@ -75,6 +84,10 @@ describe("service landings registry · Austral", () => {
     expect(b).toContain("WCAG 2.2");
     expect(b).not.toContain("auditoría urgente");
     expect(b).not.toContain("/recursos/");
+    expect(b).not.toContain("share-poc");
+    expect(b).not.toContain("El módulo en tu operación");
+    expect(b).not.toContain("/images/poc-modules/dashboard.png");
+    expect(byId["seguridad-digital"].poc).toBeFalsy();
     const hop = readFileSync(
       resolve(
         root,
