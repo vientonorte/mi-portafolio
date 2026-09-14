@@ -103,6 +103,50 @@
       "inSitemap": true,
       "index": true,
       "serviceType": ["Privacidad de datos", "Privacy by design"]
+    },
+    {
+      "id": "seguridad-digital",
+      "slug": "seguridad-privacidad-digital",
+      "path": "/servicios/seguridad-privacidad-digital/",
+      "cluster": "seguridad empresas chile",
+      "title": "Seguridad digital empresas · Viento Norte",
+      "h1": "Seguridad digital para empresas en Chile",
+      "description": "Privacy & Security by Design: Ley 21.719, WCAG 2.2 AA y UX sin dark patterns. No es guardias ni antivirus. Kickoff 30 min.",
+      "kicker": "Ley 21.719 · WCAG 2.2 AA · Privacy by Design",
+      "pains": [
+        {
+          "h": "Ley y datos",
+          "p": "Consentimiento explícito y finalidad en formularios y CRM. No casillas premarcadas."
+        },
+        {
+          "h": "CMS y automatizaciones",
+          "p": "Integraciones y tokens no van al JavaScript de cliente."
+        },
+        {
+          "h": "Accesibilidad",
+          "p": "Un flujo, WCAG 2.2 AA. Diagnóstico, no mentoría."
+        }
+      ],
+      "packs": true,
+      "checklist": true,
+      "priority": 0.92,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Seguridad digital", "Privacy by Design", "Ley 21.719"]
+    },
+    {
+      "id": "ley-21719-hop",
+      "slug": "desarrollo-seguro-cumplimiento-ley-21719",
+      "path": "/servicios/desarrollo-seguro-cumplimiento-ley-21719/",
+      "cluster": null,
+      "title": "Redirigiendo · Viento Norte",
+      "h1": "Redirigiendo",
+      "description": "Hop a seguridad-privacidad-digital.",
+      "hopTo": "/servicios/seguridad-privacidad-digital/",
+      "priority": 0.1,
+      "inSitemap": false,
+      "index": false,
+      "serviceType": []
     }
   ]
 }

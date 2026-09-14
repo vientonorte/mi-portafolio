@@ -12,6 +12,11 @@ export type ServiceLanding = {
   inSitemap: boolean;
   index: boolean;
   serviceType: string[];
+  hopTo?: string;
+  kicker?: string;
+  packs?: boolean;
+  checklist?: boolean;
+  pains?: { h: string; p: string }[];
 };
 
 export const SERVICE_ORIGIN = landingsFile.origin as string;

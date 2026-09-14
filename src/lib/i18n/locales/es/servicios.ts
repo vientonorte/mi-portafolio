@@ -28,4 +28,8 @@ export const servicios = {
     title: 'Privacidad de datos en el flujo',
     lead: 'Privacy by design. No es mentoría.',
   },
+  seguridadDigital: {
+    title: 'Seguridad digital para empresas en Chile',
+    lead: 'Ley 21.719 · WCAG 2.2 AA. No es guardias ni antivirus.',
+  },
 };

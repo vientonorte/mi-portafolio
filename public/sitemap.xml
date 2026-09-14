@@ -70,4 +70,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.82</priority>
   </url>
+  <url>
+    <loc>https://vientonorte.io/servicios/seguridad-privacidad-digital/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
 </urlset>

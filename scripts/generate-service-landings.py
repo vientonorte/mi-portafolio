@@ -88,6 +88,43 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     )
     robots = "" if item.get("index", True) else '    <meta name="robots" content="noindex, follow" />\n'
     current = ' aria-current="page"' if item["id"] == "hub" else ""
+    kicker = esc(item["kicker"]) if item.get("kicker") else "Viento Norte · Chile"
+    extra = []
+    if item.get("pains"):
+        lis = "\n".join(
+            f'        <li class="share-card"><h2>{esc(p["h"])}</h2><p>{esc(p["p"])}</p></li>'
+            for p in item["pains"]
+        )
+        extra.append(f"      <h2>Qué duele</h2>\n      <ul class=\"share-cards\">\n{lis}\n      </ul>")
+    if item.get("packs"):
+        extra.append(
+            """      <h2>Packs</h2>
+      <ul class="share-cards">
+        <li class="share-card"><h2>Diagnóstico</h2><p>Un flujo. WCAG 2.2 AA.</p></li>
+        <li class="share-card"><h2>Prototipo</h2><p>Interfaz en tu CMS o CRM.</p></li>
+        <li class="share-card"><h2>Proceso de equipo</h2><p>Cómo operan juntos.</p></li>
+      </ul>"""
+        )
+    if item.get("checklist"):
+        extra.append(
+            """      <h2>Checklist Ley 21.719 (en esta página)</h2>
+      <p>Doce puntos. No es dictamen legal ni mentoría. CTA: Hablemos.</p>
+      <ol>
+        <li>Opt-in activo (checkboxes desmarcados).</li>
+        <li>Finalidad visible + link a política.</li>
+        <li>Scripts de medición no disparan antes del consentimiento.</li>
+        <li>Rechazar cookies con la misma jerarquía que Aceptar.</li>
+        <li>HTTPS en tránsito; cifrado en reposo en el CRM.</li>
+        <li>Minimización de campos.</li>
+        <li>RBAC + MFA en admin.</li>
+        <li>API keys no en JavaScript de cliente.</li>
+        <li>Sanitización XSS/SQLi en servidor.</li>
+        <li>Log de consentimiento (timestamp + versión).</li>
+        <li>Canal para derechos ARCOP.</li>
+        <li>Borrado o anonimización en CMS + CRM + mail.</li>
+      </ol>"""
+        )
+    extra_html = "\n".join(extra)
     return f"""<!DOCTYPE html>
 <html lang="es">
   <head>
@@ -137,10 +174,11 @@ def page_html(item: dict, siblings: list[dict]) -> str:
       </ol>
     </nav>
     <main id="main" class="share-main" tabindex="-1">
-      <p class="meta">Viento Norte · Chile</p>
+      <p class="meta">{kicker}</p>
       <h1>{esc(item["h1"])}</h1>
       <div class="share-rule" aria-hidden="true"></div>
       <p class="lead">{esc(item["description"])}</p>
+{extra_html}
       <h2>También</h2>
       <ul class="share-cards">
 {cards}
@@ -202,11 +240,17 @@ def main() -> None:
         rel = item["slug"]
         dest = ROOT / "public" / "servicios" / rel / "index.html" if rel else ROOT / "public/servicios/index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
+        hop_s = ROOT / "public/s/servicios" / rel / "index.html" if rel else ROOT / "public/s/servicios/index.html"
+        hop_s.parent.mkdir(parents=True, exist_ok=True)
+        hop_target = ORIGIN + item.get("hopTo", item["path"])
+        if item.get("hopTo"):
+            dest.write_text(hop_html(hop_target), encoding="utf-8")
+            hop_s.write_text(hop_html(hop_target), encoding="utf-8")
+            print("hop", dest, "->", hop_target)
+            continue
         dest.write_text(page_html(item, landings), encoding="utf-8")
+        hop_s.write_text(hop_html(ORIGIN + item["path"]), encoding="utf-8")
         print("page", dest)
-        hop = ROOT / "public/s/servicios" / rel / "index.html" if rel else ROOT / "public/s/servicios/index.html"
-        hop.parent.mkdir(parents=True, exist_ok=True)
-        hop.write_text(hop_html(ORIGIN + item["path"]), encoding="utf-8")
         if item.get("inSitemap") and item.get("index"):
             locs.append((ORIGIN + item["path"], item["priority"]))
     merge_sitemap(locs)

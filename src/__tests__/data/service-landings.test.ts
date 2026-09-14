@@ -54,6 +54,41 @@ describe("service landings registry · Austral", () => {
     expect(JSON.stringify(SERVICE_LANDINGS)).not.toMatch(/vambe/i);
   });
 
+  it("B is indexed; C hops to B; checklist lives on B not /recursos", () => {
+    const byId = Object.fromEntries(SERVICE_LANDINGS.map((l) => [l.id, l]));
+    expect(byId["seguridad-digital"].path).toBe(
+      "/servicios/seguridad-privacidad-digital/"
+    );
+    expect(byId["seguridad-digital"].inSitemap).toBe(true);
+    expect(byId["ley-21719-hop"].inSitemap).toBe(false);
+    expect(byId["ley-21719-hop"].hopTo).toBe(
+      "/servicios/seguridad-privacidad-digital/"
+    );
+    const b = readFileSync(
+      resolve(root, "public/servicios/seguridad-privacidad-digital/index.html"),
+      "utf8"
+    );
+    expect(b).toContain("Checklist Ley 21.719");
+    expect(b).toContain("WCAG 2.2");
+    expect(b).not.toContain("auditoría urgente");
+    expect(b).not.toContain("/recursos/");
+    const hop = readFileSync(
+      resolve(
+        root,
+        "public/servicios/desarrollo-seguro-cumplimiento-ley-21719/index.html"
+      ),
+      "utf8"
+    );
+    expect(hop).toContain("noindex");
+    expect(hop).toContain(
+      "https://vientonorte.io/servicios/seguridad-privacidad-digital/"
+    );
+    expect(sitemap).toContain(
+      "<loc>https://vientonorte.io/servicios/seguridad-privacidad-digital/</loc>"
+    );
+    expect(sitemap).not.toContain("desarrollo-seguro-cumplimiento-ley-21719");
+  });
+
   it("/s/servicios hops noindex to canon", () => {
     const hop = readFileSync(
       resolve(root, "public/s/servicios/asistente-ia/index.html"),
