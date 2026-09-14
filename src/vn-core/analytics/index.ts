@@ -6,3 +6,4 @@ export type { AnalyticsConfig, VNEvent, VNProject, VNResult } from './types';
 export { initGTM, pushDataLayer } from './gtm';
 export { AnalyticsProvider, useAnalytics } from './react';
 export { analyticsConfig } from './config';
+export { trackEvent, analytics, trackPageView } from './fo-events';
