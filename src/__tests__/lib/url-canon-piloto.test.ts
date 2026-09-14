@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ROUTES } from "../../vn-core/routes";
@@ -24,6 +24,18 @@ describe("URL canon · producto vs piloto Ads", () => {
   it("does not ship a third HTTP /consultoria/ clone of the SPA", () => {
     expect(existsSync(resolve(process.cwd(), "public/consultoria"))).toBe(
       false
+    );
+  });
+
+  it("organic /servicios CTAs point to product UI, not the Ads pilot", () => {
+    const html = readFileSync(
+      resolve(process.cwd(), "public/servicios/consultoria-ux-pymes/index.html"),
+      "utf8"
+    );
+    expect(html).toContain('href="/#/consultoria"');
+    expect(html).not.toContain('href="/s/consultoria/"');
+    expect(html).toContain(
+      'rel="canonical" href="https://vientonorte.io/servicios/consultoria-ux-pymes/"'
     );
   });
 });

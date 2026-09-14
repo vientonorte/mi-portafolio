@@ -39,7 +39,10 @@ describe("service landings registry · Austral", () => {
       expect(html).toContain("GTM-PM5LBQRP");
       expect(html).not.toContain("gtag/js?id=");
       expect(html).not.toContain('http-equiv="refresh"');
-      expect(html).not.toContain("/#/");
+      expect(html).not.toContain('href="/s/consultoria/"');
+      expect(html).toContain('href="/#/consultoria"');
+      expect(html).toContain('class="share-poc"');
+      expect(html).toContain("/images/poc-modules/dashboard.png");
       expect(html).not.toContain("/auditoria");
       expect(item.title.length).toBeLessThanOrEqual(60);
     }

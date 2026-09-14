@@ -7,13 +7,35 @@ export default function LandingsHub() {
   const indexable = SERVICE_LANDINGS.filter((l) => l.index && l.slug);
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-sm text-muted-foreground">Viento Norte · Chile</p>
-      <h1 className="mt-2 text-3xl font-semibold">Landings de servicios</h1>
-      <p className="mt-4 text-base">
-        Mapa interno (`/#/landings`). Lo que indexa Google es HTTP{" "}
-        <a href="/servicios/">/servicios/</a>, no este hash.
+      <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground">
+        Prototipo
       </p>
-      <ul className="mt-8 space-y-3">
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+        El módulo en tu operación
+      </h1>
+      <p className="mt-4 text-base">
+        Mapa interno (`/#/landings`). Google indexa HTTP{" "}
+        <a href="/servicios/">/servicios/</a>. La oferta es{" "}
+        <Link to={ROUTES.consulting}>/#/consultoria</Link>.
+      </p>
+      <figure className="mt-8 overflow-hidden rounded-3xl bg-[#0A0A0A] p-4 md:p-8">
+        <img
+          src="/images/poc-modules/dashboard.png"
+          width={1200}
+          height={750}
+          alt="Prototipo X|CMS · dashboard en el CMS del cliente"
+          className="w-full rounded-2xl"
+        />
+      </figure>
+      <p className="mt-6">
+        <Link
+          className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-background"
+          to={ROUTES.consulting}
+        >
+          Ver prototipo
+        </Link>
+      </p>
+      <ul className="mt-10 space-y-3">
         {indexable.map((l) => (
           <li key={l.id}>
             <a className="underline" href={l.path}>
@@ -23,11 +45,6 @@ export default function LandingsHub() {
           </li>
         ))}
       </ul>
-      <p className="mt-10">
-        <Link className="underline" to={ROUTES.consulting}>
-          Hablemos · consultoría
-        </Link>
-      </p>
     </main>
   );
 }

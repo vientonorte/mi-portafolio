@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-14] — Fase 2: CTAs `/servicios/*` → `/#/consultoria`
+
+Producto UI = Hash `/#/consultoria`. Orgánico HTTP se queda. Piloto Ads `/s/consultoria/` intacto.
+
+### Changed
+- Generador: nav + Hablemos/Gratis + **POC Apple** (dashboard X|CMS) apuntan a `/#/consultoria`.
+- `public/s/share.css` bloque `.share-poc`. Hub SPA `/#/landings` mismo prototipo.
+
+### Not
+- Sin hop del piloto. Sin `/consultoria/` HTTP. #262 DS no merge.
+
+---
+
 ## [2026-09-14] — Canon: `/s/` no es producto
 
 Decide: UI / DoD = `/#/consultoria`. Orgánico = `/servicios/*`. `/s/consultoria/` = **piloto Ads** (200, no hop).
