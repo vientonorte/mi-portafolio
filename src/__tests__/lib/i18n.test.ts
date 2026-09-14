@@ -18,6 +18,14 @@ describe('translations', () => {
 
   languages.forEach((lang) => {
     describe(`${lang} translations`, () => {
+      it('has servicios landings (canon /servicios/*)', () => {
+        const s = translations[lang].servicios;
+        expect(s.hub).toHaveProperty('title');
+        expect(s.wcag).toHaveProperty('title');
+        expect(s.pymes).toHaveProperty('title');
+        expect(s.ecommerce).toHaveProperty('title');
+      });
+
       it('has nav section with required keys', () => {
         const nav = translations[lang].nav;
         expect(nav).toHaveProperty('about');
