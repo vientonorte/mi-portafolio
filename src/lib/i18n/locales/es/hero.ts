@@ -1,4 +1,4 @@
-import type { HeroSearchSuggestion } from '../../hero-search';
+import type { HeroSearchSuggestion } from '../../../hero-search';
 export const hero = {
       label: 'UXtech · módulos a medida',
       headlineLead: 'Diseño que',
