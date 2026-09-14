@@ -4,7 +4,7 @@ Techo **150.000 CLP** · 100% Google Search. LinkedIn = **config PAUSED** 27 ago
 
 - RSA / keywords: vault `Viento Norte/Resources/SEM/2026-08-26 RSA piloto a11y.md`
 - Research + proyecciones: `…/SEM/2026-08-26 RESEARCH proyecciones 150k.md`
-- Final URL: `https://vientonorte.io/s/consultoria/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
+- Final URL (DoD, `/s/` deprecado): `https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
 
 ## Assets
 

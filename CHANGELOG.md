@@ -11,6 +11,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-14] — Ads: `/s/consultoria` deprecado
+
+Final URL DoD = `/#/consultoria` (UTM tras el hash). Lock ads-query falla si la URL sigue en `/s/`.
+
+### Not
+- RSA live aún hay que pegar en Ads UI (Safari content blocker bloqueó el editor).
+
+---
+
 ## [2026-09-14] — Fase 2: CTAs `/servicios/*` → `/#/consultoria`
 
 Producto UI = Hash `/#/consultoria`. Orgánico HTTP se queda. Piloto Ads `/s/consultoria/` intacto.

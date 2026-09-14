@@ -41,7 +41,7 @@ Vault (misma decisión): `Viento Norte/Resources/SEM/2026-08-15 BLUEPRINT SEO-SE
 | D4 | Filtro IP `casa-vn` Activo |
 | D5 | Campo `pack` en Calendar Appointment |
 | D6 | `?pack=radar\|marco\|ops` en SEM + Calendar URL |
-| D7 | Final URL piloto `/s/consultoria` (Ads). UI = `/#/consultoria` |
+| D7 | Final URL Ads = `/#/consultoria` (`/s/` deprecado) |
 | D8 | Copy ad = Diagnóstico / a11y · no “Radar” |
 
 ## Receta GTM v3

@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import {
   QueryProcessor,
   LOCK,
+  PAID_FINAL_URL,
   FIXTURE_PATH,
   DEFAULT_CAMPAIGN_ID,
   lockFails,
@@ -74,15 +75,26 @@ describe("lock checks", () => {
     const processor = new QueryProcessor();
     const broad = processor.checkLocks({
       matchType: "BROAD",
-      finalUrl: "https://vientonorte.io/s/consultoria/",
+      finalUrl: PAID_FINAL_URL,
     });
     assert.equal(broad.matchType, "FAIL");
-    assert.ok(lockFails({ matchType: "BROAD", finalUrl: "https://vientonorte.io/s/consultoria/" }).includes("FAIL_BROAD_MATCH_LOCK"));
+    assert.ok(
+      lockFails({ matchType: "BROAD", finalUrl: PAID_FINAL_URL }).includes(
+        "FAIL_BROAD_MATCH_LOCK"
+      )
+    );
     const phrase = processor.checkLocks({
       matchType: "PHRASE",
-      finalUrl: "https://vientonorte.io/s/consultoria/",
+      finalUrl: PAID_FINAL_URL,
     });
     assert.equal(phrase.matchType, "PASS");
+    assert.ok(
+      lockFails({
+        matchType: "PHRASE",
+        finalUrl:
+          "https://vientonorte.io/s/consultoria/?utm_source=google&utm_medium=cpc",
+      }).includes("FAIL_FINAL_URL_NOT_PRODUCT_CONSULTORIA")
+    );
   });
 });
 
