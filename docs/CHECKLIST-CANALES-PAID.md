@@ -5,8 +5,8 @@
 **Loop D:** tags GTM v4 live. Preview **Gratis → `GA4 · generate_lead` Activado 1 vez** (26 ago) · `book_call` PASS 20 ago y 26 ago.  
 **Producto UI:** `/#/consultoria`. **Orgánico:** `/servicios/*`. **Piloto Ads (no producto):** `/s/consultoria` se queda 200. No hop. No pagar a `/`.  
 **Loop E:** Decider 26 ago *activar campañas*. RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Techo = humano. No publicado en Ads UI hasta que Rö pegue. F sigue parked.  
-**Final URL piloto Ads:** `https://vientonorte.io/s/consultoria`  
-**Bio / orgánico / DoD:** `https://vientonorte.io/#/consultoria` (no `/s/` como producto).  
+**Final URL Ads = producto:** `https://vientonorte.io/#/consultoria`  
+`/s/consultoria` deprecado (no UX/UI/DoD). Display path ya era `/consultoria` (sin `/s/`).  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
 Evidencia 15 ago: `/s/consultoria` **200** · OG `og-home-1200.png` **1200×630** · secret `VITE_GTM_ID` · **no** `VITE_GA_MEASUREMENT_ID` · #181 merged `1602ed6`. Residual humano: GTM Preview + tags GA4 en el contenedor · LinkedIn/Meta scrape (A).
@@ -88,7 +88,7 @@ Requiere **A + D** (+ C recomendado).
 - [x] Test path FO H4/H5/S2 · firmado 18 ago
 - [x] Local: `local-ads-scenarios.sh` 133/133 PASS 26 ago
 - [x] Anuncio RSA Diagnóstico / a11y ≠ `/auditoria` · vault `SEM/2026-08-26 RSA piloto a11y.md`
-- [x] Final URL = `https://vientonorte.io/s/consultoria/` + UTM `a11y_gratis_pymes`
+- [ ] Final URL = `https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes` (`/s/` deprecado · pegar en Ads UI)
 - [x] UTM: `utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
 - [x] Conversión = `generate_lead` + `book_call` (no clic de página) · importar en Ads UI
 - [x] Techo **150.000 CLP / 30 d** (~5.000/día) · mix 100% Search · research 26 ago

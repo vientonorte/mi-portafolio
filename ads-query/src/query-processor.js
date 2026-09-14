@@ -8,12 +8,13 @@ export const FIXTURE_PATH = join(__dirname, "../ssot/fixture-2026-09-02.json");
 export const CUSTOMER_ID = "811-405-3092";
 export const DEFAULT_CAMPAIGN_ID = "24184249593";
 export const PAID_FINAL_URL =
-  "https://vientonorte.io/s/consultoria/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes";
+  "https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes";
 
-/** Lock piloto Ads: BROAD off; final URL sigue /s/consultoria (no es producto UI). */
+/** DoD: producto = /#/consultoria. /s/consultoria deprecado (no cumple UX/UI/aceptación). */
 export const LOCK = {
   ampliaDesactivada: true,
-  allowedPath: "/s/consultoria",
+  allowedUrlPart: "/#/consultoria",
+  deprecatedPath: "/s/consultoria",
 };
 
 export function normalizeRow(row = {}) {
@@ -41,14 +42,11 @@ export function lockFails(row = {}) {
   if (url.includes("/news") || /gtm_debug/i.test(url)) {
     fails.push("FAIL_FINAL_URL_NEWS_OR_DEBUG");
   }
-  let path = "";
-  try {
-    path = url ? new URL(url).pathname : "";
-  } catch {
-    path = url;
-  }
-  if (!path.includes(LOCK.allowedPath)) {
-    fails.push("FAIL_FINAL_URL_NOT_S_CONSULTORIA");
+  if (
+    url.includes(LOCK.deprecatedPath) ||
+    !url.includes(LOCK.allowedUrlPart)
+  ) {
+    fails.push("FAIL_FINAL_URL_NOT_PRODUCT_CONSULTORIA");
   }
   if (row.matchType === "BROAD" && LOCK.ampliaDesactivada) {
     fails.push("FAIL_BROAD_MATCH_LOCK");
