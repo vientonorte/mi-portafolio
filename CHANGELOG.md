@@ -5,6 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-14] — `/servicios/*` canónicos + sitemap + SOLID FO
+
+### Added
+- Landings HTTP **sin `/s/`**: `/servicios/`, consultoría UX pymes, diagnóstico WCAG, asistente IA, asistente ecommerce, IA negocios, privacidad de datos. Registry `src/data/service-landings.json` (clúster Austral Chile).
+- Sitemap live: esas 7 locs (`lastmod` 2026-09-14) + `/`, `/s/consultoria/`, `/s/proceso/`, `/s/polijuego-privacy/`. Sin hash. Sin `/s/servicios`.
+- SOLID FO (PRs 253–258): `docs/SOLID-VN.md`, contact surfaces, split i18n, DIP `vn-core` (lib = adapters). Worker no intercepta `/servicios`.
+
+### Changed
+- `/s/servicios/*` = hop noindex → canon `/servicios/*`.
+- Paid final URL sigue `/s/consultoria/` (GTM-PM5LBQRP).
+
+### Not
+- GSC: pegar `https://vientonorte.io/sitemap.xml` (humano). No wrangler. $ ledger git-proxy `updated` 2026-09-09 = stale contenido, no este ship.
+
+---
+
 ## [2026-09-09] — Purge `/s/news` orphan (LinkedIn OG)
 
 ### Fixed
