@@ -23,7 +23,17 @@ import {
   type ContactDraft,
   type ContactSharedIdentity,
 } from "../../lib/contact-draft";
-import { submitContactMessage } from "../../lib/submit-contact";
+import {
+  submitContactMessage,
+  type ContactSubmitter,
+} from "../../lib/submit-contact";
+import {
+  allowedIntentsForSurface,
+  defaultIntentForSurface,
+  hidesRecruiterAndFreelance,
+  resolveContactSurface,
+  type ContactAssistantSurface,
+} from "../../lib/contact-surface";
 import { analytics } from "../../lib/analytics";
 import {
   A11Y_FREE_SCHEDULE_URL,
@@ -35,8 +45,10 @@ import { cn } from "../ui/utils";
 
 interface ContactAssistantProps {
   contactDraft?: ContactDraft | null;
-  /** Embudo consultoría: intent fijo consulting; sin paso reclutador/freelance. */
-  surface?: "default" | "consulting";
+  /** Embudo consultoría / free a11y: sin paso reclutador/freelance. */
+  surface?: ContactAssistantSurface;
+  /** DIP: por defecto Worker+Forms. Tests inyectan un stub. */
+  submit?: ContactSubmitter;
   surfaceAssistantTitle?: string;
   surfaceAssistantDescription?: string;
   sharedIdentity: ContactSharedIdentity;
@@ -134,6 +146,7 @@ function OptionButton({
 export function ContactAssistant({
   contactDraft = null,
   surface = "default",
+  submit = submitContactMessage,
   surfaceAssistantTitle,
   surfaceAssistantDescription,
   sharedIdentity,
@@ -153,15 +166,19 @@ export function ContactAssistant({
 
   const skipWizard = shouldSkipAssistantWizard(contactDraft);
   const bannerKey = draftBannerKey(contactDraft);
-  /** Intent pre-seleccionado (embudo / CTA): no reabrir reclutador · freelance. */
-  const intentLocked = Boolean(contactDraft?.intent) || surface === "consulting";
+  const resolvedSurface = resolveContactSurface(surface, contactDraft);
+  const visibleIntents = allowedIntentsForSurface(resolvedSurface);
+  /** Intent pre-seleccionado (embudo / CTA / free a11y): no reabrir reclutador · freelance. */
+  const intentLocked =
+    Boolean(contactDraft?.intent) ||
+    hidesRecruiterAndFreelance(resolvedSurface);
   const conversationTitle = contactDraft?.conversationTitle?.trim() || "";
 
   const [step, setStep] = useState<ContactAssistantStep>(() =>
     resolveAssistantInitialStep(contactDraft)
   );
   const [intent, setIntent] = useState<ContactIntent | null>(
-    contactDraft?.intent ?? (surface === "consulting" ? "consulting" : null)
+    contactDraft?.intent ?? defaultIntentForSurface(resolvedSurface)
   );
   const [recruiterMode, setRecruiterMode] = useState(contactDraft?.recruiterMode ?? "");
   const [consultingQ1, setConsultingQ1] = useState(contactDraft?.consultingQ1 ?? "");
@@ -181,7 +198,7 @@ export function ContactAssistant({
         return [{ role: "assistant", text: a.draftBanner[bannerKey] }];
       }
       const lockedIntent =
-        contactDraft?.intent ?? (surface === "consulting" ? "consulting" : null);
+        contactDraft?.intent ?? defaultIntentForSurface(resolvedSurface);
       // Intent fijo (embudo / CTA): salta menú laboral·freelance; arranca en el foco
       if (lockedIntent && !skipWizard) {
         if (intentLocked) {
@@ -296,7 +313,7 @@ export function ContactAssistant({
     setIsSubmitting(true);
     try {
       const intentLabel = intent ? a.intents[intent] : "";
-      const result = await submitContactMessage({
+      const result = await submit({
         name: sharedIdentity.name.trim(),
         email: sharedIdentity.email.trim(),
         message: sharedMessage.trim(),
@@ -487,7 +504,7 @@ export function ContactAssistant({
         >
           {step === "intent" && (
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {(Object.keys(a.intents) as ContactIntent[]).map((key) => (
+              {visibleIntents.map((key) => (
                 <OptionButton key={key} onClick={() => selectIntent(key)}>
                   {a.intents[key]}
                 </OptionButton>

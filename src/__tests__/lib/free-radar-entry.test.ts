@@ -85,6 +85,7 @@ describe("openFreeRadarEntry", () => {
     expect(opts.consultingQ1).toBe("radar-free");
     expect(opts.intent).toBe("consulting");
     expect(String(opts.message)).toMatch(/revisión gratis de accesibilidad/i);
+    expect(JSON.stringify(navigateSpy.mock.calls)).not.toMatch(/auditoria/i);
   });
 
   it("mode message always opens contact form even if schedule exists", async () => {
