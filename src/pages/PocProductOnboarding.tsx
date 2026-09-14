@@ -383,7 +383,8 @@ export default function PocProductOnboarding({
           />
           <button
             type="button"
-            onClick={() => navigate(ROUTES.consultingFunnel)}
+            data-testid="offer-skip"
+            onClick={() => navigate(ROUTES.consulting)}
             className="offer-skip text-[13px] font-medium text-white/55 hover:text-white"
           >
             {t.skip}
@@ -462,12 +463,10 @@ export default function PocProductOnboarding({
                 {/* Space before CTA — Apple breathing room */}
                 <div className="mt-16 flex flex-wrap items-center gap-4">
                   <GhostCta
-                    onClick={() =>
-                      window.open(POC_X_CMS_SITE, "_blank", "noopener,noreferrer")
-                    }
+                    testId="offer-cta-module"
+                    onClick={() => go(screens.indexOf(POC_MODULES[0].id))}
                   >
-                    {t.ctaDemo}
-                    <ExternalLink className="ml-2 h-3.5 w-3.5 opacity-70" aria-hidden />
+                    {es ? "Ver módulo" : "See module"}
                   </GhostCta>
                   <span className="text-[12px] text-white/30">
                     {es ? "Scroll o ↓" : "Scroll or ↓"}
@@ -579,21 +578,36 @@ export default function PocProductOnboarding({
               <TourBody className="mx-auto mt-6 text-center">{t.start.body}</TourBody>
               <div className="mt-16 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
                 {scheduleReady ? (
-                  <PrimaryCta onClick={openSchedule}>
+                  <PrimaryCta testId="offer-cta-schedule" onClick={openSchedule}>
                     <Calendar className="mr-2 h-4 w-4" aria-hidden />
                     {t.ctaSchedule}
                   </PrimaryCta>
+                ) : (
+                  <PrimaryCta
+                    testId="offer-cta-funnel"
+                    onClick={() => navigate(ROUTES.consulting)}
+                  >
+                    {t.ctaFunnel}
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  </PrimaryCta>
+                )}
+                {scheduleReady ? (
+                  <GhostCta
+                    testId="offer-cta-funnel"
+                    onClick={() => navigate(ROUTES.consulting)}
+                  >
+                    {t.ctaFunnel}
+                    <ArrowRight className="ml-2 h-3.5 w-3.5 opacity-70" aria-hidden />
+                  </GhostCta>
                 ) : null}
-                <PrimaryCta onClick={() => navigate(ROUTES.consultingFunnel)}>
-                  {t.ctaFunnel}
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </PrimaryCta>
                 <GhostCta
+                  testId="offer-cta-demo"
                   onClick={() =>
                     window.open(POC_X_CMS_SITE, "_blank", "noopener,noreferrer")
                   }
                 >
                   {t.ctaDemo}
+                  <ExternalLink className="ml-2 h-3.5 w-3.5 opacity-70" aria-hidden />
                 </GhostCta>
               </div>
             </div>
@@ -731,14 +745,17 @@ function TourBody({
 function PrimaryCta({
   children,
   onClick,
+  testId,
 }: {
   children: ReactNode;
   onClick: () => void;
+  testId?: string;
 }) {
   return (
     <Button
       type="button"
       size="lg"
+      data-testid={testId}
       className="offer-cta-primary min-h-[48px] rounded-full bg-white px-7 font-semibold text-black hover:bg-white/90"
       onClick={onClick}
     >
@@ -751,15 +768,18 @@ function PrimaryCta({
 function GhostCta({
   children,
   onClick,
+  testId,
 }: {
   children: ReactNode;
   onClick: () => void;
+  testId?: string;
 }) {
   return (
     <Button
       type="button"
       size="lg"
       variant="outline"
+      data-testid={testId}
       className="offer-cta-ghost min-h-[48px] rounded-full border-white/25 bg-transparent px-6 font-medium text-white hover:bg-white/8 hover:text-white"
       onClick={onClick}
     >
