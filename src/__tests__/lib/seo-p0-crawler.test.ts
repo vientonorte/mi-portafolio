@@ -150,6 +150,11 @@ describe("SEO P0 · sitemap HTTP only", () => {
     expect(sitemap).toContain("<lastmod>2026-09-09</lastmod>");
     expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
     expect(sitemap).not.toMatch(/<lastmod>2026-09-0[0-8]</);
+    expect(sitemap).toContain("<loc>https://vientonorte.io/servicios/</loc>");
+    expect(sitemap).toContain(
+      "<loc>https://vientonorte.io/servicios/asistente-ia/</loc>"
+    );
+    expect(sitemap).not.toContain("/s/servicios");
   });
 });
 
@@ -210,8 +215,9 @@ describe("SEO P0 · public/s/** stays on the share URL", () => {
       }
     };
     walk(shareRoot);
-    expect(files.length).toBeGreaterThan(3);
-    for (const file of files) {
+    const sharePages = files.filter((f) => !f.includes("/s/servicios/"));
+    expect(sharePages.length).toBeGreaterThan(3);
+    for (const file of sharePages) {
       const html = readFileSync(file, "utf8");
       const rel = relative(root, file);
       expect(html.includes("http-equiv=\"refresh\""), rel).toBe(false);
@@ -230,7 +236,8 @@ describe("SEO P0 · public/s/** stays on the share URL", () => {
       }
     };
     walk(shareRoot);
-    for (const file of files) {
+    const sharePages = files.filter((f) => !f.includes("/s/servicios/"));
+    for (const file of sharePages) {
       const html = readFileSync(file, "utf8");
       const rel = relative(root, file);
       expect(html.includes('href="/s/share.css"'), rel).toBe(true);

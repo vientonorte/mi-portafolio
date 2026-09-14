@@ -2,10 +2,35 @@
   import { defineConfig } from 'vite';
   import react from '@vitejs/plugin-react-swc';
   import tailwindcss from '@tailwindcss/vite';
+  import fs from 'fs';
   import path from 'path';
 
+  function vnPublicDirIndex() {
+    const rewrite = (root: string) => (req: { url?: string }, _res: unknown, next: () => void) => {
+      const raw = (req.url || '').split('?')[0];
+      if (!raw.endsWith('/') || raw === '/') {
+        next();
+        return;
+      }
+      const file = path.join(root, 'public', raw.slice(1), 'index.html');
+      if (fs.existsSync(file)) {
+        req.url = `${raw}index.html`;
+      }
+      next();
+    };
+    return {
+      name: 'vn-public-dir-index',
+      configureServer(server: { config: { root: string }; middlewares: { use: (fn: unknown) => void } }) {
+        server.middlewares.use(rewrite(server.config.root));
+      },
+      configurePreviewServer(server: { config: { root: string }; middlewares: { use: (fn: unknown) => void } }) {
+        server.middlewares.use(rewrite(server.config.root));
+      },
+    };
+  }
+
   export default defineConfig({
-    plugins: [react(), tailwindcss()],
+    plugins: [vnPublicDirIndex(), react(), tailwindcss()],
     resolve: {
       dedupe: ['react', 'react-dom'],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],

@@ -24,6 +24,9 @@ describe('translations', () => {
         expect(s.wcag).toHaveProperty('title');
         expect(s.pymes).toHaveProperty('title');
         expect(s.ecommerce).toHaveProperty('title');
+        expect(s.asistenteIa).toHaveProperty('title');
+        expect(s.iaNegocios).toHaveProperty('title');
+        expect(s.privacidad).toHaveProperty('title');
       });
 
       it('has nav section with required keys', () => {

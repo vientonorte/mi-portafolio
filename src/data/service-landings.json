@@ -1,0 +1,108 @@
+{
+  "origin": "https://vientonorte.io",
+  "lastmod": "2026-09-14",
+  "notes": "Austral Chile clusters. Canon SIN /s/. No slugs de competidor (Gemini, Workana, Vambe). No /auditoria (mentoría).",
+  "skipClusters": [
+    {
+      "cluster": "login vambe",
+      "reason": "Marca competidor (app.vambeai.com). No crear URL."
+    },
+    {
+      "cluster": "plataforma de asistentes",
+      "reason": "SERP = empleo asistente virtual (Workana). Interno: /servicios/asistente-ia/ (plataforma IA sobre CMS/CRM)."
+    }
+  ],
+  "landings": [
+    {
+      "id": "hub",
+      "slug": "",
+      "path": "/servicios/",
+      "cluster": null,
+      "title": "Servicios UX · Viento Norte",
+      "h1": "Servicios UX para operar",
+      "description": "Consultoría UX pymes, diagnóstico WCAG, asistente IA y plataforma IA sobre tu CMS o CRM. Un flujo gratis. Kickoff 30 min.",
+      "priority": 0.9,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Consultoría UX", "Diagnóstico WCAG", "Asistente IA"]
+    },
+    {
+      "id": "consultoria-ux",
+      "slug": "consultoria-ux-pymes",
+      "path": "/servicios/consultoria-ux-pymes/",
+      "cluster": "consultoria ux",
+      "title": "Consultoría UX pymes · Viento Norte",
+      "h1": "Consultoría UX para pymes",
+      "description": "Consultoría UX para pymes en Chile: diagnóstico, prototipo y proceso de equipo sobre tu CMS o CRM. Kickoff 30 min.",
+      "priority": 0.88,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Consultoría UX pymes"]
+    },
+    {
+      "id": "wcag",
+      "slug": "diagnostico-accesibilidad-wcag",
+      "path": "/servicios/diagnostico-accesibilidad-wcag/",
+      "cluster": null,
+      "title": "Diagnóstico WCAG · Viento Norte",
+      "h1": "Diagnóstico de accesibilidad WCAG",
+      "description": "Diagnóstico WCAG 2.2 AA de un flujo. Gratis: revisión de un flujo. No es mentoría. Pymes Chile.",
+      "priority": 0.86,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"]
+    },
+    {
+      "id": "asistente-ia",
+      "slug": "asistente-ia",
+      "path": "/servicios/asistente-ia/",
+      "cluster": "asistente ia",
+      "title": "Asistente IA · Viento Norte",
+      "h1": "Asistente IA para tu operación",
+      "description": "Asistente IA sobre tu CMS o CRM. No es Gemini ni un bot genérico: el tenant y los datos siguen siendo tuyos. Chile.",
+      "priority": 0.88,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Asistente IA", "Plataforma IA"]
+    },
+    {
+      "id": "ecommerce",
+      "slug": "asistente-ecommerce",
+      "path": "/servicios/asistente-ecommerce/",
+      "cluster": "asistente ia",
+      "title": "Asistente ecommerce · Viento Norte",
+      "h1": "Asistente ecommerce y plataforma IA",
+      "description": "Asistente ecommerce sobre catálogo y checkout. Plataforma IA en tu stack. Consultoría UX. Chile.",
+      "priority": 0.84,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Asistente ecommerce", "Plataforma IA"]
+    },
+    {
+      "id": "ia-negocios",
+      "slug": "inteligencia-artificial-negocios",
+      "path": "/servicios/inteligencia-artificial-negocios/",
+      "cluster": "inteligencia artificial negocios",
+      "title": "IA para negocios · Viento Norte",
+      "h1": "Inteligencia artificial aplicada a negocios",
+      "description": "IA aplicada a operaciones digitales: flujos, CMS o CRM, dueño del dato. Consultoría UX para pymes en Chile. No es un diplomado.",
+      "priority": 0.85,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Inteligencia artificial aplicada a negocios"]
+    },
+    {
+      "id": "privacidad",
+      "slug": "privacidad-datos",
+      "path": "/servicios/privacidad-datos/",
+      "cluster": "privacidad auditoria",
+      "title": "Privacidad de datos · Viento Norte",
+      "h1": "Privacidad de datos en el flujo",
+      "description": "Privacy by design en un flujo: minimización, finalidad, Ley 21.719. No es mentoría. Diagnóstico de un flujo. Chile.",
+      "priority": 0.82,
+      "inSitemap": true,
+      "index": true,
+      "serviceType": ["Privacidad de datos", "Privacy by design"]
+    }
+  ]
+}

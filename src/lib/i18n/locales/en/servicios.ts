@@ -16,4 +16,16 @@ export const servicios = {
     title: 'Ecommerce assistant and AI platform',
     lead: 'An assistant on your catalog and checkout. The tenant stays yours.',
   },
+  asistenteIa: {
+    title: 'AI assistant for your operations',
+    lead: 'On your CMS or CRM. The tenant and data stay yours.',
+  },
+  iaNegocios: {
+    title: 'AI applied to business operations',
+    lead: 'AI in digital operations. Not a diploma program.',
+  },
+  privacidad: {
+    title: 'Data privacy in the flow',
+    lead: 'Privacy by design. Not mentorship.',
+  },
 };
