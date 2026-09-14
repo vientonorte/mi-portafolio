@@ -2,6 +2,7 @@
 export {
   submitContactMessage,
   openContactMailto,
+  pickBestResult,
   SITE_CONTACT,
   PUBLIC_CONTACT_EMAIL,
 } from "../vn-core/contact/submit-contact";

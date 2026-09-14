@@ -1,6 +1,7 @@
 export {
   submitContactMessage,
   openContactMailto,
+  pickBestResult,
 } from "./submit-contact";
 export type {
   ContactPayload,
