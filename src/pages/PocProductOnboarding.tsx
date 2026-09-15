@@ -188,10 +188,14 @@ export default function PocProductOnboarding({
       const el = document.getElementById(`poc-screen-${screens[next]}`);
       const root = scrollerRef.current;
       if (el && root) {
-        root.scrollTo({
-          top: el.offsetTop,
-          behavior: reduceMotionRef.current ? "auto" : "smooth",
-        });
+        if (typeof root.scrollTo === "function") {
+          root.scrollTo({
+            top: el.offsetTop,
+            behavior: reduceMotionRef.current ? "auto" : "smooth",
+          });
+        } else {
+          root.scrollTop = el.offsetTop;
+        }
       } else {
         el?.scrollIntoView({
           behavior: reduceMotionRef.current ? "auto" : "smooth",

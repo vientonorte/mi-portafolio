@@ -8,6 +8,14 @@ import PocProductOnboarding from "@/pages/PocProductOnboarding";
 
 const navigate = vi.fn();
 
+beforeAll(() => {
+  Object.defineProperty(HTMLElement.prototype, "scrollTo", {
+    configurable: true,
+    writable: true,
+    value: vi.fn(),
+  });
+});
+
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-router-dom")>();
   return {
