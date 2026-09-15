@@ -5,7 +5,6 @@ import { PageShell } from "../components/layout/PageShell";
 import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandingHero";
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
-import { ServicePathDemos } from "../components/organisms/ServicePathDemos";
 import {
   HomeNewsStrip,
   HomeSpecialtyPaths,
@@ -169,12 +168,7 @@ export default function ConsultoriaVientoNorte({
 
         <ConsultoriaOnboarding packageId={selectedPackage} />
 
-        {isSem ? null : (
-          <>
-            <ServicePathDemos />
-            <HomeNewsStrip />
-          </>
-        )}
+        {isSem ? null : <HomeNewsStrip />}
 
         <Contact
           key={selectedPackage ?? "none"}

@@ -1,0 +1,32 @@
+{
+  "surface": "linkedin_cold_leads",
+  "paid": "PAUSED",
+  "note": "Demos con reloj no van en /#/ hero. Se mandan en InMail / DM a leads fríos. Rutas Hash viven.",
+  "demos": [
+    {
+      "id": "diagnostic",
+      "url": "https://vientonorte.io/#/demo/diagnostic",
+      "min": 1,
+      "topic": "accesibilidad"
+    },
+    {
+      "id": "prototype",
+      "url": "https://vientonorte.io/#/demo/prototype",
+      "alias": "https://vientonorte.io/#/demo/x-cms",
+      "min": 5,
+      "topic": "automatizacion"
+    },
+    {
+      "id": "process",
+      "url": "https://vientonorte.io/#/demo/process",
+      "min": 4,
+      "topic": "ops"
+    },
+    {
+      "id": "app",
+      "url": "https://vientonorte.io/#/demo/app",
+      "min": 5,
+      "topic": "app"
+    }
+  ]
+}

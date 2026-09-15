@@ -36,21 +36,19 @@ function renderHero() {
 }
 
 describe("ConsultoriaLandingHero", () => {
-  it("lead is primary: Agendar before demo; prototipo goes to Apple POC", async () => {
+  it("lead is primary; laptop and Ver prototipo go to Apple POC, not X|CMS demo", async () => {
     const user = userEvent.setup();
     renderHero();
     const agendar = screen.getByTestId("hero-agendar");
-    const demo = screen.getByTestId("hero-demo-xcms");
     const proto = screen.getByTestId("hero-prototipo");
     expect(agendar).toHaveTextContent(/Agendar/i);
     expect(screen.getByTestId("hero-gratis-a11y")).toBeInTheDocument();
-    expect(agendar.compareDocumentPosition(demo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.queryByTestId("hero-demo-xcms")).not.toBeInTheDocument();
     await user.click(agendar);
     expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "consultoria-hero" });
     await user.click(proto);
     expect(navigate).toHaveBeenCalledWith("/consultoria/modulos/dashboard");
-    await user.click(demo);
-    expect(navigate).toHaveBeenCalledWith("/demo/x-cms");
+    expect(navigate).not.toHaveBeenCalledWith("/demo/x-cms");
   });
 
   it("shows X|CMS product mockup, not a lifestyle cafe photo", () => {
