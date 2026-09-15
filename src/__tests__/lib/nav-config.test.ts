@@ -17,6 +17,8 @@ const labels = {
   projects: "Negocios",
   experience: "Experiencia",
   consulting: "Consultoría ✦",
+  services: "Servicios",
+  news: "News",
   contact: "Contacto",
   about: "Sobre mí",
   designSystem: "Design System",
@@ -31,9 +33,12 @@ describe("NAV_SURFACE", () => {
     expect(NAV_SURFACE.dock).toHaveLength(3);
   });
 
-  it("P0: desktop primary is FO-safe (proceso + contacto, no Negocios)", () => {
-    expect([...NAV_SURFACE.headerPrimary]).toEqual(["proceso", "contacto"]);
-    expect(NAV_SURFACE.headerPrimary).toHaveLength(2);
+  it("P0: desktop primary is FO-safe (proceso + servicios + contacto, no Negocios)", () => {
+    expect([...NAV_SURFACE.headerPrimary]).toEqual([
+      "proceso",
+      "servicios",
+      "contacto",
+    ]);
     expect(NAV_SURFACE.headerPrimary).not.toContain("negocios");
   });
 
@@ -55,9 +60,17 @@ describe("NAV_SURFACE", () => {
 });
 
 describe("getHeaderPrimaryNavItems", () => {
-  it("exposes proceso and contacto on desktop primary", () => {
+  it("exposes proceso, servicios and contacto on desktop primary", () => {
     const items = getHeaderPrimaryNavItems(labels, "Proceso");
-    expect(items.map((item) => item.id)).toEqual(["proceso", "contacto"]);
+    expect(items.map((item) => item.id)).toEqual([
+      "proceso",
+      "servicios",
+      "contacto",
+    ]);
+    expect(items.find((item) => item.id === "servicios")?.action).toEqual({
+      kind: "http",
+      target: "/servicios/",
+    });
   });
 });
 
@@ -65,9 +78,10 @@ describe("getHeaderMoreNavItems", () => {
   it("includes negocios under Más (portfolio secondary)", () => {
     const ids = getHeaderMoreNavItems(labels, "Proceso").map((item) => item.id);
     expect(ids).toEqual([
+      "news",
+      "consultoria",
       "negocios",
       "experiencia",
-      "consultoria",
       "sobre-mi",
       "design-system",
       "uxtools",
@@ -80,8 +94,8 @@ describe("getMobileDrawerNavItems", () => {
     const items = getMobileDrawerNavItems(labels, "Proceso");
     expect(items.slice(0, 6).map((item) => item.id)).toEqual([
       "inicio",
-      "negocios",
-      "experiencia",
+      "servicios",
+      "news",
       "consultoria",
       "proceso",
       "contacto",
@@ -95,11 +109,11 @@ describe("getDockNavAction", () => {
     expect(getDockNavAction("contacto", "deep").kind).toBe("contact");
   });
 
-  it("routes consultoria from the liquid center slot to FO home (embudo)", () => {
+  it("routes consultoria from Más/deep to SEM funnel, not home", () => {
     expect(DOCK_CENTER_ID).toBe("consultoria");
     expect(getDockNavAction("consultoria", "deep")).toEqual({
       kind: "route",
-      target: "/",
+      target: "/consultoria",
     });
   });
 
@@ -171,12 +185,12 @@ describe("matchNavItemActive", () => {
     ).toBe(true);
   });
 
-  it("deep: center CTA routes to home embudo; SEM not dock-active", () => {
+  it("deep: center CTA routes to SEM funnel /consultoria", () => {
     const dockDeep = getDockNavItems("deep", labels, "Proceso");
     const consultoria = dockDeep.find((i) => i.id === "consultoria")!;
     const inicio = dockDeep.find((i) => i.id === "inicio")!;
 
-    expect(consultoria.action).toEqual({ kind: "route", target: "/" });
+    expect(consultoria.action).toEqual({ kind: "route", target: "/consultoria" });
     // SEM fullscreen: no dock “activo” por ruta oferta
     expect(matchNavItemActive(consultoria, "/consultoria")).toBe(true);
     expect(matchNavItemActive(consultoria, "/consultoria/modulos/dashboard")).toBe(

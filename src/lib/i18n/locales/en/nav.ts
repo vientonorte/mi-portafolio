@@ -8,6 +8,8 @@ export const nav = {
       designSystem: 'Design System',
       caseStudies: 'Case Studies',
       process: 'Process',
+      services: 'Services',
+      news: 'News',
       more: 'More',
       consulting: 'Consulting ✦',
       /** Dock liquid label (no ✦ — mark is the only glyph) */

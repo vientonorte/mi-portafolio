@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-15] — Nav: Proceso · Servicios · Contacto
+
+Header primary llega a fichas HTTP (`/servicios/`). Más: News + SEM `/#/consultoria`. Home: especialidades tras el hero, news tras demos.
+
+---
+
 ## [2026-09-15] — Home: especialidades + news → ficha
 
 `/#/` muestra cómo llegar a las landings HTTP. Privacidad de datos (Ley 21.719) es especialidad. Cada news CTA va a su ficha `/servicios/…`, no a `/s/consultoria`. SEM `/#/consultoria` no monta este bloque.

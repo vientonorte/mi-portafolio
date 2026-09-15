@@ -2,7 +2,9 @@ import {
   Briefcase,
   FolderOpen,
   Home,
+  LayoutGrid,
   Mail,
+  Newspaper,
   Sparkles,
   User,
   type LucideIcon,
@@ -22,6 +24,8 @@ export type NavItemId =
   | "experiencia"
   | "consultoria"
   | "proceso"
+  | "servicios"
+  | "news"
   | "contacto"
   | "sobre-mi"
   | "design-system"
@@ -41,7 +45,13 @@ export type DockVariant = "home" | "deep" | "funnel";
 /** Ancla de conversión del embudo (onboarding / kickoff). */
 export const CONSULTORIA_FUNNEL_KICKOFF_ID = "consultoria-onboarding";
 
-export type NavActionKind = "anchor" | "route" | "section" | "contact" | "external";
+export type NavActionKind =
+  | "anchor"
+  | "route"
+  | "section"
+  | "contact"
+  | "external"
+  | "http";
 
 export interface NavAction {
   kind: NavActionKind;
@@ -56,6 +66,8 @@ export interface NavLabels {
   projects: string;
   experience: string;
   consulting: string;
+  services: string;
+  news: string;
   contact: string;
   about: string;
   designSystem: string;
@@ -71,30 +83,32 @@ export interface NavRegistryItem {
 
 /**
  * FO empresa (home = embudo):
- * - Dock 3: Inicio · Empezar (kickoff) · Contacto
- * - Header desktop 2: Proceso · Contacto (no “Negocios” portfolio en primary)
- * - Drawer / Más: catálogo (casos, SEM, DS…)
+ * - Dock 3: Inicio · Agendar (kickoff) · Contacto
+ * - Header: Proceso · Servicios (fichas HTTP) · Contacto
+ * - Más / drawer: News, SEM, catálogo
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  /** Primary: método + cierre — no grilla de casos (peligro de framing portafolio). */
-  headerPrimary: ["proceso", "contacto"] as const,
+  headerPrimary: ["proceso", "servicios", "contacto"] as const,
   headerMore: [
+    "news",
+    "consultoria",
     "negocios",
     "experiencia",
-    "consultoria",
     "sobre-mi",
     "design-system",
     "uxtools",
   ] as const,
   mobileDrawer: [
     "inicio",
-    "negocios",
-    "experiencia",
+    "servicios",
+    "news",
     "consultoria",
     "proceso",
     "contacto",
     "sobre-mi",
+    "negocios",
+    "experiencia",
     "design-system",
     "uxtools",
   ] as const,
@@ -106,6 +120,8 @@ const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
   experiencia: { id: "experiencia", icon: User, labelKey: "experience" },
   consultoria: { id: "consultoria", icon: Sparkles, labelKey: "consulting" },
   proceso: { id: "proceso", icon: FolderOpen, labelKey: "process" },
+  servicios: { id: "servicios", icon: LayoutGrid, labelKey: "services" },
+  news: { id: "news", icon: Newspaper, labelKey: "news" },
   contacto: { id: "contacto", icon: Mail, labelKey: "contact" },
   "sobre-mi": { id: "sobre-mi", icon: User, labelKey: "about" },
   "design-system": { id: "design-system", icon: FolderOpen, labelKey: "designSystem" },
@@ -129,8 +145,11 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "experiencia":
       return { kind: "section", target: "/sobre-mi", sectionId: "experiencia" };
     case "consultoria":
-      // Center CTA → embudo FO (home), no landing SEM
-      return { kind: "route", target: ROUTES.home };
+      return { kind: "route", target: ROUTES.consulting };
+    case "servicios":
+      return { kind: "http", target: "/servicios/" };
+    case "news":
+      return { kind: "route", target: ROUTES.news };
     case "proceso":
       return { kind: "route", target: ROUTES.process };
     case "sobre-mi":
@@ -195,6 +214,9 @@ export interface ResolvedNavItem {
 function navActionToMenuFields(action: NavAction, id: NavItemId): Pick<ResolvedNavItem, "menuType" | "menuHref"> {
   if (action.kind === "external") {
     return { menuType: "external", menuHref: action.target };
+  }
+  if (action.kind === "http") {
+    return { menuType: "route", menuHref: action.target };
   }
   if (action.kind === "anchor") {
     return { menuType: "anchor", menuHref: action.target };
@@ -309,6 +331,11 @@ export function executeNavAction(item: ResolvedNavItem, ctx: NavRuntimeContext):
     return;
   }
 
+  if (action.kind === "http") {
+    window.location.assign(action.target);
+    return;
+  }
+
   if (action.kind === "section") {
     navigateToPageSection(navigate, action.target, action.sectionId!, pathname);
     return;
@@ -384,6 +411,12 @@ export function matchNavItemActive(
     return isConsultingOfferPath(normalized);
   }
   if (item.id === "design-system") return normalized === ROUTES.designSystem;
+  if (item.id === "news") {
+    return normalized === ROUTES.news || normalized.startsWith(`${ROUTES.news}/`);
+  }
+  if (item.id === "servicios") {
+    return normalized === ROUTES.landings || normalized.startsWith("/servicios");
+  }
 
   if (item.action.kind === "contact") {
     return normalized === ROUTES.contact;
