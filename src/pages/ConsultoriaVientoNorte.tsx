@@ -6,6 +6,7 @@ import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandi
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
 import { ServicePathDemos } from "../components/organisms/ServicePathDemos";
+import { HomeSpecialtyPaths } from "../components/organisms/HomeSpecialtyPaths";
 import { Contact } from "../components/organisms/Contact";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
 import { StickyCTA } from "../components/molecules/StickyCTA";
@@ -163,7 +164,12 @@ export default function ConsultoriaVientoNorte({
 
         <ConsultoriaOnboarding packageId={selectedPackage} />
 
-        {isSem ? null : <ServicePathDemos />}
+        {isSem ? null : (
+          <>
+            <ServicePathDemos />
+            <HomeSpecialtyPaths />
+          </>
+        )}
 
         <Contact
           key={selectedPackage ?? "none"}

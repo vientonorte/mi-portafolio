@@ -23,8 +23,8 @@
     "automatizacion",
     "privacidad"
   ],
-  "utmBase": "https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
-  "ctaUrl": "https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
+  "utmBase": "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
+  "ctaUrl": "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
   "upcoming": [
     {
       "id": "havas-claro",
@@ -60,7 +60,7 @@
           "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago, confirmación. Si ese flujo no se percibe, no se reserva.",
           "En Transvip el trabajo fue el trámite de pasajeros premium y un design system web + app con accesibilidad como mejora continua — no un sello ni un overlay. El hub público documenta el corte: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.",
           "Karri (misma etapa, delivery vertical) aplicó el mismo método a calculadora de ganancias y onboarding de shoppers. No es otra landing: es el flujo que ya usa el cliente.",
-          "Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio."
+          "Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio. Especialidad: /servicios/diagnostico-accesibilidad-wcag/."
         ],
         "en": [
           "An airport transfer is not a moodboard. It is a flow: origin, destination, time, payment, confirmation. If that flow cannot be perceived, there is no booking.",
@@ -69,7 +69,7 @@
           "Viento Norte opens the same way with Chilean SMBs: free WCAG 2.2 AA on one flow. Then, if it fits, a 5–7 day Diagnostic. No KPIs that are not already in the portfolio."
         ]
       },
-      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: vientonorte.io/s/consultoria/",
+      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: vientonorte.io/servicios/diagnostico-accesibilidad-wcag/",
       "hashtags": [
         "#accesibilidadweb",
         "#WCAG",
@@ -113,7 +113,7 @@
           "If the bottleneck is a digital procedure, the first cut is still one flow (free, WCAG). Automation comes after the procedure can be used."
         ]
       },
-      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nHub público SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nCTA: vientonorte.io/s/consultoria/",
+      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nHub público SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nCTA: vientonorte.io/servicios/inteligencia-artificial-negocios/",
       "hashtags": [
         "#automatizacion",
         "#DesignOps",
@@ -148,17 +148,17 @@
           "Accesibilidad y privacidad fallan juntas. Un formulario opaco no es WCAG 2.2 AA y no minimiza datos. Un overlay de «accesibilidad» no sustituye ninguna de las dos.",
           "El método contra-archivo (fichas, Grounded Theory, dimensiones D1–D7) sirve para leer opacidad institucional: qué no se documenta, qué se desplaza, qué se archiva mal. Las skills de Viento Norte —WCAG, privacidad por diseño, Design Ops en CMS/CRM— son el reverso operativo: hacer el trámite legible, mínimo y atribuible. Comparar método vs skills no es un juicio a una institución concreta; es un mapa de trabajo para empresas que digitalizan un flujo en Chile.",
           "Havas/Claro (Nov 2021–Abr 2022) aparece en el portafolio como diseño de servicios telecom. Sin KPI hasta que el hub tenga evidencia. Transvip y SURA sí tienen hub público; esos números no se reescriben aquí.",
-          "Si tu producto toca datos personales en Chile, el primer corte es un flujo —gratis, WCAG— y después el Diagnóstico. CTA en /s/consultoria."
+          "Si tu producto toca datos personales en Chile, el primer corte es un flujo —gratis, WCAG— y después el Diagnóstico. Especialidad: /servicios/seguridad-privacidad-digital/."
         ],
         "en": [
           "Chilean Law 21.719 is not a cookie banner. It is the flow: which data you ask, why, for how long, and whether someone can say no without breaking the procedure.",
           "Accessibility and privacy fail together. An opaque form is not WCAG 2.2 AA and does not minimize data. An «accessibility» overlay replaces neither.",
           "The contra-archivo method (files, Grounded Theory, D1–D7) reads institutional opacity: what is not documented, what is displaced, what is poorly archived. Viento Norte skills — WCAG, privacy by design, Design Ops on CMS/CRM — are the operational reverse: make the procedure readable, minimal, attributable. Comparing method vs skills is not a judgment of a named institution; it is a work map for companies digitizing a flow in Chile.",
           "Havas/Claro (Nov 2021–Apr 2022) is in the portfolio as telecom service design. No KPI until the hub has evidence. Transvip and SURA have public hubs; those numbers are not rewritten here.",
-          "If your product touches personal data in Chile, the first cut is one flow — free, WCAG — then the Diagnostic. CTA at /s/consultoria."
+          "If your product touches personal data in Chile, the first cut is one flow — free, WCAG — then the Diagnostic. Specialty: /servicios/seguridad-privacidad-digital/."
         ]
       },
-      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, y si se puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl método contra-archivo lee opacidad institucional. Las skills de Viento Norte (WCAG, privacidad por diseño, Design Ops en CMS/CRM) son el reverso: trámite legible y mínimo. No es un juicio a una institución: es un mapa para empresas que digitalizan un flujo en Chile.\n\nCTA: vientonorte.io/s/consultoria/",
+      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, y si se puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl método contra-archivo lee opacidad institucional. Las skills de Viento Norte (WCAG, privacidad por diseño, Design Ops en CMS/CRM) son el reverso: trámite legible y mínimo. No es un juicio a una institución: es un mapa para empresas que digitalizan un flujo en Chile.\n\nCTA: vientonorte.io/servicios/seguridad-privacidad-digital/",
       "hashtags": [
         "#Ley21719",
         "#privacidadpordiseño",

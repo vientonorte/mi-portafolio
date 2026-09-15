@@ -1,12 +1,12 @@
 export const seo = {
       /** Root SEO keywords — Viento Norte brand, not personal portfolio */
       keywords:
-        'Viento Norte, UXtech, UX consulting, custom modules, front office, fintech, Design Ops, WCAG accessibility, own your data, SMB',
+        'Viento Norte, UX consulting, data privacy, Chile Law 21.719, Privacy by Design, WCAG 2.2, business AI, own your data, SMB Chile',
       pages: {
         home: {
           title: 'Technology for business · Viento Norte',
           description:
-            'Technology for business: digital operations and the flow your customer already uses, in their CMS or CRM. Diagnostic in 5–7 days. Free: accessibility of one flow. 30 min kickoff.',
+            'Technology for business in Chile: data privacy (Law 21.719), WCAG 2.2, and the flow in your CMS or CRM. Diagnostic in 5–7 days. Free: accessibility of one flow. 30 min kickoff.',
         },
         proyectos: {
           title: 'Business · UX Lead',
