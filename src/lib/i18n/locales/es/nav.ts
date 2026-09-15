@@ -8,6 +8,8 @@ export const nav = {
       designSystem: 'Design System',
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
+      services: 'Servicios',
+      news: 'News',
       more: 'Más',
       consulting: 'Consultoría ✦',
       /** Label dock liquid (sin ✦ — isologo es el único glifo) */

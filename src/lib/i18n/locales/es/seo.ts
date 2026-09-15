@@ -1,12 +1,12 @@
 export const seo = {
       /** Keywords SEO root (orgánico) — marca Viento Norte, no portfolio personal */
       keywords:
-        'Viento Norte, UXtech, consultoría UX, módulos a medida, front office, fintech, Design Ops, accesibilidad WCAG, dueño del dato, pyme Chile',
+        'Viento Norte, consultoría UX, privacidad de datos, Ley 21.719, Privacy by Design, accesibilidad WCAG 2.2, inteligencia artificial negocios, dueño del dato, pyme Chile',
       pages: {
         home: {
           title: 'Tecnología para empresas · Viento Norte',
           description:
-            'Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.',
+            'Tecnología para empresas en Chile: privacidad de datos (Ley 21.719), WCAG 2.2 y el flujo en tu CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.',
         },
         proyectos: {
           title: 'Negocios · UX Lead',

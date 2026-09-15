@@ -60,6 +60,8 @@ export function Navigation({
       projects: t.nav.projects,
       experience: t.nav.experience,
       consulting: t.nav.consulting,
+      services: t.nav.services,
+      news: t.nav.news,
       contact: t.nav.contact,
       about: t.nav.about,
       designSystem: t.nav.designSystem,

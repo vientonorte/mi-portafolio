@@ -11,6 +11,7 @@ import {
   NEWS_CATALOG,
   newsCanonical,
   newsEditionBySlug,
+  newsTopicLanding,
 } from "../data/news-editions";
 
 const TOPIC_LABEL = {
@@ -63,6 +64,12 @@ function NewsIndex() {
                 <p className="text-sm text-muted-foreground m-0 leading-normal">
                   {edition.dek[language]}
                 </p>
+                {newsTopicLanding(edition.topic) ? (
+                  <p className="text-xs text-muted-foreground mt-2 mb-0">
+                    {es ? "Ficha: " : "Landing: "}
+                    {newsTopicLanding(edition.topic)!.label[language]}
+                  </p>
+                ) : null}
               </Link>
             </li>
           ))}
@@ -142,11 +149,17 @@ function NewsEditionView({ slug }: { slug: string }) {
             </>
           ) : null}
         </p>
-        <p className="mt-8">
+        <p className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          {newsTopicLanding(edition.topic) ? (
+            <a className="underline" href={newsTopicLanding(edition.topic)!.path}>
+              {es ? "Ir a la especialidad · " : "Open specialty · "}
+              {newsTopicLanding(edition.topic)!.label[language]}
+            </a>
+          ) : null}
           <Link to={ROUTES.consulting}>
             {es
-              ? "Gratis · un flujo WCAG · Agendar 30 min"
-              : "Free · one WCAG flow · Book 30 min"}
+              ? "Agendar 30 min · /#/consultoria"
+              : "Book 30 min · /#/consultoria"}
           </Link>
         </p>
       </article>
