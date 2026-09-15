@@ -97,21 +97,9 @@ export function ConsultoriaLandingHero() {
               <Button
                 type="button"
                 size="lg"
-                data-testid="hero-demo-xcms"
-                aria-describedby={descId}
-                className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold text-white hover:opacity-90"
-                onClick={openXcmsDemo}
-              >
-                <Play className="h-4 w-4" aria-hidden />
-                {t.ctaDemo}
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                variant="outline"
                 data-testid="hero-agendar"
                 aria-describedby={descId}
-                className="funnel-cta-ghost min-h-[48px] border-white/20 bg-transparent text-[#E8E5DF] hover:bg-white/5"
+                className="funnel-cta-primary min-h-[48px] bg-brand-gradient px-8 font-semibold text-white hover:opacity-90"
                 onClick={bookKickoff}
               >
                 <Calendar className="h-4 w-4" aria-hidden />
@@ -125,6 +113,25 @@ export function ConsultoriaLandingHero() {
                 onClick={bookFree}
               >
                 {t.ctaFreeA11y}
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                data-testid="hero-prototipo"
+                className="funnel-link min-h-[44px] px-0 text-white/55 hover:text-[#E8E5DF]"
+                onClick={() => navigate(ROUTES.consultingModule("dashboard"))}
+              >
+                {t.ctaPrototype}
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                data-testid="hero-demo-xcms"
+                className="funnel-link min-h-[44px] px-0 text-white/55 hover:text-[#E8E5DF]"
+                onClick={openXcmsDemo}
+              >
+                <Play className="h-4 w-4" aria-hidden />
+                {t.ctaDemo}
               </Button>
             </div>
           </div>

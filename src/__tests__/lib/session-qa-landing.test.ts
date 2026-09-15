@@ -58,6 +58,7 @@ describe("session QA · i18n parity", () => {
       "landing.storyLabel",
       "landing.storyTiles",
       "landing.ctaPrimary",
+      "landing.ctaPrototype",
       "landing.ctaSecondary",
       "landing.metrics",
       "landing.nav.practices",

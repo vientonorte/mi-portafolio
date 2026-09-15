@@ -17,6 +17,7 @@ export const consultoria = {
         xcmsLabel: 'X|CMS',
         xcmsCaption: 'X|CMS · demo 5 min',
         ctaDemo: 'Ver demo X|CMS',
+        ctaPrototype: 'Ver prototipo',
         title: 'Tecnología para empresas.',
         titleAccent: '',
         description:
