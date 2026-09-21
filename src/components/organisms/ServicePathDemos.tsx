@@ -15,8 +15,8 @@ import { trackEvent } from "../../lib/analytics";
 import { ROUTES } from "../../lib/routes";
 
 /**
- * Home: una demo con reloj por path de servicio.
- * SEM no monta esta sección.
+ * Demos con reloj: leads fríos LinkedIn (`linkedin-cold-demos.json`).
+ * No montar en /#/ ni en /#/consultoria (hero = un prototipo Apple).
  */
 export function ServicePathDemos() {
   const navigate = useNavigate();

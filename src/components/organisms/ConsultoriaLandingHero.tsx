@@ -1,4 +1,4 @@
-import { Calendar, Play } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { DeviceMockup } from "../molecules/DeviceMockup";
@@ -48,14 +48,14 @@ export function ConsultoriaLandingHero() {
     openFreeRadarEntry(navigate, language, "consultoria-hero");
   };
 
-  const openXcmsDemo = () => {
-    trackEvent("hero_x_cms_open", {
+  const openApplePoc = () => {
+    trackEvent("hero_poc_open", {
       category: "engagement",
       surface: "consultoria-hero",
-      product: "x-cms",
-      path_id: "prototype",
+      product: "apple-poc",
+      path_id: "modulos-dashboard",
     });
-    navigate(ROUTES.demoXcms);
+    navigate(ROUTES.consultingModule("dashboard"));
   };
 
   return (
@@ -119,19 +119,9 @@ export function ConsultoriaLandingHero() {
                 variant="link"
                 data-testid="hero-prototipo"
                 className="funnel-link min-h-[44px] px-0 text-white/55 hover:text-[#E8E5DF]"
-                onClick={() => navigate(ROUTES.consultingModule("dashboard"))}
+                onClick={openApplePoc}
               >
                 {t.ctaPrototype}
-              </Button>
-              <Button
-                type="button"
-                variant="link"
-                data-testid="hero-demo-xcms"
-                className="funnel-link min-h-[44px] px-0 text-white/55 hover:text-[#E8E5DF]"
-                onClick={openXcmsDemo}
-              >
-                <Play className="h-4 w-4" aria-hidden />
-                {t.ctaDemo}
               </Button>
             </div>
           </div>
@@ -139,14 +129,10 @@ export function ConsultoriaLandingHero() {
           <div className="min-w-0 lg:col-span-7" data-testid="hero-ops-media">
             <button
               type="button"
-              onClick={openXcmsDemo}
+              onClick={openApplePoc}
               className="hero-xcms-hit"
-              aria-label={t.ctaDemo}
+              aria-label={t.ctaPrototype}
             >
-              <span className="hero-xcms-play" aria-hidden>
-                <Play className="h-3.5 w-3.5" />
-                {t.ctaDemo}
-              </span>
               <DeviceMockup
                 variant="laptop"
                 src={mediaSrc}

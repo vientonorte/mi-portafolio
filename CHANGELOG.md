@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 
 ---
 
+## [2026-09-15] — Hero: un prototipo; demos → LinkedIn frío
+
+Home `/#/`: Agendar + Gratis + Ver prototipo (Apple POC). Laptop abre `/#/consultoria/modulos/dashboard`. Demos con reloj (`/#/demo/*`) salen del home; SSOT `linkedin-cold-demos.json` para InMail.
+
+---
+
 ## [2026-09-15] — Nav: Proceso · Servicios · Contacto
 
 Header primary llega a fichas HTTP (`/servicios/`). Más: News + SEM `/#/consultoria`. Home: especialidades tras el hero, news tras demos.
