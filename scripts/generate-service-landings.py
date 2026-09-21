@@ -172,6 +172,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
   <body>
 {NOSCRIPT}
     <a class="skip-link" href="#main">Ir al contenido principal</a>
+    <div class="share-bar" aria-hidden="true"></div>
     <header class="share-banner" role="banner">
       <div class="share-banner__inner">
         <a class="share-logo" href="/" aria-label="Viento Norte · Inicio">

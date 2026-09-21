@@ -33,6 +33,8 @@ describe("service landings registry · Austral", () => {
       const html = readFileSync(resolve(root, rel), "utf8");
       expect(html.match(/<h1[\s>]/g)?.length).toBe(1);
       expect(html).toContain(`<h1 id="page-h1">${item.h1}</h1>`);
+      expect(html).toContain("share-hero");
+      expect(html).toContain("share-bar");
       expect(html).toContain(
         `rel="canonical" href="https://vientonorte.io${item.path}"`
       );
