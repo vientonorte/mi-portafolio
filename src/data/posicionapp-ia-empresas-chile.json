@@ -1,0 +1,93 @@
+{
+  "source": "PosicionApp",
+  "query": "inteligencia para empresas",
+  "geo": "CL",
+  "date": "2026-09-14",
+  "credits": "664/700",
+  "results": 47,
+  "volumeTotal": 170,
+  "ssot": "No crear URL por keyword. Mapear a /servicios/* live. Sin Ads.",
+  "exclude": {
+    "reason": "Fuera de oferta VN o geo/idioma ajeno",
+    "patterns": [
+      "inteligencia emocional",
+      "logos",
+      "nombres de empresas",
+      "nomes",
+      "criar logos",
+      "invertir",
+      "marbella",
+      "malaga",
+      "valencia",
+      "di tella",
+      "chatgpt práctico",
+      "rouhiainen",
+      "master en inteligencia",
+      "cursos",
+      "curso ",
+      "formación",
+      "formacion",
+      "capacitacion",
+      "capacitación",
+      "talleres",
+      "test de inteligencia"
+    ]
+  },
+  "include": [
+    {
+      "keyword": "herramientas de inteligencia artificial para empresas",
+      "volume": 10,
+      "intent": "comercial",
+      "url": "/servicios/asistente-ia/"
+    },
+    {
+      "keyword": "aplicaciones de inteligencia artificial para empresas",
+      "volume": 10,
+      "intent": "comercial",
+      "url": "/servicios/asistente-ia/"
+    },
+    {
+      "keyword": "soluciones de inteligencia artificial para empresas",
+      "volume": 10,
+      "intent": "comercial",
+      "url": "/servicios/inteligencia-artificial-negocios/"
+    },
+    {
+      "keyword": "inteligencia artificial para administracion de empresas",
+      "volume": 10,
+      "intent": "comercial",
+      "url": "/servicios/inteligencia-artificial-negocios/"
+    },
+    {
+      "keyword": "inteligencia artificial para gestion de empresas",
+      "volume": 0,
+      "intent": "comercial",
+      "url": "/servicios/inteligencia-artificial-negocios/"
+    },
+    {
+      "keyword": "inteligencia artificial para pequenas empresas",
+      "volume": 0,
+      "intent": "comercial",
+      "url": "/servicios/inteligencia-artificial-negocios/"
+    },
+    {
+      "keyword": "inteligencia artificial para pequeñas empresas",
+      "volume": 0,
+      "intent": "comercial",
+      "url": "/servicios/inteligencia-artificial-negocios/"
+    },
+    {
+      "keyword": "programas de inteligencia artificial para empresas",
+      "volume": 0,
+      "intent": "comercial",
+      "url": "/servicios/asistente-ia/"
+    },
+    {
+      "keyword": "inteligencia artificial gratis para empresas",
+      "volume": 0,
+      "intent": "comercial",
+      "url": "/s/consultoria/",
+      "note": "Gratis VN = un flujo WCAG, no IA gratis tipo Gemini. CTA Hablemos."
+    }
+  ]
+}
