@@ -409,6 +409,137 @@ body {
   background: #e8e5df;
 }
 
+/* /s/web-express · oferta «Web profesional en 72h» (30.000 CLP). Solo estático. */
+.offer-hero {
+  padding: 0.5rem 0 1rem;
+}
+
+.offer-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.offer-price strong {
+  font-family: var(--vn-font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.offer-price span {
+  color: var(--vn-color-muted);
+}
+
+.offer-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0;
+}
+
+.share-main .offer-grid p {
+  margin: 0;
+  color: var(--vn-color-muted);
+}
+
+@media (min-width: 640px) {
+  .offer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .offer-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.offer-list {
+  padding-left: 1.25rem;
+}
+
+.offer-steps {
+  padding-left: 1.5rem;
+}
+
+.offer-steps li {
+  margin-bottom: 0.5rem;
+}
+
+.offer-box {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid var(--vn-border-medium);
+  border-radius: var(--vn-radius-md);
+}
+
+.offer-box h2 {
+  margin-top: 0;
+}
+
+.offer-box--final {
+  background: var(--vn-color-brand-dark);
+  border-color: var(--vn-color-brand-dark);
+}
+
+.share-main .offer-box--final h2,
+.share-main .offer-box--final p {
+  color: var(--vn-color-surface);
+}
+
+.offer-box--final .share-cta--ghost {
+  color: var(--vn-color-surface);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.offer-mock {
+  display: grid;
+  gap: 6px;
+  aspect-ratio: 4 / 3;
+  padding: 10px;
+  margin-bottom: 0.75rem;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--vn-border-medium);
+}
+
+.offer-mock span {
+  display: block;
+  border-radius: 4px;
+  background: #e7e3db;
+}
+
+.offer-mock__bar { height: 8px; }
+.offer-mock__hero { min-height: 56px; background: linear-gradient(135deg, #1a8fdc33, #1a8fdc88) !important; }
+.offer-mock--alt .offer-mock__hero { background: linear-gradient(135deg, #0d1b3d55, #0d1b3dcc) !important; }
+.offer-mock--warm .offer-mock__hero { background: linear-gradient(135deg, #e8401c33, #e8401c99) !important; }
+.offer-mock__line { height: 6px; }
+.offer-mock__line--short { width: 60%; }
+.offer-mock__btn { width: 40%; height: 14px; background: var(--brand-gradient) !important; border-radius: 999px !important; }
+
+.offer-faq {
+  border-bottom: 1px solid var(--vn-border-subtle);
+  padding: 0.25rem 0;
+}
+
+.offer-faq summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.offer-faq summary:focus-visible {
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

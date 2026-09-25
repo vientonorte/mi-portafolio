@@ -67,6 +67,183 @@ def proceso_extra_head() -> str:
     </script>"""
 
 
+OG_WEB_EXPRESS = OG_HOME  # TODO(Rö): OG 1200×630 propio para /s/web-express/ si se pauta en Meta.
+WEB_EXPRESS_URL = "https://vientonorte.io/s/web-express/"
+
+
+def web_express_extra_head() -> str:
+    return """    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://vientonorte.io/s/web-express/",
+        "name": "Web profesional en 72h",
+        "url": "https://vientonorte.io/s/web-express/",
+        "image": "https://vientonorte.io/images/branding/og-home-1200.png",
+        "serviceType": "Diseño y desarrollo de sitio web one-page",
+        "provider": {
+          "@type": "Organization",
+          "name": "Viento Norte",
+          "url": "https://vientonorte.io/",
+          "email": "contacto@vientonorte.io"
+        },
+        "areaServed": { "@type": "Country", "name": "Chile" },
+        "description": "Web one-page con plantilla Viento Norte adaptada a tu marca, botón WhatsApp o formulario de contacto, responsive y 1 ronda de cambios. Entrega en 72 horas hábiles tras recibir el contenido. No incluye dominio ni hosting.",
+        "offers": {
+          "@type": "Offer",
+          "name": "Web profesional en 72h",
+          "price": "30000",
+          "priceCurrency": "CLP",
+          "availability": "https://schema.org/InStock",
+          "url": "https://vientonorte.io/s/web-express/",
+          "seller": { "@type": "Organization", "name": "Viento Norte" }
+        }
+      }
+    </script>"""
+
+
+def web_express_script() -> str:
+    return """      <script>
+        (function () {
+          // TODO(Rö): pegar el link real de Mercado Pago (anticipo 50% = $15.000). Aún no existe.
+          var MP_LINK_ANTICIPO = "TODO_MP_LINK";
+          // TODO(Rö): número WhatsApp VN, formato internacional sin "+" (ej. 569XXXXXXXX). No hay número en el repo.
+          var VN_WHATSAPP = "TODO_WHATSAPP";
+          var WA_TEXT = "Hola, quiero mi web profesional en 72h por $30.000.";
+          var isTodo = function (v) { return !v || v.indexOf("TODO") === 0; };
+          var mp = document.querySelectorAll("[data-we-cta='mp']");
+          var wa = document.querySelectorAll("[data-we-cta='whatsapp']");
+          if (!isTodo(MP_LINK_ANTICIPO)) {
+            mp.forEach(function (a) { a.href = MP_LINK_ANTICIPO; a.target = "_blank"; a.rel = "noopener"; });
+          }
+          if (!isTodo(VN_WHATSAPP)) {
+            var waHref = "https://wa.me/" + VN_WHATSAPP + "?text=" + encodeURIComponent(WA_TEXT);
+            wa.forEach(function (a) { a.href = waHref; a.target = "_blank"; a.rel = "noopener"; });
+          }
+          // Mientras sean TODO, ambos botones caen al mailto de contacto (href estático).
+          var dl = (window.dataLayer = window.dataLayer || []);
+          document.querySelectorAll("[data-we-cta]").forEach(function (a) {
+            a.addEventListener("click", function () {
+              dl.push({ event: "web_express_cta", cta: a.getAttribute("data-we-cta") });
+            });
+          });
+        })();
+      </script>"""
+
+
+def web_express_inner() -> str:
+    mail_mp = "mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000"
+    mail_wa = "mailto:contacto@vientonorte.io?subject=Quiero%20mi%20web%20en%2072h"
+    ctas = f"""        <!-- TODO(Rö): MP_LINK_ANTICIPO y VN_WHATSAPP son placeholders (ver script al final). Mientras tanto, los botones abren mailto. -->
+        <a class="share-cta" href="{mail_mp}" data-we-cta="mp" data-todo="MP_LINK_ANTICIPO">Pagar anticipo $15.000</a>
+        <a class="share-cta share-cta--ghost" href="{mail_wa}" data-we-cta="whatsapp" data-todo="VN_WHATSAPP">Escríbenos por WhatsApp</a>"""
+    return f"""      <section class="offer-hero" aria-labelledby="we-title">
+        <p class="meta">Viento Norte · Web profesional en 72h</p>
+        <h1 id="we-title">Tu web profesional en 72h por $30.000</h1>
+        <div class="share-rule" aria-hidden="true"></div>
+        <p class="lead">
+          Para emprendedores y pymes que hoy venden solo por Instagram.
+          Una página clara, con tu marca y un botón para que tus clientes te escriban.
+        </p>
+        <p class="offer-price" aria-label="Precio: 30.000 pesos chilenos">
+          <strong>$30.000</strong> <span>CLP · pago en 2 partes</span>
+        </p>
+        <p class="offer-ctas">
+{ctas}
+        </p>
+      </section>
+
+      <section aria-labelledby="we-incluye">
+        <h2 id="we-incluye">Qué incluye</h2>
+        <ul class="share-cards offer-grid">
+          <li class="share-card"><h3 class="share-card__title">1 página (one-page)</h3><p>Todo lo importante de tu negocio en una sola página.</p></li>
+          <li class="share-card"><h3 class="share-card__title">Plantilla adaptada a tu marca</h3><p>Plantilla Viento Norte con tu logo, colores y textos.</p></li>
+          <li class="share-card"><h3 class="share-card__title">Botón WhatsApp o formulario</h3><p>Tus clientes te contactan en un toque.</p></li>
+          <li class="share-card"><h3 class="share-card__title">Responsive</h3><p>Se ve bien en celular, tablet y computador.</p></li>
+          <li class="share-card"><h3 class="share-card__title">1 ronda de cambios</h3><p>Revisas la web y ajustamos lo que necesites.</p></li>
+          <li class="share-card"><h3 class="share-card__title">Entrega en 72h hábiles</h3><p>Corre desde que recibimos tu contenido completo.</p></li>
+        </ul>
+        <h2 id="we-no-incluye">No incluye</h2>
+        <ul class="offer-list">
+          <li><strong>Dominio y hosting:</strong> se cotizan aparte. Te orientamos para elegir.</li>
+          <li><strong>Tienda online</strong> (carrito o pagos dentro de la web).</li>
+          <li><strong>Más páginas.</strong> Si necesitas más, lo conversamos.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="we-pasos">
+        <h2 id="we-pasos">Cómo funciona</h2>
+        <ol class="offer-steps">
+          <li><strong>Pagas el 50% ($15.000)</strong> con link de Mercado Pago.</li>
+          <li><strong>Nos envías tu contenido:</strong> logo, textos, fotos y tu WhatsApp o correo de contacto.</li>
+          <li><strong>En 72h hábiles</strong> te mostramos tu web. Tienes 1 ronda de cambios.</li>
+          <li><strong>Pagas el 50% restante ($15.000)</strong> y te entregamos tu web lista.</li>
+        </ol>
+      </section>
+
+      <section id="pago" class="offer-box" aria-labelledby="we-pago">
+        <h2 id="we-pago">Precio y pago</h2>
+        <ul class="offer-list">
+          <li><strong>Total: $30.000 CLP.</strong></li>
+          <li>50% al partir: $15.000.</li>
+          <li>50% al entregar: $15.000.</li>
+          <li>Pago con link de Mercado Pago.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="we-ejemplos">
+        <h2 id="we-ejemplos">Ejemplos</h2>
+        <p class="meta">Maquetas ilustrativas de la plantilla. No son clientes reales.</p>
+        <!-- TODO(Rö): reemplazar por entregas reales (con permiso del cliente) cuando existan. No inventar nombres ni testimonios. -->
+        <ul class="share-cards offer-grid offer-grid--3">
+          <li class="share-card offer-example">
+            <div class="offer-mock" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
+            <h3 class="share-card__title">Ejemplo · Cafetería</h3>
+            <p>Portada, carta destacada, horario, ubicación y botón WhatsApp.</p>
+          </li>
+          <li class="share-card offer-example">
+            <div class="offer-mock offer-mock--alt" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
+            <h3 class="share-card__title">Ejemplo · Servicio profesional</h3>
+            <p>Quién eres, qué servicios das, cómo trabajas y formulario de contacto.</p>
+          </li>
+          <li class="share-card offer-example">
+            <div class="offer-mock offer-mock--warm" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
+            <h3 class="share-card__title">Ejemplo · Emprendimiento de Instagram</h3>
+            <p>Tus productos destacados, cómo comprar y botón directo a WhatsApp.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="we-faq">
+        <h2 id="we-faq">Preguntas frecuentes</h2>
+        <details class="offer-faq">
+          <summary>¿Qué tengo que enviar?</summary>
+          <p>Tu logo, los textos (quién eres, qué ofreces), 3 a 6 fotos y tu WhatsApp o correo. Si te falta algo, te ayudamos a ordenarlo.</p>
+        </details>
+        <details class="offer-faq">
+          <summary>¿Cuándo empiezan a correr las 72h?</summary>
+          <p>Cuando recibimos el anticipo y tu contenido completo. Son 72 horas hábiles (lunes a viernes).</p>
+        </details>
+        <details class="offer-faq">
+          <summary>No tengo dominio ni hosting, ¿qué hago?</summary>
+          <p>No están incluidos en los $30.000. Te orientamos para elegir y, si quieres, te cotizamos aparte.</p>
+        </details>
+        <details class="offer-faq">
+          <summary>¿Puedo pedir más páginas o una tienda online?</summary>
+          <p>Este producto es una sola página. Si necesitas más, escríbenos y lo cotizamos aparte.</p>
+        </details>
+      </section>
+
+      <section class="offer-box offer-box--final" aria-labelledby="we-cta-final">
+        <h2 id="we-cta-final">¿Partimos con tu web?</h2>
+        <p>$30.000 CLP · 50% al partir y 50% al entregar · 72h hábiles.</p>
+        <p class="offer-ctas">
+{ctas}
+        </p>
+      </section>
+{web_express_script()}"""
+
+
 def main() -> None:
     home_inner = """      <h1>Tecnología para empresas</h1>
       <div class="share-rule" aria-hidden="true"></div>
@@ -223,6 +400,21 @@ def main() -> None:
             crumbs=[("/", "Inicio"), ("/s/polijuego-privacy/", "Privacidad Polijuego")],
             inner=poli_inner,
             gtm=False,
+        ),
+    )
+
+
+    write(
+        ROOT / "public/s/web-express/index.html",
+        render_page(
+            title="Web profesional en 72h por $30.000 · Viento Norte",
+            description="Tu web one-page con plantilla Viento Norte adaptada a tu marca, botón WhatsApp o formulario y responsive. Entrega en 72h hábiles. $30.000 CLP.",
+            canonical=WEB_EXPRESS_URL,
+            og=OG_WEB_EXPRESS,
+            current="/s/web-express/",
+            crumbs=[("/", "Inicio"), ("/s/web-express/", "Web en 72h")],
+            inner=web_express_inner(),
+            extra_head=web_express_extra_head(),
         ),
     )
 
