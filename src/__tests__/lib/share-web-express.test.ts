@@ -37,8 +37,41 @@ describe("share /s/web-express", () => {
     expect(html).toContain('MP_LINK_ANTICIPO = "TODO_MP_LINK"');
     expect(html).toContain('VN_WHATSAPP = "TODO_WHATSAPP"');
     expect(html).not.toMatch(/wa\.me\/\d/);
-    expect(html).toContain('data-we-cta="mp"');
-    expect(html).toContain('data-we-cta="whatsapp"');
+  });
+
+  it("funnel: one primary CTA (hero|sticky|final) → form fallback; MP only in step 3", () => {
+    const primary = html.match(/class="vn-btn vn-btn--primary"[^>]*>([^<]+)</g) ?? [];
+    expect(primary.length).toBe(3);
+    for (const b of primary) expect(b).toContain("Quiero mi web en 72h");
+    for (const loc of ["hero", "sticky", "final"]) {
+      expect(html).toContain(`data-we-cta="${loc}"`);
+    }
+    const hero = html.slice(html.indexOf('class="offer-hero"'), html.indexOf('id="we-recibes"'));
+    expect(hero).not.toContain("data-we-mp");
+    const steps = html.slice(html.indexOf('id="como-funciona"'), html.indexOf('id="we-no-incluye"'));
+    expect(steps).toContain("data-we-mp");
+    expect(html.match(/data-we-mp /g)?.length).toBe(1);
+    expect(html).toContain('id="formulario"');
+    expect(html).toContain('id="we-form"');
+  });
+
+  it("section order by objection", () => {
+    const order = ["we-title", "we-recibes", "we-ejemplos", "we-pasos", "we-no-incluye", "we-faq", "we-cta-final"];
+    const idx = order.map((id) => html.indexOf(`id="${id}"`));
+    expect(idx.every((i) => i > 0)).toBe(true);
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+  });
+
+  it("tracks funnel events", () => {
+    for (const e of ["web_express_cta_click", "web_express_form_submit", "web_express_mp_click"]) {
+      expect(html).toContain(e);
+    }
+  });
+
+  it("form posts to existing contact relay (no new backend)", () => {
+    expect(html).toContain("https://contact.vientonorte.io/api/contact");
+    expect(html).toContain('name="_gotcha"');
+    expect(html).toContain('name="consent"');
   });
 
   it("examples are labeled as Ejemplo, no testimonials", () => {

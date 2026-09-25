@@ -90,91 +90,98 @@
       </ol>
     </nav>
     <main id="main" class="share-main" tabindex="-1">
-      <section class="offer-hero" aria-labelledby="we-title">
-        <p class="meta">Viento Norte · Web profesional en 72h</p>
+      <!-- Embudo: anuncio → esta landing → conversación (WhatsApp o formulario) → anticipo 50% (Mercado Pago). -->
+      <!-- TODO(Rö): VN_WHATSAPP y MP_LINK_ANTICIPO son placeholders (script al final). Mientras sean TODO, el CTA lleva al formulario y el anticipo abre mailto. -->
+      <section class="offer-hero" aria-labelledby="we-title" data-we-hide-sticky>
+        <p class="meta">Viento Norte · para emprendedores y pymes</p>
         <h1 id="we-title">Tu web profesional en 72h por $30.000</h1>
         <div class="share-rule" aria-hidden="true"></div>
         <p class="lead">
-          Para emprendedores y pymes que hoy venden solo por Instagram.
-          Una página clara, con tu marca y un botón para que tus clientes te escriban.
+          Pasa de solo Instagram a una página con tu marca y un botón para que tus clientes te escriban.
         </p>
-        <p class="offer-price" aria-label="Precio: 30.000 pesos chilenos">
-          <strong>$30.000</strong> <span>CLP · pago en 2 partes</span>
-        </p>
-        <p class="offer-ctas">
-        <!-- TODO(Rö): MP_LINK_ANTICIPO y VN_WHATSAPP son placeholders (ver script al final). Mientras tanto, los botones abren mailto. -->
-        <a class="share-cta" href="mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000" data-we-cta="mp" data-todo="MP_LINK_ANTICIPO">Pagar anticipo $15.000</a>
-        <a class="share-cta share-cta--ghost" href="mailto:contacto@vientonorte.io?subject=Quiero%20mi%20web%20en%2072h" data-we-cta="whatsapp" data-todo="VN_WHATSAPP">Escríbenos por WhatsApp</a>
-        </p>
+        <ul class="offer-facts" aria-label="Resumen de la oferta">
+          <li><span class="offer-price">$30.000</span> CLP</li>
+          <li>72h hábiles</li>
+          <li>50% al partir, 50% al entregar</li>
+        </ul>
+        <div class="offer-actions">
+          <a class="vn-btn vn-btn--primary" href="#formulario" data-we-cta="hero" data-todo="VN_WHATSAPP">Quiero mi web en 72h</a>
+        </div>
+        <p class="offer-hint">Conversamos primero. Pagas solo cuando confirmamos.</p>
       </section>
 
-      <section aria-labelledby="we-incluye">
-        <h2 id="we-incluye">Qué incluye</h2>
-        <ul class="share-cards offer-grid">
-          <li class="share-card"><h3 class="share-card__title">1 página (one-page)</h3><p>Todo lo importante de tu negocio en una sola página.</p></li>
-          <li class="share-card"><h3 class="share-card__title">Plantilla adaptada a tu marca</h3><p>Plantilla Viento Norte con tu logo, colores y textos.</p></li>
-          <li class="share-card"><h3 class="share-card__title">Botón WhatsApp o formulario</h3><p>Tus clientes te contactan en un toque.</p></li>
-          <li class="share-card"><h3 class="share-card__title">Responsive</h3><p>Se ve bien en celular, tablet y computador.</p></li>
-          <li class="share-card"><h3 class="share-card__title">1 ronda de cambios</h3><p>Revisas la web y ajustamos lo que necesites.</p></li>
-          <li class="share-card"><h3 class="share-card__title">Entrega en 72h hábiles</h3><p>Corre desde que recibimos tu contenido completo.</p></li>
-        </ul>
-        <h2 id="we-no-incluye">No incluye</h2>
-        <ul class="offer-list">
-          <li><strong>Dominio y hosting:</strong> se cotizan aparte. Te orientamos para elegir.</li>
-          <li><strong>Tienda online</strong> (carrito o pagos dentro de la web).</li>
-          <li><strong>Más páginas.</strong> Si necesitas más, lo conversamos.</li>
+      <section class="offer-section" aria-labelledby="we-recibes">
+        <h2 id="we-recibes">Qué recibes</h2>
+        <ul class="offer-grid">
+          <li class="offer-card"><h3>Una página con todo</h3><p>Quién eres, qué ofreces y cómo contactarte, en una sola página.</p></li>
+          <li class="offer-card"><h3>Tu marca, no una plantilla genérica</h3><p>Plantilla Viento Norte adaptada a tu logo, colores y textos.</p></li>
+          <li class="offer-card"><h3>Botón WhatsApp o formulario</h3><p>Tus clientes te escriben en un toque.</p></li>
+          <li class="offer-card"><h3>Se ve bien en el celular</h3><p>Responsive: celular, tablet y computador.</p></li>
+          <li class="offer-card"><h3>1 ronda de cambios</h3><p>Revisas la web y ajustamos lo que necesites.</p></li>
+          <li class="offer-card"><h3>Lista en 72h hábiles</h3><p>Desde que recibimos el anticipo y tu contenido.</p></li>
         </ul>
       </section>
 
-      <section aria-labelledby="we-pasos">
-        <h2 id="we-pasos">Cómo funciona</h2>
-        <ol class="offer-steps">
-          <li><strong>Pagas el 50% ($15.000)</strong> con link de Mercado Pago.</li>
-          <li><strong>Nos envías tu contenido:</strong> logo, textos, fotos y tu WhatsApp o correo de contacto.</li>
-          <li><strong>En 72h hábiles</strong> te mostramos tu web. Tienes 1 ronda de cambios.</li>
-          <li><strong>Pagas el 50% restante ($15.000)</strong> y te entregamos tu web lista.</li>
-        </ol>
-      </section>
-
-      <section id="pago" class="offer-box" aria-labelledby="we-pago">
-        <h2 id="we-pago">Precio y pago</h2>
-        <ul class="offer-list">
-          <li><strong>Total: $30.000 CLP.</strong></li>
-          <li>50% al partir: $15.000.</li>
-          <li>50% al entregar: $15.000.</li>
-          <li>Pago con link de Mercado Pago.</li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="we-ejemplos">
+      <section class="offer-section" aria-labelledby="we-ejemplos">
         <h2 id="we-ejemplos">Ejemplos</h2>
         <p class="meta">Maquetas ilustrativas de la plantilla. No son clientes reales.</p>
         <!-- TODO(Rö): reemplazar por entregas reales (con permiso del cliente) cuando existan. No inventar nombres ni testimonios. -->
-        <ul class="share-cards offer-grid offer-grid--3">
-          <li class="share-card offer-example">
+        <ul class="offer-grid offer-grid--3">
+          <li class="offer-card">
             <div class="offer-mock" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
-            <h3 class="share-card__title">Ejemplo · Cafetería</h3>
+            <h3>Ejemplo · Cafetería</h3>
             <p>Portada, carta destacada, horario, ubicación y botón WhatsApp.</p>
           </li>
-          <li class="share-card offer-example">
+          <li class="offer-card">
             <div class="offer-mock offer-mock--alt" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
-            <h3 class="share-card__title">Ejemplo · Servicio profesional</h3>
-            <p>Quién eres, qué servicios das, cómo trabajas y formulario de contacto.</p>
+            <h3>Ejemplo · Servicio profesional</h3>
+            <p>Quién eres, tus servicios, cómo trabajas y formulario de contacto.</p>
           </li>
-          <li class="share-card offer-example">
+          <li class="offer-card">
             <div class="offer-mock offer-mock--warm" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>
-            <h3 class="share-card__title">Ejemplo · Emprendimiento de Instagram</h3>
-            <p>Tus productos destacados, cómo comprar y botón directo a WhatsApp.</p>
+            <h3>Ejemplo · Emprendimiento de Instagram</h3>
+            <p>Productos destacados, cómo comprar y botón directo a WhatsApp.</p>
           </li>
         </ul>
       </section>
 
-      <section aria-labelledby="we-faq">
+      <section class="offer-section" id="como-funciona" aria-labelledby="we-pasos">
+        <h2 id="we-pasos">Cómo funciona</h2>
+        <ol class="offer-steps">
+          <li>
+            <h3>Nos escribes</h3>
+            <p>Cuéntanos de tu negocio por WhatsApp o con el formulario.</p>
+          </li>
+          <li>
+            <h3>Te decimos qué necesitamos</h3>
+            <p>Logo, textos, 3 a 6 fotos y tu WhatsApp o correo. Si te falta algo, te ayudamos a ordenarlo.</p>
+          </li>
+          <li class="offer-step--pay">
+            <h3>Confirmas y pagas 50% ($15.000)</h3>
+            <p>Con link de Mercado Pago. Ahí parten las 72h hábiles.</p>
+            <div class="offer-actions">
+              <!-- TODO(Rö): MP_LINK_ANTICIPO pendiente; mientras tanto abre mailto. -->
+              <a class="vn-btn vn-btn--secondary" href="mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000" data-we-mp data-todo="MP_LINK_ANTICIPO">Pagar anticipo $15.000</a>
+            </div>
+          </li>
+          <li>
+            <h3>Recibes tu web y pagas el resto</h3>
+            <p>Revisas, pides tu ronda de cambios y pagas el 50% restante ($15.000) al entregar.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="offer-section" aria-labelledby="we-no-incluye">
+        <h2 id="we-no-incluye">Qué no incluye</h2>
+        <ul class="offer-list">
+          <li><strong>Dominio y hosting:</strong> se cotizan aparte. Te orientamos para elegir.</li>
+          <li><strong>Tienda online</strong> (carrito o pagos dentro de la web).</li>
+          <li><strong>Más páginas.</strong> Si necesitas más, lo cotizamos aparte.</li>
+        </ul>
+      </section>
+
+      <section class="offer-section" aria-labelledby="we-faq">
         <h2 id="we-faq">Preguntas frecuentes</h2>
-        <details class="offer-faq">
-          <summary>¿Qué tengo que enviar?</summary>
-          <p>Tu logo, los textos (quién eres, qué ofreces), 3 a 6 fotos y tu WhatsApp o correo. Si te falta algo, te ayudamos a ordenarlo.</p>
-        </details>
         <details class="offer-faq">
           <summary>¿Cuándo empiezan a correr las 72h?</summary>
           <p>Cuando recibimos el anticipo y tu contenido completo. Son 72 horas hábiles (lunes a viernes).</p>
@@ -184,44 +191,176 @@
           <p>No están incluidos en los $30.000. Te orientamos para elegir y, si quieres, te cotizamos aparte.</p>
         </details>
         <details class="offer-faq">
+          <summary>¿Y si no me gusta el resultado?</summary>
+          <p>Tienes 1 ronda de cambios incluida. Pagas el 50% restante solo al entregar.</p>
+        </details>
+        <details class="offer-faq">
           <summary>¿Puedo pedir más páginas o una tienda online?</summary>
           <p>Este producto es una sola página. Si necesitas más, escríbenos y lo cotizamos aparte.</p>
         </details>
       </section>
 
-      <section class="offer-box offer-box--final" aria-labelledby="we-cta-final">
+      <section class="offer-box offer-box--inverse" id="formulario" aria-labelledby="we-cta-final" data-we-hide-sticky>
         <h2 id="we-cta-final">¿Partimos con tu web?</h2>
-        <p>$30.000 CLP · 50% al partir y 50% al entregar · 72h hábiles.</p>
-        <p class="offer-ctas">
-        <!-- TODO(Rö): MP_LINK_ANTICIPO y VN_WHATSAPP son placeholders (ver script al final). Mientras tanto, los botones abren mailto. -->
-        <a class="share-cta" href="mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000" data-we-cta="mp" data-todo="MP_LINK_ANTICIPO">Pagar anticipo $15.000</a>
-        <a class="share-cta share-cta--ghost" href="mailto:contacto@vientonorte.io?subject=Quiero%20mi%20web%20en%2072h" data-we-cta="whatsapp" data-todo="VN_WHATSAPP">Escríbenos por WhatsApp</a>
-        </p>
+        <p>$30.000 CLP · 72h hábiles · 50% al partir y 50% al entregar.</p>
+        <div class="offer-actions">
+          <a class="vn-btn vn-btn--primary" href="#formulario" data-we-cta="final" data-todo="VN_WHATSAPP">Quiero mi web en 72h</a>
+        </div>
+        <form class="offer-form" id="we-form" novalidate aria-labelledby="we-form-title">
+          <h3 id="we-form-title">¿Prefieres que te escribamos?</h3>
+          <p>Déjanos tus datos y te contactamos dentro de 1 día hábil.</p>
+          <div class="offer-form__grid">
+            <div class="offer-field">
+              <label for="we-name">Nombre</label>
+              <input id="we-name" name="name" type="text" autocomplete="name" required minlength="2" />
+            </div>
+            <div class="offer-field">
+              <label for="we-rubro">Rubro</label>
+              <input id="we-rubro" name="rubro" type="text" required placeholder="Ej: cafetería, peluquería" />
+            </div>
+            <div class="offer-field">
+              <label for="we-link">Instagram o sitio actual (opcional)</label>
+              <input id="we-link" name="link" type="text" inputmode="url" placeholder="@tunegocio" />
+            </div>
+            <div class="offer-field">
+              <label for="we-email">Email</label>
+              <input id="we-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="offer-field">
+              <label for="we-whatsapp">WhatsApp (opcional)</label>
+              <input id="we-whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" placeholder="+56 9" />
+            </div>
+          </div>
+          <div class="offer-honeypot" aria-hidden="true">
+            <label for="we-gotcha">No completar</label>
+            <input id="we-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <label class="offer-check" for="we-consent">
+            <input id="we-consent" name="consent" type="checkbox" required />
+            <span>Acepto que Viento Norte me contacte por esta solicitud.</span>
+          </label>
+          <div>
+            <button class="vn-btn vn-btn--secondary" type="submit">Enviar mis datos</button>
+          </div>
+          <p class="offer-status" id="we-form-status" role="status" aria-live="polite"></p>
+        </form>
       </section>
+
+      <div class="offer-sticky" id="we-sticky" role="region" aria-label="Acción rápida">
+        <a class="vn-btn vn-btn--primary" href="#formulario" data-we-cta="sticky" data-todo="VN_WHATSAPP">Quiero mi web en 72h</a>
+      </div>
       <script>
         (function () {
           // TODO(Rö): pegar el link real de Mercado Pago (anticipo 50% = $15.000). Aún no existe.
           var MP_LINK_ANTICIPO = "TODO_MP_LINK";
           // TODO(Rö): número WhatsApp VN, formato internacional sin "+" (ej. 569XXXXXXXX). No hay número en el repo.
           var VN_WHATSAPP = "TODO_WHATSAPP";
+          // Relay existente del sitio (worker/src/contact.js · src/lib/site-contact.ts CONTACT_API_URL).
+          var CONTACT_API_URL = "https://contact.vientonorte.io/api/contact";
+          var CONTACT_EMAIL = "contacto@vientonorte.io";
           var WA_TEXT = "Hola, quiero mi web profesional en 72h por $30.000.";
           var isTodo = function (v) { return !v || v.indexOf("TODO") === 0; };
-          var mp = document.querySelectorAll("[data-we-cta='mp']");
-          var wa = document.querySelectorAll("[data-we-cta='whatsapp']");
-          if (!isTodo(MP_LINK_ANTICIPO)) {
-            mp.forEach(function (a) { a.href = MP_LINK_ANTICIPO; a.target = "_blank"; a.rel = "noopener"; });
-          }
-          if (!isTodo(VN_WHATSAPP)) {
-            var waHref = "https://wa.me/" + VN_WHATSAPP + "?text=" + encodeURIComponent(WA_TEXT);
-            wa.forEach(function (a) { a.href = waHref; a.target = "_blank"; a.rel = "noopener"; });
-          }
-          // Mientras sean TODO, ambos botones caen al mailto de contacto (href estático).
           var dl = (window.dataLayer = window.dataLayer || []);
+          var track = function (event, params) {
+            var payload = { event: event, product: "web_express_72h" };
+            for (var k in params) payload[k] = params[k];
+            dl.push(payload);
+          };
+
+          // Paso 1 · CTA principal → WhatsApp (o formulario mientras VN_WHATSAPP sea TODO).
           document.querySelectorAll("[data-we-cta]").forEach(function (a) {
+            if (!isTodo(VN_WHATSAPP)) {
+              a.href = "https://wa.me/" + VN_WHATSAPP + "?text=" + encodeURIComponent(WA_TEXT);
+              a.target = "_blank";
+              a.rel = "noopener";
+            }
             a.addEventListener("click", function () {
-              dl.push({ event: "web_express_cta", cta: a.getAttribute("data-we-cta") });
+              track("web_express_cta_click", {
+                location: a.getAttribute("data-we-cta"),
+                destination: isTodo(VN_WHATSAPP) ? "form" : "whatsapp"
+              });
             });
           });
+
+          // Paso 3 · anticipo Mercado Pago (secundario, dentro de «Cómo funciona»).
+          document.querySelectorAll("[data-we-mp]").forEach(function (a) {
+            if (!isTodo(MP_LINK_ANTICIPO)) {
+              a.href = MP_LINK_ANTICIPO;
+              a.target = "_blank";
+              a.rel = "noopener";
+            }
+            a.addEventListener("click", function () {
+              track("web_express_mp_click", { configured: !isTodo(MP_LINK_ANTICIPO) });
+            });
+          });
+
+          // Barra fija mobile: se oculta cuando el hero o el CTA final están a la vista.
+          var sticky = document.getElementById("we-sticky");
+          if (sticky) {
+            document.body.classList.add("has-offer-sticky");
+            var watched = document.querySelectorAll("[data-we-hide-sticky]");
+            if ("IntersectionObserver" in window && watched.length) {
+              var visible = new Set();
+              var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                  if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
+                });
+                sticky.hidden = visible.size > 0;
+              });
+              watched.forEach(function (el) { io.observe(el); });
+            }
+          }
+
+          // Formulario de respaldo → relay existente; si falla, mailto prellenado.
+          var form = document.getElementById("we-form");
+          if (form) {
+            var status = document.getElementById("we-form-status");
+            form.addEventListener("submit", function (ev) {
+              ev.preventDefault();
+              if (!form.reportValidity()) return;
+              var f = form.elements;
+              var lines = [
+                "Producto: Web profesional en 72h ($30.000)",
+                "Rubro: " + f.rubro.value.trim(),
+                "Instagram o sitio: " + (f.link.value.trim() || "-"),
+                "WhatsApp: " + (f.whatsapp.value.trim() || "-")
+              ];
+              var body = {
+                name: f.name.value.trim(),
+                email: f.email.value.trim(),
+                message: lines.join("\n"),
+                _gotcha: f._gotcha.value,
+                source: "form",
+                intent: "web-express-72h",
+                consent: f.consent.checked,
+                language: "es"
+              };
+              var mailto = "mailto:" + CONTACT_EMAIL +
+                "?subject=" + encodeURIComponent("Web en 72h · " + body.name) +
+                "&body=" + encodeURIComponent("Nombre: " + body.name + "\nEmail: " + body.email + "\n" + body.message);
+              var btn = form.querySelector("button[type=submit]");
+              btn.disabled = true;
+              status.textContent = "Enviando…";
+              fetch(CONTACT_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(body)
+              })
+                .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.ok; }); })
+                .catch(function () { return false; })
+                .then(function (ok) {
+                  btn.disabled = false;
+                  track("web_express_form_submit", { status: ok ? "ok" : "fallback_mailto" });
+                  if (ok) {
+                    form.reset();
+                    status.textContent = "¡Listo! Te escribimos dentro de 1 día hábil.";
+                  } else {
+                    status.textContent = "No pudimos enviarlo. Abrimos tu correo para que lo mandes directo.";
+                    window.location.href = mailto;
+                  }
+                });
+            });
+          }
         })();
       </script>
     </main>
