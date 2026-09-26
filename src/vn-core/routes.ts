@@ -20,7 +20,8 @@ export const ROUTES = {
 
   /**
    * Landing producto (HashRouter `/#/consultoria`). DoD = qa:hash-ui.
-   * Piloto Ads leftover (no producto): https://vientonorte.io/s/consultoria
+   * Final URL Ads = https://vientonorte.io/#/consultoria.
+   * /s/consultoria deprecado 2026-09-25 (stub noindex → /#/consultoria).
    * Tour módulos: /consultoria/modulos/:id
    */
   consulting: "/consultoria",

@@ -19,9 +19,9 @@
           }
           return;
         }
-        // Deprecated: /poc#/auditoria is NOT freemium. Paid = /s/consultoria.
+        // Deprecated: /poc#/auditoria is NOT freemium. Paid = /#/consultoria (/s/consultoria deprecado 2026-09-25).
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
-          location.replace(location.origin + "/s/consultoria/" + q);
+          location.replace(location.origin + "/#/consultoria" + q);
         }
       })();
     </script>

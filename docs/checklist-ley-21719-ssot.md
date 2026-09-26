@@ -2,7 +2,7 @@
 
 **Estado:** parking DS-2026-09-14. No URL pública `/recursos/` hasta Prototype `codeá`.  
 **Canónica de captura (live):** https://vientonorte.io/servicios/privacidad-datos/  
-**CTA:** https://vientonorte.io/s/consultoria/  
+**CTA:** https://vientonorte.io/#/consultoria  
 **No:** `/auditoria`, WCAG 2.1, Ads, 301 de `/servicios/*`.
 
 Audiencia: CTO / compliance / mkt digital. 12 ítems · sí/no. Scorecard = **orientación**, no dictamen legal.

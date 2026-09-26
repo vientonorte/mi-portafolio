@@ -126,11 +126,14 @@ jobs:
           fi
           grep -q 'http-equiv="refresh"' dist/mi-portafolio/index.html
           grep -q 'http-equiv="refresh"' dist/poc/index.html
-          grep -q '/s/consultoria/' dist/index.html
-          if grep -q 'location.origin + "/#/consultoria"' dist/index.html; then
-            echo "index.html still hops /poc to hash" >&2
+          # /s/consultoria deprecado 2026-09-25: /poc y el stub van a /#/consultoria.
+          grep -q 'location.origin + "/#/consultoria"' dist/index.html
+          if grep -q 'location.origin + "/s/consultoria/"' dist/index.html; then
+            echo "index.html still hops /poc to deprecated /s/consultoria/" >&2
             exit 1
           fi
+          grep -q 'name="robots" content="noindex, follow"' dist/s/consultoria/index.html
+          grep -q 'rel="canonical" href="https://vientonorte.io/#/consultoria"' dist/s/consultoria/index.html
 
       - name: Bundle /ops from hub (preserve ops canvas)
         env:

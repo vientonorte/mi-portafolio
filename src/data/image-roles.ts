@@ -30,7 +30,7 @@ export const IMAGE_WEB_ROLES: ImageRoleDef[] = [
   {
     id: "share_consultoria",
     label: "Share redes · consultoría",
-    hint: "Card al pegar /s/consultoria. PNG 1200×630.",
+    hint: "Card consultoría (/#/consultoria). PNG 1200×630.",
     slotId: "branding.ogConsultoria",
   },
   {

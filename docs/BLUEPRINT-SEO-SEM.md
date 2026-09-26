@@ -2,7 +2,8 @@
 
 **Decide 15 ago:** `/#/consultoria` se **queda** y es el funnel de conversión (3 packs + OB).  
 **Decide 14 sep:** `/s/` no es producto. Orgánico = `/servicios/*`. `/s/consultoria` = piloto Ads (200).  
-No deprecar el hash. No pagar a `/`. No hoppear el piloto.
+No deprecar el hash. No pagar a `/`.  
+**Decide 25-sep-2026 (Rö):** `/s/consultoria` **deprecado**. Final URL Ads/links = `https://vientonorte.io/#/consultoria` (UTMs tras el hash). `/s/consultoria/` = stub noindex + canonical/hop a `/#/consultoria` (preserva UTMs, GTM). Fuera del sitemap.
 
 Vault (misma decisión): `Viento Norte/Resources/SEM/2026-08-15 BLUEPRINT SEO-SEM.md`
 
@@ -12,7 +13,7 @@ Vault (misma decisión): `Viento Norte/Resources/SEM/2026-08-15 BLUEPRINT SEO-SE
 |------------|-----|-----|
 | **UI / producto** | `/#/consultoria` | Packs + `#consultoria-onboarding` + Calendar |
 | **Orgánico** | `/servicios/*` | Keywords HTTP, sin `/s/` |
-| Piloto Ads (no producto) | `/s/consultoria` | OG 1200×630 · final URL campañas · no IA |
+| ~~Piloto Ads~~ deprecado 25-sep | `/s/consultoria` | Stub noindex → `/#/consultoria`. Final URL campañas = `/#/consultoria` |
 | Tour módulos | `/#/consultoria/modulos/:id` | Craft / deep link |
 | Home | `/` | Marca · mismo funnel · no final paid |
 | Admin / ops | `#/admin` · `/ops/` | Nunca en ads |

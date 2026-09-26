@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DEPRECATED 2026-09-09: /s/news and /news removed from FO.
 
-Do not regenerate crawler hops. LinkedIn weekly CTA is /s/consultoria with UTMs.
+Do not regenerate crawler hops. LinkedIn weekly CTA is /#/consultoria with UTMs (/s/consultoria deprecated 2026-09-25).
 Newsletter covers live in vault SEM/news-covers (attached on LinkedIn), not a site page.
 This script is a no-op so nothing regenerates public/s/news.
 """

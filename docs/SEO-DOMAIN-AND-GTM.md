@@ -13,7 +13,7 @@
 | 2 | https://vientonorte.io/#/consultoria | **Producto UI** (packs + OB). DoD = HashRouter |
 | 3 | https://vientonorte.io/servicios/ | **Orgánico** HTTP, sin `/s/` |
 | 4 | https://vientonorte.io/#/contacto | Conversión / contacto |
-| piloto | https://vientonorte.io/s/consultoria/ | Ads leftover. 200. No producto |
+| deprecado | https://vientonorte.io/s/consultoria/ | 25-sep: stub noindex → `/#/consultoria`. Fuera de sitemap |
 
 ## Search Console
 

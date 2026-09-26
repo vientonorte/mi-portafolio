@@ -270,7 +270,7 @@ export const privacyPage = {
       ],
       inventoryTitle: 'What we process on this site',
       inventoryHint:
-        'The form, assistant, or an agent tool send over HTTPS to the Worker (Cloudflare) and Google Forms. Page analytics only if enabled in production (e.g. GTM on /s/consultoria).',
+        'The form, assistant, or an agent tool send over HTTPS to the Worker (Cloudflare) and Google Forms. Page analytics only if enabled in production (e.g. GTM on /#/consultoria).',
       inventoryHead: ['Data', 'Purpose', 'Legal basis', 'Retention'],
       inventoryRows: [
         {

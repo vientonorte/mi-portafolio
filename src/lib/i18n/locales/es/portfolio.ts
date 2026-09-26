@@ -248,7 +248,7 @@ export const privacyPage = {
       ],
       inventoryTitle: 'Qué tratamos en este sitio',
       inventoryHint:
-        'El formulario, el asistente o una tool de agente envían por HTTPS al Worker (Cloudflare) y a Google Forms. Analytics de página solo si está activo en producción (p. ej. GTM en /s/consultoria).',
+        'El formulario, el asistente o una tool de agente envían por HTTPS al Worker (Cloudflare) y a Google Forms. Analytics de página solo si está activo en producción (p. ej. GTM en /#/consultoria).',
       inventoryHead: ['Dato', 'Para qué', 'Base legal', 'Retención'],
       inventoryRows: [
         {
