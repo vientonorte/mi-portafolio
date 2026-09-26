@@ -96,8 +96,8 @@ def web_express_script() -> str:
         (function () {
           // TODO(Rö): pegar el link real de Mercado Pago (anticipo 50% = $15.000). Aún no existe.
           var MP_LINK_ANTICIPO = "TODO_MP_LINK";
-          // TODO(Rö): número WhatsApp VN, formato internacional sin "+" (ej. 569XXXXXXXX). No hay número en el repo.
-          var VN_WHATSAPP = "TODO_WHATSAPP";
+          // WhatsApp VN (Rö 2026-09-25), formato internacional sin "+".
+          var VN_WHATSAPP = "56942637408";
           // Relay existente del sitio (worker/src/contact.js · src/lib/site-contact.ts CONTACT_API_URL).
           var CONTACT_API_URL = "https://contact.vientonorte.io/api/contact";
           var CONTACT_EMAIL = "contacto@vientonorte.io";
@@ -220,7 +220,7 @@ def web_express_inner() -> str:
     mail_mp = "mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000"
     mock = """<div class="offer-mock{mod}" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>"""
     return f"""      <!-- Embudo: anuncio → esta landing → conversación (WhatsApp o formulario) → anticipo 50% (Mercado Pago). -->
-      <!-- TODO(Rö): VN_WHATSAPP y MP_LINK_ANTICIPO son placeholders (script al final). Mientras sean TODO, el CTA lleva al formulario y el anticipo abre mailto. -->
+      <!-- VN_WHATSAPP configurado (script al final): el CTA abre WhatsApp. TODO(Rö): MP_LINK_ANTICIPO sigue placeholder; mientras sea TODO el anticipo abre mailto. -->
       <section class="offer-hero" aria-labelledby="we-title" data-we-hide-sticky>
         <p class="meta">Viento Norte · para emprendedores y pymes</p>
         <h1 id="we-title">Tu web profesional en 72h por $30.000</h1>
