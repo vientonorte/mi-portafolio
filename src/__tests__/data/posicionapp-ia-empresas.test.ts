@@ -10,12 +10,12 @@ const data = JSON.parse(
 );
 
 describe("SSOT PosicionApp IA empresas Chile", () => {
-  it("maps commercial terms to live /servicios or /s/consultoria, excludes noise", () => {
+  it("maps commercial terms to live /servicios or /#/consultoria, excludes noise", () => {
     expect(data.geo).toBe("CL");
     expect(data.include.length).toBeGreaterThan(5);
     for (const row of data.include) {
       expect(
-        row.url.startsWith("/servicios/") || row.url === "/s/consultoria/"
+        row.url.startsWith("/servicios/") || row.url === "/#/consultoria"
       ).toBe(true);
       expect(row.url).not.toContain("/recursos/");
     }

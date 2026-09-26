@@ -6,7 +6,8 @@ import { SEO_SITE } from "../../vn-core/seo";
 
 /**
  * Decide 14-sep-2026: /s/ no es producto.
- * UI = /#/consultoria · orgánico = /servicios/* · piloto Ads = /s/consultoria 200.
+ * UI = /#/consultoria · orgánico = /servicios/*.
+ * Decide 25-sep-2026: /s/consultoria deprecado → final URL Ads = /#/consultoria.
  */
 describe("URL canon · producto vs piloto Ads", () => {
   it("producto UI is HashRouter consultoria, not /s/", () => {
@@ -15,10 +16,11 @@ describe("URL canon · producto vs piloto Ads", () => {
     expect(SEO_SITE.semOfferUrl).not.toContain("/s/");
   });
 
-  it("piloto Ads leftover stays /s/consultoria (no hop in this phase)", () => {
+  it("deprecated shareConsultoriaUrl aliases the product URL, not /s/", () => {
     expect(SEO_SITE.shareConsultoriaUrl).toBe(
-      "https://vientonorte.io/s/consultoria"
+      "https://vientonorte.io/#/consultoria"
     );
+    expect(SEO_SITE.shareConsultoriaUrl).not.toContain("/s/");
   });
 
   it("does not ship a third HTTP /consultoria/ clone of the SPA", () => {

@@ -14,7 +14,7 @@ Programa, no un refactor de un PR. **Decider:** Rö.
 | **I** | UI no importa el Worker entero | Contacto = puerto `submit-contact` |
 | **D** | UI → puertos (`submitContact`, `analytics`, `seo`) | `vn-core/analytics` es el patrón; no duplicar `lib/analytics.ts` |
 
-**URLs:** producto Hash `#/consultoria` · orgánico `/servicios/*` (sin `/s/`) · piloto Ads `/s/consultoria` (200, no hop, no IA).
+**URLs:** producto Hash `#/consultoria` · orgánico `/servicios/*` (sin `/s/`) · `/s/consultoria` deprecado 25-sep (stub noindex → `/#/consultoria`).
 
 ## PRs
 

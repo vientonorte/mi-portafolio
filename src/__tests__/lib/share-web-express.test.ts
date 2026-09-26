@@ -33,10 +33,17 @@ describe("share /s/web-express", () => {
     }
   });
 
-  it("keeps payment/WhatsApp placeholders explicit (no invented phone)", () => {
+  it("WhatsApp set by Rö (2026-09-25); MP link stays explicit placeholder", () => {
     expect(html).toContain('MP_LINK_ANTICIPO = "TODO_MP_LINK"');
-    expect(html).toContain('VN_WHATSAPP = "TODO_WHATSAPP"');
+    expect(html).toContain('VN_WHATSAPP = "56942637408"');
+    expect(html).not.toContain("TODO_WHATSAPP");
+    // wa.me href is built at runtime from VN_WHATSAPP; no hardcoded phone link.
     expect(html).not.toMatch(/wa\.me\/\d/);
+  });
+
+  it("nav/footer Consultoría → /#/consultoria (not deprecated /s/consultoria/)", () => {
+    expect(html).toContain('<a href="/#/consultoria">Consultoría</a>');
+    expect(html).not.toContain('href="/s/consultoria/"');
   });
 
   it("funnel: one primary CTA (hero|sticky|final) → form fallback; MP only in step 3", () => {

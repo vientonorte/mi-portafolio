@@ -13,7 +13,7 @@ export const IMAGE_WEB_ROLES = [
   {
     id: 'share_consultoria',
     label: 'Share redes · consultoría',
-    hint: 'Card /s/consultoria. 1200×630.',
+    hint: 'Card consultoría (/#/consultoria). 1200×630.',
     slotId: 'branding.ogConsultoria',
     path: 'branding/og-consultoria-1200.png',
     category: 'Branding',

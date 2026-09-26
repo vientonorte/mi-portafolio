@@ -20,32 +20,20 @@ def write(path: Path, html: str) -> None:
     print(path.relative_to(ROOT))
 
 
+CONSULTORIA_CANON = "https://vientonorte.io/#/consultoria"
+
+
 def consultoria_extra_head() -> str:
-    return """    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "@id": "https://vientonorte.io/s/consultoria/",
-        "name": "Consultoría UX · Viento Norte",
-        "url": "https://vientonorte.io/s/consultoria/",
-        "image": "https://vientonorte.io/images/branding/og-consultoria-1200.png",
-        "provider": {
-          "@type": "Organization",
-          "name": "Viento Norte",
-          "url": "https://vientonorte.io/"
-        },
-        "areaServed": { "@type": "Country", "name": "Chile" },
-        "serviceType": [
-          "Tecnología para empresas",
-          "Operaciones digitales",
-          "Diagnóstico UX",
-          "Prototipo",
-          "Proceso de equipo",
-          "Accesibilidad WCAG"
-        ],
-        "description": "Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min."
-      }
-    </script>"""
+    """/s/consultoria deprecado 2026-09-25 (Rö): stub noindex → /#/consultoria.
+
+    No se borra: Ads/links viejos pueden llegar aquí. GTM (render_page) se
+    mantiene. JS preserva query/UTMs; meta refresh es fallback sin JS.
+    """
+    return """    <meta name="robots" content="noindex, follow" />
+    <script>
+      location.replace("/#/consultoria" + location.search);
+    </script>
+    <meta http-equiv="refresh" content="0; url=/#/consultoria" />"""
 
 
 def proceso_extra_head() -> str:
@@ -108,8 +96,8 @@ def web_express_script() -> str:
         (function () {
           // TODO(Rö): pegar el link real de Mercado Pago (anticipo 50% = $15.000). Aún no existe.
           var MP_LINK_ANTICIPO = "TODO_MP_LINK";
-          // TODO(Rö): número WhatsApp VN, formato internacional sin "+" (ej. 569XXXXXXXX). No hay número en el repo.
-          var VN_WHATSAPP = "TODO_WHATSAPP";
+          // WhatsApp VN (Rö 2026-09-25), formato internacional sin "+".
+          var VN_WHATSAPP = "56942637408";
           // Relay existente del sitio (worker/src/contact.js · src/lib/site-contact.ts CONTACT_API_URL).
           var CONTACT_API_URL = "https://contact.vientonorte.io/api/contact";
           var CONTACT_EMAIL = "contacto@vientonorte.io";
@@ -232,7 +220,7 @@ def web_express_inner() -> str:
     mail_mp = "mailto:contacto@vientonorte.io?subject=Web%20en%2072h%20%C2%B7%20anticipo%20%2415.000"
     mock = """<div class="offer-mock{mod}" aria-hidden="true"><span class="offer-mock__bar"></span><span class="offer-mock__hero"></span><span class="offer-mock__line"></span><span class="offer-mock__line offer-mock__line--short"></span><span class="offer-mock__btn"></span></div>"""
     return f"""      <!-- Embudo: anuncio → esta landing → conversación (WhatsApp o formulario) → anticipo 50% (Mercado Pago). -->
-      <!-- TODO(Rö): VN_WHATSAPP y MP_LINK_ANTICIPO son placeholders (script al final). Mientras sean TODO, el CTA lleva al formulario y el anticipo abre mailto. -->
+      <!-- VN_WHATSAPP configurado (script al final): el CTA abre WhatsApp. TODO(Rö): MP_LINK_ANTICIPO sigue placeholder; mientras sea TODO el anticipo abre mailto. -->
       <section class="offer-hero" aria-labelledby="we-title" data-we-hide-sticky>
         <p class="meta">Viento Norte · para emprendedores y pymes</p>
         <h1 id="we-title">Tu web profesional en 72h por $30.000</h1>
@@ -409,7 +397,7 @@ def main() -> None:
         <li class="share-card">En su CMS o CRM</li>
       </ul>
       <p>
-        <a class="share-cta" href="/s/consultoria/">Consultoría</a>
+        <a class="share-cta" href="/#/consultoria">Consultoría</a>
         <a class="share-cta share-cta--ghost" href="/">Sitio Viento Norte</a>
       </p>"""
     write(
@@ -425,33 +413,24 @@ def main() -> None:
         ),
     )
 
-    cons_inner = """      <h1>Tecnología para empresas</h1>
+    cons_inner = """      <h1>Consultoría se movió</h1>
       <div class="share-rule" aria-hidden="true"></div>
       <p class="lead">
-        Operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM.
-        Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.
+        Esta dirección está deprecada. La consultoría de Viento Norte vive en
+        <a href="/#/consultoria">vientonorte.io/#/consultoria</a>.
       </p>
-      <ul class="share-cards">
-        <li class="share-card">Diagnóstico</li>
-        <li class="share-card">Prototipo</li>
-        <li class="share-card">Proceso de equipo</li>
-        <li class="share-card">Operaciones digitales</li>
-        <li class="share-card">Revisión gratis de un flujo</li>
-        <li class="share-card">En su CMS o CRM</li>
-      </ul>
       <p>
-        <a class="share-cta" href="/s/consultoria/">Gratis · un flujo WCAG</a>
-        <a class="share-cta share-cta--ghost" href="/s/proceso/">Ver el proceso</a>
+        <a class="share-cta" href="/#/consultoria">Ir a Consultoría</a>
       </p>"""
     write(
         ROOT / "public/s/consultoria/index.html",
         render_page(
-            title="Consultoría UX · Viento Norte",
-            description="Tecnología para empresas: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Diagnóstico 5–7 días. Gratis: accesibilidad de un flujo. Kickoff 30 min.",
-            canonical="https://vientonorte.io/s/consultoria/",
+            title="Consultoría · Viento Norte",
+            description="Esta dirección está deprecada. Consultoría Viento Norte: https://vientonorte.io/#/consultoria",
+            canonical=CONSULTORIA_CANON,
             og=OG_CONS,
-            current="/s/consultoria/",
-            crumbs=[("/", "Inicio"), ("/s/consultoria/", "Consultoría")],
+            current="/#/consultoria",
+            crumbs=[("/", "Inicio"), ("/#/consultoria", "Consultoría")],
             inner=cons_inner,
             extra_head=consultoria_extra_head(),
         ),
@@ -476,7 +455,7 @@ def main() -> None:
         contenidos y automatización social. No es un quinto pack paid.
       </p>
       <p>
-        <a class="share-cta" href="/s/consultoria/">Diagnóstico / accesibilidad de un flujo</a>
+        <a class="share-cta" href="/#/consultoria">Diagnóstico / accesibilidad de un flujo</a>
         <a class="share-cta share-cta--ghost" href="/s/proceso/">Proceso UX</a>
       </p>"""
     write(

@@ -17,10 +17,10 @@ export const SEO_SITE = {
    */
   shareHomeUrl: "https://vientonorte.io/s/",
   /**
-   * Piloto Ads / share leftover — no producto.
-   * Se queda 200. No hop. Final URL de campañas actuales.
+   * @deprecated 2026-09-25 — /s/consultoria deprecado (stub noindex → /#/consultoria).
+   * Alias de semOfferUrl: final URL Ads = /#/consultoria.
    */
-  shareConsultoriaUrl: "https://vientonorte.io/s/consultoria",
+  shareConsultoriaUrl: "https://vientonorte.io/#/consultoria",
   shareProcesoUrl: "https://vientonorte.io/s/proceso",
   /** @deprecated 2026-09-09 — /s/news purged; weekly LI uses shareConsultoriaUrl */
   shareNewsUrl: "https://vientonorte.io/#/news",

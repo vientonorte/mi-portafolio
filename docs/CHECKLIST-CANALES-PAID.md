@@ -3,7 +3,7 @@
 **Decider:** Rö · **Actualizado:** 2026-08-26  
 **Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · conversión = eventos, no clic de página (3) UTM después del hash + Vite `npm run dev` (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
 **Loop D:** tags GTM v4 live. Preview **Gratis → `GA4 · generate_lead` Activado 1 vez** (26 ago) · `book_call` PASS 20 ago y 26 ago.  
-**Producto UI:** `/#/consultoria`. **Orgánico:** `/servicios/*`. **Piloto Ads (no producto):** `/s/consultoria` se queda 200. No hop. No pagar a `/`.  
+**Producto UI:** `/#/consultoria`. **Orgánico:** `/servicios/*`. `/s/consultoria` **deprecado 25-sep** (stub noindex → `/#/consultoria`). No pagar a `/`.  
 **Loop E:** Decider 26 ago *activar campañas*. RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Techo = humano. No publicado en Ads UI hasta que Rö pegue. F sigue parked.  
 **Final URL Ads = producto:** `https://vientonorte.io/#/consultoria`  
 `/s/consultoria` deprecado (no UX/UI/DoD). Display path ya era `/consultoria` (sin `/s/`).  
@@ -106,7 +106,7 @@ Requiere **A** (scrape). D (GTM) ya PASS. **No** come el techo 150k.
 - [ ] Página empresa **Viento Norte** (vault hoy solo perfil personal)
 - [ ] Campaign Manager · editor Classic · objective **Website visits**
 - [ ] Campaign group + campaign + ad = **PAUSED** (mín. UI ~USD 10/día **sin** ACTIVE)
-- [ ] Final URL `https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
+- [ ] Final URL `https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
 - [ ] Creative `campaigns/2026-08-26-piloto-a11y/assets/ad-1200x628.png` · copy Diagnóstico/a11y · no Radar
 - [ ] Insight Tag Partner ID → GTM **LinkedIn Insight 2.0** · trigger All Pages + History Change · **unpublished**
 - [ ] Spend CM = **0**
@@ -124,8 +124,8 @@ Requiere **A + B + D**.
 - [ ] Meta Business Manager creado (misma marca Viento Norte)
 - [ ] IG profesional vinculado al BM
 - [ ] Pixel Meta instalado **en el mismo GTM** (no un segundo snippet)
-- [ ] Test Events: visita `/s/consultoria` + CTA visible en el pixel
-- [ ] Destino del anuncio = `https://vientonorte.io/s/consultoria`
+- [ ] Test Events: visita `/#/consultoria` + CTA visible en el pixel
+- [ ] Destino del anuncio = `https://vientonorte.io/#/consultoria`
 - [ ] Creativo 1080×1080 y/o 1080×1920 (subir por CMS → PR si es OG; stories aparte)
 - [ ] No gastar hasta ver evento de lead o Calendar en Events Manager
 

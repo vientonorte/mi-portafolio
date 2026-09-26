@@ -60,23 +60,20 @@ describe("SEO P0 · piloto Ads HTML /s/ (no producto; se queda 200)", () => {
     expect(shareHome).not.toContain("gtag/js?id=");
   });
 
-  it("share consultoria has H1, three paths, query, and no hash canonical", () => {
-    expect(shareConsultoria).toMatch(/<h1>\s*Tecnología para empresas\s*<\/h1>/);
-    for (const name of PATHS) {
-      expect(shareConsultoria).toContain(name);
-    }
-    expect(shareConsultoria).toMatch(/Tecnología para empresas:/);
-    expect(shareConsultoria).toContain("el flujo que usa tu cliente");
-    expect(shareConsultoria).toContain("operaciones digitales");
-    expect(shareConsultoria).toContain("CMS o CRM");
+  it("/s/consultoria is a deprecation stub (2026-09-25): noindex + canonical/hop to /#/consultoria", () => {
+    expect(shareConsultoria).toContain('name="robots" content="noindex, follow"');
     expect(shareConsultoria).toContain(
-      'rel="canonical" href="https://vientonorte.io/s/consultoria/"'
-    );
-    expect(shareConsultoria).not.toContain(
       'rel="canonical" href="https://vientonorte.io/#/consultoria"'
     );
-    expect(shareConsultoria).not.toContain("http-equiv=\"refresh\"");
-    expect(shareConsultoria).not.toContain("location.replace(");
+    expect(shareConsultoria).toContain(
+      'http-equiv="refresh" content="0; url=/#/consultoria"'
+    );
+    expect(shareConsultoria).toContain(
+      'location.replace("/#/consultoria" + location.search)'
+    );
+    expect(shareConsultoria).toContain('href="/#/consultoria"');
+    expect(shareConsultoria).toContain("GTM-PM5LBQRP");
+    expect(shareConsultoria).not.toContain('href="/s/consultoria/"');
   });
 
   it("share proceso has method H1, five phases, /s/canonical, no hash hop", () => {
@@ -132,12 +129,10 @@ describe("SEO P0 · piloto Ads HTML /s/ (no producto; se queda 200)", () => {
 });
 
 describe("SEO P0 · sitemap HTTP only", () => {
-  it("lists / + /servicios/* + piloto /s/consultoria/; omite /s/ hub, /s/news, hash", () => {
+  it("lists / + /servicios/*; omite /s/ hub, deprecated /s/consultoria/, /s/news, hash", () => {
     expect(sitemap).toContain("<loc>https://vientonorte.io/</loc>");
     expect(sitemap).not.toContain("<loc>https://vientonorte.io/s/</loc>");
-    expect(sitemap).toContain(
-      "<loc>https://vientonorte.io/s/consultoria/</loc>"
-    );
+    expect(sitemap).not.toContain("/s/consultoria");
     expect(sitemap).toContain(
       "<loc>https://vientonorte.io/s/polijuego-privacy/</loc>"
     );
@@ -173,19 +168,19 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
     expect(legacyPortfolio).not.toContain("/#/");
   });
 
-  it("/poc refreshes to /s/consultoria/, not /#/consultoria", () => {
+  it("/poc refreshes to /#/consultoria, not deprecated /s/consultoria/", () => {
     expect(legacyPoc).toContain('http-equiv="refresh"');
     expect(legacyPoc).toContain(
-      'content="0;url=https://vientonorte.io/s/consultoria/"'
+      'content="0;url=https://vientonorte.io/#/consultoria"'
     );
     expect(legacyPoc).toContain('name="robots" content="noindex, follow"');
     expect(legacyPoc).not.toContain('id="root"');
-    expect(legacyPoc).not.toContain("/#/consultoria");
+    expect(legacyPoc).not.toContain("/s/consultoria");
   });
 
-  it("SPA fallback hops /poc to /s/consultoria/ (HTTP), not hash", () => {
-    expect(indexHtml).toContain('location.origin + "/s/consultoria/"');
-    expect(indexHtml).not.toContain('location.origin + "/#/consultoria"');
+  it("SPA fallback hops /poc to /#/consultoria, not deprecated /s/consultoria/", () => {
+    expect(indexHtml).toContain('location.origin + "/#/consultoria"');
+    expect(indexHtml).not.toContain('location.origin + "/s/consultoria/"');
   });
 });
 
@@ -215,7 +210,10 @@ describe("SEO P0 · public/s/** stays on the share URL", () => {
       }
     };
     walk(shareRoot);
-    const sharePages = files.filter((f) => !f.includes("/s/servicios/"));
+    // /s/consultoria = stub de deprecación (hop a /#/consultoria), ver test propio.
+    const sharePages = files.filter(
+      (f) => !f.includes("/s/servicios/") && !f.includes("/s/consultoria/")
+    );
     expect(sharePages.length).toBeGreaterThan(3);
     for (const file of sharePages) {
       const html = readFileSync(file, "utf8");

@@ -78,7 +78,7 @@
         </a>
         <nav class="share-nav" aria-label="Principal">
         <a href="/">Inicio</a>
-        <a href="/s/consultoria/">Consultoría</a>
+        <a href="/#/consultoria">Consultoría</a>
         <a href="/s/proceso/">Proceso</a>
         </nav>
       </div>
@@ -91,7 +91,7 @@
     </nav>
     <main id="main" class="share-main" tabindex="-1">
       <!-- Embudo: anuncio → esta landing → conversación (WhatsApp o formulario) → anticipo 50% (Mercado Pago). -->
-      <!-- TODO(Rö): VN_WHATSAPP y MP_LINK_ANTICIPO son placeholders (script al final). Mientras sean TODO, el CTA lleva al formulario y el anticipo abre mailto. -->
+      <!-- VN_WHATSAPP configurado (script al final): el CTA abre WhatsApp. TODO(Rö): MP_LINK_ANTICIPO sigue placeholder; mientras sea TODO el anticipo abre mailto. -->
       <section class="offer-hero" aria-labelledby="we-title" data-we-hide-sticky>
         <p class="meta">Viento Norte · para emprendedores y pymes</p>
         <h1 id="we-title">Tu web profesional en 72h por $30.000</h1>
@@ -253,8 +253,8 @@
         (function () {
           // TODO(Rö): pegar el link real de Mercado Pago (anticipo 50% = $15.000). Aún no existe.
           var MP_LINK_ANTICIPO = "TODO_MP_LINK";
-          // TODO(Rö): número WhatsApp VN, formato internacional sin "+" (ej. 569XXXXXXXX). No hay número en el repo.
-          var VN_WHATSAPP = "TODO_WHATSAPP";
+          // WhatsApp VN (Rö 2026-09-25), formato internacional sin "+".
+          var VN_WHATSAPP = "56942637408";
           // Relay existente del sitio (worker/src/contact.js · src/lib/site-contact.ts CONTACT_API_URL).
           var CONTACT_API_URL = "https://contact.vientonorte.io/api/contact";
           var CONTACT_EMAIL = "contacto@vientonorte.io";
@@ -370,7 +370,7 @@
         <p><a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a></p>
         <nav aria-label="Pie">
           <a href="/">Inicio</a>
-          <a href="/s/consultoria/">Consultoría</a>
+          <a href="/#/consultoria">Consultoría</a>
           <a href="/s/proceso/">Proceso</a>
           <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
         </nav>

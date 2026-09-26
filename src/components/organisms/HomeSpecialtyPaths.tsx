@@ -115,8 +115,8 @@ export function HomeNewsStrip() {
         title={es ? "Cada edición abre su especialidad" : "Each edition opens its specialty"}
         description={
           es
-            ? "Privacidad, automatización o accesibilidad: la nota te lleva a la ficha, no a /s/consultoria."
-            : "Privacy, automation, or accessibility: the note takes you to the landing, not /s/consultoria."
+            ? "Privacidad, automatización o accesibilidad: la nota te lleva a la ficha."
+            : "Privacy, automation, or accessibility: the note takes you to the landing."
         }
         titleId="home-news-heading"
         titleAs="h2"
