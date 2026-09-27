@@ -12,8 +12,9 @@ const root = process.cwd();
 const RELAY = "https://contact.vientonorte.io/api/contact";
 
 const FORM_PAGES = [
-  { slug: "diagnostico-accesibilidad-wcag", source: "wcag", preset: "Revisión gratis de un flujo" },
-  { slug: "consultoria-ux-pymes", source: "ux-pymes", preset: "" },
+  { slug: "diagnostico-accesibilidad-wcag", source: "wcag", preset: "Revisión gratis de un flujo", consultoriaCtas: true },
+  { slug: "consultoria-ux-pymes", source: "ux-pymes", preset: "", consultoriaCtas: true },
+  { slug: "web-pymes", source: "web-pymes", preset: "Web nueva", consultoriaCtas: false },
 ];
 
 function walkHtml(dir: string): string[] {
@@ -68,7 +69,7 @@ describe("servicios · URL canon (sin /#/, sin /s/, sin TODO, links relativos)",
   });
 });
 
-describe.each(FORM_PAGES)("servicios/$slug · formulario #contacto", ({ slug, source, preset }) => {
+describe.each(FORM_PAGES)("servicios/$slug · formulario #contacto", ({ slug, source, preset, consultoriaCtas }) => {
   const html = read(slug);
 
   it("has #contacto form posting to the relay with the right source", () => {
@@ -86,9 +87,13 @@ describe.each(FORM_PAGES)("servicios/$slug · formulario #contacto", ({ slug, so
     expect(html).toContain('href="mailto:contacto@vientonorte.io');
   });
 
-  it("CTAs Hablemos / Gratis · un flujo WCAG / nav Contacto scroll to #contacto", () => {
-    expect(html).toContain('<a class="share-cta" href="#contacto">Hablemos</a>');
-    expect(html).toMatch(/href="#contacto" data-intent="Revisión gratis de un flujo">Gratis · un flujo WCAG</);
+  it("CTAs and nav Contacto scroll to #contacto", () => {
+    if (consultoriaCtas) {
+      expect(html).toContain('<a class="share-cta" href="#contacto">Hablemos</a>');
+      expect(html).toMatch(/href="#contacto" data-intent="Revisión gratis de un flujo">Gratis · un flujo WCAG</);
+    } else {
+      expect(html).toMatch(/href="#contacto" data-intent="Web nueva">Quiero mi web en 72 h</);
+    }
     expect(html).toContain('<a href="#contacto">Contacto</a>');
   });
 

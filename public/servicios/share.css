@@ -1,5 +1,5 @@
 /* Static chrome for /servicios/* (orgánico) y leftover /s/.
-   Canon 2026-09-27: sin /s/ ni /#/ client-facing; links internos relativos (/qa/). */
+   Canon 2026-09-27: sin rutas share ni hash client-facing; links internos relativos (/qa/). */
 
 @font-face {
   font-family: Chillax;
@@ -388,6 +388,77 @@ body {
 .share-poc .share-cta:hover {
   filter: none;
   background: #e8e5df;
+}
+
+/* Ficha oferta (/servicios/web-pymes/): datos clave, pasos y FAQ. */
+.share-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vn-space-2);
+  list-style: none;
+  margin: 0 0 var(--vn-space-4);
+  padding: 0;
+}
+
+.share-hero .share-facts li {
+  padding: 6px 14px;
+  border: 1px solid rgba(232, 229, 223, 0.35);
+  border-radius: 999px;
+  color: #fff;
+}
+
+.share-hero .share-facts strong {
+  font-size: 1.125rem;
+}
+
+.share-hero .share-hint {
+  margin: var(--vn-space-2) 0 0;
+  color: rgba(232, 229, 223, 0.85);
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 720px) {
+  .share-cards--grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+}
+
+.share-steps {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.share-steps li::marker {
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+}
+
+.share-steps p {
+  margin: 0 0 0.25rem;
+}
+
+.share-faq {
+  border-bottom: 1px solid var(--vn-border-medium);
+  padding: 0.25rem 0;
+}
+
+.share-faq summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.share-faq summary:focus-visible {
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+}
+
+.share-faq p {
+  margin: 0 0 0.75rem;
 }
 
 /* Formulario de contacto en página (#contacto) → relay contact.vientonorte.io. */

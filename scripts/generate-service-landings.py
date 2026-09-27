@@ -23,7 +23,7 @@ INTENT_OPTIONS = [
     "Otro servicio digital",
 ]
 # Fichas enlazadas desde el nav de todas las páginas (ids de service-landings.json).
-NAV_IDS = ["consultoria-ux", "wcag"]
+NAV_IDS = ["consultoria-ux", "wcag", "web-pymes"]
 
 GTM = """    <script>
       (function (w, d, s, l, i) {
@@ -160,6 +160,92 @@ def contact_form_html(item: dict) -> str:
 {CONTACT_SCRIPT}"""
 
 
+def offer_web_pymes_html(item: dict) -> str:
+    """Oferta «Web en 72 h» (contenido de /s/web-express/, PR #272) como ficha /servicios/.
+    Sin WhatsApp ni link de pago: el CTA lleva al formulario y el pago se coordina tras el
+    primer contacto."""
+    cta = '<a class="share-cta" href="#contacto" data-intent="Web nueva">Quiero mi web en 72 h</a>'
+    return f"""      <section class="share-hero" aria-labelledby="page-h1">
+        <div class="share-bar" aria-hidden="true"></div>
+        <p class="meta">Viento Norte · para emprendedores y pymes</p>
+        <h1 id="page-h1">{esc(item["h1"])}</h1>
+        <p class="lead">Pasa de solo Instagram a una página con tu marca y un formulario para que tus clientes te escriban.</p>
+        <ul class="share-facts" aria-label="Resumen de la oferta">
+          <li><strong>$30.000</strong> CLP</li>
+          <li>72 h hábiles</li>
+          <li>50% al partir, 50% al entregar</li>
+        </ul>
+        <p>{cta}</p>
+        <p class="share-hint">Conversamos primero. El pago se coordina después del primer contacto.</p>
+      </section>
+
+      <section aria-labelledby="wp-recibes">
+        <h2 id="wp-recibes">Qué recibes</h2>
+        <ul class="share-cards share-cards--grid">
+          <li class="share-card"><p class="share-card__title">Una página con todo</p><p>Quién eres, qué ofreces y cómo contactarte, en una sola página.</p></li>
+          <li class="share-card"><p class="share-card__title">Tu marca, no una plantilla genérica</p><p>Plantilla Viento Norte adaptada a tu logo, colores y textos.</p></li>
+          <li class="share-card"><p class="share-card__title">Formulario de contacto</p><p>Tus clientes te escriben en un par de clics.</p></li>
+          <li class="share-card"><p class="share-card__title">Se ve bien en el celular</p><p>Responsive: celular, tablet y computador.</p></li>
+          <li class="share-card"><p class="share-card__title">1 ronda de cambios</p><p>Revisas la web y ajustamos lo que necesites.</p></li>
+          <li class="share-card"><p class="share-card__title">Lista en 72 h hábiles</p><p>Desde que confirmamos el anticipo y recibimos tu contenido.</p></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="wp-ejemplos">
+        <h2 id="wp-ejemplos">Ejemplos</h2>
+        <p class="meta">Maquetas ilustrativas de la plantilla. No son clientes reales.</p>
+        <ul class="share-cards share-cards--grid">
+          <li class="share-card"><p class="share-card__title">Ejemplo · Cafetería</p><p>Portada, carta destacada, horario, ubicación y formulario de contacto.</p></li>
+          <li class="share-card"><p class="share-card__title">Ejemplo · Servicio profesional</p><p>Quién eres, tus servicios, cómo trabajas y formulario de contacto.</p></li>
+          <li class="share-card"><p class="share-card__title">Ejemplo · Emprendimiento de Instagram</p><p>Productos destacados, cómo comprar y un botón directo para escribirte.</p></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="wp-pasos">
+        <h2 id="wp-pasos">Cómo funciona</h2>
+        <ol class="share-steps">
+          <li><p class="share-card__title">Nos escribes</p><p>Cuéntanos de tu negocio con el formulario de esta página.</p></li>
+          <li><p class="share-card__title">Te decimos qué necesitamos</p><p>Logo, textos, 3 a 6 fotos y tu correo o teléfono de contacto. Si te falta algo, te ayudamos a ordenarlo.</p></li>
+          <li><p class="share-card__title">Confirmas y pagas el 50% ($15.000)</p><p>Coordinamos el pago contigo después del primer contacto. Ahí parten las 72 h hábiles.</p></li>
+          <li><p class="share-card__title">Recibes tu web y pagas el resto</p><p>Revisas, pides tu ronda de cambios y pagas el 50% restante ($15.000) al entregar.</p></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="wp-no-incluye">
+        <h2 id="wp-no-incluye">Qué no incluye</h2>
+        <ul>
+          <li><strong>Dominio y hosting:</strong> se cotizan aparte. Te orientamos para elegir.</li>
+          <li><strong>Tienda online</strong> (carrito o pagos dentro de la web).</li>
+          <li><strong>Más páginas.</strong> Si necesitas más, lo cotizamos aparte.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="wp-faq">
+        <h2 id="wp-faq">Preguntas frecuentes</h2>
+        <details class="share-faq">
+          <summary>¿Cuándo empiezan a correr las 72 h?</summary>
+          <p>Cuando recibimos el anticipo y tu contenido completo. Son 72 horas hábiles (lunes a viernes).</p>
+        </details>
+        <details class="share-faq">
+          <summary>¿Cómo pago?</summary>
+          <p>Coordinamos el pago después del primer contacto: 50% ($15.000) al partir y 50% ($15.000) al entregar.</p>
+        </details>
+        <details class="share-faq">
+          <summary>No tengo dominio ni hosting, ¿qué hago?</summary>
+          <p>No están incluidos en los $30.000. Te orientamos para elegir y, si quieres, te cotizamos aparte.</p>
+        </details>
+        <details class="share-faq">
+          <summary>¿Y si no me gusta el resultado?</summary>
+          <p>Tienes 1 ronda de cambios incluida. Pagas el 50% restante solo al entregar.</p>
+        </details>
+        <details class="share-faq">
+          <summary>¿Puedo pedir más páginas o una tienda online?</summary>
+          <p>Este producto es una sola página. Si necesitas más, escríbenos y lo cotizamos aparte.</p>
+        </details>
+      </section>
+"""
+
+
 CONTACT_SCRIPT = """      <script>
         (function () {
           var form = document.getElementById("contacto-form");
@@ -276,6 +362,16 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         nav_links.append(f'          <a href="{u(n["path"])}"{cur}>{esc(n["nav"])}</a>')
     nav_html = "\n".join(nav_links)
     types = ", ".join(json.dumps(t, ensure_ascii=False) for t in item["serviceType"])
+    offer_ld = ""
+    if item.get("price"):
+        offer_ld = f""",
+        "offers": {{
+          "@type": "Offer",
+          "price": "{item["price"]}",
+          "priceCurrency": "CLP",
+          "availability": "https://schema.org/InStock",
+          "url": "{canon}"
+        }}"""
     ld = f"""{{
         "@context": "https://schema.org",
         "@type": "{"ItemList" if item["id"]=="hub" else "Service"}",
@@ -285,7 +381,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         "provider": {{ "@type": "Organization", "name": "Viento Norte", "url": "{ORIGIN}/" }},
         "areaServed": {{ "@type": "Country", "name": "Chile" }},
         "serviceType": [{types}],
-        "description": {json.dumps(item["description"], ensure_ascii=False)}
+        "description": {json.dumps(item["description"], ensure_ascii=False)}{offer_ld}
       }}"""
     crumb_tail = (
         '<li><span aria-current="page">Servicios</span></li>'
@@ -344,6 +440,24 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         )
     extra_html = "\n".join(extra)
     form_html = contact_form_html(item) + "\n" if has_form else ""
+    if item.get("offer") == "web-pymes":
+        body_html = offer_web_pymes_html(item)
+        cta_html = """      <p>
+        <a class="share-cta" href="#contacto" data-intent="Web nueva">Quiero mi web en 72 h</a>
+      </p>"""
+    else:
+        body_html = f"""      <section class="share-hero" aria-labelledby="page-h1">
+        <div class="share-bar" aria-hidden="true"></div>
+        <p class="meta">{kicker}</p>
+        <h1 id="page-h1">{esc(item["h1"])}</h1>
+        <p class="lead">{esc(item["description"])}</p>
+      </section>
+{poc_html}
+{extra_html}"""
+        cta_html = f"""      <p>
+        <a class="share-cta" href="{contact_href}">Hablemos</a>
+        <a class="share-cta share-cta--ghost" href="{wcag_href}" data-intent="Revisión gratis de un flujo">Gratis · un flujo WCAG</a>
+      </p>"""
     return f"""<!DOCTYPE html>
 <html lang="es">
   <head>
@@ -394,22 +508,12 @@ def page_html(item: dict, siblings: list[dict]) -> str:
       </ol>
     </nav>
     <main id="main" class="share-main" tabindex="-1">
-      <section class="share-hero" aria-labelledby="page-h1">
-        <div class="share-bar" aria-hidden="true"></div>
-        <p class="meta">{kicker}</p>
-        <h1 id="page-h1">{esc(item["h1"])}</h1>
-        <p class="lead">{esc(item["description"])}</p>
-      </section>
-{poc_html}
-{extra_html}
+{body_html}
       <h2>También</h2>
       <ul class="share-cards">
 {cards}
       </ul>
-      <p>
-        <a class="share-cta" href="{contact_href}">Hablemos</a>
-        <a class="share-cta share-cta--ghost" href="{wcag_href}" data-intent="Revisión gratis de un flujo">Gratis · un flujo WCAG</a>
-      </p>
+{cta_html}
 {form_html}    </main>
     <footer class="share-footer">
       <div class="share-footer__inner">
@@ -464,16 +568,19 @@ def main() -> None:
         dest = ROOT / "public" / "servicios" / rel / "index.html" if rel else ROOT / "public/servicios/index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
         hop_s = ROOT / "public/s/servicios" / rel / "index.html" if rel else ROOT / "public/s/servicios/index.html"
-        hop_s.parent.mkdir(parents=True, exist_ok=True)
         target = item.get("hopTo", item["path"])
         s_dir = "/s" + item["path"]  # /s/servicios/<slug>/ → /servicios/<slug>/ (relativo)
+        if item.get("hopTo") or item.get("legacyShareHop", True):
+            hop_s.parent.mkdir(parents=True, exist_ok=True)
         if item.get("hopTo"):
             dest.write_text(hop_html(ORIGIN + target, relurl(item["path"], target)), encoding="utf-8")
             hop_s.write_text(hop_html(ORIGIN + target, relurl(s_dir, target)), encoding="utf-8")
             print("hop", dest, "->", target)
             continue
         dest.write_text(page_html(item, landings), encoding="utf-8")
-        hop_s.write_text(hop_html(ORIGIN + target, relurl(s_dir, target)), encoding="utf-8")
+        # Hop /s/servicios/* solo para URLs legacy que existieron; fichas nuevas no crean /s/.
+        if item.get("legacyShareHop", True):
+            hop_s.write_text(hop_html(ORIGIN + target, relurl(s_dir, target)), encoding="utf-8")
         print("page", dest)
         if item.get("inSitemap") and item.get("index"):
             locs.append((ORIGIN + item["path"], item["priority"]))
