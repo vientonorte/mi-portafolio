@@ -8,6 +8,7 @@ import ConsultoriaVientoNorte from "@/pages/ConsultoriaVientoNorte";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { serviciosHref } from "@/lib/servicios-links";
 import { HERO_PRIMARY_CTA_STOPS } from "@/components/organisms/home-marketing-tokens";
+import { SERVICIOS_CARDS } from "@/servicios/servicios-content";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -110,6 +111,21 @@ describe("Home P3a — base '/' (producción)", () => {
     expect(steps[0]).toContain("Kickoff de 30 minutos");
     // SEM hero no se monta en la home
     expect(screen.queryByTestId("hero-agendar")).toBeNull();
+  });
+
+  it("home cards reuse the shared SERVICIOS_CARDS data (order, eyebrow, audience, title, CTA)", () => {
+    const { container } = renderAt(<Home />);
+    const cards = [...container.querySelectorAll<HTMLElement>("#home-servicios [data-card]")];
+    expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(SERVICIOS_CARDS.map((c) => c.id));
+    cards.forEach((el, i) => {
+      const data = SERVICIOS_CARDS[i];
+      expect(el.textContent).toContain(data.eyebrow);
+      expect(el.querySelector("[data-audience]")?.textContent).toBe(data.audience);
+      expect(el.textContent).toContain(data.title);
+      expect(el.textContent).toContain(data.cta);
+    });
+    // Kicker PO de la revisión: "Gratis"
+    expect(SERVICIOS_CARDS[1].eyebrow).toBe("Gratis");
   });
 
   it("all marketing CTAs are real <a href> to /servicios/ (no /#/, no /s/)", () => {
