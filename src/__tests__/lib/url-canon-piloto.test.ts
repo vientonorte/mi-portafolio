@@ -115,14 +115,16 @@ describe("URL canon 2026-09-27 · home / 404 (404.html = copia de dist/index.htm
   });
 });
 
-describe("URL canon 2026-09-27 · fichas /servicios/<slug>/ (fuera del sitemap, sin cambios)", () => {
-  it("organic ficha keeps self canonical and does not link the old /s/consultoria/", () => {
+describe("URL canon 2026-09-27 · fichas /servicios/<slug>/ redirigen (PO)", () => {
+  it("old organic ficha redirects to the /servicios/ card, no self canonical, no /s/ link", () => {
     const html = readFileSync(
       resolve(root, "public/servicios/consultoria-ux-pymes/index.html"),
       "utf8"
     );
     expect(html).not.toContain('href="/s/consultoria/"');
-    expect(html).toContain(
+    expect(html).toContain('<meta http-equiv="refresh" content="0;url=../../servicios/#consultoria-ux" />');
+    expect(html).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
+    expect(html).not.toContain(
       'rel="canonical" href="https://vientonorte.io/servicios/consultoria-ux-pymes/"'
     );
   });

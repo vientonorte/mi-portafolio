@@ -2,11 +2,14 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import redirects from "../../data/legacy-redirects.json";
+import serviceLandings from "../../data/service-landings.json";
 import { SERVICIOS_CARDS } from "../../servicios/servicios-content";
 
 /**
  * Canon 2026-09-27: todo /s/** (salvo /s/polijuego-privacy/) y /poc/ son páginas de
  * redirección a /servicios/ (o al ancla de la tarjeta). Relativas → sirven en / y en /qa/.
+ * PO 2026-09-27: las fichas antiguas /servicios/<slug>/ (share.css) también redirigen.
+ * /servicios/ (índice Vite + prerender) nunca redirige.
  */
 const root = process.cwd();
 const KEEP = "/s/polijuego-privacy/";
@@ -53,6 +56,18 @@ function runRedirect(html: string, pageUrl: string): string {
 const cardIds = new Set(SERVICIOS_CARDS.map((c) => c.id));
 const shareFiles = walkHtml(resolve(root, "public/s"));
 const redirectPaths = shareFiles.map(urlPathOf).filter((p) => p !== KEEP);
+// Fichas antiguas: todo HTML bajo public/servicios/ (el índice lo genera Vite, no está en public/).
+const fichaPaths = walkHtml(resolve(root, "public/servicios")).map(urlPathOf);
+const FICHA_ANCHORS: Record<string, string> = {
+  "/servicios/diagnostico-accesibilidad-wcag/": "revision-gratis",
+  "/servicios/consultoria-ux-pymes/": "consultoria-ux",
+  "/servicios/asistente-ia/": "",
+  "/servicios/asistente-ecommerce/": "",
+  "/servicios/inteligencia-artificial-negocios/": "",
+  "/servicios/privacidad-datos/": "",
+  "/servicios/seguridad-privacidad-digital/": "",
+  "/servicios/desarrollo-seguro-cumplimiento-ley-21719/": "",
+};
 
 describe("legacy redirects registry", () => {
   it("covers every /s/** page except polijuego-privacy, plus /poc/", () => {
@@ -77,8 +92,32 @@ describe("legacy redirects registry", () => {
   });
 });
 
-describe("every /s/** (except polijuego-privacy) and /poc/ is a redirect page", () => {
-  const all = [...redirectPaths, "/poc/"];
+describe("old service fichas /servicios/<slug>/ redirect (PO 2026-09-27)", () => {
+  const byFrom = Object.fromEntries(redirects.redirects.map((r) => [r.from, r]));
+
+  it("every generated ficha slug is registered with the PO anchor", () => {
+    const slugPaths = serviceLandings.landings
+      .filter((l) => l.slug && (l as { renderer?: string }).renderer !== "vite")
+      .map((l) => l.path);
+    expect(new Set(slugPaths)).toEqual(new Set(Object.keys(FICHA_ANCHORS)));
+    for (const [from, anchor] of Object.entries(FICHA_ANCHORS)) {
+      expect(byFrom[from], from).toBeDefined();
+      expect(byFrom[from].anchor, from).toBe(anchor);
+    }
+  });
+
+  it("every HTML under public/servicios/ is a registered redirect; index is not", () => {
+    expect(fichaPaths.length).toBe(Object.keys(FICHA_ANCHORS).length);
+    for (const p of fichaPaths) expect(byFrom[p], p).toBeDefined();
+    expect(fichaPaths).not.toContain("/servicios/");
+    expect(byFrom["/servicios/"]).toBeUndefined();
+    // /servicios/web-pymes/ no existe en esta rama: no se registra.
+    expect(byFrom["/servicios/web-pymes/"]).toBeUndefined();
+  });
+});
+
+describe("every /s/** (except polijuego-privacy), /servicios/<slug>/ and /poc/ is a redirect page", () => {
+  const all = [...redirectPaths, ...fichaPaths, "/poc/"];
 
   it.each(all)("%s: meta refresh 0 + canonical + noindex + JS replace", (from) => {
     const html = readPage(from);

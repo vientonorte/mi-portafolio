@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Rebuild public/s/** y /poc/. 0 LLM.
+"""Rebuild public/s/**, /poc/ y las fichas antiguas /servicios/<slug>/. 0 LLM.
 
 Canon 2026-09-27 (PO):
 - /s/polijuego-privacy/ se publica tal cual con chrome VN (fuera del sitemap).
-- El resto de /s/** y /poc/ son páginas de redirección a /servicios/ (o al ancla de la
-  tarjeta), definidas en src/data/legacy-redirects.json.
+- El resto de /s/**, /poc/ y las fichas /servicios/<slug>/ (ex share.css) son páginas de
+  redirección a /servicios/ (o al ancla de la tarjeta), definidas en src/data/legacy-redirects.json.
+- /servicios/ (índice, Vite + prerender de #277) nunca se escribe aquí.
+- Migración P4: quitar la fila de legacy-redirects.json libera la ruta para la plantilla nueva
+  (ver generate-service-landings.py, "renderer": "vite"). Ojo: el archivo ya escrito en
+  public/servicios/<slug>/index.html hay que borrarlo en ese mismo PR.
 """
 from __future__ import annotations
 
@@ -90,6 +94,8 @@ def write_polijuego_privacy() -> None:
 
 def write_redirects() -> None:
     for r in REDIRECTS["redirects"]:
+        if r["from"] == "/servicios/":
+            raise SystemExit("/servicios/ es la página Vite (#277); no puede redirigir")
         if r["from"] in REDIRECTS["keep"]:
             raise SystemExit(f"{r['from']} está en keep; no puede redirigir")
         dest = write_redirect(ROOT, r["from"], r["to"], r.get("anchor", ""))

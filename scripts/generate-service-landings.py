@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
-"""Generate public/servicios HTML + rewrite public/sitemap.xml (home + /servicios/) from service-landings.json."""
+"""Generate public/servicios/<slug>/ + rewrite public/sitemap.xml (home + /servicios/) from service-landings.json.
+
+PO 2026-09-27: las fichas antiguas /servicios/<slug>/ ya no se publican como página (share.css):
+cada slug registrado en src/data/legacy-redirects.json se emite como página de redirección a
+/servicios/ (o al ancla de la tarjeta), con el MISMO mecanismo que /s/** (scripts/redirect_pages.py).
+build-static-share.py escribe esas mismas rutas con la misma función, así que el orden de ejecución
+no importa (salida byte a byte idéntica).
+
+page_html() (ficha legacy con share.css) queda solo para slugs que NO estén en legacy-redirects.json
+ni marcados "renderer": "vite". Hoy no hay ninguno; no se borra aún (decisión PO).
+"""
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from redirect_pages import write_redirect  # noqa: E402
+
 DATA = json.loads((ROOT / "src/data/service-landings.json").read_text())
+# Registro único de redirecciones (también lo consume build-static-share.py).
+LEGACY_REDIRECTS = {
+    r["from"]: r for r in json.loads((ROOT / "src/data/legacy-redirects.json").read_text())["redirects"]
+}
 ORIGIN = DATA["origin"]
 LASTMOD = DATA["lastmod"]
 # Producto UI (HashRouter). No /s/consultoria (piloto Ads).
@@ -264,6 +282,8 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
 def main() -> None:
     landings = DATA["landings"]
     locs = []
+    if "/servicios/" in LEGACY_REDIRECTS:
+        raise SystemExit("legacy-redirects.json: /servicios/ (índice #277) no puede redirigir")
     for item in landings:
         rel = item["slug"]
         dest = ROOT / "public" / "servicios" / rel / "index.html" if rel else ROOT / "public/servicios/index.html"
@@ -277,6 +297,24 @@ def main() -> None:
             print("skip hub (vite)", dest)
             if item.get("inSitemap") and item.get("index"):
                 locs.append((ORIGIN + item["path"], item["priority"]))
+            continue
+        if item.get("renderer") == "vite":
+            # Migración P4: una plantilla nueva (Vite) es dueña de esta ruta. No escribir nada
+            # en public/: pisaría la página nueva en dist/ (vite copia public/ -> dist/).
+            if item["path"] in LEGACY_REDIRECTS:
+                raise SystemExit(f"{item['path']}: renderer=vite pero sigue en legacy-redirects.json")
+            print("skip (vite)", dest)
+            continue
+        redirect = LEGACY_REDIRECTS.get(item["path"])
+        if redirect:
+            # PO 2026-09-27: ficha antigua -> redirección a /servicios/(#ancla).
+            # SWAP P4: para que una plantilla nueva tome este slug, quitar su fila de
+            # src/data/legacy-redirects.json y poner "renderer": "vite" en la landing
+            # (service-landings.json); la rama de arriba deja de escribir en public/.
+            # Mientras siga aquí, esta rama gana a hopTo/page_html (y no entra al sitemap).
+            write_redirect(ROOT, redirect["from"], redirect["to"], redirect.get("anchor", ""))
+            frag = f"#{redirect['anchor']}" if redirect.get("anchor") else ""
+            print("redirect", dest, "->", redirect["to"] + frag)
             continue
         if item.get("hopTo"):
             dest.write_text(hop_html(hop_target), encoding="utf-8")
