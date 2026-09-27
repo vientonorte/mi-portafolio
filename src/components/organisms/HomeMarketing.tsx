@@ -33,19 +33,19 @@ import {
 
 const COPY = {
   es: {
-    ctaPrimary: "Ver servicios",
-    ctaSecondary: "Escríbenos",
+    ctaPrimary: "Quiero mi web en 72 h",
+    ctaSecondary: "Revisión gratis de mi sitio",
     optionsHeading: "Tres formas de partir",
     optionsIntro:
-      "Parte gratis con un flujo, estrena tu web o conversemos un proyecto a tu medida.",
+      "Estrena tu web en 72 horas, revisa gratis un flujo de tu sitio o conversemos un proyecto a tu medida.",
     allServices: "Ver todos los servicios",
   },
   en: {
-    ctaPrimary: "See services",
-    ctaSecondary: "Contact us",
+    ctaPrimary: "I want my website in 72 h",
+    ctaSecondary: "Free review of my site",
     optionsHeading: "Three ways to start",
     optionsIntro:
-      "Start free with one flow, launch your website, or let’s talk about a tailored project.",
+      "Launch your website in 72 hours, get a free review of one flow on your site, or let’s talk about a tailored project.",
     allServices: "See all services",
   },
 } as const;
@@ -59,7 +59,10 @@ function trackCta(ctaId: string, href: string) {
   });
 }
 
-/** Tarjetas de /servicios/ con destino HTTP a su ficha en /servicios/#<id>. */
+/**
+ * Tarjetas de /servicios/ (mismo orden y línea de audiencia que SERVICIOS_CARDS)
+ * con destino HTTP a su ficha en /servicios/#<id>.
+ */
 function homeServiceCards(): ServiceCardData[] {
   return SERVICIOS_CARDS.map((card) => ({ ...card, href: serviciosHref(card.id) }));
 }
@@ -68,8 +71,9 @@ export function HomeMarketingHero() {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
   const copy = COPY[language === "en" ? "en" : "es"];
-  const primaryHref = serviciosHref();
-  const secondaryHref = serviciosHref("contacto");
+  // Decisión PO: exactamente 2 botones en el hero (sin Calendar ni "Ver prototipo").
+  const primaryHref = serviciosHref("web-pymes");
+  const secondaryHref = serviciosHref("revision-gratis");
 
   return (
     <HeroWithMockup
@@ -92,7 +96,12 @@ export function HomeMarketingHero() {
               {copy.ctaPrimary}
             </a>
           </Button>
-          <Button asChild variant="link" className="min-h-[44px] px-0 text-white/75 hover:text-[#E8E5DF]">
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="min-h-[48px] border-white/70 bg-transparent px-6 dark:border-white/70 dark:bg-transparent dark:hover:bg-white/10 text-base font-semibold text-white hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-white"
+          >
             <a
               href={secondaryHref}
               data-marketing-cta="hero-secondary"
