@@ -12,6 +12,7 @@ import {
   isTimedDemoPath,
   isDeprecatedPocPath,
   shouldHideSiteChrome,
+  isDigitalizacionPath,
 } from '@/lib/routes';
 
 describe('routes', () => {
@@ -100,5 +101,15 @@ describe('routes', () => {
     expect(shouldHideSiteChrome('/consultoria/modulos/dashboard')).toBe(true);
     expect(shouldHideSiteChrome('/demo/diagnostic')).toBe(true);
     expect(shouldHideSiteChrome('/admin')).toBe(true);
+  });
+
+  it('digitalizacion MVP: landing + demo, isolated shell (no nav)', () => {
+    expect(ROUTES.digitalizacion).toBe('/digitalizacion');
+    expect(ROUTES.digitalizacionDemo).toBe('/digitalizacion/demo');
+    expect(isDigitalizacionPath('/digitalizacion')).toBe(true);
+    expect(isDigitalizacionPath('/digitalizacion/demo/')).toBe(true);
+    expect(isDigitalizacionPath('/digitalizaciones')).toBe(false);
+    expect(shouldHideSiteChrome('/digitalizacion')).toBe(true);
+    expect(shouldHideSiteChrome('/digitalizacion/demo')).toBe(true);
   });
 });
