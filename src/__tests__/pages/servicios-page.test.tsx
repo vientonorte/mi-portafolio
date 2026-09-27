@@ -8,10 +8,13 @@ import {
   buildServiciosPayload,
   validateServiciosContact,
 } from "@/servicios/servicios-contact";
+import { SERVICIOS_INTENTS, SERVICIOS_SEO } from "@/servicios/servicios-content";
 
 const root = process.cwd();
 const html = render();
 const doc = new DOMParser().parseFromString(`<body>${html}</body>`, "text/html");
+const META_DESCRIPTION =
+  "Web profesional para tu Pyme en 72 horas por $30.000, revisión gratis de accesibilidad de un flujo y consultoría UX. Viento Norte, Chile.";
 const AI_SLUGS = ["asistente-ia", "asistente-ecommerce", "inteligencia-artificial-negocios"];
 
 /** Home root: "/" en build prod/test; "/qa/" bajo VITE_BASE=/qa/. */
@@ -64,6 +67,17 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     }
   });
 
+  it("each card's kicker above the title: WCAG card says 'Gratis' (no 'Puerta de entrada')", () => {
+    const kickers = [...doc.querySelectorAll("[data-card]")].map((c) =>
+      c.querySelector("article > div > p.font-mono")?.textContent
+    );
+    expect(kickers).toEqual(["01 · Web en 72 horas", "02 · Gratis", "03 · Consultoría"]);
+    const wcag = doc.querySelector('[data-card="revision-gratis"]')!;
+    const kicker = wcag.querySelector("article > div > p.font-mono")!;
+    expect(kicker.compareDocumentPosition(wcag.querySelector("h3")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(html).not.toContain("Puerta de entrada");
+  });
+
   it("has one h1 aligned with the home and lang-safe headings", () => {
     const h1s = doc.querySelectorAll("h1");
     expect(h1s).toHaveLength(1);
@@ -78,8 +92,28 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect(doc.querySelector('input[name="source"]')?.getAttribute("value")).toBe("servicios");
     expect(doc.querySelector('input[name="consent"][type="checkbox"]')?.hasAttribute("required")).toBe(true);
     expect(doc.querySelector('input[name="_gotcha"]')).not.toBeNull();
-    const options = [...doc.querySelectorAll('select[name="intent"] option')].map((o) => o.textContent);
-    expect(options).toEqual(["Revisión gratis de un flujo", "Web nueva", "Otro servicio digital"]);
+    const select = doc.querySelector<HTMLSelectElement>('select[name="intent"]')!;
+    expect(select.hasAttribute("required")).toBe(true);
+    const opts = [...select.querySelectorAll("option")];
+    // Placeholder vacío, primero y seleccionado por defecto
+    expect(opts[0].textContent).toBe("Elige qué necesitas");
+    expect(opts[0].getAttribute("value")).toBe("");
+    expect(opts[0].hasAttribute("selected")).toBe(true);
+    expect(opts.filter((o) => o.hasAttribute("selected"))).toHaveLength(1);
+    // Orden PO: web → revisión → consultoría → otro
+    expect(opts.map((o) => o.textContent)).toEqual([
+      "Elige qué necesitas",
+      "Web nueva",
+      "Revisión gratis de un flujo",
+      "Consultoría UX",
+      "Otro servicio digital",
+    ]);
+    expect(opts.slice(1).map((o) => o.getAttribute("value"))).toEqual([
+      "Web nueva",
+      "Revisión gratis de un flujo",
+      "Consultoría UX",
+      "Otro servicio digital",
+    ]);
     expect(doc.querySelector('[role="status"][aria-live="polite"]')).not.toBeNull();
     for (const name of ["nombre", "correo", "empresa", "detalle"]) {
       const field = doc.querySelector(`[name="${name}"]`);
@@ -121,6 +155,13 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect(tpl).toContain('<html lang="es"');
     expect(tpl).toContain("<title>Servicios para pymes · Viento Norte</title>");
     expect(tpl).toContain('name="description"');
+    // Meta description exacta (PO) y og/twitter la replican
+    const metaContent = (attr: string) =>
+      new DOMParser().parseFromString(tpl, "text/html").querySelector(`meta[${attr}]`)?.getAttribute("content");
+    expect(metaContent('name="description"')).toBe(META_DESCRIPTION);
+    expect(metaContent('property="og:description"')).toBe(META_DESCRIPTION);
+    expect(metaContent('name="twitter:description"')).toBe(META_DESCRIPTION);
+    expect(SERVICIOS_SEO.description).toBe(META_DESCRIPTION);
     expect(tpl).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
     expect(tpl).toContain('property="og:title"');
     expect(tpl).not.toContain("share.css");
@@ -129,6 +170,8 @@ describe("/servicios/ prerender (react-dom/server)", () => {
       const built = readFileSync(dist, "utf8");
       expect(built).not.toContain("<!--ssr-outlet-->");
       expect(built).toContain("Web para Pymes en 72 horas");
+      expect(built).toContain(`name="description"`);
+      expect(built).toContain(META_DESCRIPTION);
       expect(built).not.toContain("share.css");
     }
   });
@@ -153,6 +196,19 @@ describe("/servicios/ contact form (client)", () => {
     expect(validateServiciosContact({ ...base, detalle: "corto" }).detalle).toBeTruthy();
     expect(validateServiciosContact({ ...base, nombre: "A" }).nombre).toBeTruthy();
     expect(validateServiciosContact({ ...base, correo: "x@" }).correo).toBeTruthy();
+    expect(validateServiciosContact({ ...base, intent: "" }).intent).toBe("Elige qué necesitas.");
+    for (const intent of SERVICIOS_INTENTS) {
+      expect(validateServiciosContact({ ...base, intent }), intent).toEqual({});
+    }
+  });
+
+  it("every intent value fits the relay contract (non-empty string ≤80)", () => {
+    for (const intent of SERVICIOS_INTENTS) {
+      const p = buildServiciosPayload({ ...base, intent });
+      expect(p.intent).toBe(intent);
+      expect(p.intent.length).toBeGreaterThan(0);
+      expect(p.intent.length).toBeLessThanOrEqual(80);
+    }
   });
 
   it("payload matches worker/src/contact.js contract", () => {
@@ -172,21 +228,73 @@ describe("/servicios/ contact form (client)", () => {
     expect(p.intent.length).toBeLessThanOrEqual(80);
   });
 
-  it("card button preselects intent; submit without consent does not call fetch", async () => {
+  const intentSelect = () => screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement;
+
+  it("select starts on the empty placeholder; submit without choosing shows an accessible error and does not send", async () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ ok: true }), { status: 200 })
     );
     Element.prototype.scrollIntoView = vi.fn();
     rtlRender(<ServiciosPage />);
+    expect(intentSelect().value).toBe("");
+    expect(intentSelect()).toBeRequired();
+
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana" } });
+    fireEvent.change(screen.getByLabelText(/^Correo/), { target: { value: "ana@pyme.cl" } });
+    fireEvent.change(screen.getByLabelText(/^Cuéntanos más/), {
+      target: { value: "Necesito una web para mi local" },
+    });
+    fireEvent.click(screen.getByLabelText(/Acepto que Viento Norte/));
+    fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    const err = await screen.findByText("Elige qué necesitas.");
+    expect(intentSelect()).toHaveAttribute("aria-invalid", "true");
+    expect(intentSelect().getAttribute("aria-describedby")).toBe(err.id);
+    expect(intentSelect()).toHaveAccessibleDescription("Elige qué necesitas.");
+    expect(document.activeElement).toBe(intentSelect());
+    expect(screen.getByRole("status")).toHaveTextContent("Revisa los campos marcados antes de enviar.");
+
+    // Elegir a mano limpia el error y permite enviar
+    fireEvent.change(intentSelect(), { target: { value: "Otro servicio digital" } });
+    expect(screen.queryByText("Elige qué necesitas.")).toBeNull();
+    expect(intentSelect()).not.toHaveAttribute("aria-invalid");
+    fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1));
+    const body = JSON.parse(String((fetchSpy.mock.calls[0][1] as RequestInit).body));
+    expect(body).toMatchObject({ source: "servicios", intent: "Otro servicio digital", consent: true });
+  });
+
+  it.each([
+    ["Quiero mi web", "Web nueva"],
+    ["Pedir revisión gratis", "Revisión gratis de un flujo"],
+    ["Conversar mi caso", "Consultoría UX"],
+  ])("card button '%s' preselects '%s' from the empty placeholder", (cta, expected) => {
+    Element.prototype.scrollIntoView = vi.fn();
+    rtlRender(<ServiciosPage />);
+    expect(intentSelect().value).toBe("");
+    fireEvent.click(screen.getByRole("link", { name: cta }));
+    expect(intentSelect().value).toBe(expected);
+    expect(screen.getByRole("status")).toHaveTextContent(`Opción seleccionada en el formulario: ${expected}.`);
+  });
+
+  it("card preselect clears a pending intent error; submit without consent does not call fetch", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ ok: true }), { status: 200 })
+    );
+    Element.prototype.scrollIntoView = vi.fn();
+    rtlRender(<ServiciosPage />);
+    fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
+    expect(await screen.findByText("Elige qué necesitas.")).toBeInTheDocument();
+
     // Preselección por intent de la tarjeta (no por posición)
     fireEvent.click(screen.getByRole("link", { name: "Conversar mi caso" }));
-    expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe("Otro servicio digital");
+    expect(intentSelect().value).toBe("Consultoría UX");
+    expect(screen.queryByText("Elige qué necesitas.")).toBeNull();
     fireEvent.click(screen.getByRole("link", { name: "Pedir revisión gratis" }));
-    expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe(
-      "Revisión gratis de un flujo"
-    );
+    expect(intentSelect().value).toBe("Revisión gratis de un flujo");
     fireEvent.click(screen.getByRole("link", { name: "Quiero mi web" }));
-    expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe("Web nueva");
+    expect(intentSelect().value).toBe("Web nueva");
 
     fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana" } });
     fireEvent.change(screen.getByLabelText(/^Correo/), { target: { value: "ana@pyme.cl" } });
@@ -211,5 +319,7 @@ describe("/servicios/ contact form (client)", () => {
     const body = JSON.parse(String((init as RequestInit).body));
     expect(body).toMatchObject({ source: "servicios", intent: "Web nueva", consent: true });
     expect(await screen.findByText(/Recibimos tu mensaje/)).toBeInTheDocument();
+    // Tras enviar, el select vuelve al placeholder
+    expect(intentSelect().value).toBe("");
   });
 });

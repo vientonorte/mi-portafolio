@@ -19,14 +19,23 @@ export const CONTACT_EMAIL = "contacto@vientonorte.io";
 export const PRIMARY_CTA_CLASS =
   "min-h-[48px] bg-brand-gradient px-6 text-[1.1875rem] font-bold text-white shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";
 
-/** Valores del select "¿Qué necesitas?" → payload.intent (≤80). */
+/**
+ * Valores del select "¿Qué necesitas?" → payload.intent (≤80, texto libre en
+ * worker/src/contact.js). Orden PO: web → revisión → consultoría → otro.
+ * Va precedido por la opción vacía SERVICIOS_INTENT_PLACEHOLDER (obligatorio elegir).
+ */
 export const SERVICIOS_INTENTS = [
-  "Revisión gratis de un flujo",
   "Web nueva",
+  "Revisión gratis de un flujo",
+  "Consultoría UX",
   "Otro servicio digital",
 ] as const;
 
 export type ServiciosIntent = (typeof SERVICIOS_INTENTS)[number];
+/** Estado del select: "" = aún no elige (opción placeholder). */
+export type ServiciosIntentValue = ServiciosIntent | "";
+
+export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {
@@ -93,7 +102,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
   },
   {
     id: "revision-gratis",
-    eyebrow: "Puerta de entrada",
+    eyebrow: "Gratis",
     title: "Revisión gratis de un flujo",
     audience: "¿Tu sitio tiene problemas?",
     forWhom:
@@ -125,7 +134,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     price: "Cotización según alcance",
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
-    intent: "Otro servicio digital",
+    intent: "Consultoría UX",
     thumbnail: { kind: "device", image: SERVICIOS_IMAGES.consultoriaThumb },
   },
 ];
@@ -164,6 +173,6 @@ export const SERVICIOS_STEPS = {
 export const SERVICIOS_SEO = {
   title: "Servicios para pymes · Viento Norte",
   description:
-    "Revisión gratis de accesibilidad de un flujo, web para pymes en 72 horas por $30.000 y consultoría UX para pymes en Chile. Elige y escríbenos.",
+    "Web profesional para tu Pyme en 72 horas por $30.000, revisión gratis de accesibilidad de un flujo y consultoría UX. Viento Norte, Chile.",
   canonical: "https://vientonorte.io/servicios/",
 } as const;

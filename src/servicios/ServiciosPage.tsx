@@ -13,10 +13,10 @@ import {
   SERVICIOS_CASES,
   SERVICIOS_HERO,
   SERVICIOS_IMAGES,
-  SERVICIOS_INTENTS,
   SERVICIOS_LOGOS,
   SERVICIOS_STEPS,
   type ServiciosIntent,
+  type ServiciosIntentValue,
 } from "./servicios-content";
 
 function prefersReducedMotion(): boolean {
@@ -24,7 +24,7 @@ function prefersReducedMotion(): boolean {
 }
 
 export function ServiciosPage() {
-  const [intent, setIntent] = useState<ServiciosIntent>(SERVICIOS_INTENTS[0]);
+  const [intent, setIntent] = useState<ServiciosIntentValue>("");
   const [announcement, setAnnouncement] = useState("");
 
   const chooseIntent = useCallback((e: MouseEvent<HTMLAnchorElement>, next: ServiciosIntent) => {

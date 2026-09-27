@@ -13,21 +13,22 @@ import {
   CONTACT_EMAIL,
   CONTACT_ENDPOINT,
   PRIMARY_CTA_CLASS,
+  SERVICIOS_INTENT_PLACEHOLDER,
   SERVICIOS_INTENTS,
   SERVICIOS_SOURCE,
-  type ServiciosIntent,
+  type ServiciosIntentValue,
 } from "./servicios-content";
 
 type Status = { kind: "idle" | "sending" | "ok" | "error"; text: string };
 
 interface Props {
-  intent: ServiciosIntent;
-  onIntentChange: (intent: ServiciosIntent) => void;
+  intent: ServiciosIntentValue;
+  onIntentChange: (intent: ServiciosIntentValue) => void;
   /** Mensaje para el lector de pantalla cuando una tarjeta preselecciona la opción. */
   announcement?: string;
 }
 
-const FIELD_ORDER = ["nombre", "correo", "detalle", "consent"] as const;
+const FIELD_ORDER = ["nombre", "correo", "intent", "detalle", "consent"] as const;
 
 export function ServiciosContactForm({ intent, onIntentChange, announcement }: Props) {
   const uid = useId();
@@ -82,6 +83,7 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
         throw new Error(data.error || `HTTP ${res.status}`);
       }
       form.reset();
+      onIntentChange("");
       setStatus({
         kind: "ok",
         text: "¡Listo! Recibimos tu mensaje. Te respondemos en menos de 24 horas hábiles.",
@@ -101,6 +103,8 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
     "aria-invalid": errors[k] ? true : undefined,
     "aria-describedby": errors[k] ? errorId(k) : undefined,
   });
+  /** El error del select se oculta en cuanto hay opción (elegida a mano o por tarjeta). */
+  const intentError = intent ? undefined : errors.intent;
   const labelClass = "block text-sm font-medium text-foreground";
   const errorClass = "mt-1 text-sm font-medium text-destructive";
   const controlClass = "mt-1.5 h-11 border-foreground/50 bg-background";
@@ -168,15 +172,24 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
             id={ids.intent}
             name="intent"
             value={intent}
-            onChange={(e) => onIntentChange(e.target.value as ServiciosIntent)}
+            onChange={(e) => onIntentChange(e.target.value as ServiciosIntentValue)}
+            required
+            aria-invalid={intentError ? true : undefined}
+            aria-describedby={intentError ? errorId("intent") : undefined}
             className="mt-1.5 flex h-11 w-full rounded-md border border-foreground/50 bg-background px-3 text-base text-foreground outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm"
           >
+            <option value="">{SERVICIOS_INTENT_PLACEHOLDER}</option>
             {SERVICIOS_INTENTS.map((opt) => (
               <option key={opt} value={opt}>
                 {opt}
               </option>
             ))}
           </select>
+          {intentError && (
+            <p id={errorId("intent")} className={errorClass}>
+              {intentError}
+            </p>
+          )}
         </div>
       </div>
 

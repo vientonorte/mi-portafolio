@@ -1,16 +1,16 @@
-import { SERVICIOS_SOURCE, type ServiciosIntent } from "./servicios-content";
+import { SERVICIOS_INTENTS, SERVICIOS_SOURCE, type ServiciosIntentValue } from "./servicios-content";
 
 export interface ServiciosContactValues {
   nombre: string;
   correo: string;
   empresa: string;
-  intent: ServiciosIntent;
+  intent: ServiciosIntentValue;
   detalle: string;
   consent: boolean;
   gotcha: string;
 }
 
-export type ServiciosFieldErrors = Partial<Record<"nombre" | "correo" | "detalle" | "consent", string>>;
+export type ServiciosFieldErrors = Partial<Record<"nombre" | "correo" | "intent" | "detalle" | "consent", string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -20,6 +20,9 @@ export function validateServiciosContact(v: ServiciosContactValues): ServiciosFi
   if (v.nombre.trim().length < 2) errors.nombre = "Escribe tu nombre (mínimo 2 caracteres).";
   if (!EMAIL_RE.test(v.correo.trim()) || v.correo.trim().length > 254) {
     errors.correo = "Escribe un correo válido, por ejemplo nombre@empresa.cl.";
+  }
+  if (!(SERVICIOS_INTENTS as readonly string[]).includes(v.intent)) {
+    errors.intent = "Elige qué necesitas.";
   }
   if (v.detalle.trim().length < 10) {
     errors.detalle = "Cuéntanos un poco más (mínimo 10 caracteres).";
