@@ -27,12 +27,13 @@ describe("URL canon · producto vs piloto Ads", () => {
     );
   });
 
-  it("organic /servicios CTAs point to product UI, not the Ads pilot", () => {
+  it("organic /servicios CTAs stay in-page (#contacto): no /#/ SPA, no Ads pilot (canon 2026-09-27)", () => {
     const html = readFileSync(
       resolve(process.cwd(), "public/servicios/consultoria-ux-pymes/index.html"),
       "utf8"
     );
-    expect(html).toContain('href="/#/consultoria"');
+    expect(html).toContain('href="#contacto"');
+    expect(html).not.toContain("/#/");
     expect(html).not.toContain('href="/s/consultoria/"');
     expect(html).toContain(
       'rel="canonical" href="https://vientonorte.io/servicios/consultoria-ux-pymes/"'

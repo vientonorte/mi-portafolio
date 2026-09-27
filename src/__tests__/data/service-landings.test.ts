@@ -42,17 +42,19 @@ describe("service landings registry · Austral", () => {
       expect(html).not.toContain("gtag/js?id=");
       expect(html).not.toContain('http-equiv="refresh"');
       expect(html).not.toContain('href="/s/consultoria/"');
-      expect(html).toContain('href="/#/consultoria"');
-      expect(html).toContain('href="/servicios/share.css"');
+      // Canon 2026-09-27: sin /#/ ni /s/; CSS relativo para que /qa/ no salte a prod.
+      expect(html).not.toContain("/#/");
+      expect(html).not.toMatch(/href="[^"]*\/s\//);
+      expect(html).toMatch(/href="(\.\.\/)?share\.css"/);
       expect(html).toContain('class="share-hero"');
       expect(html).toContain('id="page-h1"');
       if (item.poc) {
         expect(html).toContain('class="share-poc"');
-        expect(html).toContain("/images/poc-modules/dashboard.png");
-        expect(html).toContain('href="/#/consultoria/modulos/dashboard"');
+        expect(html).toContain("images/poc-modules/dashboard.png");
+        expect(html).not.toContain("Ver prototipo");
       } else {
         expect(html).not.toContain('class="share-poc"');
-        expect(html).not.toContain("/images/poc-modules/dashboard.png");
+        expect(html).not.toContain("images/poc-modules/dashboard.png");
       }
       expect(html).not.toContain("/auditoria");
       expect(item.title.length).toBeLessThanOrEqual(60);
@@ -113,6 +115,11 @@ describe("service landings registry · Austral", () => {
       "utf8"
     );
     expect(hop).toContain('name="robots" content="noindex, follow"');
-    expect(hop).toContain("https://vientonorte.io/servicios/asistente-ia/");
+    expect(hop).toContain(
+      'rel="canonical" href="https://vientonorte.io/servicios/asistente-ia/"'
+    );
+    // Redirect relativo: en /qa/s/servicios/* aterriza en /qa/servicios/*, no en prod.
+    expect(hop).toContain('content="0;url=../../../servicios/asistente-ia/"');
+    expect(hop).toContain('location.replace("../../../servicios/asistente-ia/")');
   });
 });

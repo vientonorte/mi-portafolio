@@ -18,6 +18,16 @@ export type ServiceLanding = {
   checklist?: boolean;
   poc?: boolean;
   pains?: { h: string; p: string }[];
+  /** Etiqueta en el nav de /servicios/* (fichas enlazadas entre sí). */
+  nav?: string;
+  /** Formulario #contacto → relay (source <=40; intent preseleccionado). */
+  form?: { source: string; intent?: string; lead?: string };
+  /** Cuerpo de oferta (ej. "web-pymes"). */
+  offer?: string;
+  /** Precio CLP para JSON-LD Offer. */
+  price?: string;
+  /** false = ficha nueva, no genera hop en /s/servicios/. */
+  legacyShareHop?: boolean;
 };
 
 export const SERVICE_ORIGIN = landingsFile.origin as string;

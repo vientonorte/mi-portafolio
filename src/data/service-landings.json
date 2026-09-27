@@ -38,7 +38,9 @@
       "inSitemap": true,
       "index": true,
       "poc": true,
-      "serviceType": ["Consultoría UX pymes"]
+      "serviceType": ["Consultoría UX pymes"],
+      "nav": "Consultoría UX",
+      "form": { "source": "ux-pymes" }
     },
     {
       "id": "wcag",
@@ -51,7 +53,31 @@
       "priority": 0.86,
       "inSitemap": true,
       "index": true,
-      "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"]
+      "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"],
+      "nav": "Diagnóstico WCAG",
+      "form": { "source": "wcag", "intent": "Revisión gratis de un flujo" }
+    },
+    {
+      "id": "web-pymes",
+      "slug": "web-pymes",
+      "path": "/servicios/web-pymes/",
+      "cluster": null,
+      "title": "Web para pymes en 72 h por $30.000 · Viento Norte",
+      "h1": "Tu web profesional en 72 h por $30.000",
+      "description": "Web one-page con tu marca, formulario de contacto y responsive. Lista en 72 horas hábiles. $30.000 CLP: 50% al partir y 50% al entregar.",
+      "priority": 0.85,
+      "inSitemap": true,
+      "index": true,
+      "offer": "web-pymes",
+      "price": "30000",
+      "serviceType": ["Diseño y desarrollo de sitio web one-page"],
+      "nav": "Web pymes",
+      "legacyShareHop": false,
+      "form": {
+        "source": "web-pymes",
+        "intent": "Web nueva",
+        "lead": "Cuéntanos de tu negocio. Te respondemos dentro de 1 día hábil y coordinamos el pago después de ese primer contacto."
+      }
     },
     {
       "id": "asistente-ia",

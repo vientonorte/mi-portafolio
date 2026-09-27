@@ -1,23 +1,23 @@
 /* Static chrome for /servicios/* (orgánico) y leftover /s/.
-   Producto UI = /#/consultoria. Piloto Ads /s/consultoria no se hoppea. */
+   Canon 2026-09-27: sin rutas share ni hash client-facing; links internos relativos (/qa/). */
 
 @font-face {
   font-family: Chillax;
-  src: url("/fonts/chillax/chillax-400.woff2") format("woff2");
+  src: url("../fonts/chillax/chillax-400.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: Chillax;
-  src: url("/fonts/chillax/chillax-500.woff2") format("woff2");
+  src: url("../fonts/chillax/chillax-500.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: Chillax;
-  src: url("/fonts/chillax/chillax-700.woff2") format("woff2");
+  src: url("../fonts/chillax/chillax-700.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -337,7 +337,7 @@ body {
   margin-top: 0.75rem;
 }
 
-/* Apple-style POC teaser on /servicios/* (crawler). CTA → producto /#/consultoria. */
+/* POC teaser (imagen) en fichas producto. Sin CTA al SPA hash. */
 .share-poc {
   margin: 2.5rem 0;
   padding: 2.5rem 1.25rem 2rem;
@@ -388,6 +388,231 @@ body {
 .share-poc .share-cta:hover {
   filter: none;
   background: #e8e5df;
+}
+
+/* Ficha oferta (/servicios/web-pymes/): datos clave, pasos y FAQ. */
+.share-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vn-space-2);
+  list-style: none;
+  margin: 0 0 var(--vn-space-4);
+  padding: 0;
+}
+
+.share-hero .share-facts li {
+  padding: 6px 14px;
+  border: 1px solid rgba(232, 229, 223, 0.35);
+  border-radius: 999px;
+  color: #fff;
+}
+
+.share-hero .share-facts strong {
+  font-size: 1.125rem;
+}
+
+.share-hero .share-hint {
+  margin: var(--vn-space-2) 0 0;
+  color: rgba(232, 229, 223, 0.85);
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 720px) {
+  .share-cards--grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+}
+
+.share-steps {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.share-steps li::marker {
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+}
+
+.share-steps p {
+  margin: 0 0 0.25rem;
+}
+
+.share-faq {
+  border-bottom: 1px solid var(--vn-border-medium);
+  padding: 0.25rem 0;
+}
+
+.share-faq summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.share-faq summary:focus-visible {
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+}
+
+.share-faq p {
+  margin: 0 0 0.75rem;
+}
+
+/* Formulario de contacto en página (#contacto) → relay contact.vientonorte.io. */
+.share-contact {
+  margin: 2.5rem 0 0;
+  padding: 1.75rem 1.25rem;
+  border: 1px solid var(--vn-border-medium);
+  border-radius: 24px;
+  background: var(--vn-primitive-marfil);
+  scroll-margin-top: 80px;
+}
+
+.share-contact:focus {
+  outline: none;
+}
+
+.share-contact h2 {
+  margin-top: 0;
+}
+
+.share-form {
+  display: grid;
+  gap: var(--vn-space-4);
+  margin-top: var(--vn-space-4);
+}
+
+.share-form__grid {
+  display: grid;
+  gap: var(--vn-space-4);
+}
+
+@media (min-width: 640px) {
+  .share-form__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.share-field {
+  display: grid;
+  gap: 6px;
+}
+
+.share-field label {
+  font-weight: 600;
+}
+
+.share-field__opt {
+  font-weight: 400;
+  color: var(--vn-color-muted);
+}
+
+.share-field input[type="text"],
+.share-field input[type="email"],
+.share-field select,
+.share-field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--vn-color-muted);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--vn-color-on-surface);
+  font: inherit;
+}
+
+.share-field textarea {
+  resize: vertical;
+}
+
+.share-field input:focus-visible,
+.share-field select:focus-visible,
+.share-field textarea:focus-visible,
+.share-form__submit:focus-visible,
+.share-contact a:focus-visible,
+.share-form__status:focus-visible {
+  outline: 2px solid var(--vn-color-brand);
+  outline-offset: 2px;
+}
+
+.share-field [aria-invalid="true"] {
+  border-color: #b3261e;
+  box-shadow: 0 0 0 1px #b3261e;
+}
+
+.share-field__error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #b3261e;
+}
+
+.share-field--check {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: 10px;
+}
+
+.share-field--check input {
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  accent-color: var(--vn-color-brand-dark);
+}
+
+.share-field--check label {
+  font-weight: 400;
+}
+
+.share-field--check .share-field__error {
+  grid-column: 1 / -1;
+}
+
+.share-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.share-form__submit {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.share-form__submit[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.share-form__status {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 600;
+}
+
+.share-form__status[data-state="ok"] {
+  color: #1b5e20;
+}
+
+.share-form__status[data-state="error"] {
+  color: #b3261e;
+}
+
+.share-contact__fallback {
+  margin: var(--vn-space-4) 0 0;
+}
+
+.share-contact__fallback a {
+  color: var(--vn-color-brand-dark);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
