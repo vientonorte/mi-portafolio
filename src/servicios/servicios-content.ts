@@ -1,6 +1,8 @@
 /**
  * /servicios/ — contenido decidido por PO (es-CL).
- * Orden fijo: revisión gratis (puerta de entrada) → web 72 h → consultoría UX.
+ * Orden fijo (PO v3): web 72 h → revisión gratis → consultoría UX.
+ * Los ids/anclas (#web-pymes, #revision-gratis, #consultoria-ux) no cambian;
+ * la preselección del formulario va por card.intent, no por posición.
  * Sin servicios IA, sin enlaces a /s/ ni a rutas hash.
  */
 import type { MarketingImage, ServiceCardData } from "../components/marketing";
@@ -70,26 +72,10 @@ export const SERVICIOS_HERO = {
 
 export const SERVICIOS_CARDS: ServicioCard[] = [
   {
-    id: "revision-gratis",
-    eyebrow: "Puerta de entrada",
-    title: "Revisión gratis de un flujo",
-    forWhom:
-      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
-    includes: [
-      "Revisión de accesibilidad WCAG 2.2 AA de un flujo crítico (contacto, reserva o pago).",
-      "Lista priorizada de barreras y cómo corregirlas.",
-      "Conversación de 30 min para revisar los hallazgos.",
-    ],
-    price: "Gratis",
-    priceNote: "Sin compromiso. Un flujo por empresa.",
-    cta: "Pedir revisión gratis",
-    intent: "Revisión gratis de un flujo",
-    thumbnail: { kind: "pending", label: "Antes / después de un flujo (pendiente)" },
-  },
-  {
     id: "web-pymes",
     eyebrow: "Web en 72 horas",
     title: "Web para Pymes en 72 horas",
+    audience: "¿No tienes sitio?",
     forWhom:
       "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
     includes: [
@@ -106,9 +92,28 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     thumbnail: { kind: "pending", label: "Mockup web pyme (pendiente)" },
   },
   {
+    id: "revision-gratis",
+    eyebrow: "Puerta de entrada",
+    title: "Revisión gratis de un flujo",
+    audience: "¿Tu sitio tiene problemas?",
+    forWhom:
+      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
+    includes: [
+      "Revisión de accesibilidad WCAG 2.2 AA de un flujo crítico (contacto, reserva o pago).",
+      "Lista priorizada de barreras y cómo corregirlas.",
+      "Conversación de 30 min para revisar los hallazgos.",
+    ],
+    price: "Gratis",
+    priceNote: "Sin compromiso. Un flujo por empresa.",
+    cta: "Pedir revisión gratis",
+    intent: "Revisión gratis de un flujo",
+    thumbnail: { kind: "pending", label: "Antes / después de un flujo (pendiente)" },
+  },
+  {
     id: "consultoria-ux",
     eyebrow: "Consultoría",
     title: "Consultoría UX para Pymes",
+    audience: "¿Buscas talento joven o un equipo UX?",
     forWhom:
       "Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     includes: [

@@ -20,27 +20,47 @@ const isAllowedHref = (href: string) =>
   HOME_ROOTS.has(href) || /^#[A-Za-z][\w-]*$/.test(href) || href === "mailto:contacto@vientonorte.io";
 
 describe("/servicios/ prerender (react-dom/server)", () => {
-  it("renders the 3 cards in PO order with prices", () => {
+  it("renders the 3 cards in PO v3 order (web → revisión → consultoría) with prices", () => {
     const cards = [...doc.querySelectorAll("[data-card]")];
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual([
-      "revision-gratis",
       "web-pymes",
+      "revision-gratis",
       "consultoria-ux",
     ]);
+    // ids/anclas estables
+    for (const id of ["web-pymes", "revision-gratis", "consultoria-ux"]) {
+      expect(doc.getElementById(id)?.getAttribute("data-card")).toBe(id);
+    }
     const titles = cards.map((c) => c.querySelector("h3")?.textContent);
     expect(titles).toEqual([
-      "Revisión gratis de un flujo",
       "Web para Pymes en 72 horas",
+      "Revisión gratis de un flujo",
       "Consultoría UX para Pymes",
     ]);
     const prices = cards.map((c) => c.querySelector("[data-price]")?.textContent);
-    expect(prices).toEqual(["Gratis", "$30.000 CLP", "Cotización según alcance"]);
-    expect(cards[1].textContent).toContain("50%");
-    expect(cards[1].textContent).toContain("después del primer contacto");
+    expect(prices).toEqual(["$30.000 CLP", "Gratis", "Cotización según alcance"]);
+    expect(cards[0].textContent).toContain("72 horas");
+    expect(cards[0].textContent).toContain("50%");
+    expect(cards[0].textContent).toContain("después del primer contacto");
     for (const c of cards) {
       expect(c.textContent).toContain("Para quién");
       expect(c.textContent).toContain("Qué incluye");
       expect(c.querySelector('a[href="#contacto"][data-intent]')).not.toBeNull();
+    }
+  });
+
+  it("each card has its 'para quién' audience line (exact PO text), before the title", () => {
+    const cards = [...doc.querySelectorAll("[data-card]")];
+    const lines = cards.map((c) => c.querySelector("[data-audience]")?.textContent);
+    expect(lines).toEqual([
+      "¿No tienes sitio?",
+      "¿Tu sitio tiene problemas?",
+      "¿Buscas talento joven o un equipo UX?",
+    ]);
+    for (const c of cards) {
+      const aud = c.querySelector("[data-audience]")!;
+      const h3 = c.querySelector("h3")!;
+      expect(aud.compareDocumentPosition(h3) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     }
   });
 
@@ -158,6 +178,13 @@ describe("/servicios/ contact form (client)", () => {
     );
     Element.prototype.scrollIntoView = vi.fn();
     rtlRender(<ServiciosPage />);
+    // Preselección por intent de la tarjeta (no por posición)
+    fireEvent.click(screen.getByRole("link", { name: "Conversar mi caso" }));
+    expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe("Otro servicio digital");
+    fireEvent.click(screen.getByRole("link", { name: "Pedir revisión gratis" }));
+    expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe(
+      "Revisión gratis de un flujo"
+    );
     fireEvent.click(screen.getByRole("link", { name: "Quiero mi web" }));
     expect((screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement).value).toBe("Web nueva");
 

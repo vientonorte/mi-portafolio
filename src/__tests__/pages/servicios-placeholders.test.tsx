@@ -44,9 +44,15 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(mock.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
-  it("cards keep order; only consultoría keeps a (real) thumbnail; lazy-loaded", () => {
+  it("cards in PO v3 order; only consultoría keeps a (real) thumbnail; lazy-loaded", () => {
     const cards = [...doc.querySelectorAll("[data-card]")];
-    expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["revision-gratis", "web-pymes", "consultoria-ux"]);
+    expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
+    expect(doc.querySelectorAll("[data-card] [data-placeholder]")).toHaveLength(0);
+    expect(cards.map((c) => c.querySelector("[data-audience]")?.textContent)).toEqual([
+      "¿No tienes sitio?",
+      "¿Tu sitio tiene problemas?",
+      "¿Buscas talento joven o un equipo UX?",
+    ]);
     expect(cards[0].querySelector("img")).toBeNull();
     expect(cards[1].querySelector("img")).toBeNull();
     const img = cards[2].querySelector("img")!;
@@ -110,8 +116,12 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     const ids = sections.map((s) => s.id).filter(Boolean);
     expect(ids).toEqual(["inicio", "opciones", "casos", "como-trabajamos", "contacto"]);
     const cards = [...doc.querySelectorAll("[data-card]")];
-    expect(cards[0].querySelector("[data-placeholder]")?.textContent).toContain("Antes / después");
-    expect(cards[1].querySelector("[data-placeholder]")?.textContent).toContain("Mockup web pyme");
+    // Los placeholders viajan con su tarjeta (id), no con la posición
+    expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
+    expect(doc.querySelector("#web-pymes [data-placeholder]")?.textContent).toContain("Mockup web pyme");
+    expect(doc.querySelector("#revision-gratis [data-placeholder]")?.textContent).toContain("Antes / después");
+    expect(doc.querySelector("#consultoria-ux [data-placeholder]")).toBeNull();
+    expect(doc.querySelector("#consultoria-ux img")).not.toBeNull();
   });
 
   it("asset URLs and home link respect base /qa/", () => {

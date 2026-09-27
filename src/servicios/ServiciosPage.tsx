@@ -82,7 +82,7 @@ export function ServiciosPage() {
               Tres formas de partir
             </h2>
             <p className="mt-2 max-w-2xl text-base text-muted-foreground">
-              Parte gratis con un flujo, estrena tu web o conversemos un proyecto a tu medida.
+              Estrena tu web, parte gratis revisando un flujo o conversemos un proyecto a tu medida.
             </p>
             <ServiceCards
               cards={SERVICIOS_CARDS}

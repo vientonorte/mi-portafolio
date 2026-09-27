@@ -14,6 +14,8 @@ export interface ServiceCardData {
   id: string;
   eyebrow: string;
   title: string;
+  /** Línea corta "para quién" (kicker sobre el título), p. ej. "¿No tienes sitio?". Opcional. */
+  audience?: string;
   forWhom: string;
   includes: string[];
   price: string;
@@ -58,6 +60,14 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
               <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
                 {String(index + 1).padStart(2, "0")} · {card.eyebrow}
               </p>
+              {card.audience ? (
+                <p
+                  data-audience
+                  className="border-l-2 border-primary pl-2 text-sm font-semibold leading-snug text-foreground"
+                >
+                  {card.audience}
+                </p>
+              ) : null}
               <h3 id={`${card.id}-title`} className="text-xl font-bold leading-snug text-foreground">
                 {card.title}
               </h3>
