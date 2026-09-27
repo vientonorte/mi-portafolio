@@ -21,6 +21,7 @@ import {
   SERVICIOS_LOGOS,
   SERVICIOS_STEPS,
 } from "../../servicios/servicios-content";
+import { HERO_PRIMARY_CTA_BG } from "./home-marketing-tokens";
 
 /**
  * P3a — secciones de marketing reutilizables (src/components/marketing) en la
@@ -87,7 +88,11 @@ export function HomeMarketingHero() {
       phoneImage={SERVICIOS_IMAGES.heroPhone}
       actions={
         <>
-          <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>
+          <Button
+            asChild
+            size="lg"
+            className={cn(PRIMARY_CTA_CLASS.replace("bg-brand-gradient", ""), HERO_PRIMARY_CTA_BG, "px-8")}
+          >
             <a
               href={primaryHref}
               data-marketing-cta="hero-primary"
