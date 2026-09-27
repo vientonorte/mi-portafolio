@@ -132,20 +132,20 @@ jobs:
             exit 1
           fi
 
-      - name: Bundle /ops from hub (preserve ops canvas)
-        env:
-          HUB_TOKEN: ${{ secrets.VN_HUB_DEPLOY_TOKEN || secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+      - name: Guard — no internal files in published dist
         run: |
-          set -e
-          rm -rf /tmp/vn-hub
-          git clone --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/vientonorte/vientonorte.github.io.git" /tmp/vn-hub
-          if [ -d /tmp/vn-hub/ops ]; then
-            rm -rf dist/ops
-            cp -R /tmp/vn-hub/ops dist/ops
-            echo "ops bundled into dist/ops"
-          else
-            echo "WARN: hub ops/ missing" >&2
-          fi
+          set -euo pipefail
+          # /ops (incl. finanzas ledgers, passkeys notes), workers, docs, manifests and
+          # repo dotfiles must never be published (Pages serves dotfiles with .nojekyll).
+          # The former "Bundle /ops from hub" step copied hub ops/ into dist; removed on purpose.
+          bad=0
+          for p in ops workers docs data pipeline tests scripts \
+                   HANDOFF.md README.md DEPLOY.md CONTRIBUTING.md CHANGELOG.md \
+                   package.json package-lock.json .secrets.baseline .npmrc .env .env.example \
+                   .pre-commit-config.yaml pyproject.toml requirements-dev.txt; do
+            if [ -e "dist/$p" ]; then echo "INTERNAL path in dist: $p" >&2; bad=1; fi
+          done
+          test "$bad" -eq 0
 
       - name: Publish brand site to vientonorte.github.io root
         env:
@@ -164,7 +164,13 @@ jobs:
           if [ ! -d "$GITHUB_WORKSPACE/dist/images/news" ]; then
             rm -rf images/news
           fi
+          # Internal files must not live in the Pages source tree (main /).
+          INTERNAL="ops workers docs data pipeline tests scripts HANDOFF.md README.md DEPLOY.md CONTRIBUTING.md CHANGELOG.md package.json package-lock.json .secrets.baseline .npmrc .pre-commit-config.yaml .eslintrc.json .nvmrc .pa11yci.json pyproject.toml requirements-dev.txt"
+          for p in $INTERNAL; do rm -rf "$p"; done
           cp -R "$GITHUB_WORKSPACE/dist/." .
+          for p in $INTERNAL; do
+            if [ -e "$p" ]; then echo "INTERNAL path survived publish: $p" >&2; exit 1; fi
+          done
           # Verify orphans only exist if present in dist (they should not)
           for orphan in s/news news; do
             if [ -e "$orphan" ] && [ ! -e "$GITHUB_WORKSPACE/dist/$orphan" ]; then
