@@ -6,6 +6,10 @@ import { ConsultoriaLandingHero } from "../components/organisms/ConsultoriaLandi
 import { ConsultoriaPackages } from "../components/organisms/ConsultoriaPackages";
 import { ConsultoriaOnboarding } from "../components/organisms/ConsultoriaOnboarding";
 import {
+  HomeMarketingHero,
+  HomeMarketingSections,
+} from "../components/organisms/HomeMarketing";
+import {
   HomeNewsStrip,
   HomeSpecialtyPaths,
 } from "../components/organisms/HomeSpecialtyPaths";
@@ -148,7 +152,14 @@ export default function ConsultoriaVientoNorte({
           Hero ofertas → detalle entregables → onboarding → método → prueba.
           Sin calculadora ni árbol (duplicaban la decisión del hero).
         */}
-        <ConsultoriaLandingHero />
+        {/*
+          P3a: la home monta los componentes marketing reutilizables
+          (hero con mockup → logos QA → tarjetas → casos QA → cómo trabajamos),
+          con CTA HTTP hacia /servicios/. SEM conserva su hero de embudo.
+        */}
+        {isSem ? <ConsultoriaLandingHero /> : <HomeMarketingHero />}
+
+        {isSem ? null : <HomeMarketingSections />}
 
         {isSem ? null : <HomeSpecialtyPaths />}
 
