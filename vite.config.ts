@@ -29,8 +29,34 @@
     };
   }
 
+  /**
+   * /servicios/: segunda entrada Vite (multi-page) + prerender con react-dom/server.
+   * Corre en closeBundle para cubrir `npm run build` y `npx vite build` (deploy / deploy-qa).
+   */
+  function vnPrerenderServicios() {
+    let resolved: { root: string; base: string; build: { outDir: string; ssr: unknown } } | null = null;
+    return {
+      name: 'vn-prerender-servicios',
+      apply: 'build' as const,
+      configResolved(config: { root: string; base: string; build: { outDir: string; ssr: unknown } }) {
+        resolved = config;
+      },
+      async closeBundle() {
+        if (!resolved || resolved.build.ssr || process.env.VN_SSR_CHILD) return;
+        const { prerenderServicios } = await import('./scripts/prerender-servicios.mjs');
+        await prerenderServicios({
+          root: resolved.root,
+          outDir: path.resolve(resolved.root, resolved.build.outDir),
+          base: resolved.base,
+        });
+      },
+    };
+  }
+
+  const isSsrChild = Boolean(process.env.VN_SSR_CHILD);
+
   export default defineConfig({
-    plugins: [vnPublicDirIndex(), react(), tailwindcss()],
+    plugins: [vnPublicDirIndex(), react(), tailwindcss(), vnPrerenderServicios()],
     resolve: {
       dedupe: ['react', 'react-dom'],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
@@ -122,7 +148,13 @@
       target: 'esnext',
       outDir: 'dist',
       rollupOptions: {
-        output: {
+        input: isSsrChild
+          ? undefined
+          : {
+              main: path.resolve(__dirname, 'index.html'),
+              servicios: path.resolve(__dirname, 'servicios/index.html'),
+            },
+        output: isSsrChild ? undefined : {
           manualChunks(id) {
             if (id.includes('/src/lib/i18n/locales/es')) return 'i18n-es';
             if (id.includes('/src/lib/i18n/locales/en')) return 'i18n-en';

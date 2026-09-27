@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" data-nav="site">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Viento Norte · Rodrigo Gaete" />
+    <title>Servicios para pymes · Viento Norte</title>
+    <meta
+      name="description"
+      content="Revisión gratis de accesibilidad de un flujo, web para pymes en 72 horas por $30.000 y consultoría UX para pymes en Chile. Elige y escríbenos."
+    />
+    <link rel="canonical" href="https://vientonorte.io/servicios/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Viento Norte" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:url" content="https://vientonorte.io/servicios/" />
+    <meta property="og:title" content="Servicios para pymes · Viento Norte" />
+    <meta
+      property="og:description"
+      content="Revisión gratis de un flujo, web para pymes en 72 horas por $30.000 y consultoría UX para pymes en Chile."
+    />
+    <meta property="og:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Viento Norte — servicios para pymes" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Servicios para pymes · Viento Norte" />
+    <meta
+      name="twitter:description"
+      content="Revisión gratis de un flujo, web para pymes en 72 horas por $30.000 y consultoría UX para pymes en Chile."
+    />
+    <meta name="twitter:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Servicios para pymes · Viento Norte",
+        "url": "https://vientonorte.io/servicios/",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "item": { "@type": "Service", "name": "Revisión gratis de un flujo (accesibilidad WCAG)", "areaServed": "CL", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CLP" } } },
+          { "@type": "ListItem", "position": 2, "item": { "@type": "Service", "name": "Web para Pymes en 72 horas", "areaServed": "CL", "offers": { "@type": "Offer", "price": "30000", "priceCurrency": "CLP" } } },
+          { "@type": "ListItem", "position": 3, "item": { "@type": "Service", "name": "Consultoría UX para Pymes", "areaServed": "CL" } }
+        ]
+      }
+    </script>
+
+    <meta name="theme-color" content="#0d1b3d" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="%BASE_URL%favicon.ico" />
+    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-700.woff2" crossorigin />
+    <script>
+      // Mismo tema que la home (localStorage "theme" / prefers-color-scheme), antes del primer paint.
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var dark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="servicios-root"><!--ssr-outlet--></div>
+    <script type="module" src="/src/servicios/entry-client.tsx"></script>
+  </body>
+</html>

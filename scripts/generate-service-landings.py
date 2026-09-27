@@ -266,6 +266,15 @@ def main() -> None:
         hop_s = ROOT / "public/s/servicios" / rel / "index.html" if rel else ROOT / "public/s/servicios/index.html"
         hop_s.parent.mkdir(parents=True, exist_ok=True)
         hop_target = ORIGIN + item.get("hopTo", item["path"])
+        if item["id"] == "hub":
+            # /servicios/ (hub) lo genera Vite: servicios/index.html + prerender
+            # (scripts/prerender-servicios.mjs). No escribir public/servicios/index.html:
+            # pisaría la página nueva en dist/. Se mantiene el hop /s/servicios/ y el sitemap.
+            hop_s.write_text(hop_html(ORIGIN + item["path"]), encoding="utf-8")
+            print("skip hub (vite)", dest)
+            if item.get("inSitemap") and item.get("index"):
+                locs.append((ORIGIN + item["path"], item["priority"]))
+            continue
         if item.get("hopTo"):
             dest.write_text(hop_html(hop_target), encoding="utf-8")
             hop_s.write_text(hop_html(hop_target), encoding="utf-8")

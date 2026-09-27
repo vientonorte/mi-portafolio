@@ -121,3 +121,4 @@ V2/antropologia-corrupcion/
 backend/data/_export-driver.bundled.cjs
 /tmp/ollama*.log
 /tmp/ollama*.pid
+.vn-ssr-servicios/

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -25,11 +25,18 @@ describe("service landings registry · Austral", () => {
     expect(sitemap).not.toContain("gemini.google.com");
   });
 
-  it("each indexable landing has 1 H1 matching registry and self canonical", () => {
-    for (const item of SERVICE_LANDINGS.filter((l) => l.index)) {
-      const rel = item.slug
-        ? `public/servicios/${item.slug}/index.html`
-        : "public/servicios/index.html";
+  it("hub /servicios/ is the Vite page, not a generated public/ file", () => {
+    // El hub se construye desde servicios/index.html (Vite multi-page + prerender).
+    expect(existsSync(resolve(root, "public/servicios/index.html"))).toBe(false);
+    const hub = readFileSync(resolve(root, "servicios/index.html"), "utf8");
+    expect(hub).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
+    expect(hub).toContain("<!--ssr-outlet-->");
+    expect(sitemap).toContain("<loc>https://vientonorte.io/servicios/</loc>");
+  });
+
+  it("each indexable ficha has 1 H1 matching registry and self canonical", () => {
+    for (const item of SERVICE_LANDINGS.filter((l) => l.index && l.slug)) {
+      const rel = `public/servicios/${item.slug}/index.html`;
       const html = readFileSync(resolve(root, rel), "utf8");
       expect(html.match(/<h1[\s>]/g)?.length).toBe(1);
       expect(html).toContain(`<h1 id="page-h1">${item.h1}</h1>`);
