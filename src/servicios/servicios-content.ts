@@ -3,6 +3,7 @@
  * Orden fijo: revisión gratis (puerta de entrada) → web 72 h → consultoría UX.
  * Sin servicios IA, sin enlaces a /s/ ni a rutas hash.
  */
+import type { MarketingImage, ServiceCardData } from "../components/marketing";
 
 export const SERVICIOS_SOURCE = "servicios";
 export const CONTACT_ENDPOINT = "https://contact.vientonorte.io/api/contact";
@@ -25,15 +26,33 @@ export const SERVICIOS_INTENTS = [
 
 export type ServiciosIntent = (typeof SERVICIOS_INTENTS)[number];
 
-export interface ServicioCard {
-  id: string;
-  eyebrow: string;
-  title: string;
-  forWhom: string;
-  includes: string[];
-  price: string;
-  priceNote: string;
-  cta: string;
+/** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
+export const SERVICIOS_IMAGES = {
+  heroDesktop: {
+    webp: "images/consultoria/x-cms-dashboard.webp",
+    png: "images/consultoria/x-cms-dashboard.png",
+    alt: "Dashboard de X|CMS, prototipo de Viento Norte: ventas, pedidos, clientes activos y tendencia de ventas.",
+    width: 1440,
+    height: 900,
+  },
+  heroPhone: {
+    webp: "images/poc-modules/pos-mobile.webp",
+    png: "images/poc-modules/pos-mobile.png",
+    alt: "Detalle del módulo de punto de venta de X|CMS: ventas del día y catálogo de productos.",
+    width: 500,
+    height: 820,
+  },
+  /** Dashboard del prototipo (misma captura que poc-modules/dashboard.png; webp compartido). */
+  consultoriaThumb: {
+    webp: "images/consultoria/x-cms-dashboard.webp",
+    png: "images/poc-modules/dashboard.png",
+    alt: "Prototipo de dashboard X|CMS diseñado por Viento Norte para ordenar la operación de una pyme.",
+    width: 1440,
+    height: 900,
+  },
+} satisfies Record<string, MarketingImage>;
+
+export interface ServicioCard extends ServiceCardData {
   intent: ServiciosIntent;
 }
 
@@ -44,8 +63,9 @@ export const SERVICIOS_HERO = {
   title: "Tecnología para empresas: elige cómo partimos.",
   audience:
     "Para dueños y equipos de pymes en Chile que quieren atender y vender mejor en digital, sin enredos.",
-  ctaPrimary: "Ver las opciones",
-  ctaSecondary: "Escríbenos",
+  /** Botón principal → #contacto (spec PO v2). */
+  ctaPrimary: "Escríbenos",
+  ctaSecondary: "Ver las opciones",
 } as const;
 
 export const SERVICIOS_CARDS: ServicioCard[] = [
@@ -64,6 +84,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Sin compromiso. Un flujo por empresa.",
     cta: "Pedir revisión gratis",
     intent: "Revisión gratis de un flujo",
+    thumbnail: { kind: "pending", label: "Antes / después de un flujo (pendiente)" },
   },
   {
     id: "web-pymes",
@@ -82,6 +103,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Pago 50/50: 50% al partir y 50% al entregar. El pago se coordina después del primer contacto. Dominio, hosting y tienda online se cotizan aparte.",
     cta: "Quiero mi web",
     intent: "Web nueva",
+    thumbnail: { kind: "pending", label: "Mockup web pyme (pendiente)" },
   },
   {
     id: "consultoria-ux",
@@ -99,8 +121,40 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Otro servicio digital",
+    thumbnail: { kind: "device", image: SERVICIOS_IMAGES.consultoriaThumb },
   },
 ];
+
+export const SERVICIOS_LOGOS = {
+  heading: "Han confiado en Viento Norte",
+  /** Sin logos reales hasta que Rö autorice cada uno. */
+  pendingSlots: 5,
+} as const;
+
+export const SERVICIOS_CASES = {
+  heading: "Casos",
+  intro: "Problema, qué hicimos y el resultado medible.",
+  pendingCount: 3,
+} as const;
+
+export const SERVICIOS_STEPS = {
+  heading: "Cómo trabajamos",
+  intro: "Tres pasos, sin enredos.",
+  steps: [
+    {
+      title: "Kickoff de 30 minutos",
+      description: "Conversamos sobre tu negocio, el flujo o la web que necesitas y qué quieres lograr.",
+    },
+    {
+      title: "Propuesta con alcance y precio",
+      description: "Te enviamos por escrito qué haremos, en qué plazo y cuánto cuesta antes de partir.",
+    },
+    {
+      title: "Entrega e iteración",
+      description: "Entregamos, lo revisamos contigo y ajustamos según lo acordado.",
+    },
+  ],
+} as const;
 
 export const SERVICIOS_SEO = {
   title: "Servicios para pymes · Viento Norte",
