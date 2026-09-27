@@ -126,7 +126,13 @@ jobs:
           fi
           grep -q 'http-equiv="refresh"' dist/mi-portafolio/index.html
           grep -q 'http-equiv="refresh"' dist/poc/index.html
-          grep -q '/s/consultoria/' dist/index.html
+          # Canon 2026-09-27: /poc -> /servicios/ (sin /s/ ni hash); sin rel=alternate a /#/.
+          grep -q 'location.origin + "/servicios/"' dist/index.html
+          grep -q 'url=../servicios/' dist/poc/index.html
+          if grep -q 'rel="alternate" href="https://vientonorte.io/#/' dist/index.html; then
+            echo "index.html still has rel=alternate to a hash route" >&2
+            exit 1
+          fi
           if grep -q 'location.origin + "/#/consultoria"' dist/index.html; then
             echo "index.html still hops /poc to hash" >&2
             exit 1

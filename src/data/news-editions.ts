@@ -10,13 +10,22 @@ export function newsEditionBySlug(slug: string): NewsEdition | undefined {
   return catalog.editions.find((e) => e.slug === slug);
 }
 
+/**
+ * Canonical de News. Canon 2026-09-27: /#/news/ es ruta hash (no indexable) →
+ * índice y ediciones canonicalizan a la home. Nunca devuelve una URL con '#'.
+ */
 export function newsCanonical(slug?: string): string {
-  const base = catalog.canonicalIndex.replace(/\/+$/, "");
-  return slug ? `${base}/${slug}/` : `${catalog.canonicalIndex}`;
+  void slug;
+  return catalog.canonicalIndex;
+}
+
+/** Enlace SPA a una edición (/#/news/<slug>/). Es un enlace para compartir, no un canonical. */
+export function newsShareUrl(slug: string): string {
+  return `${catalog.spaIndex.replace(/\/+$/, "")}/${slug}/`;
 }
 
 export function newsUtm(slug: string): string {
-  return `${newsCanonical(slug)}?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo&utm_content=${encodeURIComponent(slug)}`;
+  return `${newsShareUrl(slug)}?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo&utm_content=${encodeURIComponent(slug)}`;
 }
 
 /** Cada news lleva a la ficha HTTP de especialidad (no /s/, no el embudo genérico). */

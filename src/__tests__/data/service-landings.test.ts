@@ -80,7 +80,8 @@ describe("service landings registry · Austral", () => {
     expect(byId["seguridad-digital"].path).toBe(
       "/servicios/seguridad-privacidad-digital/"
     );
-    expect(byId["seguridad-digital"].inSitemap).toBe(true);
+    // Canon 2026-09-27: fichas individuales fuera del sitemap (solo home + /servicios/).
+    expect(byId["seguridad-digital"].inSitemap).toBe(false);
     expect(byId["ley-21719-hop"].inSitemap).toBe(false);
     expect(byId["ley-21719-hop"].hopTo).toBe(
       "/servicios/seguridad-privacidad-digital/"
@@ -108,18 +109,32 @@ describe("service landings registry · Austral", () => {
     expect(hop).toContain(
       "https://vientonorte.io/servicios/seguridad-privacidad-digital/"
     );
-    expect(sitemap).toContain(
-      "<loc>https://vientonorte.io/servicios/seguridad-privacidad-digital/</loc>"
-    );
+    expect(sitemap).not.toContain("seguridad-privacidad-digital");
     expect(sitemap).not.toContain("desarrollo-seguro-cumplimiento-ley-21719");
   });
 
-  it("/s/servicios hops noindex to canon", () => {
+  it("/s/servicios hops noindex to /servicios/ (canon 2026-09-27)", () => {
     const hop = readFileSync(
       resolve(root, "public/s/servicios/asistente-ia/index.html"),
       "utf8"
     );
     expect(hop).toContain('name="robots" content="noindex, follow"');
-    expect(hop).toContain("https://vientonorte.io/servicios/asistente-ia/");
+    expect(hop).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
+    expect(hop).toContain('content="0;url=../../../servicios/"');
+    expect(hop).not.toContain("/servicios/asistente-ia/");
+  });
+
+  it("sitemap only lists the hub among service URLs (no fichas, no AI slugs)", () => {
+    expect(sitemapServiceLocs()).toEqual(["https://vientonorte.io/servicios/"]);
+    for (const slug of [
+      "asistente-ia",
+      "asistente-ecommerce",
+      "inteligencia-artificial-negocios",
+      "consultoria-ux-pymes",
+      "diagnostico-accesibilidad-wcag",
+      "privacidad-datos",
+    ]) {
+      expect(sitemap).not.toContain(slug);
+    }
   });
 });

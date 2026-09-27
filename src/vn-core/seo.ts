@@ -8,21 +8,14 @@ export const SEO_SITE = {
   role: "UXtech · Front office",
   /** SEO orgánico (root) */
   seoHomeUrl: "https://vientonorte.io/",
+  /** Página de servicios (HTTP, en sitemap). Canon 2026-09-27. */
+  serviciosUrl: "https://vientonorte.io/servicios/",
   /**
-   * Producto UI (HashRouter). DoD visual = qa:hash-ui, nunca `/s/`.
+   * Producto UI (HashRouter). Enlace / final URL de Ads, **nunca canonical**
+   * (un canonical no lleva '#'). DoD visual = qa:hash-ui, nunca `/s/`.
    */
   semOfferUrl: "https://vientonorte.io/#/consultoria",
-  /**
-   * Leftover share hub. Canonical a home. No es IA pública.
-   */
-  shareHomeUrl: "https://vientonorte.io/s/",
-  /**
-   * Piloto Ads / share leftover — no producto.
-   * Se queda 200. No hop. Final URL de campañas actuales.
-   */
-  shareConsultoriaUrl: "https://vientonorte.io/s/consultoria",
-  shareProcesoUrl: "https://vientonorte.io/s/proceso",
-  /** @deprecated 2026-09-09 — /s/news purged; weekly LI uses shareConsultoriaUrl */
+  /** @deprecated 2026-09-09 — /s/news purged. Enlace SPA, nunca canonical. */
   shareNewsUrl: "https://vientonorte.io/#/news",
   ogProceso: "https://vientonorte.io/images/branding/og-proceso-1200.png",
   /** Legacy path (GitHub project pages / bookmarks) */
@@ -36,11 +29,23 @@ export function trimMetaDescription(text: string, max = 160): string {
   return `${(lastSpace > 80 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
 
-/** Canonical para HashRouter (GitHub Pages). */
+/**
+ * Canonical para rutas del HashRouter (GitHub Pages). Canon 2026-09-27:
+ * el fragmento (#/ruta) no llega al servidor ni lo indexa Google, así que toda
+ * ruta hash canonicaliza a la home. Nunca devuelve una URL con '#'.
+ */
 export function canonicalFromPath(pathname: string): string {
-  const path = pathname.replace(/\/+$/, "") || "/";
-  if (path === "/") return `${SEO_SITE.baseUrl}/`;
-  return `${SEO_SITE.baseUrl}/#${path}`;
+  void pathname;
+  return SEO_SITE.seoHomeUrl;
+}
+
+/**
+ * Sanea un canonical/og:url: cualquier URL con fragmento (p. ej. /#/news/) cae a la home.
+ * Red de seguridad para SEOHead cuando una página pasa una URL propia.
+ */
+export function sanitizeCanonicalUrl(url: string | undefined): string {
+  if (!url || url.includes("#")) return SEO_SITE.seoHomeUrl;
+  return url;
 }
 
 export function buildDocumentTitle(title: string, isHome = false): string {

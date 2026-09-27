@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Generate public/servicios HTML + merge locs into sitemap from service-landings.json."""
+"""Generate public/servicios HTML + rewrite public/sitemap.xml (home + /servicios/) from service-landings.json."""
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -222,36 +221,42 @@ def page_html(item: dict, siblings: list[dict]) -> str:
 """
 
 
-def merge_sitemap(locs: list[tuple[str, float]]) -> None:
+# Canon 2026-09-27 (PO): el sitemap lista solo home + /servicios/ (hub). Sin /s/, sin /#/,
+# sin fichas individuales (asistente-ia, asistente-ecommerce, inteligencia-artificial-negocios
+# ni el resto de /servicios/<slug>/ hasta que cumplan el estándar de la página nueva).
+# Este script es el único que escribe public/sitemap.xml: lo reescribe completo.
+SITEMAP_HOME = (ORIGIN + "/", DATA["homeLastmod"], "weekly", 1.0)
+
+
+def assert_sitemap_policy(loc: str) -> None:
+    if "#" in loc or "/s/" in loc:
+        raise SystemExit(f"sitemap: URL fuera de canon: {loc}")
+    if not loc.startswith(ORIGIN + "/"):
+        raise SystemExit(f"sitemap: origen inválido: {loc}")
+
+
+def write_sitemap(locs: list[tuple[str, float]]) -> None:
     sm = ROOT / "public/sitemap.xml"
-    xml = sm.read_text()
-    # drop previous /servicios entries
-    xml = re.sub(
-        r"\s*<url>\s*<loc>https://vientonorte\.io/servicios/[^<]*</loc>.*?</url>",
-        "",
-        xml,
-        flags=re.S,
-    )
-    xml = re.sub(
-        r"\s*<url>\s*<loc>https://vientonorte\.io/s/servicios/[^<]*</loc>.*?</url>",
-        "",
-        xml,
-        flags=re.S,
-    )
-    block = []
-    for loc, pri in locs:
-        block.append(
+    entries = [SITEMAP_HOME] + [(loc, LASTMOD, "weekly", pri) for loc, pri in locs]
+    blocks = []
+    for loc, lastmod, freq, pri in entries:
+        assert_sitemap_policy(loc)
+        blocks.append(
             f"""  <url>
     <loc>{loc}</loc>
-    <lastmod>{LASTMOD}</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>{freq}</changefreq>
     <priority>{pri}</priority>
   </url>"""
         )
-    insert = "\n" + "\n".join(block) + "\n</urlset>"
-    if "</urlset>" not in xml:
-        raise SystemExit("sitemap missing urlset")
-    xml = re.sub(r"</urlset>\s*$", insert, xml)
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
+        "  <!-- Solo home + /servicios/. Sin share legacy, sin rutas hash, sin fichas individuales. -->\n"
+        + "\n".join(blocks)
+        + "\n</urlset>\n"
+    )
     sm.write_text(xml)
     print("sitemap", sm)
 
@@ -263,29 +268,25 @@ def main() -> None:
         rel = item["slug"]
         dest = ROOT / "public" / "servicios" / rel / "index.html" if rel else ROOT / "public/servicios/index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
-        hop_s = ROOT / "public/s/servicios" / rel / "index.html" if rel else ROOT / "public/s/servicios/index.html"
-        hop_s.parent.mkdir(parents=True, exist_ok=True)
         hop_target = ORIGIN + item.get("hopTo", item["path"])
         if item["id"] == "hub":
             # /servicios/ (hub) lo genera Vite: servicios/index.html + prerender
             # (scripts/prerender-servicios.mjs). No escribir public/servicios/index.html:
-            # pisaría la página nueva en dist/. Se mantiene el hop /s/servicios/ y el sitemap.
-            hop_s.write_text(hop_html(ORIGIN + item["path"]), encoding="utf-8")
+            # pisaría la página nueva en dist/. /s/servicios/** lo escribe build-static-share.py
+            # (src/data/legacy-redirects.json).
             print("skip hub (vite)", dest)
             if item.get("inSitemap") and item.get("index"):
                 locs.append((ORIGIN + item["path"], item["priority"]))
             continue
         if item.get("hopTo"):
             dest.write_text(hop_html(hop_target), encoding="utf-8")
-            hop_s.write_text(hop_html(hop_target), encoding="utf-8")
             print("hop", dest, "->", hop_target)
             continue
         dest.write_text(page_html(item, landings), encoding="utf-8")
-        hop_s.write_text(hop_html(ORIGIN + item["path"]), encoding="utf-8")
         print("page", dest)
         if item.get("inSitemap") and item.get("index"):
             locs.append((ORIGIN + item["path"], item["priority"]))
-    merge_sitemap(locs)
+    write_sitemap(locs)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 {
   "origin": "https://vientonorte.io",
-  "lastmod": "2026-09-14",
+  "lastmod": "2026-09-27",
+  "homeLastmod": "2026-09-27",
   "notes": "Austral Chile clusters. Canon SIN /s/. No slugs de competidor (Gemini, Workana, Vambe). No /auditoria (mentoría).",
   "skipClusters": [
     {
@@ -35,7 +36,7 @@
       "h1": "Consultoría UX para pymes",
       "description": "Consultoría UX para pymes en Chile: diagnóstico, prototipo y proceso de equipo sobre tu CMS o CRM. Kickoff 30 min.",
       "priority": 0.88,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "poc": true,
       "serviceType": ["Consultoría UX pymes"]
@@ -49,7 +50,7 @@
       "h1": "Diagnóstico de accesibilidad WCAG",
       "description": "Diagnóstico WCAG 2.2 AA de un flujo. Gratis: revisión de un flujo. No es mentoría. Pymes Chile.",
       "priority": 0.86,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"]
     },
@@ -62,7 +63,7 @@
       "h1": "Asistente IA para tu operación",
       "description": "Asistente IA sobre tu CMS o CRM. No es Gemini ni un bot genérico: el tenant y los datos siguen siendo tuyos. Chile.",
       "priority": 0.88,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "poc": true,
       "serviceType": ["Asistente IA", "Plataforma IA"]
@@ -76,7 +77,7 @@
       "h1": "Asistente ecommerce y plataforma IA",
       "description": "Asistente ecommerce sobre catálogo y checkout. Plataforma IA en tu stack. Consultoría UX. Chile.",
       "priority": 0.84,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "poc": true,
       "serviceType": ["Asistente ecommerce", "Plataforma IA"]
@@ -90,7 +91,7 @@
       "h1": "Inteligencia artificial aplicada a negocios",
       "description": "Soluciones de inteligencia artificial para empresas y pymes en Chile: flujos, CMS o CRM, dueño del dato. No es un diplomado ni un curso.",
       "priority": 0.85,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "poc": true,
       "serviceType": ["Inteligencia artificial aplicada a negocios"]
@@ -104,7 +105,7 @@
       "h1": "Privacidad de datos en el flujo",
       "description": "Privacy by design en un flujo: minimización, finalidad, Ley 21.719. No es mentoría. Diagnóstico de un flujo. Chile.",
       "priority": 0.82,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "serviceType": ["Privacidad de datos", "Privacy by design"]
     },
@@ -134,7 +135,7 @@
       "packs": true,
       "checklist": true,
       "priority": 0.92,
-      "inSitemap": true,
+      "inSitemap": false,
       "index": true,
       "serviceType": ["Seguridad digital", "Privacy by Design", "Ley 21.719"]
     },
