@@ -38,7 +38,9 @@
       "inSitemap": true,
       "index": true,
       "poc": true,
-      "serviceType": ["Consultoría UX pymes"]
+      "serviceType": ["Consultoría UX pymes"],
+      "nav": "Consultoría UX",
+      "form": { "source": "ux-pymes" }
     },
     {
       "id": "wcag",
@@ -51,7 +53,9 @@
       "priority": 0.86,
       "inSitemap": true,
       "index": true,
-      "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"]
+      "serviceType": ["Diagnóstico accesibilidad WCAG 2.2 AA"],
+      "nav": "Diagnóstico WCAG",
+      "form": { "source": "wcag", "intent": "Revisión gratis de un flujo" }
     },
     {
       "id": "asistente-ia",
