@@ -20,6 +20,7 @@ import {
   ROJO_700,
   ROOT,
   SERVICIOS_GRADIENT_ENTRIES,
+  SOLID_CTA_SURFACES,
   THEME,
   val,
   type Case,
@@ -236,6 +237,92 @@ describe("AA: barra móvil glass, AboutEvidenceBento, botones azules dark (antes
       expect(r).toBeCloseTo(5.76, 2);
       expect(contrast(white, parseColor("#0b5f96"))).toBeGreaterThanOrEqual(4.5);
     });
+  });
+});
+
+describe("superficies azules sólidas (no botones) → --vn-color-cta-* (antes → después)", () => {
+  const white = parseColor("#ffffff");
+  const r = (bg: string) => contrast(white, parseColor(bg));
+  const src = (f: string) => readFileSync(join(ROOT, f), "utf8");
+
+  it("tokens intactos: --primary-foreground dark = #fff, --primary light = #0f6aa8, --primary dark = #1A8FDC", () => {
+    expect(THEME.dark.primaryFg.toLowerCase()).toBe("#ffffff");
+    expect(THEME.light.primary.toLowerCase()).toBe("#0f6aa8");
+    expect(THEME.dark.primary.toLowerCase()).toBe("#1a8fdc");
+    expect(THEME.dark.ctaBgHover.toLowerCase()).toBe("#0b5f96");
+  });
+
+  it("antes / después por tema: dark 3.50 → 5.76:1 (hover 6.79:1); light 5.76 → 5.76:1 (sin empeorar)", () => {
+    expect(r(THEME.dark.primary)).toBeCloseTo(3.5, 2);
+    expect(r(THEME.dark.ctaBg)).toBeCloseTo(5.76, 2);
+    expect(r(THEME.dark.ctaBgHover)).toBeCloseTo(6.79, 2);
+    expect(r(THEME.light.primary)).toBeCloseTo(5.76, 2);
+    expect(r(THEME.light.ctaBg)).toBeGreaterThanOrEqual(r(THEME.light.primary));
+    expect(r(THEME.light.ctaBgHover)).toBeGreaterThanOrEqual(r(THEME.light.primary));
+  });
+
+  const PATTERNS: Record<string, { mustMatch: RegExp[]; mustNot: RegExp[] }> = {
+    "process-nav-number": {
+      mustMatch: [/"bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] scale-110/],
+      mustNot: [/bg-primary text-primary-foreground/],
+    },
+    "trajectory-highlight": {
+      mustMatch: [/"bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] ring-2/],
+      mustNot: [/bg-primary text-primary-foreground/],
+    },
+    tooltip: {
+      mustMatch: [/"bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] animate-in/, /fill-\[var\(--vn-color-cta-bg\)\]/],
+      mustNot: [/bg-primary/, /fill-primary/, /text-primary-foreground/],
+    },
+    calendar: {
+      mustMatch: [
+        /day-range-start aria-selected:bg-\[var\(--vn-color-cta-bg\)\] aria-selected:text-\[var\(--vn-color-cta-fg\)\]/,
+        /day-range-end aria-selected:bg-\[var\(--vn-color-cta-bg\)\] aria-selected:text-\[var\(--vn-color-cta-fg\)\]/,
+        /hover:bg-\[var\(--vn-color-cta-bg-hover\)\]/,
+      ],
+      mustNot: [/bg-primary/, /text-primary-foreground/],
+    },
+    "badge-default": {
+      mustMatch: [/bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] \[a&\]:hover:bg-\[var\(--vn-color-cta-bg-hover\)\]/],
+      mustNot: [/bg-primary text-primary-foreground/],
+    },
+    "about-equation": {
+      mustMatch: [/rounded-md bg-\[var\(--vn-color-cta-bg\)\] px-2 py-0\.5 text-xs font-semibold text-\[var\(--vn-color-cta-fg\)\]/],
+      mustNot: [/bg-primary px-2 py-0\.5 text-xs font-semibold text-primary-foreground/],
+    },
+    "process-flow-number": {
+      mustMatch: [/rounded-full bg-\[var\(--vn-color-cta-bg\)\] flex items-center justify-center text-\[var\(--vn-color-cta-fg\)\]/],
+      mustNot: [/text-primary-foreground/],
+    },
+    "timeline-completed": {
+      mustMatch: [/"border-\[var\(--vn-color-cta-bg\)\] bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\]"/],
+      mustNot: [/text-primary-foreground/],
+    },
+  };
+
+  for (const s of SOLID_CTA_SURFACES) {
+    it(`${s.file.split("/").pop()} · ${s.label}: usa --vn-color-cta-* (dark 3.50 → 5.76:1)`, () => {
+      const code = src(s.file);
+      const p = PATTERNS[s.id];
+      expect(p, s.id).toBeTruthy();
+      for (const re of p.mustMatch) expect(code).toMatch(re);
+      for (const re of p.mustNot) expect(code).not.toMatch(re);
+    });
+  }
+
+  it("inventario: process-flow y trajectory con casos sólidos antes → después (dark ≥ 4.5, light sin empeorar)", () => {
+    for (const [id, label] of [
+      ["process-flow", "Número paso · blanco sobre azul sólido"],
+      ["trajectory", "Nodo highlight · blanco sobre azul sólido"],
+    ] as const) {
+      const e = INVENTORY.find((x) => x.id === id)!;
+      expect(e.status).toBe("checked");
+      const dark = e.cases!.find((k) => k.label === label && k.theme === "dark")!;
+      const light = e.cases!.find((k) => k.label === label && k.theme === "light")!;
+      expect(minRatio(dark, "before").ratio).toBeCloseTo(3.5, 2);
+      expect(minRatio(dark, "after").ratio).toBeCloseTo(5.76, 2);
+      expect(minRatio(light, "after").ratio).toBeGreaterThanOrEqual(minRatio(light, "before").ratio);
+    }
   });
 });
 

@@ -66,6 +66,7 @@ const pick = (vars: Record<string, string>) => {
     brandOrange: g("--brand-orange"),
     navInactive: g("--bottom-nav-inactive"),
     ctaBg: g("--vn-color-cta-bg"),
+    ctaBgHover: g("--vn-color-cta-bg-hover"),
     ctaFg: g("--vn-color-cta-fg"),
   };
 };
@@ -74,6 +75,7 @@ export type ThemeName = keyof typeof THEME;
 
 export const ROJO_700 = primitives["--vn-primitive-rojo-700"];
 export const AZUL_700 = primitives["--vn-primitive-azul-evo-700"];
+export const AZUL_800 = primitives["--vn-primitive-azul-evo-800"];
 
 /** Color de Tailwind v4 (oklch) leído de node_modules/tailwindcss/theme.css. */
 export function tw(name: string, alpha = 1): RGBA {
@@ -188,6 +190,55 @@ function whiteOnBrand(
 function iconOnBrand(label: string): Case[] {
   return [{ label, theme: "light", text: white, base: "#ffffff", layers: { before: [{ stops: val(BRAND, "before") }], after: [{ stops: val(BRAND, "after") }] }, size: "non-text" }];
 }
+
+/**
+ * Texto/ícono blanco sobre azul sólido: antes --primary (dark #1A8FDC = 3.50:1),
+ * después --vn-color-cta-bg (#0f6aa8 = 5.76:1). En light primary ya era #0f6aa8.
+ */
+function solidCtaWhite(label: string, size: Size = "normal", opts: { hover?: boolean; why?: string } = {}): Case[] {
+  const out: Case[] = [];
+  for (const theme of themes) {
+    out.push({
+      label,
+      theme,
+      text: white,
+      base: THEME[theme].bg,
+      layers: {
+        before: [{ stops: [c(THEME[theme].primary)] }],
+        after: [{ stops: [c(THEME[theme].ctaBg)] }],
+      },
+      size,
+      why: opts.why,
+    });
+    if (opts.hover) {
+      out.push({
+        label: `${label} · hover`,
+        theme,
+        text: white,
+        base: THEME[theme].bg,
+        layers: {
+          before: [{ stops: [c(THEME[theme].primary)] }], // hover:bg-primary (mismo hex)
+          after: [{ stops: [c(THEME[theme].ctaBgHover)] }],
+        },
+        size,
+        why: opts.why,
+      });
+    }
+  }
+  return out;
+}
+
+/** Superficies azules sólidas (no botones) migradas a --vn-color-cta-* en este commit. */
+export const SOLID_CTA_SURFACES: { id: string; file: string; label: string }[] = [
+  { id: "process-nav-number", file: "src/components/molecules/ProcessNavigation.tsx", label: "indicador de número activo (desktop)" },
+  { id: "trajectory-highlight", file: "src/components/organisms/TrajectoryRail.tsx", label: "nodo highlight" },
+  { id: "tooltip", file: "src/components/ui/tooltip.tsx", label: "TooltipContent + Arrow" },
+  { id: "calendar", file: "src/components/ui/calendar.tsx", label: "día seleccionado / rango" },
+  { id: "badge-default", file: "src/components/ui/badge.tsx", label: "Badge variant default" },
+  { id: "about-equation", file: "src/components/organisms/About.tsx", label: "badge resultado ecuación" },
+  { id: "process-flow-number", file: "src/components/ui/enterprise/process-flow.tsx", label: "número de paso" },
+  { id: "timeline-completed", file: "src/components/ui/enterprise/timeline.tsx", label: "ícono completed" },
+];
 
 type Tok = keyof (typeof THEME)["light"];
 /** Texto (foreground y muted-foreground) sobre un tinte degradado translúcido. */
@@ -416,7 +467,9 @@ export const INVENTORY: Entry[] = [
   { id: "gradient-heading", file: "src/components/atoms/GradientHeading.tsx", component: "GradientHeading", element: "definición (usos en páginas de detalle)", matches: 4, status: "decorative" },
   { id: "process-phase", file: "src/components/molecules/ProcessPhaseCard.tsx", component: "ProcessPhaseCard", element: "overlay hover 5 % + barra", matches: 2, status: "checked",
     cases: themes.flatMap((theme) => (["fg", "mutedFg"] as Tok[]).map((t): Case => ({ label: `Overlay hover opacity-5 · ${t}`, theme, text: [c(THEME[theme][t])], base: THEME[theme].card, layers: blob(0.05), size: "normal" }))) },
-  { id: "process-flow", file: "src/components/ui/enterprise/process-flow.tsx", component: "ProcessFlow", element: "borde degradado 2px (contenido sobre bg-card opaco) + barra", matches: 2, status: "decorative" },
+  { id: "process-flow", file: "src/components/ui/enterprise/process-flow.tsx", component: "ProcessFlow", element: "número de paso (sólido) + borde/barra degradados decorativos", matches: 2, status: "checked",
+    note: "Degradados del borde hover y barra inferior: decorativos. Número: bg-primary→--vn-color-cta-* (dark 3.50→5.76:1).",
+    cases: solidCtaWhite("Número paso · blanco sobre azul sólido") },
   { id: "sura", file: "src/components/organisms/SuraOnboardingEvidence.tsx", component: "SuraOnboardingEvidence", element: "tiles icono, fondos slate-50→100 detrás de mockups Figma (sin texto vivo), tarjetas de color", matches: 8, status: "checked",
     cases: [
       ...iconOnBrand("Iconos tile"),
@@ -444,7 +497,9 @@ export const INVENTORY: Entry[] = [
     ] },
   { id: "error-boundary", file: "src/components/organisms/ErrorBoundary.tsx", component: "ErrorBoundary", element: "pantalla from-background to-muted", matches: 1, status: "checked", cases: tint("Pantalla", (t) => [{ stops: [c(THEME[t].bg), c(THEME[t].muted)] }]) },
   { id: "experience", file: "src/components/organisms/Experience.tsx", component: "Experience", element: "línea de tiempo + scrim sobre imagen (texto fuera de la imagen)", matches: 2, status: "decorative" },
-  { id: "trajectory", file: "src/components/organisms/TrajectoryRail.tsx", component: "TrajectoryRail", element: "conector", matches: 1, status: "decorative" },
+  { id: "trajectory", file: "src/components/organisms/TrajectoryRail.tsx", component: "TrajectoryRail", element: "nodo highlight (sólido) + conector degradado decorativo", matches: 1, status: "checked",
+    note: "Conector from-primary/50: decorativo. Nodos highlight: bg-primary→--vn-color-cta-* (dark 3.50→5.76:1).",
+    cases: solidCtaWhite("Nodo highlight · blanco sobre azul sólido", "normal", { why: "text-[10px] font-bold en círculo h-6" }) },
   { id: "section-divider-atom", file: "src/components/atoms/SectionDivider.tsx", component: "SectionDivider", element: "filete", matches: 1, status: "decorative" },
   { id: "section-divider", file: "src/components/molecules/SectionDivider.tsx", component: "SectionDivider", element: "barra", matches: 1, status: "decorative" },
   { id: "section-header", file: "src/components/molecules/SectionHeader.tsx", component: "SectionHeader", element: "filete", matches: 1, status: "decorative" },

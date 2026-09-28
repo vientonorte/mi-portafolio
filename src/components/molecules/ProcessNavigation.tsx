@@ -90,7 +90,7 @@ export function ProcessNavigation({
                         <div
                           className={`h-8 w-8 rounded-full flex items-center justify-center transition-[background-color,color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] motion-reduce:transition-none motion-reduce:transform-none ${
                             isActive
-                              ? "bg-primary text-primary-foreground scale-110 motion-reduce:scale-100"
+                              ? "bg-[var(--vn-color-cta-bg)] text-[var(--vn-color-cta-fg)] scale-110 motion-reduce:scale-100"
                               : isVisited
                               ? "bg-primary/20 text-primary"
                               : "bg-muted text-muted-foreground group-hover:bg-primary/20"
