@@ -94,7 +94,7 @@ export function CaseStudyCard({
 
           {/* CTA */}
           <Button 
-            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors" 
+            className="w-full group-hover:bg-[var(--vn-color-cta-bg)] group-hover:text-[var(--vn-color-cta-fg)] transition-colors" 
             variant="outline"
             onClick={onRead}
           >

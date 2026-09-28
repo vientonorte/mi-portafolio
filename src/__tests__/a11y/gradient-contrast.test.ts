@@ -15,6 +15,7 @@ import { STEPS, contrast, hex, over, parseColor, sampleGradient, toRGBA, type RG
 import {
   AZUL_700,
   CSS,
+  CTA_SURFACES_C3,
   GRADIENT_PATTERN,
   INVENTORY,
   ROJO_700,
@@ -323,6 +324,87 @@ describe("superficies azules sólidas (no botones) → --vn-color-cta-* (antes �
       expect(minRatio(dark, "after").ratio).toBeCloseTo(5.76, 2);
       expect(minRatio(light, "after").ratio).toBeGreaterThanOrEqual(minRatio(light, "before").ratio);
     }
+  });
+});
+
+describe("tercer commit: skip-links, checkbox, CaseStudyCard hover, tab ProjectDetail, LanguageContext, ::selection → --vn-color-cta-* (antes → después)", () => {
+  const src = (f: string) => readFileSync(join(ROOT, f), "utf8");
+  const CTA = String.raw`bg-\[var\(--vn-color-cta-bg\)\]`;
+  const FG = String.raw`text-\[var\(--vn-color-cta-fg\)\]`;
+  const SKIP = { mustMatch: [new RegExp(`focus:${CTA} focus:${FG}`)], mustNot: [/focus:bg-primary/, /focus:text-primary-foreground/] };
+
+  const PATTERNS: Record<string, { mustMatch: RegExp[]; mustNot: RegExp[] }> = {
+    "skip-framework": SKIP,
+    "skip-project": SKIP,
+    "skip-company": SKIP,
+    "skip-globals-css": {
+      mustMatch: [/\.skip-link \{[^}]*background: var\(--vn-color-cta-bg\);\s*color: var\(--vn-color-cta-fg\);/],
+      mustNot: [/\.skip-link \{[^}]*var\(--primary(-foreground)?\)/],
+    },
+    "checkbox-checked": {
+      mustMatch: [
+        new RegExp(`data-\\[state=checked\\]:${CTA} data-\\[state=checked\\]:${FG} dark:data-\\[state=checked\\]:${CTA}`),
+        /data-\[state=checked\]:border-\[var\(--vn-color-cta-bg\)\]/,
+      ],
+      mustNot: [/checked\]:bg-primary/, /checked\]:text-primary-foreground/, /checked\]:border-primary/],
+    },
+    "case-study-hover": {
+      mustMatch: [new RegExp(`group-hover:${CTA} group-hover:${FG}`)],
+      mustNot: [/group-hover:bg-primary/, /group-hover:text-primary-foreground/],
+    },
+    "projectdetail-tab": {
+      // dark:data-[state=active]:* es necesario: TabsTrigger trae dark:data-[state=active]:bg-input/30
+      // con mayor especificidad que data-[state=active]:*, así que sin él el tema oscuro lo ignoraba.
+      mustMatch: [new RegExp(`data-\\[state=active\\]:${CTA} data-\\[state=active\\]:${FG} dark:data-\\[state=active\\]:${CTA} dark:data-\\[state=active\\]:${FG}`)],
+      mustNot: [/active\]:bg-primary(?!\/)/, /active\]:text-primary-foreground/],
+    },
+    "language-reload": {
+      mustMatch: [new RegExp(`rounded-md ${CTA} px-4 text-sm font-semibold ${FG} hover:bg-\\[var\\(--vn-color-cta-bg-hover\\)\\]`)],
+      mustNot: [/rounded-md bg-primary px-4/, /font-semibold text-primary-foreground/],
+    },
+    "input-selection": {
+      mustMatch: [new RegExp(`selection:${CTA} selection:${FG}`)],
+      mustNot: [/selection:bg-primary/, /selection:text-primary-foreground/],
+    },
+  };
+
+  for (const s of CTA_SURFACES_C3) {
+    it(`${s.file.split("/").pop()} · ${s.label}: usa --vn-color-cta-*`, () => {
+      const code = src(s.file);
+      const p = PATTERNS[s.id];
+      expect(p, s.id).toBeTruthy();
+      for (const re of p.mustMatch) expect(code).toMatch(re);
+      for (const re of p.mustNot) expect(code).not.toMatch(re);
+    });
+
+    it(`${s.id}: ratios antes → después (dark cumple AA, light no empeora)`, () => {
+      for (const k of s.cases) {
+        const before = minRatio(k, "before").ratio;
+        const after = minRatio(k, "after").ratio;
+        expect(after, `${k.label} ${k.theme}`).toBeGreaterThanOrEqual(required(k));
+        if (k.theme === "light") expect(after, `${k.label} light`).toBeGreaterThanOrEqual(before - 1e-9);
+      }
+    });
+  }
+
+  it("valores clave: blanco sobre azul dark 3.50 → 5.76:1; caja del checkbox vs página dark ≥ 3:1", () => {
+    const skip = CTA_SURFACES_C3.find((x) => x.id === "skip-framework")!.cases.find((k) => k.theme === "dark")!;
+    expect(minRatio(skip, "before").ratio).toBeCloseTo(3.5, 2);
+    expect(minRatio(skip, "after").ratio).toBeCloseTo(5.76, 2);
+    const reload = CTA_SURFACES_C3.find((x) => x.id === "language-reload")!.cases.find((k) => k.theme === "dark" && k.label.endsWith("hover"))!;
+    expect(minRatio(reload, "after").ratio).toBeCloseTo(6.79, 2);
+    const box = CTA_SURFACES_C3.find((x) => x.id === "checkbox-checked")!.cases.find((k) => k.label.includes("caja") && k.theme === "dark")!;
+    expect(minRatio(box, "after").ratio).toBeGreaterThanOrEqual(3);
+  });
+
+  it(".skip-link efectivo (cascada global.css → design-system.css) sigue ≥ 4.5:1 y no se toca", () => {
+    const ds = src("src/styles/design-system.css");
+    expect(CSS.global).toMatch(/\.skip-link \{[^}]*background: var\(--vn-color-brand-dark\);\s*color: #ffffff;/);
+    expect(ds).toMatch(/\.skip-link:focus-visible \{[^}]*background: var\(--color-noche\);\s*color: var\(--color-marfil\);/);
+    const prim = (n: string) => CSS.vnTokens.match(new RegExp(`${n}:\\s*(#[0-9a-fA-F]{3,8})`))![1];
+    const noche = parseColor(prim("--vn-primitive-azul-noche"));
+    expect(contrast(parseColor("#ffffff"), noche)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(parseColor(prim("--vn-primitive-marfil")), noche)).toBeGreaterThanOrEqual(4.5);
   });
 });
 

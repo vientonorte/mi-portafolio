@@ -837,8 +837,8 @@ html {
   z-index: 9999;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
+  background: var(--vn-color-cta-bg);
+  color: var(--vn-color-cta-fg);
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
