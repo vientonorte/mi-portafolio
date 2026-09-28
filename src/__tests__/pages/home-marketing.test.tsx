@@ -107,8 +107,9 @@ describe("Home P3a — base '/' (producción)", () => {
       "¿Tu sitio tiene problemas?",
       "¿Buscas talento joven o un equipo UX?",
     ]);
-    const steps = [...container.querySelectorAll("#home-como-trabajamos li h3")].map((h) => h.textContent);
-    expect(steps[0]).toContain("Kickoff de 30 minutos");
+    expect(container.querySelector("#home-como-trabajamos")).toBeNull();
+    expect(container.querySelector("#experiencia")).toBeNull();
+    expect(container.querySelector("#quien")).toBeNull();
     // SEM hero no se monta en la home
     expect(screen.queryByTestId("hero-agendar")).toBeNull();
   });
@@ -181,18 +182,10 @@ describe("Home P3a — base '/' (producción)", () => {
     const { container } = renderAt(<Home />);
     expect(container.querySelector("[data-placeholder]")).toBeNull();
     expect(container.innerHTML).not.toContain("data-placeholder");
-    expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
-    const strip = container.querySelector("#experiencia")!;
-    const logos = [...strip.querySelectorAll("img")].map((img) => img.getAttribute("src") ?? "");
-    expect(logos.some((src) => src.includes("/images/transvip/logo"))).toBe(true);
-    expect(logos.some((src) => src.includes("/images/karri/logo"))).toBe(true);
-    expect(logos.some((src) => src.includes("/images/sura/logo"))).toBe(true);
-    expect(logos.some((src) => src.includes("pareti"))).toBe(false);
-    expect(strip.textContent).toContain("Pareti");
+    expect(container.querySelector("#experiencia")).toBeNull();
+    expect(container.querySelector("#quien")).toBeNull();
     expect(container.querySelector("#home-casos")).not.toBeNull();
     expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
-    expect(container.querySelector("#quien-heading")).toHaveTextContent("Quién está detrás");
-    expect(container.querySelector("[data-photo-slot='empty'] img")).toBeNull();
     expect(container.innerHTML).not.toContain("Han confiado");
     expect(container.innerHTML).not.toContain("clientes VN");
     const hero = container.querySelector('[data-testid="hero-mockup"]')!;
@@ -209,16 +202,7 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     const { container } = renderAt(<Home />);
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
-    const slots = [...container.querySelectorAll("[data-placeholder]")];
-    expect(slots.length).toBe(2);
-    for (const s of slots) expect(s.getAttribute("data-placeholder")).toBe("pendiente-ro");
-    expect(container.querySelectorAll('[data-placeholder-variant="thumb"]')).toHaveLength(2);
-    expect(container.querySelectorAll('[data-placeholder-variant="logo"]')).toHaveLength(0);
-    expect(container.querySelectorAll('[data-placeholder-variant="case"]')).toHaveLength(0);
-    expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
-    const qaLogos = [...container.querySelectorAll("#experiencia img")].map((img) => img.getAttribute("src") ?? "");
-    expect(qaLogos.length).toBeGreaterThan(0);
-    for (const src of qaLogos) expect(src.startsWith("/qa/images/")).toBe(true);
+    expect(container.querySelector("[data-placeholder]")).toBeNull();
     expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
     expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");

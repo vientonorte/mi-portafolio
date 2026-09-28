@@ -7,10 +7,7 @@ import { ServiciosContactForm } from "./ServiciosContactForm";
 import { cn } from "../lib/utils";
 import {
   CaseCards,
-  ExperienceStrip,
-  FounderBand,
   HeroWithMockup,
-  HowWeWork,
   ServiceCards,
   SECTION_TITLE_CLASS,
   type CaseCard,
@@ -21,11 +18,8 @@ import {
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
   SERVICIOS_CASES,
-  SERVICIOS_EXPERIENCE,
-  SERVICIOS_FOUNDER,
   SERVICIOS_HERO,
   SERVICIOS_IMAGES,
-  SERVICIOS_STEPS,
   type ServiciosIntent,
   type ServiciosIntentValue,
 } from "./servicios-content";
@@ -80,8 +74,6 @@ export function ServiciosPage() {
           }
         />
 
-        <ExperienceStrip heading={SERVICIOS_EXPERIENCE.heading} names={SERVICIOS_EXPERIENCE.names} />
-
         <section
           id="opciones"
           className="scroll-mt-[calc(var(--header-height)+0.75rem)] bg-background py-12 md:py-16"
@@ -91,9 +83,6 @@ export function ServiciosPage() {
             <h2 id="opciones-heading" className={SECTION_TITLE_CLASS}>
               Tres formas de partir
             </h2>
-            <p className="mt-2 max-w-2xl text-base text-muted-foreground">
-              Estrena tu web, parte gratis revisando un flujo o conversemos un proyecto a tu medida.
-            </p>
             <ServiceCards
               cards={SERVICIOS_CARDS}
               ctaClassName={PRIMARY_CTA_CLASS}
@@ -117,19 +106,6 @@ export function ServiciosPage() {
               cta: { label: item.ctaLabel, href: `#${item.ctaAnchor}` },
             })
           )}
-        />
-
-        <FounderBand
-          heading={SERVICIOS_FOUNDER.heading}
-          name={SERVICIOS_FOUNDER.name}
-          role={SERVICIOS_FOUNDER.role}
-          lines={SERVICIOS_FOUNDER.lines}
-        />
-
-        <HowWeWork
-          heading={SERVICIOS_STEPS.heading}
-          intro={SERVICIOS_STEPS.intro}
-          steps={[...SERVICIOS_STEPS.steps]}
         />
 
         <section

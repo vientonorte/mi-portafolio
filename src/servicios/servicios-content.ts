@@ -89,7 +89,6 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Pago 50/50: 50% al partir y 50% al entregar. El pago se coordina después del primer contacto. Dominio, hosting y tienda online se cotizan aparte.",
     cta: "Quiero mi web",
     intent: "Web nueva",
-    thumbnail: { kind: "pending", label: "Mockup web pyme (pendiente)" },
   },
   {
     id: "revision-gratis",
@@ -107,7 +106,6 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Sin compromiso. Un flujo por empresa.",
     cta: "Pedir revisión gratis",
     intent: "Revisión gratis de un flujo",
-    thumbnail: { kind: "pending", label: "Antes / después de un flujo (pendiente)" },
   },
   {
     id: "consultoria-ux",

@@ -7,10 +7,7 @@ import { trackEvent } from "../../vn-core/analytics/fo-events";
 import { serviciosHref } from "../../lib/servicios-links";
 import {
   CaseCards,
-  ExperienceStrip,
-  FounderBand,
   HeroWithMockup,
-  HowWeWork,
   ServiceCards,
   SECTION_TITLE_CLASS,
   type CaseCard,
@@ -21,10 +18,7 @@ import {
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
   SERVICIOS_CASES,
-  SERVICIOS_EXPERIENCE,
-  SERVICIOS_FOUNDER,
   SERVICIOS_IMAGES,
-  SERVICIOS_STEPS,
 } from "../../servicios/servicios-content";
 
 /**
@@ -32,8 +26,7 @@ import {
  * home FO. Solo home: la landing SEM (/consultoria) conserva su hero y embudo.
  *
  * Todos los CTA son `<a href>` reales hacia /servicios/ (con la base de Vite).
- * Experiencia, casos y «Quién está detrás» van en prod y en QA.
- * Los mockups de tarjeta que siguen sin asset solo aparecen en QA (PendingSlot).
+ * El recorrido es las tres formas de partir y los casos. Sin franja, bio ni segundo método.
  */
 
 const COPY = {
@@ -41,15 +34,12 @@ const COPY = {
     ctaPrimary: "Quiero mi web en 72 h",
     ctaSecondary: "Revisión gratis de mi sitio",
     optionsHeading: "Tres formas de partir",
-    optionsIntro: "Tres pasos. Elige por dónde entras.",
     allServices: "Ver todos los servicios",
   },
   en: {
     ctaPrimary: "I want my website in 72 h",
     ctaSecondary: "Free review of my site",
     optionsHeading: "Three ways to start",
-    optionsIntro:
-      "Launch your website in 72 hours, get a free review of one flow on your site, or let’s talk about a tailored project.",
     allServices: "See all services",
   },
 } as const;
@@ -140,8 +130,6 @@ export function HomeMarketingSections() {
 
   return (
     <div data-testid="home-marketing">
-      <ExperienceStrip heading={SERVICIOS_EXPERIENCE.heading} names={SERVICIOS_EXPERIENCE.names} />
-
       <section
         id="home-servicios"
         className="bg-background py-12 md:py-16"
@@ -151,7 +139,6 @@ export function HomeMarketingSections() {
           <h2 id="home-servicios-heading" className={SECTION_TITLE_CLASS}>
             {copy.optionsHeading}
           </h2>
-          <p className="mt-2 max-w-2xl text-base text-muted-foreground">{copy.optionsIntro}</p>
           <ServiceCards
             cards={cards}
             ctaClassName={PRIMARY_CTA_CLASS}
@@ -179,19 +166,6 @@ export function HomeMarketingSections() {
         cases={homeCases()}
       />
 
-      <FounderBand
-        heading={SERVICIOS_FOUNDER.heading}
-        name={SERVICIOS_FOUNDER.name}
-        role={SERVICIOS_FOUNDER.role}
-        lines={SERVICIOS_FOUNDER.lines}
-      />
-
-      <HowWeWork
-        id="home-como-trabajamos"
-        heading={SERVICIOS_STEPS.heading}
-        intro={SERVICIOS_STEPS.intro}
-        steps={[...SERVICIOS_STEPS.steps]}
-      />
     </div>
   );
 }
