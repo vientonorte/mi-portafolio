@@ -17,6 +17,7 @@ import {
   CONTACT_EMAIL,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
+  SERVICIOS_ARC,
   SERVICIOS_CASES,
   SERVICIOS_HERO,
   SERVICIOS_IMAGES,
@@ -97,6 +98,7 @@ export function ServiciosPage() {
         <CaseCards
           heading={SERVICIOS_CASES.heading}
           intro={SERVICIOS_CASES.intro}
+          arc={SERVICIOS_ARC}
           cases={BRAND_CASES.map(
             (item): CaseCard => ({
               id: item.id,

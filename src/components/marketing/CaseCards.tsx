@@ -20,6 +20,8 @@ export interface CaseCardsProps {
   intro?: string;
   /** Casos confirmados por Rö. */
   cases?: CaseCard[];
+  /** Resto de roles, una línea cada uno. Mismos tokens que el título de sección. */
+  arc?: readonly { period: string; company: string; detail: string }[];
   /** Tarjetas placeholder (solo QA) mientras no hay casos confirmados. */
   pendingCount?: number;
   pendingLabel?: string;
@@ -36,6 +38,7 @@ export function CaseCards({
   heading,
   intro,
   cases = [],
+  arc = [],
   pendingCount = 0,
   pendingLabel = "Caso pendiente de confirmar",
 }: CaseCardsProps) {
@@ -121,6 +124,22 @@ export function CaseCards({
             </li>
           ))}
         </ul>
+        {arc.length > 0 ? (
+          <ol className="mt-10 list-none border-t border-border p-0">
+            {arc.map((row) => (
+              <li
+                key={row.company + row.period}
+                className="grid grid-cols-1 gap-1 border-b border-border py-4 sm:grid-cols-[11rem_1fr] sm:items-baseline sm:gap-6"
+              >
+                <span className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{row.period}</span>
+                <p className="text-base text-foreground">
+                  <span className="font-semibold">{row.company}</span>
+                  <span className="text-muted-foreground"> · {row.detail}</span>
+                </p>
+              </li>
+            ))}
+          </ol>
+        ) : null}
       </div>
     </section>
   );
