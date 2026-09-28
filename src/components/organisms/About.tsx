@@ -412,7 +412,7 @@ export function About() {
           ))}
           <Equal className="h-3 w-3 text-muted-foreground" aria-hidden />
           <span
-            className="rounded-md bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground"
+            className="rounded-md bg-[var(--vn-color-cta-bg)] px-2 py-0.5 text-xs font-semibold text-[var(--vn-color-cta-fg)]"
             aria-hidden
           >
             {equation.result}
