@@ -12,7 +12,7 @@ export interface HowWeWorkProps {
   steps: HowWeWorkStep[];
 }
 
-export function HowWeWork({ id = "como-trabajamos", heading, intro, steps }: HowWeWorkProps) {
+export function HowWeWork({ id = "como-trabajamos", heading, steps }: HowWeWorkProps) {
   return (
     <section
       id={id}
@@ -23,13 +23,16 @@ export function HowWeWork({ id = "como-trabajamos", heading, intro, steps }: How
         <h2 id={`${id}-heading`} className={SECTION_TITLE_CLASS}>
           {heading}
         </h2>
-        {intro ? <p className="mt-2 max-w-2xl text-base text-muted-foreground">{intro}</p> : null}
-        <ol className="mt-8 grid list-none gap-6 p-0 md:grid-cols-3">
+        <ol className="relative mt-10 grid list-none gap-8 p-0 md:grid-cols-3">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute top-4 left-[16%] hidden h-px w-[68%] bg-border md:block"
+          />
           {steps.map((step, i) => (
-            <li key={step.title} className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <li key={step.title} className="relative">
               <span
                 aria-hidden
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient text-base font-bold text-white"
+                className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient text-base font-bold text-white"
               >
                 {i + 1}
               </span>
@@ -37,7 +40,7 @@ export function HowWeWork({ id = "como-trabajamos", heading, intro, steps }: How
                 <span className="sr-only">Paso {i + 1}: </span>
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
             </li>
           ))}
         </ol>

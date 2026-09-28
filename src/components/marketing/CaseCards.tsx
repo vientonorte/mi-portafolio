@@ -60,27 +60,36 @@ export function CaseCards({
                   <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{c.kicker}</p>
                 ) : null}
                 <h3 className="mt-2 text-xl font-bold text-foreground">{c.client}</h3>
-                <dl className="mt-3 space-y-3 text-sm">
-                  {FIELDS.map(([label, key]) => (
-                    <div key={key}>
-                      <dt className="font-semibold text-foreground">{label}</dt>
-                      <dd className="mt-0.5 text-muted-foreground">{c[key]}</dd>
-                    </div>
-                  ))}
-                  {c.result ? (
-                    <div>
-                      <dt className="font-semibold text-foreground">Resultado publicado</dt>
-                      <dd className="mt-0.5 text-muted-foreground">{c.result}</dd>
-                    </div>
-                  ) : null}
-                </dl>
                 {c.images && c.images.length > 0 ? (
-                  <ul className="mt-4 grid list-none grid-cols-2 gap-2 p-0">
-                    {c.images.map((image) => (
-                      <li key={image.png} className="overflow-hidden rounded-md border border-border bg-muted">
-                        <ResponsiveImage image={image} className="h-28 w-full object-cover" />
+                  <ol className="mt-4 flex list-none gap-2 overflow-x-auto p-0">
+                    {c.images.map((image, index) => (
+                      <li key={image.png} className="w-28 shrink-0">
+                        <div className="overflow-hidden rounded-md border border-border bg-muted">
+                          <ResponsiveImage image={image} className="h-20 w-full object-cover" />
+                        </div>
+                        <p className="mt-1 text-xs font-semibold text-foreground">
+                          <span className="text-muted-foreground">{index + 1}. </span>
+                          {image.stage ?? image.alt}
+                        </p>
                       </li>
                     ))}
+                  </ol>
+                ) : null}
+                <p className="mt-3 text-sm text-muted-foreground">{c.whatWeDid}</p>
+                {c.result ? (
+                  <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
+                    {c.result
+                      .split(",")
+                      .map((part) => part.trim().replace(/\.$/, ""))
+                      .filter(Boolean)
+                      .map((part) => (
+                        <li
+                          key={part}
+                          className="rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground"
+                        >
+                          {part}
+                        </li>
+                      ))}
                   </ul>
                 ) : null}
                 {c.cta ? (

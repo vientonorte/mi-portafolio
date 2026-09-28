@@ -41,8 +41,7 @@ const COPY = {
     ctaPrimary: "Quiero mi web en 72 h",
     ctaSecondary: "Revisión gratis de mi sitio",
     optionsHeading: "Tres formas de partir",
-    optionsIntro:
-      "Estrena tu web en 72 horas, revisa gratis un flujo de tu sitio o conversemos un proyecto a tu medida.",
+    optionsIntro: "Tres pasos. Elige por dónde entras.",
     allServices: "Ver todos los servicios",
   },
   en: {

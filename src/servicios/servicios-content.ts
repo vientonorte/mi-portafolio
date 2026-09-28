@@ -64,8 +64,7 @@ export const SERVICIOS_HERO = {
   eyebrow: "Servicios",
   /** Alineado con la home: "Tecnología para empresas." */
   title: "Tecnología para empresas: elige cómo partimos.",
-  audience:
-    "Para dueños y equipos de pymes en Chile que quieren atender y vender mejor en digital, sin enredos.",
+  audience: "Elige el paso y sigue el recorrido.",
   /** Botón principal → #contacto (spec PO v2). */
   ctaPrimary: "Escríbenos",
   ctaSecondary: "Ver las opciones",
@@ -158,16 +157,18 @@ export interface BrandCase {
   ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
 }
 
-const monitas = (file: string, alt: string, height: number): MarketingImage => ({
+const monitas = (file: string, stage: string, height: number): MarketingImage => ({
   png: `images/cases/monitas/${file}`,
-  alt,
+  alt: `${stage} de Monitas.`,
+  stage,
   width: 1600,
   height,
 });
 
-const coworking = (file: string, alt: string, width: number): MarketingImage => ({
+const coworking = (file: string, stage: string, width: number): MarketingImage => ({
   png: `images/method/coworking/${file}`,
-  alt,
+  alt: `${stage} en un coworking anonimizado.`,
+  stage,
   width,
   height: 1400,
 });
@@ -186,10 +187,10 @@ export const BRAND_CASES: readonly BrandCase[] = [
       "La tienda no tenía un camino claro: quien entraba no encontraba los productos ni llegaba a pagar sin perderse.",
     whatWeDid: "Armamos el wireframe, la navegación, el flujo de pago y el embudo.",
     images: [
-      monitas("01-wireframe.jpg", "Wireframe de la tienda Monitas.", 903),
-      monitas("02-map-nav.jpg", "Mapa de navegación de Monitas.", 903),
-      monitas("03-flujo-pago.jpg", "Flujo de pago de Monitas.", 798),
-      monitas("04-embudo.jpg", "Embudo de la tienda Monitas.", 1325),
+      monitas("01-wireframe.jpg", "Wireframe", 903),
+      monitas("02-map-nav.jpg", "Navegación", 903),
+      monitas("03-flujo-pago.jpg", "Pago", 798),
+      monitas("04-embudo.jpg", "Embudo", 1325),
     ],
     ctaLabel: "Ver web para pymes",
     ctaAnchor: "web-pymes",
@@ -201,8 +202,8 @@ export const BRAND_CASES: readonly BrandCase[] = [
     problem: "En el sitio de un coworking, el contraste y la lectura dificultaban usar un flujo. El nombre queda fuera.",
     whatWeDid: "Revisamos contraste y accesibilidad de ese flujo y dejamos los hallazgos priorizados.",
     images: [
-      coworking("a11y-contrast.png", "Revisión de contraste en el sitio de un coworking. Caso anonimizado.", 806),
-      coworking("a11y-readability.png", "Revisión de lectura en el sitio de un coworking. Caso anonimizado.", 794),
+      coworking("a11y-contrast.png", "Contraste", 806),
+      coworking("a11y-readability.png", "Lectura", 794),
     ],
     ctaLabel: "Ver la revisión gratis",
     ctaAnchor: "revision-gratis",
@@ -221,8 +222,8 @@ export const BRAND_CASES: readonly BrandCase[] = [
 ];
 
 export const SERVICIOS_CASES = {
-  heading: "Casos",
-  intro: "Problema y qué se hizo. Si hay cifras, son las que ya estaban publicadas.",
+  heading: "El recorrido",
+  intro: "De la primera pantalla al resultado.",
 } as const;
 
 export const SERVICIOS_STEPS = {
@@ -231,15 +232,15 @@ export const SERVICIOS_STEPS = {
   steps: [
     {
       title: "Kickoff de 30 minutos",
-      description: "Conversamos sobre tu negocio, el flujo o la web que necesitas y qué quieres lograr.",
+      description: "Vemos el flujo.",
     },
     {
       title: "Propuesta con alcance y precio",
-      description: "Te enviamos por escrito qué haremos, en qué plazo y cuánto cuesta antes de partir.",
+      description: "Alcance, plazo y precio.",
     },
     {
       title: "Entrega e iteración",
-      description: "Entregamos, lo revisamos contigo y ajustamos según lo acordado.",
+      description: "Entrega y ajuste.",
     },
   ],
 } as const;

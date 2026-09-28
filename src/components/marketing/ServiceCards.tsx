@@ -1,5 +1,4 @@
 import type { MouseEvent, ReactNode } from "react";
-import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import { DeviceMockup } from "../molecules/DeviceMockup";
@@ -54,7 +53,11 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
 
 export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicios-cards" }: ServiceCardsProps) {
   return (
-    <ol className="mt-8 grid list-none gap-6 p-0 lg:grid-cols-3" data-testid={testId}>
+    <ol className="relative mt-8 grid list-none gap-6 p-0 lg:grid-cols-3" data-testid={testId}>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-8 left-[16%] hidden h-px w-[68%] bg-border lg:block"
+      />
       {cards.map((card, index) => (
         <li key={card.id} id={card.id} data-card={card.id} className="scroll-mt-[calc(var(--header-height)+0.75rem)]">
           <article
@@ -78,29 +81,10 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                 {card.title}
               </h3>
             </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
-              <ul className="mt-2 space-y-2">
-                {card.includes.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-auto space-y-4 border-t border-border/60 pt-4">
-              <div>
-                <p className="text-sm font-semibold text-foreground">Precio</p>
-                <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
-                  {card.price}
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p>
-              </div>
+            <div className="mt-auto border-t border-border/60 pt-4">
+              <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
+                {card.price}
+              </p>
               <Button asChild size="lg" className={cn(ctaClassName, "w-full")}>
                 <a
                   href={card.href ?? "#contacto"}
