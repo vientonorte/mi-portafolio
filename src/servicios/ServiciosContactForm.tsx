@@ -27,11 +27,21 @@ interface Props {
   onIntentChange: (intent: ServiciosIntentValue) => void;
   /** Mensaje para el lector de pantalla cuando una tarjeta preselecciona la opción. */
   announcement?: string;
+  /** payload.source (≤40 en el worker). Default "servicios"; rubros: "web-<rubro>". */
+  source?: string;
+  /** Clase del botón enviar (rubros usan el gradiente AA). */
+  ctaClassName?: string;
 }
 
 const FIELD_ORDER = ["nombre", "correo", "intent", "detalle", "consent"] as const;
 
-export function ServiciosContactForm({ intent, onIntentChange, announcement }: Props) {
+export function ServiciosContactForm({
+  intent,
+  onIntentChange,
+  announcement,
+  source = SERVICIOS_SOURCE,
+  ctaClassName = PRIMARY_CTA_CLASS,
+}: Props) {
   const uid = useId();
   const ids = {
     nombre: `${uid}-nombre`,
@@ -77,7 +87,7 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
       const res = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildServiciosPayload(values)),
+        body: JSON.stringify(buildServiciosPayload(values, source)),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || data.ok === false) {
@@ -119,11 +129,11 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
       noValidate
       onSubmit={handleSubmit}
       aria-describedby={`${uid}-required-note`}
-      data-source={SERVICIOS_SOURCE}
+      data-source={source}
       data-endpoint={CONTACT_ENDPOINT}
       className="space-y-5"
     >
-      <input type="hidden" name="source" value={SERVICIOS_SOURCE} />
+      <input type="hidden" name="source" value={source} />
       <p id={`${uid}-required-note`} className="text-sm text-muted-foreground">
         Los campos con * son obligatorios.
       </p>
@@ -250,7 +260,7 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
         type="submit"
         size="lg"
         disabled={status.kind === "sending"}
-        className={cn(PRIMARY_CTA_CLASS, "w-full px-8 sm:w-auto")}
+        className={cn(ctaClassName, "w-full px-8 sm:w-auto")}
       >
         {status.kind === "sending" ? "Enviando…" : "Enviar mensaje"}
       </Button>

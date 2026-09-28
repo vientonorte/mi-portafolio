@@ -30,7 +30,8 @@
   }
 
   /**
-   * /servicios/: segunda entrada Vite (multi-page) + prerender con react-dom/server.
+   * /servicios/ (índice) y /servicios/<slug>/ (rubros, P4, src/data/rubros.json): entradas Vite
+   * "servicios" y "rubros" (plantilla) + prerender con react-dom/server.
    * Corre en closeBundle para cubrir `npm run build` y `npx vite build` (deploy / deploy-qa).
    */
   function vnPrerenderServicios() {
@@ -153,6 +154,9 @@
           : {
               main: path.resolve(__dirname, 'index.html'),
               servicios: path.resolve(__dirname, 'servicios/index.html'),
+              // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
+              // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
+              rubros: path.resolve(__dirname, 'rubros/index.html'),
             },
         output: isSsrChild ? undefined : {
           manualChunks(id) {

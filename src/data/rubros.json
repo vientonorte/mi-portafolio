@@ -1,0 +1,105 @@
+{
+  "notes": "P4 (PO 2026-09-27): landings por rubro prerenderizadas en /servicios/<slug>/ (scripts/prerender-servicios.mjs). Una entrada = una página. Estas rutas son de Vite: generate-service-landings.py y build-static-share.py tienen prohibido escribirlas (scripts/redirect_pages.py · vite_owned_paths). Marcas de los mockups: ficticias y rotuladas «Ejemplo».",
+  "origin": "https://vientonorte.io",
+  "lastmod": "2026-09-27",
+  "offer": {
+    "name": "Web para Pymes en 72 horas",
+    "price": "$30.000 CLP",
+    "priceValue": 30000,
+    "currency": "CLP",
+    "delivery": "Lista en 72 horas hábiles.",
+    "payment": "Pago 50/50: 50% al partir y 50% al entregar. El pago se coordina después del primer contacto.",
+    "intent": "Web nueva"
+  },
+  "rubros": {
+    "web-dental": {
+      "rubro": "Clínicas dentales",
+      "badge": "Web dental",
+      "eyebrow": "Web para clínicas dentales",
+      "headline": "Que reservar una hora sea más fácil que llamar.",
+      "subhead": "Una web para tu consulta que se ve bien en el celular, explica tus tratamientos en simple y deja el botón de reserva siempre a la vista.",
+      "audience": "Para consultas y clínicas dentales pequeñas que hoy agendan por teléfono, WhatsApp o redes sociales.",
+      "points": {
+        "heading": "Tus pacientes te buscan en Google, desde el celular.",
+        "intro": "Si al llegar a tu sitio no ven cómo pedir hora, se van a la siguiente consulta. Por eso partimos por tres cosas.",
+        "items": [
+          {
+            "title": "Que te encuentren en Google",
+            "body": "Título y descripción claros en el resultado de búsqueda, dirección y horario a la vista, y un enlace listo para tu perfil de Google."
+          },
+          {
+            "title": "La reserva, siempre a la vista",
+            "body": "Un botón «Reservar hora» que se lee bien incluso al sol y lleva a tu WhatsApp o a la agenda en línea que ya usas."
+          },
+          {
+            "title": "Rápida en el celular",
+            "body": "Una página liviana que carga bien con datos móviles, con tus tratamientos explicados en simple y sin letra chica."
+          }
+        ]
+      },
+      "example": {
+        "label": "Ejemplo",
+        "heading": "Del «llámanos» a la reserva en pocos toques.",
+        "body": "Así cambiaría el flujo de una clínica de ejemplo. Dental Brisa es una marca ficticia: el texto y la interfaz son ilustrativos y no corresponden a un cliente real.",
+        "steps": [
+          {
+            "before": "Botón de reserva gris claro sobre blanco, difícil de ver.",
+            "after": "Botón con buen contraste y un texto que dice qué pasa: «Reservar hora»."
+          },
+          {
+            "before": "Formulario largo que pide datos antes de mostrar horas.",
+            "after": "Primero el tratamiento y la hora; los datos, al final."
+          },
+          {
+            "before": "Solo un número de teléfono al pie de la página.",
+            "after": "WhatsApp y dirección a un toque, arriba y abajo de la página."
+          }
+        ]
+      },
+      "includes": [
+        "Una página con tus tratamientos, equipo, horario y dirección.",
+        "Botón de reserva visible en computador y celular: a tu WhatsApp o a tu agenda en línea.",
+        "Título y descripción pensados para Google, y enlace para tu perfil de Google.",
+        "Tu logo, colores y textos. 1 ronda de cambios."
+      ],
+      "priceNote": "Dominio, hosting y sistema de agenda en línea se cotizan aparte.",
+      "mockups": {
+        "caption": "Ejemplo ilustrativo · Dental Brisa es una marca ficticia.",
+        "desktop": {
+          "webp": "images/rubros/dental-desktop.webp",
+          "png": "images/rubros/dental-desktop.png",
+          "alt": "Ejemplo ilustrativo en computador: landing para Dental Brisa, clínica dental ficticia, con el titular «Que reservar una hora sea más fácil que llamar» y una maqueta de reserva de hora en 3 pasos.",
+          "width": 1440,
+          "height": 900
+        },
+        "mobile": {
+          "webp": "images/rubros/dental-mobile.webp",
+          "png": "images/rubros/dental-mobile.png",
+          "alt": "El mismo ejemplo en celular: titular, botones de contacto y maqueta de la web de Dental Brisa, marca ficticia.",
+          "width": 500,
+          "height": 820
+        },
+        "card": {
+          "webp": "images/rubros/dental-card.webp",
+          "png": "images/rubros/dental-card.png",
+          "alt": "Web dental de ejemplo en computador y celular: Dental Brisa, marca ficticia rotulada «Ejemplo».",
+          "width": 800,
+          "height": 500
+        }
+      },
+      "cta": {
+        "primary": "Quiero mi web dental",
+        "secondary": "Ver todos los servicios"
+      },
+      "seo": {
+        "title": "Web para clínicas dentales en 72 horas · Viento Norte",
+        "description": "Web para tu clínica dental por $30.000 en 72 horas: reserva de hora a la vista, lista para Google y rápida en el celular. Pago 50/50. Viento Norte, Chile."
+      },
+      "form": {
+        "source": "web-dental",
+        "heading": "Cuéntanos de tu consulta",
+        "intro": "Te respondemos en menos de 24 horas hábiles. Sin compromiso."
+      }
+    }
+  }
+}
