@@ -328,3 +328,20 @@ describe("/servicios/ contact form (client)", () => {
     expect(intentSelect().value).toBe("");
   });
 });
+
+describe("/servicios/ JSON-LD ItemList", () => {
+  it("follows the card order: Web pymes 1, Revisión gratis 2, Consultoría UX 3", () => {
+    const page = readFileSync(resolve(root, "servicios/index.html"), "utf8");
+    const m = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    expect(m).toBeTruthy();
+    const ld = JSON.parse(m![1]);
+    expect(ld["@type"]).toBe("ItemList");
+    const items = ld.itemListElement as { position: number; item: { name: string } }[];
+    expect(items.map((i) => i.position)).toEqual([1, 2, 3]);
+    expect(items.map((i) => i.item.name)).toEqual([
+      "Web para Pymes en 72 horas",
+      "Revisión gratis de un flujo (accesibilidad WCAG)",
+      "Consultoría UX para Pymes",
+    ]);
+  });
+});

@@ -1,25 +1,79 @@
 /* global process, console */
 /**
- * Prerender /servicios/ — react-dom/server sobre la entrada SSR de Vite.
+ * Prerender de las páginas Vite bajo /servicios/ — react-dom/server sobre entradas SSR.
  * Llamado desde vite.config.ts (plugin vn-prerender-servicios, closeBundle).
  *
- * 1. vite build --ssr src/servicios/entry-server.tsx (mismo config/base/aliases)
- * 2. render() → HTML
- * 3. inyecta en dist/servicios/index.html (<!--ssr-outlet-->); el cliente hidrata.
+ * 1. vite build --ssr con dos entradas (mismo config/base/aliases):
+ *    - src/servicios/entry-server.tsx → /servicios/ (índice, #277)
+ *    - src/rubros/entry-server.tsx    → /servicios/<slug>/ por cada entrada de src/data/rubros.json (P4)
+ * 2. /servicios/: inyecta render() en dist/servicios/index.html (<!--ssr-outlet-->).
+ * 3. Rubros: toma la plantilla dist/rubros/index.html (entrada Vite "rubros"), inyecta el
+ *    <head> del rubro (<!--rubro-head-->), el HTML (<!--ssr-outlet-->) y data-slug, y escribe
+ *    dist/servicios/<slug>/index.html. Luego borra dist/rubros/ (la plantilla no se publica).
+ * El cliente hidrata (hydrateRoot).
+ *
+ * Guardas: una ruta de rubro nunca puede venir de public/ (generate-service-landings.py /
+ * build-static-share.py) ni estar en src/data/legacy-redirects.json.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const OUTLET = '<!--ssr-outlet-->';
+export const OUTLET = '<!--ssr-outlet-->';
+export const HEAD_OUTLET = '<!--rubro-head-->';
+export const SLUG_ATTR = 'data-slug=""';
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/** Slugs de src/data/rubros.json (validados). */
+export function readRubroSlugs(root) {
+  const data = JSON.parse(fs.readFileSync(path.join(root, 'src/data/rubros.json'), 'utf8'));
+  const slugs = Object.keys(data.rubros || {});
+  for (const slug of slugs) {
+    if (!SLUG_RE.test(slug)) throw new Error(`[prerender-servicios] slug inválido en rubros.json: ${slug}`);
+  }
+  return slugs;
+}
+
+/** Falla si alguna ruta de rubro también la reclama el sistema de redirecciones o public/. */
+export function assertRubroPathsFree(root, slugs) {
+  const redirects = JSON.parse(fs.readFileSync(path.join(root, 'src/data/legacy-redirects.json'), 'utf8'));
+  const froms = new Set(redirects.redirects.map((r) => r.from));
+  for (const slug of slugs) {
+    const p = `/servicios/${slug}/`;
+    if (froms.has(p)) {
+      throw new Error(`[prerender-servicios] ${p} está en legacy-redirects.json y en rubros.json`);
+    }
+    const pub = path.join(root, 'public', 'servicios', slug, 'index.html');
+    if (fs.existsSync(pub)) {
+      throw new Error(`[prerender-servicios] ${path.relative(root, pub)} existe: pisaría la página Vite del rubro`);
+    }
+  }
+}
+
+/** HTML final de un rubro a partir de la plantilla construida por Vite. */
+export function injectRubro(template, { slug, head, app }) {
+  for (const marker of [HEAD_OUTLET, OUTLET, SLUG_ATTR]) {
+    if (!template.includes(marker)) throw new Error(`[prerender-servicios] plantilla de rubros sin ${marker}`);
+  }
+  return template
+    .replace(HEAD_OUTLET, head)
+    .replace(SLUG_ATTR, `data-slug="${slug}"`)
+    .replace(OUTLET, app);
+}
 
 export async function prerenderServicios({ root, outDir, base }) {
   const { build } = await import('vite');
   const ssrOutDir = path.join(root, '.vn-ssr-servicios');
   const target = path.join(outDir, 'servicios', 'index.html');
+  const rubroTemplatePath = path.join(outDir, 'rubros', 'index.html');
   if (!fs.existsSync(target)) {
     throw new Error(`[prerender-servicios] falta ${target}`);
   }
+  if (!fs.existsSync(rubroTemplatePath)) {
+    throw new Error(`[prerender-servicios] falta ${rubroTemplatePath}`);
+  }
+  const slugs = readRubroSlugs(root);
+  assertRubroPathsFree(root, slugs);
 
   const prev = process.env.VN_SSR_CHILD;
   process.env.VN_SSR_CHILD = '1';
@@ -31,11 +85,17 @@ export async function prerenderServicios({ root, outDir, base }) {
       logLevel: 'warn',
       publicDir: false,
       build: {
-        ssr: path.join(root, 'src/servicios/entry-server.tsx'),
+        ssr: true,
         outDir: ssrOutDir,
         emptyOutDir: true,
         copyPublicDir: false,
-        rollupOptions: { output: { entryFileNames: 'entry-server.mjs' } },
+        rollupOptions: {
+          input: {
+            servicios: path.join(root, 'src/servicios/entry-server.tsx'),
+            rubros: path.join(root, 'src/rubros/entry-server.tsx'),
+          },
+          output: { entryFileNames: '[name].mjs' },
+        },
       },
     });
   } finally {
@@ -44,15 +104,34 @@ export async function prerenderServicios({ root, outDir, base }) {
   }
 
   try {
-    const entry = pathToFileURL(path.join(ssrOutDir, 'entry-server.mjs')).href;
-    const mod = await import(`${entry}?t=${Date.now()}`);
-    const appHtml = mod.render();
+    const load = async (name) =>
+      import(`${pathToFileURL(path.join(ssrOutDir, `${name}.mjs`)).href}?t=${Date.now()}`);
+
+    // /servicios/ (índice)
+    const servicios = await load('servicios');
+    const appHtml = servicios.render();
     const html = fs.readFileSync(target, 'utf8');
     if (!html.includes(OUTLET)) {
       throw new Error('[prerender-servicios] dist/servicios/index.html sin <!--ssr-outlet-->');
     }
     fs.writeFileSync(target, html.replace(OUTLET, appHtml), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, target)} (${appHtml.length} bytes, base ${base})`);
+
+    // /servicios/<slug>/ (rubros)
+    const rubros = await load('rubros');
+    const template = fs.readFileSync(rubroTemplatePath, 'utf8');
+    for (const slug of slugs) {
+      const dest = path.join(outDir, 'servicios', slug, 'index.html');
+      if (fs.existsSync(dest)) {
+        throw new Error(`[prerender-servicios] ${path.relative(root, dest)} ya existe (¿copiado desde public/?)`);
+      }
+      const app = rubros.render(slug);
+      const out = injectRubro(template, { slug, head: rubros.renderHead(slug), app });
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.writeFileSync(dest, out, 'utf8');
+      console.log(`[prerender-servicios] ${path.relative(root, dest)} (${app.length} bytes, base ${base})`);
+    }
+    fs.rmSync(path.join(outDir, 'rubros'), { recursive: true, force: true });
   } finally {
     fs.rmSync(ssrOutDir, { recursive: true, force: true });
   }

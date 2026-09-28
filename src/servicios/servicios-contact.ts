@@ -34,10 +34,15 @@ export function validateServiciosContact(v: ServiciosContactValues): ServiciosFi
 
 /**
  * Payload para POST https://contact.vientonorte.io/api/contact
- * Incluye la atribución de primer toque (utm_source, utm_medium, utm_campaign, landing_path).
- * Hoy el worker ignora esas claves (worker/src/contact.js desestructura solo las conocidas).
+ * - `source`: "servicios" en /servicios/; "web-<rubro>" en landings P4 (≤40 en el worker).
+ * - Atribución de primer toque (utm_* + landing_path) vía sessionStorage / `touch`.
+ *   Hoy el worker ignora esas claves (worker/src/contact.js desestructura solo las conocidas).
  */
-export function buildServiciosPayload(v: ServiciosContactValues, touch?: FirstTouch | null) {
+export function buildServiciosPayload(
+  v: ServiciosContactValues,
+  source: string = SERVICIOS_SOURCE,
+  touch?: FirstTouch | null,
+) {
   const empresa = v.empresa.trim();
   const message = [empresa ? `Empresa: ${empresa}` : "Empresa: (no indicada)", "", v.detalle.trim()].join("\n");
   return {
@@ -45,11 +50,10 @@ export function buildServiciosPayload(v: ServiciosContactValues, touch?: FirstTo
     email: v.correo.trim(),
     message,
     consent: v.consent === true,
-    source: SERVICIOS_SOURCE,
+    source: source.slice(0, 40),
     intent: v.intent.slice(0, 80),
     language: "es" as const,
     _gotcha: v.gotcha,
     ...attributionFields(touch),
   };
 }
-

@@ -5,7 +5,8 @@ Canon 2026-09-27 (PO):
 - /s/polijuego-privacy/ se publica tal cual con chrome VN (fuera del sitemap).
 - El resto de /s/**, /poc/ y las fichas /servicios/<slug>/ (ex share.css) son páginas de
   redirección a /servicios/ (o al ancla de la tarjeta), definidas en src/data/legacy-redirects.json.
-- /servicios/ (índice, Vite + prerender de #277) nunca se escribe aquí.
+- /servicios/ (índice, Vite + prerender de #277) y las landings por rubro /servicios/<slug>/ de
+  src/data/rubros.json (P4) nunca se escriben aquí: write_redirect() falla (redirect_pages.vite_owned_paths).
 - Migración P4: quitar la fila de legacy-redirects.json libera la ruta para la plantilla nueva
   (ver generate-service-landings.py, "renderer": "vite"). Ojo: el archivo ya escrito en
   public/servicios/<slug>/index.html hay que borrarlo en ese mismo PR.

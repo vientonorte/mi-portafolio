@@ -71,11 +71,12 @@ describe("SEO P0 · /s/polijuego-privacy (única página /s/ publicada, fuera de
 });
 
 describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
-  it("lists only home + /servicios/: no /s/, no hash, no fichas", () => {
+  it("lists only home + /servicios/ + landings por rubro (P4): no /s/, no hash, no fichas", () => {
     const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(locs).toEqual([
       "https://vientonorte.io/",
       "https://vientonorte.io/servicios/",
+      "https://vientonorte.io/servicios/web-dental/",
     ]);
     expect(sitemap).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
