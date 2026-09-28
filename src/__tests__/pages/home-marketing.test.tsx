@@ -36,8 +36,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
 
 function assertCtas(container: HTMLElement, base: string) {
   const ctas = marketingCtas(container);
-  // 2 del hero + 3 tarjetas + "ver todos"
-  expect(ctas.length).toBe(6);
+  // 2 del hero + 3 tarjetas + "ver todos" + 3 casos
+  expect(ctas.length).toBe(9);
   for (const a of ctas) {
     const href = a.getAttribute("href") ?? "";
     expect(href.startsWith(`${base}servicios/`), href).toBe(true);
@@ -51,6 +51,9 @@ function assertCtas(container: HTMLElement, base: string) {
     `${base}servicios/#revision-gratis`,
     `${base}servicios/#consultoria-ux`,
     `${base}servicios/`,
+    `${base}servicios/#web-pymes`,
+    `${base}servicios/#revision-gratis`,
+    `${base}servicios/#consultoria-ux`,
   ]);
 }
 
@@ -104,8 +107,9 @@ describe("Home P3a — base '/' (producción)", () => {
       "¿Tu sitio tiene problemas?",
       "¿Buscas talento joven o un equipo UX?",
     ]);
-    const steps = [...container.querySelectorAll("#home-como-trabajamos li h3")].map((h) => h.textContent);
-    expect(steps[0]).toContain("Kickoff de 30 minutos");
+    expect(container.querySelector("#home-como-trabajamos")).toBeNull();
+    expect(container.querySelector("#experiencia")).toBeNull();
+    expect(container.querySelector("#quien")).toBeNull();
     // SEM hero no se monta en la home
     expect(screen.queryByTestId("hero-agendar")).toBeNull();
   });
@@ -174,12 +178,21 @@ describe("Home P3a — base '/' (producción)", () => {
     }
   });
 
-  it("renders zero data-placeholder and omits logo strip / casos", () => {
+  it("renders branding in prod and zero data-placeholder", () => {
     const { container } = renderAt(<Home />);
     expect(container.querySelector("[data-placeholder]")).toBeNull();
     expect(container.innerHTML).not.toContain("data-placeholder");
-    expect(container.querySelector("#logo-strip-heading")).toBeNull();
-    expect(container.querySelector("#home-casos")).toBeNull();
+    expect(container.querySelector("#experiencia")).toBeNull();
+    expect(container.querySelector("#quien")).toBeNull();
+    expect(container.querySelector("#home-casos")).not.toBeNull();
+    expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
+    expect(container.innerHTML).not.toContain("Han confiado");
+    expect(container.innerHTML).not.toContain("clientes VN");
+    const hero = container.querySelector('[data-testid="hero-mockup"]')!;
+    expect(hero.querySelector("img")?.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
+    expect(hero.querySelector("img")?.getAttribute("alt")).toMatch(/X\|CMS/);
+    expect(hero.textContent).toContain("x-cms · operaciones");
+    expect(hero.querySelectorAll("img")).toHaveLength(1);
   });
 });
 
@@ -189,11 +202,10 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     const { container } = renderAt(<Home />);
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
-    const slots = [...container.querySelectorAll("[data-placeholder]")];
-    expect(slots.length).toBe(5 + 2 + 3);
-    for (const s of slots) expect(s.getAttribute("data-placeholder")).toBe("pendiente-ro");
-    expect(container.querySelector("#logo-strip-heading")).not.toBeNull();
-    expect(container.querySelector("#home-casos")).not.toBeNull();
+    expect(container.querySelector("[data-placeholder]")).toBeNull();
+    expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
+    const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
+    expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");
   });
 });
 

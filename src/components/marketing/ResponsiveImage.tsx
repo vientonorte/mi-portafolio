@@ -9,6 +9,8 @@ export interface MarketingImage {
   alt: string;
   width: number;
   height: number;
+  /** Etiqueta corta del paso en un recorrido. */
+  stage?: string;
 }
 
 

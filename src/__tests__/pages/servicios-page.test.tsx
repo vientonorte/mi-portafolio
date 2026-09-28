@@ -20,7 +20,11 @@ const AI_SLUGS = ["asistente-ia", "asistente-ecommerce", "inteligencia-artificia
 /** Home root: "/" en build prod/test; "/qa/" bajo VITE_BASE=/qa/. */
 const HOME_ROOTS = new Set(["/", "/qa/"]);
 const isAllowedHref = (href: string) =>
-  HOME_ROOTS.has(href) || /^#[A-Za-z][\w-]*$/.test(href) || href === "mailto:contacto@vientonorte.io";
+  HOME_ROOTS.has(href) ||
+  href.startsWith("/images/") ||
+  href.startsWith("/qa/images/") ||
+  /^#[A-Za-z][\w-]*$/.test(href) ||
+  href === "mailto:contacto@vientonorte.io";
 
 describe("/servicios/ prerender (react-dom/server)", () => {
   it("renders the 3 cards in PO v3 order (web → revisión → consultoría) with prices", () => {
@@ -48,6 +52,7 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     for (const c of cards) {
       expect(c.textContent).toContain("Para quién");
       expect(c.textContent).toContain("Qué incluye");
+      expect(c.querySelector("img")).not.toBeNull();
       expect(c.querySelector('a[href="#contacto"][data-intent]')).not.toBeNull();
     }
   });

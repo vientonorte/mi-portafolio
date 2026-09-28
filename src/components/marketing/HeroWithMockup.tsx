@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { DeviceFrame } from "./DeviceFrame";
+import { DeviceMockup } from "../molecules/DeviceMockup";
+import { assetUrl } from "./marketing-env";
 import type { MarketingImage } from "./ResponsiveImage";
 
 export interface HeroWithMockupProps {
@@ -12,10 +13,12 @@ export interface HeroWithMockupProps {
   /** Botones/enlaces (el consumidor decide destinos: #contacto, /servicios/#…). */
   actions?: ReactNode;
   desktopImage: MarketingImage;
-  phoneImage?: MarketingImage;
+  /** Barra del marco. Estándar Figma de Rö: "x-cms · operaciones". */
+  addressBar?: string;
+  caption?: string;
 }
 
-/** Hero oscuro de la home con mockup desktop + teléfono (capturas reales). */
+/** Hero con el marco DeviceMockup (Figma VN) y captura X|CMS. */
 export function HeroWithMockup({
   id,
   headingId,
@@ -25,7 +28,8 @@ export function HeroWithMockup({
   subtitle,
   actions,
   desktopImage,
-  phoneImage,
+  addressBar = "x-cms · operaciones",
+  caption = "X|CMS · demo 5 min",
 }: HeroWithMockupProps) {
   return (
     <section
@@ -55,22 +59,15 @@ export function HeroWithMockup({
             <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:items-center">{actions}</div>
           ) : null}
         </div>
-        <div className="relative pb-8 pr-6 sm:pr-10" data-testid="hero-mockup">
-          <DeviceFrame
-            variant="desktop"
-            image={desktopImage}
+        <div className="relative min-w-0" data-testid="hero-mockup">
+          <DeviceMockup
+            variant="browser"
+            src={assetUrl(desktopImage.png)}
+            alt={desktopImage.alt}
+            caption={caption}
+            addressBar={addressBar}
             loading="eager"
-            sizes="(min-width: 1024px) 560px, 92vw"
           />
-          {phoneImage ? (
-            <DeviceFrame
-              variant="phone"
-              image={phoneImage}
-              loading="eager"
-              sizes="(min-width: 1024px) 150px, 30vw"
-              className="absolute bottom-0 right-0 w-[28%] max-w-[160px]"
-            />
-          ) : null}
         </div>
       </div>
     </section>

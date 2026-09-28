@@ -2,12 +2,13 @@ import type { MouseEvent, ReactNode } from "react";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
-import { DeviceFrame } from "./DeviceFrame";
+import { DeviceMockup } from "../molecules/DeviceMockup";
+import { assetUrl } from "./marketing-env";
 import { PendingSlot } from "./PendingSlot";
 import type { MarketingImage } from "./ResponsiveImage";
 
 export type ServiceCardThumbnail =
-  | { kind: "device"; image: MarketingImage }
+  | { kind: "device"; image: MarketingImage; addressBar: string }
   | { kind: "pending"; label: string };
 
 export interface ServiceCardData {
@@ -40,15 +41,24 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
   if (!thumb) return null;
   if (thumb.kind === "pending") return <PendingSlot variant="thumb" label={thumb.label} />;
   return (
-    <div className="aspect-[16/10] overflow-hidden rounded-lg bg-neutral-900 p-3 sm:p-4">
-      <DeviceFrame variant="desktop" size="sm" image={thumb.image} sizes="(min-width: 1024px) 340px, 90vw" />
-    </div>
+    <DeviceMockup
+      variant="browser"
+      src={assetUrl(thumb.image.png)}
+      alt={thumb.image.alt}
+      addressBar={thumb.addressBar}
+      glow={false}
+      loading="lazy"
+    />
   );
 }
 
 export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicios-cards" }: ServiceCardsProps) {
   return (
-    <ol className="mt-8 grid list-none gap-6 p-0 lg:grid-cols-3" data-testid={testId}>
+    <ol className="relative mt-8 grid list-none gap-6 p-0 lg:grid-cols-3" data-testid={testId}>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-8 left-[16%] hidden h-px w-[68%] bg-border lg:block"
+      />
       {cards.map((card, index) => (
         <li key={card.id} id={card.id} data-card={card.id} className="scroll-mt-[calc(var(--header-height)+0.75rem)]">
           <article

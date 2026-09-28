@@ -61,6 +61,16 @@ def draw_card(title: str, line: str, kicker: str, dest: Path) -> None:
     print(dest, img.size)
 
 
+def draw_servicios() -> None:
+    """OG de /servicios/. Misma paleta que el resto; sin hex nuevos."""
+    draw_card(
+        "Servicios para pymes",
+        "Web, revisión gratis y consultoría UX.",
+        "Viento Norte",
+        OUT / "og-servicios-1200.png",
+    )
+
+
 def main() -> None:
     src = OUT / "og-portfolio.png"
     if src.exists() and not ISO.exists():
@@ -78,6 +88,7 @@ def main() -> None:
         "Viento Norte · pymes",
         OUT / "og-consultoria-1200.png",
     )
+    draw_servicios()
     # Canonical share file crawlers already request:
     home = Image.open(OUT / "og-home-1200.png")
     home.save(OUT / "og-portfolio.png", "PNG", optimize=True)
@@ -85,4 +96,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if "--only-servicios" in sys.argv:
+        draw_servicios()
+    else:
+        main()

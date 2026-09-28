@@ -38,25 +38,18 @@ export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {
-  heroDesktop: {
+  /**
+   * Hero de home y /servicios/: sitio ficticio marcado «Ejemplo».
+   * Sin cifras ni precios dentro del dispositivo.
+   */
+  /**
+   * Captura X|CMS del estándar Figma de Rö
+   * (DeviceMockup, barra "x-cms · operaciones").
+   */
+  xcms: {
     webp: "images/consultoria/x-cms-dashboard.webp",
     png: "images/consultoria/x-cms-dashboard.png",
-    alt: "Dashboard de X|CMS, prototipo de Viento Norte: ventas, pedidos, clientes activos y tendencia de ventas.",
-    width: 1440,
-    height: 900,
-  },
-  heroPhone: {
-    webp: "images/poc-modules/pos-mobile.webp",
-    png: "images/poc-modules/pos-mobile.png",
-    alt: "Detalle del módulo de punto de venta de X|CMS: ventas del día y catálogo de productos.",
-    width: 500,
-    height: 820,
-  },
-  /** Dashboard del prototipo (misma captura que poc-modules/dashboard.png; webp compartido). */
-  consultoriaThumb: {
-    webp: "images/consultoria/x-cms-dashboard.webp",
-    png: "images/poc-modules/dashboard.png",
-    alt: "Prototipo de dashboard X|CMS diseñado por Viento Norte para ordenar la operación de una pyme.",
+    alt: "X|CMS — dashboard de operaciones en el CMS del cliente",
     width: 1440,
     height: 900,
   },
@@ -71,8 +64,7 @@ export const SERVICIOS_HERO = {
   eyebrow: "Servicios",
   /** Alineado con la home: "Tecnología para empresas." */
   title: "Tecnología para empresas: elige cómo partimos.",
-  audience:
-    "Para dueños y equipos de pymes en Chile que quieren atender y vender mejor en digital, sin enredos.",
+  audience: "Elige el paso y sigue el recorrido.",
   /** Botón principal → #contacto (spec PO v2). */
   ctaPrimary: "Escríbenos",
   ctaSecondary: "Ver las opciones",
@@ -97,7 +89,17 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Pago 50/50: 50% al partir y 50% al entregar. El pago se coordina después del primer contacto. Dominio, hosting y tienda online se cotizan aparte.",
     cta: "Quiero mi web",
     intent: "Web nueva",
-    thumbnail: { kind: "pending", label: "Mockup web pyme (pendiente)" },
+    thumbnail: {
+      kind: "device",
+      addressBar: "ejemplo · tu web",
+      image: {
+        webp: "images/branding/hero-ejemplo.webp",
+        png: "images/branding/hero-ejemplo.png",
+        alt: "Ejemplo de un sitio para una pyme. Maqueta ilustrativa, sin cifras ni precios.",
+        width: 1440,
+        height: 900,
+      },
+    },
   },
   {
     id: "revision-gratis",
@@ -115,7 +117,16 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Sin compromiso. Un flujo por empresa.",
     cta: "Pedir revisión gratis",
     intent: "Revisión gratis de un flujo",
-    thumbnail: { kind: "pending", label: "Antes / después de un flujo (pendiente)" },
+    thumbnail: {
+      kind: "device",
+      addressBar: "flujo · revisión",
+      image: {
+        png: "images/method/coworking/a11y-contrast.png",
+        alt: "Revisión de contraste de un flujo. Caso anonimizado, sin datos de un prospecto.",
+        width: 806,
+        height: 1400,
+      },
+    },
   },
   {
     id: "consultoria-ux",
@@ -134,20 +145,104 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", image: SERVICIOS_IMAGES.consultoriaThumb },
+    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.xcms },
   },
 ];
 
-export const SERVICIOS_LOGOS = {
-  heading: "Han confiado en Viento Norte",
-  /** Sin logos reales hasta que Rö autorice cada uno. */
-  pendingSlots: 5,
+/** Franja de texto. Nunca «clientes VN» ni logos de terceros. */
+export const SERVICIOS_EXPERIENCE = {
+  heading: "Experiencia de Rö",
+  names: ["Transvip", "Karri", "SURA Investments", "Pareti"],
 } as const;
 
+export const SERVICIOS_FOUNDER = {
+  heading: "Quién está detrás",
+  name: "Rodrigo Gaete",
+  role: "UX Manager, Viento Norte",
+  lines: ["UX Lead en SURA Investments, 2023–2026", "Diplomado PUC"],
+} as const;
+
+export interface BrandCase {
+  id: string;
+  client: string;
+  kicker: string;
+  problem: string;
+  whatWeDid: string;
+  /** Cifra ya publicada en el repo. Ausente = el caso no muestra resultado. */
+  result?: string;
+  images: MarketingImage[];
+  ctaLabel: string;
+  /** Ancla de /servicios/. El llamador arma el href (path en la home, # en la misma página). */
+  ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
+}
+
+const monitas = (file: string, stage: string, height: number): MarketingImage => ({
+  png: `images/cases/monitas/${file}`,
+  alt: `${stage} de Monitas.`,
+  stage,
+  width: 1600,
+  height,
+});
+
+const coworking = (file: string, stage: string, width: number): MarketingImage => ({
+  png: `images/method/coworking/${file}`,
+  alt: `${stage} en un coworking anonimizado.`,
+  stage,
+  width,
+  height: 1400,
+});
+
+/**
+ * Tres casos cerrados por el Decider (28-sep).
+ * Transvip: métricas tal cual en projects-data.ts
+ * («App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82»).
+ */
+export const BRAND_CASES: readonly BrandCase[] = [
+  {
+    id: "monitas",
+    client: "Monitas.cl",
+    kicker: "Asesoría Método Ro · e-commerce",
+    problem:
+      "La tienda no tenía un camino claro: quien entraba no encontraba los productos ni llegaba a pagar sin perderse.",
+    whatWeDid: "Armamos el wireframe, la navegación, el flujo de pago y el embudo.",
+    images: [
+      monitas("01-wireframe.jpg", "Wireframe", 903),
+      monitas("02-map-nav.jpg", "Navegación", 903),
+      monitas("03-flujo-pago.jpg", "Pago", 798),
+      monitas("04-embudo.jpg", "Embudo", 1325),
+    ],
+    ctaLabel: "Ver web para pymes",
+    ctaAnchor: "web-pymes",
+  },
+  {
+    id: "coworking",
+    client: "Coworking",
+    kicker: "Auditoría de contraste y accesibilidad",
+    problem: "En el sitio de un coworking, el contraste y la lectura dificultaban usar un flujo. El nombre queda fuera.",
+    whatWeDid: "Revisamos contraste y accesibilidad de ese flujo y dejamos los hallazgos priorizados.",
+    images: [
+      coworking("a11y-contrast.png", "Contraste", 806),
+      coworking("a11y-readability.png", "Lectura", 794),
+    ],
+    ctaLabel: "Ver la revisión gratis",
+    ctaAnchor: "revision-gratis",
+  },
+  {
+    id: "transvip",
+    client: "Transvip",
+    kicker: "Experiencia de Rö · Senior Product Designer, 2022–2023",
+    problem: "Quien reservaba un traslado premium encontraba fricción y poca claridad en la app.",
+    whatWeDid: "Rediseño del flujo de reserva de la app de pasajeros.",
+    result: "−40% tiempo de reserva, +25% conversión, NPS 82.",
+    images: [],
+    ctaLabel: "Conversar consultoría UX",
+    ctaAnchor: "consultoria-ux",
+  },
+];
+
 export const SERVICIOS_CASES = {
-  heading: "Casos",
-  intro: "Problema, qué hicimos y el resultado medible.",
-  pendingCount: 3,
+  heading: "El recorrido",
+  intro: "De la primera pantalla al resultado.",
 } as const;
 
 export const SERVICIOS_STEPS = {
@@ -156,15 +251,15 @@ export const SERVICIOS_STEPS = {
   steps: [
     {
       title: "Kickoff de 30 minutos",
-      description: "Conversamos sobre tu negocio, el flujo o la web que necesitas y qué quieres lograr.",
+      description: "Vemos el flujo.",
     },
     {
       title: "Propuesta con alcance y precio",
-      description: "Te enviamos por escrito qué haremos, en qué plazo y cuánto cuesta antes de partir.",
+      description: "Alcance, plazo y precio.",
     },
     {
       title: "Entrega e iteración",
-      description: "Entregamos, lo revisamos contigo y ajustamos según lo acordado.",
+      description: "Entrega y ajuste.",
     },
   ],
 } as const;
