@@ -1,5 +1,5 @@
 {
-  "notes": "P4 (PO 2026-09-27): landings por rubro prerenderizadas en /servicios/<slug>/ (scripts/prerender-servicios.mjs). Una entrada = una página. Estas rutas son de Vite: generate-service-landings.py y build-static-share.py tienen prohibido escribirlas (scripts/redirect_pages.py · vite_owned_paths). Marcas de los mockups: ficticias y rotuladas «Ejemplo».",
+  "notes": "P4 (PO 2026-09-27): landings por rubro prerenderizadas en /servicios/<slug>/ (scripts/prerender-servicios.mjs). Una entrada = una página. Estas rutas son de Vite: generate-service-landings.py y build-static-share.py tienen prohibido escribirlas (scripts/redirect_pages.py · vite_owned_paths). Mockups (PO 2026-09-27): solo un dispositivo con el sitio del cliente ficticio (sin marca ni ofertas de Viento Norte, sin cifras/precios/testimonios); «Ejemplo» va fuera del dispositivo (caption). Fuente y capturas: scripts/rubro-mockups/ (node scripts/rubro-mockups/capture.mjs <slug>) → public/images/rubros/<slug>/.",
   "origin": "https://vientonorte.io",
   "lastmod": "2026-09-27",
   "offer": {
@@ -66,25 +66,25 @@
       "mockups": {
         "caption": "Ejemplo ilustrativo · Dental Brisa es una marca ficticia.",
         "desktop": {
-          "webp": "images/rubros/dental-desktop.webp",
-          "png": "images/rubros/dental-desktop.png",
-          "alt": "Ejemplo ilustrativo en computador: landing para Dental Brisa, clínica dental ficticia, con el titular «Que reservar una hora sea más fácil que llamar» y una maqueta de reserva de hora en 3 pasos.",
-          "width": 1440,
-          "height": 900
+          "webp": "images/rubros/web-dental/desktop.webp",
+          "png": "images/rubros/web-dental/desktop.png",
+          "alt": "Ejemplo: sitio ficticio de Dental Brisa en escritorio, con el botón «Reservar hora», los tratamientos y un botón de WhatsApp.",
+          "width": 1280,
+          "height": 800
         },
         "mobile": {
-          "webp": "images/rubros/dental-mobile.webp",
-          "png": "images/rubros/dental-mobile.png",
-          "alt": "El mismo ejemplo en celular: titular, botones de contacto y maqueta de la web de Dental Brisa, marca ficticia.",
-          "width": 500,
-          "height": 820
+          "webp": "images/rubros/web-dental/mobile.webp",
+          "png": "images/rubros/web-dental/mobile.png",
+          "alt": "Ejemplo: sitio ficticio de Dental Brisa en celular, con los botones «Reservar hora» y WhatsApp a la vista.",
+          "width": 390,
+          "height": 844
         },
         "card": {
-          "webp": "images/rubros/dental-card.webp",
-          "png": "images/rubros/dental-card.png",
-          "alt": "Web dental de ejemplo en computador y celular: Dental Brisa, marca ficticia rotulada «Ejemplo».",
-          "width": 800,
-          "height": 500
+          "webp": "images/rubros/web-dental/card.webp",
+          "png": "images/rubros/web-dental/card.png",
+          "alt": "Ejemplo: sitio ficticio de Dental Brisa en escritorio y celular.",
+          "width": 1200,
+          "height": 630
         }
       },
       "cta": {

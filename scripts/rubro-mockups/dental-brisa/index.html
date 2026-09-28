@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Dental Brisa · Clínica dental (sitio ficticio)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<!--
+  Sitio FICTICIO de ejemplo. Solo sirve de fuente para las capturas de
+  public/images/rubros/web-dental/ (scripts/rubro-mockups/capture.mjs).
+  Regla PO 2026-09-27: el mockup muestra solo el sitio del cliente ficticio.
+  Sin marca ni ofertas del estudio, sin cifras, precios, valoraciones ni testimonios.
+-->
+<body>
+  <header class="nav">
+    <a class="brand" href="#inicio" aria-label="Dental Brisa, inicio">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="9" fill="#0e7c86" />
+        <path d="M10 9c-2.6 0-4 2-4 4.6 0 3 1.4 4.4 2.2 7.4.7 2.7 1.1 5 2.6 5 1.4 0 1.6-2.4 2.2-4.4.4-1.3.9-2 1-2s1.6.7 2 2c.6 2 .8 4.4 2.2 4.4 1.5 0 1.9-2.3 2.6-5 .8-3 2.2-4.4 2.2-7.4C27 11 25.6 9 23 9c-2 0-3 1.2-4.5 1.2S14 9 10 9z" fill="#fff" transform="translate(-0.5 -1)" />
+      </svg>
+      <span>Dental Brisa</span>
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#tratamientos">Tratamientos</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#ubicacion">Ubicación</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#reservar">Reservar hora</a>
+    <button class="menu" type="button" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Clínica dental de barrio</p>
+        <h1>Tu sonrisa, en buenas manos.</h1>
+        <p class="lead">Atención cercana para toda la familia. Elige tu tratamiento y reserva tu hora en línea, o escríbenos por WhatsApp.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" id="reservar" href="#reservar">Reservar hora</a>
+          <a class="btn btn-ghost btn-lg" href="#whatsapp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4A2.5 2.5 0 0 1 4 13.5z" fill="currentColor" /></svg>
+            WhatsApp
+          </a>
+        </div>
+        <ul class="facts">
+          <li>Atención de lunes a sábado</li>
+          <li>Urgencias el mismo día</li>
+        </ul>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="blob blob-a"></div>
+        <div class="blob blob-b"></div>
+        <div class="art-card">
+          <svg class="tooth" viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset="1" stop-color="#e4f3f4" />
+              </linearGradient>
+            </defs>
+            <path d="M36 18c-12 0-19 9-19 21 0 14 7 21 10.5 35 3 12 5 23 12 23 6.5 0 7.5-11 10.5-20 1.8-6 4-9 10-9s8.2 3 10 9c3 9 4 20 10.5 20 7 0 9-11 12-23C96 60 103 53 103 39c0-12-7-21-19-21-9 0-14 5.5-24 5.5S45 18 36 18z" fill="url(#g)" stroke="#0e7c86" stroke-width="3" />
+            <path d="M44 34c-5 0-8 3.5-8 8" fill="none" stroke="#7cc9cf" stroke-width="4" stroke-linecap="round" />
+          </svg>
+          <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+        </div>
+        <div class="pill pill-a">Tu hora, sin llamar</div>
+        <div class="pill pill-b">Recordatorio por WhatsApp</div>
+      </div>
+    </section>
+
+    <section class="treatments" id="tratamientos" aria-labelledby="t-h">
+      <h2 id="t-h">Tratamientos</h2>
+      <ul class="cards">
+        <li><span class="ico ico-a"></span><h3>Limpieza</h3><p>Control y limpieza para mantener tus dientes sanos.</p></li>
+        <li><span class="ico ico-b"></span><h3>Ortodoncia</h3><p>Evaluación y alineación para niños y adultos.</p></li>
+        <li><span class="ico ico-c"></span><h3>Blanqueamiento</h3><p>Un tono más claro, con supervisión profesional.</p></li>
+        <li><span class="ico ico-d"></span><h3>Urgencias</h3><p>Dolor o golpe: te atendemos lo antes posible.</p></li>
+      </ul>
+    </section>
+
+    <section class="location" id="ubicacion" aria-labelledby="u-h">
+      <div>
+        <h2 id="u-h">Ubicación</h2>
+        <p>Calle de los Aromos, Barrio Ficticio. A pasos del paradero y con estacionamiento cercano.</p>
+        <a class="btn btn-ghost" href="#mapa">Cómo llegar</a>
+      </div>
+      <div class="map" aria-hidden="true"><span class="pin"></span></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><strong>Dental Brisa</strong> · Sitio ficticio de ejemplo.</p>
+  </footer>
+
+  <a class="wa-float" href="#whatsapp" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4A2.5 2.5 0 0 1 4 13.5z" fill="currentColor" /></svg>
+    <span>WhatsApp</span>
+  </a>
+</body>
+</html>
