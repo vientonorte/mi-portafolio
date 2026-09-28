@@ -12,9 +12,8 @@ export const CONTACT_ENDPOINT = "https://contact.vientonorte.io/api/contact";
 export const CONTACT_EMAIL = "contacto@vientonorte.io";
 
 /**
- * CTA primario con gradiente de marca. Blanco sobre #E8401C→#1A8FDC ronda 3.5:1,
- * así que el texto va a ≥19px bold (texto grande WCAG → mínimo 3:1) y sin
- * hover:opacity (bajaría el contraste).
+ * CTA primario con gradiente de marca (--brand-gradient, variantes 700 AA:
+ * blanco ≥ 5.56:1 en todo el degradado). Sin hover:opacity (bajaría el contraste).
  */
 export const PRIMARY_CTA_CLASS =
   "min-h-[48px] bg-brand-gradient px-6 text-[1.1875rem] font-bold text-white shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";

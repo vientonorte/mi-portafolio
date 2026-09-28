@@ -7,10 +7,7 @@ import Home from "@/pages/Home";
 import ConsultoriaVientoNorte from "@/pages/ConsultoriaVientoNorte";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { serviciosHref } from "@/lib/servicios-links";
-import { HERO_PRIMARY_CTA_STOPS } from "@/components/organisms/home-marketing-tokens";
 import { SERVICIOS_CARDS } from "@/servicios/servicios-content";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 
 afterEach(() => {
   cleanup();
@@ -209,53 +206,11 @@ describe("SEM /consultoria unchanged", () => {
   });
 });
 
-/** WCAG 2.x: luminancia relativa y razón de contraste. */
-function luminance(hex: string): number {
-  const [r, g, b] = [1, 3, 5].map((i) => {
-    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-function contrast(a: string, b: string): number {
-  const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
-  return (l1 + 0.05) / (l2 + 0.05);
-}
-function mix(a: string, b: string, t: number): string {
-  return (
-    "#" +
-    [1, 3, 5]
-      .map((i) => {
-        const v = Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t) + parseInt(b.slice(i, i + 2), 16) * t);
-        return v.toString(16).padStart(2, "0");
-      })
-      .join("")
-  );
-}
-
-describe("Hero primary CTA contrast (WCAG AA, texto blanco)", () => {
-  it("brand gradient stops fail AA (before): #E8401C ≈ 4.05:1, #1A8FDC ≈ 3.50:1", () => {
-    expect(contrast("#ffffff", "#E8401C")).toBeCloseTo(4.05, 2);
-    expect(contrast("#ffffff", "#1A8FDC")).toBeCloseTo(3.5, 2);
-  });
-
-  it("hero CTA uses the 700 AA tokens: #c2330f ≈ 5.56:1, #0f6aa8 ≈ 5.76:1, every point ≥ 4.5:1", () => {
-    const tokens = readFileSync(resolve(__dirname, "../../styles/vn-tokens.css"), "utf8");
-    expect(tokens).toMatch(new RegExp(`--vn-primitive-rojo-700:\\s*${HERO_PRIMARY_CTA_STOPS.from}`, "i"));
-    expect(tokens).toMatch(new RegExp(`--vn-primitive-azul-evo-700:\\s*${HERO_PRIMARY_CTA_STOPS.to}`, "i"));
-    expect(contrast("#ffffff", HERO_PRIMARY_CTA_STOPS.from)).toBeCloseTo(5.56, 2);
-    expect(contrast("#ffffff", HERO_PRIMARY_CTA_STOPS.to)).toBeCloseTo(5.76, 2);
-    for (let t = 0; t <= 1.0001; t += 0.05) {
-      const c = mix(HERO_PRIMARY_CTA_STOPS.from, HERO_PRIMARY_CTA_STOPS.to, Math.min(t, 1));
-      expect(contrast("#ffffff", c), c).toBeGreaterThanOrEqual(4.5);
-    }
-  });
-
-  it("hero primary <a> renders the AA gradient class (not the brand gradient)", () => {
+describe("Hero primary CTA uses the shared AA brand gradient", () => {
+  it("hero primary <a> uses bg-brand-gradient (700 tokens; ratios in a11y/gradient-contrast.test.ts)", () => {
     const { container } = renderAt(<Home />);
     const primary = container.querySelector<HTMLAnchorElement>('#inicio a[data-marketing-cta="hero-primary"]')!;
-    expect(primary.className).toContain("--vn-primitive-rojo-700");
-    expect(primary.className).toContain("--vn-primitive-azul-evo-700");
-    expect(primary.className).not.toContain("bg-brand-gradient");
+    expect(primary.className).toContain("bg-brand-gradient");
+    expect(primary.className).not.toMatch(/bg-\[linear-gradient/);
   });
 });
