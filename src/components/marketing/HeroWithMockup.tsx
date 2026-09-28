@@ -61,7 +61,7 @@ export function HeroWithMockup({
         </div>
         <div className="relative min-w-0" data-testid="hero-mockup">
           <DeviceMockup
-            variant="laptop"
+            variant="browser"
             src={assetUrl(desktopImage.png)}
             alt={desktopImage.alt}
             caption={caption}

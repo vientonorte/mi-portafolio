@@ -83,6 +83,9 @@ export function ServiciosPage() {
             <h2 id="opciones-heading" className={SECTION_TITLE_CLASS}>
               Tres formas de partir
             </h2>
+            <p className="mt-2 max-w-2xl text-base text-muted-foreground">
+              Estrena tu web, parte gratis revisando un flujo o conversemos un proyecto a tu medida.
+            </p>
             <ServiceCards
               cards={SERVICIOS_CARDS}
               ctaClassName={PRIMARY_CTA_CLASS}

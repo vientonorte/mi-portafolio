@@ -1,4 +1,5 @@
 import type { MouseEvent, ReactNode } from "react";
+import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import { DeviceMockup } from "../molecules/DeviceMockup";
@@ -7,7 +8,7 @@ import { PendingSlot } from "./PendingSlot";
 import type { MarketingImage } from "./ResponsiveImage";
 
 export type ServiceCardThumbnail =
-  | { kind: "device"; image: MarketingImage }
+  | { kind: "device"; image: MarketingImage; addressBar: string }
   | { kind: "pending"; label: string };
 
 export interface ServiceCardData {
@@ -44,7 +45,7 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
       variant="browser"
       src={assetUrl(thumb.image.png)}
       alt={thumb.image.alt}
-      addressBar="x-cms · operaciones"
+      addressBar={thumb.addressBar}
       glow={false}
       loading="lazy"
     />
@@ -81,10 +82,29 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                 {card.title}
               </h3>
             </div>
-            <div className="mt-auto border-t border-border/60 pt-4">
-              <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
-                {card.price}
-              </p>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
+              <ul className="mt-2 space-y-2">
+                {card.includes.map((item) => (
+                  <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-auto space-y-4 border-t border-border/60 pt-4">
+              <div>
+                <p className="text-sm font-semibold text-foreground">Precio</p>
+                <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
+                  {card.price}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p>
+              </div>
               <Button asChild size="lg" className={cn(ctaClassName, "w-full")}>
                 <a
                   href={card.href ?? "#contacto"}

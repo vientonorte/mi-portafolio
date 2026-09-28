@@ -89,6 +89,17 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Pago 50/50: 50% al partir y 50% al entregar. El pago se coordina después del primer contacto. Dominio, hosting y tienda online se cotizan aparte.",
     cta: "Quiero mi web",
     intent: "Web nueva",
+    thumbnail: {
+      kind: "device",
+      addressBar: "ejemplo · tu web",
+      image: {
+        webp: "images/branding/hero-ejemplo.webp",
+        png: "images/branding/hero-ejemplo.png",
+        alt: "Ejemplo de un sitio para una pyme. Maqueta ilustrativa, sin cifras ni precios.",
+        width: 1440,
+        height: 900,
+      },
+    },
   },
   {
     id: "revision-gratis",
@@ -106,6 +117,16 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Sin compromiso. Un flujo por empresa.",
     cta: "Pedir revisión gratis",
     intent: "Revisión gratis de un flujo",
+    thumbnail: {
+      kind: "device",
+      addressBar: "flujo · revisión",
+      image: {
+        png: "images/method/coworking/a11y-contrast.png",
+        alt: "Revisión de contraste de un flujo. Caso anonimizado, sin datos de un prospecto.",
+        width: 806,
+        height: 1400,
+      },
+    },
   },
   {
     id: "consultoria-ux",
@@ -124,7 +145,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", image: SERVICIOS_IMAGES.xcms },
+    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.xcms },
   },
 ];
 

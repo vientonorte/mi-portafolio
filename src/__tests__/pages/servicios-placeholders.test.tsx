@@ -50,8 +50,10 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
       "¿Tu sitio tiene problemas?",
       "¿Buscas talento joven o un equipo UX?",
     ]);
-    expect(cards[0].querySelector("img")).toBeNull();
-    expect(cards[1].querySelector("img")).toBeNull();
+    expect(cards[0].querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
+    expect(cards[0].textContent).toContain("ejemplo · tu web");
+    expect(cards[1].querySelector("img")?.getAttribute("src")).toBe("/images/method/coworking/a11y-contrast.png");
+    expect(cards[1].textContent).toContain("flujo · revisión");
     const img = cards[2].querySelector("img")!;
     expect(img.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
     expect(cards[2].textContent).toContain("x-cms · operaciones");

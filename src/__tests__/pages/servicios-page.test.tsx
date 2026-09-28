@@ -47,7 +47,12 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     const prices = cards.map((c) => c.querySelector("[data-price]")?.textContent);
     expect(prices).toEqual(["$30.000 CLP", "Gratis", "Cotización según alcance"]);
     expect(cards[0].textContent).toContain("72 horas");
+    expect(cards[0].textContent).toContain("50%");
+    expect(cards[0].textContent).toContain("después del primer contacto");
     for (const c of cards) {
+      expect(c.textContent).toContain("Para quién");
+      expect(c.textContent).toContain("Qué incluye");
+      expect(c.querySelector("img")).not.toBeNull();
       expect(c.querySelector('a[href="#contacto"][data-intent]')).not.toBeNull();
     }
   });
