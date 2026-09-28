@@ -54,13 +54,59 @@ describe("rubros.json", () => {
         expect(existsSync(resolve(root, "public", img.png)), img.png).toBe(true);
         expect(existsSync(resolve(root, "public", img.webp!)), img.webp).toBe(true);
         expect(img.alt.length).toBeGreaterThan(20);
+        expect(img.alt, img.png).toMatch(/Ejemplo|ficticio/);
       }
     }
-    const files = readdirSync(resolve(root, "public/images/rubros"));
-    expect(files.sort()).toEqual(
-      ["dental-card", "dental-desktop", "dental-mobile"].flatMap((n) => [`${n}.png`, `${n}.webp`]).sort()
-    );
-    expect(files.join(" ")).not.toMatch(/antes|despues|interno/i);
+    // Una carpeta por rubro, con los nombres que escribe scripts/rubro-mockups/capture.mjs
+    const dirs = readdirSync(resolve(root, "public/images/rubros"));
+    expect(dirs.sort()).toEqual([...RUBRO_SLUGS].sort());
+    for (const slug of RUBRO_SLUGS) {
+      const files = readdirSync(resolve(root, "public/images/rubros", slug));
+      expect(files.sort()).toEqual(["card", "desktop", "mobile"].flatMap((n) => [`${n}.png`, `${n}.webp`]).sort());
+      const m = RUBROS[slug].mockups;
+      for (const [kind, img] of Object.entries({ desktop: m.desktop, mobile: m.mobile, card: m.card })) {
+        expect(img.png).toBe(`images/rubros/${slug}/${kind}.png`);
+        expect(img.webp).toBe(`images/rubros/${slug}/${kind}.webp`);
+      }
+      expect(files.join(" ")).not.toMatch(/antes|despues|interno/i);
+    }
+  });
+
+  it("mockup PNG dimensions match rubros.json (desktop 1280×800, mobile 390×844, card 1200×630)", () => {
+    const size = (p: string) => {
+      const b = readFileSync(resolve(root, "public", p));
+      return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+    };
+    for (const r of Object.values(RUBROS)) {
+      for (const img of [r.mockups.desktop, r.mockups.mobile, r.mockups.card]) {
+        expect(size(img.png), img.png).toEqual({ width: img.width, height: img.height });
+      }
+      expect([r.mockups.desktop.width, r.mockups.desktop.height]).toEqual([1280, 800]);
+      expect([r.mockups.mobile.width, r.mockups.mobile.height]).toEqual([390, 844]);
+      expect([r.mockups.card.width, r.mockups.card.height]).toEqual([1200, 630]);
+    }
+  });
+
+  it("mockup source sites are fictional client sites: no VN brand, offers or figures", () => {
+    // Regla PO 2026-09-27: el mockup muestra solo el sitio del cliente ficticio.
+    const dir = resolve(root, "scripts/rubro-mockups/dental-brisa");
+    const sources = readdirSync(dir)
+      .filter((f) => /\.(html|css)$/.test(f))
+      .map((f) => [f, readFileSync(resolve(dir, f), "utf8")] as const);
+    expect(sources.map(([f]) => f)).toContain("index.html");
+    for (const [f, text] of sources) {
+      expect(text, f).not.toMatch(/Viento Norte/i);
+      expect(text, f).not.toMatch(/vientonorte/i);
+      expect(text, f).not.toMatch(/WCAG/i);
+      expect(text, f).not.toContain("$");
+    }
+    // Cifras tipo «95%» en el HTML (el CSS usa % para layout, por eso solo el HTML).
+    const html = sources.find(([f]) => f === "index.html")![1];
+    expect(html).not.toMatch(/\d\s?%/);
+    expect(html).toContain("Dental Brisa");
+    expect(html).toMatch(/Sitio ficticio de ejemplo/);
+    expect(html).not.toMatch(/interno-antes-despues|antes-despues/);
+    expect(html).not.toMatch(/(src|href)="https?:/); // sin assets remotos ni marcas reales
   });
 
   it("copy has no invented stats, testimonials or real client names", () => {
@@ -131,11 +177,11 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
   it("hero mockups: webp + png, alt, width/height, eager, from /images/rubros/", () => {
     const imgs = [...doc.querySelectorAll('[data-testid="hero-mockup"] img')];
     expect(imgs.map((i) => i.getAttribute("src"))).toEqual([
-      "/images/rubros/dental-desktop.png",
-      "/images/rubros/dental-mobile.png",
+      "/images/rubros/web-dental/desktop.png",
+      "/images/rubros/web-dental/mobile.png",
     ]);
     for (const img of imgs) {
-      expect(img.getAttribute("alt")).toMatch(/ficticia/);
+      expect(img.getAttribute("alt")).toMatch(/^Ejemplo: sitio ficticio de Dental Brisa/);
       expect(img.getAttribute("width")).toBeTruthy();
       expect(img.getAttribute("height")).toBeTruthy();
       expect(img.getAttribute("loading")).toBe("eager");
@@ -192,7 +238,7 @@ describe("/servicios/web-dental/ <head>", () => {
     );
     expect(head.querySelector('meta[property="og:url"]')!.getAttribute("content")).toBe(canonical);
     expect(head.querySelector('meta[property="og:image"]')!.getAttribute("content")).toBe(
-      "https://vientonorte.io/images/rubros/dental-card.png"
+      "https://vientonorte.io/images/rubros/web-dental/card.png"
     );
     const all = renderHead(SLUG);
     expect(all).not.toContain("#");
