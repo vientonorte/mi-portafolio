@@ -17,6 +17,8 @@ type DeviceMockupProps = {
   glow?: boolean;
   addressBar?: string;
   loading?: "eager" | "lazy";
+  /** contain deja la captura entera. cover la recorta a 16:10 para una tarjeta. */
+  fit?: "contain" | "cover";
 };
 
 export function DeviceMockup({
@@ -28,6 +30,7 @@ export function DeviceMockup({
   glow = true,
   addressBar = "x-cms · local",
   loading = "lazy",
+  fit = "contain",
 }: DeviceMockupProps) {
   if (variant === "phone") {
     return (
@@ -68,9 +71,7 @@ export function DeviceMockup({
     );
   }
 
-  const screen = (
-    fit: "contain" | "cover" = "contain",
-  ) => (
+  const screen = () => (
     <div className="overflow-hidden rounded-lg bg-[#0a0a0a] ring-1 ring-black/40">
       {/* Browser chrome */}
       <div
@@ -95,9 +96,9 @@ export function DeviceMockup({
         height={900}
         className={cn(
           "block h-auto w-full bg-[#0a0a0a]",
-          fit === "contain"
-            ? "object-contain object-top"
-            : "aspect-[16/10] object-cover object-top",
+          fit === "cover"
+            ? "aspect-[16/10] object-cover object-top"
+            : "object-contain object-top",
         )}
         loading={loading}
         decoding="async"
@@ -115,7 +116,7 @@ export function DeviceMockup({
           />
         ) : null}
         <div className="relative rounded-xl bg-[#2c2c2e] p-1.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.75)] ring-1 ring-white/12">
-          {screen("contain")}
+          {screen()}
         </div>
         {caption ? (
           <figcaption className="mt-3 text-center text-[11px] tracking-wide text-white/30">
@@ -143,7 +144,7 @@ export function DeviceMockup({
           <div className="mb-1.5 flex justify-center" aria-hidden>
             <span className="h-1.5 w-1.5 rounded-full bg-black/80 ring-1 ring-white/10" />
           </div>
-          {screen("contain")}
+          {screen()}
         </div>
 
         {/* Hinge */}

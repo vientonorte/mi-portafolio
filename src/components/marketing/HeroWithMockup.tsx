@@ -59,7 +59,7 @@ export function HeroWithMockup({
             <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:items-center">{actions}</div>
           ) : null}
         </div>
-        <div className="relative min-w-0" data-testid="hero-mockup">
+        <div className="relative min-w-0 overflow-hidden" data-testid="hero-mockup">
           <DeviceMockup
             variant="browser"
             src={assetUrl(desktopImage.png)}

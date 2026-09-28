@@ -46,6 +46,7 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
       src={assetUrl(thumb.image.png)}
       alt={thumb.image.alt}
       addressBar={thumb.addressBar}
+      fit="cover"
       glow={false}
       loading="lazy"
     />
