@@ -208,7 +208,7 @@ export const BRAND_CASES: readonly BrandCase[] = [
       coworking("a11y-contrast.png", "Revisión de contraste en el sitio de un coworking. Caso anonimizado.", 806),
       coworking("a11y-readability.png", "Revisión de lectura en el sitio de un coworking. Caso anonimizado.", 794),
     ],
-    ctaLabel: "Pedir revisión gratis",
+    ctaLabel: "Ver la revisión gratis",
     ctaAnchor: "revision-gratis",
   },
   {
