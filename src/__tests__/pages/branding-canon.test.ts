@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { getCompanyLogo } from "@/lib/company-logos";
-import { BRAND_CASES, SERVICIOS_ARC, SERVICIOS_EXPERIENCE } from "@/servicios/servicios-content";
+import { BRAND_CASES, SERVICIOS_EXPERIENCE, SERVICIOS_FUNNEL } from "@/servicios/servicios-content";
 
 /** Componentes nuevos del branding. Fallan si aparece una ruta fuera del canon. */
 const FILES = [
@@ -36,25 +36,9 @@ describe("branding-home canon", () => {
   });
 
   it("los casos propios apuntan solo a anclas de /servicios/", () => {
-    expect(BRAND_CASES.map((c) => c.id)).toEqual(["monitas", "transvip"]);
-    expect(BRAND_CASES.map((c) => c.ctaAnchor)).toEqual(["web-pymes", "consultoria-ux"]);
-    expect(BRAND_CASES[0].result).toBeUndefined();
-    expect(BRAND_CASES[1].result).toBe("−40% tiempo de reserva, +25% conversión, NPS 82.");
-    expect(SERVICIOS_ARC.map((row) => row.company)).toEqual([
-      "micro1",
-      "Viento Norte",
-      "SURA Investments",
-      "Desafío Latam",
-      "Karri by Transvip",
-      "Transvip",
-      "Walmart Chile",
-      "Havas Group Chile",
-      "Valuesite",
-      "Maraña Agencia Digital",
-      "Empresas Pareti",
-      "Nano Tech",
-      "Monday.com",
-    ]);
-    expect(SERVICIOS_ARC.some((row) => /cowork|co-work|robotina|cliengo/i.test(row.company))).toBe(false);
+    expect(BRAND_CASES.map((c) => c.id)).toEqual(["monitas", "edu21"]);
+    expect(BRAND_CASES.map((c) => c.ctaAnchor)).toEqual(["web-pymes", "revision-gratis"]);
+    expect(BRAND_CASES.every((c) => c.images.length === 0)).toBe(true);
+    expect(SERVICIOS_FUNNEL.map((step) => step.title)).toEqual(["Llegan", "Entienden", "Confían", "Escriben"]);
   });
 });

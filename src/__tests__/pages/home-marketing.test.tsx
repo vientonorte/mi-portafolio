@@ -52,7 +52,7 @@ function assertCtas(container: HTMLElement, base: string) {
     `${base}servicios/#consultoria-ux`,
     `${base}servicios/`,
     `${base}servicios/#web-pymes`,
-    `${base}servicios/#consultoria-ux`,
+    `${base}servicios/#revision-gratis`,
   ]);
 }
 

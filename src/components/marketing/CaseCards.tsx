@@ -20,8 +20,8 @@ export interface CaseCardsProps {
   intro?: string;
   /** Casos confirmados por Rö. */
   cases?: CaseCard[];
-  /** Resto de roles, una línea cada uno. Mismos tokens que el título de sección. */
-  arc?: readonly { period: string; company: string; detail: string }[];
+  /** Embudo de cuatro etapas. Mismos tokens que el resto de la página. */
+  funnel?: readonly { title: string; detail: string }[];
   /** Tarjetas placeholder (solo QA) mientras no hay casos confirmados. */
   pendingCount?: number;
   pendingLabel?: string;
@@ -38,7 +38,7 @@ export function CaseCards({
   heading,
   intro,
   cases = [],
-  arc = [],
+  funnel = [],
   pendingCount = 0,
   pendingLabel = "Caso pendiente de confirmar",
 }: CaseCardsProps) {
@@ -55,6 +55,19 @@ export function CaseCards({
           {heading}
         </h2>
         {intro ? <p className="mt-2 max-w-2xl text-base text-muted-foreground">{intro}</p> : null}
+        {funnel.length > 0 ? (
+          <ol className="mt-8 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+            {funnel.map((step, index) => (
+              <li key={step.title}>
+                <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-2 text-base font-semibold text-foreground">{step.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{step.detail}</p>
+              </li>
+            ))}
+          </ol>
+        ) : null}
         <ul className="mt-8 grid list-none gap-6 p-0 md:grid-cols-2">
           {cases.map((c) => (
             <li key={c.id}>
@@ -124,22 +137,6 @@ export function CaseCards({
             </li>
           ))}
         </ul>
-        {arc.length > 0 ? (
-          <ol className="mt-10 list-none border-t border-border p-0">
-            {arc.map((row) => (
-              <li
-                key={row.company + row.period}
-                className="grid grid-cols-1 gap-1 border-b border-border py-4 sm:grid-cols-[11rem_1fr] sm:items-baseline sm:gap-6"
-              >
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{row.period}</span>
-                <p className="text-base text-foreground">
-                  <span className="font-semibold">{row.company}</span>
-                  <span className="text-muted-foreground"> · {row.detail}</span>
-                </p>
-              </li>
-            ))}
-          </ol>
-        ) : null}
       </div>
     </section>
   );
