@@ -139,7 +139,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         <p className="text-sm text-muted-foreground">{loadError}</p>
         <button
           type="button"
-          className="min-h-[44px] rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground"
+          className="min-h-[44px] rounded-md bg-[var(--vn-color-cta-bg)] px-4 text-sm font-semibold text-[var(--vn-color-cta-fg)] hover:bg-[var(--vn-color-cta-bg-hover)]"
           onClick={() => window.location.reload()}
         >
           {initialLang === "es" ? "Recargar" : "Reload"}

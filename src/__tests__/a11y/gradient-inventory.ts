@@ -240,6 +240,50 @@ export const SOLID_CTA_SURFACES: { id: string; file: string; label: string }[] =
   { id: "timeline-completed", file: "src/components/ui/enterprise/timeline.tsx", label: "ícono completed" },
 ];
 
+/**
+ * Tercer commit: skip-links, checkbox marcado, hover de CaseStudyCard, tab activa de
+ * ProjectDetail, botón de recarga de LanguageContext y selección de texto de Input.
+ * Mismo patrón: bg-primary + text-primary-foreground → --vn-color-cta-*.
+ */
+export interface CtaSurface {
+  id: string;
+  file: string;
+  label: string;
+  cases: Case[];
+}
+/** Borde/relleno del checkbox marcado contra la página (1.4.11, ≥ 3:1). */
+function checkedBoxVsPage(label: string): Case[] {
+  return themes.map((theme): Case => ({
+    label,
+    theme,
+    text: { before: [c(THEME[theme].primary)], after: [c(THEME[theme].ctaBg)] },
+    base: THEME[theme].bg,
+    layers: [],
+    size: "non-text",
+  }));
+}
+export const CTA_SURFACES_C3: CtaSurface[] = [
+  { id: "skip-framework", file: "src/pages/FrameworkDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link FrameworkDetail · blanco sobre azul") },
+  { id: "skip-project", file: "src/pages/ProjectDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link ProjectDetail · blanco sobre azul") },
+  { id: "skip-company", file: "src/pages/CompanyDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link CompanyDetail · blanco sobre azul") },
+  { id: "skip-globals-css", file: "src/styles/globals.css", label: ".skip-link (globals.css)", cases: solidCtaWhite(".skip-link globals.css · blanco sobre azul") },
+  {
+    id: "checkbox-checked",
+    file: "src/components/ui/checkbox.tsx",
+    label: "checkbox marcado",
+    cases: [...solidCtaWhite("Checkbox marcado · check blanco sobre azul", "non-text"), ...checkedBoxVsPage("Checkbox marcado · caja azul vs página")],
+  },
+  { id: "case-study-hover", file: "src/components/molecules/CaseStudyCard.tsx", label: "CTA en hover de la tarjeta", cases: solidCtaWhite("CaseStudyCard hover · blanco sobre azul") },
+  { id: "projectdetail-tab", file: "src/pages/ProjectDetail.tsx", label: "tab activa (pantallas de diseño)", cases: solidCtaWhite("Tab activa ProjectDetail · blanco sobre azul") },
+  {
+    id: "language-reload",
+    file: "src/lib/LanguageContext.tsx",
+    label: "botón Recargar (error de carga de idioma)",
+    cases: solidCtaWhite("Botón Recargar · blanco sobre azul", "normal", { hover: true, why: "antes sin hover (bg-primary); después hover → cta-bg-hover" }),
+  },
+  { id: "input-selection", file: "src/components/ui/input.tsx", label: "selección de texto (::selection)", cases: solidCtaWhite("Input ::selection · blanco sobre azul") },
+];
+
 type Tok = keyof (typeof THEME)["light"];
 /** Texto (foreground y muted-foreground) sobre un tinte degradado translúcido. */
 function tint(
