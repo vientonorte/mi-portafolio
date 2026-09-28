@@ -11,7 +11,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render as renderServicios } from "@/servicios/entry-server";
-import { STEPS, contrast, hex, over, sampleGradient, toRGBA, type RGBA } from "./contrast-utils";
+import { STEPS, contrast, hex, over, parseColor, sampleGradient, toRGBA, type RGBA } from "./contrast-utils";
 import {
   AZUL_700,
   CSS,
@@ -116,7 +116,8 @@ describe("inventario completo de degradados en src/**", () => {
   });
 
   it("pendientes para PR aparte (no arreglables con tokens)", () => {
-    expect(INVENTORY.filter((e) => e.status === "separate-pr").map((e) => e.id)).toEqual(["global-glass-nav", "about-bento"]);
+    // global-glass-nav y about-bento se corrigieron en fix/aa-contrast-mobile-bento-dark
+    expect(INVENTORY.filter((e) => e.status === "separate-pr").map((e) => e.id)).toEqual([]);
   });
 });
 
@@ -162,6 +163,79 @@ describe("antes de este PR (documenta los fallos corregidos)", () => {
   });
   it(".heading-gradient claro #ff1d25→#ff931e: < 3:1 incluso para texto grande", () => {
     expect(before("stats-tooltip", "Valor .heading-gradient", "light")).toBeLessThan(3);
+  });
+});
+
+describe("AA: barra móvil glass, AboutEvidenceBento, botones azules dark (antes → después)", () => {
+  const caseOf = (id: string, label: string, theme: "light" | "dark") =>
+    INVENTORY.find((e) => e.id === id)!.cases!.find((x) => x.label === label && x.theme === theme)!;
+  const ba = (id: string, label: string, theme: "light" | "dark") => {
+    const k = caseOf(id, label, theme);
+    return { before: minRatio(k, "before").ratio, after: minRatio(k, "after").ratio };
+  };
+
+  it("glass: el CSS usa solo --background ≥ 96 % (sin highlight #ffffff en el degradado)", () => {
+    const light = CSS.global.match(/\n\.bottom-nav-mobile--glass \{[\s\S]*?\n\}/)![0];
+    const dark = CSS.global.match(/\nhtml\.dark \.bottom-nav-mobile--glass \{[\s\S]*?\n\}/)![0];
+    for (const b of [light, dark]) {
+      const grad = b.match(/linear-gradient\(([\s\S]*?)\);/)![1];
+      const stops = [...grad.matchAll(/color-mix\(in srgb, ([^ ]+) (\d+)%, transparent\)/g)];
+      expect(stops.length).toBe(3);
+      for (const [, color, pct] of stops) {
+        expect(color).toBe("var(--background)");
+        expect(Number(pct)).toBeGreaterThanOrEqual(96);
+      }
+    }
+  });
+
+  it("glass claro idle (#404040) sobre contenido negro: 1.12:1 → ≥ 4.5:1 (texto) y ≥ 3:1 (ícono)", () => {
+    const t = ba("global-glass-nav", "Idle label · tope glass sobre negro", "light");
+    expect(t.before).toBeCloseTo(1.12, 1);
+    expect(t.after).toBeGreaterThanOrEqual(4.5);
+    expect(ba("global-glass-nav", "Idle icon · tope glass sobre negro", "light").after).toBeGreaterThanOrEqual(3);
+  });
+
+  it("glass oscuro idle (#a3a3a3) sobre contenido blanco: < 3:1 → ≥ 4.5:1", () => {
+    const t = ba("global-glass-nav", "Idle label · tope glass sobre blanco", "dark");
+    expect(t.before).toBeLessThan(3);
+    expect(t.after).toBeGreaterThanOrEqual(4.5);
+    expect(ba("global-glass-nav", "Idle icon · tope glass sobre blanco", "dark").after).toBeGreaterThanOrEqual(3);
+  });
+
+  it("AboutEvidenceBento: label 11px → text-xs sobre chip bg-background/95; 1.42:1 → ≥ 4.5:1", () => {
+    const src = readFileSync(join(ROOT, "src/components/organisms/AboutEvidenceBento.tsx"), "utf8");
+    expect(src).not.toMatch(/text-\[11px\]/);
+    expect(src).toMatch(/rounded-md bg-background\/95 px-1\.5 py-0\.5 text-xs font-medium tracking-wide text-foreground/);
+    const light = ba("about-bento", "Label sobre foto oscura (zona via/20 → chip/95)", "light");
+    expect(light.before).toBeCloseTo(1.42, 1);
+    expect(light.after).toBeGreaterThanOrEqual(4.5);
+    const dark = ba("about-bento", "Label sobre foto clara (zona via/20 → chip/95)", "dark");
+    expect(dark.before).toBeLessThan(4.5);
+    expect(dark.after).toBeGreaterThanOrEqual(4.5);
+  });
+
+  describe("botones sólidos azules en dark", () => {
+    const white = parseColor("#ffffff");
+    it("tokens: --vn-color-cta-bg = azul-evo-700, cta-bg-hover = azul-evo-800, cta-fg = blanco; --primary claro sigue en #0f6aa8", () => {
+      expect(THEME.light.ctaBg.toLowerCase()).toBe("#0f6aa8");
+      expect(THEME.dark.ctaBg.toLowerCase()).toBe("#0f6aa8");
+      expect(THEME.dark.ctaFg.toLowerCase()).toBe("#ffffff");
+      expect(THEME.light.primary.toLowerCase()).toBe("#0f6aa8");
+      expect(CSS.vnTokens).toMatch(/--vn-color-cta-bg-hover:\s*var\(--vn-primitive-azul-evo-800\)/);
+    });
+    it("antes: bg-primary oscuro (#1A8FDC) + text-primary-foreground (#fff) = 3.50:1", () => {
+      expect(contrast(parseColor(THEME.dark.primaryFg), parseColor(THEME.dark.primary))).toBeCloseTo(3.5, 2);
+    });
+    it("después: Button default y ProcessNavigation activo usan --vn-color-cta-* → 5.76:1 (hover 6.79:1)", () => {
+      const btn = readFileSync(join(ROOT, "src/components/ui/button.tsx"), "utf8");
+      expect(btn).toMatch(/default: "bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] hover:bg-\[var\(--vn-color-cta-bg-hover\)\]"/);
+      const nav = readFileSync(join(ROOT, "src/components/molecules/ProcessNavigation.tsx"), "utf8");
+      expect(nav).toMatch(/bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\]/);
+      const r = contrast(parseColor(THEME.dark.ctaFg), parseColor(THEME.dark.ctaBg));
+      expect(r).toBeGreaterThanOrEqual(4.5);
+      expect(r).toBeCloseTo(5.76, 2);
+      expect(contrast(white, parseColor("#0b5f96"))).toBeGreaterThanOrEqual(4.5);
+    });
   });
 });
 
