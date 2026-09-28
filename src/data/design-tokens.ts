@@ -88,7 +88,8 @@ export const colorTokensLight: ColorToken[] = [
     name: "Primary",
     path: "color.semantic.primary",
     cssVar: "--primary",
-    value: "#1A8FDC",
+    value: "#0F6AA8",
+    description: "Azul evo 700 (AA: blanco 5.76:1). En oscuro se mantiene #1A8FDC.",
     group: "semantic",
   },
   {
@@ -568,9 +569,9 @@ export const effectTokens: EffectToken[] = [
     name: "Brand Gradient",
     path: "effect.brand-gradient",
     cssVar: "--brand-gradient",
-    value: "linear-gradient(135deg, #E8401C 0%, #1A8FDC 100%)",
+    value: "linear-gradient(135deg, #c2330f 0%, #0f6aa8 100%)",
     type: "gradient",
-    description: "Solo ~10% de la UI · CTAs, acento isologo, highlights",
+    description: "Solo ~10% de la UI · CTAs, acento isologo, highlights · variantes 700 AA (texto blanco ≥ 5.56:1)",
   },
   {
     name: "Logo Plate Shadow",

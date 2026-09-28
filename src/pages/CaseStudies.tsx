@@ -573,7 +573,7 @@ export default function CaseStudies({
                   className="flex-1 w-full"
                 >
                   <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/30 rounded-xl p-6">
-                    <h4 className="font-bold text-center mb-4 text-blue-600">
+                    <h4 className="font-bold text-center mb-4 text-blue-600 dark:text-blue-400">
                       {t.caseStudies.valueChain.phases.discovery}
                     </h4>
                     <div className="space-y-2">
@@ -591,7 +591,7 @@ export default function CaseStudies({
                   className="flex-1 w-full"
                 >
                   <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/30 rounded-xl p-6">
-                    <h4 className="font-bold text-center mb-4 text-green-600">
+                    <h4 className="font-bold text-center mb-4 text-green-800 dark:text-green-400">
                       {t.caseStudies.valueChain.phases.productDesign}
                     </h4>
                     <div className="space-y-2">
@@ -648,7 +648,7 @@ export default function CaseStudies({
                 className="bg-brand-gradient hover:opacity-90 transition-opacity group relative overflow-hidden text-lg px-8 py-6 h-auto"
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 />
