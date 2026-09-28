@@ -119,12 +119,12 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     intent: "Revisión gratis de un flujo",
     thumbnail: {
       kind: "device",
-      addressBar: "flujo · revisión",
+      addressBar: "x-cms · flujo",
       image: {
-        png: "images/method/coworking/a11y-contrast.png",
-        alt: "Revisión de contraste de un flujo. Caso anonimizado, sin datos de un prospecto.",
-        width: 806,
-        height: 1400,
+        png: "images/poc-modules/pedidos.png",
+        alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte.",
+        width: 1440,
+        height: 900,
       },
     },
   },
@@ -184,14 +184,6 @@ const monitas = (file: string, stage: string, height: number): MarketingImage =>
   height,
 });
 
-const coworking = (file: string, stage: string, width: number): MarketingImage => ({
-  png: `images/method/coworking/${file}`,
-  alt: `${stage} en un coworking anonimizado.`,
-  stage,
-  width,
-  height: 1400,
-});
-
 /**
  * Tres casos cerrados por el Decider (28-sep).
  * Transvip: métricas tal cual en projects-data.ts
@@ -220,10 +212,7 @@ export const BRAND_CASES: readonly BrandCase[] = [
     kicker: "Auditoría de contraste y accesibilidad",
     problem: "En el sitio de un coworking, el contraste y la lectura dificultaban usar un flujo. El nombre queda fuera.",
     whatWeDid: "Revisamos contraste y accesibilidad de ese flujo y dejamos los hallazgos priorizados.",
-    images: [
-      coworking("a11y-contrast.png", "Contraste", 806),
-      coworking("a11y-readability.png", "Lectura", 794),
-    ],
+    images: [],
     ctaLabel: "Ver la revisión gratis",
     ctaAnchor: "revision-gratis",
   },
