@@ -50,7 +50,7 @@ describe("mapKeywordRow", () => {
         keyword: { text: "tecnologia para pymes", match_type: "BROAD" },
         system_serving_status: "ELIGIBLE",
         final_urls: [
-          "https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes",
+          "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis",
         ],
       },
       metrics: {
@@ -69,7 +69,7 @@ describe("mapKeywordRow", () => {
     assert.equal(mapped.status, "ELIGIBLE");
     assert.equal(
       mapped.finalUrl,
-      "https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes"
+      "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis"
     );
     assert.equal(mapped.impressions, 1282);
     assert.equal(mapped.clicks, 109);
@@ -119,7 +119,7 @@ describe("readLiveConfig / factory", () => {
               status: "ENABLED",
               system_serving_status: "ELIGIBLE",
               final_urls: [
-                "https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes",
+                "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis",
               ],
             },
             metrics: {
