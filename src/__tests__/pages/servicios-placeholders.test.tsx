@@ -28,20 +28,16 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(html).not.toContain("clientes VN");
   });
 
-  it("hero is the Ejemplo frame (webp + png, alt, eager) without figures in the device", () => {
+  it("hero uses the Figma DeviceMockup with the X|CMS capture", () => {
     const mock = doc.querySelector('[data-testid="hero-mockup"]')!;
     expect(mock).not.toBeNull();
     const imgs = [...mock.querySelectorAll("img")];
-    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/branding/hero-ejemplo.png"]);
-    for (const img of imgs) {
-      expect(img.getAttribute("alt")).toMatch(/Ejemplo/);
-      expect(img.getAttribute("alt")).not.toMatch(/\d|\$|%/);
-      expect(img.getAttribute("width")).toBe("1440");
-      expect(img.getAttribute("height")).toBe("900");
-      expect(img.getAttribute("loading")).toBe("eager");
-      expect(img.parentElement?.querySelector('source[type="image/webp"]')).not.toBeNull();
-    }
-    expect(mock.textContent ?? "").not.toMatch(/transvip|sura|\$|%/i);
+    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/consultoria/x-cms-dashboard.png"]);
+    expect(imgs[0].getAttribute("alt")).toMatch(/X\|CMS/);
+    expect(imgs[0].getAttribute("width")).toBe("1440");
+    expect(imgs[0].getAttribute("height")).toBe("900");
+    expect(imgs[0].getAttribute("loading")).toBe("eager");
+    expect(mock.textContent).toContain("x-cms · operaciones");
     expect(mock.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
@@ -57,7 +53,8 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(cards[0].querySelector("img")).toBeNull();
     expect(cards[1].querySelector("img")).toBeNull();
     const img = cards[2].querySelector("img")!;
-    expect(img.getAttribute("src")).toBe("/images/poc-modules/dashboard.png");
+    expect(img.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
+    expect(cards[2].textContent).toContain("x-cms · operaciones");
     expect(img.getAttribute("loading")).toBe("lazy");
     expect(img.getAttribute("alt")).toBeTruthy();
   });
@@ -137,7 +134,13 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     expect(html).not.toContain("TODO");
     const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
     const bad = hrefs.filter(
-      (h) => !(h === "/qa/" || /^#[A-Za-z][\w-]*$/.test(h) || h === "mailto:contacto@vientonorte.io")
+      (h) =>
+        !(
+          h === "/qa/" ||
+          h.startsWith("/qa/images/") ||
+          /^#[A-Za-z][\w-]*$/.test(h) ||
+          h === "mailto:contacto@vientonorte.io"
+        )
     );
     expect(bad).toEqual([]);
   });

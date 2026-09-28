@@ -2,7 +2,8 @@ import type { MouseEvent, ReactNode } from "react";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
-import { DeviceFrame } from "./DeviceFrame";
+import { DeviceMockup } from "../molecules/DeviceMockup";
+import { assetUrl } from "./marketing-env";
 import { PendingSlot } from "./PendingSlot";
 import type { MarketingImage } from "./ResponsiveImage";
 
@@ -40,9 +41,14 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
   if (!thumb) return null;
   if (thumb.kind === "pending") return <PendingSlot variant="thumb" label={thumb.label} />;
   return (
-    <div className="aspect-[16/10] overflow-hidden rounded-lg bg-neutral-900 p-3 sm:p-4">
-      <DeviceFrame variant="desktop" size="sm" image={thumb.image} sizes="(min-width: 1024px) 340px, 90vw" />
-    </div>
+    <DeviceMockup
+      variant="browser"
+      src={assetUrl(thumb.image.png)}
+      alt={thumb.image.alt}
+      addressBar="x-cms · operaciones"
+      glow={false}
+      loading="lazy"
+    />
   );
 }
 

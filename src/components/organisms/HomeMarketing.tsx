@@ -101,7 +101,7 @@ export function HomeMarketingHero() {
       eyebrow={t.principleBadge}
       title={t.title}
       subtitle={t.description}
-      desktopImage={SERVICIOS_IMAGES.heroEjemplo}
+      desktopImage={SERVICIOS_IMAGES.xcms}
       actions={
         <>
           <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>

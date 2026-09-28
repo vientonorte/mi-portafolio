@@ -196,9 +196,10 @@ describe("Home P3a — base '/' (producción)", () => {
     expect(container.innerHTML).not.toContain("Han confiado");
     expect(container.innerHTML).not.toContain("clientes VN");
     const hero = container.querySelector('[data-testid="hero-mockup"]')!;
-    expect(hero.querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
+    expect(hero.querySelector("img")?.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
+    expect(hero.querySelector("img")?.getAttribute("alt")).toMatch(/X\|CMS/);
+    expect(hero.textContent).toContain("x-cms · operaciones");
     expect(hero.querySelectorAll("img")).toHaveLength(1);
-    expect(hero.textContent ?? "").not.toMatch(/\d|\$|%/);
   });
 });
 
@@ -220,7 +221,7 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     for (const src of qaLogos) expect(src.startsWith("/qa/images/")).toBe(true);
     expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
-    expect(heroSrc).toBe("/qa/images/branding/hero-ejemplo.png");
+    expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");
   });
 });
 

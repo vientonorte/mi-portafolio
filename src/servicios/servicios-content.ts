@@ -42,18 +42,14 @@ export const SERVICIOS_IMAGES = {
    * Hero de home y /servicios/: sitio ficticio marcado «Ejemplo».
    * Sin cifras ni precios dentro del dispositivo.
    */
-  heroEjemplo: {
-    webp: "images/branding/hero-ejemplo.webp",
-    png: "images/branding/hero-ejemplo.png",
-    alt: "Ejemplo de un sitio para una pyme. Maqueta ilustrativa, sin cifras ni precios.",
-    width: 1440,
-    height: 900,
-  },
-  /** Dashboard del prototipo (misma captura que poc-modules/dashboard.png; webp compartido). */
-  consultoriaThumb: {
+  /**
+   * Captura X|CMS del estándar Figma de Rö
+   * (DeviceMockup, barra "x-cms · operaciones").
+   */
+  xcms: {
     webp: "images/consultoria/x-cms-dashboard.webp",
-    png: "images/poc-modules/dashboard.png",
-    alt: "Prototipo de dashboard X|CMS diseñado por Viento Norte para ordenar la operación de una pyme.",
+    png: "images/consultoria/x-cms-dashboard.png",
+    alt: "X|CMS — dashboard de operaciones en el CMS del cliente",
     width: 1440,
     height: 900,
   },
@@ -131,7 +127,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", image: SERVICIOS_IMAGES.consultoriaThumb },
+    thumbnail: { kind: "device", image: SERVICIOS_IMAGES.xcms },
   },
 ];
 
