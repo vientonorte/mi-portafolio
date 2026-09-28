@@ -176,68 +176,42 @@ export interface BrandCase {
   ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
 }
 
-const monitas = (file: string, stage: string, height: number): MarketingImage => ({
-  png: `images/cases/monitas/${file}`,
-  alt: `${stage} de Monitas.`,
-  stage,
-  width: 1600,
-  height,
-});
-
-/**
- * Dos casos propios. Transvip: métricas tal cual en projects-data.ts
- * («App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82»).
- */
+/** Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto. */
 export const BRAND_CASES: readonly BrandCase[] = [
   {
     id: "monitas",
     client: "Monitas.cl",
-    kicker: "Asesoría Método Ro · e-commerce",
+    kicker: "Freelance · Viento Norte",
     problem:
       "La tienda no tenía un camino claro: quien entraba no encontraba los productos ni llegaba a pagar sin perderse.",
-    whatWeDid: "Armamos el wireframe, la navegación, el flujo de pago y el embudo.",
-    images: [
-      monitas("01-wireframe.jpg", "Wireframe", 903),
-      monitas("02-map-nav.jpg", "Navegación", 903),
-      monitas("03-flujo-pago.jpg", "Pago", 798),
-      monitas("04-embudo.jpg", "Embudo", 1325),
-    ],
+    whatWeDid: "Tienda: quién eres, qué ofreces y cómo pagan. El mismo embudo.",
+    images: [],
     ctaLabel: "Ver web para pymes",
     ctaAnchor: "web-pymes",
   },
   {
-    id: "transvip",
-    client: "Transvip",
-    kicker: "Experiencia de Rö · Senior Product Designer, 2022–2023",
-    problem: "Quien reservaba un traslado premium encontraba fricción y poca claridad en la app.",
-    whatWeDid: "Rediseño del flujo de reserva de la app de pasajeros.",
-    result: "−40% tiempo de reserva, +25% conversión, NPS 82.",
+    id: "edu21",
+    client: "Edu21",
+    kicker: "Freelance · Viento Norte",
+    problem: "El servicio se explicaba en piezas sueltas y el camino de la familia no se veía.",
+    whatWeDid: "Heurística, storyboard del servicio y benchmark. El mismo embudo.",
     images: [],
-    ctaLabel: "Conversar consultoría UX",
-    ctaAnchor: "consultoria-ux",
+    ctaLabel: "Ver la revisión gratis",
+    ctaAnchor: "revision-gratis",
   },
 ];
 
 export const SERVICIOS_CASES = {
   heading: "El recorrido",
-  intro: "Desde 2019. Dos pruebas abajo y el resto de los roles, con la cifra solo si ya estaba publicada.",
+  intro: "Todo el freelance es Viento Norte. El embudo es el mismo en cada trabajo.",
 } as const;
 
-/** Roles de producto desde 2019, tal cual experience-data.ts. Sin logos nuevos. */
-export const SERVICIOS_ARC = [
-  { period: "Jul 2026 — actualidad", company: "micro1", detail: "Captura y anotación de gameplay" },
-  { period: "Mar 2019 — actualidad", company: "Viento Norte", detail: "UX Manager · e-commerce, educación y operaciones" },
-  { period: "Sept 2023 — Jun 2026", company: "SURA Investments", detail: "UX Lead · −40% fricción en onboarding" },
-  { period: "Abr 2023 — May 2025", company: "Desafío Latam", detail: "Docente UX UI" },
-  { period: "2022 — 2023", company: "Karri by Transvip", detail: "Lead UX · +35% activación · +58% engagement · −42% abandono" },
-  { period: "Jul 2022 — Sept 2023", company: "Transvip", detail: "Senior Product Designer · −40% tiempo de reserva · +25% conversión · NPS 82" },
-  { period: "May — Jun 2022", company: "Walmart Chile", detail: "Diseñador web" },
-  { period: "Nov 2021 — Abr 2022", company: "Havas Group Chile", detail: "Desarrollador web · navegación y tienda de Claro" },
-  { period: "Jun — Nov 2021", company: "Valuesite", detail: "Líder de diseño · sistema AquiVoy Express" },
-  { period: "Feb 2020 — May 2021", company: "Maraña Agencia Digital", detail: "Diseñador UX UI" },
-  { period: "Oct 2019 — Feb 2020", company: "Empresas Pareti", detail: "Community Manager · e-commerce" },
-  { period: "Abr — Jul 2019", company: "Nano Tech", detail: "Diseñador · branding y UX de e-commerce" },
-  { period: "Ene — May 2019", company: "Monday.com", detail: "Partner · transformación digital" },
+/** Embudo de una página pyme. Una idea por etapa y un solo cierre. */
+export const SERVICIOS_FUNNEL = [
+  { title: "Llegan", detail: "Una frase. Qué haces." },
+  { title: "Entienden", detail: "Qué ofreces, sin ruido." },
+  { title: "Confían", detail: "Quién eres." },
+  { title: "Escriben", detail: "Un solo paso para contactarte." },
 ] as const;
 
 export const SERVICIOS_STEPS = {

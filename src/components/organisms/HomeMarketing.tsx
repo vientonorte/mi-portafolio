@@ -17,8 +17,8 @@ import {
   BRAND_CASES,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
-  SERVICIOS_ARC,
   SERVICIOS_CASES,
+  SERVICIOS_FUNNEL,
   SERVICIOS_IMAGES,
 } from "../../servicios/servicios-content";
 
@@ -165,7 +165,7 @@ export function HomeMarketingSections() {
         heading={SERVICIOS_CASES.heading}
         intro={SERVICIOS_CASES.intro}
         cases={homeCases()}
-        arc={SERVICIOS_ARC}
+        funnel={SERVICIOS_FUNNEL}
       />
 
     </div>
