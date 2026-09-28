@@ -35,10 +35,10 @@ describe("branding-home canon", () => {
     expect(getCompanyLogo("Pareti")?.wordmark).toBeUndefined();
   });
 
-  it("los tres casos apuntan solo a las anclas de /servicios/", () => {
-    expect(BRAND_CASES.map((c) => c.ctaAnchor)).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
+  it("los casos propios apuntan solo a anclas de /servicios/", () => {
+    expect(BRAND_CASES.map((c) => c.id)).toEqual(["monitas", "transvip"]);
+    expect(BRAND_CASES.map((c) => c.ctaAnchor)).toEqual(["web-pymes", "consultoria-ux"]);
     expect(BRAND_CASES[0].result).toBeUndefined();
-    expect(BRAND_CASES[1].result).toBeUndefined();
-    expect(BRAND_CASES[2].result).toBe("−40% tiempo de reserva, +25% conversión, NPS 82.");
+    expect(BRAND_CASES[1].result).toBe("−40% tiempo de reserva, +25% conversión, NPS 82.");
   });
 });
