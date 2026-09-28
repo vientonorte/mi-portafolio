@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -25,37 +25,25 @@ describe("service landings registry · Austral", () => {
     expect(sitemap).not.toContain("gemini.google.com");
   });
 
-  it("each indexable landing has 1 H1 matching registry and self canonical", () => {
-    for (const item of SERVICE_LANDINGS.filter((l) => l.index)) {
-      const rel = item.slug
-        ? `public/servicios/${item.slug}/index.html`
-        : "public/servicios/index.html";
-      const html = readFileSync(resolve(root, rel), "utf8");
-      expect(html.match(/<h1[\s>]/g)?.length).toBe(1);
-      expect(html).toContain(`<h1 id="page-h1">${item.h1}</h1>`);
-      expect(html).toContain("share-hero");
-      expect(html).toContain("share-bar");
-      expect(html).toContain(
-        `rel="canonical" href="https://vientonorte.io${item.path}"`
-      );
-      expect(html).toContain("GTM-PM5LBQRP");
-      expect(html).not.toContain("gtag/js?id=");
-      expect(html).not.toContain('http-equiv="refresh"');
-      expect(html).not.toContain('href="/s/consultoria/"');
-      expect(html).toContain('href="/#/consultoria"');
-      expect(html).toContain('href="/servicios/share.css"');
-      expect(html).toContain('class="share-hero"');
-      expect(html).toContain('id="page-h1"');
-      if (item.poc) {
-        expect(html).toContain('class="share-poc"');
-        expect(html).toContain("/images/poc-modules/dashboard.png");
-        expect(html).toContain('href="/#/consultoria/modulos/dashboard"');
-      } else {
-        expect(html).not.toContain('class="share-poc"');
-        expect(html).not.toContain("/images/poc-modules/dashboard.png");
-      }
-      expect(html).not.toContain("/auditoria");
-      expect(item.title.length).toBeLessThanOrEqual(60);
+  it("hub /servicios/ is the Vite page, not a generated public/ file", () => {
+    // El hub se construye desde servicios/index.html (Vite multi-page + prerender).
+    expect(existsSync(resolve(root, "public/servicios/index.html"))).toBe(false);
+    const hub = readFileSync(resolve(root, "servicios/index.html"), "utf8");
+    expect(hub).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
+    expect(hub).toContain("<!--ssr-outlet-->");
+    expect(sitemap).toContain("<loc>https://vientonorte.io/servicios/</loc>");
+  });
+
+  it("each old ficha /servicios/<slug>/ is now a redirect page (PO 2026-09-27)", () => {
+    // Ya no es ficha share.css: redirige a /servicios/(#ancla) — ver legacy-redirects.test.ts.
+    for (const item of SERVICE_LANDINGS.filter((l) => l.slug)) {
+      const html = readFileSync(resolve(root, `public/servicios/${item.slug}/index.html`), "utf8");
+      expect(html, item.slug).toContain('<meta name="robots" content="noindex, follow" />');
+      expect(html, item.slug).toContain('<link rel="canonical" href="https://vientonorte.io/servicios/" />');
+      expect(html, item.slug).toContain('http-equiv="refresh" content="0;url=../../servicios/');
+      expect(html, item.slug).not.toContain("share.css");
+      expect(html, item.slug).not.toContain("/#/");
+      expect(html, item.slug).not.toContain("<h1");
     }
   });
 
@@ -68,51 +56,51 @@ describe("service landings registry · Austral", () => {
     expect(JSON.stringify(SERVICE_LANDINGS)).not.toMatch(/vambe/i);
   });
 
-  it("B is indexed; C hops to B; checklist lives on B not /recursos", () => {
+  it("B and C (Ley 21.719) are out of the sitemap and redirect to /servicios/", () => {
     const byId = Object.fromEntries(SERVICE_LANDINGS.map((l) => [l.id, l]));
     expect(byId["seguridad-digital"].path).toBe(
       "/servicios/seguridad-privacidad-digital/"
     );
-    expect(byId["seguridad-digital"].inSitemap).toBe(true);
+    // Canon 2026-09-27: fichas individuales fuera del sitemap (solo home + /servicios/).
+    expect(byId["seguridad-digital"].inSitemap).toBe(false);
     expect(byId["ley-21719-hop"].inSitemap).toBe(false);
     expect(byId["ley-21719-hop"].hopTo).toBe(
       "/servicios/seguridad-privacidad-digital/"
     );
-    const b = readFileSync(
-      resolve(root, "public/servicios/seguridad-privacidad-digital/index.html"),
-      "utf8"
-    );
-    expect(b).toContain("Checklist Ley 21.719");
-    expect(b).toContain("WCAG 2.2");
-    expect(b).not.toContain("auditoría urgente");
-    expect(b).not.toContain("/recursos/");
-    expect(b).not.toContain("share-poc");
-    expect(b).not.toContain("El módulo en tu operación");
-    expect(b).not.toContain("/images/poc-modules/dashboard.png");
-    expect(byId["seguridad-digital"].poc).toBeFalsy();
-    const hop = readFileSync(
-      resolve(
-        root,
-        "public/servicios/desarrollo-seguro-cumplimiento-ley-21719/index.html"
-      ),
-      "utf8"
-    );
-    expect(hop).toContain("noindex");
-    expect(hop).toContain(
-      "https://vientonorte.io/servicios/seguridad-privacidad-digital/"
-    );
-    expect(sitemap).toContain(
-      "<loc>https://vientonorte.io/servicios/seguridad-privacidad-digital/</loc>"
-    );
+    // PO 2026-09-27: B y C ya no se publican como fichas; ambas redirigen directo a
+    // /servicios/ (sin cadena C -> B -> /servicios/). hopTo queda en el registro como historia.
+    for (const slug of ["seguridad-privacidad-digital", "desarrollo-seguro-cumplimiento-ley-21719"]) {
+      const html = readFileSync(resolve(root, `public/servicios/${slug}/index.html`), "utf8");
+      expect(html).toContain("noindex");
+      expect(html).toContain('content="0;url=../../servicios/"');
+      expect(html).not.toContain("https://vientonorte.io/servicios/seguridad-privacidad-digital/");
+    }
+    expect(sitemap).not.toContain("seguridad-privacidad-digital");
     expect(sitemap).not.toContain("desarrollo-seguro-cumplimiento-ley-21719");
   });
 
-  it("/s/servicios hops noindex to canon", () => {
+  it("/s/servicios hops noindex to /servicios/ (canon 2026-09-27)", () => {
     const hop = readFileSync(
       resolve(root, "public/s/servicios/asistente-ia/index.html"),
       "utf8"
     );
     expect(hop).toContain('name="robots" content="noindex, follow"');
-    expect(hop).toContain("https://vientonorte.io/servicios/asistente-ia/");
+    expect(hop).toContain('rel="canonical" href="https://vientonorte.io/servicios/"');
+    expect(hop).toContain('content="0;url=../../../servicios/"');
+    expect(hop).not.toContain("/servicios/asistente-ia/");
+  });
+
+  it("sitemap only lists the hub among service URLs (no fichas, no AI slugs)", () => {
+    expect(sitemapServiceLocs()).toEqual(["https://vientonorte.io/servicios/"]);
+    for (const slug of [
+      "asistente-ia",
+      "asistente-ecommerce",
+      "inteligencia-artificial-negocios",
+      "consultoria-ux-pymes",
+      "diagnostico-accesibilidad-wcag",
+      "privacidad-datos",
+    ]) {
+      expect(sitemap).not.toContain(slug);
+    }
   });
 });

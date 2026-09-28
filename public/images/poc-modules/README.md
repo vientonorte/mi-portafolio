@@ -19,3 +19,5 @@ bash scripts/capture-poc-modules.sh
 
 Demo login (solo captura): `admin@cms.com` / `admin123`  
 Fuente: https://pouch-growl-74881457.figma.site
+
+`pos-mobile.(png|webp)` — recorte vertical 500×820 de `pedidos.png` (módulo POS) para el marco de teléfono del hero de `/servicios/`.

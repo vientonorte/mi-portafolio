@@ -48,11 +48,21 @@ jobs:
         run: |
           set -euo pipefail
           cp dist/index.html dist/404.html
-          # robots noindex for QA shell
-          if ! grep -q 'noindex' dist/index.html; then
-            sed -i 's#<head>#<head>\n    <meta name="robots" content="noindex, nofollow" />#' dist/index.html
-            sed -i 's#<head>#<head>\n    <meta name="robots" content="noindex, nofollow" />#' dist/404.html
+          # noindex:begin — robots noindex en TODO dist/**/*.html (idempotente).
+          # Normaliza cualquier meta robots existente y agrega una si falta.
+          find dist -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
+            perl -0pi -e 's#<meta\s+name="robots"\s+content="[^"]*"\s*/?>#<meta name="robots" content="noindex, nofollow" />#gi' "$f"
+            if ! grep -q '<meta name="robots" content="noindex, nofollow" />' "$f"; then
+              perl -0pi -e 's#<head(\s[^>]*)?>#<head$1>\n    <meta name="robots" content="noindex, nofollow" />#i' "$f"
+            fi
+          done
+          missing=$(find dist -type f -name '*.html' -exec grep -L 'content="noindex, nofollow"' {} + | grep -v 'google[0-9a-f]*\.html$' || true)
+          if [ -n "$missing" ]; then
+            echo "HTML sin noindex en QA:" >&2
+            echo "$missing" >&2
+            exit 1
           fi
+          # noindex:end
           printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
 
       - name: Publish to hub /qa/

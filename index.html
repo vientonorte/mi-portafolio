@@ -19,9 +19,9 @@
           }
           return;
         }
-        // Deprecated: /poc#/auditoria is NOT freemium. Paid = /s/consultoria.
+        // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
-          location.replace(location.origin + "/s/consultoria/" + q);
+          location.replace(location.origin + "/servicios/" + q);
         }
       })();
     </script>
@@ -44,8 +44,6 @@
 
     <!-- Canonical brand root (no /mi-portafolio/) — SEO orgánico -->
     <link rel="canonical" href="https://vientonorte.io/" />
-    <!-- SEM paid final URL (HashRouter; crawlers + Ads message-match) -->
-    <link rel="alternate" href="https://vientonorte.io/#/consultoria" title="Consultoría · Elige tu alcance" />
 
     <!-- Open Graph (static — no JS required for share/crawlers) -->
     <meta property="og:type" content="website" />
@@ -109,9 +107,9 @@
           },
           {
             "@type": "ProfessionalService",
-            "@id": "https://vientonorte.io/#consultoria",
+            "@id": "https://vientonorte.io/servicios/#consultoria-ux",
             "name": "Consultoría UX · Viento Norte",
-            "url": "https://vientonorte.io/#/consultoria",
+            "url": "https://vientonorte.io/servicios/",
             "image": "https://vientonorte.io/images/branding/og-home-1200.png",
             "provider": { "@id": "https://vientonorte.io/#organization" },
             "areaServed": { "@type": "Country", "name": "Chile" },

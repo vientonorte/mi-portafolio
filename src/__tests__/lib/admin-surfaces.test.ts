@@ -49,7 +49,8 @@ describe("admin surfaces · Método Ro Calendar", () => {
 
   it("keeps admin noIndex and robots Disallow; no iframe in hub", () => {
     expect(robots).toContain("Disallow: /admin");
-    expect(robots).toContain("Disallow: /#/admin");
+    // Canon 2026-09-27: sin líneas /#/ (el fragmento no llega al servidor).
+    expect(robots).not.toContain("Disallow: /#/");
     expect(adminHub).toContain("noIndex");
     expect(adminHub).not.toContain("iframe");
   });

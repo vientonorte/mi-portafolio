@@ -1,0 +1,29 @@
+{
+  "decided": "2026-09-27",
+  "notes": "Canon 2026-09-27: /s/** deja de ser superficie publicada; redirige a /servicios/ (ancla = id de tarjeta en src/servicios/servicios-content.ts). Excepción: /s/polijuego-privacy/ se mantiene publicada tal cual (fuera del sitemap). PO 2026-09-27: las fichas antiguas /servicios/<slug>/ (service-landings.json) también redirigen a /servicios/ (o ancla). Generado por scripts/build-static-share.py y, para /servicios/<slug>/, también por scripts/generate-service-landings.py (misma función: scripts/redirect_pages.py). Migración P4: para que una plantilla nueva tome /servicios/<slug>/, quitar su fila de aquí y marcar la landing con \"renderer\": \"vite\" en service-landings.json. /servicios/ (índice #277) nunca va en esta lista.",
+  "keep": ["/s/polijuego-privacy/"],
+  "redirects": [
+    { "from": "/s/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/consultoria/", "to": "/servicios/", "anchor": "consultoria-ux" },
+    { "from": "/s/web-express/", "to": "/servicios/", "anchor": "web-pymes" },
+    { "from": "/s/proceso/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/consultoria-ux-pymes/", "to": "/servicios/", "anchor": "consultoria-ux" },
+    { "from": "/s/servicios/diagnostico-accesibilidad-wcag/", "to": "/servicios/", "anchor": "revision-gratis" },
+    { "from": "/s/servicios/asistente-ia/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/asistente-ecommerce/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/inteligencia-artificial-negocios/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/privacidad-datos/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/desarrollo-seguro-cumplimiento-ley-21719/", "to": "/servicios/", "anchor": "" },
+    { "from": "/poc/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/consultoria-ux-pymes/", "to": "/servicios/", "anchor": "consultoria-ux" },
+    { "from": "/servicios/diagnostico-accesibilidad-wcag/", "to": "/servicios/", "anchor": "revision-gratis" },
+    { "from": "/servicios/asistente-ia/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/asistente-ecommerce/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/inteligencia-artificial-negocios/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/privacidad-datos/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/desarrollo-seguro-cumplimiento-ley-21719/", "to": "/servicios/", "anchor": "" }
+  ]
+}

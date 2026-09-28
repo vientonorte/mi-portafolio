@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import {
   SEO_SITE,
   buildDocumentTitle,
+  sanitizeCanonicalUrl,
   trimMetaDescription,
 } from "../../lib/seo";
 
@@ -28,7 +29,8 @@ export function SEOHead({
 }: SEOHeadProps) {
   const documentTitle = buildDocumentTitle(title, isHome);
   const metaDescription = trimMetaDescription(description);
-  const finalUrl = url || SEO_SITE.baseUrl;
+  // Canon 2026-09-27: nunca emitir canonical/og:url con '#' (rutas hash → home).
+  const finalUrl = sanitizeCanonicalUrl(url);
   const finalImage = image || SEO_SITE.ogImage;
 
   return (

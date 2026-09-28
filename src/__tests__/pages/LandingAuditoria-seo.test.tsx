@@ -29,8 +29,7 @@ describe("LandingAuditoria · SEOHead directives (aislamiento SEM)", () => {
 
     const canonical = document.querySelector('link[rel="canonical"]');
     expect(canonical).not.toBeNull();
-    expect(canonical?.getAttribute("href")).toBe(
-      "https://vientonorte.io/#/ads/auditoria-accesibilidad"
-    );
+    // Canon 2026-09-27: rutas hash canonicalizan a la home (nunca '#').
+    expect(canonical?.getAttribute("href")).toBe("https://vientonorte.io/");
   });
 });

@@ -30,15 +30,142 @@ import {
 } from "../molecules/mobile-header-classes";
 import { cn } from "../../lib/utils";
 
+/** Enlace plano (sin router ni nav-config) para páginas estáticas como /servicios/. */
+export interface StaticNavLink {
+  id: string;
+  label: string;
+  href: string;
+}
+
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
+  /**
+   * Variante estática: si se pasa, el header usa SOLO estos enlaces
+   * (sin HashRouter, sin nav-config, sin menú "Más" ni links de footer del drawer).
+   * La home no la usa: su nav sigue saliendo de nav-config.
+   */
+  staticLinks?: StaticNavLink[];
+  /** href del logo en la variante estática (home root, respetando base). */
+  staticHomeHref?: string;
 }
 
-export function Navigation({
+export function Navigation({ staticLinks, staticHomeHref, ...props }: NavigationProps) {
+  if (staticLinks) {
+    return <StaticNavigation links={staticLinks} homeHref={staticHomeHref ?? "/"} />;
+  }
+  return <SiteNavigation {...props} />;
+}
+
+const HEADER_BASE_CLASS =
+  "fixed top-0 left-0 right-0 transition-all duration-300";
+const HEADER_SOLID_CLASS =
+  "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80";
+
+/**
+ * Header estático: misma cáscara visual que la home (logo, tokens, ThemeToggle,
+ * breakpoints .nav-desktop-only / .nav-mobile-only), sin dependencias de router
+ * — apto para prerender (react-dom/server) + hydrateRoot.
+ */
+function StaticNavigation({ links, homeHref }: { links: StaticNavLink[]; homeHref: string }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isMenuOpen]);
+
+  const linkClass =
+    "inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+
+  return (
+    <header
+      className={cn(HEADER_BASE_CLASS, HEADER_SOLID_CLASS, isMenuOpen ? "z-[115]" : "z-[100]")}
+      role="banner"
+    >
+      <nav
+        className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between"
+        aria-label="Navegación principal"
+      >
+        <a
+          href={homeHref}
+          className="flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none"
+          aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
+        >
+          <span className="min-w-0 sm:hidden">
+            <Logo size="sm" interactive showText={false} showRole={false} plate="default" />
+          </span>
+          <span className="hidden min-w-0 sm:block">
+            <Logo size="sm" interactive plate="default" />
+          </span>
+        </a>
+
+        <div className="nav-desktop-only hidden items-center gap-6 lg:flex">
+          <ul className="flex items-center gap-1" role="list">
+            {links.map((link) => (
+              <li key={link.id}>
+                <a href={link.href} className={linkClass}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="flex items-center pl-6 ml-2 border-l border-border/40">
+            <ThemeToggle />
+          </div>
+        </div>
+
+        <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
+          <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+            aria-expanded={isMenuOpen}
+            aria-controls="static-mobile-menu"
+            className={cn(MOBILE_HEADER_CONTROL_CLASS, isMenuOpen && MOBILE_HEADER_CONTROL_ACTIVE_CLASS)}
+          >
+            {isMenuOpen ? (
+              <X className="h-5 w-5 text-current" aria-hidden="true" />
+            ) : (
+              <Menu className="h-5 w-5 text-current" aria-hidden="true" />
+            )}
+          </Button>
+        </div>
+      </nav>
+      <div
+        id="static-mobile-menu"
+        hidden={!isMenuOpen}
+        className="nav-mobile-only border-t border-border/40 bg-background lg:hidden"
+      >
+        <ul className="container mx-auto flex flex-col gap-1 px-4 py-3" role="list">
+          {links.map((link) => (
+            <li key={link.id}>
+              <a
+                href={link.href}
+                className={cn(linkClass, "w-full text-base")}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </header>
+  );
+}
+
+function SiteNavigation({
   onNavigateToDesignSystem,
   onNavigateToCaseStudies,
-}: NavigationProps) {
+}: Omit<NavigationProps, "staticLinks" | "staticHomeHref">) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMenuOpenRef = useRef(isMenuOpen);
   const [isHidden, setIsHidden] = useState(false);
