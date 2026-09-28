@@ -182,6 +182,13 @@ describe("Home P3a — base '/' (producción)", () => {
     expect(container.querySelector("[data-placeholder]")).toBeNull();
     expect(container.innerHTML).not.toContain("data-placeholder");
     expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
+    const strip = container.querySelector("#experiencia")!;
+    const logos = [...strip.querySelectorAll("img")].map((img) => img.getAttribute("src") ?? "");
+    expect(logos.some((src) => src.includes("/images/transvip/logo"))).toBe(true);
+    expect(logos.some((src) => src.includes("/images/karri/logo"))).toBe(true);
+    expect(logos.some((src) => src.includes("/images/sura/logo"))).toBe(true);
+    expect(logos.some((src) => src.includes("pareti"))).toBe(false);
+    expect(strip.textContent).toContain("Pareti");
     expect(container.querySelector("#home-casos")).not.toBeNull();
     expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
     expect(container.querySelector("#quien-heading")).toHaveTextContent("Quién está detrás");
@@ -208,6 +215,9 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     expect(container.querySelectorAll('[data-placeholder-variant="logo"]')).toHaveLength(0);
     expect(container.querySelectorAll('[data-placeholder-variant="case"]')).toHaveLength(0);
     expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
+    const qaLogos = [...container.querySelectorAll("#experiencia img")].map((img) => img.getAttribute("src") ?? "");
+    expect(qaLogos.length).toBeGreaterThan(0);
+    for (const src of qaLogos) expect(src.startsWith("/qa/images/")).toBe(true);
     expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
     expect(heroSrc).toBe("/qa/images/branding/hero-ejemplo.png");
