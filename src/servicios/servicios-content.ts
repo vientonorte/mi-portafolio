@@ -185,8 +185,7 @@ const monitas = (file: string, stage: string, height: number): MarketingImage =>
 });
 
 /**
- * Tres casos cerrados por el Decider (28-sep).
- * Transvip: métricas tal cual en projects-data.ts
+ * Dos casos propios. Transvip: métricas tal cual en projects-data.ts
  * («App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82»).
  */
 export const BRAND_CASES: readonly BrandCase[] = [
@@ -207,16 +206,6 @@ export const BRAND_CASES: readonly BrandCase[] = [
     ctaAnchor: "web-pymes",
   },
   {
-    id: "coworking",
-    client: "Coworking",
-    kicker: "Auditoría de contraste y accesibilidad",
-    problem: "En el sitio de un coworking, el contraste y la lectura dificultaban usar un flujo. El nombre queda fuera.",
-    whatWeDid: "Revisamos contraste y accesibilidad de ese flujo y dejamos los hallazgos priorizados.",
-    images: [],
-    ctaLabel: "Ver la revisión gratis",
-    ctaAnchor: "revision-gratis",
-  },
-  {
     id: "transvip",
     client: "Transvip",
     kicker: "Experiencia de Rö · Senior Product Designer, 2022–2023",
@@ -231,7 +220,7 @@ export const BRAND_CASES: readonly BrandCase[] = [
 
 export const SERVICIOS_CASES = {
   heading: "El recorrido",
-  intro: "De la primera pantalla al resultado.",
+  intro: "Dos trabajos, de la pantalla al resultado.",
 } as const;
 
 export const SERVICIOS_STEPS = {

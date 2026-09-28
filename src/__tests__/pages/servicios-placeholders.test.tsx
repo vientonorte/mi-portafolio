@@ -21,7 +21,7 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
   it("renders experience, cases and founder; no client-logo strip", () => {
     expect(doc.getElementById("logo-strip-heading")).toBeNull();
     expect(doc.getElementById("experiencia")).toBeNull();
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(3);
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(2);
     expect(doc.getElementById("quien")).toBeNull();
     expect(doc.getElementById("como-trabajamos")).toBeNull();
     expect(html).not.toContain("Han confiado en Viento Norte");
@@ -91,7 +91,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     const { html, doc } = renderQa();
     expect(doc.querySelector("[data-placeholder]")).toBeNull();
     expect(html).not.toContain("pendiente");
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(3);
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(2);
     expect(doc.body.textContent ?? "").not.toMatch(/pendiente/i);
   });
 

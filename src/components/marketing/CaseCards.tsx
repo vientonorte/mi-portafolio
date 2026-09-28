@@ -52,7 +52,7 @@ export function CaseCards({
           {heading}
         </h2>
         {intro ? <p className="mt-2 max-w-2xl text-base text-muted-foreground">{intro}</p> : null}
-        <ul className="mt-8 grid list-none gap-6 p-0 md:grid-cols-3">
+        <ul className="mt-8 grid list-none gap-6 p-0 md:grid-cols-2">
           {cases.map((c) => (
             <li key={c.id}>
               <article className="flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm">
@@ -93,7 +93,7 @@ export function CaseCards({
                   </ul>
                 ) : null}
                 {c.cta ? (
-                  <p className="mt-4">
+                  <p className="mt-auto pt-4">
                     <a
                       href={c.cta.href}
                       data-case-cta={c.id}
