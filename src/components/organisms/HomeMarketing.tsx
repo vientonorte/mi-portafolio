@@ -7,18 +7,23 @@ import { trackEvent } from "../../vn-core/analytics/fo-events";
 import { serviciosHref } from "../../lib/servicios-links";
 import {
   CaseCards,
+  ExperienceStrip,
+  FounderBand,
   HeroWithMockup,
   HowWeWork,
-  LogoStrip,
   ServiceCards,
+  SECTION_TITLE_CLASS,
+  type CaseCard,
   type ServiceCardData,
 } from "../marketing";
 import {
+  BRAND_CASES,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
   SERVICIOS_CASES,
+  SERVICIOS_EXPERIENCE,
+  SERVICIOS_FOUNDER,
   SERVICIOS_IMAGES,
-  SERVICIOS_LOGOS,
   SERVICIOS_STEPS,
 } from "../../servicios/servicios-content";
 
@@ -27,8 +32,8 @@ import {
  * home FO. Solo home: la landing SEM (/consultoria) conserva su hero y embudo.
  *
  * Todos los CTA son `<a href>` reales hacia /servicios/ (con la base de Vite).
- * Logos y casos solo se ven en QA (PendingSlot, base "/qa/"); en producción
- * esas secciones se omiten.
+ * Experiencia, casos y «Quién está detrás» van en prod y en QA.
+ * Los mockups de tarjeta que siguen sin asset solo aparecen en QA (PendingSlot).
  */
 
 const COPY = {
@@ -67,6 +72,19 @@ function homeServiceCards(): ServiceCardData[] {
   return SERVICIOS_CARDS.map((card) => ({ ...card, href: serviciosHref(card.id) }));
 }
 
+function homeCases(): CaseCard[] {
+  return BRAND_CASES.map((item) => ({
+    id: item.id,
+    client: item.client,
+    kicker: item.kicker,
+    problem: item.problem,
+    whatWeDid: item.whatWeDid,
+    result: item.result,
+    images: [...item.images],
+    cta: { label: item.ctaLabel, href: serviciosHref(item.ctaAnchor) },
+  }));
+}
+
 export function HomeMarketingHero() {
   const { language } = useLanguage();
   const t = useTranslation(language).consultoria.landing;
@@ -83,8 +101,7 @@ export function HomeMarketingHero() {
       eyebrow={t.principleBadge}
       title={t.title}
       subtitle={t.description}
-      desktopImage={SERVICIOS_IMAGES.heroDesktop}
-      phoneImage={SERVICIOS_IMAGES.heroPhone}
+      desktopImage={SERVICIOS_IMAGES.heroEjemplo}
       actions={
         <>
           <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>
@@ -124,7 +141,7 @@ export function HomeMarketingSections() {
 
   return (
     <div data-testid="home-marketing">
-      <LogoStrip heading={SERVICIOS_LOGOS.heading} pendingSlots={SERVICIOS_LOGOS.pendingSlots} />
+      <ExperienceStrip heading={SERVICIOS_EXPERIENCE.heading} names={SERVICIOS_EXPERIENCE.names} />
 
       <section
         id="home-servicios"
@@ -132,7 +149,7 @@ export function HomeMarketingSections() {
         aria-labelledby="home-servicios-heading"
       >
         <div className="container mx-auto max-w-6xl px-4">
-          <h2 id="home-servicios-heading" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h2 id="home-servicios-heading" className={SECTION_TITLE_CLASS}>
             {copy.optionsHeading}
           </h2>
           <p className="mt-2 max-w-2xl text-base text-muted-foreground">{copy.optionsIntro}</p>
@@ -160,7 +177,14 @@ export function HomeMarketingSections() {
         id="home-casos"
         heading={SERVICIOS_CASES.heading}
         intro={SERVICIOS_CASES.intro}
-        pendingCount={SERVICIOS_CASES.pendingCount}
+        cases={homeCases()}
+      />
+
+      <FounderBand
+        heading={SERVICIOS_FOUNDER.heading}
+        name={SERVICIOS_FOUNDER.name}
+        role={SERVICIOS_FOUNDER.role}
+        lines={SERVICIOS_FOUNDER.lines}
       />
 
       <HowWeWork

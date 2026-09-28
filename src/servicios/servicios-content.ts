@@ -38,19 +38,16 @@ export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {
-  heroDesktop: {
-    webp: "images/consultoria/x-cms-dashboard.webp",
-    png: "images/consultoria/x-cms-dashboard.png",
-    alt: "Dashboard de X|CMS, prototipo de Viento Norte: ventas, pedidos, clientes activos y tendencia de ventas.",
+  /**
+   * Hero de home y /servicios/: sitio ficticio marcado «Ejemplo».
+   * Sin cifras ni precios dentro del dispositivo.
+   */
+  heroEjemplo: {
+    webp: "images/branding/hero-ejemplo.webp",
+    png: "images/branding/hero-ejemplo.png",
+    alt: "Ejemplo de un sitio para una pyme. Maqueta ilustrativa, sin cifras ni precios.",
     width: 1440,
     height: 900,
-  },
-  heroPhone: {
-    webp: "images/poc-modules/pos-mobile.webp",
-    png: "images/poc-modules/pos-mobile.png",
-    alt: "Detalle del módulo de punto de venta de X|CMS: ventas del día y catálogo de productos.",
-    width: 500,
-    height: 820,
   },
   /** Dashboard del prototipo (misma captura que poc-modules/dashboard.png; webp compartido). */
   consultoriaThumb: {
@@ -138,16 +135,98 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
   },
 ];
 
-export const SERVICIOS_LOGOS = {
-  heading: "Han confiado en Viento Norte",
-  /** Sin logos reales hasta que Rö autorice cada uno. */
-  pendingSlots: 5,
+/** Franja de texto. Nunca «clientes VN» ni logos de terceros. */
+export const SERVICIOS_EXPERIENCE = {
+  heading: "Experiencia de Rö",
+  names: ["Transvip", "Karri", "SURA Investments", "Pareti"],
 } as const;
+
+export const SERVICIOS_FOUNDER = {
+  heading: "Quién está detrás",
+  name: "Rodrigo Gaete",
+  role: "UX Manager, Viento Norte",
+  lines: ["UX Lead en SURA Investments, 2023–2026", "Diplomado PUC"],
+} as const;
+
+export interface BrandCase {
+  id: string;
+  client: string;
+  kicker: string;
+  problem: string;
+  whatWeDid: string;
+  /** Cifra ya publicada en el repo. Ausente = el caso no muestra resultado. */
+  result?: string;
+  images: MarketingImage[];
+  ctaLabel: string;
+  /** Ancla de /servicios/. El llamador arma el href (path en la home, # en la misma página). */
+  ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
+}
+
+const monitas = (file: string, alt: string, height: number): MarketingImage => ({
+  png: `images/cases/monitas/${file}`,
+  alt,
+  width: 1600,
+  height,
+});
+
+const coworking = (file: string, alt: string, width: number): MarketingImage => ({
+  png: `images/method/coworking/${file}`,
+  alt,
+  width,
+  height: 1400,
+});
+
+/**
+ * Tres casos cerrados por el Decider (28-sep).
+ * Transvip: métricas tal cual en projects-data.ts
+ * («App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82»).
+ */
+export const BRAND_CASES: readonly BrandCase[] = [
+  {
+    id: "monitas",
+    client: "Monitas.cl",
+    kicker: "Asesoría Método Ro · e-commerce",
+    problem:
+      "La tienda no tenía un camino claro: quien entraba no encontraba los productos ni llegaba a pagar sin perderse.",
+    whatWeDid: "Armamos el wireframe, la navegación, el flujo de pago y el embudo.",
+    images: [
+      monitas("01-wireframe.jpg", "Wireframe de la tienda Monitas.", 903),
+      monitas("02-map-nav.jpg", "Mapa de navegación de Monitas.", 903),
+      monitas("03-flujo-pago.jpg", "Flujo de pago de Monitas.", 798),
+      monitas("04-embudo.jpg", "Embudo de la tienda Monitas.", 1325),
+    ],
+    ctaLabel: "Ver web para pymes",
+    ctaAnchor: "web-pymes",
+  },
+  {
+    id: "coworking",
+    client: "Coworking",
+    kicker: "Auditoría de contraste y accesibilidad",
+    problem: "En el sitio de un coworking, el contraste y la lectura dificultaban usar un flujo. El nombre queda fuera.",
+    whatWeDid: "Revisamos contraste y accesibilidad de ese flujo y dejamos los hallazgos priorizados.",
+    images: [
+      coworking("a11y-contrast.png", "Revisión de contraste en el sitio de un coworking. Caso anonimizado.", 806),
+      coworking("a11y-readability.png", "Revisión de lectura en el sitio de un coworking. Caso anonimizado.", 794),
+    ],
+    ctaLabel: "Pedir revisión gratis",
+    ctaAnchor: "revision-gratis",
+  },
+  {
+    id: "transvip",
+    client: "Transvip",
+    kicker: "Experiencia de Rö · Senior Product Designer, 2022–2023",
+    problem: "Quien reservaba un traslado premium encontraba fricción y poca claridad en la app.",
+    whatWeDid: "Rediseño del flujo de reserva de la app de pasajeros.",
+    result: "−40% tiempo de reserva, +25% conversión, NPS 82.",
+    images: [],
+    ctaLabel: "Conversar consultoría UX",
+    ctaAnchor: "consultoria-ux",
+  },
+];
 
 export const SERVICIOS_CASES = {
   heading: "Casos",
-  intro: "Problema, qué hicimos y el resultado medible.",
-  pendingCount: 3,
+  intro: "Problema y qué se hizo. Si hay cifras, son las que ya estaban publicadas.",
 } as const;
 
 export const SERVICIOS_STEPS = {

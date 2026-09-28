@@ -5,15 +5,26 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
 import { cn } from "../lib/utils";
-import { CaseCards, HeroWithMockup, HowWeWork, LogoStrip, ServiceCards } from "../components/marketing";
 import {
+  CaseCards,
+  ExperienceStrip,
+  FounderBand,
+  HeroWithMockup,
+  HowWeWork,
+  ServiceCards,
+  SECTION_TITLE_CLASS,
+  type CaseCard,
+} from "../components/marketing";
+import {
+  BRAND_CASES,
   CONTACT_EMAIL,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
   SERVICIOS_CASES,
+  SERVICIOS_EXPERIENCE,
+  SERVICIOS_FOUNDER,
   SERVICIOS_HERO,
   SERVICIOS_IMAGES,
-  SERVICIOS_LOGOS,
   SERVICIOS_STEPS,
   type ServiciosIntent,
   type ServiciosIntentValue,
@@ -56,8 +67,7 @@ export function ServiciosPage() {
           eyebrow={SERVICIOS_HERO.eyebrow}
           title={SERVICIOS_HERO.title}
           subtitle={SERVICIOS_HERO.audience}
-          desktopImage={SERVICIOS_IMAGES.heroDesktop}
-          phoneImage={SERVICIOS_IMAGES.heroPhone}
+          desktopImage={SERVICIOS_IMAGES.heroEjemplo}
           actions={
             <>
               <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>
@@ -70,7 +80,7 @@ export function ServiciosPage() {
           }
         />
 
-        <LogoStrip heading={SERVICIOS_LOGOS.heading} pendingSlots={SERVICIOS_LOGOS.pendingSlots} />
+        <ExperienceStrip heading={SERVICIOS_EXPERIENCE.heading} names={SERVICIOS_EXPERIENCE.names} />
 
         <section
           id="opciones"
@@ -78,7 +88,7 @@ export function ServiciosPage() {
           aria-labelledby="opciones-heading"
         >
           <div className="container mx-auto max-w-6xl px-4">
-            <h2 id="opciones-heading" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h2 id="opciones-heading" className={SECTION_TITLE_CLASS}>
               Tres formas de partir
             </h2>
             <p className="mt-2 max-w-2xl text-base text-muted-foreground">
@@ -95,7 +105,25 @@ export function ServiciosPage() {
         <CaseCards
           heading={SERVICIOS_CASES.heading}
           intro={SERVICIOS_CASES.intro}
-          pendingCount={SERVICIOS_CASES.pendingCount}
+          cases={BRAND_CASES.map(
+            (item): CaseCard => ({
+              id: item.id,
+              client: item.client,
+              kicker: item.kicker,
+              problem: item.problem,
+              whatWeDid: item.whatWeDid,
+              result: item.result,
+              images: [...item.images],
+              cta: { label: item.ctaLabel, href: `#${item.ctaAnchor}` },
+            })
+          )}
+        />
+
+        <FounderBand
+          heading={SERVICIOS_FOUNDER.heading}
+          name={SERVICIOS_FOUNDER.name}
+          role={SERVICIOS_FOUNDER.role}
+          lines={SERVICIOS_FOUNDER.lines}
         />
 
         <HowWeWork
@@ -110,7 +138,7 @@ export function ServiciosPage() {
           aria-labelledby="contacto-heading"
         >
           <div className="container mx-auto max-w-3xl px-4">
-            <h2 id="contacto-heading" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h2 id="contacto-heading" className={SECTION_TITLE_CLASS}>
               Cuéntanos qué necesitas
             </h2>
             <p className="mt-2 text-base text-muted-foreground">

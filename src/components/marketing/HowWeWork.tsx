@@ -1,3 +1,5 @@
+import { SECTION_TITLE_CLASS } from "./marketing-env";
+
 export interface HowWeWorkStep {
   title: string;
   description: string;
@@ -18,7 +20,7 @@ export function HowWeWork({ id = "como-trabajamos", heading, intro, steps }: How
       className="scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 bg-background py-12 md:py-16"
     >
       <div className="container mx-auto max-w-6xl px-4">
-        <h2 id={`${id}-heading`} className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 id={`${id}-heading`} className={SECTION_TITLE_CLASS}>
           {heading}
         </h2>
         {intro ? <p className="mt-2 max-w-2xl text-base text-muted-foreground">{intro}</p> : null}

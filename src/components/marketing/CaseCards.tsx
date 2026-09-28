@@ -1,12 +1,17 @@
 import { PendingSlot } from "./PendingSlot";
-import { placeholdersEnabled } from "./marketing-env";
+import { placeholdersEnabled, SECTION_TITLE_CLASS } from "./marketing-env";
+import { ResponsiveImage, type MarketingImage } from "./ResponsiveImage";
 
 export interface CaseCard {
   id: string;
   client: string;
+  kicker?: string;
   problem: string;
   whatWeDid: string;
-  result: string;
+  /** Solo si la cifra ya estaba publicada. Vacío = no se muestra. */
+  result?: string;
+  images?: MarketingImage[];
+  cta?: { label: string; href: string };
 }
 
 export interface CaseCardsProps {
@@ -23,7 +28,6 @@ export interface CaseCardsProps {
 const FIELDS = [
   ["Problema", "problem"],
   ["Qué hicimos", "whatWeDid"],
-  ["Resultado medible", "result"],
 ] as const;
 
 /** Casos con resultado concreto. Sin casos confirmados y fuera de QA → no se renderiza. */
@@ -44,15 +48,18 @@ export function CaseCards({
       className="scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 bg-muted/30 py-12 md:py-16"
     >
       <div className="container mx-auto max-w-6xl px-4">
-        <h2 id={`${id}-heading`} className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 id={`${id}-heading`} className={SECTION_TITLE_CLASS}>
           {heading}
         </h2>
         {intro ? <p className="mt-2 max-w-2xl text-base text-muted-foreground">{intro}</p> : null}
         <ul className="mt-8 grid list-none gap-6 p-0 md:grid-cols-3">
           {cases.map((c) => (
             <li key={c.id}>
-              <article className="h-full rounded-xl border border-border bg-card p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-foreground">{c.client}</h3>
+              <article className="flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm">
+                {c.kicker ? (
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{c.kicker}</p>
+                ) : null}
+                <h3 className="mt-2 text-xl font-bold text-foreground">{c.client}</h3>
                 <dl className="mt-3 space-y-3 text-sm">
                   {FIELDS.map(([label, key]) => (
                     <div key={key}>
@@ -60,7 +67,33 @@ export function CaseCards({
                       <dd className="mt-0.5 text-muted-foreground">{c[key]}</dd>
                     </div>
                   ))}
+                  {c.result ? (
+                    <div>
+                      <dt className="font-semibold text-foreground">Resultado publicado</dt>
+                      <dd className="mt-0.5 text-muted-foreground">{c.result}</dd>
+                    </div>
+                  ) : null}
                 </dl>
+                {c.images && c.images.length > 0 ? (
+                  <ul className="mt-4 grid list-none grid-cols-2 gap-2 p-0">
+                    {c.images.map((image) => (
+                      <li key={image.png} className="overflow-hidden rounded-md border border-border bg-muted">
+                        <ResponsiveImage image={image} className="h-28 w-full object-cover" />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {c.cta ? (
+                  <p className="mt-4">
+                    <a
+                      href={c.cta.href}
+                      data-case-cta={c.id}
+                      className="inline-flex min-h-11 items-center font-semibold text-foreground underline underline-offset-4 hover:text-primary"
+                    >
+                      {c.cta.label}
+                    </a>
+                  </p>
+                ) : null}
               </article>
             </li>
           ))}

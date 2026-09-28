@@ -18,29 +18,30 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(html).not.toMatch(/pendiente/i);
   });
 
-  it("omits logo strip and casos sections entirely", () => {
+  it("renders experience, cases and founder; no client-logo strip", () => {
     expect(doc.getElementById("logo-strip-heading")).toBeNull();
-    expect(doc.getElementById("casos")).toBeNull();
+    expect(doc.getElementById("experiencia-heading")?.textContent).toBe("Experiencia de Rö");
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(3);
+    expect(doc.getElementById("quien-heading")?.textContent).toBe("Quién está detrás");
+    expect(doc.querySelector("[data-photo-slot='empty'] img")).toBeNull();
     expect(html).not.toContain("Han confiado en Viento Norte");
+    expect(html).not.toContain("clientes VN");
   });
 
-  it("hero has real VN screenshots (webp + png fallback, alt, width/height, eager)", () => {
+  it("hero is the Ejemplo frame (webp + png, alt, eager) without figures in the device", () => {
     const mock = doc.querySelector('[data-testid="hero-mockup"]')!;
     expect(mock).not.toBeNull();
     const imgs = [...mock.querySelectorAll("img")];
-    expect(imgs.map((i) => i.getAttribute("src"))).toEqual([
-      "/images/consultoria/x-cms-dashboard.png",
-      "/images/poc-modules/pos-mobile.png",
-    ]);
+    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/branding/hero-ejemplo.png"]);
     for (const img of imgs) {
-      expect(img.getAttribute("alt")?.length).toBeGreaterThan(10);
-      expect(img.getAttribute("width")).toBeTruthy();
-      expect(img.getAttribute("height")).toBeTruthy();
+      expect(img.getAttribute("alt")).toMatch(/Ejemplo/);
+      expect(img.getAttribute("alt")).not.toMatch(/\d|\$|%/);
+      expect(img.getAttribute("width")).toBe("1440");
+      expect(img.getAttribute("height")).toBe("900");
       expect(img.getAttribute("loading")).toBe("eager");
       expect(img.parentElement?.querySelector('source[type="image/webp"]')).not.toBeNull();
     }
-    expect(html).not.toMatch(/transvip|sura/i);
-    // Marco decorativo oculto a lectores de pantalla
+    expect(mock.textContent ?? "").not.toMatch(/transvip|sura|\$|%/i);
     expect(mock.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
@@ -69,9 +70,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(steps[2]).toContain("Entrega e iteración");
   });
 
-  it("section order: hero → opciones → cómo trabajamos → contacto", () => {
+  it("section order: hero → experiencia → opciones → casos → quién → cómo trabajamos → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "como-trabajamos", "contacto"]);
+    expect(ids).toEqual(["inicio", "experiencia", "opciones", "casos", "quien", "como-trabajamos", "contacto"]);
   });
 
   it("built dist (if present, base '/') has no placeholders", () => {
@@ -94,27 +95,29 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
   it("renders placeholders, all inside PendingSlot (data-placeholder='pendiente-ro')", () => {
     const { html, doc } = renderQa();
     const slots = [...doc.querySelectorAll("[data-placeholder]")];
-    expect(slots.length).toBe(5 + 2 + 3);
+    expect(slots.length).toBe(2);
     for (const s of slots) expect(s.getAttribute("data-placeholder")).toBe("pendiente-ro");
-    expect(doc.querySelectorAll('[data-placeholder-variant="logo"]')).toHaveLength(5);
+    expect(doc.querySelectorAll('[data-placeholder-variant="logo"]')).toHaveLength(0);
     expect(doc.querySelectorAll('[data-placeholder-variant="thumb"]')).toHaveLength(2);
-    expect(doc.querySelectorAll('[data-placeholder-variant="case"]')).toHaveLength(3);
-    expect(html).toContain("Logo pendiente de autorización");
+    expect(doc.querySelectorAll('[data-placeholder-variant="case"]')).toHaveLength(0);
+    expect(html).not.toContain("Logo pendiente de autorización");
     expect(html).toContain("Antes / después de un flujo (pendiente)");
     expect(html).toContain("Mockup web pyme (pendiente)");
-    expect(html).toContain("Caso pendiente de confirmar");
+    expect(html).not.toContain("Caso pendiente de confirmar");
+    expect(doc.getElementById("experiencia-heading")?.textContent).toBe("Experiencia de Rö");
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(3);
     // Todo texto "pendiente" vive dentro de un PendingSlot
     for (const s of slots) s.remove();
     expect(doc.body.textContent ?? "").not.toMatch(/pendiente/i);
   });
 
-  it("logo strip right below the hero, casos before cómo trabajamos", () => {
+  it("experience strip right below the hero, casos before cómo trabajamos", () => {
     const { doc } = renderQa();
     const sections = [...doc.querySelectorAll("main > section")];
     expect(sections[0].id).toBe("inicio");
-    expect(sections[1].querySelector("#logo-strip-heading")?.textContent).toBe("Han confiado en Viento Norte");
+    expect(sections[1].querySelector("#experiencia-heading")?.textContent).toBe("Experiencia de Rö");
     const ids = sections.map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos", "como-trabajamos", "contacto"]);
+    expect(ids).toEqual(["inicio", "experiencia", "opciones", "casos", "quien", "como-trabajamos", "contacto"]);
     const cards = [...doc.querySelectorAll("[data-card]")];
     // Los placeholders viajan con su tarjeta (id), no con la posición
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);

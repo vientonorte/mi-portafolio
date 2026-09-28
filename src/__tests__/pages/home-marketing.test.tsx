@@ -36,8 +36,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
 
 function assertCtas(container: HTMLElement, base: string) {
   const ctas = marketingCtas(container);
-  // 2 del hero + 3 tarjetas + "ver todos"
-  expect(ctas.length).toBe(6);
+  // 2 del hero + 3 tarjetas + "ver todos" + 3 casos
+  expect(ctas.length).toBe(9);
   for (const a of ctas) {
     const href = a.getAttribute("href") ?? "";
     expect(href.startsWith(`${base}servicios/`), href).toBe(true);
@@ -51,6 +51,9 @@ function assertCtas(container: HTMLElement, base: string) {
     `${base}servicios/#revision-gratis`,
     `${base}servicios/#consultoria-ux`,
     `${base}servicios/`,
+    `${base}servicios/#web-pymes`,
+    `${base}servicios/#revision-gratis`,
+    `${base}servicios/#consultoria-ux`,
   ]);
 }
 
@@ -174,12 +177,21 @@ describe("Home P3a — base '/' (producción)", () => {
     }
   });
 
-  it("renders zero data-placeholder and omits logo strip / casos", () => {
+  it("renders branding in prod and zero data-placeholder", () => {
     const { container } = renderAt(<Home />);
     expect(container.querySelector("[data-placeholder]")).toBeNull();
     expect(container.innerHTML).not.toContain("data-placeholder");
-    expect(container.querySelector("#logo-strip-heading")).toBeNull();
-    expect(container.querySelector("#home-casos")).toBeNull();
+    expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
+    expect(container.querySelector("#home-casos")).not.toBeNull();
+    expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
+    expect(container.querySelector("#quien-heading")).toHaveTextContent("Quién está detrás");
+    expect(container.querySelector("[data-photo-slot='empty'] img")).toBeNull();
+    expect(container.innerHTML).not.toContain("Han confiado");
+    expect(container.innerHTML).not.toContain("clientes VN");
+    const hero = container.querySelector('[data-testid="hero-mockup"]')!;
+    expect(hero.querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
+    expect(hero.querySelectorAll("img")).toHaveLength(1);
+    expect(hero.textContent ?? "").not.toMatch(/\d|\$|%/);
   });
 });
 
@@ -190,10 +202,15 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
     const slots = [...container.querySelectorAll("[data-placeholder]")];
-    expect(slots.length).toBe(5 + 2 + 3);
+    expect(slots.length).toBe(2);
     for (const s of slots) expect(s.getAttribute("data-placeholder")).toBe("pendiente-ro");
-    expect(container.querySelector("#logo-strip-heading")).not.toBeNull();
-    expect(container.querySelector("#home-casos")).not.toBeNull();
+    expect(container.querySelectorAll('[data-placeholder-variant="thumb"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-placeholder-variant="logo"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[data-placeholder-variant="case"]')).toHaveLength(0);
+    expect(container.querySelector("#experiencia-heading")).toHaveTextContent("Experiencia de Rö");
+    expect(container.querySelectorAll("#home-casos article")).toHaveLength(3);
+    const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
+    expect(heroSrc).toBe("/qa/images/branding/hero-ejemplo.png");
   });
 });
 
