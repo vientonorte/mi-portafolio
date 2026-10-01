@@ -4,6 +4,7 @@ import { homeHref, serviciosNavLinks } from "./servicios-nav";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
+import { ExperienciaRo, ServiciosCasos } from "./ServiciosCasos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
@@ -123,6 +124,10 @@ export function ServiciosPage() {
             })
           )}
         />
+
+        <ServiciosCasos />
+
+        <ExperienciaRo />
 
         <section
           id="contacto"

@@ -65,9 +65,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.getElementById("como-trabajamos")).toBeNull();
   });
 
-  it("section order: hero → opciones → casos → contacto", () => {
+  it("section order: hero → opciones → casos → casos-vn → experiencia-ro → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "casos", "casos-vn", "experiencia-ro", "contacto"]);
   });
 
   it("built dist (if present, base '/') has no placeholders", () => {
@@ -101,7 +101,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     expect(sections[0].id).toBe("inicio");
     expect(sections[1].id).toBe("opciones");
     const ids = sections.map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "casos", "casos-vn", "experiencia-ro", "contacto"]);
     const cards = [...doc.querySelectorAll("[data-card]")];
     // Los placeholders viajan con su tarjeta (id), no con la posición
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
