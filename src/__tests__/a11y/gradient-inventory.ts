@@ -251,7 +251,7 @@ const blobTint = (label: string, o: number, base: Tok): Case[] =>
 
 export const INVENTORY: Entry[] = [
   // Tokens / definiciones
-  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .dark .text-brand-gradient, .profile-avatar-frame::before", element: "token", matches: 11, status: "decorative", note: "Definiciones; los usos se verifican abajo." },
+  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .bg-brand-gradient-aa, .dark .text-brand-gradient, .profile-avatar-frame::before", element: "token", matches: 13, status: "decorative", note: "Definiciones; los usos se verifican abajo." },
   { id: "globals-atmosphere", file: "src/styles/globals.css", component: ".section-atmosphere-* (radiales primary 3–6 %; PageSection)", element: "fondo de sección", matches: 5, status: "checked",
     cases: [
       ...tint("section-atmosphere-base", (t) => [{ stops: [primary(t, 0.05), T] }], { texts: FG_MUTED_PRIMARY }),
@@ -270,6 +270,8 @@ export const INVENTORY: Entry[] = [
   { id: "design-tokens-export", file: "src/lib/design-tokens-export.ts", component: "export CSS", element: "código", matches: 1, status: "decorative" },
 
   // Home + /servicios/
+  { id: "rubros-primary-cta", file: "src/rubros/rubros-content.ts", component: "PRIMARY_CTA_CLASS (CTAs de /servicios/web-*/)", element: "botón", matches: 1, status: "checked",
+    cases: whiteOnBrand("rubros PRIMARY_CTA_CLASS", "large", { why: "text-lg font-bold = 18px bold" }) },
   { id: "primary-cta", file: "src/servicios/servicios-content.ts", component: "PRIMARY_CTA_CLASS (hero home 'Quiero mi web en 72 h', CTAs y tarjetas de /servicios/)", element: "botón", matches: 2, status: "checked",
     cases: whiteOnBrand("PRIMARY_CTA_CLASS", "large", { why: "text-[1.1875rem] font-bold = 19px bold" }) },
   { id: "how-we-work", file: "src/components/marketing/HowWeWork.tsx", component: "HowWeWork (home + /servicios/)", element: "número de paso", matches: 1, status: "checked",
