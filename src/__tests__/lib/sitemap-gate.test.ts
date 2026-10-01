@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   deriveCanonicalRoutes,
   isDeniedPath,
+  isDeniedUrl,
+  normalizeDenyUrl,
   isW3cDatetime,
   routeFromIndexHtml,
   SITEMAP_ORIGIN,
@@ -67,6 +69,37 @@ const redirect = (route: string): BuildPage => ({
   html: `<html><head><meta http-equiv="refresh" content="0;url=../" /></head></html>`,
 });
 
+/** Variantes (esquema, //, barra final, /#/) de las URLs externas de `denyUrls`. */
+const DENY_URL_VARIANTS = [
+  "vnmkt.figma.site",
+  "vnmkt.figma.site/",
+  "//vnmkt.figma.site",
+  "//vnmkt.figma.site/",
+  "http://vnmkt.figma.site",
+  "http://vnmkt.figma.site/",
+  "https://vnmkt.figma.site",
+  "https://vnmkt.figma.site/",
+  "https://vnmkt.figma.site/#/",
+  "https://VNMKT.figma.site/#/servicios",
+  "https://vnmkt.figma.site/servicios/",
+  "vientonorte.github.io/mi-portafolio/consultoria",
+  "vientonorte.github.io/mi-portafolio/consultoria/",
+  "//vientonorte.github.io/mi-portafolio/consultoria",
+  "//vientonorte.github.io/mi-portafolio/consultoria/",
+  "http://vientonorte.github.io/mi-portafolio/consultoria",
+  "http://vientonorte.github.io/mi-portafolio/consultoria/",
+  "https://vientonorte.github.io/mi-portafolio/consultoria",
+  "https://vientonorte.github.io/mi-portafolio/consultoria/",
+  "https://vientonorte.github.io//mi-portafolio//consultoria/",
+  "https://vientonorte.github.io/mi-portafolio/#/consultoria",
+  "https://vientonorte.github.io/mi-portafolio/#/consultoria/",
+  "http://vientonorte.github.io/mi-portafolio/#/consultoria",
+  "//vientonorte.github.io/mi-portafolio/#/consultoria",
+  "https://vientonorte.github.io/mi-portafolio/consultoria/#/",
+  "https://vientonorte.github.io/mi-portafolio/consultoria?utm_source=x",
+  "https://vientonorte.github.io/mi-portafolio/consultoria/ux-pymes/",
+];
+
 const CANON = ["/", "/servicios/"];
 const ok = xml([{ loc: `${O}/` }, { loc: `${O}/servicios/` }]);
 
@@ -95,6 +128,33 @@ describe("sitemap-canon · derivación desde el build", () => {
     for (const p of ["/", "/servicios/", "/servicios/web-dental/", "/servicios/web-contable/", "/servicios/web-juridico/", "/s/polijuego-privacy/"]) {
       expect(isDeniedPath(p), p).toBe(false);
     }
+  });
+
+
+  it("normalizeDenyUrl quita esquema, //, /#/, query y barra final", () => {
+    expect(normalizeDenyUrl("https://vnmkt.figma.site/#/")).toBe("vnmkt.figma.site");
+    expect(normalizeDenyUrl("//vnmkt.figma.site/")).toBe("vnmkt.figma.site");
+    expect(normalizeDenyUrl("http://vientonorte.github.io/mi-portafolio/#/consultoria/")).toBe(
+      "vientonorte.github.io/mi-portafolio/consultoria"
+    );
+  });
+
+  it.each(DENY_URL_VARIANTS)("denylist de URLs externas bloquea %s", (u) => {
+    expect(isDeniedUrl(u)).toBe(true);
+  });
+
+  it.each([
+    "https://vientonorte.io/",
+    "https://vientonorte.io/servicios/",
+    "https://vientonorte.github.io/mi-portafolio/",
+    "https://vientonorte.github.io/mi-portafolio/#/",
+    "https://vientonorte.github.io/mi-portafolio/consultoria-ux/",
+    "https://vientonorte.github.io/consultoria",
+    "https://otro.figma.site/",
+    "https://vnmkt.figma.site.evil.com/",
+    "https://figma.site/vnmkt",
+  ])("denylist de URLs externas no bloquea %s", (u) => {
+    expect(isDeniedUrl(u)).toBe(false);
   });
 
   it("solo entran páginas indexables, sin redirección, con canonical propio y fuera de la denylist", () => {
@@ -151,6 +211,11 @@ describe("sitemap-canon · validateSitemap", () => {
   ])("falla si aparece %s", (path) => {
     const errs = validateSitemap(xml([{ loc: `${O}/` }, { loc: `${O}/servicios/` }, { loc: `${O}${path}` }]), CANON, now);
     expect(errs.some((e) => e.startsWith("loc en denylist"))).toBe(true);
+  });
+
+  it.each(DENY_URL_VARIANTS.filter((u) => /^(?:https?:)?\/\//.test(u)))("falla con URL externa en denylist: %s", (loc) => {
+    const errs = validateSitemap(xml([{ loc: `${O}/` }, { loc: `${O}/servicios/` }, { loc }]), CANON, now);
+    expect(errs).toContain(`loc en denylist (URL externa): ${loc}`);
   });
 
   it.each(["https://finanzas.vientonorte.io/", "http://vientonorte.io/", "https://www.vientonorte.io/", "https://vientonorte.io.evil.com/", "/servicios/"])(

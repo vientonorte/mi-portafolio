@@ -13,6 +13,8 @@ import canon from "@/data/sitemap-canon.json";
 
 export const SITEMAP_ORIGIN: string = canon.origin;
 export const SITEMAP_DENY: readonly string[] = canon.deny;
+/** Denylist de URLs externas (host + ruta, sin esquema). Ver `isDeniedUrl`. */
+export const SITEMAP_DENY_URLS: readonly string[] = canon.denyUrls;
 export const SITEMAP_DENY_EXCEPTIONS: readonly string[] = canon.denyExceptions;
 export const SITEMAP_OUTSIDE: readonly string[] = canon.outsideSitemap;
 
@@ -25,6 +27,29 @@ export function isDeniedPath(path: string): boolean {
   if (SITEMAP_DENY_EXCEPTIONS.some((ex) => path === ex || path.startsWith(ex))) return false;
   if (path.includes("#")) return true;
   return SITEMAP_DENY.some((d) => path === d || path.startsWith(d));
+}
+
+/**
+ * Normaliza una URL a `host/ruta` en minúsculas para compararla con `denyUrls`:
+ * quita `http:`/`https:` y `//` iniciales, colapsa `/#/` (hash-route) a `/`, quita el `#` final,
+ * query, barras repetidas y la barra final. `https://Vnmkt.figma.site/#/` → `vnmkt.figma.site`.
+ */
+export function normalizeDenyUrl(value: string): string {
+  let s = value.trim().toLowerCase();
+  s = s.replace(/^(?:https?:)?\/\//, "");
+  s = s.replace(/\/#\//g, "/").replace(/\/#$/, "/");
+  s = s.replace(/[?#].*$/, "");
+  s = s.replace(/\/{2,}/g, "/").replace(/\/+$/, "");
+  return s;
+}
+
+/** URL en la denylist externa (`denyUrls`): igual a la entrada o bajo ella (límite de segmento). */
+export function isDeniedUrl(loc: string): boolean {
+  const n = normalizeDenyUrl(loc);
+  return SITEMAP_DENY_URLS.some((d) => {
+    const e = normalizeDenyUrl(d);
+    return n === e || n.startsWith(`${e}/`);
+  });
 }
 
 /** `servicios/web-dental/index.html` → `/servicios/web-dental/`; `index.html` → `/`. */
@@ -129,6 +154,7 @@ export function validateSitemap(xml: string, canonicalRoutes: string[] | null, n
   const errors: string[] = [];
   const routes: string[] = [];
   for (const { loc, lastmod } of entries) {
+    if (isDeniedUrl(loc)) errors.push(`loc en denylist (URL externa): ${loc}`);
     let url: URL | null = null;
     try {
       url = new URL(loc);

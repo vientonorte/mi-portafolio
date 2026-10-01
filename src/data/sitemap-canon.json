@@ -1,6 +1,6 @@
 {
   "decided": "2026-10-01",
-  "notes": "Única fuente de la política del sitemap (Tech Lead 2026-10-01). La lista canónica NO es fija: son las páginas que existen en el build (dist/**/index.html) que sean públicas (sin robots noindex, sin meta refresh, canonical propio) y no estén en deny. Para agregar una ruta: publica la página (entrada Vite o public/<ruta>/index.html, indexable y con canonical propio) y regenera public/sitemap.xml (scripts/generate-service-landings.py). Para sacar una ruta del sitemap sin despublicarla, agrégala a outsideSitemap. La consumen src/lib/sitemap-canon.ts (test sitemap-gate) y scripts/generate-service-landings.py.",
+  "notes": "Única fuente de la política del sitemap (Tech Lead 2026-10-01). La lista canónica NO es fija: son las páginas que existen en el build (dist/**/index.html) que sean públicas (sin robots noindex, sin meta refresh, canonical propio) y no estén en deny. Para agregar una ruta: publica la página (entrada Vite o public/<ruta>/index.html, indexable y con canonical propio) y regenera public/sitemap.xml (scripts/generate-service-landings.py). Para sacar una ruta del sitemap sin despublicarla, agrégala a outsideSitemap. denyUrls: URLs externas (host/ruta, sin esquema) que nunca pueden aparecer en el sitemap; se comparan normalizadas (http/https, //, barra final y /#/ dan igual). La consumen src/lib/sitemap-canon.ts (test sitemap-gate) y scripts/generate-service-landings.py.",
   "origin": "https://vientonorte.io",
   "deny": [
     "/servicios/diagnostico-accesibilidad-wcag/",
@@ -11,6 +11,7 @@
     "/qa/",
     "/mi-portafolio/"
   ],
+  "denyUrls": ["vnmkt.figma.site", "vientonorte.github.io/mi-portafolio/consultoria"],
   "denyExceptions": ["/s/polijuego-privacy/"],
   "outsideSitemap": ["/s/polijuego-privacy/"]
 }
