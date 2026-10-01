@@ -4,7 +4,7 @@ import { homeHref, serviciosNavLinks } from "./servicios-nav";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
-import { ExperienciaRo, ServiciosCasos } from "./ServiciosCasos";
+import { ServiciosCasos } from "./ServiciosCasos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
@@ -77,7 +77,7 @@ export function ServiciosPage() {
           eyebrow={SERVICIOS_HERO.eyebrow}
           title={SERVICIOS_HERO.title}
           subtitle={SERVICIOS_HERO.audience}
-          desktopImage={SERVICIOS_IMAGES.xcms}
+          desktopImage={SERVICIOS_IMAGES.xcmsClean}
           actions={
             <>
               <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>
@@ -129,8 +129,6 @@ export function ServiciosPage() {
         />
 
         <ServiciosCasos />
-
-        <ExperienciaRo />
 
         <section
           id="contacto"

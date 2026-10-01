@@ -6,9 +6,10 @@ import { render as renderServicios } from "@/servicios/entry-server";
 import {
   BRAND_CASES,
   SERVICIOS_ANCHORS,
+  SERVICIOS_CASE_ANCHORS,
+  SERVICIOS_SHOW_VN_WCAG_CASE,
   SERVICIOS_EXPERIENCE,
   SERVICIOS_FUNNEL,
-  SERVICIOS_RO_EXPERIENCE,
   SERVICIOS_VN_CASE_GROUPS,
 } from "@/servicios/servicios-content";
 
@@ -35,6 +36,9 @@ const FORBIDDEN = [
   /\/news\//,
   /\/qa\//,
   /\/mi-portafolio\//,
+  // TL + Rö, 1-oct 10:42: destinos viejos, en cualquier esquema (http, https, //) y con o sin barra final.
+  /vnmkt\.figma\.site/i,
+  /vientonorte\.github\.io\/mi-portafolio\/(?:#\/)?consultoria/i,
 ];
 const APPROVED_RUBROS = ["/servicios/web-dental/", "/servicios/web-contable/", "/servicios/web-juridico/"];
 const forbiddenHit = (text: string) => FORBIDDEN.find((re) => re.test(text));
@@ -51,10 +55,22 @@ describe("branding-home canon", () => {
       "/news/01/",
       "/qa/servicios/",
       "/mi-portafolio/",
+      "https://vnmkt.figma.site",
+      "http://vnmkt.figma.site/",
+      "//vnmkt.figma.site/consultoria",
+      "https://vientonorte.github.io/mi-portafolio/consultoria",
+      "http://vientonorte.github.io/mi-portafolio/consultoria/",
+      "vientonorte.github.io/mi-portafolio/#/consultoria",
     ]) {
       expect(forbiddenHit(bad), bad).toBeDefined();
     }
-    for (const ok of [...APPROVED_RUBROS, "/s/polijuego-privacy/", "/servicios/", "/servicios/#web-pymes"]) {
+    for (const ok of [
+      ...APPROVED_RUBROS,
+      "/s/polijuego-privacy/",
+      "/servicios/",
+      "/servicios/#web-pymes",
+      "https://vientonorte.io/servicios/#consultoria-ux",
+    ]) {
       expect(forbiddenHit(ok), ok).toBeUndefined();
     }
   });
@@ -65,6 +81,16 @@ describe("branding-home canon", () => {
       for (const re of FORBIDDEN) {
         expect(src, `${rel} ${re}`).not.toMatch(re);
       }
+    }
+  });
+
+  it("/servicios/ renderizado y public/sitemap.xml no apuntan a destinos de la denylist", () => {
+    // El gate del sitemap derivado del build vive en el #292 (src/lib/sitemap-canon.ts); aquí, el sitemap versionado.
+    const page = renderServicios();
+    const sitemap = readFileSync(resolve(process.cwd(), "public/sitemap.xml"), "utf8");
+    for (const re of FORBIDDEN.slice(-2)) {
+      expect(page, `${re}`).not.toMatch(re);
+      expect(sitemap, `${re}`).not.toMatch(re);
     }
   });
 
@@ -90,46 +116,91 @@ describe("branding-home canon", () => {
 const RESULT_FIGURE = /\d+(?:[.,]\d+)?\s?%|\bNPS\b|\b\d+(?:[.,]\d+)?\s?[x×]\b|[+−]\s?\d|\b\d+(?:[.,]\d+)?\s?(?:s|seg|segundos)\b/i;
 const HEX = /#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3}(?:[0-9a-fA-F]{2})?)?\b/;
 const CANON_HREF = /^(?:\/servicios\/)?#(?:web-pymes|revision-gratis|consultoria-ux)$/;
-const RO_COMPANIES = ["Transvip", "SURA", "Karri", "Pareti"];
 
-describe("/servicios/ casos de VN y experiencia de Rö", () => {
+describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
   const html = renderServicios();
   const doc = new DOMParser().parseFromString(`<body>${html}</body>`, "text/html");
   const casos = doc.getElementById("casos-vn")!;
-  const ro = doc.getElementById("experiencia-ro")!;
   const vnCases = SERVICIOS_VN_CASE_GROUPS.flatMap((g) => g.cases);
 
-  it("las dos secciones existen en la página", () => {
+  it("la grilla existe y agrupa por ancla canónica (#revision-gratis solo con SERVICIOS_SHOW_VN_WCAG_CASE)", () => {
     expect(casos).not.toBeNull();
-    expect(ro).not.toBeNull();
-  });
-
-  it("agrupa por ancla canónica, en el orden de las fichas", () => {
-    expect(SERVICIOS_VN_CASE_GROUPS.map((g) => g.anchor)).toEqual([...SERVICIOS_ANCHORS]);
+    expect(SERVICIOS_VN_CASE_GROUPS.map((g) => g.anchor)).toEqual([...SERVICIOS_CASE_ANCHORS]);
     expect([...casos.querySelectorAll("[data-case-group]")].map((g) => g.getAttribute("data-case-group"))).toEqual([
-      ...SERVICIOS_ANCHORS,
+      ...SERVICIOS_CASE_ANCHORS,
     ]);
+    expect(casos.querySelector('[data-case-group="revision-gratis"]') !== null).toBe(SERVICIOS_SHOW_VN_WCAG_CASE);
     for (const anchor of SERVICIOS_ANCHORS) expect(doc.getElementById(anchor), anchor).not.toBeNull();
   });
 
-  it("los links de ambas secciones son solo /servicios/#ancla", () => {
-    const hrefs = [...casos.querySelectorAll("a"), ...ro.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
-    expect(hrefs.length).toBe(SERVICIOS_ANCHORS.length);
+  it("casos: TodoClick.cl y Parcelas Terramar en #web-pymes; Edu 21 en #consultoria-ux; Monitas fuera de /servicios/", () => {
+    // arrayContaining: la grilla recibe más productos de VN sin reescribir este test (lista de Rö pendiente).
+    const byGroup = Object.fromEntries(SERVICIOS_VN_CASE_GROUPS.map((g) => [g.anchor, g.cases.map((c) => c.name)]));
+    expect(byGroup["web-pymes"]).toEqual(expect.arrayContaining(["TodoClick.cl", "Parcelas Terramar"]));
+    expect(byGroup["consultoria-ux"]).toEqual([
+      "X|CMS · Da Pleisë",
+      "CFO Dashboard · Ratio Irarrázaval",
+      "Edu 21",
+      "Dashboard de consultoría estratégica",
+    ]);
+    if (SERVICIOS_SHOW_VN_WCAG_CASE) expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG"]);
+    expect(vnCases.some((c) => c.id === "monitas")).toBe(false);
+    expect(doc.body.textContent ?? "").not.toContain("Monitas");
+    expect(html).not.toContain("cases/monitas");
+    expect(new Set(vnCases.map((c) => c.id)).size).toBe(vnCases.length);
+    const byId = Object.fromEntries(vnCases.map((c) => [c.id, c]));
+    expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
+    expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
+    expect(byId.edu21.startingPoint).toMatch(/Deficiente/);
+  });
+
+  it("secciones eliminadas: sin experiencia de Rö, quién está detrás, cómo trabajamos, Coworking ni WCAG propia", () => {
+    for (const id of ["experiencia-ro", "experiencia", "quien", "como-trabajamos"]) {
+      expect(doc.getElementById(id), id).toBeNull();
+    }
+    const text = doc.body.textContent ?? "";
+    expect(text).not.toContain("Experiencia de Rö");
+    expect(text).not.toContain("Quién está detrás");
+    expect(text).not.toContain("Cómo trabajamos");
+    for (const name of ["Transvip", "SURA", "Karri", "Pareti", "Coworking"]) {
+      expect(casos.textContent ?? "", name).not.toContain(name);
+    }
+    expect(text).not.toMatch(/Transvip|SURA Investments|Karri|Pareti/);
+    expect(html).not.toContain("method/coworking/");
+    expect(casos.querySelector('[data-vn-case="coworking"]')).toBeNull();
+  });
+
+  it("sin GEES, nombres ni montos; sin gees-dashboard, pos-mobile ni clientes.png en /servicios/", () => {
+    expect(html).not.toMatch(/GEES|\$\s?40\.000\.000|CLP \$/i);
+    for (const img of ["consultoria/gees-dashboard", "poc-modules/pos-mobile", "poc-modules/clientes"]) {
+      expect(html, img).not.toContain(img);
+    }
+  });
+
+  it("sin imágenes de Marca Consciente; sin Algorithmics ni Sortify", () => {
+    const srcs = [...doc.querySelectorAll("img, source")].map((i) => i.getAttribute("src") ?? i.getAttribute("srcset") ?? "");
+    for (const s of srcs) expect(s, s).not.toContain("cases/mc/");
+    expect(html).not.toMatch(/marca consciente|algorithmics|sortify/i);
+  });
+
+  it("los links de la grilla son solo /servicios/#ancla", () => {
+    const hrefs = [...casos.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
+    expect(hrefs.length).toBe(SERVICIOS_CASE_ANCHORS.length);
     for (const h of hrefs) expect(h, h).toMatch(CANON_HREF);
-    for (const re of FORBIDDEN) expect(casos.outerHTML + ro.outerHTML, `${re}`).not.toMatch(re);
+    for (const re of FORBIDDEN) expect(casos.outerHTML, `${re}`).not.toMatch(re);
   });
 
   it("no agrega colores hex: solo tokens", () => {
     const src = readFileSync(resolve(process.cwd(), "src/servicios/ServiciosCasos.tsx"), "utf8");
     expect(src).not.toMatch(HEX);
     expect(src).toContain("bg-[var(--primary)]");
-    const markup = (casos.outerHTML + ro.outerHTML).replace(/href="#[\w-]+"/g, "");
+    const markup = casos.outerHTML.replace(/href="#[\w-]+"/g, "");
     expect(markup).not.toMatch(HEX);
     expect(markup).not.toMatch(/style="/);
   });
 
   it("títulos en Chillax y acento del isologo con var(--primary)", () => {
-    const titles = [...casos.querySelectorAll("h2, h3, h4"), ...ro.querySelectorAll("h2, h3")];
+    const titles = [...casos.querySelectorAll("h2, h3, h4")];
     expect(titles.length).toBeGreaterThan(0);
     for (const t of titles) expect(t.className, t.textContent ?? "").toContain("var(--font-chillax)");
     const accents = casos.querySelectorAll('[data-accent="isologo"]');
@@ -137,7 +208,7 @@ describe("/servicios/ casos de VN y experiencia de Rö", () => {
     for (const a of accents) expect(a.className).toContain("bg-[var(--primary)]");
   });
 
-  it("cada tarjeta de VN: una imagen real del repo y dos etiquetas (rubro y servicio)", () => {
+  it("cada tarjeta: una imagen real del repo y dos etiquetas (rubro y servicio)", () => {
     for (const c of vnCases) {
       const card = casos.querySelector(`[data-vn-case="${c.id}"]`)!;
       expect(card, c.id).not.toBeNull();
@@ -148,59 +219,16 @@ describe("/servicios/ casos de VN y experiencia de Rö", () => {
     }
   });
 
-  it("casos de VN sin cifras de resultado; el diagnóstico va rotulado como punto de partida", () => {
+  it("sin cifras de resultado; la única cifra es el diagnóstico de partida, rotulado", () => {
     for (const c of vnCases) {
-      const text = [c.name, c.summary, ...c.findings, c.startingPoint ?? "", c.tags.rubro, c.tags.servicio].join(" ");
+      const text = [c.name, c.summary, ...c.findings, c.tags.rubro, c.tags.servicio].join(" ");
       expect(text, c.id).not.toMatch(RESULT_FIGURE);
     }
-    expect(casos.textContent ?? "").not.toMatch(RESULT_FIGURE);
-    for (const p of casos.querySelectorAll("[data-starting-point]")) {
-      expect(p.textContent).toMatch(/^Punto de partida, no resultado:/);
-    }
-    expect(casos.querySelectorAll("[data-starting-point]").length).toBe(vnCases.filter((c) => c.startingPoint).length);
-  });
-
-  it("#web-pymes: Monitas.cl, TodoClick.cl y Parcelas Terramar con nombre e imagen propia; sin Algorithmics ni Sortify", () => {
-    const web = SERVICIOS_VN_CASE_GROUPS.find((g) => g.anchor === "web-pymes")!;
-    expect(web.cases.map((c) => c.name)).toEqual(["Monitas.cl", "TodoClick.cl", "Parcelas Terramar"]);
-    expect(web.cases.every((c) => !c.anonymized)).toBe(true);
-    const byId = Object.fromEntries(web.cases.map((c) => [c.id, c]));
-    expect(byId.todoclick.image.png).toContain("cases/todoclick/");
-    expect(byId.terramar.image.png).toContain("cases/terramar/");
-    expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
-    expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
-    expect(casos.textContent ?? "").not.toMatch(/algorithmics|sortify/i);
-  });
-
-  it("el caso anonimizado lleva el rótulo y no nombra al cliente", () => {
-    const anon = vnCases.filter((c) => c.anonymized);
-    expect(anon.map((c) => c.id)).toEqual(["coworking"]);
-    for (const c of anon) {
-      const card = casos.querySelector(`[data-vn-case="${c.id}"]`)!;
-      expect(card.querySelector('[data-label="anonimizado"]')?.textContent).toBe("«anonimizado»");
-      expect(card.textContent ?? "").not.toMatch(/co-?work\s?latam|robotina/i);
-      expect(c.image.png).toContain("method/coworking/");
-    }
-  });
-
-  it("la franja se rotula «Experiencia de Rö» y nunca se presenta como clientes de VN", () => {
-    expect(ro.querySelector("h2")?.textContent).toBe("Experiencia de Rö");
-    expect(SERVICIOS_RO_EXPERIENCE.heading).toBe(SERVICIOS_EXPERIENCE.heading);
-    expect(ro.querySelector("[data-ro-note]")?.textContent).toContain("No son clientes de Viento Norte");
-    expect(ro.querySelectorAll("img").length).toBe(0);
-    expect(ro.querySelector("h2")?.textContent?.toLowerCase()).not.toContain("cliente");
-    const casosText = casos.textContent ?? "";
-    for (const name of RO_COMPANIES) expect(casosText, name).not.toContain(name);
-  });
-
-  it("Karri y Pareti solo con el rol; Transvip y SURA solo con cifras publicadas", () => {
-    const byCompany = Object.fromEntries(SERVICIOS_RO_EXPERIENCE.items.map((i) => [i.company, i]));
-    expect(Object.keys(byCompany)).toEqual(["Transvip", "SURA Investments", "Karri", "Pareti"]);
-    expect(byCompany.Karri.published).toEqual([]);
-    expect(byCompany.Pareti.published).toEqual([]);
-    expect(byCompany.Transvip.published).toEqual(["−40% en el tiempo de reserva", "+25% de conversión", "NPS 82"]);
-    const projects = readFileSync(resolve(process.cwd(), "src/data/projects-data.ts"), "utf8");
-    expect(projects).toContain("App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82");
-    for (const line of byCompany["SURA Investments"].published) expect(projects, line).toContain(line);
+    const starts = [...casos.querySelectorAll("[data-starting-point]")];
+    expect(starts.length).toBe(vnCases.filter((c) => c.startingPoint).length);
+    for (const p of starts) expect(p.textContent).toMatch(/^Punto de partida, no resultado:/);
+    const rest = casos.cloneNode(true) as HTMLElement;
+    rest.querySelectorAll("[data-starting-point]").forEach((n) => n.remove());
+    expect(rest.textContent ?? "").not.toMatch(RESULT_FIGURE);
   });
 });

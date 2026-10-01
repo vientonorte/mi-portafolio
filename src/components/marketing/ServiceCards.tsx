@@ -19,8 +19,9 @@ export interface ServiceCardData {
   audience?: string;
   forWhom: string;
   includes: string[];
-  price: string;
-  priceNote: string;
+  /** Sin precio = pendiente (p. ej. consultoría UX, decisión Rö 1-oct): no se muestra el bloque «Precio». */
+  price?: string;
+  priceNote?: string;
   cta: string;
   /** Destino del botón: "#contacto" en /servicios/, "/servicios/#<id>" desde la home. */
   href?: string;
@@ -99,13 +100,19 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
               </ul>
             </div>
             <div className="mt-auto space-y-4 border-t border-border/60 pt-4">
-              <div>
-                <p className="text-sm font-semibold text-foreground">Precio</p>
-                <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
-                  {card.price}
+              {card.price ? (
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Precio</p>
+                  <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
+                    {card.price}
+                  </p>
+                  {card.priceNote ? <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p> : null}
+                </div>
+              ) : card.priceNote ? (
+                <p className="text-sm text-muted-foreground" data-price-note>
+                  {card.priceNote}
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p>
-              </div>
+              ) : null}
               <Button asChild size="lg" className={cn(ctaClassName, "w-full")}>
                 <a
                   href={card.href ?? "#contacto"}

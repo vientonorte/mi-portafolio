@@ -53,6 +53,25 @@ export const SERVICIOS_IMAGES = {
     width: 1440,
     height: 900,
   },
+  /**
+   * Recorte limpio del POS de X|CMS (pedidos.png 180,480-1440,900): sin la fila «Ventas Hoy» ni cifras de demo
+   * que parezcan métricas. Hero y tarjetas de /servicios/ (la home sigue con `xcms`).
+   */
+  xcmsClean: {
+    webp: "images/products/x-cms/pos-productos.webp",
+    png: "images/products/x-cms/pos-productos.png",
+    alt: "X|CMS — punto de venta con productos por categoría y carrito",
+    width: 1260,
+    height: 709,
+  },
+  /** Recorte limpio del CFO Dashboard (riesgo.png 180,180-1440,620), sin la línea de complejidad. */
+  ratioClean: {
+    webp: "images/products/ratio/cfo-dashboard.webp",
+    png: "images/products/ratio/cfo-dashboard.png",
+    alt: "X|CMS — CFO Dashboard con vistas por rol",
+    width: 1260,
+    height: 709,
+  },
 } satisfies Record<string, MarketingImage>;
 
 export interface ServicioCard extends ServiceCardData {
@@ -120,12 +139,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     thumbnail: {
       kind: "device",
       addressBar: "x-cms · flujo",
-      image: {
-        png: "images/poc-modules/pedidos.png",
-        alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte.",
-        width: 1440,
-        height: 900,
-      },
+      image: { ...SERVICIOS_IMAGES.xcmsClean, alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte." },
     },
   },
   {
@@ -141,11 +155,11 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Proceso de equipo para sostener los cambios.",
       "Sin nube obligatoria: el dato queda en tu CMS o CRM.",
     ],
-    price: "Cotización según alcance",
+    // Sin precio: pendiente (decisión Rö vía PO, 1-oct 10:32). Mismo nivel visual que la web 72 h.
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.xcms },
+    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.ratioClean },
   },
 ];
 
@@ -243,12 +257,20 @@ export const SERVICIOS_SEO = {
 /** Anclas canónicas de /servicios/. Ningún caso enlaza fuera de estas tres. */
 export type ServiciosAnchor = "web-pymes" | "revision-gratis" | "consultoria-ux";
 export const SERVICIOS_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
+/** Anclas con casos en la grilla. #revision-gratis no tiene caso (PO, 1-oct 10:31). */
+/**
+ * Caso 6 (vientonorte.io · contraste WCAG, #revision-gratis). Aprobado por el TL (1-oct 10:36).
+ * Para sacarlo basta con poner false: desaparecen el grupo y su ancla de la grilla.
+ */
+export const SERVICIOS_SHOW_VN_WCAG_CASE = true;
+
+export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = SERVICIOS_SHOW_VN_WCAG_CASE
+  ? ["web-pymes", "revision-gratis", "consultoria-ux"]
+  : ["web-pymes", "consultoria-ux"];
 
 export interface VnCase {
   id: string;
   name: string;
-  /** true = el cliente no se nombra; la tarjeta lleva el rótulo «anonimizado». */
-  anonymized?: boolean;
   /** Dos etiquetas por tarjeta: rubro y servicio. */
   tags: { rubro: string; servicio: string };
   summary: string;
@@ -274,16 +296,18 @@ export const SERVICIOS_VN_CASES = {
 
 /**
  * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
- * - Monitas.cl: problema de BRAND_CASES; entregables de src/data/metodo-ro-cases.ts; imagen cases/monitas.
- * - Coworking: hallazgos de src/data/value-content-arsenal.ts (method-*); imagen recortada de
- *   method/coworking/a11y-contrast.png sin la marca del sitio (a11y-contrast-anon).
- * - vientonorte.io: razones de src/styles/globals.css (antes) y src/styles/vn-tokens.css (variantes 700),
- *   las mismas que fija src/__tests__/a11y/gradient-contrast.test.ts (#280).
  * - Edu 21: problema de BRAND_CASES; entregables de docs/staging/edu21-pack/PERMISO.md;
- *   punto de partida = cases/edu21/06-performance-seo.png (Test My Site, jun. 2022).
- * - TodoClick.cl y Parcelas Terramar: con nombre (permiso de Rö, 1-oct). Hallazgos parafraseados de sus
+ *   punto de partida = informe SEO WordPress jun. 2022 (inv/pdf/txt/edu21-seo.txt L59, L84).
+ * - TodoClick.cl y Parcelas Terramar: con nombre (permiso en docs/staging/casos-mc-pack/PERMISO.md). Hallazgos de sus
  *   benchmark PDF (Benchmark Maraña, 2021), texto extraído en el box de ops: inv/pdf/txt/mc-*-benchmark.txt
- *   (las líneas van en cada hallazgo). Imagen: página 3 del PDF (escala heurística y CTA), sin nombres ni logos.
+ *   (las líneas van en cada hallazgo). Imagen: página 3 de cada PDF (escala heurística), sin logo de la marca;
+ *   las capturas de iCloud traen logos de terceros o el logo grande de la marca.
+ * - X|CMS y CFO Dashboard «Ratio Irarrázaval»: productos propios de Da Pleisë (marca de Rö). Recortes de
+ *   poc-modules/pedidos.png (180,480)-(1440,900) y riesgo.png (180,180)-(1440,620), sin cifras demo.
+ * - Dashboard de consultoría estratégica: concepto propio de Rö, anonimizado (Rö, 1-oct 10:37): sin marca del
+ *   cliente, sin nombres ni montos. Recorte nuevo (0,540)-(1440,900) de la grilla de módulos.
+ * - vientonorte.io: PR #280 (globals.css, vn-tokens.css). Detrás de SERVICIOS_SHOW_VN_WCAG_CASE.
+ * Monitas no va en /servicios/ (Rö, 1-oct 10:33). La grilla recibe más tarjetas agregando casos o grupos.
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   {
@@ -292,26 +316,12 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
     linkLabel: "Ver el servicio: Web para Pymes",
     cases: [
       {
-        id: "monitas",
-        name: "Monitas.cl",
-        tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
-        summary:
-          "La tienda no tenía un camino claro: quien entraba no encontraba los productos ni llegaba a pagar sin perderse.",
-        findings: ["Mapa de navegación", "Wireframe de la tienda", "Flujo de pago", "Embudo de conversión"],
-        image: {
-          png: "images/cases/monitas/02-map-nav.jpg",
-          alt: "Mapa de navegación de la tienda Monitas.cl, del público al embudo.",
-          width: 1600,
-          height: 903,
-        },
-      },
-      {
         id: "todoclick",
         name: "TodoClick.cl",
         tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
         // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
         summary:
-          "Benchmark de su Instagram y su e-commerce: el branding está bien desarrollado, pero el camino a la compra se puede acortar.",
+          "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
         findings: [
           // L101 «2 Mejoraría la Ro…» (título del pantallazo: «Mejoraría la Rotulación en el Copy, no hay h1»).
           "El copy no rotula bien el contenido: la página no tiene h1.",
@@ -336,7 +346,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
         // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
         summary:
-          "Benchmark de su Instagram y su sitio: el canal comercial directo funciona, pero lleva poco al sitio web.",
+          "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
         findings: [
           // L90 «1 CTAS insu'cie…», L188.
           "Los llamados a la acción del Instagram no alcanzan.",
@@ -363,109 +373,122 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       },
     ],
   },
-  {
-    anchor: "revision-gratis",
-    label: "Revisión gratis",
-    linkLabel: "Ver el servicio: Revisión gratis",
-    cases: [
-      {
-        id: "coworking",
-        name: "Coworking",
-        anonymized: true,
-        tags: { rubro: "Coworking", servicio: "Revisión gratis" },
-        summary: "Benchmark del sitio móvil de un coworking. El nombre del cliente no se publica.",
-        findings: [
-          "Embudo con pasos suficientes, pero mal aplicados al prospecto.",
-          "Fallas de contraste que bloquean la lectura y la confianza.",
-          "Experiencia no preparada para audiencias no locales.",
-          "Servicios escondidos y poca información para el prospecto.",
-        ],
-        image: {
-          png: "images/method/coworking/a11y-contrast-anon.png",
-          webp: "images/method/coworking/a11y-contrast-anon.webp",
-          alt: "Mensaje de chat en texto blanco sobre rojo: ejemplo de falla de contraste del benchmark anonimizado.",
-          width: 760,
-          height: 380,
-        },
-      },
-      {
-        id: "vientonorte-wcag",
-        name: "vientonorte.io",
-        tags: { rubro: "Servicios digitales", servicio: "Revisión gratis" },
-        summary:
-          "Auditoría WCAG 2.2 AA de nuestro propio sitio: el texto blanco sobre el degradado de marca no llegaba al contraste mínimo.",
-        findings: [
-          "Antes: blanco sobre rojo 4,05:1 y sobre azul evo 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
-          "Corrección: variantes 700 de los tokens, rojo 5,56:1 y azul evo 5,76:1 en todo el degradado.",
-        ],
-        image: {
-          png: "images/branding/og-home-1200.png",
-          alt: "Tarjeta de vientonorte.io con el isologo de Viento Norte.",
-          width: 1200,
-          height: 630,
-        },
-      },
-    ],
-  },
+  ...(SERVICIOS_SHOW_VN_WCAG_CASE
+    ? [
+        {
+          anchor: "revision-gratis",
+          label: "Revisión gratis",
+          linkLabel: "Ver el servicio: Revisión gratis",
+          cases: [
+            {
+              id: "vientonorte-wcag",
+              name: "vientonorte.io · contraste WCAG",
+              tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
+              // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
+              summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
+              findings: [
+                "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
+                "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
+              ],
+              image: {
+                png: "images/cases/vientonorte/contraste-antes-despues.png",
+                webp: "images/cases/vientonorte/contraste-antes-despues.webp",
+                alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
+                width: 1200,
+                height: 675,
+              },
+            },
+          ],
+        } satisfies VnCaseGroup,
+      ]
+    : []),
   {
     anchor: "consultoria-ux",
     label: "Consultoría UX",
     linkLabel: "Ver el servicio: Consultoría UX",
     cases: [
       {
+        id: "x-cms",
+        name: "X|CMS · Da Pleisë",
+        tags: { rubro: "Café / retail", servicio: "Consultoría UX" },
+        // Fuente: src/data/consultoria-demos.ts:24-31 (Figma Sites publicado), public/images/poc-modules/README.md.
+        summary:
+          "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
+        findings: [
+          "Punto de venta con catálogo por categoría y carrito",
+          "Gestión de productos, clientes y fidelización",
+          "Prototipo navegable publicado en Figma Sites",
+        ],
+        image: {
+          png: "images/products/x-cms/pos-productos.png",
+          webp: "images/products/x-cms/pos-productos.webp",
+          alt: "Punto de venta de X|CMS: grilla de productos de café por categoría y carrito.",
+          width: 1260,
+          height: 709,
+        },
+      },
+      {
+        id: "ratio-irarrazaval",
+        name: "CFO Dashboard · Ratio Irarrázaval",
+        tags: { rubro: "Café / finanzas pyme", servicio: "Consultoría UX" },
+        // Fuente: README de vientonorte/dashfin («Da Pleisë — CFO Dashboard»), live vientonorte.github.io/dashfin/.
+        summary:
+          "Dashboard financiero para un local de café con tres líneas de negocio, con vistas distintas para CFO, socio y equipo.",
+        findings: [
+          "Vistas por rol: CFO, socio-gerente y colaborador",
+          "Arquitectura de pestañas consolidada",
+          "Publicado como dashboard en vivo",
+        ],
+        image: {
+          png: "images/products/ratio/cfo-dashboard.png",
+          webp: "images/products/ratio/cfo-dashboard.webp",
+          alt: "CFO Dashboard del local de Irarrázaval: encabezado y selector de vista por rol.",
+          width: 1260,
+          height: 709,
+        },
+      },
+      {
         id: "edu21",
         name: "Edu 21",
-        tags: { rubro: "Educación", servicio: "Consultoría UX" },
-        summary: "El servicio se explicaba en piezas sueltas y el camino de la familia no se veía.",
+        tags: { rubro: "Edtech", servicio: "Consultoría UX" },
+        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
+        summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
         findings: [
           "Heurística del sitio web",
           "Benchmark de la competencia",
           "Estrategia de servicios y productos",
           "Pitch comercial y storyboard del servicio",
         ],
-        startingPoint: "Informe de rendimiento móvil de edu21.cl (Test My Site, junio de 2022).",
+        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
+        // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
+        startingPoint: "Informe SEO del sitio (junio de 2022): carga de 15,4 s y SEO «Deficiente».",
         image: {
-          png: "images/cases/edu21/01-heuristic-web.png",
-          alt: "Portada de la heurística del sitio web de Edu 21.",
+          png: "images/cases/edu21/03-service-strategy.png",
+          alt: "Tablero de estrategia de servicios de Edu 21: audiencias, problemas, mensaje, canales y metas.",
           width: 1200,
-          height: 675,
+          height: 672,
+        },
+      },
+      {
+        id: "consultoria-estrategica",
+        name: "Dashboard de consultoría estratégica",
+        tags: { rubro: "Consultoría", servicio: "Consultoría UX" },
+        // Concepto propio de Rö, anonimizado (Rö, 1-oct 10:37). Sin marca del cliente, nombres ni montos.
+        summary:
+          "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",
+        findings: [
+          "Contexto estratégico y oportunidad de negocio",
+          "Propuesta de plataforma y hoja de ruta",
+          "Módulos navegables en vez de un documento largo",
+        ],
+        image: {
+          png: "images/products/consultoria-estrategica/modulos.png",
+          webp: "images/products/consultoria-estrategica/modulos.webp",
+          alt: "Grilla de módulos estratégicos de la propuesta: contexto, oportunidad, plataforma y hoja de ruta.",
+          width: 1440,
+          height: 810,
         },
       },
     ],
   },
 ];
-
-export interface RoExperienceItem {
-  company: string;
-  role: string;
-  /** Solo cifras ya publicadas en el portafolio del repo. Vacío = solo el rol. */
-  published: readonly string[];
-}
-
-/**
- * Franja «Experiencia de Rö»: empleos de Rö, nunca clientes de VN. Sin logos.
- * - Transvip: src/data/projects-data.ts:771 (App Pasajeros) y experience-data.ts:226 (rol).
- * - SURA Investments: src/data/projects-data.ts:170 y :173; rol en experience-data.ts:147.
- * - Karri: experience-data.ts:268. Pareti: experience-data.ts:453. Solo el rol.
- */
-export const SERVICIOS_RO_EXPERIENCE = {
-  heading: SERVICIOS_EXPERIENCE.heading,
-  note: "Trabajo de Rö como parte de otros equipos. No son clientes de Viento Norte.",
-  items: [
-    {
-      company: "Transvip",
-      role: "Senior Product Designer",
-      published: ["−40% en el tiempo de reserva", "+25% de conversión", "NPS 82"],
-    },
-    {
-      company: "SURA Investments",
-      role: "UX Lead · Associate, Estrategia Digital",
-      published: [
-        "Framework UX Enterprise implementado en 5+ países",
-        "Onboarding: -40% tiempo (7-11 min vs 15+ min)",
-      ],
-    },
-    { company: "Karri", role: "Lead UX — Vertical Shoppers", published: [] },
-    { company: "Pareti", role: "Community Manager", published: [] },
-  ] satisfies RoExperienceItem[],
-} as const;

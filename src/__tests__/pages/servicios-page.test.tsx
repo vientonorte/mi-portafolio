@@ -46,7 +46,11 @@ describe("/servicios/ prerender (react-dom/server)", () => {
       "Consultoría UX para Pymes",
     ]);
     const prices = cards.map((c) => c.querySelector("[data-price]")?.textContent);
-    expect(prices).toEqual(["$30.000 CLP", "Gratis", "Cotización según alcance"]);
+    // Consultoría UX sin precio (pendiente, decisión Rö vía PO 1-oct 10:32): misma tarjeta, sin bloque «Precio».
+    expect(prices).toEqual(["$30.000 CLP", "Gratis", undefined]);
+    expect(cards[2].textContent).not.toContain("Precio");
+    expect(cards[2].textContent).not.toMatch(/\$|Cotización/);
+    expect(cards[2].className).toBe(cards[0].className);
     expect(cards[0].textContent).toContain("72 horas");
     expect(cards[0].textContent).toContain("50%");
     expect(cards[0].textContent).toContain("después del primer contacto");

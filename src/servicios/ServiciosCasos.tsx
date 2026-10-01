@@ -1,7 +1,6 @@
 import { ResponsiveImage, SECTION_TITLE_CLASS } from "../components/marketing";
 import { cn } from "../lib/utils";
 import {
-  SERVICIOS_RO_EXPERIENCE,
   SERVICIOS_VN_CASE_GROUPS,
   SERVICIOS_VN_CASES,
   type VnCase,
@@ -44,11 +43,6 @@ function VnCaseCard({ item }: { item: VnCase }) {
         <h4 className={cn(CHILLAX, "mt-3 flex items-center gap-2 text-xl font-bold text-foreground")}>
           <IsologoAccent />
           {item.name}
-          {item.anonymized ? (
-            <span data-label="anonimizado" className="text-sm font-medium text-muted-foreground">
-              «anonimizado»
-            </span>
-          ) : null}
         </h4>
         <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
         <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-foreground">
@@ -67,7 +61,7 @@ function VnCaseCard({ item }: { item: VnCase }) {
   );
 }
 
-/** Casos de VN en grilla, agrupados por ancla de servicio. Enlaces solo a #web-pymes, #revision-gratis, #consultoria-ux. */
+/** Casos de VN en grilla, agrupados por ancla de servicio. Enlaces solo a #web-pymes y #consultoria-ux. */
 export function ServiciosCasos() {
   return (
     <section id="casos-vn" aria-labelledby="casos-vn-heading" className={cn(SECTION_CLASS, "bg-background")}>
@@ -97,48 +91,6 @@ export function ServiciosCasos() {
             </ul>
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-/** Franja «Experiencia de Rö». Empleos de Rö, nunca clientes de VN. Sin logos ni imágenes de terceros. */
-export function ExperienciaRo() {
-  return (
-    <section
-      id="experiencia-ro"
-      aria-labelledby="experiencia-ro-heading"
-      className={cn(SECTION_CLASS, "bg-muted/30")}
-    >
-      <div className="container mx-auto max-w-6xl px-4">
-        <h2 id="experiencia-ro-heading" className={cn(SECTION_TITLE_CLASS, CHILLAX, "flex items-center gap-3")}>
-          <IsologoAccent className="size-3" />
-          {SERVICIOS_RO_EXPERIENCE.heading}
-        </h2>
-        <p data-ro-note className="mt-2 max-w-2xl text-base text-muted-foreground">
-          {SERVICIOS_RO_EXPERIENCE.note}
-        </p>
-        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICIOS_RO_EXPERIENCE.items.map((item) => (
-            <li
-              key={item.company}
-              data-ro-item={item.company}
-              className="flex flex-col rounded-xl border border-border bg-card p-5"
-            >
-              <h3 className={cn(CHILLAX, "text-lg font-bold text-foreground")}>{item.company}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{item.role}</p>
-              {item.published.length > 0 ? (
-                <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
-                  {item.published.map((m) => (
-                    <li key={m} className={TAG_CLASS}>
-                      {m}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
