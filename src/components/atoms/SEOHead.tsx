@@ -1,4 +1,6 @@
+import { useLayoutEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { applyRobotsMeta, restoreRobotsMeta } from "../../lib/robots-meta";
 import {
   SEO_SITE,
   buildDocumentTitle,
@@ -33,12 +35,18 @@ export function SEOHead({
   const finalUrl = sanitizeCanonicalUrl(url);
   const finalImage = image || SEO_SITE.ogImage;
 
+  // robots NO va por Helmet: Helmet agregaría un segundo meta robots encima del del HTML
+  // (noindex en QA). Se actualiza el existente; noindex gana (página, build QA o HTML). Ver lib/robots-meta.
+  useLayoutEffect(() => {
+    applyRobotsMeta(document, { noIndex });
+    return () => restoreRobotsMeta(document);
+  }, [noIndex]);
+
   return (
     <Helmet>
       <title>{documentTitle}</title>
       <meta name="description" content={metaDescription} />
       {keywords && <meta name="keywords" content={keywords} />}
-      {!noIndex && <meta name="robots" content="index, follow" />}
 
       <meta property="og:type" content={type} />
       <meta property="og:title" content={documentTitle} />
@@ -58,7 +66,6 @@ export function SEOHead({
       <meta name="twitter:image" content={finalImage} />
 
       <link rel="canonical" href={finalUrl} />
-      {noIndex && <meta name="robots" content="noindex, nofollow" />}
     </Helmet>
   );
 }

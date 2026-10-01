@@ -125,7 +125,7 @@ describe("sitemap-canon · derivación desde el build", () => {
     ]) {
       expect(isDeniedPath(p), p).toBe(true);
     }
-    for (const p of ["/", "/servicios/", "/servicios/web-dental/", "/servicios/web-contable/", "/servicios/web-juridico/", "/s/polijuego-privacy/"]) {
+    for (const p of ["/", "/servicios/", "/servicios/web-dental/", "/servicios/web-otro-rubro/", "/s/polijuego-privacy/"]) {
       expect(isDeniedPath(p), p).toBe(false);
     }
   });
