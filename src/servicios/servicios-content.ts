@@ -387,8 +387,8 @@ export interface RoExperienceItem {
 /**
  * Franja «Experiencia de Rö»: empleos de Rö, nunca clientes de VN. Sin logos.
  * - Transvip: src/data/projects-data.ts:771 (App Pasajeros) y experience-data.ts:226 (rol).
- * - SURA Investments: src/data/projects-data.ts:171 y :173; rol en experience-data.ts:147.
- * - Karri: experience-data.ts:268. Pareti: experience-data.ts:452. Solo el rol.
+ * - SURA Investments: src/data/projects-data.ts:170 y :173; rol en experience-data.ts:147.
+ * - Karri: experience-data.ts:268. Pareti: experience-data.ts:453. Solo el rol.
  */
 export const SERVICIOS_RO_EXPERIENCE = {
   heading: SERVICIOS_EXPERIENCE.heading,
