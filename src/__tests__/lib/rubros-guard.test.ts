@@ -1,12 +1,18 @@
 import { execFileSync, spawnSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import redirects from "../../data/legacy-redirects.json";
 import rubrosFile from "../../data/rubros.json";
 // @ts-expect-error — módulo .mjs sin tipos (script de build)
-import { assertRubroPathsFree, injectRubro, readRubroSlugs } from "../../../scripts/prerender-servicios.mjs";
+import {
+  assertRubroLinksResolve,
+  assertRubroPathsFree,
+  findRubroRefs,
+  injectRubro,
+  readRubroSlugs,
+} from "../../../scripts/prerender-servicios.mjs";
 
 /**
  * P4: /servicios/<slug>/ de src/data/rubros.json es de Vite (prerender). Ni
@@ -143,5 +149,81 @@ describe("rubros · injectRubro (prerender)", () => {
     const tpl = readFileSync(resolve(root, "rubros/index.html"), "utf8");
     for (const m of ["<!--rubro-head-->", "<!--ssr-outlet-->", 'data-slug=""']) expect(tpl).toContain(m);
     expect(tpl).not.toContain('rel="canonical"');
+  });
+});
+
+/** Archivos de texto del repo que pueden enlazar o listar rubros (sin tests, sin build, sin binarios). */
+function sourceFiles(): string[] {
+  const exts = [".ts", ".tsx", ".js", ".mjs", ".py", ".json", ".html", ".xml", ".txt", ".md", ".css"];
+  const skip = new Set(["node_modules", "dist", "__tests__", "images", ".git", "V2"]);
+  const out: string[] = [];
+  const walk = (dir: string) => {
+    for (const name of readdirSync(dir)) {
+      if (skip.has(name)) continue;
+      const abs = join(dir, name);
+      if (statSync(abs).isDirectory()) walk(abs);
+      else if (exts.some((e) => name.endsWith(e))) out.push(abs);
+    }
+  };
+  for (const d of ["src", "public", "scripts", "servicios", "rubros"]) if (existsSync(resolve(root, d))) walk(resolve(root, d));
+  for (const f of ["index.html", "vite.config.ts"]) out.push(resolve(root, f));
+  return out;
+}
+
+describe("rubros · solo se enlaza lo que existe", () => {
+  const slugs = Object.keys(rubrosFile.rubros);
+
+  it("findRubroRefs detecta /servicios/web-<slug>/ con y sin base", () => {
+    expect(findRubroRefs('<a href="/servicios/web-dental/">x</a> <a href="/qa/servicios/web-contable/#oferta">')).toEqual([
+      "web-contable",
+      "web-dental",
+    ]);
+    expect(findRubroRefs("<loc>https://vientonorte.io/servicios/web-juridico/</loc>")).toEqual(["web-juridico"]);
+    expect(findRubroRefs('<a href="/servicios/">hub</a> /servicios/asistente-ia/')).toEqual([]);
+  });
+
+  it("ninguna fuente (cards, nav, sitemap, datos, scripts) nombra un rubro que no está en rubros.json", () => {
+    const orphans: string[] = [];
+    for (const f of sourceFiles()) {
+      const text = readFileSync(f, "utf8");
+      for (const slug of findRubroRefs(text)) if (!slugs.includes(slug)) orphans.push(`${f}: ${slug}`);
+      for (const m of text.matchAll(/\bweb-(contable|juridico|jur\u00eddico)\b/g)) orphans.push(`${f}: ${m[0]}`);
+    }
+    expect(orphans).toEqual([]);
+  });
+
+  it("public/sitemap.xml solo lista rubros con entrada en rubros.json, y los mockups son de rubros existentes", () => {
+    const sm = readFileSync(resolve(root, "public/sitemap.xml"), "utf8");
+    for (const slug of findRubroRefs(sm)) expect(slugs, slug).toContain(slug);
+    for (const dir of readdirSync(resolve(root, "public/images/rubros"))) expect(slugs, dir).toContain(dir);
+  });
+
+  it("assertRubroLinksResolve: el build falla si una página o el sitemap enlaza un rubro sin página generada", () => {
+    const dir = mkdtempSync(join(tmpdir(), "vn-rubros-links-"));
+    try {
+      mkdirSync(join(dir, "servicios/web-dental"), { recursive: true });
+      writeFileSync(join(dir, "servicios/web-dental/index.html"), "<html></html>");
+      writeFileSync(join(dir, "servicios/index.html"), '<a href="/qa/servicios/web-dental/">Dental</a>');
+      writeFileSync(join(dir, "sitemap.xml"), "<loc>https://vientonorte.io/servicios/web-dental/</loc>");
+      expect(() => assertRubroLinksResolve(dir, ["web-dental"])).not.toThrow();
+
+      writeFileSync(join(dir, "servicios/index.html"), '<a href="/servicios/web-contable/">Contable</a>');
+      expect(() => assertRubroLinksResolve(dir, ["web-dental"])).toThrow(/servicios\/index\.html → \/servicios\/web-contable\//);
+
+      writeFileSync(join(dir, "servicios/index.html"), "<p></p>");
+      writeFileSync(join(dir, "sitemap.xml"), "<loc>https://vientonorte.io/servicios/web-juridico/</loc>");
+      expect(() => assertRubroLinksResolve(dir, ["web-dental"])).toThrow(/sitemap\.xml → \/servicios\/web-juridico\//);
+
+      // En rubros.json pero sin página en el build: también falla.
+      writeFileSync(join(dir, "sitemap.xml"), "<loc>https://vientonorte.io/servicios/web-dental/</loc>");
+      rmSync(join(dir, "servicios/web-dental"), { recursive: true });
+      expect(() => assertRubroLinksResolve(dir, ["web-dental"])).toThrow(/web-dental/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it.runIf(existsSync(resolve(root, "dist/servicios/index.html")))("el build actual (dist/) no enlaza rubros sin página", () => {
+    expect(() => assertRubroLinksResolve(resolve(root, "dist"), slugs)).not.toThrow();
   });
 });
