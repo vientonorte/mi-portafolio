@@ -28,6 +28,9 @@ import {
   type ServiciosIntentValue,
 } from "./servicios-content";
 
+/** «El recorrido» en /servicios/: Monitas vive solo en la grilla de casos de VN (decisión Rö 1-oct). */
+const RECORRIDO_CASES = BRAND_CASES.filter((item) => item.id !== "monitas");
+
 function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 }
@@ -56,7 +59,7 @@ export function ServiciosPage() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      <Navigation staticLinks={serviciosNavLinks()} staticHomeHref={homeHref()} />
+      <Navigation staticLinks={serviciosNavLinks()} staticHomeHref={homeHref()} staticEnglishHref={homeHref()} />
       <main
         id="main"
         tabIndex={-1}
@@ -111,7 +114,7 @@ export function ServiciosPage() {
           heading={SERVICIOS_CASES.heading}
           intro={SERVICIOS_CASES.intro}
           funnel={SERVICIOS_FUNNEL}
-          cases={BRAND_CASES.map(
+          cases={RECORRIDO_CASES.map(
             (item): CaseCard => ({
               id: item.id,
               client: item.client,

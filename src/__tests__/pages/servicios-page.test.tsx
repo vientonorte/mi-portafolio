@@ -24,6 +24,7 @@ const isAllowedHref = (href: string) =>
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
+  /^\/servicios\/#[A-Za-z][\w-]*$/.test(href) ||
   href === "mailto:contacto@vientonorte.io";
 
 describe("/servicios/ prerender (react-dom/server)", () => {
@@ -136,14 +137,14 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     for (const slug of AI_SLUGS) expect(html).not.toContain(slug);
   });
 
-  it("every href is the home root, an in-page #anchor or the mailto", () => {
+  it("every href is the home root, an in-page #anchor, /servicios/#anchor or the mailto", () => {
     const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
     expect(hrefs.length).toBeGreaterThan(5);
     const bad = hrefs.filter((h) => !isAllowedHref(h));
     expect(bad).toEqual([]);
     // in-page anchors must resolve to an element on the page
-    for (const h of hrefs.filter((x) => x.startsWith("#"))) {
-      expect(doc.getElementById(h.slice(1)), h).not.toBeNull();
+    for (const h of hrefs.filter((x) => x.startsWith("#") || x.startsWith("/servicios/#"))) {
+      expect(doc.getElementById(h.split("#")[1]), h).not.toBeNull();
     }
     const footer = doc.querySelector("footer");
     expect([...footer!.querySelectorAll("a")].map((a) => a.getAttribute("href"))).toEqual([
@@ -151,8 +152,12 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     ]);
     const navHrefs = [...doc.querySelectorAll("header a")].map((a) => a.getAttribute("href"));
     expect(navHrefs).toContain("/");
-    expect(navHrefs).toContain("#contacto");
-    expect(navHrefs).toEqual(expect.arrayContaining(["#revision-gratis", "#web-pymes", "#consultoria-ux"]));
+    expect(navHrefs).toContain("/servicios/#contacto");
+    expect(navHrefs).toEqual(
+      expect.arrayContaining(["/servicios/#revision-gratis", "/servicios/#web-pymes", "/servicios/#consultoria-ux"])
+    );
+    // Nav canónico: solo la raíz y /servicios/#ancla
+    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/#[a-z][\w-]*)?$/);
   });
 
   it("template has SEO + outlet, and built dist (if present) is the prerendered page", () => {
@@ -326,5 +331,42 @@ describe("/servicios/ contact form (client)", () => {
     expect(await screen.findByText(/Recibimos tu mensaje/)).toBeInTheDocument();
     // Tras enviar, el select vuelve al placeholder
     expect(intentSelect().value).toBe("");
+  });
+});
+
+describe("/servicios/ nav · selector de idioma (variante estática de Navigation)", () => {
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it("el prerender trae el nav con el selector (ES actual, EN hacia la home) y la página sigue en español", () => {
+    const header = doc.querySelector("header")!;
+    expect(header.querySelector("nav")).not.toBeNull();
+    const selector = header.querySelector("[data-lang-selector]")!;
+    expect(selector).not.toBeNull();
+    expect(selector.querySelector('[aria-current="true"]')?.textContent).toBe("es");
+    const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];
+    expect(switches.length).toBe(2); // escritorio + móvil
+    for (const a of switches) {
+      expect(a.getAttribute("href")).toBe("/");
+      expect(a.getAttribute("hreflang")).toBe("en");
+    }
+    const tpl = readFileSync(resolve(root, "servicios/index.html"), "utf8");
+    expect(tpl).toMatch(/<html lang="es"/);
+  });
+
+  it("ningún link del nav ni de la página usa /#/", () => {
+    const hrefs = [...doc.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
+    for (const h of hrefs) expect(h, h).not.toContain("/#/");
+  });
+
+  it("elegir EN guarda el idioma con el mecanismo de la home y navega a la raíz", () => {
+    localStorage.setItem("language", "es");
+    rtlRender(<ServiciosPage />);
+    const en = screen.getAllByRole("link", { name: /English/ })[0];
+    expect(en.getAttribute("href")).toBe("/");
+    const notPrevented = fireEvent.click(en);
+    expect(notPrevented).toBe(true); // el navegador sigue el href a la home
+    expect(localStorage.getItem("language")).toBe("en");
   });
 });

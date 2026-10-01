@@ -20,6 +20,7 @@ const FILES = [
   "src/components/organisms/HomeMarketing.tsx",
   "src/servicios/ServiciosPage.tsx",
   "src/servicios/ServiciosCasos.tsx",
+  "src/servicios/servicios-nav.ts",
 ];
 
 /**
@@ -157,6 +158,18 @@ describe("/servicios/ casos de VN y experiencia de Rö", () => {
       expect(p.textContent).toMatch(/^Punto de partida, no resultado:/);
     }
     expect(casos.querySelectorAll("[data-starting-point]").length).toBe(vnCases.filter((c) => c.startingPoint).length);
+  });
+
+  it("#web-pymes: Monitas.cl, TodoClick.cl y Parcelas Terramar con nombre e imagen propia; sin Algorithmics ni Sortify", () => {
+    const web = SERVICIOS_VN_CASE_GROUPS.find((g) => g.anchor === "web-pymes")!;
+    expect(web.cases.map((c) => c.name)).toEqual(["Monitas.cl", "TodoClick.cl", "Parcelas Terramar"]);
+    expect(web.cases.every((c) => !c.anonymized)).toBe(true);
+    const byId = Object.fromEntries(web.cases.map((c) => [c.id, c]));
+    expect(byId.todoclick.image.png).toContain("cases/todoclick/");
+    expect(byId.terramar.image.png).toContain("cases/terramar/");
+    expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
+    expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
+    expect(casos.textContent ?? "").not.toMatch(/algorithmics|sortify/i);
   });
 
   it("el caso anonimizado lleva el rótulo y no nombra al cliente", () => {

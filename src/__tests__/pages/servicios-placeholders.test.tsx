@@ -21,7 +21,7 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
   it("renders experience, cases and founder; no client-logo strip", () => {
     expect(doc.getElementById("logo-strip-heading")).toBeNull();
     expect(doc.getElementById("experiencia")).toBeNull();
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(2);
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(1); // solo Edu 21: Monitas vive en #casos-vn
     expect(doc.getElementById("quien")).toBeNull();
     expect(doc.getElementById("como-trabajamos")).toBeNull();
     expect(html).not.toContain("Han confiado en Viento Norte");
@@ -65,6 +65,14 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.getElementById("como-trabajamos")).toBeNull();
   });
 
+  it("«El recorrido» no repite Monitas: queda solo en la grilla de casos de VN; Edu 21 sigue", () => {
+    const recorrido = doc.getElementById("casos")!;
+    expect(recorrido.querySelector('[data-case-cta="monitas"]')).toBeNull();
+    expect(recorrido.textContent).not.toContain("Monitas");
+    expect(recorrido.querySelector('[data-case-cta="edu21"]')).not.toBeNull();
+    expect(doc.querySelectorAll('#casos-vn [data-vn-case="monitas"]').length).toBe(1);
+  });
+
   it("section order: hero → opciones → casos → casos-vn → experiencia-ro → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
     expect(ids).toEqual(["inicio", "opciones", "casos", "casos-vn", "experiencia-ro", "contacto"]);
@@ -91,7 +99,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     const { html, doc } = renderQa();
     expect(doc.querySelector("[data-placeholder]")).toBeNull();
     expect(html).not.toContain("pendiente");
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(2);
+    expect(doc.querySelectorAll("#casos article")).toHaveLength(1); // solo Edu 21: Monitas vive en #casos-vn
     expect(doc.body.textContent ?? "").not.toMatch(/pendiente/i);
   });
 
@@ -125,6 +133,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
           h === "/qa/" ||
           h.startsWith("/qa/images/") ||
           /^#[A-Za-z][\w-]*$/.test(h) ||
+          /^\/qa\/servicios\/#[A-Za-z][\w-]*$/.test(h) ||
           h === "mailto:contacto@vientonorte.io"
         )
     );

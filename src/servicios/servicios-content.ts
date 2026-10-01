@@ -281,7 +281,9 @@ export const SERVICIOS_VN_CASES = {
  *   las mismas que fija src/__tests__/a11y/gradient-contrast.test.ts (#280).
  * - Edu 21: problema de BRAND_CASES; entregables de docs/staging/edu21-pack/PERMISO.md;
  *   punto de partida = cases/edu21/06-performance-seo.png (Test My Site, jun. 2022).
- * TodoClick.cl y Parcelas Terramar quedan fuera: sus hallazgos no están documentados en el repo.
+ * - TodoClick.cl y Parcelas Terramar: con nombre (permiso de Rö, 1-oct). Hallazgos parafraseados de sus
+ *   benchmark PDF (Benchmark Maraña, 2021), texto extraído en el box de ops: inv/pdf/txt/mc-*-benchmark.txt
+ *   (las líneas van en cada hallazgo). Imagen: página 3 del PDF (escala heurística y CTA), sin nombres ni logos.
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   {
@@ -301,6 +303,62 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           alt: "Mapa de navegación de la tienda Monitas.cl, del público al embudo.",
           width: 1600,
           height: 903,
+        },
+      },
+      {
+        id: "todoclick",
+        name: "TodoClick.cl",
+        tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
+        // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
+        summary:
+          "Benchmark de su Instagram y su e-commerce: el branding está bien desarrollado, pero el camino a la compra se puede acortar.",
+        findings: [
+          // L101 «2 Mejoraría la Ro…» (título del pantallazo: «Mejoraría la Rotulación en el Copy, no hay h1»).
+          "El copy no rotula bien el contenido: la página no tiene h1.",
+          // L140 «5 embudo de co…» (pantallazo: el embudo de conversión no cumple los pasos UX).
+          "El embudo de compra no cumple los pasos de una buena experiencia.",
+          // L129, L195, L214: coordinar los post con los productos destacados para acotar pasos.
+          "Se pueden acortar los pasos coordinando las publicaciones con los productos destacados de la tienda.",
+          // L187, L215-216: historias destacadas con información útil (p. ej. política de despachos).
+          "Faltan datos útiles para comprar, como la política de despacho, en las historias destacadas.",
+        ],
+        image: {
+          png: "images/cases/todoclick/benchmark-heuristica.png",
+          webp: "images/cases/todoclick/benchmark-heuristica.webp",
+          alt: "Página del benchmark de TodoClick.cl: evaluación heurística de los llamados a la acción.",
+          width: 1200,
+          height: 675,
+        },
+      },
+      {
+        id: "terramar",
+        name: "Parcelas Terramar",
+        tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
+        // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
+        summary:
+          "Benchmark de su Instagram y su sitio: el canal comercial directo funciona, pero lleva poco al sitio web.",
+        findings: [
+          // L90 «1 CTAS insu'cie…», L188.
+          "Los llamados a la acción del Instagram no alcanzan.",
+          // L101 «2 Rotulación pue…», L188.
+          "La rotulación y el uso de íconos se pueden mejorar.",
+          // L116 «3 sitio responsiv…», L218.
+          "El sitio es responsivo, pero le faltan capas interactivas de contacto comercial.",
+          // L131 «4 a un click de di…», L189 (fortaleza; el PDF nombra la app de chat, que esta página no menciona: servicios-page.test.tsx).
+          "Fortaleza: el cliente queda a un clic del contacto comercial por chat.",
+          // L142 «5 embudo puede…», L188-189, L199 «Mejoraría el embudo de conversión de la web».
+          "El embudo de conversión de la web puede mejorar.",
+          // L197-198.
+          "Hay información útil, pero no está en el feed: si no se busca, no se encuentra.",
+          // L168 «7 mapa de conte…», L190, L216-217.
+          "Conviene reorganizar los contenidos según lo que necesita la audiencia.",
+        ],
+        image: {
+          png: "images/cases/terramar/benchmark-heuristica.png",
+          webp: "images/cases/terramar/benchmark-heuristica.webp",
+          alt: "Página del benchmark de Parcelas Terramar: evaluación heurística de los llamados a la acción.",
+          width: 1200,
+          height: 675,
         },
       },
     ],

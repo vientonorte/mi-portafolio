@@ -14,6 +14,7 @@ import {
   loadTranslation,
 } from "./i18n/loader";
 import { TranslationProvider } from "./i18n/TranslationContext";
+import { persistLanguage, readStoredLanguage } from "./language-storage";
 
 interface LanguageContextType {
   language: Language;
@@ -23,24 +24,6 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-function readStoredLanguage(): Language {
-  try {
-    const saved = localStorage.getItem("language") as Language;
-    if (saved === "es" || saved === "en") return saved;
-  } catch {
-    /* localStorage blocked */
-  }
-  return "es";
-}
-
-function persistLanguage(lang: Language) {
-  try {
-    localStorage.setItem("language", lang);
-  } catch {
-    /* ignore */
-  }
-}
 
 type LocaleState = {
   language: Language;
