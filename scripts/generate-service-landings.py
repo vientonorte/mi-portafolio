@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from redirect_pages import write_redirect  # noqa: E402
+from redirect_pages import assert_not_vite_owned, rubro_paths, write_redirect  # noqa: E402
 
 DATA = json.loads((ROOT / "src/data/service-landings.json").read_text())
 # Registro único de redirecciones (también lo consume build-static-share.py).
@@ -240,7 +240,8 @@ def page_html(item: dict, siblings: list[dict]) -> str:
 """
 
 
-# Canon 2026-09-27 (PO): el sitemap lista solo home + /servicios/ (hub). Sin /s/, sin /#/,
+# Canon 2026-09-27 (PO): el sitemap lista home + /servicios/ (hub) + landings por rubro (P4,
+# src/data/rubros.json). Sin /s/, sin /#/,
 # sin fichas individuales (asistente-ia, asistente-ecommerce, inteligencia-artificial-negocios
 # ni el resto de /servicios/<slug>/ hasta que cumplan el estándar de la página nueva).
 # Este script es el único que escribe public/sitemap.xml: lo reescribe completo.
@@ -304,7 +305,7 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Solo home + /servicios/. Sin share legacy, sin rutas hash, sin fichas individuales. -->\n"
+        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json). Sin share legacy ni rutas hash. -->\n"
         + "\n".join(blocks)
         + "\n</urlset>\n"
     )
@@ -312,15 +313,23 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
     print("sitemap", sm)
 
 
+# P4: landings por rubro (src/data/rubros.json) — páginas Vite prerenderizadas en
+# dist/servicios/<slug>/. Van al sitemap; este script NUNCA escribe su public/servicios/<slug>/.
+RUBRO_PATHS = rubro_paths(ROOT)
+RUBRO_PRIORITY = 0.8
+
+
 def main() -> None:
     landings = DATA["landings"]
     locs = []
     if "/servicios/" in LEGACY_REDIRECTS:
         raise SystemExit("legacy-redirects.json: /servicios/ (índice #277) no puede redirigir")
+    for p in RUBRO_PATHS:
+        if p in LEGACY_REDIRECTS:
+            raise SystemExit(f"legacy-redirects.json: {p} es una landing de rubro (rubros.json), no puede redirigir")
     for item in landings:
         rel = item["slug"]
         dest = ROOT / "public" / "servicios" / rel / "index.html" if rel else ROOT / "public/servicios/index.html"
-        dest.parent.mkdir(parents=True, exist_ok=True)
         hop_target = ORIGIN + item.get("hopTo", item["path"])
         if item["id"] == "hub":
             # /servicios/ (hub) lo genera Vite: servicios/index.html + prerender
@@ -338,6 +347,8 @@ def main() -> None:
                 raise SystemExit(f"{item['path']}: renderer=vite pero sigue en legacy-redirects.json")
             print("skip (vite)", dest)
             continue
+        # Guarda P4: ninguna rama de abajo puede escribir una ruta de Vite (rubros.json).
+        assert_not_vite_owned(ROOT, item["path"])
         redirect = LEGACY_REDIRECTS.get(item["path"])
         if redirect:
             # PO 2026-09-27: ficha antigua -> redirección a /servicios/(#ancla).
@@ -349,6 +360,7 @@ def main() -> None:
             frag = f"#{redirect['anchor']}" if redirect.get("anchor") else ""
             print("redirect", dest, "->", redirect["to"] + frag)
             continue
+        dest.parent.mkdir(parents=True, exist_ok=True)
         if item.get("hopTo"):
             dest.write_text(hop_html(hop_target), encoding="utf-8")
             print("hop", dest, "->", hop_target)
@@ -357,6 +369,9 @@ def main() -> None:
         print("page", dest)
         if item.get("inSitemap") and item.get("index"):
             locs.append((ORIGIN + item["path"], item["priority"]))
+    for p in RUBRO_PATHS:
+        print("rubro (vite)", p)
+        locs.append((ORIGIN + p, RUBRO_PRIORITY))
     write_sitemap(locs)
 
 

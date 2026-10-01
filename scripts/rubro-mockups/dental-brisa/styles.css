@@ -1,0 +1,102 @@
+/* Dental Brisa — sitio ficticio de ejemplo (fuente de capturas). Sin assets externos. */
+:root {
+  --teal: #0e7c86;
+  --teal-dark: #0a5c64;
+  --mint: #e4f3f4;
+  --sand: #fbf7f1;
+  --ink: #17252a;
+  --muted: #4c5d62;
+  --line: #dde7e8;
+  --font: "Albert Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font-family: var(--font); color: var(--ink); background: var(--sand); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+
+.nav { display: flex; align-items: center; gap: 32px; padding: 18px 56px; background: #fff; border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; }
+.brand-mark { width: 34px; height: 34px; }
+.nav-links { display: flex; gap: 28px; margin-left: auto; font-size: 15px; color: var(--muted); font-weight: 500; }
+.menu { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-weight: 700; font-size: 15px; border: 2px solid transparent; }
+.btn svg { width: 18px; height: 18px; }
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-ghost { background: #fff; color: var(--teal-dark); border-color: var(--teal); }
+.btn-lg { min-height: 54px; padding: 0 28px; font-size: 17px; }
+
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding: 56px 56px 40px; }
+.eyebrow { color: var(--teal-dark); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+h1 { margin-top: 14px; font-size: 60px; line-height: 1.04; letter-spacing: -0.03em; font-weight: 800; }
+.lead { margin-top: 18px; font-size: 19px; line-height: 1.5; color: var(--muted); max-width: 30em; }
+.actions { display: flex; gap: 14px; margin-top: 28px; }
+.facts { display: flex; gap: 22px; margin: 24px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
+.facts li { display: inline-flex; align-items: center; gap: 8px; }
+.facts li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+
+.hero-art { position: relative; height: 380px; }
+.blob { position: absolute; border-radius: 50%; filter: blur(0.5px); }
+.blob-a { width: 340px; height: 340px; right: 30px; top: 10px; background: var(--mint); }
+.blob-b { width: 150px; height: 150px; right: 0; bottom: 0; background: #f6e3cf; }
+.art-card { position: absolute; left: 50%; top: 50%; transform: translate(-45%, -52%); width: 250px; height: 250px; border-radius: 36px; background: #fff; box-shadow: 0 24px 60px rgba(14, 124, 134, 0.18); display: grid; place-items: center; }
+.tooth { width: 150px; height: 150px; }
+.spark { position: absolute; width: 14px; height: 14px; background: #7cc9cf; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.s1 { top: 34px; right: 40px; } .s2 { bottom: 48px; left: 34px; width: 10px; height: 10px; } .s3 { top: 60px; left: 50px; width: 8px; height: 8px; background: #f0b27a; }
+.pill { position: absolute; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 10px 16px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 24px rgba(23, 37, 42, 0.08); }
+.pill::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%; background: var(--teal); vertical-align: middle; }
+.pill-a { left: 6px; top: 40px; }
+.pill-b { right: 10px; bottom: 36px; }
+
+.treatments { padding: 24px 56px 56px; }
+.treatments h2, .location h2 { font-size: 30px; letter-spacing: -0.02em; font-weight: 800; }
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 20px 0 0; padding: 0; list-style: none; }
+.cards li { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
+.cards h3 { margin-top: 14px; font-size: 18px; }
+.cards p { margin-top: 6px; font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+.ico { display: block; width: 42px; height: 42px; border-radius: 12px; background: var(--mint); position: relative; }
+.ico::after { content: ""; position: absolute; inset: 12px; border-radius: 50%; background: var(--teal); }
+.ico-b::after { border-radius: 4px; } .ico-c { background: #fdf1e3; } .ico-c::after { background: #e09a5b; } .ico-d::after { clip-path: polygon(40% 0, 60% 0, 60% 40%, 100% 40%, 100% 60%, 60% 60%, 60% 100%, 40% 100%, 40% 60%, 0 60%, 0 40%, 40% 40%); border-radius: 0; }
+
+.location { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin: 0 56px 48px; padding: 32px; background: #fff; border: 1px solid var(--line); border-radius: 24px; }
+.location p { margin: 10px 0 18px; color: var(--muted); line-height: 1.5; }
+.map { position: relative; height: 180px; border-radius: 18px; background:
+  linear-gradient(90deg, transparent 46%, #fff 46%, #fff 50%, transparent 50%),
+  linear-gradient(0deg, transparent 58%, #fff 58%, #fff 62%, transparent 62%),
+  linear-gradient(135deg, #d8ecee, #eef6f0); }
+.pin { position: absolute; left: 47%; top: 38%; width: 26px; height: 26px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--teal); box-shadow: 0 6px 14px rgba(14, 124, 134, 0.35); }
+
+.foot { padding: 24px 56px 40px; color: var(--muted); font-size: 14px; }
+
+.wa-float { position: fixed; right: 28px; bottom: 28px; display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px; border-radius: 999px; background: #1f8a4c; color: #fff; font-weight: 700; box-shadow: 0 12px 28px rgba(23, 37, 42, 0.22); }
+.wa-float svg { width: 20px; height: 20px; }
+
+@media (max-width: 720px) {
+  .nav { padding: 14px 20px; gap: 12px; }
+  .brand { font-size: 18px; }
+  .brand-mark { width: 30px; height: 30px; }
+  .nav-links, .nav-cta { display: none; }
+  .menu { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; margin-left: auto; width: 44px; height: 44px; padding: 0 11px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  .menu span { display: block; height: 2px; border-radius: 2px; background: var(--ink); }
+  .hero { grid-template-columns: 1fr; gap: 20px; padding: 28px 20px 16px; }
+  h1 { font-size: 40px; }
+  .lead { font-size: 17px; }
+  .actions { flex-direction: column; }
+  .btn-lg { width: 100%; }
+  .facts { flex-direction: column; gap: 8px; }
+  .hero-art { height: 250px; order: -1; }
+  .blob-a { width: 220px; height: 220px; right: 50px; top: 10px; }
+  .blob-b { width: 90px; height: 90px; right: 16px; bottom: 6px; }
+  .art-card { width: 170px; height: 170px; border-radius: 28px; }
+  .tooth { width: 104px; height: 104px; }
+  .pill { font-size: 13px; padding: 8px 12px; }
+  .pill-a { left: 0; top: 16px; }
+  .pill-b { right: 0; bottom: 14px; }
+  .treatments { padding: 16px 20px 32px; }
+  .cards { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cards li { padding: 16px; }
+  .location { grid-template-columns: 1fr; margin: 0 20px 32px; padding: 22px; }
+  .foot { padding: 16px 20px 96px; }
+  .wa-float { right: 16px; bottom: 16px; }
+}

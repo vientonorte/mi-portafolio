@@ -805,6 +805,11 @@
   .bg-brand-gradient {
     background: var(--brand-gradient);
   }
+
+  /* Variante AA (tokens -700): texto blanco ≥ 5,5:1 en todo el degradado. */
+  .bg-brand-gradient-aa {
+    background: linear-gradient(135deg, #c2330f 0%, #0f6aa8 100%);
+  }
   
   .text-brand-gradient {
     background: var(--brand-gradient);

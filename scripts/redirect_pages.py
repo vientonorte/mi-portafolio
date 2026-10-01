@@ -14,6 +14,26 @@ from pathlib import Path
 ORIGIN = "https://vientonorte.io"
 
 
+def rubro_paths(root: Path) -> list[str]:
+    """/servicios/<slug>/ de cada entrada de src/data/rubros.json (landings por rubro, P4)."""
+    data = json.loads((root / "src/data/rubros.json").read_text(encoding="utf-8"))
+    return [f"/servicios/{slug}/" for slug in data.get("rubros", {})]
+
+
+def vite_owned_paths(root: Path) -> set[str]:
+    """Rutas que genera Vite (prerender) y que ningún script Python puede escribir en public/:
+    /servicios/ (índice, #277) + /servicios/<slug>/ de rubros.json (P4)."""
+    return {"/servicios/", *rubro_paths(root)}
+
+
+def assert_not_vite_owned(root: Path, url_path: str) -> None:
+    if url_path in vite_owned_paths(root):
+        raise SystemExit(
+            f"{url_path} es una página Vite (servicios/index.html o src/data/rubros.json): "
+            "no se escribe desde scripts Python"
+        )
+
+
 def esc(s: str) -> str:
     return (
         s.replace("&", "&amp;")
@@ -71,6 +91,7 @@ def redirect_html(from_path: str, to_path: str, anchor: str = "", label: str = "
 
 
 def write_redirect(root: Path, from_path: str, to_path: str, anchor: str = "", label: str = "") -> Path:
+    assert_not_vite_owned(root, from_path)
     dest = root / "public" / from_path.strip("/") / "index.html"
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(redirect_html(from_path, to_path, anchor, label), encoding="utf-8")
