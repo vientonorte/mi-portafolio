@@ -125,6 +125,10 @@ export async function persistLead(env, fields) {
     source: fields.source || 'form',
     language: fields.language || 'es',
     channel: fields.channel || 'api',
+    utm_source: fields.utm_source || '',
+    utm_medium: fields.utm_medium || '',
+    utm_campaign: fields.utm_campaign || '',
+    landing_path: fields.landing_path || '',
   };
   await prependRecord(env, 'leads', record);
   return record;

@@ -18,7 +18,20 @@ export function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, source, subject }) {
+function campaignLine(attribution) {
+  if (!attribution) return '';
+  const { utm_source, utm_medium, utm_campaign, landing_path } = attribution;
+  const channel = [utm_source, utm_medium].filter(Boolean).join(' / ');
+  const parts = [
+    channel ? `canal ${channel}` : '',
+    utm_campaign ? `campaña ${utm_campaign}` : '',
+    landing_path ? `landing ${landing_path}` : '',
+  ].filter(Boolean);
+  return parts.join(' · ');
+}
+
+export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, source, subject, attribution }) {
+  const campaign = campaignLine(attribution);
   const text = [
     'Nuevo mensaje desde vientonorte.io',
     '',
@@ -26,6 +39,7 @@ export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, sour
     `Email: ${safeEmail}`,
     intent ? `Motivo: ${intent}` : null,
     source ? `Canal: ${source}` : null,
+    campaign ? `Campaña: ${campaign}` : null,
     '',
     safeMessage,
     '',
@@ -53,6 +67,7 @@ export function buildAdminEmail({ safeName, safeEmail, safeMessage, intent, sour
           <tr><td style="padding:6px 0;color:#666">Email</td><td style="padding:6px 0"><a href="mailto:${escapeHtml(safeEmail)}" style="color:#e85d26">${escapeHtml(safeEmail)}</a></td></tr>
           ${intent ? `<tr><td style="padding:6px 0;color:#666">Motivo</td><td style="padding:6px 0">${escapeHtml(intent)}</td></tr>` : ''}
           ${source ? `<tr><td style="padding:6px 0;color:#666">Canal</td><td style="padding:6px 0">${escapeHtml(source)}</td></tr>` : ''}
+          ${campaign ? `<tr><td style="padding:6px 0;color:#666">Campaña</td><td style="padding:6px 0">${escapeHtml(campaign)}</td></tr>` : ''}
         </table>
         <div style="padding:16px;background:#fafafa;border-radius:8px;border:1px solid #eee">
           <p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:#888">Mensaje</p>
