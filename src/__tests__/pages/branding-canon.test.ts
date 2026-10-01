@@ -22,12 +22,45 @@ const FILES = [
   "src/servicios/ServiciosCasos.tsx",
 ];
 
-const FORBIDDEN = [/\/s\//, /\/#\//, /\/news\//, /\/servicios\/[a-z0-9-]+\//];
+/**
+ * Denylist exacta (Tech Lead, 1-oct). Las páginas de rubro /servicios/web-dental/,
+ * /servicios/web-contable/ y /servicios/web-juridico/ están aprobadas: no se rechaza todo /servicios/<slug>/.
+ */
+const FORBIDDEN = [
+  /\/servicios\/diagnostico-accesibilidad-wcag\//,
+  /\/servicios\/consultoria-ux-pymes\//,
+  /\/s\/(?!polijuego-privacy\/)/,
+  /\/#\//,
+  /\/news\//,
+  /\/qa\//,
+  /\/mi-portafolio\//,
+];
+const APPROVED_RUBROS = ["/servicios/web-dental/", "/servicios/web-contable/", "/servicios/web-juridico/"];
+const forbiddenHit = (text: string) => FORBIDDEN.find((re) => re.test(text));
+/** Los comentarios del código no son rutas (p. ej. «prod o /qa/» en ExperienceStrip). */
+const stripComments = (src: string) => src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`])\/\/.*$/gm, "$1");
 
 describe("branding-home canon", () => {
-  it("los componentes nuevos no contienen /s/, /#/, /news/ ni /servicios/<slug>/", () => {
+  it("la denylist rechaza las rutas prohibidas y deja pasar los rubros aprobados y /s/polijuego-privacy/", () => {
+    for (const bad of [
+      "/servicios/diagnostico-accesibilidad-wcag/",
+      "/servicios/consultoria-ux-pymes/",
+      "/s/web-express/",
+      "/#/consultoria",
+      "/news/01/",
+      "/qa/servicios/",
+      "/mi-portafolio/",
+    ]) {
+      expect(forbiddenHit(bad), bad).toBeDefined();
+    }
+    for (const ok of [...APPROVED_RUBROS, "/s/polijuego-privacy/", "/servicios/", "/servicios/#web-pymes"]) {
+      expect(forbiddenHit(ok), ok).toBeUndefined();
+    }
+  });
+
+  it("los componentes del branding no enlazan rutas de la denylist", () => {
     for (const rel of FILES) {
-      const src = readFileSync(resolve(process.cwd(), rel), "utf8");
+      const src = stripComments(readFileSync(resolve(process.cwd(), rel), "utf8"));
       for (const re of FORBIDDEN) {
         expect(src, `${rel} ${re}`).not.toMatch(re);
       }
