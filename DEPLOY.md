@@ -113,3 +113,5 @@ Detalle y riesgos: hub `DEPLOY.md` § Migración CNAME.
 - [ ] Apex 200 + asset hash nuevo  
 - [ ] `/ops/finanzas/` accesible si se bundleó ops  
 - [ ] Contact OPTIONS 204 desde origen `.io`  
+- [ ] Sitemap en vivo: Actions → «Sitemap live (200 por loc)» verde (corre solo tras Deploy QA; manual con `target=prod`)  
+- [ ] Search Console: reenviar el sitemap (Rö, HU3)
