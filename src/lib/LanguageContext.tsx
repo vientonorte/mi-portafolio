@@ -30,6 +30,12 @@ type LocaleState = {
   dictionary: Translation | null;
 };
 
+/** Pone `document.documentElement.lang` en el idioma activo ("es" | "en"). */
+export function syncDocumentLang(lang: Language): void {
+  if (typeof document === "undefined") return;
+  if (document.documentElement.lang !== lang) document.documentElement.lang = lang;
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const initialLang = readStoredLanguage();
 
@@ -69,6 +75,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- solo mount
   }, []);
+
+  // <html lang> sigue al idioma activo (lectores de pantalla, traductores, :lang()).
+  // Las páginas estáticas sin provider (p. ej. /servicios/) quedan con el lang="es" de su HTML.
+  useEffect(() => {
+    syncDocumentLang(locale.language);
+  }, [locale.language]);
 
   const setLanguage = useCallback((lang: Language) => {
     setLocale((prev) => {

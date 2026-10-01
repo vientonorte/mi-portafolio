@@ -24,9 +24,12 @@ const FILES = [
   "src/servicios/servicios-nav.ts",
 ];
 
+/** Componentes de QA (banner de /qa/): sus links tampoco pueden salir del canon. */
+const QA_FILES = ["src/components/molecules/QaEnvBanner.tsx"];
+
 /**
- * Denylist exacta (Tech Lead, 1-oct). Las páginas de rubro /servicios/web-dental/,
- * /servicios/web-contable/ y /servicios/web-juridico/ están aprobadas: no se rechaza todo /servicios/<slug>/.
+ * Denylist exacta (Tech Lead, 1-oct). Las páginas de rubro (/servicios/web-<rubro>/) solo se
+ * publican cuando existen en el build: no se rechaza todo /servicios/<slug>/.
  */
 const FORBIDDEN = [
   /\/servicios\/diagnostico-accesibilidad-wcag\//,
@@ -40,7 +43,7 @@ const FORBIDDEN = [
   /vnmkt\.figma\.site/i,
   /vientonorte\.github\.io\/mi-portafolio\/(?:#\/)?consultoria/i,
 ];
-const APPROVED_RUBROS = ["/servicios/web-dental/", "/servicios/web-contable/", "/servicios/web-juridico/"];
+const APPROVED_RUBROS = ["/servicios/web-dental/"];
 const forbiddenHit = (text: string) => FORBIDDEN.find((re) => re.test(text));
 /** Los comentarios del código no son rutas (p. ej. «prod o /qa/» en ExperienceStrip). */
 const stripComments = (src: string) => src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`])\/\/.*$/gm, "$1");
@@ -81,6 +84,19 @@ describe("branding-home canon", () => {
       for (const re of FORBIDDEN) {
         expect(src, `${rel} ${re}`).not.toMatch(re);
       }
+    }
+  });
+
+  it("los componentes de QA no enlazan rutas de la denylist (ni /#/ ni dominios viejos)", () => {
+    for (const rel of QA_FILES) {
+      const src = stripComments(readFileSync(resolve(process.cwd(), rel), "utf8"));
+      // El banner detecta /qa/ en el pathname (no es un link): se revisan los destinos href.
+      const hrefs = [...src.matchAll(/href=(?:"([^"]*)"|\{\s*["'`]([^"'`]*)["'`]\s*\})/g)].map((m) => m[1] ?? m[2]);
+      expect(hrefs.length, rel).toBeGreaterThan(0);
+      for (const href of hrefs) expect(forbiddenHit(href), `${rel} → ${href}`).toBeUndefined();
+      expect(src, rel).not.toMatch(/\/#\//);
+      expect(src, rel).not.toMatch(FORBIDDEN.at(-2)!);
+      expect(src, rel).not.toMatch(FORBIDDEN.at(-1)!);
     }
   });
 
