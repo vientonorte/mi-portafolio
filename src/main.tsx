@@ -12,6 +12,7 @@ import './styles/offer-tour.css';
 import { ErrorBoundary } from './components/organisms/ErrorBoundary';
 import { normalizeDoubleHashUrl } from './lib/normalize-hash-url';
 import { attachLcpShell } from './lib/lcp-shell';
+import { initTracking } from './lib/track';
 
 function bootstrapTheme() {
   try {
@@ -26,6 +27,8 @@ function bootstrapTheme() {
 
 bootstrapTheme();
 normalizeDoubleHashUrl();
+// Primer toque (UTM) siempre; Umami solo si hay VITE_UMAMI_WEBSITE_ID.
+initTracking();
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   const base = import.meta.env.BASE_URL;

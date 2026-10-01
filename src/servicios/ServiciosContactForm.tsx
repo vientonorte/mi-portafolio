@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { cn } from "../lib/utils";
+import { track } from "../lib/track";
 import {
   buildServiciosPayload,
   validateServiciosContact,
@@ -82,6 +83,7 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
       if (!res.ok || data.ok === false) {
         throw new Error(data.error || `HTTP ${res.status}`);
       }
+      track("form_submit", { status: "success" });
       form.reset();
       onIntentChange("");
       setStatus({
@@ -89,6 +91,7 @@ export function ServiciosContactForm({ intent, onIntentChange, announcement }: P
         text: "¡Listo! Recibimos tu mensaje. Te respondemos en menos de 24 horas hábiles.",
       });
     } catch {
+      track("form_submit", { status: "error" });
       setStatus({
         kind: "error",
         text: `No pudimos enviar el mensaje. Intenta de nuevo o escríbenos a ${CONTACT_EMAIL}.`,

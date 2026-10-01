@@ -7,6 +7,7 @@ import "../styles/design-system.css";
 import { ServiciosPage } from "./ServiciosPage";
 import { analyticsConfig } from "../vn-core/analytics/config";
 import { initGTM } from "../vn-core/analytics/gtm";
+import { initTracking } from "../lib/track";
 
 const rootEl = document.getElementById("servicios-root");
 if (!rootEl) throw new Error("No se encontró #servicios-root");
@@ -25,3 +26,5 @@ if (rootEl.firstElementChild) {
 }
 
 if (analyticsConfig.gtmId) initGTM(analyticsConfig.gtmId);
+// Primer toque (UTM) siempre; Umami solo si hay VITE_UMAMI_WEBSITE_ID.
+initTracking();

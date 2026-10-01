@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
 import { cn } from "../lib/utils";
+import { track } from "../lib/track";
+import { ctaClickFromTarget } from "./servicios-cta";
 import {
   CaseCards,
   HeroWithMockup,
@@ -54,7 +56,16 @@ export function ServiciosPage() {
         Ir al contenido principal
       </a>
       <Navigation staticLinks={serviciosNavLinks()} staticHomeHref={homeHref()} />
-      <main id="main" tabIndex={-1} className="pt-[var(--header-height)]" data-page="servicios">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="pt-[var(--header-height)]"
+        data-page="servicios"
+        onClickCapture={(e) => {
+          const cta = ctaClickFromTarget(e.target);
+          if (cta) track("cta_click", cta);
+        }}
+      >
         <HeroWithMockup
           id="inicio"
           headingId="servicios-hero-heading"
