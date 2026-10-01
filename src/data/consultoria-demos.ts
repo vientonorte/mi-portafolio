@@ -30,10 +30,10 @@ export const CONSULTORIA_DEMO_X_CMS = {
   poster: "xCmsDashboard",
 } as const satisfies ConsultoriaDemoConfig;
 
-/** GEES · consultoría / propuesta ejecutiva. Sites URL oculta (no iframe, no href público). */
+/** Dashboard de consultoría estratégica (concepto, anonimizado). Sites URL oculta (no iframe, no href público). */
 export const CONSULTORIA_DEMO_GEES = {
   id: "gees-propuesta",
-  label: "GEES · Consultoría",
+  label: "Dashboard de consultoría estratégica · concepto",
   poster: "geesDashboard",
 } as const satisfies ConsultoriaDemoConfig;
 
@@ -77,7 +77,7 @@ export const CONSULTORIA_DEMO_ADS = {
 
 /**
  * Orden en #consultoria-demo:
- * 1 CMS dashboard · 2 GEES consultoría · 3–n casos + ads
+ * 1 CMS dashboard · 2 consultoría estratégica (concepto) · 3–n casos + ads
  */
 export const CONSULTORIA_DEMOS: readonly ConsultoriaDemoConfig[] = [
   CONSULTORIA_DEMO_X_CMS,

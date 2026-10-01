@@ -296,7 +296,7 @@ Captura reproducible del POC:
 bash scripts/capture-ia-poc-screenshot.sh
 ```
 
-Captura GEES (Figma Sites → poster consultoría):
+Captura del dashboard de consultoría estratégica · concepto (Figma Sites → poster consultoría):
 
 ```bash
 bash scripts/capture-gees-screenshot.sh
