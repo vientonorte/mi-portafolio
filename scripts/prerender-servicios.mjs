@@ -50,6 +50,43 @@ export function assertRubroPathsFree(root, slugs) {
   }
 }
 
+/** Referencias a /servicios/web-<slug>/ (con o sin base de Vite, p. ej. /qa/servicios/web-dental/). */
+const RUBRO_REF_RE = /servicios\/(web-[a-z0-9]+(?:-[a-z0-9]+)*)\//g;
+
+export function findRubroRefs(text) {
+  return [...new Set([...text.matchAll(RUBRO_REF_RE)].map((m) => m[1]))].sort();
+}
+
+function walkFiles(dir, exts, out = []) {
+  for (const name of fs.readdirSync(dir)) {
+    const abs = path.join(dir, name);
+    if (fs.statSync(abs).isDirectory()) walkFiles(abs, exts, out);
+    else if (exts.some((e) => name.endsWith(e))) out.push(abs);
+  }
+  return out;
+}
+
+/**
+ * Falla si alguna página o el sitemap del build enlaza un rubro que no tiene página
+ * generada (dist/servicios/<slug>/index.html) o que no está en rubros.json.
+ * Así un rubro no publicado no puede aparecer en cards, nav ni sitemap.
+ */
+export function assertRubroLinksResolve(outDir, slugs) {
+  const known = new Set(slugs);
+  const problems = [];
+  for (const file of walkFiles(outDir, ['.html', '.xml'])) {
+    for (const slug of findRubroRefs(fs.readFileSync(file, 'utf8'))) {
+      const page = path.join(outDir, 'servicios', slug, 'index.html');
+      if (!known.has(slug) || !fs.existsSync(page)) {
+        problems.push(`${path.relative(outDir, file)} → /servicios/${slug}/`);
+      }
+    }
+  }
+  if (problems.length) {
+    throw new Error(`[prerender-servicios] enlaces a rubros sin página generada:\n  ${problems.join('\n  ')}`);
+  }
+}
+
 /** HTML final de un rubro a partir de la plantilla construida por Vite. */
 export function injectRubro(template, { slug, head, app }) {
   for (const marker of [HEAD_OUTLET, OUTLET, SLUG_ATTR]) {
@@ -132,6 +169,7 @@ export async function prerenderServicios({ root, outDir, base }) {
       console.log(`[prerender-servicios] ${path.relative(root, dest)} (${app.length} bytes, base ${base})`);
     }
     fs.rmSync(path.join(outDir, 'rubros'), { recursive: true, force: true });
+    assertRubroLinksResolve(outDir, slugs);
   } finally {
     fs.rmSync(ssrOutDir, { recursive: true, force: true });
   }

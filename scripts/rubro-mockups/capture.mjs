@@ -13,7 +13,7 @@
  *   - mobile:  390×844
  *   - card (og:image): 1200×630, composición solo-dispositivos sin titular ni marca.
  *
- * Uso:  node scripts/rubro-mockups/capture.mjs web-dental [web-contable …]
+ * Uso:  node scripts/rubro-mockups/capture.mjs <slug> [<slug> …]   (slugs de src/data/rubros.json)
  *       node scripts/rubro-mockups/capture.mjs --all
  * Requiere Chromium de Playwright (npx playwright install chromium).
  */
