@@ -4,6 +4,7 @@ import { homeHref, serviciosNavLinks } from "./servicios-nav";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
+import { ServiciosCasos } from "./ServiciosCasos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
@@ -26,6 +27,9 @@ import {
   type ServiciosIntent,
   type ServiciosIntentValue,
 } from "./servicios-content";
+
+/** «El recorrido» en /servicios/: Monitas vive solo en la grilla de casos de VN (decisión Rö 1-oct). */
+const RECORRIDO_CASES = BRAND_CASES.filter((item) => item.id !== "monitas");
 
 function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -55,7 +59,7 @@ export function ServiciosPage() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      <Navigation staticLinks={serviciosNavLinks()} staticHomeHref={homeHref()} />
+      <Navigation staticLinks={serviciosNavLinks()} staticHomeHref={homeHref()} staticEnglishHref={homeHref()} />
       <main
         id="main"
         tabIndex={-1}
@@ -73,7 +77,7 @@ export function ServiciosPage() {
           eyebrow={SERVICIOS_HERO.eyebrow}
           title={SERVICIOS_HERO.title}
           subtitle={SERVICIOS_HERO.audience}
-          desktopImage={SERVICIOS_IMAGES.xcms}
+          desktopImage={SERVICIOS_IMAGES.xcmsClean}
           actions={
             <>
               <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>
@@ -110,7 +114,7 @@ export function ServiciosPage() {
           heading={SERVICIOS_CASES.heading}
           intro={SERVICIOS_CASES.intro}
           funnel={SERVICIOS_FUNNEL}
-          cases={BRAND_CASES.map(
+          cases={RECORRIDO_CASES.map(
             (item): CaseCard => ({
               id: item.id,
               client: item.client,
@@ -123,6 +127,8 @@ export function ServiciosPage() {
             })
           )}
         />
+
+        <ServiciosCasos />
 
         <section
           id="contacto"

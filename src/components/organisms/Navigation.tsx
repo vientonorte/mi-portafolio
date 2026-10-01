@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
-import { Menu, X } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
 import { MobileMenu } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
+import { persistLanguage } from "../../lib/language-storage";
 import { useTranslation } from "../../lib/i18n";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
@@ -48,11 +49,17 @@ interface NavigationProps {
   staticLinks?: StaticNavLink[];
   /** href del logo en la variante estática (home root, respetando base). */
   staticHomeHref?: string;
+  /**
+   * Variante estática: muestra el selector de idioma. La página queda en español;
+   * elegir EN guarda el idioma con el mismo mecanismo de la home (localStorage) y
+   * navega a este href (la raíz canónica, nunca /#/).
+   */
+  staticEnglishHref?: string;
 }
 
-export function Navigation({ staticLinks, staticHomeHref, ...props }: NavigationProps) {
+export function Navigation({ staticLinks, staticHomeHref, staticEnglishHref, ...props }: NavigationProps) {
   if (staticLinks) {
-    return <StaticNavigation links={staticLinks} homeHref={staticHomeHref ?? "/"} />;
+    return <StaticNavigation links={staticLinks} homeHref={staticHomeHref ?? "/"} englishHref={staticEnglishHref} />;
   }
   return <SiteNavigation {...props} />;
 }
@@ -67,7 +74,63 @@ const HEADER_SOLID_CLASS =
  * breakpoints .nav-desktop-only / .nav-mobile-only), sin dependencias de router
  * — apto para prerender (react-dom/server) + hydrateRoot.
  */
-function StaticNavigation({ links, homeHref }: { links: StaticNavLink[]; homeHref: string }) {
+/**
+ * Selector de idioma de la variante estática. Sin LanguageProvider (prerender sin
+ * diccionario async): ES es la página actual; EN guarda "en" y lleva a la home.
+ */
+function StaticLanguageSwitch({ englishHref, compact = false }: { englishHref: string; compact?: boolean }) {
+  const toEnglish = () => persistLanguage("en");
+  if (compact) {
+    return (
+      <a
+        href={englishHref}
+        hrefLang="en"
+        lang="en"
+        data-lang-switch="en"
+        onClick={toEnglish}
+        aria-label="English — go to the home page in English"
+        className={cn(
+          MOBILE_HEADER_CONTROL_CLASS,
+          "inline-flex items-center justify-center text-[11px] font-semibold uppercase tracking-wide text-foreground"
+        )}
+      >
+        en
+      </a>
+    );
+  }
+  return (
+    <div data-lang-selector className="inline-flex items-center gap-1 text-sm font-medium text-foreground">
+      <Globe className="h-4 w-4" aria-hidden="true" />
+      <span aria-current="true" className="px-1 uppercase">
+        es
+      </span>
+      <span aria-hidden="true" className="text-muted-foreground">
+        /
+      </span>
+      <a
+        href={englishHref}
+        hrefLang="en"
+        lang="en"
+        data-lang-switch="en"
+        onClick={toEnglish}
+        aria-label="English — go to the home page in English"
+        className="inline-flex min-h-11 items-center rounded-md px-2 uppercase transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      >
+        en
+      </a>
+    </div>
+  );
+}
+
+function StaticNavigation({
+  links,
+  homeHref,
+  englishHref,
+}: {
+  links: StaticNavLink[];
+  homeHref: string;
+  englishHref?: string;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -114,12 +177,14 @@ function StaticNavigation({ links, homeHref }: { links: StaticNavLink[]; homeHre
               </li>
             ))}
           </ul>
-          <div className="flex items-center pl-6 ml-2 border-l border-border/40">
+          <div className="flex items-center gap-2 pl-6 ml-2 border-l border-border/40">
             <ThemeToggle />
+            {englishHref ? <StaticLanguageSwitch englishHref={englishHref} /> : null}
           </div>
         </div>
 
         <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
+          {englishHref ? <StaticLanguageSwitch englishHref={englishHref} compact /> : null}
           <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
           <Button
             type="button"
