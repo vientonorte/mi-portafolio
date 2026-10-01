@@ -39,8 +39,8 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     poster: portfolioImages.consultoria.geesDashboard,
     posterWebp: portfolioImages.consultoria.geesDashboardWebp,
     caption: {
-      es: "GEES · propuesta de diagnóstico",
-      en: "GEES · diagnostic proposal",
+      es: "Dashboard de consultoría estratégica · concepto",
+      en: "Strategic consulting dashboard · concept",
     },
     kicker: {
       es: "Path Diagnóstico · Radar · 1 min",

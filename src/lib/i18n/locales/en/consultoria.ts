@@ -334,7 +334,7 @@ export const consultoria = {
         badge: 'References',
         title: 'Reference screens',
         description:
-          'CMS dashboard, GEES consulting, SURA / Transvip / Karri cases, and campaigns. Also social media and ads optimization.',
+          'CMS dashboard, strategic consulting dashboard (concept), SURA / Transvip / Karri cases, and campaigns. Also social media and ads optimization.',
         cta: 'View screen',
         ctaSecondary: 'Talk',
         ctaMakeLink: 'Editable file (optional)',
@@ -348,11 +348,11 @@ export const consultoria = {
             embedTitle: 'CMS · Dashboard',
           },
           'gees-propuesta': {
-            projectName: 'GEES · Consulting',
+            projectName: 'Strategic consulting dashboard · concept',
             approach:
               'Consulting proposal with quote dashboard and KPIs for stakeholder decisions.',
             highlights: ['Consulting', 'Quote', 'KPIs', 'Stakeholders'],
-            embedTitle: 'GEES · Consulting',
+            embedTitle: 'Strategic consulting dashboard · concept',
           },
           'sura-onboarding': {
             projectName: 'SURA · Onboarding',

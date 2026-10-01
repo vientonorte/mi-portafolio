@@ -78,14 +78,14 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     copy: {
       es: {
         kindLabel: "Propuesta publicada",
-        title: "GEES · Dashboard de cotización",
+        title: "Dashboard de consultoría estratégica · concepto",
         outcome:
           "Propuesta ejecutiva — cotización digital, KPIs en tiempo real y decisión estratégica.",
         metric: "Dashboard",
       },
       en: {
         kindLabel: "Published proposal",
-        title: "GEES · Quoting dashboard",
+        title: "Strategic consulting dashboard · concept",
         outcome:
           "Executive proposal — digital quoting, real-time KPIs, and strategic decisions.",
         metric: "Dashboard",

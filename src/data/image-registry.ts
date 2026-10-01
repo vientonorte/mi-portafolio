@@ -86,10 +86,10 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
   entry(
     "consultoria.geesDashboard",
     "Consultoría",
-    "GEES · Propuesta dashboard",
+    "Dashboard de consultoría estratégica · concepto",
     "consultoria/gees-dashboard.png",
     portfolioImages.consultoria.geesDashboard,
-    "GEES — dashboard de cotización y KPIs (Figma Sites)"
+    "Dashboard de consultoría estratégica — concepto anonimizado (Figma Sites)"
   ),
   entry(
     "uxTools.journeyMap",
