@@ -13,6 +13,7 @@ ni marcados "renderer": "vite". Hoy no hay ninguno; no se borra aún (decisión 
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -246,11 +247,43 @@ def page_html(item: dict, siblings: list[dict]) -> str:
 SITEMAP_HOME = (ORIGIN + "/", DATA["homeLastmod"], "weekly", 1.0)
 
 
+# Denylist del sitemap: única fuente en src/data/sitemap-canon.json (la misma que usa el gate
+# src/__tests__/lib/sitemap-gate.test.ts, que además exige que el sitemap = páginas públicas del build).
+SITEMAP_CANON = json.loads((ROOT / "src/data/sitemap-canon.json").read_text())
+
+
+def normalize_deny_url(value: str) -> str:
+    """Igual que normalizeDenyUrl (src/lib/sitemap-canon.ts): host/ruta sin esquema, // ni /#/."""
+    s = value.strip().lower()
+    s = re.sub(r"^(?:https?:)?//", "", s)
+    s = re.sub(r"/#/", "/", s)
+    s = re.sub(r"/#$", "/", s)
+    s = re.sub(r"[?#].*$", "", s)
+    s = re.sub(r"/{2,}", "/", s)
+    return s.rstrip("/")
+
+
+def is_denied_url(loc: str) -> bool:
+    n = normalize_deny_url(loc)
+    for d in SITEMAP_CANON.get("denyUrls", []):
+        e = normalize_deny_url(d)
+        if n == e or n.startswith(e + "/"):
+            return True
+    return False
+
+
 def assert_sitemap_policy(loc: str) -> None:
-    if "#" in loc or "/s/" in loc:
-        raise SystemExit(f"sitemap: URL fuera de canon: {loc}")
-    if not loc.startswith(ORIGIN + "/"):
+    if is_denied_url(loc):
+        raise SystemExit(f"sitemap: URL externa en denylist: {loc}")
+    if not loc.startswith(SITEMAP_CANON["origin"] + "/"):
         raise SystemExit(f"sitemap: origen inválido: {loc}")
+    path = loc[len(SITEMAP_CANON["origin"]):]
+    if any(path.startswith(ex) for ex in SITEMAP_CANON["denyExceptions"]):
+        if path in SITEMAP_CANON["outsideSitemap"]:
+            raise SystemExit(f"sitemap: publicada pero fuera del sitemap: {loc}")
+        return
+    if "#" in loc or any(path.startswith(d) for d in SITEMAP_CANON["deny"]):
+        raise SystemExit(f"sitemap: URL fuera de canon: {loc}")
 
 
 def write_sitemap(locs: list[tuple[str, float]]) -> None:
