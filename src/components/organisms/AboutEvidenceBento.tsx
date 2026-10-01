@@ -35,10 +35,10 @@ export function AboutEvidenceBento() {
               className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
             />
             <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent"
               aria-hidden
             />
-            <span className="absolute bottom-2 left-2 right-2 text-[11px] font-medium tracking-wide text-foreground drop-shadow-sm sm:text-xs">
+            <span className="absolute bottom-2 left-2 right-2 rounded-md bg-background/95 px-1.5 py-0.5 text-xs font-medium tracking-wide text-foreground">
               {tile.label[language]}
             </span>
           </li>

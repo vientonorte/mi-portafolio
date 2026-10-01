@@ -64,6 +64,10 @@ const pick = (vars: Record<string, string>) => {
     primaryFg: g("--primary-foreground"),
     brandRed: g("--brand-red"),
     brandOrange: g("--brand-orange"),
+    navInactive: g("--bottom-nav-inactive"),
+    ctaBg: g("--vn-color-cta-bg"),
+    ctaBgHover: g("--vn-color-cta-bg-hover"),
+    ctaFg: g("--vn-color-cta-fg"),
   };
 };
 export const THEME = { light: pick(lightVars), dark: pick(darkVars) };
@@ -71,6 +75,7 @@ export type ThemeName = keyof typeof THEME;
 
 export const ROJO_700 = primitives["--vn-primitive-rojo-700"];
 export const AZUL_700 = primitives["--vn-primitive-azul-evo-700"];
+export const AZUL_800 = primitives["--vn-primitive-azul-evo-800"];
 
 /** Color de Tailwind v4 (oklch) leído de node_modules/tailwindcss/theme.css. */
 export function tw(name: string, alpha = 1): RGBA {
@@ -186,6 +191,99 @@ function iconOnBrand(label: string): Case[] {
   return [{ label, theme: "light", text: white, base: "#ffffff", layers: { before: [{ stops: val(BRAND, "before") }], after: [{ stops: val(BRAND, "after") }] }, size: "non-text" }];
 }
 
+/**
+ * Texto/ícono blanco sobre azul sólido: antes --primary (dark #1A8FDC = 3.50:1),
+ * después --vn-color-cta-bg (#0f6aa8 = 5.76:1). En light primary ya era #0f6aa8.
+ */
+function solidCtaWhite(label: string, size: Size = "normal", opts: { hover?: boolean; why?: string } = {}): Case[] {
+  const out: Case[] = [];
+  for (const theme of themes) {
+    out.push({
+      label,
+      theme,
+      text: white,
+      base: THEME[theme].bg,
+      layers: {
+        before: [{ stops: [c(THEME[theme].primary)] }],
+        after: [{ stops: [c(THEME[theme].ctaBg)] }],
+      },
+      size,
+      why: opts.why,
+    });
+    if (opts.hover) {
+      out.push({
+        label: `${label} · hover`,
+        theme,
+        text: white,
+        base: THEME[theme].bg,
+        layers: {
+          before: [{ stops: [c(THEME[theme].primary)] }], // hover:bg-primary (mismo hex)
+          after: [{ stops: [c(THEME[theme].ctaBgHover)] }],
+        },
+        size,
+        why: opts.why,
+      });
+    }
+  }
+  return out;
+}
+
+/** Superficies azules sólidas (no botones) migradas a --vn-color-cta-* en este commit. */
+export const SOLID_CTA_SURFACES: { id: string; file: string; label: string }[] = [
+  { id: "process-nav-number", file: "src/components/molecules/ProcessNavigation.tsx", label: "indicador de número activo (desktop)" },
+  { id: "trajectory-highlight", file: "src/components/organisms/TrajectoryRail.tsx", label: "nodo highlight" },
+  { id: "tooltip", file: "src/components/ui/tooltip.tsx", label: "TooltipContent + Arrow" },
+  { id: "calendar", file: "src/components/ui/calendar.tsx", label: "día seleccionado / rango" },
+  { id: "badge-default", file: "src/components/ui/badge.tsx", label: "Badge variant default" },
+  { id: "about-equation", file: "src/components/organisms/About.tsx", label: "badge resultado ecuación" },
+  { id: "process-flow-number", file: "src/components/ui/enterprise/process-flow.tsx", label: "número de paso" },
+  { id: "timeline-completed", file: "src/components/ui/enterprise/timeline.tsx", label: "ícono completed" },
+];
+
+/**
+ * Tercer commit: skip-links, checkbox marcado, hover de CaseStudyCard, tab activa de
+ * ProjectDetail, botón de recarga de LanguageContext y selección de texto de Input.
+ * Mismo patrón: bg-primary + text-primary-foreground → --vn-color-cta-*.
+ */
+export interface CtaSurface {
+  id: string;
+  file: string;
+  label: string;
+  cases: Case[];
+}
+/** Borde/relleno del checkbox marcado contra la página (1.4.11, ≥ 3:1). */
+function checkedBoxVsPage(label: string): Case[] {
+  return themes.map((theme): Case => ({
+    label,
+    theme,
+    text: { before: [c(THEME[theme].primary)], after: [c(THEME[theme].ctaBg)] },
+    base: THEME[theme].bg,
+    layers: [],
+    size: "non-text",
+  }));
+}
+export const CTA_SURFACES_C3: CtaSurface[] = [
+  { id: "skip-framework", file: "src/pages/FrameworkDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link FrameworkDetail · blanco sobre azul") },
+  { id: "skip-project", file: "src/pages/ProjectDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link ProjectDetail · blanco sobre azul") },
+  { id: "skip-company", file: "src/pages/CompanyDetail.tsx", label: "skip-link (focus)", cases: solidCtaWhite("Skip-link CompanyDetail · blanco sobre azul") },
+  { id: "skip-globals-css", file: "src/styles/globals.css", label: ".skip-link (globals.css)", cases: solidCtaWhite(".skip-link globals.css · blanco sobre azul") },
+  {
+    id: "checkbox-checked",
+    file: "src/components/ui/checkbox.tsx",
+    label: "checkbox marcado",
+    cases: [...solidCtaWhite("Checkbox marcado · check blanco sobre azul", "non-text"), ...checkedBoxVsPage("Checkbox marcado · caja azul vs página")],
+  },
+  { id: "case-study-hover", file: "src/components/molecules/CaseStudyCard.tsx", label: "CTA en hover de la tarjeta", cases: solidCtaWhite("CaseStudyCard hover · blanco sobre azul") },
+  { id: "projectdetail-tab", file: "src/pages/ProjectDetail.tsx", label: "tab activa (pantallas de diseño)", cases: solidCtaWhite("Tab activa ProjectDetail · blanco sobre azul") },
+  {
+    id: "language-reload",
+    file: "src/lib/LanguageContext.tsx",
+    label: "botón Recargar (error de carga de idioma)",
+    cases: solidCtaWhite("Botón Recargar · blanco sobre azul", "normal", { hover: true, why: "antes sin hover (bg-primary); después hover → cta-bg-hover" }),
+  },
+  { id: "input-selection", file: "src/components/ui/input.tsx", label: "selección de texto (::selection)", cases: solidCtaWhite("Input ::selection · blanco sobre azul") },
+];
+
 type Tok = keyof (typeof THEME)["light"];
 /** Texto (foreground y muted-foreground) sobre un tinte degradado translúcido. */
 function tint(
@@ -261,8 +359,45 @@ export const INVENTORY: Entry[] = [
       ...tint("section-atmosphere-section/muted", (t) => [{ stops: [primary(t, 0.06), T] }], { texts: FG_MUTED_PRIMARY }),
     ] },
   { id: "globals-avatar", file: "src/styles/globals.css", component: ".profile-avatar__warmth / __vignette", element: "overlay sobre foto de perfil (sin texto)", matches: 3, status: "decorative" },
-  { id: "global-glass-nav", file: "src/styles/global.css", component: ".bottom-nav-mobile--glass (claro/oscuro)", element: "barra inferior móvil translúcida", matches: 2, status: "separate-pr",
-    note: "Etiquetas sobre vidrio translúcido + backdrop-blur sobre contenido arbitrario que se desplaza: el contraste depende de lo que pasa por detrás; requiere medición renderizada o fondo opaco (cambio de componente)." },
+  { id: "global-glass-nav", file: "src/styles/global.css", component: ".bottom-nav-mobile--glass (claro/oscuro)", element: "barra inferior móvil (texto/íconos idle)", matches: 2, status: "checked",
+    note: "Antes: highlight blanco 28%/12% + bg 78%/82% → idle falla sobre contenido extremo. Después: vidrio ≥96% --background.",
+    cases: [
+      // Antes: tope del glass (white @28% light / white @12% dark) sobre negro → idle << 4.5:1
+      { label: "Idle label · tope glass sobre negro", theme: "light",
+        text: [c(THEME.light.navInactive)], base: "#000000",
+        layers: { before: [{ stops: [c("#ffffff", 0.28)] }], after: [{ stops: [c(THEME.light.bg, 0.96)] }] },
+        size: "normal" },
+      { label: "Idle icon · tope glass sobre negro", theme: "light",
+        text: [c(THEME.light.navInactive)], base: "#000000",
+        layers: { before: [{ stops: [c("#ffffff", 0.28)] }], after: [{ stops: [c(THEME.light.bg, 0.96)] }] },
+        size: "non-text" },
+      { label: "Idle label · tope glass sobre blanco", theme: "dark",
+        text: [c(THEME.dark.navInactive)], base: "#ffffff",
+        layers: { before: [{ stops: [c("#ffffff", 0.12)] }], after: [{ stops: [c(THEME.dark.bg, 0.96)] }] },
+        size: "normal" },
+      { label: "Idle icon · tope glass sobre blanco", theme: "dark",
+        text: [c(THEME.dark.navInactive)], base: "#ffffff",
+        layers: { before: [{ stops: [c("#ffffff", 0.12)] }], after: [{ stops: [c(THEME.dark.bg, 0.96)] }] },
+        size: "non-text" },
+      // Tab activo (--primary) en el peor fondo detrás del vidrio
+      { label: "Activo --primary · tope glass sobre negro", theme: "light",
+        text: [c(THEME.light.primary)], base: "#000000",
+        layers: { before: [{ stops: [c("#ffffff", 0.28)] }], after: [{ stops: [c(THEME.light.bg, 0.96)] }] },
+        size: "normal" },
+      { label: "Activo --primary · tope glass sobre blanco", theme: "dark",
+        text: [c(THEME.dark.primary)], base: "#ffffff",
+        layers: { before: [{ stops: [c("#ffffff", 0.12)] }], after: [{ stops: [c(THEME.dark.bg, 0.96)] }] },
+        size: "normal" },
+      // Reposo mid (contenido detrás = bg del tema): debe seguir ≥ 4.5 / 3
+      { label: "Idle label · mid glass sobre bg", theme: "light",
+        text: [c(THEME.light.navInactive)], base: THEME.light.bg,
+        layers: { before: [{ stops: [c(THEME.light.bg, 0.78)] }], after: [{ stops: [c(THEME.light.bg, 0.97)] }] },
+        size: "normal" },
+      { label: "Idle label · mid glass sobre bg", theme: "dark",
+        text: [c(THEME.dark.navInactive)], base: THEME.dark.bg,
+        layers: { before: [{ stops: [c(THEME.dark.bg, 0.82)] }], after: [{ stops: [c(THEME.dark.bg, 0.97)] }] },
+        size: "normal" },
+    ] },
   { id: "global-liquid-halo", file: "src/styles/global.css", component: ".liquid-nav-cta__halo (LiquidNavCta)", element: "halo detrás del isologo; la etiqueta va fuera del orbe", matches: 4, status: "decorative" },
   { id: "global-heading-gradient", file: "src/styles/global.css", component: ".heading-gradient (GradientHeading, FrameworkDetail, StatsTooltip)", element: "texto con degradado (claro + .dark)", matches: 4, status: "decorative", note: "Definición; usos verificados en sus componentes." },
   { id: "offer-progress", file: "src/styles/offer-tour.css", component: ".offer-progress-fill", element: "barra de progreso", matches: 1, status: "decorative" },
@@ -376,7 +511,9 @@ export const INVENTORY: Entry[] = [
   { id: "gradient-heading", file: "src/components/atoms/GradientHeading.tsx", component: "GradientHeading", element: "definición (usos en páginas de detalle)", matches: 4, status: "decorative" },
   { id: "process-phase", file: "src/components/molecules/ProcessPhaseCard.tsx", component: "ProcessPhaseCard", element: "overlay hover 5 % + barra", matches: 2, status: "checked",
     cases: themes.flatMap((theme) => (["fg", "mutedFg"] as Tok[]).map((t): Case => ({ label: `Overlay hover opacity-5 · ${t}`, theme, text: [c(THEME[theme][t])], base: THEME[theme].card, layers: blob(0.05), size: "normal" }))) },
-  { id: "process-flow", file: "src/components/ui/enterprise/process-flow.tsx", component: "ProcessFlow", element: "borde degradado 2px (contenido sobre bg-card opaco) + barra", matches: 2, status: "decorative" },
+  { id: "process-flow", file: "src/components/ui/enterprise/process-flow.tsx", component: "ProcessFlow", element: "número de paso (sólido) + borde/barra degradados decorativos", matches: 2, status: "checked",
+    note: "Degradados del borde hover y barra inferior: decorativos. Número: bg-primary→--vn-color-cta-* (dark 3.50→5.76:1).",
+    cases: solidCtaWhite("Número paso · blanco sobre azul sólido") },
   { id: "sura", file: "src/components/organisms/SuraOnboardingEvidence.tsx", component: "SuraOnboardingEvidence", element: "tiles icono, fondos slate-50→100 detrás de mockups Figma (sin texto vivo), tarjetas de color", matches: 8, status: "checked",
     cases: [
       ...iconOnBrand("Iconos tile"),
@@ -404,15 +541,35 @@ export const INVENTORY: Entry[] = [
     ] },
   { id: "error-boundary", file: "src/components/organisms/ErrorBoundary.tsx", component: "ErrorBoundary", element: "pantalla from-background to-muted", matches: 1, status: "checked", cases: tint("Pantalla", (t) => [{ stops: [c(THEME[t].bg), c(THEME[t].muted)] }]) },
   { id: "experience", file: "src/components/organisms/Experience.tsx", component: "Experience", element: "línea de tiempo + scrim sobre imagen (texto fuera de la imagen)", matches: 2, status: "decorative" },
-  { id: "trajectory", file: "src/components/organisms/TrajectoryRail.tsx", component: "TrajectoryRail", element: "conector", matches: 1, status: "decorative" },
+  { id: "trajectory", file: "src/components/organisms/TrajectoryRail.tsx", component: "TrajectoryRail", element: "nodo highlight (sólido) + conector degradado decorativo", matches: 1, status: "checked",
+    note: "Conector from-primary/50: decorativo. Nodos highlight: bg-primary→--vn-color-cta-* (dark 3.50→5.76:1).",
+    cases: solidCtaWhite("Nodo highlight · blanco sobre azul sólido", "normal", { why: "text-[10px] font-bold en círculo h-6" }) },
   { id: "section-divider-atom", file: "src/components/atoms/SectionDivider.tsx", component: "SectionDivider", element: "filete", matches: 1, status: "decorative" },
   { id: "section-divider", file: "src/components/molecules/SectionDivider.tsx", component: "SectionDivider", element: "barra", matches: 1, status: "decorative" },
   { id: "section-header", file: "src/components/molecules/SectionHeader.tsx", component: "SectionHeader", element: "filete", matches: 1, status: "decorative" },
   { id: "scroll-progress", file: "src/components/atoms/ScrollProgress.tsx", component: "ScrollProgress", element: "barra de progreso", matches: 2, status: "decorative" },
   { id: "device-mockup", file: "src/components/molecules/DeviceMockup.tsx", component: "DeviceMockup", element: "marcos de dispositivo", matches: 4, status: "decorative" },
   { id: "profile-radar", file: "src/components/molecules/ProfileRadar.tsx", component: "ProfileRadar", element: "relleno del gráfico", matches: 1, status: "decorative" },
-  { id: "about-bento", file: "src/components/organisms/AboutEvidenceBento.tsx", component: "AboutEvidenceBento", element: "etiqueta text-[11px] sobre foto con scrim from-background/90", matches: 1, status: "separate-pr",
-    note: "Texto sobre fotografía: el contraste depende de la imagen y de la altura de la tarjeta; requiere cambio de layout (etiqueta fuera de la foto o scrim opaco)." },
+  { id: "about-bento", file: "src/components/organisms/AboutEvidenceBento.tsx", component: "AboutEvidenceBento", element: "etiqueta text-xs sobre chip bg-background/95 (antes text-[11px] + scrim via/20)", matches: 1, status: "checked",
+    note: "Antes: zona via-background/20 sobre foto oscura << 4.5:1 y 11px. Después: chip bg-background/95 + text-xs (12px).",
+    cases: [
+      { label: "Label sobre foto oscura (zona via/20 → chip/95)", theme: "light",
+        text: [c(THEME.light.fg)], base: "#000000",
+        layers: { before: [{ stops: [c(THEME.light.bg, 0.2)] }], after: [{ stops: [c(THEME.light.bg, 0.95)] }] },
+        size: "normal" },
+      { label: "Label sobre foto clara (zona via/20 → chip/95)", theme: "light",
+        text: [c(THEME.light.fg)], base: "#ffffff",
+        layers: { before: [{ stops: [c(THEME.light.bg, 0.2)] }], after: [{ stops: [c(THEME.light.bg, 0.95)] }] },
+        size: "normal" },
+      { label: "Label sobre foto oscura (zona via/20 → chip/95)", theme: "dark",
+        text: [c(THEME.dark.fg)], base: "#000000",
+        layers: { before: [{ stops: [c(THEME.dark.bg, 0.2)] }], after: [{ stops: [c(THEME.dark.bg, 0.95)] }] },
+        size: "normal" },
+      { label: "Label sobre foto clara (zona via/20 → chip/95)", theme: "dark",
+        text: [c(THEME.dark.fg)], base: "#ffffff",
+        layers: { before: [{ stops: [c(THEME.dark.bg, 0.2)] }], after: [{ stops: [c(THEME.dark.bg, 0.95)] }] },
+        size: "normal" },
+    ] },
 
   // Importaciones de Figma (artefactos de caso, no UI del sitio)
   { id: "figma-flujo", file: "src/imports/FlujoDeDiagramaUsuario.tsx", component: "FlujoDeDiagramaUsuario (caso Sura)", element: "filas verdes (App1/App3) con texto #008236/#0d542b/#016630/#0f172b; badges opacos aparte", matches: 2, status: "checked",

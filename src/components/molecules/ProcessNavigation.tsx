@@ -41,7 +41,7 @@ export function ProcessNavigation({
                     aria-current={isActive ? "true" : undefined}
                     className={`flex min-h-11 items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                       isActive
-                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                        ? "border-[var(--vn-color-cta-bg)] bg-[var(--vn-color-cta-bg)] text-[var(--vn-color-cta-fg)] shadow-sm"
                         : "border-border/70 bg-muted/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"
                     }`}
                   >
@@ -90,7 +90,7 @@ export function ProcessNavigation({
                         <div
                           className={`h-8 w-8 rounded-full flex items-center justify-center transition-[background-color,color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] motion-reduce:transition-none motion-reduce:transform-none ${
                             isActive
-                              ? "bg-primary text-primary-foreground scale-110 motion-reduce:scale-100"
+                              ? "bg-[var(--vn-color-cta-bg)] text-[var(--vn-color-cta-fg)] scale-110 motion-reduce:scale-100"
                               : isVisited
                               ? "bg-primary/20 text-primary"
                               : "bg-muted text-muted-foreground group-hover:bg-primary/20"

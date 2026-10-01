@@ -62,7 +62,7 @@ export function Timeline({ items, className }: TimelineProps) {
                 className={cn(
                   "flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all",
                   isCompleted &&
-                    "border-primary bg-primary text-primary-foreground",
+                    "border-[var(--vn-color-cta-bg)] bg-[var(--vn-color-cta-bg)] text-[var(--vn-color-cta-fg)]",
                   isInProgress &&
                     "border-primary bg-background animate-pulse",
                   !isCompleted &&

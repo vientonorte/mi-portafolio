@@ -72,7 +72,7 @@ export function ProcessFlow({
                       damping: 15,
                       delay: index * 0.15 + 0.1,
                     }}
-                    className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-lg"
+                    className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-[var(--vn-color-cta-bg)] flex items-center justify-center text-[var(--vn-color-cta-fg)] font-bold shadow-lg"
                   >
                     {index + 1}
                   </motion.div>

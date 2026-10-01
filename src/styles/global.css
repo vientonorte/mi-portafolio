@@ -194,21 +194,22 @@ img {
 }
 
 .bottom-nav-mobile--glass {
-  /* Más opaco al scroll: el glass no se “pierde” sobre secciones oscuras */
-  border-top: 1px solid color-mix(in srgb, #ffffff 42%, transparent);
+  /* AA: vidrio ≥96% --background para que texto/íconos no dependan del scroll.
+     El highlight superior queda muy sutil (8%) encima de una base ya opaca. */
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, #ffffff 28%, transparent) 0%,
-      color-mix(in srgb, var(--background) 78%, transparent) 42%,
-      color-mix(in srgb, var(--background) 92%, transparent) 100%
+      color-mix(in srgb, var(--background) 96%, transparent) 0%,
+      color-mix(in srgb, var(--background) 97%, transparent) 42%,
+      color-mix(in srgb, var(--background) 98%, transparent) 100%
     );
   -webkit-backdrop-filter: blur(24px) saturate(1.6);
   backdrop-filter: blur(24px) saturate(1.6);
   box-shadow:
-    0 -1px 0 color-mix(in srgb, #ffffff 28%, transparent),
-    0 -12px 40px rgba(15, 23, 42, 0.14),
-    inset 0 1px 0 color-mix(in srgb, #ffffff 55%, transparent);
+    0 -1px 0 color-mix(in srgb, var(--foreground) 8%, transparent),
+    0 -12px 40px color-mix(in srgb, var(--foreground) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #ffffff 40%, transparent);
 }
 
 .dark .bottom-nav-mobile--glass,
@@ -218,9 +219,9 @@ html.dark .bottom-nav-mobile--glass {
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, #ffffff 12%, transparent) 0%,
-      color-mix(in srgb, var(--background) 82%, transparent) 45%,
-      color-mix(in srgb, var(--background) 94%, transparent) 100%
+      color-mix(in srgb, var(--background) 96%, transparent) 0%,
+      color-mix(in srgb, var(--background) 97%, transparent) 45%,
+      color-mix(in srgb, var(--background) 98%, transparent) 100%
     );
   box-shadow:
     0 -1px 0 color-mix(in srgb, #ffffff 10%, transparent),
@@ -230,7 +231,7 @@ html.dark .bottom-nav-mobile--glass {
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .bottom-nav-mobile--glass {
-    background: color-mix(in srgb, var(--background) 96%, transparent);
+    background: color-mix(in srgb, var(--background) 98%, transparent);
   }
 }
 
