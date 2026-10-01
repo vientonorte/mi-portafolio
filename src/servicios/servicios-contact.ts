@@ -1,3 +1,4 @@
+import { attributionFields, type FirstTouch } from "../lib/utm";
 import { SERVICIOS_INTENTS, SERVICIOS_SOURCE, type ServiciosIntentValue } from "./servicios-content";
 
 export interface ServiciosContactValues {
@@ -31,8 +32,12 @@ export function validateServiciosContact(v: ServiciosContactValues): ServiciosFi
   return errors;
 }
 
-/** Payload para POST https://contact.vientonorte.io/api/contact */
-export function buildServiciosPayload(v: ServiciosContactValues) {
+/**
+ * Payload para POST https://contact.vientonorte.io/api/contact
+ * Incluye la atribución de primer toque (utm_source, utm_medium, utm_campaign, landing_path).
+ * Hoy el worker ignora esas claves (worker/src/contact.js desestructura solo las conocidas).
+ */
+export function buildServiciosPayload(v: ServiciosContactValues, touch?: FirstTouch | null) {
   const empresa = v.empresa.trim();
   const message = [empresa ? `Empresa: ${empresa}` : "Empresa: (no indicada)", "", v.detalle.trim()].join("\n");
   return {
@@ -44,6 +49,7 @@ export function buildServiciosPayload(v: ServiciosContactValues) {
     intent: v.intent.slice(0, 80),
     language: "es" as const,
     _gotcha: v.gotcha,
+    ...attributionFields(touch),
   };
 }
 

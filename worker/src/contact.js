@@ -7,6 +7,32 @@ const MAX_NAME = 120;
 const MAX_EMAIL = 254;
 const MAX_MESSAGE = 4000;
 const DEFAULT_INBOX = 'gaete.gaona@gmail.com';
+const MAX_UTM = 100;
+const MAX_LANDING_PATH = 200;
+const UTM_UNSAFE = /[^A-Za-z0-9._~-]/g;
+const PATH_UNSAFE = /[^A-Za-z0-9/._~#-]/g;
+
+/**
+ * utm_source / utm_medium / utm_campaign: trim, allowlist [A-Za-z0-9._~-], clip a 100.
+ * Un valor con '@' (email) se descarta entero para no guardar PII. Vacío → ''.
+ */
+export function cleanUtm(raw) {
+  if (typeof raw !== 'string') return '';
+  const v = raw.trim();
+  if (!v || v.includes('@')) return '';
+  return v.replace(UTM_UNSAFE, '').slice(0, MAX_UTM);
+}
+
+/**
+ * landing_path: trim, debe empezar con '/', sin query string,
+ * allowlist [A-Za-z0-9/._~#-], clip a 200. Lo demás → ''.
+ */
+export function cleanLandingPath(raw) {
+  if (typeof raw !== 'string') return '';
+  const v = raw.trim().split('?')[0];
+  if (!v.startsWith('/')) return '';
+  return v.replace(PATH_UNSAFE, '').slice(0, MAX_LANDING_PATH);
+}
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= MAX_EMAIL;
@@ -108,7 +134,20 @@ export async function handleContact(request, env, cors) {
     return json({ ok: false, error: 'JSON inválido' }, 400, cors);
   }
 
-  const { name, email, message, _gotcha, source, intent, consent, language } = body || {};
+  const {
+    name,
+    email,
+    message,
+    _gotcha,
+    source,
+    intent,
+    consent,
+    language,
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    landing_path,
+  } = body || {};
   if (_gotcha) return json({ ok: true }, 200, cors);
 
   if (!name || typeof name !== 'string' || name.trim().length < 2) {
@@ -130,6 +169,12 @@ export async function handleContact(request, env, cors) {
   const safeIntent = typeof intent === 'string' ? intent.trim().slice(0, 80) : '';
   const safeSource = typeof source === 'string' ? source.trim().slice(0, 40) : 'form';
   const safeLanguage = language === 'en' ? 'en' : 'es';
+  const attribution = {
+    utm_source: cleanUtm(utm_source),
+    utm_medium: cleanUtm(utm_medium),
+    utm_campaign: cleanUtm(utm_campaign),
+    landing_path: cleanLandingPath(landing_path),
+  };
 
   const inbox = env.CONTACT_INBOX || DEFAULT_INBOX;
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.cl';
@@ -145,6 +190,7 @@ export async function handleContact(request, env, cors) {
     intent: safeIntent,
     source: safeSource,
     subject,
+    attribution,
   });
 
   let stored = null;
@@ -157,6 +203,7 @@ export async function handleContact(request, env, cors) {
       source: safeSource,
       language: safeLanguage,
       channel: 'contact',
+      ...attribution,
     });
   } catch (err) {
     console.warn('[contact] persist lead failed:', err?.message || err);
@@ -199,6 +246,10 @@ export async function handleContact(request, env, cors) {
         lead_type: safeIntent || 'contact',
         channel: 'contact',
         package_id: packageId,
+        utm_source: attribution.utm_source,
+        utm_medium: attribution.utm_medium,
+        utm_campaign: attribution.utm_campaign,
+        landing_path: attribution.landing_path,
       },
     });
   }

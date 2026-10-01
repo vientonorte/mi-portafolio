@@ -22,6 +22,8 @@ interface ImportMetaEnv {
    * Campaña: a11y_gratis_pymes · Acción: BOOK_APPOINTMENT
    */
   readonly VITE_GOOGLE_ADS_CONVERSION_ID?: string;
+  /** Umami Cloud website ID (no es secreto). Vacío = medición desactivada (no-op). */
+  readonly VITE_UMAMI_WEBSITE_ID?: string;
 }
 
 interface ImportMeta {
