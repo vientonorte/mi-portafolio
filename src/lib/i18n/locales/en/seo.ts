@@ -54,7 +54,7 @@ export const seo = {
             'Strategic UX/UI audit: risks, SEO quick wins, and a 3-session mentorship plan.',
         },
         consultoria: {
-          /** SEM final URL: https://vientonorte.io/#/consultoria — Ads message-match */
+          /** SEM final URL: https://vientonorte.io/servicios/?utm_…#revision-gratis — Ads message-match */
           title: 'UX Consulting · Choose your scope',
           description:
             'Diagnostic in 5–7 days of the flow your customer already uses, in their CMS or CRM. Free: WCAG 2.2 AA on one flow. 30 min kickoff.',

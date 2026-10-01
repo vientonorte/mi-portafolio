@@ -8,9 +8,8 @@ describe("news → specialty landing", () => {
     expect(newsTopicLanding("privacidad")?.path).toBe(
       "/servicios/seguridad-privacidad-digital/"
     );
-    expect(newsTopicLanding("accesibilidad")?.path).toBe(
-      "/servicios/diagnostico-accesibilidad-wcag/"
-    );
+    // Canon 2026-10-01: la ficha WCAG redirige; el link va directo al ancla de /servicios/.
+    expect(newsTopicLanding("accesibilidad")?.path).toBe("/servicios/#revision-gratis");
     expect(newsTopicLanding("automatizacion")?.path).toBe(
       "/servicios/inteligencia-artificial-negocios/"
     );

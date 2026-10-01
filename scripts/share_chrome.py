@@ -5,8 +5,8 @@ from __future__ import annotations
 GTM = "GTM-PM5LBQRP"
 NAV = (
     ("/", "Inicio"),
-    ("/s/consultoria/", "Consultoría"),
-    ("/s/proceso/", "Proceso"),
+    ("/servicios/#consultoria-ux", "Consultoría"),
+    ("/servicios/", "Servicios"),
 )
 
 
@@ -124,8 +124,8 @@ def render_page(
         <p><a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a></p>
         <nav aria-label="Pie">
           <a href="/">Inicio</a>
-          <a href="/s/consultoria/">Consultoría</a>
-          <a href="/s/proceso/">Proceso</a>
+          <a href="/servicios/#consultoria-ux">Consultoría</a>
+          <a href="/servicios/">Servicios</a>
           <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
         </nav>
       </div>

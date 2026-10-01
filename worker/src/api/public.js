@@ -19,7 +19,7 @@ function calendarUrl(env) {
   return (
     env.CALENDAR_BOOKING_URL ||
     env.A11Y_FREE_SCHEDULE_URL ||
-    'https://vientonorte.io/#/contacto'
+    'https://vientonorte.io/servicios/#consultoria-ux'
   );
 }
 
