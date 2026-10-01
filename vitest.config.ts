@@ -55,8 +55,29 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
-    include: ['src/__tests__/**/*.test.{ts,tsx}'],
     exclude: ['V2/**', 'node_modules/**', 'dist/**'],
+    // Dos proyectos en el mismo `npm test` (y en el job Tests de CI):
+    // - app: componentes y libs del front (jsdom + setup de Testing Library).
+    // - worker: tests del Cloudflare Worker (worker/src/__tests__), en node como el runtime real (sin DOM).
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'app',
+          include: ['src/__tests__/**/*.test.{ts,tsx}'],
+        },
+      },
+      {
+        // Sin `extends`: el worker no usa los plugins/alias del front ni src/test/setup.ts (necesita window).
+        test: {
+          name: 'worker',
+          root: __dirname,
+          include: ['worker/src/__tests__/**/*.test.js'],
+          environment: 'node',
+          testTimeout: 30_000,
+        },
+      },
+    ],
     pool: 'forks',
     maxWorkers: 1,
     fileParallelism: false,
