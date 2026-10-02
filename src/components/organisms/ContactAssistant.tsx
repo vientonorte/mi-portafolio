@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowLeft, Bot, CheckCircle2, Send, Shield, User } from "lucide-react";
 import { Button } from "../ui/button";
@@ -35,6 +35,7 @@ import {
   type ContactAssistantSurface,
 } from "../../lib/contact-surface";
 import { analytics } from "../../lib/analytics";
+import { trackContactSubmitted } from "../../lib/contact-conversion";
 import {
   A11Y_FREE_SCHEDULE_URL,
   SITE_CONTACT,
@@ -158,6 +159,10 @@ export function ContactAssistant({
   onSuccess,
 }: ContactAssistantProps) {
   const { language } = useLanguage();
+  /** H2 · epoch ms del montaje: el worker exige un tiempo mínimo de llenado. */
+  const formStartedAt = useRef(0);
+  useEffect(() => {
+  }, []);
   const translations = useTranslation(language);
   const t = translations.contact;
   const a = t.assistant;
@@ -323,24 +328,28 @@ export function ContactAssistant({
         conversationTitle: conversationTitle || undefined,
         consent: true,
         language,
+        formStartedAt: formStartedAt.current,
       });
 
       if (result.ok) {
-        analytics.submitContactForm(true, result.channel);
         const isFreeA11y =
           packageId === "radar" ||
           consultingQ1 === "radar-free" ||
           /accesibilidad|accessibility|radar-free|revisión gratis|free accessibility/i.test(
             sharedMessage
           );
-        if (isFreeA11y) {
-          analytics.generateLead({
-            lead_type: "free_a11y",
-            channel: result.channel ?? "contact_form",
-            origin: "contact_assistant",
-            package_id: "radar",
-          });
-        }
+        // H2 · submit_contact_form/generate_lead solo si el worker confirmó con 200.
+        trackContactSubmitted(
+          result,
+          isFreeA11y
+            ? {
+                lead_type: "free_a11y",
+                channel: result.channel ?? "contact_form",
+                origin: "contact_assistant",
+                package_id: "radar",
+              }
+            : null
+        );
         if (isFreeA11y && A11Y_FREE_SCHEDULE_URL) {
           toast.success(a.success, {
             description:

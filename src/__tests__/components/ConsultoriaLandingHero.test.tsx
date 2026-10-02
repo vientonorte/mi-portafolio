@@ -45,7 +45,9 @@ describe("ConsultoriaLandingHero", () => {
     expect(screen.getByTestId("hero-gratis-a11y")).toBeInTheDocument();
     expect(screen.queryByTestId("hero-demo-xcms")).not.toBeInTheDocument();
     await user.click(agendar);
-    expect(openCalendarBooking).toHaveBeenCalledWith({ origin: "consultoria-hero" });
+    expect(openCalendarBooking).toHaveBeenCalledWith(
+      expect.objectContaining({ origin: "consultoria-hero", onConfirmed: expect.any(Function) })
+    );
     await user.click(proto);
     expect(navigate).toHaveBeenCalledWith("/consultoria/modulos/dashboard");
     expect(navigate).not.toHaveBeenCalledWith("/demo/x-cms");

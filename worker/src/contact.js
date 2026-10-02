@@ -2,6 +2,7 @@ import { json } from './lib/cors.js';
 import { persistLead } from './api/public.js';
 import { buildAdminEmail, buildVisitorConfirmation } from './lib/email-templates.js';
 import { sendGa4MpEvent } from './lib/ga4-mp.js';
+import { checkContactRateLimit, checkFillTime } from './lib/antibot.js';
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
@@ -138,6 +139,17 @@ async function sendVisitorConfirmation(env, payload) {
 }
 
 export async function handleContact(request, env, cors) {
+  // H2 · rate limit por IP antes de leer el body (cuenta también honeypot e
+  // inválidos). Límite/ventana: CONTACT_RATE_LIMIT / CONTACT_RATE_WINDOW_SEC.
+  const rate = await checkContactRateLimit(env, request);
+  if (rate.limited) {
+    return json(
+      { ok: false, error: 'Demasiados envíos. Intenta de nuevo en unos minutos.' },
+      429,
+      { ...cors, 'Retry-After': String(rate.retryAfter) }
+    );
+  }
+
   let body;
   try {
     body = await request.json();
@@ -158,8 +170,18 @@ export async function handleContact(request, env, cors) {
     utm_medium,
     utm_campaign,
     landing_path,
+    formStartedAt,
   } = body || {};
-  if (_gotcha) return json({ ok: true }, 200, cors);
+  // H2 · honeypot: se descarta en silencio con la MISMA forma que un envío
+  // real (sin correo, sin KV de leads, sin GA4) para no darle pistas al bot.
+  if (_gotcha) {
+    return json({ ok: true, leadId: `lead_${crypto.randomUUID()}`, emailed: true }, 200, cors);
+  }
+
+  // H2 · tiempo mínimo de llenado (formStartedAt del frontend, epoch ms).
+  if (checkFillTime(formStartedAt, env) !== 'ok') {
+    return json({ ok: false, error: 'No se pudo enviar el mensaje. Intenta de nuevo.' }, 400, cors);
+  }
 
   if (!name || typeof name !== 'string' || name.trim().length < 2) {
     return json({ ok: false, error: 'Nombre inválido' }, 400, cors);

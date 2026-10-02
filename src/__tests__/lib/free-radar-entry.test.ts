@@ -16,6 +16,11 @@ vi.mock("../../lib/navigate-to-contact", () => ({
   navigateToContactAssistant: (...args: unknown[]) => navigateSpy(...args),
 }));
 
+const recordBookingIntentSpy = vi.fn();
+vi.mock("../../lib/vn-booking", () => ({
+  recordBookingIntent: (...args: unknown[]) => recordBookingIntentSpy(...args),
+}));
+
 describe("openFreeRadarEntry", () => {
   beforeEach(() => {
     vi.resetModules();
@@ -23,6 +28,7 @@ describe("openFreeRadarEntry", () => {
     navigateSpy.mockReset();
     trackEventSpy.mockReset();
     clickHeroFreeAuditSpy.mockReset();
+    recordBookingIntentSpy.mockReset();
     vi.stubGlobal("open", openSpy);
   });
 
@@ -44,6 +50,11 @@ describe("openFreeRadarEntry", () => {
     );
 
     expect(channel).toBe("google_calendar");
+    // H2 · generate_lead NO se dispara en el click: espera la confirmación del Worker.
+    expect(trackEventSpy).not.toHaveBeenCalledWith("generate_lead", expect.anything());
+    expect(recordBookingIntentSpy).toHaveBeenCalledTimes(1);
+    const { onConfirmed } = recordBookingIntentSpy.mock.calls[0][0] as { onConfirmed: () => void };
+    onConfirmed();
     expect(trackEventSpy).toHaveBeenCalledWith(
       "generate_lead",
       expect.objectContaining({ channel: "google_calendar" })
@@ -107,7 +118,7 @@ describe("openFreeRadarEntry", () => {
     expect(openSpy).not.toHaveBeenCalled();
   });
 
-  it("emits generate_lead with free_a11y on form channel", async () => {
+  it("H2 · opening the form channel does NOT emit generate_lead (only entry-open tracking)", async () => {
     vi.doMock("../../lib/site-contact", () => ({
       A11Y_FREE_SCHEDULE_URL: null,
       openA11yFreeScheduleOrFallback: (fallback: () => void) => {
@@ -124,10 +135,10 @@ describe("openFreeRadarEntry", () => {
       { mode: "auto" }
     );
 
+    expect(trackEventSpy).not.toHaveBeenCalledWith("generate_lead", expect.anything());
     expect(trackEventSpy).toHaveBeenCalledWith(
-      "generate_lead",
+      "free_radar_entry_open",
       expect.objectContaining({
-        lead_type: "free_a11y",
         channel: "contact_form",
         origin: "consultoria-hero",
         package_id: "radar",
