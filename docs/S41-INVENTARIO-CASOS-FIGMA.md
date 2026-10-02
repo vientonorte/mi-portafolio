@@ -199,3 +199,66 @@
    - ¿Existe un segundo «Prueba de Conceptos» con páginas «Claro Chile»?
 7. **D7 · MASCOTAPP.** ¿Es un concepto propio o un encargo? Hoy el SSOT dice «no usar».
 8. **D8 · Frames exactos pendientes.** Para los archivos grandes (Tienda Claro, Portal Claro y MASCOTAPP), ¿se acepta el node-id de página o se pide una pasada con la lista completa de frames? La metadata del MCP llega truncada.
+
+---
+
+## Segunda pasada (2-oct 18:39)
+
+Pasada enfocada en **Walmart** y **Maraña**. Solo lectura en Figma, Drive, Gmail y el Mac. Las rutas locales se anotan sin nombres de personas: `<iCloud>` = `~/Library/Mobile Documents/com~apple~CloudDocs/Documents`; `<asesoría>` reemplaza carpetas con nombre de persona.
+
+### Walmart
+
+**No aparece ningún archivo Figma, export ni PDF de caso.**
+
+| Hallazgo | Ruta / URL | node-id | ¿Encargo o concepto? | Asset 16:10 |
+|---|---|---|---|---|
+| Nota de marca en el vault: «Walmart Chile (DCS)», 2022, rol diseñador web, «diseño y contenido para canales digitales enterprise». Sus únicos assets son el monograma y la indicación de no usar el wordmark oficial | vault Obsidian `Viento Norte/Branding/Walmart Chile.md` | — | Encargo real a través de un empleo (mayo–junio 2022 según `upcoming-cases.ts`). No es cliente VN | Ninguno |
+| Monograma «W» | `public/images/brands/walmart.svg` (repos locales y copia en iCloud) | — | — | No sirve para 16:10 (es un logo) |
+| Teaser «upcoming» `walmart-chile` («caso corto en documentación») | `~/code/mi-portafolio-branding-home/src/data/upcoming-cases.ts` | — | — | Ninguno |
+
+Lugares revisados sin resultado:
+- **Figma Desktop:** `settings.json` contiene unas 70 pestañas o recientes y ninguna es de Walmart. Tampoco hay coincidencias en IndexedDB, Local Storage, Session Storage ni Service Worker. Solo hay una cuenta autenticada.
+- **Conector Figma:** tiene acceso a 5 plans: Rö (pro), EDU21, Proyectos, SURA (org, guest) y un Starter. No tiene una herramienta para buscar archivos, y no hay key candidata que validar.
+- **Spotlight y `find`** en Documents, Desktop, Downloads, iCloud y el vault: no hay `.fig`, PNG, JPG ni PDF de caso. El único resultado por nombre es un documento laboral, que no es un asset (ruta omitida).
+- **Drive** (ambos conectores): «Walmart» solo aparece dentro de los CVs. No hay ningún archivo con «Walmart» o «Lider» en el título.
+- **Gmail:** no hay ningún link de figma.com asociado a Walmart. Solo aparece correo promocional de retail.
+
+### Maraña
+
+Se encontraron capturas reales del sitio y exports del tablero de trabajo, pero **no hay un archivo Figma recuperable**.
+
+| Hallazgo | Ruta / URL | node-id | ¿Encargo o concepto? | Asset 16:10 |
+|---|---|---|---|---|
+| Captura de la home de maraña.cl (2021), 1440×900 | `<iCloud>/GitHub/Portafolio/mi-portafolio/assets/img/pantalla maraña.png` | — | Encargo real (Rö fue diseñador UX/UI de la agencia, 2020–2021) | **Candidato con reservas:** ya es 16:10, pero hay que recortar el chrome de Safari (la barra de favoritos muestra un nombre propio) y muestra rostros en una videollamada. Recomendación: no usarla tal cual |
+| Captura de la página «Digitalización / Taller de co-diseño» de maraña.cl (2021), 1440×900 | `<iCloud>/GitHub/Portafolio/mi-portafolio/assets/img/MARAÑA TALLER.png` | — | Encargo real | **Candidato preferente:** es 16:10 y no muestra rostros, pero hay que recortar el chrome del navegador (favoritos con nombre propio) o rehacer la captura |
+| Imágenes de portafolio antiguo (2022) | `<iCloud>/GitHub/Portafolio/mi-portafolio/assets/img/RIGG/maraña ux.png` (969×559) y `RIGG/marañaestrategias.png` (545×300) | — | Encargo real | Resolución baja para 16:10 |
+| Video de campaña SEM (2020) | `<iCloud>/GitHub/Portafolio/mi-portafolio/assets/img/SEM MARAÑA.mp4` | — | Encargo real | Frame posible, por confirmar |
+| Logos | `<iCloud>/GitHub/Portafolio/mi-portafolio/assets/img/maraña logo.svg`, `Marana-Blanca-300x107.png`, `public/images/brands/marana.svg` | — | — | No (son logos) |
+| 10 exports JPG «Diseños UX de Maraña – …» (cadena de valor, propuesta de valor, logística inversa, economía circular, guías de WordPress), junio 2021. **La captura de «MARAÑA TALLER» muestra que «Diseños UX de Maraña» es un tablero de Miro, no un archivo Figma** | `<iCloud>/Asesorías/<asesoría>/…/Diseños UX de Maraña - *.jpg` | — | Material de taller o asesoría | No: son diagramas en formato vertical o 4:3 |
+| Drive · carpeta compartida «Maraña» (2018) | https://drive.google.com/drive/folders/1KI29jV9nZcyGBJQBXQHp-h67Each9mN9 | — | Por confirmar | Solo contiene la subcarpeta «Conocimiento compartido» |
+| Drive · «Metodo Maraña.png» (2019) | https://drive.google.com/file/d/1WPYLsHDjyDnove90D_LGAtZRoInlFFpE/view | — | Por confirmar (pieza de la agencia) | Por revisar (no se descargó) |
+| Drive · «Wireframe Clínica.png» (2019), en la carpeta «Clínica Marketing Online» | https://drive.google.com/file/d/1R6ipIOHzBjAOTLFkaWZ4xzSlLUgFhS7Y/view | — | Por confirmar | Por revisar |
+| Drive · formulario «Heurística de Maraña» y un PDF de informe heurístico | https://docs.google.com/forms/d/10LQY3spV1mLrobDv72rBHqfmV5G62J3DJhotXUgqEZA/edit · https://drive.google.com/file/d/1xCGgFaIBV24bXDh3AKKxxMSilXbTAUAX/view | — | Por confirmar | No (son documentos) |
+| Sitio legado del partner | `<iCloud>/GitHub/Portafolio/mi-portafolio/partner-marana.html` | — | — | No |
+
+Lugares revisados sin resultado:
+- **Figma:** no hay ninguna pestaña o reciente con «Maraña». Gmail confirma que el team «Maraña» se eliminó el 10-sep-2022 y que el plazo para restaurarlo venció en octubre de 2022. Ningún plan visible para el conector se llama Maraña. **Ninguna cuenta tiene acceso a ese team.**
+- **Caché de Figma Desktop:** no hay coincidencias.
+- **No hay archivos `.fig`** de Maraña en el disco.
+
+### Otros (anotados)
+
+- **Filipinas:** solo aparece «Penji · DoT Philippines · Website Redesign» (`QcI0E5zQudZuCNoB405OgV`, más un `.fig` y un `.zip` en `<iCloud>/Penji/SEPT/DoT_Philippines-Website-Redesign/Source File/`). **Queda fuera**, como en la primera pasada.
+
+### Dónde se buscó (resumen)
+
+1. Figma Desktop (`~/Library/Application Support/Figma/`): `settings.json`, `desktop_state.json` y DesktopProfile v39–v43 (IndexedDB, Local Storage, Session Storage, Service Worker, búsqueda UTF-8 y UTF-16).
+2. Conector Figma: `whoami` (5 plans) y `get_metadata` del archivo de control `CBguM4Y5rIvc9TV5pGhOxL`.
+3. Drive: `user-Google-drive` (search_files por fullText y por título) y `user-Google Drive-xai` (search), con los términos Walmart, Maraña, Marana, Filipinas, Philippines, Lider, portafolio y portfolio.
+4. Mac: `mdfind` (por nombre y por contenido) y `find` acotado a Documents, Desktop, Downloads, iCloud y el vault de Obsidian.
+5. Gmail: `search_threads` con figma.com y los nombres de los casos.
+
+### Impacto en D4
+
+- **Walmart:** solo puede ir como logo o texto, o salir de 02/03, hasta que Rö aporte capturas.
+- **Maraña:** puede tener tarjeta 16:10 con una captura limpia de `MARAÑA TALLER.png` (recortada o rehecha), sin depender de Figma. Falta el OK de Rö para usar la marca de una agencia que ya no opera como cliente.
