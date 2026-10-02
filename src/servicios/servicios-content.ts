@@ -53,6 +53,25 @@ export const SERVICIOS_IMAGES = {
     width: 1440,
     height: 900,
   },
+  /**
+   * Recorte limpio del POS de X|CMS (pedidos.png 180,480-1440,900): sin la fila «Ventas Hoy» ni cifras de demo
+   * que parezcan métricas. Hero y tarjetas de /servicios/ (la home sigue con `xcms`).
+   */
+  xcmsClean: {
+    webp: "images/products/x-cms/pos-productos.webp",
+    png: "images/products/x-cms/pos-productos.png",
+    alt: "X|CMS — punto de venta con productos por categoría y carrito",
+    width: 1260,
+    height: 709,
+  },
+  /** Recorte limpio del CFO Dashboard (riesgo.png 180,180-1440,620), sin la línea de complejidad. */
+  ratioClean: {
+    webp: "images/products/ratio/cfo-dashboard.webp",
+    png: "images/products/ratio/cfo-dashboard.png",
+    alt: "X|CMS — CFO Dashboard con vistas por rol",
+    width: 1260,
+    height: 709,
+  },
 } satisfies Record<string, MarketingImage>;
 
 export interface ServicioCard extends ServiceCardData {
@@ -120,12 +139,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     thumbnail: {
       kind: "device",
       addressBar: "x-cms · flujo",
-      image: {
-        png: "images/poc-modules/pedidos.png",
-        alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte.",
-        width: 1440,
-        height: 900,
-      },
+      image: { ...SERVICIOS_IMAGES.xcmsClean, alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte." },
     },
   },
   {
@@ -141,11 +155,11 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
       "Proceso de equipo para sostener los cambios.",
       "Sin nube obligatoria: el dato queda en tu CMS o CRM.",
     ],
-    price: "Cotización según alcance",
+    // Sin precio: pendiente (decisión Rö vía PO, 1-oct 10:32). Mismo nivel visual que la web 72 h.
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.xcms },
+    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.ratioClean },
   },
 ];
 
@@ -239,3 +253,242 @@ export const SERVICIOS_SEO = {
     "Web profesional para tu Pyme en 72 horas por $30.000, revisión gratis de accesibilidad de un flujo y consultoría UX. Viento Norte, Chile.",
   canonical: "https://vientonorte.io/servicios/",
 } as const;
+
+/** Anclas canónicas de /servicios/. Ningún caso enlaza fuera de estas tres. */
+export type ServiciosAnchor = "web-pymes" | "revision-gratis" | "consultoria-ux";
+export const SERVICIOS_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
+/** Anclas con casos en la grilla. #revision-gratis no tiene caso (PO, 1-oct 10:31). */
+/**
+ * Caso 6 (vientonorte.io · contraste WCAG, #revision-gratis). Aprobado por el TL (1-oct 10:36).
+ * Para sacarlo basta con poner false: desaparecen el grupo y su ancla de la grilla.
+ */
+export const SERVICIOS_SHOW_VN_WCAG_CASE = true;
+
+export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = SERVICIOS_SHOW_VN_WCAG_CASE
+  ? ["web-pymes", "revision-gratis", "consultoria-ux"]
+  : ["web-pymes", "consultoria-ux"];
+
+export interface VnCase {
+  id: string;
+  name: string;
+  /** Dos etiquetas por tarjeta: rubro y servicio. */
+  tags: { rubro: string; servicio: string };
+  summary: string;
+  /** Hallazgos o entregables ya documentados en el repo. Sin cifras de resultado. */
+  findings: readonly string[];
+  /** Diagnóstico inicial. Se rotula «Punto de partida»; nunca es un resultado. */
+  startingPoint?: string;
+  /** Una imagen real del repo (public/). */
+  image: MarketingImage;
+}
+
+export interface VnCaseGroup {
+  anchor: ServiciosAnchor;
+  label: string;
+  linkLabel: string;
+  cases: readonly VnCase[];
+}
+
+export const SERVICIOS_VN_CASES = {
+  heading: "Casos de Viento Norte",
+  intro: "Agrupados por servicio. Mostramos el diagnóstico y lo que hicimos, sin cifras de resultado.",
+} as const;
+
+/**
+ * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
+ * - Edu 21: problema de BRAND_CASES; entregables de docs/staging/edu21-pack/PERMISO.md;
+ *   punto de partida = informe SEO WordPress jun. 2022 (inv/pdf/txt/edu21-seo.txt L59, L84).
+ * - TodoClick.cl y Parcelas Terramar: con nombre (permiso en docs/staging/casos-mc-pack/PERMISO.md). Hallazgos de sus
+ *   benchmark PDF (Benchmark Maraña, 2021), texto extraído en el box de ops: inv/pdf/txt/mc-*-benchmark.txt
+ *   (las líneas van en cada hallazgo). Imagen: página 3 de cada PDF (escala heurística), sin logo de la marca;
+ *   las capturas de iCloud traen logos de terceros o el logo grande de la marca.
+ * - X|CMS y CFO Dashboard «Ratio Irarrázaval»: productos propios de Da Pleisë (marca de Rö). Recortes de
+ *   poc-modules/pedidos.png (180,480)-(1440,900) y riesgo.png (180,180)-(1440,620), sin cifras demo.
+ * - Dashboard de consultoría estratégica: concepto propio de Rö, anonimizado (Rö, 1-oct 10:37): sin marca del
+ *   cliente, sin nombres ni montos. Recorte nuevo (0,540)-(1440,900) de la grilla de módulos.
+ * - vientonorte.io: PR #280 (globals.css, vn-tokens.css). Detrás de SERVICIOS_SHOW_VN_WCAG_CASE.
+ * Monitas no va en /servicios/ (Rö, 1-oct 10:33). La grilla recibe más tarjetas agregando casos o grupos.
+ */
+export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
+  {
+    anchor: "web-pymes",
+    label: "Web para Pymes",
+    linkLabel: "Ver el servicio: Web para Pymes",
+    cases: [
+      {
+        id: "todoclick",
+        name: "TodoClick.cl",
+        tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
+        // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
+        summary:
+          "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
+        findings: [
+          // L101 «2 Mejoraría la Ro…» (título del pantallazo: «Mejoraría la Rotulación en el Copy, no hay h1»).
+          "El copy no rotula bien el contenido: la página no tiene h1.",
+          // L140 «5 embudo de co…» (pantallazo: el embudo de conversión no cumple los pasos UX).
+          "El embudo de compra no cumple los pasos de una buena experiencia.",
+          // L129, L195, L214: coordinar los post con los productos destacados para acotar pasos.
+          "Se pueden acortar los pasos coordinando las publicaciones con los productos destacados de la tienda.",
+          // L187, L215-216: historias destacadas con información útil (p. ej. política de despachos).
+          "Faltan datos útiles para comprar, como la política de despacho, en las historias destacadas.",
+        ],
+        image: {
+          png: "images/cases/todoclick/benchmark-heuristica.png",
+          webp: "images/cases/todoclick/benchmark-heuristica.webp",
+          alt: "Página del benchmark de TodoClick.cl: evaluación heurística de los llamados a la acción.",
+          width: 1200,
+          height: 675,
+        },
+      },
+      {
+        id: "terramar",
+        name: "Parcelas Terramar",
+        tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
+        // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
+        summary:
+          "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
+        findings: [
+          // L90 «1 CTAS insu'cie…», L188.
+          "Los llamados a la acción del Instagram no alcanzan.",
+          // L101 «2 Rotulación pue…», L188.
+          "La rotulación y el uso de íconos se pueden mejorar.",
+          // L116 «3 sitio responsiv…», L218.
+          "El sitio es responsivo, pero le faltan capas interactivas de contacto comercial.",
+          // L131 «4 a un click de di…», L189 (fortaleza; el PDF nombra la app de chat, que esta página no menciona: servicios-page.test.tsx).
+          "Fortaleza: el cliente queda a un clic del contacto comercial por chat.",
+          // L142 «5 embudo puede…», L188-189, L199 «Mejoraría el embudo de conversión de la web».
+          "El embudo de conversión de la web puede mejorar.",
+          // L197-198.
+          "Hay información útil, pero no está en el feed: si no se busca, no se encuentra.",
+          // L168 «7 mapa de conte…», L190, L216-217.
+          "Conviene reorganizar los contenidos según lo que necesita la audiencia.",
+        ],
+        image: {
+          png: "images/cases/terramar/benchmark-heuristica.png",
+          webp: "images/cases/terramar/benchmark-heuristica.webp",
+          alt: "Página del benchmark de Parcelas Terramar: evaluación heurística de los llamados a la acción.",
+          width: 1200,
+          height: 675,
+        },
+      },
+    ],
+  },
+  ...(SERVICIOS_SHOW_VN_WCAG_CASE
+    ? [
+        {
+          anchor: "revision-gratis",
+          label: "Revisión gratis",
+          linkLabel: "Ver el servicio: Revisión gratis",
+          cases: [
+            {
+              id: "vientonorte-wcag",
+              name: "vientonorte.io · contraste WCAG",
+              tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
+              // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
+              summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
+              findings: [
+                "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
+                "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
+              ],
+              image: {
+                png: "images/cases/vientonorte/contraste-antes-despues.png",
+                webp: "images/cases/vientonorte/contraste-antes-despues.webp",
+                alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
+                width: 1200,
+                height: 675,
+              },
+            },
+          ],
+        } satisfies VnCaseGroup,
+      ]
+    : []),
+  {
+    anchor: "consultoria-ux",
+    label: "Consultoría UX",
+    linkLabel: "Ver el servicio: Consultoría UX",
+    cases: [
+      {
+        id: "x-cms",
+        name: "X|CMS · Da Pleisë",
+        tags: { rubro: "Café / retail", servicio: "Consultoría UX" },
+        // Fuente: src/data/consultoria-demos.ts:24-31 (Figma Sites publicado), public/images/poc-modules/README.md.
+        summary:
+          "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
+        findings: [
+          "Punto de venta con catálogo por categoría y carrito",
+          "Gestión de productos, clientes y fidelización",
+          "Prototipo navegable publicado en Figma Sites",
+        ],
+        image: {
+          png: "images/products/x-cms/pos-productos.png",
+          webp: "images/products/x-cms/pos-productos.webp",
+          alt: "Punto de venta de X|CMS: grilla de productos de café por categoría y carrito.",
+          width: 1260,
+          height: 709,
+        },
+      },
+      {
+        id: "ratio-irarrazaval",
+        name: "CFO Dashboard · Ratio Irarrázaval",
+        tags: { rubro: "Café / finanzas pyme", servicio: "Consultoría UX" },
+        // Fuente: README de vientonorte/dashfin («Da Pleisë — CFO Dashboard»), live vientonorte.github.io/dashfin/.
+        summary:
+          "Dashboard financiero para un local de café con tres líneas de negocio, con vistas distintas para CFO, socio y equipo.",
+        findings: [
+          "Vistas por rol: CFO, socio-gerente y colaborador",
+          "Arquitectura de pestañas consolidada",
+          "Publicado como dashboard en vivo",
+        ],
+        image: {
+          png: "images/products/ratio/cfo-dashboard.png",
+          webp: "images/products/ratio/cfo-dashboard.webp",
+          alt: "CFO Dashboard del local de Irarrázaval: encabezado y selector de vista por rol.",
+          width: 1260,
+          height: 709,
+        },
+      },
+      {
+        id: "edu21",
+        name: "Edu 21",
+        tags: { rubro: "Edtech", servicio: "Consultoría UX" },
+        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
+        summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
+        findings: [
+          "Heurística del sitio web",
+          "Benchmark de la competencia",
+          "Estrategia de servicios y productos",
+          "Pitch comercial y storyboard del servicio",
+        ],
+        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
+        // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
+        startingPoint: "Informe SEO del sitio (junio de 2022): carga de 15,4 s y SEO «Deficiente».",
+        image: {
+          png: "images/cases/edu21/03-service-strategy.png",
+          alt: "Tablero de estrategia de servicios de Edu 21: audiencias, problemas, mensaje, canales y metas.",
+          width: 1200,
+          height: 672,
+        },
+      },
+      {
+        id: "consultoria-estrategica",
+        name: "Dashboard de consultoría estratégica",
+        tags: { rubro: "Consultoría", servicio: "Consultoría UX" },
+        // Concepto propio de Rö, anonimizado (Rö, 1-oct 10:37). Sin marca del cliente, nombres ni montos.
+        summary:
+          "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",
+        findings: [
+          "Contexto estratégico y oportunidad de negocio",
+          "Propuesta de plataforma y hoja de ruta",
+          "Módulos navegables en vez de un documento largo",
+        ],
+        image: {
+          png: "images/products/consultoria-estrategica/modulos.png",
+          webp: "images/products/consultoria-estrategica/modulos.webp",
+          alt: "Grilla de módulos estratégicos de la propuesta: contexto, oportunidad, plataforma y hoja de ruta.",
+          width: 1440,
+          height: 810,
+        },
+      },
+    ],
+  },
+];

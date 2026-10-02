@@ -14,6 +14,7 @@ import {
   loadTranslation,
 } from "./i18n/loader";
 import { TranslationProvider } from "./i18n/TranslationContext";
+import { persistLanguage, readStoredLanguage } from "./language-storage";
 
 interface LanguageContextType {
   language: Language;
@@ -24,28 +25,16 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-function readStoredLanguage(): Language {
-  try {
-    const saved = localStorage.getItem("language") as Language;
-    if (saved === "es" || saved === "en") return saved;
-  } catch {
-    /* localStorage blocked */
-  }
-  return "es";
-}
-
-function persistLanguage(lang: Language) {
-  try {
-    localStorage.setItem("language", lang);
-  } catch {
-    /* ignore */
-  }
-}
-
 type LocaleState = {
   language: Language;
   dictionary: Translation | null;
 };
+
+/** Pone `document.documentElement.lang` en el idioma activo ("es" | "en"). */
+export function syncDocumentLang(lang: Language): void {
+  if (typeof document === "undefined") return;
+  if (document.documentElement.lang !== lang) document.documentElement.lang = lang;
+}
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const initialLang = readStoredLanguage();
@@ -86,6 +75,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- solo mount
   }, []);
+
+  // <html lang> sigue al idioma activo (lectores de pantalla, traductores, :lang()).
+  // Las páginas estáticas sin provider (p. ej. /servicios/) quedan con el lang="es" de su HTML.
+  useEffect(() => {
+    syncDocumentLang(locale.language);
+  }, [locale.language]);
 
   const setLanguage = useCallback((lang: Language) => {
     setLocale((prev) => {

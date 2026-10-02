@@ -1,5 +1,6 @@
 /**
  * Banner fijo en ambientes QA (hostname qa.* o path /qa/ o VITE_APP_ENV=qa).
+ * «prod» va a la home de producción (`/`), nunca a una ruta hash (`/#/…`, fuera del canon).
  */
 function isQaEnv(): boolean {
   if (import.meta.env.VITE_APP_ENV === "qa") return true;
@@ -27,7 +28,7 @@ export function QaEnvBanner() {
         VB multi-dispositivo · noindex ·{" "}
         <a
           className="underline underline-offset-2 hover:text-white"
-          href="https://vientonorte.io/#/sobre-mi"
+          href="/"
         >
           prod
         </a>
