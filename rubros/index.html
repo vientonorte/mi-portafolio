@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" data-nav="site">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Viento Norte · Rodrigo Gaete" />
+<!--rubro-head-->
+    <meta name="theme-color" content="#0d1b3d" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="%BASE_URL%favicon.ico" />
+    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-700.woff2" crossorigin />
+    <script>
+      // Mismo tema que la home (localStorage "theme" / prefers-color-scheme), antes del primer paint.
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var dark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="rubro-root" data-slug=""><!--ssr-outlet--></div>
+    <script type="module" src="/src/rubros/entry-client.tsx"></script>
+  </body>
+</html>

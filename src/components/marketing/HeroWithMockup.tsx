@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { DeviceMockup } from "../molecules/DeviceMockup";
+import { DeviceFrame } from "./DeviceFrame";
 import { assetUrl } from "./marketing-env";
 import type { MarketingImage } from "./ResponsiveImage";
 
@@ -13,12 +14,15 @@ export interface HeroWithMockupProps {
   /** Botones/enlaces (el consumidor decide destinos: #contacto, /servicios/#…). */
   actions?: ReactNode;
   desktopImage: MarketingImage;
-  /** Barra del marco. Estándar Figma de Rö: "x-cms · operaciones". */
+  /** Overlay teléfono (rubros / dual-device). Si falta, se usa DeviceMockup browser. */
+  phoneImage?: MarketingImage;
+  /** Barra del marco DeviceMockup. Estándar Figma de Rö: "x-cms · operaciones". */
   addressBar?: string;
+  /** Leyenda bajo el mockup (p. ej. «Ejemplo · marca ficticia» en rubros). */
   caption?: string;
 }
 
-/** Hero con el marco DeviceMockup (Figma VN) y captura X|CMS. */
+/** Hero oscuro con mockup: DeviceMockup (home) o DeviceFrame dual (rubros). */
 export function HeroWithMockup({
   id,
   headingId,
@@ -28,9 +32,61 @@ export function HeroWithMockup({
   subtitle,
   actions,
   desktopImage,
+  phoneImage,
   addressBar = "x-cms · operaciones",
   caption = "X|CMS · demo 5 min",
 }: HeroWithMockupProps) {
+  const dualMockup = (
+    <div className="relative pb-8 pr-6 sm:pr-10" data-testid="hero-mockup">
+      <DeviceFrame
+        variant="desktop"
+        image={desktopImage}
+        loading="eager"
+        sizes="(min-width: 1024px) 560px, 92vw"
+      />
+      {phoneImage ? (
+        <DeviceFrame
+          variant="phone"
+          image={phoneImage}
+          loading="eager"
+          sizes="(min-width: 1024px) 150px, 30vw"
+          className="absolute bottom-0 right-0 w-[28%] max-w-[160px]"
+        />
+      ) : null}
+    </div>
+  );
+
+  const browserMockup = (
+    <div className="relative min-w-0 overflow-hidden" data-testid="hero-mockup">
+      <DeviceMockup
+        variant="browser"
+        src={assetUrl(desktopImage.png)}
+        alt={desktopImage.alt}
+        caption={caption}
+        addressBar={addressBar}
+        loading="eager"
+      />
+    </div>
+  );
+
+  const mockupNode = phoneImage ? (
+    caption ? (
+      <figure className="m-0 min-w-0">
+        {dualMockup}
+        <figcaption
+          className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-white/80"
+          data-mockup-caption
+        >
+          {caption}
+        </figcaption>
+      </figure>
+    ) : (
+      dualMockup
+    )
+  ) : (
+    browserMockup
+  );
+
   return (
     <section
       id={id}
@@ -59,16 +115,7 @@ export function HeroWithMockup({
             <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:items-center">{actions}</div>
           ) : null}
         </div>
-        <div className="relative min-w-0 overflow-hidden" data-testid="hero-mockup">
-          <DeviceMockup
-            variant="browser"
-            src={assetUrl(desktopImage.png)}
-            alt={desktopImage.alt}
-            caption={caption}
-            addressBar={addressBar}
-            loading="eager"
-          />
-        </div>
+        {mockupNode}
       </div>
     </section>
   );
