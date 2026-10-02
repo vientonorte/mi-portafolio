@@ -46,6 +46,12 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
+    // HOTFIX C1: passkey login/registro desactivado hasta tener verificación WebAuthn real.
+    // Cortocircuito antes de cualquier handler (y antes de CORS) → 404 para todo método.
+    if (path === '/api/admin/auth/passkey' || path.startsWith('/api/admin/auth/passkey/')) {
+      return json({ ok: false, error: 'Not found' }, 404);
+    }
+
     if (path === '/admin-gate' && request.method === 'GET') {
       return handleBootstrapPage();
     }
