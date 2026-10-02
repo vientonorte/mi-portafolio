@@ -6,7 +6,7 @@ import {
   getConsultingPackage,
   type ConsultingPackageId,
 } from "../../data/vientonorte-consulting";
-import { openCalendarBooking, hasA11yFreeSchedule } from "../../lib/site-contact";
+import { openCalendarBooking } from "../../lib/site-contact";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { analytics } from "../../lib/analytics";
@@ -26,15 +26,17 @@ export function ConsultoriaOnboarding({ packageId }: ConsultoriaOnboardingProps)
     : copy.titleEmpty;
 
   const book = () => {
-    // Solo se atribuye a google_calendar si hay agenda configurada;
-    // si no, el CTA degrada a formulario de contacto (evita inflar conversiones).
-    analytics.generateLead({
-      lead_type: pkg ? "consulting_pack" : "kickoff",
-      channel: hasA11yFreeSchedule() ? "google_calendar" : "contact_form",
-      origin: "consultoria-onboarding",
-      package_id: packageId,
-    });
-    if (!openCalendarBooking({ packageId, origin: "consultoria-onboarding" })) {
+    // H2 · generate_lead solo tras la confirmación del Worker (onConfirmed de
+    // openCalendarBooking). Sin agenda, el CTA degrada al formulario y la
+    // conversión la dispara el envío confirmado (lib/contact-conversion.ts).
+    const onConfirmed = () =>
+      analytics.generateLead({
+        lead_type: pkg ? "consulting_pack" : "kickoff",
+        channel: "google_calendar",
+        origin: "consultoria-onboarding",
+        package_id: packageId,
+      });
+    if (!openCalendarBooking({ packageId, origin: "consultoria-onboarding", onConfirmed })) {
       scrollToSection("contacto");
     }
   };
