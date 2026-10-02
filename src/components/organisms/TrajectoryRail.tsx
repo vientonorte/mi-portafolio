@@ -83,7 +83,7 @@ export function TrajectoryRail({ className }: { className?: string }) {
                 className={cn(
                   "relative z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 border-background text-[10px] font-bold",
                   isHighlight
-                    ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
+                    ? "bg-[var(--vn-color-cta-bg)] text-[var(--vn-color-cta-fg)] ring-2 ring-[var(--vn-color-cta-bg)]/30"
                     : "bg-primary/15 text-primary"
                 )}
               >
