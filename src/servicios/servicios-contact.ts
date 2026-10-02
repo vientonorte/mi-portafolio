@@ -42,6 +42,8 @@ export function buildServiciosPayload(
   v: ServiciosContactValues,
   source: string = SERVICIOS_SOURCE,
   touch?: FirstTouch | null,
+  /** H2 · epoch ms del montaje del formulario (tiempo mínimo de llenado en el worker). */
+  formStartedAt?: number,
 ) {
   const empresa = v.empresa.trim();
   const message = [empresa ? `Empresa: ${empresa}` : "Empresa: (no indicada)", "", v.detalle.trim()].join("\n");
@@ -54,6 +56,7 @@ export function buildServiciosPayload(
     intent: v.intent.slice(0, 80),
     language: "es" as const,
     _gotcha: v.gotcha,
+    ...(formStartedAt ? { formStartedAt } : {}),
     ...attributionFields(touch),
   };
 }
