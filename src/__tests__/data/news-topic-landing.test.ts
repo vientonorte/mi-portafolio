@@ -26,6 +26,7 @@ describe("news → specialty landing", () => {
       "utf8"
     );
     expect(raw).not.toContain("/s/consultoria");
-    expect(NEWS_CATALOG.ctaUrl).toContain("/#/consultoria");
+    expect(NEWS_CATALOG.ctaUrl).not.toContain("/#/consultoria");
+    expect(NEWS_CATALOG.ctaUrl).toContain("/servicios/");
   });
 });

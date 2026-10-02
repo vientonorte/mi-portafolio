@@ -1,59 +1,132 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 /**
  * Canon de links (Rö, 2026-10-01): a clientes = https://vientonorte.io/servicios/?<utm>#ancla
- * (#web-pymes, #revision-gratis, #consultoria-ux). Este test falla si reaparece un link de la
- * denylist en una superficie que lo emite (datos, componentes, páginas, scripts que generan HTML,
- * worker, piezas de campaña, HTML de public/).
+ * (#web-pymes, #revision-gratis, #consultoria-ux).
  *
- * Fuera a propósito (deben nombrar las rutas prohibidas): legacy-redirects.json y service-landings.json
- * (origen de las redirecciones), los generadores de redirecciones (redirect_pages.py,
- * build-static-share.py), el ruteo (vn-core/routes.ts, App.tsx, worker/src/lib/public-paths.js),
- * public/mi-portafolio/ (página de redirección legacy), ads-query/ (lo cubre #283) y los tests.
+ * Alcance (TL 2026-10-02): solo la salida a clientes: CTAs, emails, ads, sitemap y
+ * structured-data/JSON-LD. Cada superficie se lista por archivo o carpeta en CLIENT_SURFACES.
+ * Fuera de alcance, porque no salen a clientes: páginas internas, el ruteo, los orígenes de las
+ * redirecciones (legacy-redirects.json, service-landings.json, redirect_pages.py,
+ * build-static-share.py), ads-query/ (validador de Final URLs, lo cubre #283) y los tests.
+ *
+ * Un link prohibido solo pasa si figura en INTERNAL_ALLOWLIST (archivo + URL exacta) o en
+ * INTERNAL_DOCS (documentación).
  */
 const root = process.cwd();
 
-const SCAN_DIRS = [
-  "src/data",
-  "src/components",
-  "src/pages",
-  "src/lib",
-  "src/servicios",
-  "src/vn-core",
-  "scripts",
-  "worker/src",
-  "campaigns",
-  "public",
+type Category = "cta" | "email" | "ads" | "sitemap" | "structured-data";
+
+/** Superficies que salen a clientes. Una entrada que termina en "/" es una carpeta. */
+const CLIENT_SURFACES: Record<Category, string[]> = {
+  cta: [
+    "src/servicios/",
+    "src/components/atoms/LiquidNavCta.tsx",
+    "src/components/molecules/FreeA11yScheduleCta.tsx",
+    "src/components/molecules/HeroAudienceCta.tsx",
+    "src/components/molecules/StickyCTA.tsx",
+    "src/components/organisms/ContactAssistant.tsx",
+    "src/components/organisms/HomeSpecialtyPaths.tsx",
+    "src/data/news-editions.json",
+    "src/data/news-editions.ts",
+    "src/data/linkedin-cold-demos.json",
+    "scripts/share_chrome.py",
+    "worker/src/api/share.js",
+    "public/s/",
+    "public/servicios/",
+    "servicios/index.html",
+  ],
+  email: [
+    "worker/src/lib/email-templates.js",
+    "worker/src/lib/notify.js",
+    "worker/src/contact.js",
+    "worker/src/api/public.js",
+  ],
+  ads: [
+    "campaigns/",
+    "public/images/ads/index.html",
+    "src/data/posicionapp-ia-empresas-chile.json",
+  ],
+  sitemap: [
+    "public/sitemap.xml",
+    "public/robots.txt",
+    "scripts/generate-service-landings.py",
+  ],
+  "structured-data": [
+    "index.html",
+    "src/lib/structured-data.ts",
+    "src/components/atoms/StructuredData.tsx",
+    "src/vn-core/seo.ts",
+    "src/lib/i18n/locales/es/seo.ts",
+    "src/lib/i18n/locales/en/seo.ts",
+  ],
+};
+
+const EXTS = [".ts", ".tsx", ".js", ".mjs", ".py", ".json", ".html", ".xml", ".txt"];
+const SKIP_DIRS = new Set(["node_modules", "__tests__", "dist"]);
+
+/** Rutas internas que el TL permite (2026-10-02). Ninguna entrada puede salir de aquí. */
+const INTERNAL_ROUTES: { name: string; re: RegExp }[] = [
+  { name: "News SPA", re: /^https:\/\/vientonorte\.io\/(?:#\/news(?:\/[\w-]+)?|news\/(?:[\w-]+\/)?)$/ },
+  { name: "/#/demo", re: /^https:\/\/vientonorte\.io\/#\/demo\/[\w-]+$/ },
+  { name: "/#/proyecto", re: /^https:\/\/vientonorte\.io\/#\/proyecto\/[\w-]+$/ },
+  { name: "/#/admin", re: /^https:\/\/vientonorte\.io\/#\/admin$/ },
 ];
-const EXTS = [".ts", ".tsx", ".js", ".mjs", ".py", ".json", ".html"];
-const SKIP_DIRS = new Set(["node_modules", "__tests__", "images-src", "dist"]);
-const SKIP_FILES = new Set([
-  "src/data/legacy-redirects.json",
-  "src/data/service-landings.json",
-  "scripts/redirect_pages.py",
-  "scripts/build-static-share.py",
-  "src/vn-core/routes.ts",
-  "worker/src/lib/public-paths.js",
-  "public/mi-portafolio/index.html",
-]);
 
 /**
- * Pendientes con dueño (quitar de aquí cuando se resuelvan):
- * - news-editions.json utmBase/ctaUrl: los cambia #283 (/servicios/?utm…); ctaUrl además debe
- *   terminar en #consultoria-ux tras #283 (ver descripción del PR fix/canon-links-cleanup).
- * - QaEnvBanner (/#/sobre-mi): lo arregla #291 (enlaza a /).
- * - News SPA (/#/news, /news/), demos con reloj (/#/demo/…), fichas de proyecto (/#/proyecto…) y
- *   admin (/#/admin): rutas del HashRouter sin equivalente en /servicios/; decisión de producto pendiente.
+ * Excepción interna, no es salida a clientes (TL 2026-10-02).
+ * Cada entrada es un archivo y las URLs exactas que puede nombrar; cualquier otro link de la
+ * denylist en ese mismo archivo sigue fallando.
  */
-const PENDING_EXACT = [
-  "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
-  "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
-  "https://vientonorte.io/#/sobre-mi",
-  "https://vientonorte.io/news/",
+const INTERNAL_ALLOWLIST: { file: string; route: string; links: string[]; why: string }[] = [
+  {
+    file: "src/data/news-editions.json",
+    route: "News SPA",
+    links: ["https://vientonorte.io/#/news", "https://vientonorte.io/news/"],
+    why: "spaIndex/aliasIndex: índice de la News SPA, no el CTA (ctaUrl va a /servicios/)",
+  },
+  {
+    file: "src/vn-core/seo.ts",
+    route: "News SPA",
+    links: ["https://vientonorte.io/#/news"],
+    why: "shareNewsUrl (@deprecated): enlace a la News SPA, nunca canonical ni JSON-LD",
+  },
+  {
+    file: "src/data/linkedin-cold-demos.json",
+    route: "/#/demo",
+    links: [
+      "https://vientonorte.io/#/demo/diagnostic",
+      "https://vientonorte.io/#/demo/prototype",
+      "https://vientonorte.io/#/demo/x-cms",
+      "https://vientonorte.io/#/demo/process",
+      "https://vientonorte.io/#/demo/app",
+    ],
+    why: "demos con reloj del HashRouter, sin equivalente en /servicios/",
+  },
+  {
+    file: "worker/src/api/public.js",
+    route: "/#/admin",
+    links: ["https://vientonorte.io/#/admin"],
+    why: "aviso de agenda que llega al inbox de VN (notifyInbox), no al cliente",
+  },
 ];
-const PENDING_HASH_ROUTES = /vientonorte\.io\/#\/(?:news|demo\/|proyecto|admin)/g;
+
+/**
+ * Excepción interna, no es salida a clientes (TL 2026-10-02): documentación y CHANGELOG
+ * pueden nombrar rutas prohibidas para explicar el canon. Carpeta docs/ y archivos .md exactos.
+ */
+const INTERNAL_DOCS = {
+  dirs: ["docs/"],
+  files: [
+    "CHANGELOG.md",
+    "README.md",
+    "CONTRIBUTING.md",
+    "DEPLOY.md",
+    "campaigns/2026-08-26-piloto-a11y/README.md",
+  ],
+};
 
 const FORBIDDEN: { name: string; re: RegExp }[] = [
   { name: "/#/consultoria", re: /\/#\/consultoria/ },
@@ -69,39 +142,31 @@ const FORBIDDEN: { name: string; re: RegExp }[] = [
   { name: "vientonorte.github.io/mi-portafolio/consultoria", re: /vientonorte\.github\.io\/mi-portafolio\/(?:#\/)?consultoria/i },
 ];
 
+function isInternalDoc(rel: string): boolean {
+  return INTERNAL_DOCS.files.includes(rel) || INTERNAL_DOCS.dirs.some((d) => rel.startsWith(d) && rel.endsWith(".md"));
+}
+
 /** Quita comentarios: los comentarios no son links. */
 function stripComments(rel: string, src: string): string {
-  if (rel.endsWith(".py")) return src.replace(/^\s*#.*$/gm, "");
-  if (rel.endsWith(".html")) return src.replace(/<!--[\s\S]*?-->/g, "");
+  if (rel.endsWith(".py") || rel.endsWith(".txt")) return src.replace(/^\s*#.*$/gm, "");
+  if (rel.endsWith(".html") || rel.endsWith(".xml")) return src.replace(/<!--[\s\S]*?-->/g, "");
   if (rel.endsWith(".json")) return src;
   return src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
 }
 
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+
+/** Borra solo las URLs exactas permitidas para ese archivo ("/news/" no tapa "/news/01/"). */
 function clean(rel: string, src: string): string {
   let s = stripComments(rel, src);
-  // Valor completo entre comillas: "https://vientonorte.io/news/" no tapa "https://vientonorte.io/news/01/".
-  for (const p of PENDING_EXACT) s = s.split(`"${p}"`).join('""');
-  return s.replace(PENDING_HASH_ROUTES, "vientonorte.io/(pendiente)");
-}
-
-function surfaceFiles(): string[] {
-  const out: string[] = [];
-  const walk = (dir: string) => {
-    for (const name of readdirSync(dir)) {
-      if (SKIP_DIRS.has(name)) continue;
-      const abs = join(dir, name);
-      if (statSync(abs).isDirectory()) walk(abs);
-      else if (EXTS.some((e) => name.endsWith(e))) {
-        const rel = relative(root, abs).replace(/\\/g, "/");
-        if (!SKIP_FILES.has(rel)) out.push(rel);
-      }
-    }
-  };
-  for (const d of SCAN_DIRS) walk(resolve(root, d));
-  return out;
+  for (const entry of INTERNAL_ALLOWLIST.filter((e) => e.file === rel)) {
+    for (const link of entry.links) s = s.replace(new RegExp(`${escapeRe(link)}(?![\\w/?#&=.%-])`, "g"), "(excepcion-interna)");
+  }
+  return s;
 }
 
 export function findForbiddenLinks(rel: string, src: string): string[] {
+  if (isInternalDoc(rel)) return [];
   const text = clean(rel, src);
   const hits: string[] = [];
   text.split("\n").forEach((line, i) => {
@@ -110,7 +175,22 @@ export function findForbiddenLinks(rel: string, src: string): string[] {
   return hits;
 }
 
-describe("canon de links · ninguna superficie enlaza la denylist", () => {
+function surfaceFiles(): { rel: string; category: Category }[] {
+  const out: { rel: string; category: Category }[] = [];
+  const walk = (abs: string, category: Category) => {
+    if (statSync(abs).isDirectory()) {
+      for (const name of readdirSync(abs)) if (!SKIP_DIRS.has(name)) walk(join(abs, name), category);
+    } else if (EXTS.some((e) => abs.endsWith(e))) {
+      out.push({ rel: relative(root, abs).replace(/\\/g, "/"), category });
+    }
+  };
+  for (const [category, paths] of Object.entries(CLIENT_SURFACES) as [Category, string[]][]) {
+    for (const p of paths) walk(resolve(root, p), category);
+  }
+  return out;
+}
+
+describe("canon de links · la salida a clientes no enlaza la denylist", () => {
   it("el escáner detecta cada ruta prohibida y deja pasar el canon", () => {
     for (const bad of [
       '<a href="/#/consultoria">x</a>',
@@ -135,6 +215,9 @@ describe("canon de links · ninguna superficie enlaza la denylist", () => {
       '<a href="/s/polijuego-privacy/">Privacidad</a>',
       '<link rel="stylesheet" href="/s/share.css" />',
       '"u": "https://vientonorte.io/servicios/#web-pymes"',
+      '"u": "https://vientonorte.io/servicios/web-dental/"',
+      '"u": "https://vientonorte.io/servicios/web-contable/"',
+      '"u": "https://vientonorte.io/servicios/web-juridico/"',
     ]) {
       expect(findForbiddenLinks("x.json", ok), ok).toEqual([]);
     }
@@ -143,24 +226,76 @@ describe("canon de links · ninguna superficie enlaza la denylist", () => {
     expect(findForbiddenLinks("x.py", "# antes /s/consultoria\nA = '/servicios/'")).toEqual([]);
   });
 
-  it("datos, componentes, scripts, worker, campañas y public/ no traen links de la denylist", () => {
-    const hits = surfaceFiles().flatMap((rel) => findForbiddenLinks(rel, readFileSync(resolve(root, rel), "utf8")));
+  it("(a) un link prohibido en un CTA, email, ad, sitemap o JSON-LD falla", () => {
+    const cases: [string, string][] = [
+      ["src/servicios/servicios-cta.ts", 'export const CTA = "https://vientonorte.io/#/consultoria";'],
+      ["src/data/news-editions.json", '  "ctaUrl": "https://vientonorte.io/s/consultoria/?utm_source=linkedin",'],
+      ["worker/src/lib/email-templates.js", "  `Agenda: https://vientonorte.io/#/contacto`,"],
+      ["campaigns/2026-08-26-piloto-a11y/assets/ad-1080x1080.html", "<p>vientonorte.io/s/consultoria</p>"],
+      ["public/sitemap.xml", "  <url><loc>https://vientonorte.io/news/</loc></url>"],
+      ["public/sitemap.xml", "  <url><loc>https://vientonorte.io/servicios/consultoria-ux-pymes/</loc></url>"],
+      [
+        "index.html",
+        '<script type="application/ld+json">{"@type":"Service","url":"https://vientonorte.io/#/proyecto/sura-ux-enterprise"}</script>',
+      ],
+      ["src/lib/structured-data.ts", '  image: "https://vientonorte.io/mi-portafolio/images/og.png",'],
+      // Una ruta permitida en un archivo no sirve en otro.
+      ["src/servicios/servicios-cta.ts", 'const demo = "https://vientonorte.io/#/demo/app";'],
+      // Un archivo de la allowlist sigue fallando con un link que no está en su entrada.
+      ["src/data/news-editions.json", '  "ctaUrl": "https://vientonorte.io/#/consultoria?utm_source=linkedin",'],
+      ["src/data/news-editions.json", '  "u": "https://vientonorte.io/news/01/"'],
+      ["worker/src/api/public.js", "  `Admin: https://vientonorte.io/#/admin/leads`,"],
+    ];
+    for (const [file, line] of cases) expect(findForbiddenLinks(file, line), `${file} · ${line}`).not.toEqual([]);
+  });
+
+  it("(b) un link prohibido en una ruta de la allowlist interna pasa", () => {
+    const cases: [string, string][] = [
+      ["src/data/news-editions.json", '  "spaIndex": "https://vientonorte.io/#/news",'],
+      ["src/data/news-editions.json", '  "aliasIndex": "https://vientonorte.io/news/",'],
+      ["src/vn-core/seo.ts", '  shareNewsUrl: "https://vientonorte.io/#/news",'],
+      ["src/data/linkedin-cold-demos.json", '      "url": "https://vientonorte.io/#/demo/x-cms",'],
+      ["worker/src/api/public.js", "    `Admin: https://vientonorte.io/#/admin`,"],
+      ["docs/URL-CANON-VIENTONORTE.md", "Antes: https://vientonorte.io/s/consultoria/ y /#/consultoria"],
+      ["CHANGELOG.md", "- /servicios/diagnostico-accesibilidad-wcag/ pasa a /servicios/#revision-gratis"],
+      ["campaigns/2026-08-26-piloto-a11y/README.md", "Final URL anterior: vientonorte.io/#/consultoria"],
+    ];
+    for (const [file, line] of cases) expect(findForbiddenLinks(file, line), `${file} · ${line}`).toEqual([]);
+  });
+
+  it("la allowlist es acotada: cada URL es una ruta interna del TL y sigue presente en su archivo", () => {
+    const surfaces = new Set(surfaceFiles().map((f) => f.rel));
+    for (const { file, route, links } of INTERNAL_ALLOWLIST) {
+      const internal = INTERNAL_ROUTES.find((r) => r.name === route);
+      expect(internal, `${file}: ruta ${route}`).toBeDefined();
+      expect(surfaces.has(file), `${file} no es una superficie escaneada`).toBe(true);
+      const src = readFileSync(resolve(root, file), "utf8");
+      for (const link of links) {
+        expect(link, `${file}: ${link} fuera de ${route}`).toMatch(internal!.re);
+        expect(src, `${file}: ${link} ya no está; quitarla de la allowlist`).toContain(link);
+      }
+    }
+    for (const f of INTERNAL_DOCS.files) {
+      expect(f.endsWith(".md"), f).toBe(true);
+      expect(existsSync(resolve(root, f)), f).toBe(true);
+    }
+  });
+
+  it("CTAs, emails, ads, sitemap y structured-data no traen links de la denylist", () => {
+    const hits = surfaceFiles().flatMap(({ rel }) => findForbiddenLinks(rel, readFileSync(resolve(root, rel), "utf8")));
     expect(hits).toEqual([]);
   });
 
-  it("las superficies listadas en el pedido de Rö (2026-10-01) están cubiertas por el escáner", () => {
-    const files = surfaceFiles();
-    for (const f of [
-      "scripts/generate-service-landings.py",
-      "scripts/share_chrome.py",
-      "src/data/admin-roadmap.ts",
-      "src/data/posicionapp-ia-empresas-chile.json",
-      "campaigns/2026-08-26-piloto-a11y/assets/ad-1080x1080.html",
-      "public/s/polijuego-privacy/index.html",
-      "src/data/news-editions.json",
-      "worker/src/api/share.js",
-    ]) {
-      expect(files, f).toContain(f);
+  it("cada categoría de salida a clientes tiene archivos y cubre sus superficies clave", () => {
+    for (const paths of Object.values(CLIENT_SURFACES)) {
+      for (const p of paths) expect(existsSync(resolve(root, p)), p).toBe(true);
     }
+    const files = surfaceFiles();
+    const byCategory = (c: Category) => files.filter((f) => f.category === c).map((f) => f.rel);
+    expect(byCategory("cta")).toEqual(expect.arrayContaining(["src/servicios/servicios-cta.ts", "src/data/news-editions.json", "worker/src/api/share.js", "public/s/polijuego-privacy/index.html"]));
+    expect(byCategory("email")).toEqual(expect.arrayContaining(["worker/src/lib/email-templates.js", "worker/src/contact.js"]));
+    expect(byCategory("ads")).toEqual(expect.arrayContaining(["campaigns/2026-08-26-piloto-a11y/assets/ad-1080x1080.html", "public/images/ads/index.html"]));
+    expect(byCategory("sitemap")).toEqual(expect.arrayContaining(["public/sitemap.xml", "scripts/generate-service-landings.py"]));
+    expect(byCategory("structured-data")).toEqual(expect.arrayContaining(["index.html", "src/lib/structured-data.ts"]));
   });
 });
