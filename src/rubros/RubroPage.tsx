@@ -55,7 +55,7 @@ export function RubroPage({ slug }: { slug: string }) {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      <Navigation staticLinks={rubroNavLinks()} staticHomeHref={homeHref()} />
+      <Navigation staticLinks={rubroNavLinks()} staticHomeHref={homeHref()} staticEnglishHref={homeHref()} />
       <main
         id="main"
         tabIndex={-1}

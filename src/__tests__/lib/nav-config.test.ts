@@ -11,6 +11,7 @@ import {
   getMobileMoreDividerIndex,
   matchNavItemActive,
 } from "@/lib/nav-config";
+import { SITE_NAV_PRIMARY_IDS } from "@/lib/site-nav";
 
 const labels = {
   home: "Inicio",
@@ -26,110 +27,105 @@ const labels = {
   more: "Más",
 };
 
-describe("NAV_SURFACE", () => {
+/** Todo destino visible del nav: action.target + menuHref. */
+function allNavTargets(): string[] {
+  const items = [
+    ...getHeaderPrimaryNavItems(labels, "Proceso"),
+    ...getHeaderMoreNavItems(labels, "Proceso"),
+    ...getMobileDrawerNavItems(labels, "Proceso", "/"),
+    ...getMobileDrawerNavItems(labels, "Proceso", "/proceso"),
+    ...(["home", "deep", "funnel"] as const).flatMap((v) => getDockNavItems(v, labels, "Proceso")),
+  ];
+  return items.flatMap((item) => [item.action.target, item.menuHref]);
+}
+
+describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
   it("P0: dock has 3 slots with liquid consultoria in the center", () => {
     expect([...NAV_SURFACE.dock]).toEqual(["inicio", "consultoria", "contacto"]);
     expect(NAV_SURFACE.dock[1]).toBe(DOCK_CENTER_ID);
     expect(NAV_SURFACE.dock).toHaveLength(3);
   });
 
-  it("P0: desktop primary is FO-safe (proceso + servicios + contacto, no Negocios)", () => {
-    expect([...NAV_SURFACE.headerPrimary]).toEqual([
-      "proceso",
-      "servicios",
-      "contacto",
-    ]);
-    expect(NAV_SURFACE.headerPrimary).not.toContain("negocios");
+  it("desktop primary = Servicios · Contacto, leído de src/lib/site-nav.ts", () => {
+    expect([...NAV_SURFACE.headerPrimary]).toEqual([...SITE_NAV_PRIMARY_IDS]);
+    expect([...NAV_SURFACE.headerPrimary]).toEqual(["servicios", "contacto"]);
   });
 
-  it("moves portfolio destinations into Más while drawer keeps full catalog", () => {
-    for (const id of ["experiencia", "consultoria", "negocios"] as const) {
-      expect(NAV_SURFACE.headerMore).toContain(id);
-      expect(NAV_SURFACE.headerPrimary).not.toContain(id);
+  it("sin «Más» ni destinos hash: proceso, news, consultoria, sobre-mi, negocios… fuera del nav visible", () => {
+    expect(NAV_SURFACE.headerMore).toEqual([]);
+    expect([...NAV_SURFACE.mobileDrawer]).toEqual(["inicio", "servicios", "contacto"]);
+    for (const id of ["proceso", "news", "consultoria", "sobre-mi", "negocios", "experiencia", "design-system", "auditoria"]) {
+      expect(NAV_SURFACE.headerPrimary as readonly string[]).not.toContain(id);
+      expect(NAV_SURFACE.headerMore as readonly string[]).not.toContain(id);
+      expect(NAV_SURFACE.mobileDrawer as readonly string[]).not.toContain(id);
     }
-    expect(NAV_SURFACE.mobileDrawer).toContain("negocios");
-    expect(NAV_SURFACE.headerMore).not.toContain("auditoria");
-    expect(NAV_SURFACE.mobileDrawer).not.toContain("auditoria");
-    expect(NAV_SURFACE.dock).not.toContain("auditoria");
-    expect(NAV_SURFACE.headerPrimary).not.toContain("auditoria");
+    expect(getMobileMoreDividerIndex()).toBe(-1);
   });
 
-  it("places mobile more divider at sobre-mi", () => {
-    expect(getMobileMoreDividerIndex()).toBe(NAV_SURFACE.mobileDrawer.indexOf("sobre-mi"));
+  it("ningún destino del nav (header, drawer, dock) es una ruta hash /#/ ni un slug viejo", () => {
+    const targets = allNavTargets();
+    expect(targets.length).toBeGreaterThan(0);
+    for (const t of targets) {
+      expect(t, t).not.toMatch(/\/#\//);
+      expect(t, t).not.toMatch(/^#\//);
+      expect(t, t).not.toMatch(/diagnostico-accesibilidad-wcag|consultoria-ux-pymes/);
+      expect(t, t).not.toMatch(/^\/(proceso|news|consultoria|sobre-mi|privacy|contacto)\b/);
+    }
   });
 });
 
 describe("getHeaderPrimaryNavItems", () => {
-  it("exposes proceso, servicios and contacto on desktop primary", () => {
+  it("exposes servicios (HTTP) and contacto (#contacto) on desktop primary", () => {
     const items = getHeaderPrimaryNavItems(labels, "Proceso");
-    expect(items.map((item) => item.id)).toEqual([
-      "proceso",
-      "servicios",
-      "contacto",
-    ]);
+    expect(items.map((item) => item.id)).toEqual(["servicios", "contacto"]);
     expect(items.find((item) => item.id === "servicios")?.action).toEqual({
       kind: "http",
       target: "/servicios/",
+    });
+    expect(items.find((item) => item.id === "contacto")?.action).toEqual({
+      kind: "anchor",
+      target: "#contacto",
+      homeRoute: "/",
     });
   });
 });
 
 describe("getHeaderMoreNavItems", () => {
-  it("includes negocios under Más (portfolio secondary)", () => {
-    const ids = getHeaderMoreNavItems(labels, "Proceso").map((item) => item.id);
-    expect(ids).toEqual([
-      "news",
-      "consultoria",
-      "negocios",
-      "experiencia",
-      "sobre-mi",
-      "design-system",
-      "uxtools",
-    ]);
+  it("is empty (no «Más» menu)", () => {
+    expect(getHeaderMoreNavItems(labels, "Proceso")).toEqual([]);
   });
 });
 
 describe("getMobileDrawerNavItems", () => {
-  it("follows hero-aligned order before more section", () => {
-    const items = getMobileDrawerNavItems(labels, "Proceso");
-    expect(items.slice(0, 6).map((item) => item.id)).toEqual([
-      "inicio",
-      "servicios",
-      "news",
-      "consultoria",
-      "proceso",
-      "contacto",
-    ]);
+  it("drawer = Inicio · Servicios · Contacto, anclas de la home también fuera de la home", () => {
+    for (const pathname of ["/", "/proceso"]) {
+      const items = getMobileDrawerNavItems(labels, "Proceso", pathname);
+      expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "contacto"]);
+      expect(items[0]!.action).toEqual({ kind: "anchor", target: "#inicio", homeRoute: "/" });
+      expect(items[2]!.action).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
+    }
   });
 });
 
 describe("getDockNavAction", () => {
-  it("uses anchor contact on home and route on deep pages", () => {
-    expect(getDockNavAction("contacto", "home").kind).toBe("anchor");
-    expect(getDockNavAction("contacto", "deep").kind).toBe("contact");
+  it("uses home anchors for inicio/contacto on every variant (no /#/contacto)", () => {
+    for (const v of ["home", "deep", "funnel"] as const) {
+      expect(getDockNavAction("contacto", v)).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
+      expect(getDockNavAction("inicio", v)).toEqual({ kind: "anchor", target: "#inicio", homeRoute: "/" });
+    }
   });
 
-  it("routes consultoria from Más/deep to SEM funnel, not home", () => {
+  it("deep: consultoria goes to canonical /servicios/#consultoria-ux, not /#/consultoria", () => {
     expect(DOCK_CENTER_ID).toBe("consultoria");
     expect(getDockNavAction("consultoria", "deep")).toEqual({
-      kind: "route",
-      target: "/consultoria",
+      kind: "http",
+      target: "/servicios/#consultoria-ux",
     });
   });
 
-  it("funnel (home): liquid center is Calendar or #contacto; inicio/contacto anchors", () => {
+  it("funnel (home): liquid center is Calendar or #contacto", () => {
     const center = getDockNavAction("consultoria", "funnel");
     expect(center.kind === "external" || center.target === "#contacto").toBe(true);
-    expect(getDockNavAction("inicio", "funnel")).toEqual({
-      kind: "anchor",
-      target: "#inicio",
-      homeRoute: "/",
-    });
-    expect(getDockNavAction("contacto", "funnel")).toEqual({
-      kind: "anchor",
-      target: "#contacto",
-      homeRoute: "/",
-    });
   });
 });
 
@@ -149,18 +145,11 @@ describe("getDockNavItems", () => {
 });
 
 describe("matchNavItemActive", () => {
-  it("marks proceso active on process routes; negocios only in Más", () => {
-    const proceso = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
-    expect(proceso.id).toBe("proceso");
-    expect(matchNavItemActive(proceso, "/proceso")).toBe(true);
-    expect(matchNavItemActive(proceso, "/proceso/fase/ux-research")).toBe(true);
-    expect(matchNavItemActive(proceso, "/")).toBe(false);
-
-    const negocios = getHeaderMoreNavItems(labels, "Proceso").find(
-      (i) => i.id === "negocios"
-    )!;
-    expect(matchNavItemActive(negocios, "/proyectos")).toBe(true);
-    expect(matchNavItemActive(negocios, "/proyecto/sura")).toBe(true);
+  it("marks servicios active on /servicios paths only", () => {
+    const servicios = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
+    expect(servicios.id).toBe("servicios");
+    expect(matchNavItemActive(servicios, "/servicios")).toBe(true);
+    expect(matchNavItemActive(servicios, "/")).toBe(false);
   });
 
   it("detects home Inicio vs Contacto by section spy", () => {
@@ -185,17 +174,13 @@ describe("matchNavItemActive", () => {
     ).toBe(true);
   });
 
-  it("deep: center CTA routes to SEM funnel /consultoria", () => {
+  it("deep: center CTA is HTTP /servicios/#consultoria-ux; still active on consulting paths", () => {
     const dockDeep = getDockNavItems("deep", labels, "Proceso");
     const consultoria = dockDeep.find((i) => i.id === "consultoria")!;
     const inicio = dockDeep.find((i) => i.id === "inicio")!;
 
-    expect(consultoria.action).toEqual({ kind: "route", target: "/consultoria" });
-    // SEM fullscreen: no dock “activo” por ruta oferta
+    expect(consultoria.action).toEqual({ kind: "http", target: "/servicios/#consultoria-ux" });
     expect(matchNavItemActive(consultoria, "/consultoria")).toBe(true);
-    expect(matchNavItemActive(consultoria, "/consultoria/modulos/dashboard")).toBe(
-      true
-    );
     expect(matchNavItemActive(consultoria, "/")).toBe(false);
     expect(matchNavItemActive(inicio, "/consultoria")).toBe(false);
   });
@@ -206,12 +191,12 @@ describe("executeNavAction · GTM nav_click", () => {
     (window as Window & { dataLayer?: unknown[] }).dataLayer = [];
   });
 
-  it("pushes nav_click before routing (no auditoría access)", () => {
-    const item = getHeaderPrimaryNavItems(labels, "Proceso")[0]!;
-    expect(item.id).toBe("proceso");
+  it("pushes nav_click before navigating (Servicios = HTTP, no hash route)", () => {
+    const item = getHeaderPrimaryNavItems(labels, "Proceso")[1]!;
+    expect(item.id).toBe("contacto");
     const navigate = vi.fn();
     executeNavAction(item, {
-      pathname: "/",
+      pathname: "/proceso",
       navigate,
       pendingScrollRef: { current: null },
     });
@@ -219,11 +204,12 @@ describe("executeNavAction · GTM nav_click", () => {
     expect(layer).toContainEqual(
       expect.objectContaining({
         event: "nav_click",
-        nav_id: "proceso",
-        nav_kind: "route",
-        nav_target: "/proceso",
+        nav_id: "contacto",
+        nav_kind: "anchor",
+        nav_target: "#contacto",
       })
     );
-    expect(navigate).toHaveBeenCalledWith("/proceso");
+    // Fuera de la home: vuelve a la home y luego scrollea a #contacto
+    expect(navigate).toHaveBeenCalledWith("/");
   });
 });
