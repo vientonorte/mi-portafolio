@@ -18,7 +18,7 @@ export const ADMIN_ROADMAP: RoadmapItem[] = [
     title: "Hero v3 mockup X|CMS 16:10",
     status: "done",
     notes: "Merged #220 · 38478e3 · laptop 1440×900 contain. Live main.",
-    href: "https://vientonorte.io/#/consultoria",
+    href: "https://vientonorte.io/servicios/#consultoria-ux",
   },
   {
     id: "sem-ta",
@@ -26,7 +26,7 @@ export const ADMIN_ROADMAP: RoadmapItem[] = [
     status: "done",
     notes:
       "14:31 Chrome sin extensiones. Activadas: generate_lead 2× + book_call 2×. Conectado vientonorte.io. GTM v6.",
-    href: "https://vientonorte.io/#/consultoria",
+    href: "https://vientonorte.io/servicios/#consultoria-ux",
   },
   {
     id: "sem-ads-ui",
@@ -58,6 +58,6 @@ export const ADMIN_ROADMAP: RoadmapItem[] = [
     status: "next",
     notes:
       "DS-2026-08-28 A→C. v1 Worker /api/pay. Hero no cobra. Keys Fintoc NO DATO. Wait apply=true.",
-    href: "https://vientonorte.io/#/demo/x-cms",
+    href: "https://vientonorte.io/servicios/#consultoria-ux",
   },
 ];

@@ -54,7 +54,7 @@ export const seo = {
             'Auditoría estratégica UX/UI: riesgos, quick wins SEO y plan de mentoría en 3 sesiones.',
         },
         consultoria: {
-          /** SEM final URL: https://vientonorte.io/#/consultoria — message-match Ads */
+          /** SEM final URL: https://vientonorte.io/servicios/?utm_…#revision-gratis — message-match Ads */
           title: 'Consultoría UX · Elige tu alcance',
           description:
             'Diagnóstico 5–7 días: operaciones digitales y el flujo que usa tu cliente, en su CMS o CRM. Gratis: accesibilidad WCAG 2.2 AA de un flujo. Kickoff 30 min.',

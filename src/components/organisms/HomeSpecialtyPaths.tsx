@@ -16,7 +16,7 @@ const SPECIALTIES = [
     },
   },
   {
-    path: "/servicios/diagnostico-accesibilidad-wcag/",
+    path: "/servicios/#revision-gratis",
     kicker: { es: "Especialidad", en: "Specialty" },
     title: { es: "Diagnóstico WCAG 2.2 AA", en: "WCAG 2.2 AA diagnostic" },
     dek: {
@@ -34,7 +34,7 @@ const SPECIALTIES = [
     },
   },
   {
-    path: "/servicios/consultoria-ux-pymes/",
+    path: "/servicios/#consultoria-ux",
     kicker: { es: "Oferta", en: "Offer" },
     title: { es: "Consultoría UX para pymes", en: "UX consulting for SMBs" },
     dek: {
@@ -66,8 +66,8 @@ export function HomeSpecialtyPaths() {
           title={es ? "De la home a la ficha" : "From home to the landing"}
           description={
             es
-              ? "El embudo cierra el lead. Las fichas HTTP son lo que Google lee: privacidad de datos, WCAG, IA. Agendar sigue en /#/consultoria."
-              : "The funnel closes the lead. HTTP pages are what Google reads: data privacy, WCAG, AI. Booking stays at /#/consultoria."
+              ? "El embudo cierra el lead. Las fichas HTTP son lo que Google lee: privacidad de datos, WCAG, IA. Agendar sigue en Servicios."
+              : "The funnel closes the lead. HTTP pages are what Google reads: data privacy, WCAG, AI. Booking stays on Services."
           }
           titleId="home-specialties-heading"
           titleAs="h2"
@@ -115,8 +115,8 @@ export function HomeNewsStrip() {
         title={es ? "Cada edición abre su especialidad" : "Each edition opens its specialty"}
         description={
           es
-            ? "Privacidad, automatización o accesibilidad: la nota te lleva a la ficha, no a /s/consultoria."
-            : "Privacy, automation, or accessibility: the note takes you to the landing, not /s/consultoria."
+            ? "Privacidad, automatización o accesibilidad: la nota te lleva a la ficha, no a una página genérica."
+            : "Privacy, automation, or accessibility: the note takes you to the landing, not a generic page."
         }
         titleId="home-news-heading"
         titleAs="h2"

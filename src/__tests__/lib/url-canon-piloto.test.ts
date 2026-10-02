@@ -67,9 +67,12 @@ describe("URL canon 2026-09-27 · canonicals sin '#'", () => {
     }
   });
 
-  it("producto UI stays HashRouter /consultoria as a link (Ads final URL), not /s/", () => {
+  it("Ads final URL = /servicios/?utm…#revision-gratis (canon 2026-10-01), nunca /#/ ni /s/", () => {
     expect(ROUTES.consulting).toBe("/consultoria");
-    expect(SEO_SITE.semOfferUrl).toBe("https://vientonorte.io/#/consultoria");
+    expect(SEO_SITE.semOfferUrl).toBe(
+      "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis"
+    );
+    expect(SEO_SITE.semOfferUrl).not.toContain("/#/");
     expect(SEO_SITE.serviciosUrl).toBe("https://vientonorte.io/servicios/");
     expect(JSON.stringify(SEO_SITE)).not.toContain("/s/");
   });

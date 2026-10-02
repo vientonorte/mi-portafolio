@@ -156,11 +156,9 @@ function NewsEditionView({ slug }: { slug: string }) {
               {newsTopicLanding(edition.topic)!.label[language]}
             </a>
           ) : null}
-          <Link to={ROUTES.consulting}>
-            {es
-              ? "Agendar 30 min · /#/consultoria"
-              : "Book 30 min · /#/consultoria"}
-          </Link>
+          <a className="underline" href="https://vientonorte.io/servicios/#consultoria-ux">
+            {es ? "Agendar 30 min · Consultoría UX" : "Book 30 min · UX consulting"}
+          </a>
         </p>
       </article>
     </PageShell>

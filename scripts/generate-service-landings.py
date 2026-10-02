@@ -27,10 +27,11 @@ LEGACY_REDIRECTS = {
 }
 ORIGIN = DATA["origin"]
 LASTMOD = DATA["lastmod"]
-# Producto UI (HashRouter). No /s/consultoria (piloto Ads).
-PRODUCT_UI = "/#/consultoria"
-# Apple POC (PR #130) — not the SEM funnel.
-POC_APPLE = "/#/consultoria/modulos/dashboard"
+# Canon de links (Rö 2026-10-01): /servicios/#ancla. Nunca /#/… ni /s/….
+CONSULTORIA_URL = "/servicios/#consultoria-ux"
+REVISION_URL = "/servicios/#revision-gratis"
+# Prototipo X|CMS (antes /#/consultoria/modulos/dashboard): caso X|CMS en #consultoria-ux.
+POC_APPLE = CONSULTORIA_URL
 
 GTM = """    <script>
       (function (w, d, s, l, i) {
@@ -110,7 +111,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
     robots = "" if item.get("index", True) else '    <meta name="robots" content="noindex, follow" />\n'
     current = ' aria-current="page"' if item["id"] == "hub" else ""
     kicker = esc(item["kicker"]) if item.get("kicker") else "Viento Norte · Chile"
-    # Apple POC = /#/consultoria. Only product landings teaser it; never seguridad/privacidad/WCAG.
+    # Apple POC → caso X|CMS en /servicios/#consultoria-ux. Only product landings teaser it; never seguridad/privacidad/WCAG.
     poc_html = ""
     if item.get("poc"):
         poc_alt = esc(f"Prototipo X|CMS · {item['h1']}")
@@ -198,9 +199,8 @@ def page_html(item: dict, siblings: list[dict]) -> str:
         </a>
         <nav class="share-nav" aria-label="Principal">
           <a href="/">Inicio</a>
-          <a href="/#/consultoria">Consultoría</a>
+          <a href="{CONSULTORIA_URL}">Consultoría</a>
           <a href="/servicios/"{current}>Servicios</a>
-          <a href="/#/proceso">Proceso</a>
         </nav>
       </div>
     </header>
@@ -224,8 +224,8 @@ def page_html(item: dict, siblings: list[dict]) -> str:
 {cards}
       </ul>
       <p>
-        <a class="share-cta" href="/#/consultoria">Hablemos</a>
-        <a class="share-cta share-cta--ghost" href="/#/consultoria">Gratis · un flujo WCAG</a>
+        <a class="share-cta" href="{CONSULTORIA_URL}">Hablemos</a>
+        <a class="share-cta share-cta--ghost" href="{REVISION_URL}">Gratis · un flujo WCAG</a>
       </p>
     </main>
     <footer class="share-footer">

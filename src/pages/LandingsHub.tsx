@@ -15,9 +15,9 @@ export default function LandingsHub() {
       </h1>
       <p className="mt-4 text-base">
         Google indexa HTTP <a href="/servicios/">/servicios/</a>. Oferta SEM:{" "}
-        <Link to={ROUTES.consulting}>/#/consultoria</Link>. POC Apple:{" "}
+        <a href="/servicios/#revision-gratis">/servicios/#revision-gratis</a>. POC Apple:{" "}
         <Link to={ROUTES.consultingModule("dashboard")}>
-          /#/consultoria/modulos/dashboard
+          prototipo X|CMS (dashboard)
         </Link>
         .
       </p>

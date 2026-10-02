@@ -31,7 +31,7 @@ export function buildPortfolioStructuredData(language: Language) {
     jobTitle: SEO_SITE.role,
     description: hero.valueProp,
     url: SITE_URL,
-    image: "https://vientonorte.io/mi-portafolio/images/branding/og-portfolio.png",
+    image: "https://vientonorte.io/images/branding/og-portfolio.png",
     email: SITE_CONTACT.email,
     sameAs: [SITE_CONTACT.linkedin, SITE_CONTACT.github],
     knowsAbout: hero.specialties,
