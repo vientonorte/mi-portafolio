@@ -190,7 +190,11 @@ export interface BrandCase {
   ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
 }
 
-/** Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto. */
+/**
+ * Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto.
+ * Solo la home (#home-casos) usa BRAND_CASES, SERVICIOS_CASES y SERVICIOS_FUNNEL: /servicios/ ya no
+ * muestra «El recorrido» (TL tras QA de Rö, 2-oct).
+ */
 export const BRAND_CASES: readonly BrandCase[] = [
   {
     id: "monitas",

@@ -160,7 +160,7 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     ]);
     expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG", "Edu 21"]);
     expect(vnCases.some((c) => c.id === "monitas")).toBe(false);
-    expect(doc.body.textContent ?? "").not.toContain("Monitas");
+    expect(html).not.toMatch(/monitas/i);
     expect(html).not.toContain("cases/monitas");
     expect(new Set(vnCases.map((c) => c.id)).size).toBe(vnCases.length);
     const byId = Object.fromEntries(vnCases.map((c) => [c.id, c]));

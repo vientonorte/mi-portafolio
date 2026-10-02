@@ -160,6 +160,8 @@ export function ServiciosCasos() {
               {group.cases.map((item) => (
                 <li key={item.id}>
                   {SERVICE_STYLE_ANCHORS.includes(group.anchor) ? (
+                    // Número 02/03 = posición del grupo en SERVICIOS_VN_CASE_GROUPS (groupIndex + 1): cambia si
+                    // cambia el orden de los grupos; debe seguir el orden de las tarjetas de «Tres formas de partir».
                     <ServiceStyleCaseCard item={item} number={groupIndex + 1} />
                   ) : (
                     <VnCaseCard item={item} />
