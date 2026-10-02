@@ -208,6 +208,19 @@ Pasada enfocada en **Walmart** y **Maraña**. Solo lectura en Figma, Drive, Gmai
 
 ### Walmart
 
+> **Corrección (2-oct 18:51):** Rö confirma que **sí hay un concepto de Walmart** dentro de «Prueba de Conceptos»: https://www.figma.com/design/CBguM4Y5rIvc9TV5pGhOxL/Prueba-de-Conceptos. Queda registrado como **concepto propio**, porque el archivo no dice lo contrario hasta donde se pudo leer.
+>
+> - **Node-ids de los frames (desktop, mobile, antes/después): pendientes.** El recorrido nodo por nodo quedó bloqueado por la cuota del MCP de Figma.
+> - El archivo está en el team Starter «Proyectos», que permite 20 llamadas al mes, y la cuota ya se agotó. El bloqueo afecta tanto a get_metadata como a get_screenshot.
+> - **Lo que se alcanzó a leer:** el archivo tiene 2 páginas, MASCOTAPP (`2844:427`) y KIT UI ICONOS (`301:69`).
+>   - El root de MASCOTAPP llegó truncado a 20 KB de 79 KB.
+>   - Solo se vieron la sección «TO DO» (`2844:428`) y el inicio de «USER FLOWS» (`2844:479`, 9072×5328 px, con la subsección «MASCOTAS» `2844:480`).
+>   - Los frames de Walmart deben estar en los 59 KB restantes, ya sea dentro de «USER FLOWS» o como frames sueltos de la página.
+> - **No hay un segundo «Prueba de Conceptos».** En las pestañas y recientes de Figma Desktop del Mac solo figura `CBguM4Y5rIvc9TV5pGhOxL`; el otro resultado es el FigJam de comunidad, ya descartado.
+> - **Asset 16:10:** pendiente hasta tener el frame principal. Ver D4.
+>
+> Lo que sigue es el registro original de la segunda pasada, que no encontró el concepto.
+
 **No aparece ningún archivo Figma, export ni PDF de caso.**
 
 | Hallazgo | Ruta / URL | node-id | ¿Encargo o concepto? | Asset 16:10 |
@@ -260,5 +273,10 @@ Lugares revisados sin resultado:
 
 ### Impacto en D4
 
-- **Walmart:** solo puede ir como logo o texto, o salir de 02/03, hasta que Rö aporte capturas.
+- **Walmart (actualizado 2-oct 18:51):** pasa a ser un **concepto propio** en `CBguM4Y5rIvc9TV5pGhOxL`. Para cerrar la tarjeta falta el node-id del frame principal y su asset 16:10. Hay tres vías:
+  - (a) Rö copia desde Figma el link del frame («Copy link to selection», que trae `?node-id=`).
+  - (b) Rö mueve el archivo al team «Rö» (pro, seat Full, 200 llamadas al día). Ese cambio lo hace Rö en Figma; el agente no edita Figma.
+  - (c) Se espera al reinicio mensual de la cuota Starter.
+  
+  Mientras tanto, no se muestra la marca Walmart sin un asset limpio, según la nota de marca.
 - **Maraña:** puede tener tarjeta 16:10 con una captura limpia de `MARAÑA TALLER.png` (recortada o rehecha), sin depender de Figma. Falta el OK de Rö para usar la marca de una agencia que ya no opera como cliente.
