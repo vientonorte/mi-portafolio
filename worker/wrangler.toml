@@ -48,3 +48,8 @@ id = "169497b8c5ee4f4eb98ee8788b8f6a82"
 [[r2_buckets]]
 binding = "IMAGES_BUCKET"
 bucket_name = "mi-portafolio-images"
+
+# Workers Logs (doc: https://developers.cloudflare.com/workers/observability/logs/workers-logs/).
+# Se aplica con el deploy del lunes junto con H1 y H2. Solo en este toml, no en wrangler.contact.toml.
+[observability]
+enabled = true
