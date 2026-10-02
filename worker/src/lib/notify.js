@@ -1,3 +1,5 @@
+import { escapeHtml } from './email-templates.js';
+
 /** Aviso inbox VN (FormSubmit → Cloudflare Email). */
 
 export async function notifyInbox(env, { subject, text, html, replyTo, replyName }) {
@@ -39,7 +41,7 @@ export async function notifyInbox(env, { subject, text, html, replyTo, replyName
         replyTo: replyTo ? { email: replyTo, name: replyName || replyTo } : undefined,
         subject,
         text,
-        html: html || `<pre>${text}</pre>`,
+        html: html || `<pre>${escapeHtml(text)}</pre>`,
       });
       return { ok: true, channel: 'cloudflare' };
     } catch (err) {
@@ -49,12 +51,20 @@ export async function notifyInbox(env, { subject, text, html, replyTo, replyName
   return { ok: false };
 }
 
+/**
+ * Confirmación al lead. Solo la llama handleCreateBooking para un booking
+ * verificado (H1). Usa el binding EMAIL_LEADS si existe (opción para el lunes:
+ * EMAIL restringido al inbox + EMAIL_LEADS solo para confirmaciones); si no,
+ * EMAIL. Con EMAIL restringido por allowed_destination_addresses, el envío al
+ * lead falla con E_RECIPIENT_NOT_ALLOWED y se registra como warning.
+ */
 export async function notifyVisitor(env, { to, name, subject, text, html }) {
-  if (!to || !env.EMAIL) return { ok: false };
+  const binding = env.EMAIL_LEADS || env.EMAIL;
+  if (!to || !binding) return { ok: false };
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.io';
   const fromName = env.CONTACT_FROM_NAME || 'Viento Norte';
   try {
-    await env.EMAIL.send({
+    await binding.send({
       to,
       from: { email: fromEmail, name: fromName },
       replyTo: { email: fromEmail, name: fromName },
@@ -64,7 +74,7 @@ export async function notifyVisitor(env, { to, name, subject, text, html }) {
     });
     return { ok: true, channel: 'cloudflare' };
   } catch (err) {
-    console.warn('[notify] visitor email failed:', err?.message || err);
+    console.warn('[notify] visitor email failed:', err?.code || '', err?.message || err);
     return { ok: false };
   }
 }
