@@ -30,6 +30,16 @@ GA4_MEASUREMENT_ID = "G-G7JXJKGCDV"
 
 [[send_email]]
 name = "EMAIL"
+# H1 (seguridad 2026-10-02): binding restringido. Solo puede mandar DESDE
+# contacto@vientonorte.io y HACIA el inbox de VN (mismo valor que CONTACT_INBOX;
+# si CONTACT_INBOX se mueve a secret con otra dirección, actualizar aquí).
+# Efecto real recién al deployar. Trade-off: con esta allowlist la confirmación
+# al lead (booking verificado) falla con E_RECIPIENT_NOT_ALLOWED. Opción B para
+# decidir el lunes: binding aparte EMAIL_LEADS solo con allowed_sender_addresses
+# (notifyVisitor ya lo usa si existe). Doc:
+# https://developers.cloudflare.com/email-service/configuration/send-bindings/
+allowed_destination_addresses = ["gaete.gaona@gmail.com"]
+allowed_sender_addresses = ["contacto@vientonorte.io"]
 
 [[kv_namespaces]]
 binding = "ADMIN_KV"
@@ -38,3 +48,8 @@ id = "169497b8c5ee4f4eb98ee8788b8f6a82"
 [[r2_buckets]]
 binding = "IMAGES_BUCKET"
 bucket_name = "mi-portafolio-images"
+
+# Workers Logs (doc: https://developers.cloudflare.com/workers/observability/logs/workers-logs/).
+# Se aplica con el deploy del lunes junto con H1 y H2. Solo en este toml, no en wrangler.contact.toml.
+[observability]
+enabled = true
