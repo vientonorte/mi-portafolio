@@ -92,7 +92,7 @@ Debe llegar a Gmail con asunto `Portfolio · mensaje de QA Test`.
 
 ## Admin de fotos (privado)
 
-Ruta del sitio: `https://vientonorte.github.io/mi-portafolio/#/admin/fotos`
+Ruta del sitio (interna, no enviar a clientes): `https://vientonorte.io/#/admin/fotos`
 
 Solo el usuario GitHub **`vientonorte`** puede entrar. Flujo:
 
@@ -116,7 +116,7 @@ npx wrangler r2 bucket create mi-portafolio-images
 ### GitHub OAuth App
 
 1. GitHub → Settings → Developer settings → OAuth App
-2. Homepage: `https://vientonorte.github.io/mi-portafolio/`
+2. Homepage: `https://vientonorte.io/`
 3. Callback: `https://mi-portafolio-contact.vientonorte.workers.dev/api/admin/auth/github/callback`
 
 ```bash

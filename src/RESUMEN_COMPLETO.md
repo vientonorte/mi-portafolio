@@ -110,7 +110,7 @@ npm install
 
 ```bash
 npm run dev
-# Abrir: http://localhost:5173
+# Abrir: http://localhost:3000
 ```
 
 **✅ Si ves tu portfolio → ¡Perfecto!**
@@ -375,7 +375,7 @@ Documentation:    100%     ✅
 ```
 ✅ npm install sin errores
 ✅ npm run dev funciona
-✅ Portfolio carga en localhost:5173
+✅ Portfolio carga en localhost:3000
 ✅ Navegación funciona
 ✅ Modo oscuro funciona
 ✅ Toggle idioma funciona

@@ -1,6 +1,6 @@
 # POC modules · mockups X|CMS
 
-Capturas live del producto **X|CMS** (Figma Sites) para la landing oferta `/#/consultoria`.
+Capturas live del producto **X|CMS** (Figma Sites) para la landing oferta (histórico: `/#/consultoria`; hoy X|CMS se muestra en `https://vientonorte.io/servicios/#consultoria-ux`).
 
 | Archivo | Nav X\|CMS |
 |---------|------------|
