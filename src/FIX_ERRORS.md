@@ -49,11 +49,11 @@ npm run dev
 ```
   VITE v5.x.x  ready in XXX ms
 
-  ➜  Local:   http://localhost:5173/
+  ➜  Local:   http://localhost:3000/
   ➜  Network: use --host to expose
 ```
 
-**Abre** http://localhost:5173 en tu navegador
+**Abre** http://localhost:3000 en tu navegador
 
 **✅ Si ves tu portfolio, todo está OK!**
 
@@ -157,7 +157,7 @@ npm run preview
 ## 📋 Checklist Final
 
 - [ ] `npm install` ejecutado sin errores
-- [ ] `npm run dev` funciona y sitio carga en localhost:5173
+- [ ] `npm run dev` funciona y sitio carga en localhost:3000
 - [ ] VS Code sin errores rojos (reload hecho)
 - [ ] Navegación del portfolio funciona
 - [ ] Modo oscuro funciona

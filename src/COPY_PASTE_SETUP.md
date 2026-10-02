@@ -229,7 +229,7 @@ ls node_modules/
 npm run dev
 
 # 4. Abrir navegador
-# http://localhost:5173
+# http://localhost:3000
 ```
 
 ### Verificar en VS Code:
@@ -375,7 +375,7 @@ Antes de continuar, verifica:
 - [ ] LICENSE es un archivo (no carpeta)
 - [ ] npm install ejecutado sin errores
 - [ ] npm run dev funciona
-- [ ] Portfolio carga en localhost:5173
+- [ ] Portfolio carga en localhost:3000
 - [ ] VS Code sin errores rojos
 
 ### Funcionalidad

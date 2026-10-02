@@ -29,7 +29,7 @@ npm install
 # Iniciar servidor de desarrollo
 npm run dev
 
-# Abrir http://localhost:5173
+# Abrir http://localhost:3000
 ```
 
 **✅ Checklist:**

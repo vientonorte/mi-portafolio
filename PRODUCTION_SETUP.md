@@ -1,5 +1,7 @@
 # 🚀 Production Setup Guide
 
+> 🗄 **Registro histórico, superado por el canon de URLs 2026-10.** No se reescribe. Las URL `/#/`, `/s/`, `/mi-portafolio/`, `vientonorte.github.io` o `:5173` que aparecen abajo **no** están vigentes para clientes. El canon vigente está en `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 This guide will help you configure the portfolio for production deployment.
 
 ## ✅ Prerequisites

@@ -1,10 +1,16 @@
 # Demo X|CMS · gate de campaña (Ads / SEO / LinkedIn SEM)
 
-**Ruta canónica:**  
+> ⚠ **DEPRECADO como URL de campaña (canon de URLs 2026-10).** Ni `/#/demo/x-cms` ni `…/mi-portafolio/#/demo/x-cms` se mandan a clientes ni se usan como Final URL. `/#/` y `/mi-portafolio/` están en la denylist, y además la UTM quedaba después del hash. El gate sigue documentado abajo **solo como superficie interna o de QA**. Detalle: `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
+**Link final para clientes y campañas (canon):**  
+`https://vientonorte.io/servicios/?utm_source=…&utm_medium=…&utm_campaign=…#consultoria-ux`  
+(X|CMS se muestra en `/servicios/`, bajo el ancla `#consultoria-ux`. La UTM va **antes** del ancla.)
+
+**Gate interno (QA, no enviar a clientes):**  
 `https://vientonorte.io/#/demo/x-cms`
 
 **Local:**  
-`http://127.0.0.1:5173/#/demo/x-cms`
+`http://localhost:3000/#/demo/x-cms`
 
 ## Por qué no el link crudo a Figma Sites
 
@@ -20,8 +26,10 @@
 ## Flujo
 
 ```text
+(DEPRECADO para campañas: hoy el anuncio va a /servicios/?utm_…#consultoria-ux.
+ Flujo interno del gate, solo para QA:)
 Ad / LinkedIn / SEO
-  → /#/demo/x-cms?utm_source=…&utm_campaign=…
+  → /#/demo/x-cms?utm_source=…&utm_campaign=…   (histórico, no usar como Final URL)
   → Gate (reglas)
   → Iniciar demo → iframe 5:00
   → aviso 1:00 → ended overlay
@@ -41,21 +49,22 @@ Ad / LinkedIn / SEO
 
 GTM: `CE · demo_funnel` + `GA4 · demo_funnel` (no evento clave). Receta: `docs/GTM-KICKOFF.md` v5. Import: `docs/gtm/demo-funnel-import.json`.
 
-## URLs de anuncio (ejemplos)
+## URLs de anuncio (ejemplos, canon 2026-10)
 
 ```text
 # Google Ads
-…/mi-portafolio/#/demo/x-cms?utm_source=google&utm_medium=cpc&utm_campaign=xcms_modulos&utm_content=demo_5m
+https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=xcms_modulos&utm_content=demo_5m#consultoria-ux
 
 # LinkedIn
-…/mi-portafolio/#/demo/x-cms?utm_source=linkedin&utm_medium=paid_social&utm_campaign=xcms_modulos&utm_content=demo_5m
+https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=xcms_modulos&utm_content=demo_5m#consultoria-ux
 ```
 
-Final URL y landing = **misma ruta** (message match).
+Final URL y landing = **`/servicios/` con ancla `#consultoria-ux`** (message match con la tarjeta X|CMS).
+Los ejemplos anteriores (`…/mi-portafolio/#/demo/x-cms?utm_…`) quedan **DEPRECADOS**: violan el canon (`/mi-portafolio/`, `/#/` y la UTM después del hash).
 
 ## POC
 
-“Ver X|CMS en vivo” en `/#/poc/product-onboarding` navega a **esta** ruta (no `window.open` Sites).
+Histórico: “Ver X|CMS en vivo” en `/#/poc/product-onboarding` navegaba a **esta** ruta (no `window.open` Sites). Hoy `/#/poc/product-onboarding` redirige al embudo (ver `docs/URL-CANON-VIENTONORTE.md`). Es una ruta interna: no se enlaza a clientes.
 
 ## Config
 
