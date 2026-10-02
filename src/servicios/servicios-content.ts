@@ -190,7 +190,11 @@ export interface BrandCase {
   ctaAnchor: "web-pymes" | "revision-gratis" | "consultoria-ux";
 }
 
-/** Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto. */
+/**
+ * Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto.
+ * Solo la home (#home-casos) usa BRAND_CASES, SERVICIOS_CASES y SERVICIOS_FUNNEL: /servicios/ ya no
+ * muestra «El recorrido» (TL tras QA de Rö, 2-oct).
+ */
 export const BRAND_CASES: readonly BrandCase[] = [
   {
     id: "monitas",
@@ -257,16 +261,11 @@ export const SERVICIOS_SEO = {
 /** Anclas canónicas de /servicios/. Ningún caso enlaza fuera de estas tres. */
 export type ServiciosAnchor = "web-pymes" | "revision-gratis" | "consultoria-ux";
 export const SERVICIOS_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
-/** Anclas con casos en la grilla. #revision-gratis no tiene caso (PO, 1-oct 10:31). */
 /**
- * Caso 6 (vientonorte.io · contraste WCAG, #revision-gratis). Aprobado por el TL (1-oct 10:36).
- * Para sacarlo basta con poner false: desaparecen el grupo y su ancla de la grilla.
+ * Anclas con casos en la grilla. Caso 6 (vientonorte.io · contraste WCAG, TL 1-oct 10:36) siempre visible:
+ * el flag SERVICIOS_SHOW_VN_WCAG_CASE se eliminó en el fix-forward de branding 02/03 (PO, 2-oct).
  */
-export const SERVICIOS_SHOW_VN_WCAG_CASE = true;
-
-export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = SERVICIOS_SHOW_VN_WCAG_CASE
-  ? ["web-pymes", "revision-gratis", "consultoria-ux"]
-  : ["web-pymes", "consultoria-ux"];
+export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
 
 export interface VnCase {
   id: string;
@@ -280,6 +279,8 @@ export interface VnCase {
   startingPoint?: string;
   /** Una imagen real del repo (public/). */
   image: MarketingImage;
+  /** Barra del marco de navegador (secciones 02 y 03: mismo tratamiento que la tarjeta 01). */
+  addressBar?: string;
 }
 
 export interface VnCaseGroup {
@@ -306,7 +307,9 @@ export const SERVICIOS_VN_CASES = {
  *   poc-modules/pedidos.png (180,480)-(1440,900) y riesgo.png (180,180)-(1440,620), sin cifras demo.
  * - Dashboard de consultoría estratégica: concepto propio de Rö, anonimizado (Rö, 1-oct 10:37): sin marca del
  *   cliente, sin nombres ni montos. Recorte nuevo (0,540)-(1440,900) de la grilla de módulos.
- * - vientonorte.io: PR #280 (globals.css, vn-tokens.css). Detrás de SERVICIOS_SHOW_VN_WCAG_CASE.
+ * - vientonorte.io: PR #280 (globals.css, vn-tokens.css). Siempre visible (sin flag).
+ * - Edu 21 va en 02 · #revision-gratis como diagnóstico base (PO, 2-oct). Imagen: recorte 16:10 de la portada del
+ *   informe de rendimiento (06-performance-seo.png), sin el pie con logo de terceros. Nunca 04/05 (uso interno).
  * Monitas no va en /servicios/ (Rö, 1-oct 10:33). La grilla recibe más tarjetas agregando casos o grupos.
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
@@ -373,35 +376,55 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       },
     ],
   },
-  ...(SERVICIOS_SHOW_VN_WCAG_CASE
-    ? [
-        {
-          anchor: "revision-gratis",
-          label: "Revisión gratis",
-          linkLabel: "Ver el servicio: Revisión gratis",
-          cases: [
-            {
-              id: "vientonorte-wcag",
-              name: "vientonorte.io · contraste WCAG",
-              tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
-              // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
-              summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
-              findings: [
-                "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
-                "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
-              ],
-              image: {
-                png: "images/cases/vientonorte/contraste-antes-despues.png",
-                webp: "images/cases/vientonorte/contraste-antes-despues.webp",
-                alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
-                width: 1200,
-                height: 675,
-              },
-            },
-          ],
-        } satisfies VnCaseGroup,
-      ]
-    : []),
+  {
+    anchor: "revision-gratis",
+    label: "Revisión gratis",
+    linkLabel: "Ver el servicio: Revisión gratis",
+    cases: [
+      {
+        id: "vientonorte-wcag",
+        name: "vientonorte.io · contraste WCAG",
+        tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
+        // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
+        summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
+        findings: [
+          "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
+          "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
+        ],
+        addressBar: "vientonorte.io · contraste",
+        image: {
+          png: "images/cases/vientonorte/contraste-antes-despues.png",
+          webp: "images/cases/vientonorte/contraste-antes-despues.webp",
+          alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
+          width: 1200,
+          height: 675,
+        },
+      },
+      {
+        id: "edu21",
+        name: "Edu 21",
+        tags: { rubro: "Edtech", servicio: "Revisión gratis" },
+        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
+        summary: "Revisión heurística de su sitio web antes de trabajar el servicio: el diagnóstico base del que partimos.",
+        findings: [
+          "Heurística del sitio web",
+          "Benchmark de la competencia",
+          "Informe de rendimiento del sitio en celulares",
+        ],
+        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
+        // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
+        startingPoint: "Diagnóstico base (junio de 2022): carga de 15,4 s y calificación «deficiente».",
+        addressBar: "edu21.cl · diagnóstico",
+        image: {
+          png: "images/cases/edu21/06-performance-seo-diagnostico.png",
+          webp: "images/cases/edu21/06-performance-seo-diagnostico.webp",
+          alt: "Portada del informe de rendimiento en celulares de edu21.cl (junio de 2022), punto de partida del diagnóstico.",
+          width: 927,
+          height: 579,
+        },
+      },
+    ],
+  },
   {
     anchor: "consultoria-ux",
     label: "Consultoría UX",
@@ -419,6 +442,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Gestión de productos, clientes y fidelización",
           "Prototipo navegable publicado en Figma Sites",
         ],
+        addressBar: "x-cms · punto de venta",
         image: {
           png: "images/products/x-cms/pos-productos.png",
           webp: "images/products/x-cms/pos-productos.webp",
@@ -439,34 +463,13 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Arquitectura de pestañas consolidada",
           "Publicado como dashboard en vivo",
         ],
+        addressBar: "ratio · cfo dashboard",
         image: {
           png: "images/products/ratio/cfo-dashboard.png",
           webp: "images/products/ratio/cfo-dashboard.webp",
           alt: "CFO Dashboard del local de Irarrázaval: encabezado y selector de vista por rol.",
           width: 1260,
           height: 709,
-        },
-      },
-      {
-        id: "edu21",
-        name: "Edu 21",
-        tags: { rubro: "Edtech", servicio: "Consultoría UX" },
-        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
-        summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
-        findings: [
-          "Heurística del sitio web",
-          "Benchmark de la competencia",
-          "Estrategia de servicios y productos",
-          "Pitch comercial y storyboard del servicio",
-        ],
-        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
-        // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
-        startingPoint: "Informe SEO del sitio (junio de 2022): carga de 15,4 s y SEO «Deficiente».",
-        image: {
-          png: "images/cases/edu21/03-service-strategy.png",
-          alt: "Tablero de estrategia de servicios de Edu 21: audiencias, problemas, mensaje, canales y metas.",
-          width: 1200,
-          height: 672,
         },
       },
       {
@@ -481,6 +484,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Propuesta de plataforma y hoja de ruta",
           "Módulos navegables en vez de un documento largo",
         ],
+        addressBar: "consultoría · módulos",
         image: {
           png: "images/products/consultoria-estrategica/modulos.png",
           webp: "images/products/consultoria-estrategica/modulos.webp",
