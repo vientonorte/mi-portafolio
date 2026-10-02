@@ -139,6 +139,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
+      - name: Sitemap gate (dist/sitemap.xml = dist/**/index.html públicos)
+        run: npm run qa:sitemap
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)

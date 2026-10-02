@@ -1,0 +1,72 @@
+name: Sitemap live (200 por loc)
+
+# Opcional e informativo: NO corre en pull_request, así que nunca bloquea un PR.
+# - Automático: después de cada «Deploy QA» exitoso, contra https://vientonorte.io/qa/.
+# - Manual (workflow_dispatch): target=qa o target=prod (https://vientonorte.io/).
+# Lee los <loc> del public/sitemap.xml del commit desplegado y exige HTTP 200 (sin seguir
+# redirecciones) en cada uno. Si no hay red/DNS o el deploy aún no propaga, reintenta y,
+# como el job es continue-on-error, el resultado queda como aviso, no como fallo duro.
+on:
+  workflow_run:
+    workflows: ["Deploy QA"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Dónde probar los loc del sitemap"
+        type: choice
+        options: [qa, prod]
+        default: qa
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sitemap-live-${{ github.event.inputs.target || 'qa' }}
+  cancel-in-progress: true
+
+jobs:
+  curl-locs:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 15
+    env:
+      TARGET: ${{ github.event.inputs.target || 'qa' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          sparse-checkout: public/sitemap.xml
+          sparse-checkout-cone-mode: false
+
+      - name: curl cada <loc> (espera 200)
+        run: |
+          set -uo pipefail
+          ORIGIN="https://vientonorte.io"
+          if [ "$TARGET" = "qa" ]; then BASE="$ORIGIN/qa"; else BASE="$ORIGIN"; fi
+          mapfile -t LOCS < <(python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          for loc in ET.parse("public/sitemap.xml").getroot().findall("s:url/s:loc", ns):
+              print(loc.text.strip())
+          PY
+          )
+          if [ "${#LOCS[@]}" -eq 0 ]; then echo "::error::sitemap sin <loc>"; exit 1; fi
+          FAIL=0
+          for loc in "${LOCS[@]}"; do
+            url="$BASE${loc#"$ORIGIN"}"
+            code=000
+            # GitHub Pages puede tardar en propagar tras Deploy QA: hasta 6 intentos (~3 min).
+            for i in 1 2 3 4 5 6; do
+              code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$url" || echo 000)
+              [ "$code" = "200" ] && break
+              sleep 30
+            done
+            echo "$code $url"
+            if [ "$code" != "200" ]; then
+              echo "::warning title=sitemap live::$url respondió $code (esperado 200)"
+              FAIL=1
+            fi
+          done
+          exit $FAIL
