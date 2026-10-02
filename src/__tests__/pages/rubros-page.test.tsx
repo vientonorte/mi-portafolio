@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
-import { render as rtlRender } from "@testing-library/react";
+import { fireEvent, render as rtlRender } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { render, renderHead } from "@/rubros/entry-server";
 import { RubroPage } from "@/rubros/RubroPage";
@@ -202,6 +202,48 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     }
   });
 
+  it("header = nav minimal de la home: logo → home, Servicios, Contacto, tema y «🌐 ES» (sin /#/)", () => {
+    const header = doc.querySelector('header[data-nav-shell="minimal"]')!;
+    expect(header).not.toBeNull();
+    const nav = header.querySelector('nav[aria-label="Navegación principal"]')!;
+    expect(nav.querySelector('a[aria-label^="Inicio"]')?.getAttribute("href")).toBe("/");
+    const desktop = [...nav.querySelectorAll(".nav-desktop-only ul a")];
+    expect(desktop.map((a) => [a.textContent, a.getAttribute("href")])).toEqual([
+      ["Servicios", "/servicios/"],
+      ["Contacto", "#contacto"],
+    ]);
+    // Drawer móvil: mismos links
+    const drawer = [...header.querySelectorAll("#static-mobile-menu a")].map((a) => a.getAttribute("href"));
+    expect(drawer).toEqual(["/servicios/", "#contacto"]);
+    // Toggle de idioma estático (antes no había): desktop + móvil, guarda "en" y va a la home
+    expect(header.querySelector("[data-lang-selector]")).toBeNull();
+    const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];
+    expect(switches).toHaveLength(2);
+    for (const a of switches) {
+      expect(a.getAttribute("href")).toBe("/");
+      expect(a.getAttribute("hreflang")).toBe("en");
+      expect(a.textContent?.trim().toLowerCase()).toBe("es");
+    }
+    expect(header.querySelectorAll('button[aria-label^="Activar modo"]')).toHaveLength(2);
+    for (const a of header.querySelectorAll("a")) {
+      expect(a.getAttribute("href") ?? "").not.toContain("/#/");
+    }
+  });
+
+  it("el toggle guarda «en» con la clave de la home y deja navegar a la raíz", () => {
+    localStorage.setItem("language", "es");
+    try {
+      const { getAllByRole, unmount } = rtlRender(<RubroPage slug={SLUG} />);
+      const en = getAllByRole("link", { name: /English/ })[0]!;
+      expect(en.getAttribute("href")).toBe("/");
+      expect(fireEvent.click(en)).toBe(true);
+      expect(localStorage.getItem("language")).toBe("en");
+      unmount();
+    } finally {
+      localStorage.clear();
+    }
+  });
+
   it("no placeholders in production", () => {
     expect(import.meta.env.BASE_URL).toBe("/");
     expect(html).not.toContain("data-placeholder");
@@ -262,6 +304,8 @@ describe("/servicios/web-dental/ prerender (base '/qa/')", () => {
     const hrefs = [...doc.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")!);
     expect(hrefs.filter((h) => !isAllowedHref(h, "/qa/"))).toEqual([]);
     expect(hrefs).toContain("/qa/servicios/");
+    // Logo y toggle de idioma respetan la base
+    for (const a of doc.querySelectorAll('header a[data-lang-switch="en"]')) expect(a.getAttribute("href")).toBe("/qa/");
   });
 });
 

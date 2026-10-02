@@ -17,6 +17,10 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
+import { SITE_NAV_PRIMARY_IDS, SITE_NAV_SERVICIOS_PATH } from "./site-nav";
+
+/** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
+const CONSULTORIA_CANON_PATH = `${SITE_NAV_SERVICIOS_PATH}#consultoria-ux`;
 
 export type NavItemId =
   | "inicio"
@@ -82,36 +86,17 @@ export interface NavRegistryItem {
 }
 
 /**
- * FO empresa (home = embudo):
- * - Dock 3: Inicio · Agendar (kickoff) · Contacto
- * - Header: Proceso · Servicios (fichas HTTP) · Contacto
- * - Más / drawer: News, SEM, catálogo
+ * Nav minimal canónico (Rö 2-oct · TL): el header de la home es el componente por defecto.
+ * - Header: Servicios (HTTP /servicios/) · Contacto (#contacto). Orden y destinos: src/lib/site-nav.ts.
+ * - Sin «Más»: los destinos hash (/#/proceso, /#/news, /#/consultoria, /#/sobre-mi, …) salen
+ *   del nav visible (canon vn-agent 2026-09-27: nunca /#/ como destino).
+ * - Dock 3: Inicio · Agendar (kickoff) · Contacto — anclas de la home o HTTP, nunca rutas hash.
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["proceso", "servicios", "contacto"] as const,
-  headerMore: [
-    "news",
-    "consultoria",
-    "negocios",
-    "experiencia",
-    "sobre-mi",
-    "design-system",
-    "uxtools",
-  ] as const,
-  mobileDrawer: [
-    "inicio",
-    "servicios",
-    "news",
-    "consultoria",
-    "proceso",
-    "contacto",
-    "sobre-mi",
-    "negocios",
-    "experiencia",
-    "design-system",
-    "uxtools",
-  ] as const,
+  headerPrimary: SITE_NAV_PRIMARY_IDS satisfies readonly NavItemId[],
+  headerMore: [] as readonly NavItemId[],
+  mobileDrawer: ["inicio", ...SITE_NAV_PRIMARY_IDS] as const satisfies readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
@@ -147,7 +132,7 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "consultoria":
       return { kind: "route", target: ROUTES.consulting };
     case "servicios":
-      return { kind: "http", target: "/servicios/" };
+      return { kind: "http", target: SITE_NAV_SERVICIOS_PATH };
     case "news":
       return { kind: "route", target: ROUTES.news };
     case "proceso":
@@ -164,38 +149,29 @@ function getStaticNavAction(id: NavItemId): NavAction {
 }
 
 export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAction {
-  // Home = embudo FO: anclas en la misma página
+  // Inicio / Contacto: anclas de la home en todas las variantes (en deep, navega a la home y
+  // scrollea). Nada de rutas hash /#/contacto en el nav visible.
   if (id === "inicio") {
-    if (variant === "home" || variant === "funnel") {
-      return { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home };
-    }
-    return { kind: "route", target: ROUTES.home };
+    return { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home };
   }
   if (id === "contacto") {
-    if (variant === "home" || variant === "funnel") {
-      return {
-        kind: "anchor",
-        target: "#contacto",
-        homeRoute: ROUTES.home,
-      };
-    }
-    return { kind: "contact", target: ROUTES.contact };
+    return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
   }
   // Embudo (home): liquid CTA = Calendar (único agendamiento)
-  if (id === "consultoria" && variant === "funnel") {
-    if (A11Y_FREE_SCHEDULE_URL) {
-      return { kind: "external", target: A11Y_FREE_SCHEDULE_URL };
-    }
-    return {
-      kind: "anchor",
-      target: "#contacto",
-      homeRoute: ROUTES.home,
-    };
+  if (variant === "funnel" && A11Y_FREE_SCHEDULE_URL) {
+    return { kind: "external", target: A11Y_FREE_SCHEDULE_URL };
   }
-  return getStaticNavAction(id);
+  if (variant === "funnel") {
+    return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
+  }
+  // home/deep: consultoría canónica (/servicios/#consultoria-ux), no /#/consultoria.
+  return { kind: "http", target: CONSULTORIA_CANON_PATH };
 }
 
 export function getHeaderNavAction(id: NavItemId): NavAction {
+  if (id === "inicio") {
+    return { kind: "anchor", target: "#inicio", homeRoute: ROUTES.home };
+  }
   if (id === "contacto") {
     return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
   }
@@ -268,28 +244,19 @@ export function getHeaderMoreNavItems(labels: NavLabels, processLabel: string): 
   return resolveNavItems(NAV_SURFACE.headerMore, labels, processLabel, getStaticNavAction);
 }
 
-function patchContactRouteItem(item: ResolvedNavItem): ResolvedNavItem {
-  const action: NavAction = { kind: "contact", target: ROUTES.contact };
-  return {
-    ...item,
-    action,
-    menuType: "route",
-    menuHref: "contacto",
-  };
-}
-
 export function getMobileDrawerNavItems(
   labels: NavLabels,
   processLabel: string,
-  pathname: string = ROUTES.home
+  // Se conserva por API: el drawer ya no cambia Contacto a /#/contacto fuera de la home.
+  _pathname: string = ROUTES.home
 ): ResolvedNavItem[] {
-  const items = resolveNavItems(NAV_SURFACE.mobileDrawer, labels, processLabel, getHeaderNavAction);
-  if (pathname === ROUTES.home) return items;
-  return items.map((item) => (item.id === "contacto" ? patchContactRouteItem(item) : item));
+  void _pathname;
+  return resolveNavItems(NAV_SURFACE.mobileDrawer, labels, processLabel, getHeaderNavAction);
 }
 
+/** Índice del separador «Más» en el drawer; -1 = sin separador (nav minimal sin «Más»). */
 export function getMobileMoreDividerIndex(): number {
-  return NAV_SURFACE.mobileDrawer.indexOf("sobre-mi");
+  return (NAV_SURFACE.mobileDrawer as readonly NavItemId[]).indexOf("sobre-mi");
 }
 
 export function resolvedNavToMenuItem(item: ResolvedNavItem): NavItem {
