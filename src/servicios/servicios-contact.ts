@@ -56,7 +56,8 @@ export function buildServiciosPayload(
     intent: v.intent.slice(0, 80),
     language: "es" as const,
     _gotcha: v.gotcha,
-    ...(formStartedAt ? { formStartedAt } : {}),
+    // H2 · siempre viaja (el worker rechaza si falta, es 0 o < 3 s).
+    formStartedAt,
     ...attributionFields(touch),
   };
 }
