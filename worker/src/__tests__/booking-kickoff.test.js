@@ -11,9 +11,15 @@ function makeRequest(body, headers = {}) {
   });
 }
 
+// H1: la confirmación al visitante solo sale para un booking real del puente
+// Calendar → Worker (eventId con formato Google Calendar + X-VN-BOOKING-KEY).
+const WEBHOOK_KEY = 'super-secret';
+const BRIDGE_HEADERS = { 'X-VN-BOOKING-KEY': WEBHOOK_KEY };
+
 function makeEnv(overrides = {}) {
   return {
     EMAIL: { send: vi.fn().mockResolvedValue(undefined) },
+    VN_BOOKING_WEBHOOK_KEY: WEBHOOK_KEY,
     ...overrides,
   };
 }
@@ -40,7 +46,8 @@ describe('handleCreateBooking · kickoff funnel (ads-a11y-landing)', () => {
       origin: 'ads-a11y-landing',
       intent: 'kickoff',
       startAt: '2026-09-08T15:00:00-04:00',
-    });
+      eventId: 'kick0ff12345',
+    }, BRIDGE_HEADERS);
 
     const res = await handleCreateBooking(request, env, CORS);
     expect(res.status).toBe(201);
@@ -61,7 +68,8 @@ describe('handleCreateBooking · kickoff funnel (ads-a11y-landing)', () => {
       email: 'cliente@empresa.cl',
       origin: 'sticky-cta',
       intent: 'consulting',
-    });
+      eventId: 'gener1c12345',
+    }, BRIDGE_HEADERS);
 
     const res = await handleCreateBooking(request, env, CORS);
     expect(res.status).toBe(201);
@@ -82,7 +90,7 @@ describe('handleCreateBooking · kickoff funnel (ads-a11y-landing)', () => {
         email: 'ana@empresa.cl',
         origin: 'ads-a11y-landing',
         intent: 'kickoff',
-        eventId: 'evt-123',
+        eventId: 'evt123abc',
       },
       { 'X-VN-BOOKING-KEY': 'wrong' }
     );
@@ -100,7 +108,7 @@ describe('handleCreateBooking · kickoff funnel (ads-a11y-landing)', () => {
         email: 'ana@empresa.cl',
         origin: 'ads-a11y-landing',
         intent: 'kickoff',
-        eventId: 'evt-123',
+        eventId: 'evt123abc',
         startAt: '2026-09-08T15:00:00-04:00',
       },
       { 'X-VN-BOOKING-KEY': 'super-secret' }
@@ -113,17 +121,34 @@ describe('handleCreateBooking · kickoff funnel (ads-a11y-landing)', () => {
     ).toBe(true);
   });
 
-  it('still accepts requests with eventId but no header when no secret is configured', async () => {
+  it('H1 · rejects requests with eventId when no secret is configured (fail closed)', async () => {
+    const env = makeEnv({ VN_BOOKING_WEBHOOK_KEY: undefined });
+    const request = makeRequest({
+      name: 'Ana Legal',
+      email: 'ana@empresa.cl',
+      origin: 'ads-a11y-landing',
+      intent: 'kickoff',
+      eventId: 'evt456abc',
+    });
+
+    const res = await handleCreateBooking(request, env, CORS);
+    expect(res.status).toBe(401);
+    expect(env.EMAIL.send).not.toHaveBeenCalled();
+  });
+
+  it('H1 · a front click without eventId does not email the visitor', async () => {
     const env = makeEnv();
     const request = makeRequest({
       name: 'Ana Legal',
       email: 'ana@empresa.cl',
       origin: 'ads-a11y-landing',
       intent: 'kickoff',
-      eventId: 'evt-456',
     });
 
     const res = await handleCreateBooking(request, env, CORS);
     expect(res.status).toBe(201);
+    expect(
+      env.EMAIL.send.mock.calls.some((call) => call[0].to === 'ana@empresa.cl')
+    ).toBe(false);
   });
 });
