@@ -1,16 +1,12 @@
-import type { StaticNavLink } from "../components/organisms/Navigation";
-import { homeHref } from "../servicios/servicios-nav";
+import type { SiteNavLink } from "../lib/site-nav";
+import { minimalNavLinks, siteServiciosHref } from "../lib/site-nav";
 
 /** /servicios/ respetando base de Vite ("/servicios/" en prod, "/qa/servicios/" en QA). */
 export function serviciosHref(): string {
-  return `${homeHref()}servicios/`;
+  return siteServiciosHref();
 }
 
-export function rubroNavLinks(): StaticNavLink[] {
-  return [
-    { id: "inicio", label: "Inicio", href: homeHref() },
-    { id: "servicios", label: "Servicios", href: serviciosHref() },
-    { id: "oferta", label: "Web 72 h", href: "#oferta" },
-    { id: "contacto", label: "Contacto", href: "#contacto" },
-  ];
+/** Nav minimal canónico (src/lib/site-nav.ts): Servicios · Contacto (#contacto de la landing). */
+export function rubroNavLinks(): SiteNavLink[] {
+  return minimalNavLinks({ contactHref: "#contacto" });
 }

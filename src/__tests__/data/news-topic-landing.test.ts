@@ -8,9 +8,8 @@ describe("news → specialty landing", () => {
     expect(newsTopicLanding("privacidad")?.path).toBe(
       "/servicios/seguridad-privacidad-digital/"
     );
-    expect(newsTopicLanding("accesibilidad")?.path).toBe(
-      "/servicios/diagnostico-accesibilidad-wcag/"
-    );
+    // Audit 2-oct P1-1: nunca el slug viejo de redirección; ancla canónica de /servicios/.
+    expect(newsTopicLanding("accesibilidad")?.path).toBe("/servicios/#revision-gratis");
     expect(newsTopicLanding("automatizacion")?.path).toBe(
       "/servicios/inteligencia-artificial-negocios/"
     );

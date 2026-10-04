@@ -21,6 +21,7 @@ const AI_SLUGS = ["asistente-ia", "asistente-ecommerce", "inteligencia-artificia
 const HOME_ROOTS = new Set(["/", "/qa/"]);
 const isAllowedHref = (href: string) =>
   HOME_ROOTS.has(href) ||
+  href === "/servicios/" ||
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
@@ -141,7 +142,7 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     for (const slug of AI_SLUGS) expect(html).not.toContain(slug);
   });
 
-  it("every href is the home root, an in-page #anchor, /servicios/#anchor or the mailto", () => {
+  it("every href is the home root, /servicios/, an in-page #anchor, /servicios/#anchor or the mailto", () => {
     const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
     expect(hrefs.length).toBeGreaterThan(5);
     const bad = hrefs.filter((h) => !isAllowedHref(h));
@@ -154,14 +155,16 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect([...footer!.querySelectorAll("a")].map((a) => a.getAttribute("href"))).toEqual([
       "mailto:contacto@vientonorte.io",
     ]);
+    // Nav minimal canónico (src/lib/site-nav.ts): logo → raíz · Servicios · Contacto · toggle → raíz.
     const navHrefs = [...doc.querySelectorAll("header a")].map((a) => a.getAttribute("href"));
     expect(navHrefs).toContain("/");
+    expect(navHrefs).toContain("/servicios/");
     expect(navHrefs).toContain("/servicios/#contacto");
-    expect(navHrefs).toEqual(
-      expect.arrayContaining(["/servicios/#revision-gratis", "/servicios/#web-pymes", "/servicios/#consultoria-ux"])
-    );
-    // Nav canónico: solo la raíz y /servicios/#ancla
-    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/#[a-z][\w-]*)?$/);
+    // Las anclas de tarjetas ya no van en el header (están en la grilla «Tres formas de partir»).
+    for (const anchor of ["/servicios/#revision-gratis", "/servicios/#web-pymes", "/servicios/#consultoria-ux"]) {
+      expect(navHrefs).not.toContain(anchor);
+    }
+    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?)?$/);
   });
 
   it("template has SEO + outlet, and built dist (if present) is the prerendered page", () => {
@@ -343,18 +346,32 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
     localStorage.clear();
   });
 
-  it("el prerender trae el nav con el selector (ES actual, EN hacia la home) y la página sigue en español", () => {
+  it("el prerender trae el nav minimal de la home: logo, Servicios, Contacto, tema y «🌐 ES» (sin par es / EN)", () => {
     const header = doc.querySelector("header")!;
-    expect(header.querySelector("nav")).not.toBeNull();
-    const selector = header.querySelector("[data-lang-selector]")!;
-    expect(selector).not.toBeNull();
-    expect(selector.querySelector('[aria-current="true"]')?.textContent).toBe("es");
+    const nav = header.querySelector('nav[aria-label="Navegación principal"]')!;
+    expect(nav).not.toBeNull();
+    expect(header.getAttribute("data-nav-shell")).toBe("minimal");
+    // Logo → home
+    expect(nav.querySelector('a[aria-label^="Inicio"]')?.getAttribute("href")).toBe("/");
+    // Links primarios del desktop: exactamente Servicios · Contacto
+    const desktop = nav.querySelector(".nav-desktop-only ul")!;
+    expect([...desktop.querySelectorAll("a")].map((a) => a.textContent)).toEqual(["Servicios", "Contacto"]);
+    // Sin el par «es / EN» del selector viejo
+    expect(header.querySelector("[data-lang-selector]")).toBeNull();
+    expect(header.textContent).not.toMatch(/es\s*\/\s*en/i);
+    // Toggle discreto: desktop + móvil, muestra el idioma actual (es) y lleva a la home en EN
     const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];
     expect(switches.length).toBe(2); // escritorio + móvil
     for (const a of switches) {
       expect(a.getAttribute("href")).toBe("/");
       expect(a.getAttribute("hreflang")).toBe("en");
+      expect(a.getAttribute("data-lang-current")).toBe("es");
+      expect(a.textContent?.trim().toLowerCase()).toBe("es");
+      expect(a.getAttribute("aria-label")).toMatch(/English/);
     }
+    expect(header.querySelector(".nav-desktop-only a[data-lang-switch] svg")).not.toBeNull(); // 🌐
+    // Tema: desktop + móvil
+    expect(header.querySelectorAll('button[aria-label^="Activar modo"]').length).toBe(2);
     const tpl = readFileSync(resolve(root, "servicios/index.html"), "utf8");
     expect(tpl).toMatch(/<html lang="es"/);
   });

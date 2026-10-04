@@ -34,7 +34,8 @@ export const NEWS_TOPIC_LANDING: Record<
   { path: string; label: { es: string; en: string } }
 > = {
   accesibilidad: {
-    path: "/servicios/diagnostico-accesibilidad-wcag/",
+    // Slug viejo (redirección desde #279) → ancla canónica.
+    path: "/servicios/#revision-gratis",
     label: {
       es: "Diagnóstico de accesibilidad WCAG",
       en: "WCAG accessibility diagnostic",

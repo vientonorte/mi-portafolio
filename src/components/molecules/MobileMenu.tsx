@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { cn } from "../../lib/utils";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { ROUTES } from "../../lib/routes";
 import { scrollToSection } from "../../lib/scroll-to-section";
@@ -226,15 +226,6 @@ export function MobileMenu({
                   >
                     {footer.linkedin}
                   </a>
-                </li>
-                <li>
-                  <Link
-                    to="/privacy"
-                    onClick={onClose}
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.privacy}
-                  </Link>
                 </li>
                 <li>
                   <a
