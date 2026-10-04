@@ -2,6 +2,7 @@
  * Device frames for product mockups (Apple-style marketing).
  * Variants: laptop (MacBook-ish + browser chrome), browser, phone.
  */
+import type { ReactNode } from "react";
 import { cn } from "../../lib/utils";
 
 export type DeviceMockupVariant = "laptop" | "browser" | "phone";
@@ -19,6 +20,8 @@ type DeviceMockupProps = {
   loading?: "eager" | "lazy";
   /** contain deja la captura entera. cover la recorta a 16:10 para una tarjeta. */
   fit?: "contain" | "cover";
+  /** Solo browser/laptop: contenido en lugar de la captura (p. ej. un placeholder QA 16:10). Ignora `src`. */
+  screenContent?: ReactNode;
 };
 
 export function DeviceMockup({
@@ -31,6 +34,7 @@ export function DeviceMockup({
   addressBar = "x-cms · local",
   loading = "lazy",
   fit = "contain",
+  screenContent,
 }: DeviceMockupProps) {
   if (variant === "phone") {
     return (
@@ -89,6 +93,7 @@ export function DeviceMockup({
           </div>
         </div>
       </div>
+      {screenContent ?? (
       <img
         src={src}
         alt={alt}
@@ -103,6 +108,7 @@ export function DeviceMockup({
         loading={loading}
         decoding="async"
       />
+      )}
     </div>
   );
 
