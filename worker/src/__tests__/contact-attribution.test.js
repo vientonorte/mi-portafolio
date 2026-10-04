@@ -11,6 +11,8 @@ const BASE = {
   consent: true,
   intent: 'consulting',
   source: 'servicios',
+  // H2: el frontend manda el epoch ms del montaje del formulario.
+  formStartedAt: Date.now() - 10_000,
 };
 
 function makeRequest(body) {
