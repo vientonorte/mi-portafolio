@@ -162,6 +162,9 @@ export function ContactAssistant({
   /** H2 · epoch ms del montaje: el worker exige un tiempo mínimo de llenado. */
   const formStartedAt = useRef(0);
   useEffect(() => {
+    // Se captura al montar (no en render: Date.now() es impuro). El front no
+    // bloquea antes de 3 s; el mínimo lo aplica solo el worker.
+    formStartedAt.current = Date.now();
   }, []);
   const translations = useTranslation(language);
   const t = translations.contact;
