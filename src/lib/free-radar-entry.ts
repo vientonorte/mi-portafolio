@@ -49,10 +49,25 @@ export interface OpenFreeRadarEntryOptions {
   mode?: FreeRadarEntryMode;
 }
 
-function trackGenerateLead(
+function trackEntryOpen(
   origin: ContactCtaOrigin,
   channel: "google_calendar" | "contact_form"
 ): void {
+  trackEvent("free_radar_entry_open", {
+    origin,
+    package_id: "radar",
+    freemium: true,
+    channel,
+  });
+  analytics.clickHeroFreeAudit();
+}
+
+/**
+ * H2 · `generate_lead` (key event GA4 → Ads) solo tras la confirmación del
+ * Worker. Abrir el formulario NO es un lead: en el canal contact_form la
+ * conversión la dispara el envío confirmado (lib/contact-conversion.ts).
+ */
+function trackGenerateLead(origin: ContactCtaOrigin, channel: "google_calendar"): void {
   trackEvent("generate_lead", {
     category: "conversion",
     lead_type: "free_a11y",
@@ -61,13 +76,6 @@ function trackGenerateLead(
     channel,
     origin,
   });
-  trackEvent("free_radar_entry_open", {
-    origin,
-    package_id: "radar",
-    freemium: true,
-    channel,
-  });
-  analytics.clickHeroFreeAudit();
 }
 
 /**
@@ -83,7 +91,7 @@ export function openFreeRadarEntry(
   const mode = options.mode ?? "auto";
 
   const openMessage = () => {
-    trackGenerateLead(origin, "contact_form");
+    trackEntryOpen(origin, "contact_form");
     navigateToContactAssistant(navigate, {
       origin,
       source: "cta",
@@ -101,13 +109,15 @@ export function openFreeRadarEntry(
 
   if (mode === "schedule" || mode === "auto") {
     if (A11Y_FREE_SCHEDULE_URL) {
-      trackGenerateLead(origin, "google_calendar");
+      trackEntryOpen(origin, "google_calendar");
       void recordBookingIntent({
         origin,
         intent: "radar-free",
         notes: "Agenda 30 min · revisión de un flujo (vientonorte.io)",
+        onConfirmed: () => trackGenerateLead(origin, "google_calendar"),
       });
-      // Let GTM CE · generate_lead evaluate before Calendar steals the tab.
+      // Calendar abre en pestaña nueva; la página sigue viva para que GTM
+      // procese generate_lead cuando llegue la confirmación del Worker.
       window.setTimeout(() => {
         openA11yFreeScheduleOrFallback(openMessage);
       }, 300);
