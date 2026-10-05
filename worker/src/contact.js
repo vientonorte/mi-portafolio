@@ -44,6 +44,17 @@ async function sendViaCloudflareEmail(env, message) {
 }
 
 async function sendViaFormSubmit(inbox, payload) {
+  // Un error de red (DNS, conexión cortada, FormSubmit caído) no debe tumbar el
+  // handler con 500: se devuelve ok:false y sendContactEmail cae a EMAIL.
+  try {
+    return await postFormSubmit(inbox, payload);
+  } catch (err) {
+    console.warn('[contact] formsubmit network error:', err?.message || err);
+    return { ok: false, error: 'formsubmit_network' };
+  }
+}
+
+async function postFormSubmit(inbox, payload) {
   const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
     method: 'POST',
     headers: {
