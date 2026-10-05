@@ -20,6 +20,7 @@ import {
 } from "../../lib/consulting-contact-motive";
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
+import { trackContactSubmitted } from "../../lib/contact-conversion";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import {
@@ -84,6 +85,13 @@ export function Contact({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** H2 · epoch ms del montaje: el worker exige un tiempo mínimo de llenado. */
+  const formStartedAt = useRef(0);
+  useEffect(() => {
+    // Se captura al montar (no en render: Date.now() es impuro). El front no
+    // bloquea antes de 3 s; el mínimo lo aplica solo el worker.
+    formStartedAt.current = Date.now();
+  }, []);
 
   useEffect(() => {
     if (persistTimer.current) clearTimeout(persistTimer.current);
@@ -148,10 +156,12 @@ export function Contact({
         conversationTitle: effectiveDraft?.conversationTitle,
         consent: sharedIdentity.consent,
         language,
+        formStartedAt: formStartedAt.current,
       });
 
       if (result.ok) {
-        analytics.submitContactForm(true, result.channel);
+        // H2 · conversión solo si el worker confirmó con 200.
+        trackContactSubmitted(result);
         toast.success(t.form.success);
         setSharedIdentity(emptyContactIdentity());
         setSharedMessage("");
