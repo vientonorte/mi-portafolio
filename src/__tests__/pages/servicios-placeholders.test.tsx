@@ -23,7 +23,7 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.getElementById("experiencia")).toBeNull();
     // «El recorrido» (#casos) salió de /servicios/ (TL tras QA de Rö, 2-oct): los casos viven en #casos-vn.
     expect(doc.getElementById("casos")).toBeNull();
-    expect(doc.querySelectorAll("#casos-vn article").length).toBeGreaterThan(0);
+    expect(doc.querySelectorAll("#casos-vn [data-vn-case]").length).toBeGreaterThan(0);
     expect(doc.getElementById("quien")).toBeNull();
     expect(doc.getElementById("como-trabajamos")).toBeNull();
     expect(html).not.toContain("Han confiado en Viento Norte");
@@ -86,9 +86,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.querySelector('[data-vn-case="monitas"]')).toBeNull();
   });
 
-  it("section order: hero → opciones → casos-vn → contacto", () => {
+  it("section order: hero → opciones → casos-vn → conceptos → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "conceptos", "contacto"]);
   });
 
   it("built dist (if present, base '/') has no placeholders", () => {

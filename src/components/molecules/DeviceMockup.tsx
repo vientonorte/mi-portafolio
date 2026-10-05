@@ -9,6 +9,8 @@ export type DeviceMockupVariant = "laptop" | "browser" | "phone";
 
 type DeviceMockupProps = {
   src: string;
+  /** WebP gemelo (picture → source). Si falta, solo PNG. */
+  webpSrc?: string;
   alt?: string;
   caption?: string;
   /** Default laptop — product dashboards */
@@ -20,12 +22,16 @@ type DeviceMockupProps = {
   loading?: "eager" | "lazy";
   /** contain deja la captura entera. cover la recorta a 16:10 para una tarjeta. */
   fit?: "contain" | "cover";
+  /** Dimensiones intrínsecas para reservar espacio (CLS). Default 1440×900. */
+  width?: number;
+  height?: number;
   /** Solo browser/laptop: contenido en lugar de la captura (p. ej. un placeholder QA 16:10). Ignora `src`. */
   screenContent?: ReactNode;
 };
 
 export function DeviceMockup({
   src,
+  webpSrc,
   alt = "",
   caption,
   variant = "laptop",
@@ -34,6 +40,8 @@ export function DeviceMockup({
   addressBar = "x-cms · local",
   loading = "lazy",
   fit = "contain",
+  width = 1440,
+  height = 900,
   screenContent,
 }: DeviceMockupProps) {
   if (variant === "phone") {
@@ -52,13 +60,18 @@ export function DeviceMockup({
             aria-hidden
           />
           <div className="overflow-hidden rounded-[1.7rem] bg-black">
-            <img
-              src={src}
-              alt={alt}
-              className="aspect-[9/19.5] w-full object-cover object-top"
-              loading={loading}
-              decoding="async"
-            />
+            <picture>
+              {webpSrc ? <source type="image/webp" srcSet={webpSrc} /> : null}
+              <img
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+                className="aspect-[9/19.5] w-full object-cover object-top"
+                loading={loading}
+                decoding="async"
+              />
+            </picture>
           </div>
           {/* Home indicator */}
           <div
@@ -94,20 +107,23 @@ export function DeviceMockup({
         </div>
       </div>
       {screenContent ?? (
-      <img
-        src={src}
-        alt={alt}
-        width={1440}
-        height={900}
-        className={cn(
-          "block h-auto w-full bg-[#0a0a0a]",
-          fit === "cover"
-            ? "aspect-[16/10] object-cover object-top"
-            : "object-contain object-top",
-        )}
-        loading={loading}
-        decoding="async"
-      />
+      <picture>
+        {webpSrc ? <source type="image/webp" srcSet={webpSrc} /> : null}
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={cn(
+            "block h-auto w-full bg-[#0a0a0a]",
+            fit === "cover"
+              ? "aspect-[16/10] object-cover object-top"
+              : "object-contain object-top",
+          )}
+          loading={loading}
+          decoding="async"
+        />
+      </picture>
       )}
     </div>
   );

@@ -149,19 +149,18 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     for (const anchor of SERVICIOS_ANCHORS) expect(doc.getElementById(anchor), anchor).not.toBeNull();
   });
 
-  it("casos: TodoClick.cl y Parcelas Terramar en #web-pymes; Edu 21 en #revision-gratis; Monitas fuera de /servicios/", () => {
-    // arrayContaining: la grilla recibe más productos de VN sin reescribir este test (lista de Rö pendiente).
+  it("casos: TodoClick/Terramar en #web-pymes; WCAG en #revision-gratis; Edu21+Ratio+gaps en #consultoria-ux; Monitas fuera", () => {
     const byGroup = Object.fromEntries(SERVICIOS_VN_CASE_GROUPS.map((g) => [g.anchor, g.cases.map((c) => c.name)]));
     expect(byGroup["web-pymes"]).toEqual(expect.arrayContaining(["TodoClick.cl", "Parcelas Terramar"]));
+    expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG"]);
     expect(byGroup["consultoria-ux"]).toEqual([
       "X|CMS · Da Pleisë",
       "CFO Dashboard · Ratio Irarrázaval",
+      "Edu 21",
       "Dashboard de consultoría estratégica",
-      "Sistema de diseño · App Cliente Transvip",
-      "Portal comercial · Claro",
     ]);
-    expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG", "Edu 21"]);
     expect(vnCases.some((c) => c.id === "monitas")).toBe(false);
+    expect(vnCases.some((c) => c.id === "claro" || c.id === "transvip")).toBe(false);
     expect(html).not.toMatch(/monitas/i);
     expect(html).not.toContain("cases/monitas");
     expect(new Set(vnCases.map((c) => c.id)).size).toBe(vnCases.length);
@@ -169,6 +168,9 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
     expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
     expect(byId.edu21.startingPoint).toMatch(/^Diagnóstico base \(junio de 2022\): carga de 15,4 s y calificación «deficiente»\.$/);
+    expect(byId.edu21.ctaAnchor).toBe("revision-gratis");
+    expect(byId["x-cms"].image).toBeUndefined();
+    expect(byId["consultoria-estrategica"].image).toBeUndefined();
   });
 
   it("secciones eliminadas: sin experiencia de Rö, quién está detrás, cómo trabajamos, Coworking ni WCAG propia", () => {
@@ -179,15 +181,13 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     expect(text).not.toContain("Experiencia de Rö");
     expect(text).not.toContain("Quién está detrás");
     expect(text).not.toContain("Cómo trabajamos");
-    // Transvip vuelve solo como tarjeta «Proyecto in-house» en 03 (TL, 4-oct); la franja «Experiencia de Rö» sigue fuera.
-    const sinTransvip = casos.cloneNode(true) as HTMLElement;
-    sinTransvip.querySelector('[data-vn-case="transvip"]')?.remove();
-    for (const name of ["Transvip", "SURA", "Karri", "Pareti", "Coworking"]) {
-      expect(sinTransvip.textContent ?? "", name).not.toContain(name);
+    // Transvip vive en #conceptos (in-house); la franja «Experiencia de Rö» sigue fuera.
+    for (const name of ["SURA", "Karri", "Pareti", "Coworking"]) {
+      expect(casos.textContent ?? "", name).not.toContain(name);
     }
     expect(text).not.toMatch(/SURA Investments|Karri|Pareti/);
     const transvipHits = [...doc.querySelectorAll("main section")].filter((sec) => /Transvip/.test(sec.textContent ?? ""));
-    expect(transvipHits.map((sec) => sec.id)).toEqual(["casos-vn"]);
+    expect(transvipHits.map((sec) => sec.id)).toEqual(["conceptos"]);
     expect(html).not.toContain("method/coworking/");
     expect(casos.querySelector('[data-vn-case="coworking"]')).toBeNull();
   });
@@ -205,11 +205,14 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     expect(html).not.toMatch(/marca consciente|algorithmics|sortify/i);
   });
 
-  it("los links de la grilla son solo /servicios/#ancla", () => {
+  it("los links de la grilla son solo #ancla canónica (grupo + tarjeta clickeable)", () => {
     const hrefs = [...casos.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
-    expect(hrefs.length).toBe(SERVICIOS_CASE_ANCHORS.length);
+    expect(hrefs.length).toBeGreaterThanOrEqual(SERVICIOS_CASE_ANCHORS.length);
     for (const h of hrefs) expect(h, h).toMatch(CANON_HREF);
     for (const re of FORBIDDEN) expect(casos.outerHTML, `${re}`).not.toMatch(re);
+    // Edu21 (en consultoría) apunta a #revision-gratis
+    const eduLink = casos.querySelector('[data-vn-case="edu21"] a')!.getAttribute("href");
+    expect(eduLink).toBe("#revision-gratis");
   });
 
   it("no agrega colores hex: solo tokens", () => {
@@ -233,14 +236,26 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     for (const a of accents) expect(a.className).toContain("bg-[var(--primary)]");
   });
 
-  it("cada tarjeta: una imagen real del repo y dos etiquetas (rubro y servicio)", () => {
+  it("cada tarjeta: mockup DS; imagen WebP del repo si hay asset; gaps Figma sin img de repo; chips rubro+servicio", () => {
     for (const c of vnCases) {
       const card = casos.querySelector(`[data-vn-case="${c.id}"]`)!;
       expect(card, c.id).not.toBeNull();
-      expect(card.querySelectorAll("img").length, c.id).toBe(1);
-      expect(existsSync(resolve(process.cwd(), "public", c.image.png)), c.image.png).toBe(true);
-      if (c.image.webp) expect(existsSync(resolve(process.cwd(), "public", c.image.webp)), c.image.webp).toBe(true);
-      const tags = [...card.querySelectorAll("[data-tag]")].map((t) => t.getAttribute("data-tag"));
+      expect(card.querySelector("[data-device-frame]"), c.id).not.toBeNull();
+      if (c.image) {
+        expect(card.querySelectorAll("img").length, c.id).toBe(1);
+        expect(existsSync(resolve(process.cwd(), "public", c.image.png)), c.image.png).toBe(true);
+        if (c.image.webp) expect(existsSync(resolve(process.cwd(), "public", c.image.webp)), c.image.webp).toBe(true);
+        expect(card.querySelector("[data-asset-origen]")?.getAttribute("data-asset-origen") ?? card.getAttribute("data-asset-origen")).toBe("repo");
+      } else {
+        expect(card.querySelectorAll("img").length, c.id).toBe(0);
+        expect(card.querySelector("[data-asset-gap]")?.getAttribute("data-asset-gap")).toBe("figma-design-no-dato");
+        expect(card.textContent, c.id).toMatch(/Gap Figma Design · NO DATO/);
+        // No asset repo paths for X|CMS / GEES
+        expect(card.innerHTML, c.id).not.toContain("products/x-cms/");
+        expect(card.innerHTML, c.id).not.toContain("consultoria-estrategica/");
+        expect(card.innerHTML, c.id).not.toContain("gees-dashboard");
+      }
+      const tags = [...card.querySelectorAll("[data-tag]")].map((el) => el.getAttribute("data-tag"));
       expect(tags.sort(), c.id).toEqual(["rubro", "servicio"]);
     }
   });
@@ -266,28 +281,30 @@ describe("/servicios/ secciones 02 (#revision-gratis) y 03 (#consultoria-ux): br
   const casos = doc.getElementById("casos-vn")!;
   const group = (anchor: string) => casos.querySelector(`[data-case-group="${anchor}"]`)!;
 
-  it("02 tiene 2 tarjetas (vientonorte.io WCAG y Edu 21); 03 tiene 5 (X|CMS, Ratio CFO, consultoría estratégica, Transvip, Claro)", () => {
+  it("02 = WCAG; 03 = X|CMS (gap), Ratio, Edu21, GEES (gap); Claro/Transvip fuera de casos-vn", () => {
     const ids = (anchor: string) =>
       [...group(anchor).querySelectorAll("[data-vn-case]")].map((n) => n.getAttribute("data-vn-case"));
-    expect(ids("revision-gratis")).toEqual(["vientonorte-wcag", "edu21"]);
-    expect(ids("consultoria-ux")).toEqual(["x-cms", "ratio-irarrazaval", "consultoria-estrategica", "transvip", "claro"]);
-    expect(group("consultoria-ux").textContent).not.toContain("Edu 21");
+    expect(ids("revision-gratis")).toEqual(["vientonorte-wcag"]);
+    expect(ids("consultoria-ux")).toEqual(["x-cms", "ratio-irarrazaval", "edu21", "consultoria-estrategica"]);
+    expect(ids("web-pymes")).toEqual(["todoclick", "terramar"]);
+    expect(casos.querySelector('[data-vn-case="claro"]')).toBeNull();
+    expect(casos.querySelector('[data-vn-case="transvip"]')).toBeNull();
   });
 
-  it("02 y 03 usan el marco de navegador 16:10 recortado de la 01; la grilla de #web-pymes no cambia", () => {
-    for (const anchor of ["revision-gratis", "consultoria-ux"]) {
+  it("todas las tarjetas de casos-vn usan mockup DS 16:10 (browser); título text-xl bold", () => {
+    for (const anchor of ["web-pymes", "revision-gratis", "consultoria-ux"]) {
       for (const card of group(anchor).querySelectorAll("[data-vn-case]")) {
         expect(card.getAttribute("data-card-variant"), anchor).toBe("service");
-        const img = card.querySelector("[data-device-frame] img")!;
-        expect(img, anchor).not.toBeNull();
-        expect(img.className).toContain("aspect-[16/10]");
-        expect(img.className).toContain("object-cover");
+        expect(card.querySelector("[data-device-frame]"), anchor).not.toBeNull();
+        const img = card.querySelector("[data-device-frame] img");
+        if (img) {
+          expect(img.className).toContain("aspect-[16/10]");
+          expect(img.className).toContain("object-cover");
+        } else {
+          expect(card.querySelector("[data-asset-gap]")).not.toBeNull();
+        }
         expect(card.querySelector("h4")!.className).toContain("text-xl font-bold leading-snug");
       }
-    }
-    for (const card of group("web-pymes").querySelectorAll("[data-vn-case]")) {
-      expect(card.getAttribute("data-card-variant")).toBeNull();
-      expect(card.querySelector("[data-device-frame]")).toBeNull();
     }
   });
 
@@ -323,45 +340,45 @@ describe("/servicios/ tarjetas 02/03: formato de la 01, Claro concepto propio, T
   const casos = doc.getElementById("casos-vn")!;
   const card01 = doc.querySelector('[data-card="web-pymes"] article')!;
 
-  it("misma clase de article, eyebrow, línea primaria y título que la tarjeta 01 (ServiceCards)", () => {
+  it("eyebrow mono + título bold como la 01; chip rubro DS; mockup browser compartido", () => {
     const eyebrow01 = card01.querySelector("p.font-mono")!.className;
-    const audience01 = card01.querySelector("[data-audience]")!.className;
     const title01 = card01.querySelector("h3")!.className;
-    for (const anchor of ["revision-gratis", "consultoria-ux"]) {
+    for (const anchor of ["web-pymes", "revision-gratis", "consultoria-ux"]) {
       for (const card of casos.querySelectorAll(`[data-case-group="${anchor}"] [data-vn-case]`)) {
-        expect(card.className, anchor).toBe(card01.className);
         expect(card.querySelector('[data-tag="servicio"]')!.className).toBe(eyebrow01);
-        expect(card.querySelector('[data-tag="rubro"]')!.className).toBe(audience01);
-        for (const cls of title01.split(" ")) expect(card.querySelector("h4")!.className).toContain(cls);
-        const frame = card.querySelector("[data-device-frame] figure")!;
-        const frame01 = card01.querySelector("figure")!;
-        expect(frame.innerHTML.replace(/src="[^"]*"|alt="[^"]*"|>[^<]*</g, "")).toBe(
-          frame01.innerHTML.replace(/src="[^"]*"|alt="[^"]*"|>[^<]*</g, "")
-        );
+        expect(card.querySelector('[data-tag="rubro"]')!.getAttribute("data-slot")).toBe("badge");
+        for (const cls of ["text-xl", "font-bold", "leading-snug"]) {
+          expect(card.querySelector("h4")!.className).toContain(cls);
+        }
+        for (const cls of title01.split(" ").filter((c) => ["text-xl", "font-bold", "leading-snug", "text-foreground"].includes(c))) {
+          expect(card.querySelector("h4")!.className).toContain(cls);
+        }
+        expect(card.querySelector("[data-device-frame] figure")).not.toBeNull();
       }
     }
   });
 
-  it("Claro: rótulo visible «Concepto propio, no encargado por la marca» y export de Figma real", () => {
-    const claro = casos.querySelector('[data-vn-case="claro"]')!;
+  it("Claro y Transvip en #conceptos (prod) con origin visible y export Figma", () => {
+    const conceptos = doc.getElementById("conceptos")!;
+    expect(conceptos).not.toBeNull();
+    const claro = conceptos.querySelector('[data-concept="claro"]')!;
     expect(claro.querySelector("[data-origin-note]")!.textContent).toBe("Concepto propio, no encargado por la marca");
     expect(claro.querySelector("img")!.getAttribute("src")).toBe("/images/cases/claro/portal-comercial-concepto.png");
     expect(claro.querySelector("img")!.getAttribute("alt")).toBeTruthy();
-  });
-
-  it("Transvip: «Proyecto in-house», no cliente de VN", () => {
-    const t = casos.querySelector('[data-vn-case="transvip"]')!;
-    expect(t.querySelector("[data-origin]")!.getAttribute("data-origin")).toBe("Proyecto in-house");
-    expect(t.querySelector("[data-origin-note]")!.textContent).toMatch(/No es un cliente de Viento Norte/);
-    expect(t.textContent).not.toMatch(/cliente de VN|caso de éxito/i);
+    const tv = conceptos.querySelector('[data-concept="transvip"]')!;
+    expect(tv.querySelector("[data-origin]")!.getAttribute("data-origin")).toBe("Proyecto in-house");
+    expect(tv.querySelector("[data-origin-note]")!.textContent).toMatch(/No es un cliente de Viento Norte/);
+    expect(tv.textContent).not.toMatch(/cliente de VN|caso de éxito/i);
+    expect(conceptos.querySelector('[data-concept="mascotapp"]')).toBeNull();
   });
 
   it("sin Walmart, Maraña ni Filipinas/Penji en /servicios/", () => {
     expect(html).not.toMatch(/walmart|maraña|marana|filipinas|philippines|penji/i);
   });
 
-  it("producción: «Conceptos» no se renderiza mientras MASCOTAPP no tenga imagen (sin placeholders)", () => {
-    expect(doc.getElementById("conceptos")).toBeNull();
+  it("producción: Conceptos con Claro+Transvip; MASCOTAPP ausente; sin data-placeholder", () => {
+    expect(doc.getElementById("conceptos")).not.toBeNull();
     expect(html).not.toContain("data-placeholder");
+    expect(doc.querySelector('[data-concept="mascotapp"]')).toBeNull();
   });
 });

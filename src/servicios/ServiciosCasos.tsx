@@ -1,7 +1,10 @@
+import type { ReactNode } from "react";
 import { Check } from "lucide-react";
-import { PendingSlot, ResponsiveImage, SECTION_TITLE_CLASS } from "../components/marketing";
+import { PendingSlot, SECTION_TITLE_CLASS } from "../components/marketing";
 import { assetUrl, placeholdersEnabled } from "../components/marketing/marketing-env";
 import { DeviceMockup } from "../components/molecules/DeviceMockup";
+import { Badge } from "../components/ui/badge";
+import { Card, CardContent } from "../components/ui/card";
 import { cn } from "../lib/utils";
 import {
   SERVICIOS_CONCEPTOS,
@@ -16,22 +19,19 @@ import {
 /** Títulos en Chillax (token del design system). */
 const CHILLAX = "font-[family-name:var(--font-chillax)]";
 const SECTION_CLASS = "scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 py-12 md:py-16";
-const TAG_CLASS = "rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground";
 
 /**
- * Secciones 02 (#revision-gratis) y 03 (#consultoria-ux): formato exacto de la tarjeta 01 de «Tres formas de partir»
- * (ServiceCards): article p-6 gap-5, DeviceMockup browser 16:10 `fit="cover"` sin glow, eyebrow mono «NN · servicio»,
- * línea con borde primario, título text-xl bold leading-snug y lista con Check.
+ * Tarjeta de caso = Card del DS (tokens como home) + DeviceMockup.
+ * Hover/focus visibles; prefers-reduced-motion vía motion-reduce en glow del mockup.
+ * Toda la tarjeta es un enlace al servicio (teclado + click).
  */
-const SERVICE_STYLE_ANCHORS: readonly ServiciosAnchor[] = ["revision-gratis", "consultoria-ux"];
+const CARD_CLASS =
+  "group flex h-full flex-col gap-5 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm transition-[box-shadow,border-color] duration-200 hover:border-primary/40 hover:shadow-md focus-within:border-primary focus-within:shadow-md focus-within:outline-none motion-reduce:transition-none";
+const CARD_LINK_CLASS =
+  "absolute inset-0 z-10 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+const EYEBROW = "font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground";
+const TITLE = "text-xl font-bold leading-snug text-foreground";
 
-/** Clases de la tarjeta 01 (ServiceCards). Cambiar aquí y allá a la vez. */
-const CARD01_ARTICLE = "flex h-full flex-col gap-5 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm";
-const CARD01_EYEBROW = "font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground";
-const CARD01_AUDIENCE = "border-l-2 border-primary pl-2 text-sm font-semibold leading-snug text-foreground";
-const CARD01_TITLE = "text-xl font-bold leading-snug text-foreground";
-
-/** Acento del isologo: el núcleo del punto en var(--primary). Decorativo. */
 function IsologoAccent({ className }: { className?: string }) {
   return (
     <span
@@ -55,70 +55,163 @@ function FindingsList({ items }: { items: readonly string[] }) {
   );
 }
 
-/** Marco de navegador de la tarjeta 01, con la captura real. */
-function BrowserFrame({ png, alt, addressBar }: { png: string; alt: string; addressBar: string }) {
+function RubroChip({ label }: { label: string }) {
   return (
-    <div data-device-frame>
+    <Badge data-tag="rubro" variant="outline" className="rounded-full border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground">
+      {label}
+    </Badge>
+  );
+}
+
+/** Imagen WebP del repo dentro del mockup DS (browser o phone). */
+function CaseMockup({
+  image,
+  addressBar,
+  variant = "browser",
+  gapNote,
+  pending,
+}: {
+  image?: VnCase["image"];
+  addressBar: string;
+  variant?: "browser" | "phone";
+  gapNote?: string;
+  pending?: ConceptCase;
+}) {
+  if (pending && !pending.image) {
+    const { fileName, fileKey, nodeId, ratio } = pending.pendingAsset!;
+    return (
+      <div data-device-frame data-pending-asset={`${fileKey}:${nodeId}`}>
+        <DeviceMockup
+          variant={variant}
+          src=""
+          addressBar={addressBar}
+          fit="cover"
+          glow={false}
+          screenContent={
+            <PendingSlot
+              variant="thumb"
+              className="rounded-none border-0"
+              label={`Imagen pendiente: Figma «${fileName}» (${fileKey}), nodo ${nodeId}, ${ratio}`}
+            />
+          }
+        />
+      </div>
+    );
+  }
+
+  if (!image) {
+    // Gap Figma Design (X|CMS / GEES): sin asset repo. Marco reservado CLS; sin PendingSlot (solo #conceptos).
+    return (
+      <div data-device-frame data-asset-gap="figma-design-no-dato">
+        <DeviceMockup
+          variant="browser"
+          src=""
+          addressBar={addressBar}
+          fit="cover"
+          glow={false}
+          width={1440}
+          height={900}
+          screenContent={
+            <div
+              className="flex aspect-[16/10] w-full items-center justify-center bg-muted px-4 text-center text-sm font-medium text-muted-foreground"
+              role="img"
+              aria-label={gapNote ?? "Gap Figma Design · NO DATO"}
+            >
+              {gapNote ?? "Gap Figma Design · NO DATO"}
+            </div>
+          }
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div data-device-frame data-asset-origen="repo">
       <DeviceMockup
-        variant="browser"
-        src={assetUrl(png)}
-        alt={alt}
+        variant={variant}
+        src={assetUrl(image.png)}
+        webpSrc={image.webp ? assetUrl(image.webp) : undefined}
+        alt={image.alt}
         addressBar={addressBar}
         fit="cover"
         glow={false}
         loading="lazy"
+        width={image.width}
+        height={image.height}
       />
     </div>
   );
 }
 
-/**
- * Mismo marco de navegador, con el asset de Figma que falta. Solo en el build QA (PendingSlot devuelve null en
- * producción). El texto dice qué archivo, nodo y formato hay que exportar.
- */
-function BrowserFramePending({ item }: { item: ConceptCase }) {
-  const { fileName, fileKey, nodeId, ratio } = item.pendingAsset;
+function CaseCardShell({
+  children,
+  href,
+  linkLabel,
+  caseId,
+  assetOrigen,
+}: {
+  children: ReactNode;
+  href: string;
+  linkLabel: string;
+  caseId: string;
+  assetOrigen?: string;
+}) {
   return (
-    <div data-device-frame data-pending-asset={`${fileKey}:${nodeId}`}>
-      <DeviceMockup
-        variant="browser"
-        src=""
-        addressBar={item.addressBar}
-        fit="cover"
-        glow={false}
-        screenContent={
-          <PendingSlot
-            variant="thumb"
-            className="rounded-none border-0"
-            label={`Imagen pendiente: Figma «${fileName}» (${fileKey}), nodo ${nodeId}, ${ratio}`}
-          />
-        }
-      />
-    </div>
+    <Card
+      data-card-variant="service"
+      data-vn-case={caseId}
+      data-asset-origen={assetOrigen}
+      className={cn(CARD_CLASS, "relative gap-5 py-0 shadow-sm")}
+    >
+      <a href={href} className={CARD_LINK_CLASS} aria-label={linkLabel}>
+        <span className="sr-only">{linkLabel}</span>
+      </a>
+      <CardContent className="relative z-0 flex flex-1 flex-col gap-5 p-0">{children}</CardContent>
+    </Card>
   );
 }
 
-function ServiceStyleCaseCard({ item, number }: { item: VnCase; number: number }) {
+function ServiceStyleCaseCard({
+  item,
+  number,
+  groupAnchor,
+}: {
+  item: VnCase;
+  number: number;
+  groupAnchor: ServiciosAnchor;
+}) {
+  const href = `#${item.ctaAnchor ?? groupAnchor}`;
+  const linkLabel = `Ver el servicio: ${item.tags.servicio} — ${item.name}`;
   return (
-    <article data-vn-case={item.id} data-card-variant="service" className={CARD01_ARTICLE}>
-      <BrowserFrame png={item.image.png} alt={item.image.alt} addressBar={item.addressBar ?? "vientonorte.io"} />
+    <CaseCardShell
+      href={href}
+      linkLabel={linkLabel}
+      caseId={item.id}
+      assetOrigen={item.assetOrigen}
+    >
+      <CaseMockup
+        image={item.image}
+        addressBar={item.addressBar ?? "vientonorte.io"}
+        variant={item.mockupVariant ?? "browser"}
+        gapNote={item.figmaGap?.note}
+      />
       <div className="space-y-2">
-        <p data-tag="servicio" className={CARD01_EYEBROW}>
+        <p data-tag="servicio" className={EYEBROW}>
           {String(number).padStart(2, "0")} · {item.tags.servicio}
         </p>
-        <p data-tag="rubro" className={CARD01_AUDIENCE}>
-          {item.tags.rubro}
-        </p>
-        <h4 className={cn(CHILLAX, CARD01_TITLE, "flex items-center gap-2")}>
+        <div className="flex flex-wrap gap-2">
+          <RubroChip label={item.tags.rubro} />
+        </div>
+        <h4 className={cn(CHILLAX, TITLE, "flex items-center gap-2")}>
           <IsologoAccent />
           {item.name}
         </h4>
       </div>
       {item.origin ? (
         <div data-origin={item.origin.label} className="space-y-2">
-          <p className="inline-flex rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground">
+          <Badge variant="secondary" className="rounded-full px-3 py-1 text-xs font-semibold">
             {item.origin.label}
-          </p>
+          </Badge>
           <p data-origin-note className="text-sm font-semibold leading-relaxed text-foreground">
             {item.origin.note}
           </p>
@@ -132,50 +225,16 @@ function ServiceStyleCaseCard({ item, number }: { item: VnCase; number: number }
           {item.startingPoint}
         </p>
       ) : null}
-    </article>
+      {item.ctaAnchor && item.ctaAnchor !== groupAnchor ? (
+        <p className="text-sm font-semibold text-foreground underline underline-offset-4 group-hover:text-primary">
+          Ir a {item.ctaAnchor === "revision-gratis" ? "Revisión gratis" : item.ctaAnchor}
+        </p>
+      ) : null}
+    </CaseCardShell>
   );
 }
 
-function VnCaseCard({ item }: { item: VnCase }) {
-  return (
-    <article
-      data-vn-case={item.id}
-      className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-    >
-      <div className="aspect-[16/9] overflow-hidden border-b border-border bg-muted">
-        <ResponsiveImage image={item.image} className="h-full w-full object-cover object-center" />
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <ul className="flex list-none flex-wrap gap-2 p-0" aria-label="Etiquetas">
-          <li data-tag="rubro" className={TAG_CLASS}>
-            {item.tags.rubro}
-          </li>
-          <li data-tag="servicio" className={TAG_CLASS}>
-            {item.tags.servicio}
-          </li>
-        </ul>
-        <h4 className={cn(CHILLAX, "mt-3 flex items-center gap-2 text-xl font-bold text-foreground")}>
-          <IsologoAccent />
-          {item.name}
-        </h4>
-        <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-foreground">
-          {item.findings.map((f) => (
-            <li key={f}>{f}</li>
-          ))}
-        </ul>
-        {item.startingPoint ? (
-          <p data-starting-point className="mt-4 rounded-md border border-border bg-muted/50 p-3 text-sm text-foreground">
-            <strong className="font-semibold">Punto de partida, no resultado: </strong>
-            {item.startingPoint}
-          </p>
-        ) : null}
-      </div>
-    </article>
-  );
-}
-
-/** Casos de VN en grilla, agrupados por ancla de servicio. Enlaces solo a las anclas canónicas de /servicios/. */
+/** Casos de VN en grilla, agrupados por ancla. Enlaces solo a anclas canónicas. */
 export function ServiciosCasos() {
   return (
     <section id="casos-vn" aria-labelledby="casos-vn-heading" className={cn(SECTION_CLASS, "bg-background")}>
@@ -185,34 +244,26 @@ export function ServiciosCasos() {
           {SERVICIOS_VN_CASES.heading}
         </h2>
         <p className="mt-2 max-w-2xl text-base text-muted-foreground">{SERVICIOS_VN_CASES.intro}</p>
-        {SERVICIOS_VN_CASE_GROUPS.map((group, groupIndex) => {
-          const serviceStyle = SERVICE_STYLE_ANCHORS.includes(group.anchor);
-          return (
-            <div key={group.anchor} data-case-group={group.anchor} className="mt-10">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className={cn(CHILLAX, "text-lg font-bold text-foreground sm:text-xl")}>{group.label}</h3>
-                <a
-                  href={`#${group.anchor}`}
-                  className="inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4 hover:text-primary"
-                >
-                  {group.linkLabel}
-                </a>
-              </div>
-              <ul className={cn("mt-4 grid list-none gap-6 p-0 md:grid-cols-2", serviceStyle && "lg:grid-cols-3")}>
-                {group.cases.map((item) => (
-                  <li key={item.id}>
-                    {serviceStyle ? (
-                      // Número 02/03 = posición del grupo (groupIndex + 1): sigue el orden de «Tres formas de partir».
-                      <ServiceStyleCaseCard item={item} number={groupIndex + 1} />
-                    ) : (
-                      <VnCaseCard item={item} />
-                    )}
-                  </li>
-                ))}
-              </ul>
+        {SERVICIOS_VN_CASE_GROUPS.map((group, groupIndex) => (
+          <div key={group.anchor} data-case-group={group.anchor} className="mt-10">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 className={cn(CHILLAX, "text-lg font-bold text-foreground sm:text-xl")}>{group.label}</h3>
+              <a
+                href={`#${group.anchor}`}
+                className="relative z-20 inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                {group.linkLabel}
+              </a>
             </div>
-          );
-        })}
+            <ul className="mt-4 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
+              {group.cases.map((item) => (
+                <li key={item.id}>
+                  <ServiceStyleCaseCard item={item} number={groupIndex + 1} groupAnchor={group.anchor} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -220,33 +271,49 @@ export function ServiciosCasos() {
 
 function ConceptCard({ item }: { item: ConceptCase }) {
   return (
-    <article data-concept={item.id} data-card-variant="service" className={CARD01_ARTICLE}>
-      {item.image ? (
-        <BrowserFrame png={item.image.png} alt={item.image.alt} addressBar={item.addressBar} />
-      ) : (
-        <BrowserFramePending item={item} />
-      )}
-      <div className="space-y-2">
-        <p data-tag="servicio" className={CARD01_EYEBROW}>
-          {item.tags.servicio}
-        </p>
-        <p data-tag="rubro" className={CARD01_AUDIENCE}>
-          {item.tags.rubro}
-        </p>
-        <h3 className={cn(CHILLAX, CARD01_TITLE, "flex items-center gap-2")}>
-          <IsologoAccent />
-          {item.name}
-        </h3>
-      </div>
-      <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
-      <FindingsList items={item.findings} />
-    </article>
+    <Card
+      data-concept={item.id}
+      data-card-variant="service"
+      className={cn(CARD_CLASS, "gap-5 py-0 shadow-sm")}
+    >
+      <CardContent className="flex flex-1 flex-col gap-5 p-0">
+        <CaseMockup
+          image={item.image}
+          addressBar={item.addressBar}
+          variant={item.mockupVariant ?? "browser"}
+          pending={!item.image ? item : undefined}
+        />
+        <div className="space-y-2">
+          <p data-tag="servicio" className={EYEBROW}>
+            {item.tags.servicio}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <RubroChip label={item.tags.rubro} />
+          </div>
+          <h3 className={cn(CHILLAX, TITLE, "flex items-center gap-2")}>
+            <IsologoAccent />
+            {item.name}
+          </h3>
+        </div>
+        {item.origin ? (
+          <div data-origin={item.origin.label} className="space-y-2">
+            <Badge variant="secondary" className="rounded-full px-3 py-1 text-xs font-semibold">
+              {item.origin.label}
+            </Badge>
+            <p data-origin-note className="text-sm font-semibold leading-relaxed text-foreground">
+              {item.origin.note}
+            </p>
+          </div>
+        ) : null}
+        <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
+        <FindingsList items={item.findings} />
+      </CardContent>
+    </Card>
   );
 }
 
 /**
- * «Conceptos»: exploración propia, sin cliente. Una pieza sin captura real solo se muestra en QA (placeholder);
- * en producción la sección no se renderiza mientras ninguna pieza tenga imagen.
+ * «Conceptos»: Claro + Transvip (con imagen) en prod; MASCOTAPP solo /qa/ (sin image).
  */
 export function ServiciosConceptos() {
   const visible = SERVICIOS_CONCEPTOS_CASES.filter((c) => c.image || placeholdersEnabled());

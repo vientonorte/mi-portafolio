@@ -277,15 +277,29 @@ export interface VnCase {
   findings: readonly string[];
   /** Diagnóstico inicial. Se rotula «Punto de partida»; nunca es un resultado. */
   startingPoint?: string;
-  /** Una imagen real del repo (public/). */
-  image: MarketingImage;
-  /** Barra del marco de navegador (secciones 02 y 03: mismo tratamiento que la tarjeta 01). */
-  addressBar?: string;
   /**
-   * Origen visible del trabajo cuando NO es un encargo de un cliente de VN (concepto propio, proyecto in-house).
-   * `label` va como etiqueta y `note` como texto visible en la tarjeta. Ausente = caso de VN.
+   * Una imagen real del repo (public/), WebP dentro del mockup DS.
+   * Ausente = gap Figma Design (X|CMS / GEES): no se usa asset repo; marco vacío + nota.
+   */
+  image?: MarketingImage;
+  /** Barra del marco de navegador (mismo tratamiento que la tarjeta 01). */
+  addressBar?: string;
+  /** Destino del click de la tarjeta. Por defecto = ancla del grupo. Edu21 → #revision-gratis. */
+  ctaAnchor?: ServiciosAnchor;
+  /**
+   * Origen visible cuando NO es encargo de un cliente VN.
+   * En Conceptos, Claro/Transvip llevan su origin en ConceptCase.
    */
   origin?: { label: string; note: string };
+  /**
+   * Marca de inventario (código/DOM). Los 5 sin OK Figma: asset repo · pendiente OK Figma
+   * (comentario + data-asset-origen; el literal «pendiente» no va al HTML renderizado).
+   */
+  assetOrigen?: "repo" | "figma" | "gap-figma";
+  /** Variante del DeviceMockup. Default browser. */
+  mockupVariant?: "browser" | "phone";
+  /** Gap Figma Design sin export (X|CMS, GEES). */
+  figmaGap?: { note: string };
 }
 
 export interface VnCaseGroup {
@@ -302,23 +316,15 @@ export const SERVICIOS_VN_CASES = {
 } as const;
 
 /**
- * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
- * - Edu 21: problema de BRAND_CASES; entregables de docs/staging/edu21-pack/PERMISO.md;
- *   punto de partida = informe SEO WordPress jun. 2022 (inv/pdf/txt/edu21-seo.txt L59, L84).
- * - TodoClick.cl y Parcelas Terramar: con nombre (permiso en docs/staging/casos-mc-pack/PERMISO.md). Hallazgos de sus
- *   benchmark PDF (Benchmark Maraña, 2021), texto extraído en el box de ops: inv/pdf/txt/mc-*-benchmark.txt
- *   (las líneas van en cada hallazgo). Imagen: página 3 de cada PDF (escala heurística), sin logo de la marca;
- *   las capturas de iCloud traen logos de terceros o el logo grande de la marca.
- * - X|CMS y CFO Dashboard «Ratio Irarrázaval»: productos propios de Da Pleisë (marca de Rö). Recortes de
- *   poc-modules/pedidos.png (180,480)-(1440,900) y riesgo.png (180,180)-(1440,620), sin cifras demo.
- * - Dashboard de consultoría estratégica: concepto propio de Rö, anonimizado (Rö, 1-oct 10:37): sin marca del
- *   cliente, sin nombres ni montos. Recorte nuevo (0,540)-(1440,900) de la grilla de módulos.
- * - vientonorte.io: PR #280 (globals.css, vn-tokens.css). Siempre visible (sin flag).
- * - Edu 21 va en 02 · #revision-gratis como diagnóstico base (PO, 2-oct). Imagen: recorte 16:10 de la portada del
- *   informe de rendimiento (06-performance-seo.png), sin el pie con logo de terceros. Nunca 04/05 (uso interno).
- * - Transvip (proyecto in-house, no cliente VN) y Claro (concepto propio hasta decisión de Rö) van en 03 con su
- *   `origin` visible. Exports de Figma 4-oct (frames 323:48165 y 7:473), recortados a 16:10.
- * Monitas no va en /servicios/ (Rö, 1-oct 10:33). La grilla recibe más tarjetas agregando casos o grupos.
+ * Casos de VN agrupados por ancla. Fuentes (todas en el repo salvo gaps Figma):
+ * - TodoClick / Terramar / WCAG / Ratio / Edu21: WebP del repo dentro del mockup DS.
+ *   // asset repo · pendiente OK Figma (Rö vie 15:15)
+ * - X|CMS y GEES (consultoría estratégica): export Figma Design **NO DATO** hoy — sin asset repo
+ *   en la tarjeta (gap marcado). Makes/Sites no cuentan como export Design.
+ * - Edu 21: contenido en #consultoria-ux; CTA de la tarjeta → #revision-gratis (prod path).
+ * - Claro + Transvip: sección #conceptos (no bajo #consultoria-ux).
+ * - MASCOTAPP: solo /qa/ (Conceptos, sin image).
+ * Monitas no va en /servicios/ (Rö, 1-oct). 15 nodos Prueba de Conceptos = duda (mapa 5-oct).
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   {
@@ -330,19 +336,18 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "todoclick",
         name: "TodoClick.cl",
         tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
+        // asset repo · pendiente OK Figma
         // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
         summary:
           "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
         findings: [
-          // L101 «2 Mejoraría la Ro…» (título del pantallazo: «Mejoraría la Rotulación en el Copy, no hay h1»).
           "El copy no rotula bien el contenido: la página no tiene h1.",
-          // L140 «5 embudo de co…» (pantallazo: el embudo de conversión no cumple los pasos UX).
           "El embudo de compra no cumple los pasos de una buena experiencia.",
-          // L129, L195, L214: coordinar los post con los productos destacados para acotar pasos.
           "Se pueden acortar los pasos coordinando las publicaciones con los productos destacados de la tienda.",
-          // L187, L215-216: historias destacadas con información útil (p. ej. política de despachos).
           "Faltan datos útiles para comprar, como la política de despacho, en las historias destacadas.",
         ],
+        addressBar: "todoclick.cl · benchmark",
+        assetOrigen: "repo",
         image: {
           png: "images/cases/todoclick/benchmark-heuristica.png",
           webp: "images/cases/todoclick/benchmark-heuristica.webp",
@@ -355,25 +360,21 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "terramar",
         name: "Parcelas Terramar",
         tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
+        // asset repo · pendiente OK Figma
         // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
         summary:
           "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
         findings: [
-          // L90 «1 CTAS insu'cie…», L188.
           "Los llamados a la acción del Instagram no alcanzan.",
-          // L101 «2 Rotulación pue…», L188.
           "La rotulación y el uso de íconos se pueden mejorar.",
-          // L116 «3 sitio responsiv…», L218.
           "El sitio es responsivo, pero le faltan capas interactivas de contacto comercial.",
-          // L131 «4 a un click de di…», L189 (fortaleza; el PDF nombra la app de chat, que esta página no menciona: servicios-page.test.tsx).
           "Fortaleza: el cliente queda a un clic del contacto comercial por chat.",
-          // L142 «5 embudo puede…», L188-189, L199 «Mejoraría el embudo de conversión de la web».
           "El embudo de conversión de la web puede mejorar.",
-          // L197-198.
           "Hay información útil, pero no está en el feed: si no se busca, no se encuentra.",
-          // L168 «7 mapa de conte…», L190, L216-217.
           "Conviene reorganizar los contenidos según lo que necesita la audiencia.",
         ],
+        addressBar: "terramar · benchmark",
+        assetOrigen: "repo",
         image: {
           png: "images/cases/terramar/benchmark-heuristica.png",
           webp: "images/cases/terramar/benchmark-heuristica.webp",
@@ -393,42 +394,21 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "vientonorte-wcag",
         name: "vientonorte.io · contraste WCAG",
         tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
-        // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
+        // asset repo · pendiente OK Figma
+        // Fuente: PR #280; src/styles/globals.css / vn-tokens.css.
         summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
         findings: [
           "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
           "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
         ],
         addressBar: "vientonorte.io · contraste",
+        assetOrigen: "repo",
         image: {
           png: "images/cases/vientonorte/contraste-antes-despues.png",
           webp: "images/cases/vientonorte/contraste-antes-despues.webp",
           alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
           width: 1200,
           height: 675,
-        },
-      },
-      {
-        id: "edu21",
-        name: "Edu 21",
-        tags: { rubro: "Edtech", servicio: "Revisión gratis" },
-        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
-        summary: "Revisión heurística de su sitio web antes de trabajar el servicio: el diagnóstico base del que partimos.",
-        findings: [
-          "Heurística del sitio web",
-          "Benchmark de la competencia",
-          "Informe de rendimiento del sitio en celulares",
-        ],
-        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
-        // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
-        startingPoint: "Diagnóstico base (junio de 2022): carga de 15,4 s y calificación «deficiente».",
-        addressBar: "edu21.cl · diagnóstico",
-        image: {
-          png: "images/cases/edu21/06-performance-seo-diagnostico.png",
-          webp: "images/cases/edu21/06-performance-seo-diagnostico.webp",
-          alt: "Portada del informe de rendimiento en celulares de edu21.cl (junio de 2022), punto de partida del diagnóstico.",
-          width: 927,
-          height: 579,
         },
       },
     ],
@@ -442,7 +422,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "x-cms",
         name: "X|CMS · Da Pleisë",
         tags: { rubro: "Café / retail", servicio: "Consultoría UX" },
-        // Fuente: src/data/consultoria-demos.ts:24-31 (Figma Sites publicado), public/images/poc-modules/README.md.
+        // Gap Figma Design NO DATO (Make/Sites ≠ export Design). NO usar asset repo (TL/PO 5-oct).
         summary:
           "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
         findings: [
@@ -451,19 +431,17 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Prototipo navegable publicado en Figma Sites",
         ],
         addressBar: "x-cms · punto de venta",
-        image: {
-          png: "images/products/x-cms/pos-productos.png",
-          webp: "images/products/x-cms/pos-productos.webp",
-          alt: "Punto de venta de X|CMS: grilla de productos de café por categoría y carrito.",
-          width: 1260,
-          height: 709,
+        assetOrigen: "gap-figma",
+        figmaGap: {
+          note: "Gap Figma Design · NO DATO · Make X|CMS (sin export hoy)",
         },
       },
       {
         id: "ratio-irarrazaval",
         name: "CFO Dashboard · Ratio Irarrázaval",
         tags: { rubro: "Café / finanzas pyme", servicio: "Consultoría UX" },
-        // Fuente: README de vientonorte/dashfin («Da Pleisë — CFO Dashboard»), live vientonorte.github.io/dashfin/.
+        // asset repo · pendiente OK Figma
+        // Fuente: README vientonorte/dashfin; crop limpio en products/ratio.
         summary:
           "Dashboard financiero para un local de café con tres líneas de negocio, con vistas distintas para CFO, socio y equipo.",
         findings: [
@@ -472,6 +450,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Publicado como dashboard en vivo",
         ],
         addressBar: "ratio · cfo dashboard",
+        assetOrigen: "repo",
         image: {
           png: "images/products/ratio/cfo-dashboard.png",
           webp: "images/products/ratio/cfo-dashboard.webp",
@@ -481,10 +460,34 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         },
       },
       {
+        id: "edu21",
+        name: "Edu 21",
+        tags: { rubro: "Edtech", servicio: "Consultoría UX" },
+        // asset repo · pendiente OK Figma
+        // Contenido en Consultoría UX; CTA de tarjeta → #revision-gratis (prod /servicios/?utm…#revision-gratis).
+        summary: "Revisión heurística de su sitio web antes de trabajar el servicio: el diagnóstico base del que partimos.",
+        findings: [
+          "Heurística del sitio web",
+          "Benchmark de la competencia",
+          "Informe de rendimiento del sitio en celulares",
+        ],
+        startingPoint: "Diagnóstico base (junio de 2022): carga de 15,4 s y calificación «deficiente».",
+        addressBar: "edu21.cl · diagnóstico",
+        ctaAnchor: "revision-gratis",
+        assetOrigen: "repo",
+        image: {
+          png: "images/cases/edu21/06-performance-seo-diagnostico.png",
+          webp: "images/cases/edu21/06-performance-seo-diagnostico.webp",
+          alt: "Portada del informe de rendimiento en celulares de edu21.cl (junio de 2022), punto de partida del diagnóstico.",
+          width: 927,
+          height: 579,
+        },
+      },
+      {
         id: "consultoria-estrategica",
         name: "Dashboard de consultoría estratégica",
         tags: { rubro: "Consultoría", servicio: "Consultoría UX" },
-        // Concepto propio de Rö, anonimizado (Rö, 1-oct 10:37). Sin marca del cliente, nombres ni montos.
+        // Gap Figma Design NO DATO (dashboard consultoría anon.). NO usar asset products/consultoria-estrategica del repo (TL/PO 5-oct).
         summary:
           "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",
         findings: [
@@ -493,73 +496,16 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Módulos navegables en vez de un documento largo",
         ],
         addressBar: "consultoría · módulos",
-        image: {
-          png: "images/products/consultoria-estrategica/modulos.png",
-          webp: "images/products/consultoria-estrategica/modulos.webp",
-          alt: "Grilla de módulos estratégicos de la propuesta: contexto, oportunidad, plataforma y hoja de ruta.",
-          width: 1440,
-          height: 810,
-        },
-      },
-      {
-        id: "transvip",
-        name: "Sistema de diseño · App Cliente Transvip",
-        tags: { rubro: "Movilidad / transporte", servicio: "Consultoría UX" },
-        // Figma «System Design APP Cliente – Transvip» (AEMOE8Hv5iv1nfyR7jlMgO), frame 323:48165 «Principios y
-        // Propósitos del System Design» (docs/S41-INVENTARIO-CASOS-FIGMA.md §4a, PR #302). Trabajo in-house del equipo
-        // de Tecnología y Producto de Transvip: NO es un cliente de VN (TL, 4-oct).
-        summary:
-          "Sistema de diseño para la app de clientes, hecho dentro del equipo de producto: principios, componentes y pruebas de concepto.",
-        findings: [
-          "Propósito definido: acortar los tiempos de diseño del producto",
-          "Librería de componentes (átomos a templates) con base en Material UI",
-          "Pruebas de concepto de tarjetas y pestañas para la app móvil",
-        ],
-        origin: {
-          label: "Proyecto in-house",
-          note: "Proyecto in-house del equipo de producto de Transvip. No es un cliente de Viento Norte.",
-        },
-        addressBar: "transvip · system design",
-        image: {
-          png: "images/cases/transvip/system-design-proposito.png",
-          webp: "images/cases/transvip/system-design-proposito.webp",
-          alt: "Lámina «Propósito» del sistema de diseño de la app Transvip: objetivos, por qué, beneficios y usuarios (el equipo interno de Tecnología y Producto).",
-          width: 1200,
-          height: 750,
-        },
-      },
-      {
-        id: "claro",
-        name: "Portal comercial · Claro",
-        tags: { rubro: "Telecomunicaciones", servicio: "Consultoría UX" },
-        // Figma «Portal Comercial Claro» (D39xjsA7ObbhntcDEyPWQG), frame 7:473 «01 Home», recorte superior 16:10
-        // (sin la barra con dirección de tienda y sin el precio del hero). Inventario §2a, PR #302. Encargo o
-        // propuesta sin confirmar (D3): se muestra como concepto propio hasta que Rö decida (TL, 4-oct).
-        summary:
-          "Rediseño de la home del portal comercial: accesos directos a las tareas más pedidas y un ingreso de clientes más visible.",
-        findings: [
-          "Accesos directos a pagar, revisar saldo, contratar y recargar",
-          "Ingreso de clientes y entrada para empresas sobre el primer pliegue",
-          "Bloque «¿En qué podemos apoyarte hoy?» con las tareas frecuentes",
-        ],
-        origin: {
-          label: "Concepto propio",
-          note: "Concepto propio, no encargado por la marca",
-        },
-        addressBar: "claro · portal comercial",
-        image: {
-          png: "images/cases/claro/portal-comercial-concepto.png",
-          webp: "images/cases/claro/portal-comercial-concepto.webp",
-          alt: "Concepto de home del portal comercial de Claro: menú principal, banner, ingreso de clientes y accesos a pagar la factura, ver saldos, contratar un servicio y recargar.",
-          width: 1440,
-          height: 900,
+        assetOrigen: "gap-figma",
+        figmaGap: {
+          note: "Gap Figma Design · NO DATO · Make Executive Dashboard (por confirmar Rö)",
         },
       },
     ],
   },
 ];
 
-/** Pieza de «Conceptos»: exploración propia, sin cliente. */
+/** Pieza de «Conceptos»: exploración propia o in-house, sin cliente VN en la grilla de casos. */
 export interface ConceptCase {
   id: string;
   name: string;
@@ -567,24 +513,75 @@ export interface ConceptCase {
   summary: string;
   findings: string[];
   addressBar: string;
-  /** Captura 16:10 exportada de Figma. Ausente = asset pendiente (ver `pendingAsset`). */
+  /** Captura 16:10. Ausente = solo /qa/ con placeholder (MASCOTAPP). */
   image?: MarketingImage;
-  /** Origen en Figma del asset que falta. Solo se muestra como placeholder en el build QA (/qa/). */
-  pendingAsset: { fileKey: string; fileName: string; nodeId: string; ratio: "16:10" };
+  origin?: { label: string; note: string };
+  /** Origen en Figma del asset que falta. Solo placeholder en build QA (/qa/). */
+  pendingAsset?: { fileKey: string; fileName: string; nodeId: string; ratio: "16:10" };
+  mockupVariant?: "browser" | "phone";
 }
 
 export const SERVICIOS_CONCEPTOS = {
   heading: "Conceptos",
-  intro: "Ejercicios de diseño propios, sin encargo de un cliente. Son exploración, no casos.",
+  intro: "Ejercicios de diseño propios o in-house, sin encargo de un cliente de Viento Norte. Son exploración, no casos.",
 } as const;
 
 /**
- * «Conceptos» (TL, 4-oct). MASCOTAPP: Figma «Prueba de Conceptos» (CBguM4Y5rIvc9TV5pGhOxL), página MASCOTAPP
- * 2844:427 (inventario §6a, PR #302). El team «Proyectos» (Starter) agotó la cuota mensual del MCP de Figma, así que
- * el frame exacto y su export 16:10 quedan pendientes: sin `image`, la sección solo se ve en el build QA con
- * placeholder y en producción no se renderiza. Walmart, Maraña y Filipinas (Penji) quedan fuera hasta que Rö decida.
+ * «Conceptos» (TL/PO 5-oct): Claro + Transvip con export Figma ya en repo.
+ * MASCOTAPP: sin image → solo /qa/ (15 nodos Prueba de Conceptos = duda; frame 2844:427 pendiente).
+ * Monitas NO. Walmart/Maraña/Penji fuera.
  */
 export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
+  {
+    id: "claro",
+    name: "Portal comercial · Claro",
+    tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
+    // Figma Portal Comercial Claro D39xjsA7ObbhntcDEyPWQG · 7:473, recorte 16:10.
+    summary:
+      "Rediseño de la home del portal comercial: accesos directos a las tareas más pedidas y un ingreso de clientes más visible.",
+    findings: [
+      "Accesos directos a pagar, revisar saldo, contratar y recargar",
+      "Ingreso de clientes y entrada para empresas sobre el primer pliegue",
+      "Bloque «¿En qué podemos apoyarte hoy?» con las tareas frecuentes",
+    ],
+    origin: {
+      label: "Concepto propio",
+      note: "Concepto propio, no encargado por la marca",
+    },
+    addressBar: "claro · portal comercial",
+    image: {
+      png: "images/cases/claro/portal-comercial-concepto.png",
+      webp: "images/cases/claro/portal-comercial-concepto.webp",
+      alt: "Concepto de home del portal comercial de Claro: menú principal, banner, ingreso de clientes y accesos a pagar la factura, ver saldos, contratar un servicio y recargar.",
+      width: 1440,
+      height: 900,
+    },
+  },
+  {
+    id: "transvip",
+    name: "Sistema de diseño · App Cliente Transvip",
+    tags: { rubro: "Movilidad / transporte", servicio: "Concepto" },
+    // Figma AEMOE8Hv5iv1nfyR7jlMgO · 323:48165. In-house, no cliente VN.
+    summary:
+      "Sistema de diseño para la app de clientes, hecho dentro del equipo de producto: principios, componentes y pruebas de concepto.",
+    findings: [
+      "Propósito definido: acortar los tiempos de diseño del producto",
+      "Librería de componentes (átomos a templates) con base en Material UI",
+      "Pruebas de concepto de tarjetas y pestañas para la app móvil",
+    ],
+    origin: {
+      label: "Proyecto in-house",
+      note: "Proyecto in-house del equipo de producto de Transvip. No es un cliente de Viento Norte.",
+    },
+    addressBar: "transvip · system design",
+    image: {
+      png: "images/cases/transvip/system-design-proposito.png",
+      webp: "images/cases/transvip/system-design-proposito.webp",
+      alt: "Lámina «Propósito» del sistema de diseño de la app Transvip: objetivos, por qué, beneficios y usuarios (el equipo interno de Tecnología y Producto).",
+      width: 1200,
+      height: 750,
+    },
+  },
   {
     id: "mascotapp",
     name: "MASCOTAPP",
@@ -592,6 +589,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
     findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
     addressBar: "mascotapp · concepto",
+    // phone cuando exista export; hoy placeholder va en marco browser (screenContent).
     pendingAsset: {
       fileKey: "CBguM4Y5rIvc9TV5pGhOxL",
       fileName: "Prueba de Conceptos",
@@ -600,3 +598,4 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     },
   },
 ];
+
