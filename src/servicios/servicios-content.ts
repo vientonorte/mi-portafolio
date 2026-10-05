@@ -316,15 +316,15 @@ export const SERVICIOS_VN_CASES = {
 } as const;
 
 /**
- * Casos de VN agrupados por ancla. Fuentes (todas en el repo salvo gaps Figma):
+ * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
  * - TodoClick / Terramar / WCAG / Ratio / Edu21: WebP del repo dentro del mockup DS.
  *   // asset repo · pendiente OK Figma (Rö vie 15:15)
- * - X|CMS y GEES (consultoría estratégica): export Figma Design **NO DATO** hoy — sin asset repo
- *   en la tarjeta (gap marcado). Makes/Sites no cuentan como export Design.
+ * - X|CMS y GEES (consultoría estratégica): captura Make Mac falló (auth) · asset repo
+ *   (pos-productos / modulos). Corte 18:00 TL/PO 5-oct.
  * - Edu 21: contenido en #consultoria-ux; CTA de la tarjeta → #revision-gratis (prod path).
- * - Claro + Transvip: sección #conceptos (no bajo #consultoria-ux).
+ * - Claro + Walmart + Transvip: sección #conceptos (no bajo #consultoria-ux).
  * - MASCOTAPP: solo /qa/ (Conceptos, sin image).
- * Monitas no va en /servicios/ (Rö, 1-oct). 15 nodos Prueba de Conceptos = duda (mapa 5-oct).
+ * Monitas no va en /servicios/ (Rö, 1-oct). 10 nodos duda Prueba de Conceptos = sin cablear.
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   {
@@ -422,7 +422,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "x-cms",
         name: "X|CMS · Da Pleisë",
         tags: { rubro: "Café / retail", servicio: "Consultoría UX" },
-        // Gap Figma Design NO DATO (Make/Sites ≠ export Design). NO usar asset repo (TL/PO 5-oct).
+        // Make Mac iHuREMEix199N0RbF98jLh: auth fail · fallback asset repo (TL/PO 5-oct ~18:00).
         summary:
           "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
         findings: [
@@ -431,9 +431,13 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Prototipo navegable publicado en Figma Sites",
         ],
         addressBar: "x-cms · punto de venta",
-        assetOrigen: "gap-figma",
-        figmaGap: {
-          note: "Gap Figma Design · NO DATO · Make X|CMS (sin export hoy)",
+        assetOrigen: "repo",
+        image: {
+          png: "images/products/x-cms/pos-productos.png",
+          webp: "images/products/x-cms/pos-productos.webp",
+          alt: "Punto de venta de X|CMS: catálogo por categoría y carrito en el panel de productos.",
+          width: 1260,
+          height: 709,
         },
       },
       {
@@ -487,7 +491,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "consultoria-estrategica",
         name: "Dashboard de consultoría estratégica",
         tags: { rubro: "Consultoría", servicio: "Consultoría UX" },
-        // Gap Figma Design NO DATO (dashboard consultoría anon.). NO usar asset products/consultoria-estrategica del repo (TL/PO 5-oct).
+        // Make Mac QEcMgRJT4RhrW7d7ybVNJr: auth fail · fallback asset repo modulos (anon.; TL/PO 5-oct).
         summary:
           "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",
         findings: [
@@ -496,9 +500,13 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Módulos navegables en vez de un documento largo",
         ],
         addressBar: "consultoría · módulos",
-        assetOrigen: "gap-figma",
-        figmaGap: {
-          note: "Gap Figma Design · NO DATO · Make Executive Dashboard (por confirmar Rö)",
+        assetOrigen: "repo",
+        image: {
+          png: "images/products/consultoria-estrategica/modulos.png",
+          webp: "images/products/consultoria-estrategica/modulos.webp",
+          alt: "Grilla de módulos de la propuesta de consultoría estratégica (anonimizada).",
+          width: 1440,
+          height: 810,
         },
       },
     ],
@@ -513,8 +521,10 @@ export interface ConceptCase {
   summary: string;
   findings: string[];
   addressBar: string;
-  /** Captura 16:10. Ausente = solo /qa/ con placeholder (MASCOTAPP). */
+  /** Portada (mockup). Ausente = solo /qa/ con placeholder (MASCOTAPP). */
   image?: MarketingImage;
+  /** Galería bajo la portada (misma card). */
+  gallery?: readonly MarketingImage[];
   origin?: { label: string; note: string };
   /** Origen en Figma del asset que falta. Solo placeholder en build QA (/qa/). */
   pendingAsset?: { fileKey: string; fileName: string; nodeId: string; ratio: "16:10" };
@@ -527,34 +537,73 @@ export const SERVICIOS_CONCEPTOS = {
 } as const;
 
 /**
- * «Conceptos» (TL/PO 5-oct): Claro + Transvip con export Figma ya en repo.
- * MASCOTAPP: sin image → solo /qa/ (15 nodos Prueba de Conceptos = duda; frame 2844:427 pendiente).
- * Monitas NO. Walmart/Maraña/Penji fuera.
+ * «Conceptos» (TL/PO 5-oct ~16:37): Claro (1 card + galería) + Walmart + Transvip.
+ * Exports Prueba de Conceptos CBguM4Y5rIvc9TV5pGhOxL. 10 nodos duda = sin cablear.
+ * MASCOTAPP: sin image → solo /qa/. Monitas NO. Sin Penji.
  */
 export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "claro",
-    name: "Portal comercial · Claro",
+    name: "Claro",
     tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
-    // Figma Portal Comercial Claro D39xjsA7ObbhntcDEyPWQG · 7:473, recorte 16:10.
+    // Prueba de Conceptos: portada 1454:14504 · galería 590:10584 + 1186:12386.
     summary:
-      "Rediseño de la home del portal comercial: accesos directos a las tareas más pedidas y un ingreso de clientes más visible.",
+      "Concepto de tienda de equipos y navegación móvil: portada del prototipo mobile y capturas de apoyo de la exploración.",
     findings: [
-      "Accesos directos a pagar, revisar saldo, contratar y recargar",
-      "Ingreso de clientes y entrada para empresas sobre el primer pliegue",
-      "Bloque «¿En qué podemos apoyarte hoy?» con las tareas frecuentes",
+      "Prototipo mobile de tienda de equipos",
+      "Exploración de navegación Claro",
+      "Vista de apoyo del concepto Chile",
     ],
     origin: {
       label: "Concepto propio",
       note: "Concepto propio, no encargado por la marca",
     },
-    addressBar: "claro · portal comercial",
+    addressBar: "claro · tienda equipos",
+    mockupVariant: "phone",
     image: {
-      png: "images/cases/claro/portal-comercial-concepto.png",
-      webp: "images/cases/claro/portal-comercial-concepto.webp",
-      alt: "Concepto de home del portal comercial de Claro: menú principal, banner, ingreso de clientes y accesos a pagar la factura, ver saldos, contratar un servicio y recargar.",
-      width: 1440,
-      height: 900,
+      png: "images/cases/claro/tienda-equipos-mobile.png",
+      webp: "images/cases/claro/tienda-equipos-mobile.webp",
+      alt: "Prototipo mobile de tienda de equipos Claro: pantalla de catálogo en celular.",
+      width: 955,
+      height: 1600,
+    },
+    gallery: [
+      {
+        png: "images/cases/claro/claro-chile.png",
+        webp: "images/cases/claro/claro-chile.webp",
+        alt: "Concepto Claro Chile: captura de apoyo del frame de exploración.",
+        width: 1600,
+        height: 667,
+        stage: "Claro Chile",
+      },
+      {
+        png: "images/cases/claro/prototipo-nav.png",
+        webp: "images/cases/claro/prototipo-nav.webp",
+        alt: "Prototipo de navegación Claro: captura de apoyo del frame de exploración.",
+        width: 380,
+        height: 1600,
+        stage: "Nav",
+      },
+    ],
+  },
+  {
+    id: "walmart",
+    name: "Walmart",
+    tags: { rubro: "Retail", servicio: "Concepto" },
+    // Prueba de Conceptos 1622:19609 «Wallmart - Catálogo».
+    summary: "Concepto de catálogo para retail: exploración propia de listado y fichas de producto.",
+    findings: ["Catálogo de productos", "Exploración de ficha y listado"],
+    origin: {
+      label: "Concepto propio",
+      note: "Concepto propio, no encargado por la marca",
+    },
+    addressBar: "walmart · catálogo",
+    image: {
+      png: "images/cases/walmart/catalogo.png",
+      webp: "images/cases/walmart/catalogo.webp",
+      alt: "Concepto de catálogo Walmart: grilla de productos en exploración propia.",
+      width: 1600,
+      height: 1070,
     },
   },
   {

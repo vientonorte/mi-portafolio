@@ -269,6 +269,34 @@ export function ServiciosCasos() {
   );
 }
 
+function ConceptGallery({ images }: { images: NonNullable<ConceptCase["gallery"]> }) {
+  return (
+    <ol data-concept-gallery className="flex list-none gap-2 overflow-x-auto p-0" aria-label="Galería del concepto">
+      {images.map((image) => (
+        <li key={image.png} className="w-28 shrink-0">
+          <div className="overflow-hidden rounded-md border border-border bg-muted">
+            <picture>
+              {image.webp ? <source type="image/webp" srcSet={assetUrl(image.webp)} /> : null}
+              <img
+                src={assetUrl(image.png)}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                loading="lazy"
+                decoding="async"
+                className="h-20 w-full object-cover"
+              />
+            </picture>
+          </div>
+          {image.stage ? (
+            <p className="mt-1 text-xs font-semibold text-foreground">{image.stage}</p>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function ConceptCard({ item }: { item: ConceptCase }) {
   return (
     <Card
@@ -283,6 +311,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
           variant={item.mockupVariant ?? "browser"}
           pending={!item.image ? item : undefined}
         />
+        {item.gallery && item.gallery.length > 0 ? <ConceptGallery images={item.gallery} /> : null}
         <div className="space-y-2">
           <p data-tag="servicio" className={EYEBROW}>
             {item.tags.servicio}
@@ -313,7 +342,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
 }
 
 /**
- * «Conceptos»: Claro + Transvip (con imagen) en prod; MASCOTAPP solo /qa/ (sin image).
+ * «Conceptos»: Claro + Walmart + Transvip (con imagen) en prod; MASCOTAPP solo /qa/ (sin image).
  */
 export function ServiciosConceptos() {
   const visible = SERVICIOS_CONCEPTOS_CASES.filter((c) => c.image || placeholdersEnabled());
