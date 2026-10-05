@@ -7,6 +7,8 @@
 #   2. Assets críticos 200 (favicon, robots, profile, sample images)
 #   3. 404 real de asset ausente (servidor debe devolver != 200)
 #   4. Bundle contiene UI de error (404 / 500 / 503) para fallos client-side
+#      (marcadores buscados en el entry + chunks del HTML: <script src> y
+#      <link rel=modulepreload>; pasa si está en cualquiera — scripts/qa-bundle-markers.mjs)
 #   5. Rutas hash conocidas siguen sirviendo el shell (no HTTP 404 de Pages)
 #
 # Qué NO cubre (humano / Playwright):
@@ -76,6 +78,21 @@ check_html() {
   fi
 }
 
+# Marcador en el entry o en cualquier chunk que carga el HTML (modulepreload).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+check_bundle() {
+  local label="$1"
+  local pattern="$2"
+  local hit
+  if hit=$(node "$SCRIPT_DIR/qa-bundle-markers.mjs" match "$BUNDLE_DIR" "$pattern" 2>/dev/null); then
+    echo "✓ $label (en $hit)"
+    PASS=$((PASS + 1))
+  else
+    echo "✗ $label (missing en entry + modulepreload: $pattern)"
+    FAIL=$((FAIL + 1))
+  fi
+}
+
 check_not_html() {
   local label="$1"
   local pattern="$2"
@@ -96,7 +113,8 @@ echo "════════════════════════�
 
 HTML_FILE=$(mktemp)
 JS_FILE=$(mktemp)
-trap 'rm -f "$HTML_FILE" "$JS_FILE"' EXIT
+BUNDLE_DIR=$(mktemp -d)
+trap 'rm -rf "$HTML_FILE" "$JS_FILE" "$BUNDLE_DIR"' EXIT
 
 echo ""
 echo "── 1. Shell SPA ──"
@@ -151,16 +169,28 @@ fi
 
 echo ""
 echo "── 2. Bundle: rutas + UI de error (client-side 404/5xx) ──"
-if [[ -s "$JS_FILE" ]]; then
-  check_html "HashRouter / consultoria path" 'consultoria' "$JS_FILE"
-  check_html "embudo or onboarding markers" 'onboarding|embudo|consultoria-onboarding' "$JS_FILE"
-  check_html "analytics or tracker wiring" 'VNTracker|gtag|GTM|dataLayer' "$JS_FILE"
+if node "$SCRIPT_DIR/qa-bundle-markers.mjs" fetch "$BASE_URL" "$BUNDLE_DIR"; then
+  BUNDLE_OK=1
+elif [[ -s "$JS_FILE" ]]; then
+  # Sin node/red para los chunks: al menos el entry.
+  echo "· chunks no disponibles — solo entry"
+  WARN=$((WARN + 1))
+  cp "$JS_FILE" "$BUNDLE_DIR/00-entry.js"
+  printf '00-entry.js\t%s\n' "${BASE_URL}${JS_PATH}" > "$BUNDLE_DIR/manifest.tsv"
+  BUNDLE_OK=1
+else
+  BUNDLE_OK=0
+fi
+if [[ "$BUNDLE_OK" == 1 ]]; then
+  check_bundle "HashRouter / consultoria path" 'consultoria'
+  check_bundle "embudo or onboarding markers" 'onboarding|embudo|consultoria-onboarding'
+  check_bundle "analytics or tracker wiring" 'VNTracker|gtag|GTM|dataLayer'
   # Error UI must ship in prod bundle — otherwise failures stay invisible
-  check_html "error UI status marker (data-error-status)" 'data-error-status|error-status' "$JS_FILE"
-  check_html "error UI 404 label" '404' "$JS_FILE"
-  check_html "error UI 500 or 503" '503|500' "$JS_FILE"
-  check_html "chunk load error classifier" 'ChunkLoadError|failed to fetch dynamically|importing a module script' "$JS_FILE"
-  check_html "sobre-mi route present" 'sobre-mi|SobreMi' "$JS_FILE"
+  check_bundle "error UI status marker (data-error-status)" 'data-error-status|error-status'
+  check_bundle "error UI 404 label" '404'
+  check_bundle "error UI 500 or 503" '503|500'
+  check_bundle "chunk load error classifier" 'ChunkLoadError|failed to fetch dynamically|importing a module script'
+  check_bundle "sobre-mi route present" 'sobre-mi|SobreMi'
 else
   echo "✗ JS bundle empty — skip content checks"
   FAIL=$((FAIL + 1))
