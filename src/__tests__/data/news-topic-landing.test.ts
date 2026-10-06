@@ -5,9 +5,7 @@ import { NEWS_CATALOG, newsTopicLanding } from "@/data/news-editions";
 
 describe("news → specialty landing", () => {
   it("maps each topic to an HTTP /servicios/* ficha, not /s/consultoria", () => {
-    expect(newsTopicLanding("privacidad")?.path).toBe(
-      "/servicios/seguridad-privacidad-digital/"
-    );
+    expect(newsTopicLanding("privacidad")?.path).toBe("/servicios/#revision-gratis");
     expect(newsTopicLanding("accesibilidad")?.path).toBe(
       "/servicios/diagnostico-accesibilidad-wcag/"
     );

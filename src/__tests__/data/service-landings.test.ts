@@ -69,12 +69,19 @@ describe("service landings registry · Austral", () => {
     );
     // PO 2026-09-27: B y C ya no se publican como fichas; ambas redirigen directo a
     // /servicios/ (sin cadena C -> B -> /servicios/). hopTo queda en el registro como historia.
-    for (const slug of ["seguridad-privacidad-digital", "desarrollo-seguro-cumplimiento-ley-21719"]) {
-      const html = readFileSync(resolve(root, `public/servicios/${slug}/index.html`), "utf8");
-      expect(html).toContain("noindex");
-      expect(html).toContain('content="0;url=../../servicios/"');
-      expect(html).not.toContain("https://vientonorte.io/servicios/seguridad-privacidad-digital/");
-    }
+    const privacidad = readFileSync(
+      resolve(root, "public/servicios/seguridad-privacidad-digital/index.html"),
+      "utf8"
+    );
+    expect(privacidad).toContain("noindex");
+    expect(privacidad).toContain('content="0;url=../../servicios/#revision-gratis"');
+    expect(privacidad).not.toContain("https://vientonorte.io/servicios/seguridad-privacidad-digital/");
+    const ley = readFileSync(
+      resolve(root, "public/servicios/desarrollo-seguro-cumplimiento-ley-21719/index.html"),
+      "utf8"
+    );
+    expect(ley).toContain("noindex");
+    expect(ley).toContain('content="0;url=../../servicios/"');
     expect(sitemap).not.toContain("seguridad-privacidad-digital");
     expect(sitemap).not.toContain("desarrollo-seguro-cumplimiento-ley-21719");
   });

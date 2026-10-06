@@ -48,7 +48,7 @@ export const NEWS_TOPIC_LANDING: Record<
     },
   },
   privacidad: {
-    path: "/servicios/seguridad-privacidad-digital/",
+    path: "/servicios/#revision-gratis",
     label: {
       es: "Privacidad de datos · Ley 21.719",
       en: "Data privacy · Law 21.719",

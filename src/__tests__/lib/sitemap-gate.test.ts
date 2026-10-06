@@ -119,6 +119,8 @@ describe("sitemap-canon · derivación desde el build", () => {
       "/#/consultoria",
       "/news/",
       "/news/2026/",
+      "/auditoria",
+      "/auditoria/",
       "/qa/",
       "/qa/servicios/",
       "/mi-portafolio/",
