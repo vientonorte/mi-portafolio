@@ -88,6 +88,14 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect(html).not.toContain("Puerta de entrada");
   });
 
+  it("muestra la imagen de la Ley 21.719 en el HTML de /servicios/", () => {
+    const img = doc.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
+    expect(img).not.toBeNull();
+    expect(img?.getAttribute("alt")).toContain("Ley 21.719");
+    expect(img?.getAttribute("width")).toBe("1200");
+    expect(img?.getAttribute("height")).toBe("630");
+  });
+
   it("has one h1 aligned with the home and lang-safe headings", () => {
     const h1s = doc.querySelectorAll("h1");
     expect(h1s).toHaveLength(1);
@@ -102,23 +110,23 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect(doc.querySelector('input[name="source"]')?.getAttribute("value")).toBe("servicios");
     expect(doc.querySelector('input[name="consent"][type="checkbox"]')?.hasAttribute("required")).toBe(true);
     expect(doc.querySelector('input[name="_gotcha"]')).not.toBeNull();
-    const select = doc.querySelector<HTMLSelectElement>('select[name="intent"]')!;
-    expect(select.hasAttribute("required")).toBe(true);
-    const opts = [...select.querySelectorAll("option")];
-    // Placeholder vacío, primero y seleccionado por defecto
-    expect(opts[0].textContent).toBe("Elige qué necesitas");
-    expect(opts[0].getAttribute("value")).toBe("");
-    expect(opts[0].hasAttribute("selected")).toBe(true);
-    expect(opts.filter((o) => o.hasAttribute("selected"))).toHaveLength(1);
+    const group = doc.querySelector("fieldset");
+    expect(group?.querySelector("legend")?.textContent).toBe("¿Qué te gustaría conversar? *");
+    expect(group?.textContent).not.toContain("Oportunidad laboral");
+    expect(group?.textContent).not.toContain("Proyecto freelance");
+    const radios = [...doc.querySelectorAll<HTMLInputElement>('input[type="radio"][name="intent"]')];
+    expect(radios).toHaveLength(4);
+    for (const radio of radios) expect(radio.hasAttribute("required")).toBe(true);
+    // Ninguna marcada: el visitante todavía no elige
+    expect(radios.filter((r) => r.hasAttribute("checked"))).toHaveLength(0);
     // Orden PO: web → revisión → consultoría → otro
-    expect(opts.map((o) => o.textContent)).toEqual([
-      "Elige qué necesitas",
+    expect(radios.map((r) => r.value)).toEqual([
       "Web nueva",
       "Revisión gratis de un flujo",
       "Consultoría UX",
       "Otro servicio digital",
     ]);
-    expect(opts.slice(1).map((o) => o.getAttribute("value"))).toEqual([
+    expect(radios.map((r) => r.closest("label")?.textContent)).toEqual([
       "Web nueva",
       "Revisión gratis de un flujo",
       "Consultoría UX",
@@ -242,16 +250,18 @@ describe("/servicios/ contact form (client)", () => {
     expect(p.intent.length).toBeLessThanOrEqual(80);
   });
 
-  const intentSelect = () => screen.getByLabelText(/¿Qué necesitas\?/) as HTMLSelectElement;
+  const intentGroup = () => screen.getByRole("group", { name: /¿Qué te gustaría conversar\?/ });
+  const checkedIntent = () =>
+    (screen.queryByRole("radio", { checked: true }) as HTMLInputElement | null)?.value ?? "";
 
-  it("select starts on the empty placeholder; submit without choosing shows an accessible error and does not send", async () => {
+  it("the line starts with nothing chosen; submit without choosing shows an accessible error and does not send", async () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ ok: true }), { status: 200 })
     );
     Element.prototype.scrollIntoView = vi.fn();
     rtlRender(<ServiciosPage />);
-    expect(intentSelect().value).toBe("");
-    expect(intentSelect()).toBeRequired();
+    expect(checkedIntent()).toBe("");
+    expect(intentGroup()).toHaveAttribute("aria-required", "true");
 
     fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana" } });
     fireEvent.change(screen.getByLabelText(/^Correo/), { target: { value: "ana@pyme.cl" } });
@@ -263,16 +273,15 @@ describe("/servicios/ contact form (client)", () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     const err = await screen.findByText("Elige qué necesitas.");
-    expect(intentSelect()).toHaveAttribute("aria-invalid", "true");
-    expect(intentSelect().getAttribute("aria-describedby")).toBe(err.id);
-    expect(intentSelect()).toHaveAccessibleDescription("Elige qué necesitas.");
-    expect(document.activeElement).toBe(intentSelect());
+    expect(intentGroup()).toHaveAttribute("aria-invalid", "true");
+    expect(intentGroup().getAttribute("aria-describedby")).toBe(err.id);
+    expect(intentGroup()).toHaveAccessibleDescription("Elige qué necesitas.");
+    expect(document.activeElement).toBe(intentGroup());
     expect(screen.getByRole("status")).toHaveTextContent("Revisa los campos marcados antes de enviar.");
 
-    // Elegir a mano limpia el error y permite enviar
-    fireEvent.change(intentSelect(), { target: { value: "Otro servicio digital" } });
+    fireEvent.click(screen.getByRole("radio", { name: "Otro servicio digital" }));
     expect(screen.queryByText("Elige qué necesitas.")).toBeNull();
-    expect(intentSelect()).not.toHaveAttribute("aria-invalid");
+    expect(intentGroup()).not.toHaveAttribute("aria-invalid");
     fireEvent.click(screen.getByRole("button", { name: "Enviar mensaje" }));
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1));
     const body = JSON.parse(String((fetchSpy.mock.calls[0][1] as RequestInit).body));
@@ -283,12 +292,13 @@ describe("/servicios/ contact form (client)", () => {
     ["Quiero mi web", "Web nueva"],
     ["Pedir revisión gratis", "Revisión gratis de un flujo"],
     ["Conversar mi caso", "Consultoría UX"],
-  ])("card button '%s' preselects '%s' from the empty placeholder", (cta, expected) => {
+  ])("card button '%s' preselects '%s' on the line", (cta, expected) => {
     Element.prototype.scrollIntoView = vi.fn();
     rtlRender(<ServiciosPage />);
-    expect(intentSelect().value).toBe("");
+    expect(checkedIntent()).toBe("");
     fireEvent.click(screen.getByRole("link", { name: cta }));
-    expect(intentSelect().value).toBe(expected);
+    expect(checkedIntent()).toBe(expected);
+    expect(screen.getByRole("radio", { name: expected })).toBeChecked();
     expect(screen.getByRole("status")).toHaveTextContent(`Opción seleccionada en el formulario: ${expected}.`);
   });
 
@@ -303,12 +313,12 @@ describe("/servicios/ contact form (client)", () => {
 
     // Preselección por intent de la tarjeta (no por posición)
     fireEvent.click(screen.getByRole("link", { name: "Conversar mi caso" }));
-    expect(intentSelect().value).toBe("Consultoría UX");
+    expect(checkedIntent()).toBe("Consultoría UX");
     expect(screen.queryByText("Elige qué necesitas.")).toBeNull();
     fireEvent.click(screen.getByRole("link", { name: "Pedir revisión gratis" }));
-    expect(intentSelect().value).toBe("Revisión gratis de un flujo");
+    expect(checkedIntent()).toBe("Revisión gratis de un flujo");
     fireEvent.click(screen.getByRole("link", { name: "Quiero mi web" }));
-    expect(intentSelect().value).toBe("Web nueva");
+    expect(checkedIntent()).toBe("Web nueva");
 
     fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "Ana" } });
     fireEvent.change(screen.getByLabelText(/^Correo/), { target: { value: "ana@pyme.cl" } });
@@ -333,8 +343,7 @@ describe("/servicios/ contact form (client)", () => {
     const body = JSON.parse(String((init as RequestInit).body));
     expect(body).toMatchObject({ source: "servicios", intent: "Web nueva", consent: true });
     expect(await screen.findByText(/Recibimos tu mensaje/)).toBeInTheDocument();
-    // Tras enviar, el select vuelve al placeholder
-    expect(intentSelect().value).toBe("");
+    expect(checkedIntent()).toBe("");
   });
 });
 
@@ -362,6 +371,28 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
   it("ningún link del nav ni de la página usa /#/", () => {
     const hrefs = [...doc.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
     for (const h of hrefs) expect(h, h).not.toContain("/#/");
+  });
+
+  it("el hash #consultoria-ux marca esa tarjeta y ese ítem del nav", async () => {
+    window.location.hash = "#consultoria-ux";
+    rtlRender(<ServiciosPage />);
+    const card = document.querySelector('[data-card="consultoria-ux"] article')!;
+    await waitFor(() => expect(card).toHaveAttribute("data-selected", "true"));
+    expect(card).toHaveAttribute("aria-current", "true");
+    expect(card).toHaveTextContent("Seleccionado");
+    expect(card.querySelector("details")?.open).toBe(true);
+    for (const id of ["web-pymes", "revision-gratis"]) {
+      const other = document.querySelector(`[data-card="${id}"] article`)!;
+      expect(other).not.toHaveAttribute("data-selected");
+      expect(other.querySelector("details")?.open).toBe(false);
+    }
+    const navLinks = screen.getAllByRole("link", { name: "Consultoría UX" });
+    expect(navLinks.length).toBeGreaterThan(0);
+    for (const link of navLinks) expect(link).toHaveAttribute("aria-current", "true");
+    for (const link of screen.getAllByRole("link", { name: "Web 72 h" })) {
+      expect(link).not.toHaveAttribute("aria-current");
+    }
+    window.location.hash = "";
   });
 
   it("elegir EN guarda el idioma con el mecanismo de la home y navega a la raíz", () => {

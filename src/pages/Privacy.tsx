@@ -10,8 +10,6 @@ import { useTranslation } from "../lib/i18n";
 import { canonicalFromPath } from "../lib/seo";
 import { ROUTES } from "../lib/routes";
 
-const APP_PRIVACY = "https://vientonorte.io/s/polijuego-privacy/";
-
 const Privacy = () => {
   const { language } = useLanguage();
   const t = useTranslation(language);
@@ -109,19 +107,6 @@ const Privacy = () => {
             </a>
           ))}
         </div>
-
-        <article className="rounded-2xl border border-border bg-card p-6 mb-10">
-          <h2 className="text-lg font-semibold tracking-tight m-0">
-            {p.appTitle}
-          </h2>
-          <p className="text-sm text-muted-foreground mt-2 mb-4">{p.appBody}</p>
-          <a
-            href={APP_PRIVACY}
-            className="text-primary underline underline-offset-2 text-sm font-medium"
-          >
-            {p.appCta}
-          </a>
-        </article>
 
         <h2 className="text-xl font-semibold tracking-tight mb-2">
           {p.controllerTitle}

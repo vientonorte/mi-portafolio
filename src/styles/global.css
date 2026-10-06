@@ -8,6 +8,8 @@
   --bottom-nav-label-leading: 1.15;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --bottom-nav-total: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+  /* Dock bar + orbe central (margin-top -1.5rem) + aire para que el último renglón quede sobre el dock. */
+  --bottom-nav-clearance: calc(var(--bottom-nav-total) + 1.75rem);
   --back-to-top-offset: calc(var(--bottom-nav-total) + 1rem);
 
   /*
@@ -76,8 +78,9 @@
 html {
     box-sizing: border-box;
     scroll-padding-top: var(--header-height);
-    scroll-padding-bottom: var(--bottom-nav-total);
-    /* Never trap page scroll (body lock is only while mobile menu open) */
+    scroll-padding-bottom: var(--bottom-nav-clearance);
+    /* One scrollport: the viewport. Body stays overflow:visible so wheel/touch
+       reach the end of the page. overflow-x:clip here forces overflow-y to auto. */
     height: auto;
     min-height: 100%;
     overflow-x: clip;
@@ -87,13 +90,18 @@ html {
 body {
     min-height: 100%;
     height: auto;
-    overflow-x: clip;
-    overflow-y: auto;
+    overflow: visible;
 }
 
-/* Clear accidental scroll locks from stuck menu state */
+/* Unlock a stuck menu lock without turning body into a second scroller.
+   overflow-y:auto while overflow-x is clipped is what stopped the page
+   short of the bottom (the gesture hit body, which had nothing to scroll). */
 body:not([data-menu-open="true"]) {
-    overflow-y: auto !important;
+    overflow: visible !important;
+}
+
+html:has(body[data-menu-open="true"]) {
+    overflow: hidden;
 }
 
 *,
@@ -492,8 +500,15 @@ main {
   padding-bottom: var(--bottom-nav-total);
 }
 
+/* Subpage: the clearance lives on .page-shell so the page background
+   paints it. Padding on main sits outside that background and shows the
+   dark html/body fallback above the dock. */
 html[data-nav="subpage"] main {
-  padding-bottom: var(--bottom-nav-total);
+  padding-bottom: 0;
+}
+
+html[data-nav="subpage"] .page-shell {
+  padding-bottom: var(--bottom-nav-clearance);
 }
 
 /*
@@ -508,8 +523,13 @@ html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
 }
 
 @media (min-width: 1024px) {
+  html {
+    scroll-padding-bottom: 0;
+  }
+
   main,
-  html[data-nav="subpage"] main {
+  html[data-nav="subpage"] main,
+  html[data-nav="subpage"] .page-shell {
     padding-bottom: 0;
   }
 }

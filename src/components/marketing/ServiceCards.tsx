@@ -1,6 +1,7 @@
-import type { MouseEvent, ReactNode } from "react";
+import { useEffect, useRef, type MouseEvent, type ReactNode } from "react";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
+import { useLocationHash } from "../../lib/use-location-hash";
 import { cn } from "../../lib/utils";
 import { DeviceMockup } from "../molecules/DeviceMockup";
 import { assetUrl } from "./marketing-env";
@@ -54,21 +55,58 @@ function Thumbnail({ thumb }: { thumb?: ServiceCardThumbnail }): ReactNode {
   );
 }
 
+function CardDetail({
+  selected,
+  forceClosed,
+  children,
+}: {
+  selected: boolean;
+  forceClosed: boolean;
+  children: ReactNode;
+}) {
+  const ref = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (selected) el.open = true;
+    else if (forceClosed) el.open = false;
+  }, [selected, forceClosed]);
+  return (
+    <details ref={ref} data-detail className="group">
+      {children}
+    </details>
+  );
+}
+
 export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicios-cards" }: ServiceCardsProps) {
+  const hash = useLocationHash();
+  const hashSelectsCard = cards.some((card) => card.id === hash);
   return (
     <ol className="relative mt-8 grid list-none gap-6 p-0 lg:grid-cols-3" data-testid={testId}>
       <span
         aria-hidden
         className="pointer-events-none absolute top-8 left-[16%] hidden h-px w-[68%] bg-border lg:block"
       />
-      {cards.map((card, index) => (
+      {cards.map((card, index) => {
+        const selected = hash === card.id;
+        return (
         <li key={card.id} id={card.id} data-card={card.id} className="scroll-mt-[calc(var(--header-height)+0.75rem)]">
           <article
-            className="flex h-full flex-col gap-5 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm"
+            className={cn(
+              "flex h-full flex-col gap-5 rounded-xl border bg-card p-6 text-card-foreground shadow-sm",
+              selected ? "border-primary ring-2 ring-primary/40" : "border-border"
+            )}
             aria-labelledby={`${card.id}-title`}
+            aria-current={selected ? "true" : undefined}
+            data-selected={selected ? "true" : undefined}
           >
             <Thumbnail thumb={card.thumbnail} />
             <div className="space-y-2">
+              {selected ? (
+                <p data-selected-label className="text-sm font-semibold text-primary">
+                  Seleccionado
+                </p>
+              ) : null}
               <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
                 {String(index + 1).padStart(2, "0")} · {card.eyebrow}
               </p>
@@ -84,21 +122,31 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                 {card.title}
               </h3>
             </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
-              <ul className="mt-2 space-y-2">
-                {card.includes.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <CardDetail selected={selected} forceClosed={hashSelectsCard && !selected}>
+              <summary className="min-h-11 cursor-pointer list-none text-sm font-semibold text-foreground underline underline-offset-4 marker:content-none [&::-webkit-details-marker]:hidden">
+                Ver el detalle
+              </summary>
+              <div className="mt-3 space-y-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
+                  <ul className="mt-2 space-y-2">
+                    {card.includes.map((item) => (
+                      <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {card.price && card.priceNote ? (
+                  <p className="text-sm text-muted-foreground">{card.priceNote}</p>
+                ) : null}
+              </div>
+            </CardDetail>
             <div className="mt-auto space-y-4 border-t border-border/60 pt-4">
               {card.price ? (
                 <div>
@@ -106,7 +154,6 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                   <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
                     {card.price}
                   </p>
-                  {card.priceNote ? <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p> : null}
                 </div>
               ) : card.priceNote ? (
                 <p className="text-sm text-muted-foreground" data-price-note>
@@ -126,7 +173,8 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
             </div>
           </article>
         </li>
-      ))}
+        );
+      })}
     </ol>
   );
 }

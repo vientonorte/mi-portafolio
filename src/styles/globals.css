@@ -9,6 +9,7 @@
 }
 
 :root {
+  color-scheme: light;
   --font-size: 16px;
   /* Brand type — must win over Tailwind default system sans */
   --font-chillax: "Chillax", ui-sans-serif, system-ui, sans-serif;
@@ -132,6 +133,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --logo-accent: var(--brand-orange);
   --logo-track-opacity: 0.3;
   --logo-shine-opacity: 0.2;
@@ -782,6 +784,95 @@
       ellipse 88% 88% at 50% 40%,
       transparent 48%,
       rgba(0, 0, 0, 0.3) 100%
+    );
+  }
+
+  /* Portada de la línea de tiempo: mismo grado fotográfico que el retrato, sin reencuadre de rostro. */
+  .experience-cover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    border: 1px solid var(--logo-surface-border);
+    background: var(--logo-surface);
+  }
+
+  .experience-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 2;
+    width: 100%;
+    height: 3px;
+    background: var(--brand-gradient);
+    pointer-events: none;
+  }
+
+  .experience-cover__image {
+    object-fit: cover;
+    object-position: center 18%;
+    filter: contrast(1.04) saturate(0.88) brightness(1.02);
+  }
+
+  .experience-cover__grade,
+  .experience-cover__vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .experience-cover__grade {
+    z-index: 1;
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--vn-primitive-rojo) 16%, transparent) 0%,
+      color-mix(in srgb, var(--vn-primitive-azul-evo) 12%, transparent) 48%,
+      transparent 100%
+    );
+    mix-blend-mode: soft-light;
+    opacity: 0.7;
+  }
+
+  .experience-cover__vignette {
+    z-index: 1;
+    background: radial-gradient(
+      ellipse 92% 90% at 50% 42%,
+      transparent 55%,
+      rgba(23, 23, 23, 0.16) 100%
+    );
+  }
+
+  .experience-cover__caption {
+    position: absolute;
+    z-index: 2;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    max-width: calc(100% - 1rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 999px;
+    border: 1px solid var(--logo-plate-border);
+    background: var(--logo-plate);
+    color: var(--vn-primitive-azul-noche);
+    padding: 0.15rem 0.5rem;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .dark .experience-cover__image {
+    filter: contrast(1.05) saturate(0.8) brightness(0.9);
+  }
+
+  .dark .experience-cover__grade {
+    opacity: 0.45;
+  }
+
+  .dark .experience-cover__vignette {
+    background: radial-gradient(
+      ellipse 92% 90% at 50% 42%,
+      transparent 48%,
+      rgba(0, 0, 0, 0.38) 100%
     );
   }
 

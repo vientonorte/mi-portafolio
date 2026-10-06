@@ -48,7 +48,7 @@ export const NEWS_TOPIC_LANDING: Record<
     },
   },
   privacidad: {
-    path: "/servicios/seguridad-privacidad-digital/",
+    path: "/servicios/#revision-gratis",
     label: {
       es: "Privacidad de datos · Ley 21.719",
       en: "Data privacy · Law 21.719",
@@ -58,4 +58,20 @@ export const NEWS_TOPIC_LANDING: Record<
 
 export function newsTopicLanding(topic: string) {
   return NEWS_TOPIC_LANDING[topic as NewsTopic];
+}
+
+/**
+ * Salida pública desde la nota interna (/seo-vn).
+ * Accesibilidad y privacidad: ancla de revisión gratis.
+ * Automatización: el hub /servicios/ (la ficha no tiene ancla propia).
+ * Nunca /#/, /auditoria ni un slug.
+ */
+const NEWS_PUBLIC_EXIT: Record<NewsTopic, string> = {
+  accesibilidad: "/servicios/#revision-gratis",
+  privacidad: "/servicios/#revision-gratis",
+  automatizacion: "/servicios/",
+};
+
+export function newsPublicExit(topic: string): string | undefined {
+  return NEWS_PUBLIC_EXIT[topic as NewsTopic];
 }

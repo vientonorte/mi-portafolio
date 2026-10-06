@@ -29,6 +29,7 @@ import {
   MOBILE_HEADER_CONTROL_ACTIVE_CLASS,
   MOBILE_HEADER_CONTROL_CLASS,
 } from "../molecules/mobile-header-classes";
+import { useLocationHash } from "../../lib/use-location-hash";
 import { cn } from "../../lib/utils";
 
 /** Enlace plano (sin router ni nav-config) para páginas estáticas como /servicios/. */
@@ -132,6 +133,7 @@ function StaticNavigation({
   englishHref?: string;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hash = useLocationHash();
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -144,6 +146,11 @@ function StaticNavigation({
 
   const linkClass =
     "inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+  const currentClass = "bg-primary/10 font-semibold text-primary";
+  const isCurrent = (href: string) => {
+    const mark = href.indexOf("#");
+    return hash.length > 0 && mark >= 0 && href.slice(mark + 1) === hash;
+  };
 
   return (
     <header
@@ -171,7 +178,11 @@ function StaticNavigation({
           <ul className="flex items-center gap-1" role="list">
             {links.map((link) => (
               <li key={link.id}>
-                <a href={link.href} className={linkClass}>
+                <a
+                  href={link.href}
+                  className={cn(linkClass, isCurrent(link.href) && currentClass)}
+                  aria-current={isCurrent(link.href) ? "true" : undefined}
+                >
                   {link.label}
                 </a>
               </li>
@@ -214,7 +225,8 @@ function StaticNavigation({
             <li key={link.id}>
               <a
                 href={link.href}
-                className={cn(linkClass, "w-full text-base")}
+                className={cn(linkClass, "w-full text-base", isCurrent(link.href) && currentClass)}
+                aria-current={isCurrent(link.href) ? "true" : undefined}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
