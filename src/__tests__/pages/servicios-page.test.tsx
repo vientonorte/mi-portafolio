@@ -364,6 +364,28 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
     for (const h of hrefs) expect(h, h).not.toContain("/#/");
   });
 
+  it("el hash #consultoria-ux marca esa tarjeta y ese ítem del nav", async () => {
+    window.location.hash = "#consultoria-ux";
+    rtlRender(<ServiciosPage />);
+    const card = document.querySelector('[data-card="consultoria-ux"] article')!;
+    await waitFor(() => expect(card).toHaveAttribute("data-selected", "true"));
+    expect(card).toHaveAttribute("aria-current", "true");
+    expect(card).toHaveTextContent("Seleccionado");
+    expect(card.querySelector("details")?.open).toBe(true);
+    for (const id of ["web-pymes", "revision-gratis"]) {
+      const other = document.querySelector(`[data-card="${id}"] article`)!;
+      expect(other).not.toHaveAttribute("data-selected");
+      expect(other.querySelector("details")?.open).toBe(false);
+    }
+    const navLinks = screen.getAllByRole("link", { name: "Consultoría UX" });
+    expect(navLinks.length).toBeGreaterThan(0);
+    for (const link of navLinks) expect(link).toHaveAttribute("aria-current", "true");
+    for (const link of screen.getAllByRole("link", { name: "Web 72 h" })) {
+      expect(link).not.toHaveAttribute("aria-current");
+    }
+    window.location.hash = "";
+  });
+
   it("elegir EN guarda el idioma con el mecanismo de la home y navega a la raíz", () => {
     localStorage.setItem("language", "es");
     rtlRender(<ServiciosPage />);
