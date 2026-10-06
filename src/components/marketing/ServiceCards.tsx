@@ -84,21 +84,31 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                 {card.title}
               </h3>
             </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
-              <ul className="mt-2 space-y-2">
-                {card.includes.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <details data-detail className="group">
+              <summary className="min-h-11 cursor-pointer list-none text-sm font-semibold text-foreground underline underline-offset-4 marker:content-none [&::-webkit-details-marker]:hidden">
+                Ver el detalle
+              </summary>
+              <div className="mt-3 space-y-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">Para quién</h4>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{card.forWhom}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">Qué incluye</h4>
+                  <ul className="mt-2 space-y-2">
+                    {card.includes.map((item) => (
+                      <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {card.price && card.priceNote ? (
+                  <p className="text-sm text-muted-foreground">{card.priceNote}</p>
+                ) : null}
+              </div>
+            </details>
             <div className="mt-auto space-y-4 border-t border-border/60 pt-4">
               {card.price ? (
                 <div>
@@ -106,7 +116,6 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                   <p className="text-2xl font-bold tracking-tight text-foreground" data-price>
                     {card.price}
                   </p>
-                  {card.priceNote ? <p className="mt-1 text-sm text-muted-foreground">{card.priceNote}</p> : null}
                 </div>
               ) : card.priceNote ? (
                 <p className="text-sm text-muted-foreground" data-price-note>

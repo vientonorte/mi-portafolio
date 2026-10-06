@@ -83,7 +83,7 @@ export const SERVICIOS_HERO = {
   eyebrow: "Servicios",
   /** Alineado con la home: "Tecnología para empresas." */
   title: "Tecnología para empresas: elige cómo partimos.",
-  audience: "Elige el paso y sigue el recorrido.",
+  audience: "Elige cómo partimos.",
   /** Botón principal → #contacto (spec PO v2). */
   ctaPrimary: "Escríbenos",
   ctaSecondary: "Ver las opciones",
@@ -265,7 +265,8 @@ export const SERVICIOS_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revi
  * Anclas con casos en la grilla. Caso 6 (vientonorte.io · contraste WCAG, TL 1-oct 10:36) siempre visible:
  * el flag SERVICIOS_SHOW_VN_WCAG_CASE se eliminó en el fix-forward de branding 02/03 (PO, 2-oct).
  */
-export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
+/** Anclas con casos en la grilla. TodoClick, Terramar y el contraste WCAG salen (Rö, 6-oct): los reemplaza #conceptos. */
+export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = ["consultoria-ux"];
 
 export interface VnCase {
   id: string;
@@ -316,107 +317,15 @@ export const SERVICIOS_VN_CASES = {
 } as const;
 
 /**
- * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
- * - TodoClick / Terramar / WCAG / Ratio / Edu21: WebP del repo dentro del mockup DS.
- *   // asset repo · pendiente OK Figma (Rö vie 15:15)
- * - X|CMS y GEES (consultoría estratégica): captura Make Mac falló (auth) · asset repo
- *   (pos-productos / modulos). Corte 18:00 TL/PO 5-oct.
- * - Edu 21: contenido en #consultoria-ux; CTA de la tarjeta → #revision-gratis (prod path).
- * - Claro + Walmart + Transvip: sección #conceptos (no bajo #consultoria-ux).
- * - MASCOTAPP: solo /qa/ (Conceptos, sin image).
- * Monitas no va en /servicios/ (Rö, 1-oct). 10 nodos duda Prueba de Conceptos = sin cablear.
+ * Casos de VN. TodoClick, Parcelas Terramar y el contraste WCAG salen de la grilla (Rö, 6-oct):
+ * los reemplaza la sección #conceptos. Edu 21 sigue en #consultoria-ux.
+ * Monitas no va en /servicios/.
  */
 export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   {
-    anchor: "web-pymes",
-    label: "Web para Pymes",
-    linkLabel: "Ver el servicio: Web para Pymes",
-    cases: [
-      {
-        id: "todoclick",
-        name: "TodoClick.cl",
-        tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
-        // asset repo · pendiente OK Figma
-        // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
-        summary:
-          "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
-        findings: [
-          "El copy no rotula bien el contenido: la página no tiene h1.",
-          "El embudo de compra no cumple los pasos de una buena experiencia.",
-          "Se pueden acortar los pasos coordinando las publicaciones con los productos destacados de la tienda.",
-          "Faltan datos útiles para comprar, como la política de despacho, en las historias destacadas.",
-        ],
-        addressBar: "todoclick.cl · benchmark",
-        assetOrigen: "repo",
-        image: {
-          png: "images/cases/todoclick/benchmark-heuristica.png",
-          webp: "images/cases/todoclick/benchmark-heuristica.webp",
-          alt: "Página del benchmark de TodoClick.cl: evaluación heurística de los llamados a la acción.",
-          width: 1200,
-          height: 675,
-        },
-      },
-      {
-        id: "terramar",
-        name: "Parcelas Terramar",
-        tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
-        // asset repo · pendiente OK Figma
-        // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
-        summary:
-          "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
-        findings: [
-          "Los llamados a la acción del Instagram no alcanzan.",
-          "La rotulación y el uso de íconos se pueden mejorar.",
-          "El sitio es responsivo, pero le faltan capas interactivas de contacto comercial.",
-          "Fortaleza: el cliente queda a un clic del contacto comercial por chat.",
-          "El embudo de conversión de la web puede mejorar.",
-          "Hay información útil, pero no está en el feed: si no se busca, no se encuentra.",
-          "Conviene reorganizar los contenidos según lo que necesita la audiencia.",
-        ],
-        addressBar: "terramar · benchmark",
-        assetOrigen: "repo",
-        image: {
-          png: "images/cases/terramar/benchmark-heuristica.png",
-          webp: "images/cases/terramar/benchmark-heuristica.webp",
-          alt: "Página del benchmark de Parcelas Terramar: evaluación heurística de los llamados a la acción.",
-          width: 1200,
-          height: 675,
-        },
-      },
-    ],
-  },
-  {
-    anchor: "revision-gratis",
-    label: "Revisión gratis",
-    linkLabel: "Ver el servicio: Revisión gratis",
-    cases: [
-      {
-        id: "vientonorte-wcag",
-        name: "vientonorte.io · contraste WCAG",
-        tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
-        // asset repo · pendiente OK Figma
-        // Fuente: PR #280; src/styles/globals.css / vn-tokens.css.
-        summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
-        findings: [
-          "Antes: texto blanco sobre el azul evo, 3,50:1. No pasa AA en texto normal (mínimo 4,5:1).",
-          "Corrección: variante 700 del token, 5,76:1, en todo el degradado de marca.",
-        ],
-        addressBar: "vientonorte.io · contraste",
-        assetOrigen: "repo",
-        image: {
-          png: "images/cases/vientonorte/contraste-antes-despues.png",
-          webp: "images/cases/vientonorte/contraste-antes-despues.webp",
-          alt: "Antes y después: botón con texto blanco sobre el azul evo (3,50:1, no pasa AA) y sobre el azul evo 700 (5,76:1, pasa AA).",
-          width: 1200,
-          height: 675,
-        },
-      },
-    ],
-  },
-  {
     anchor: "consultoria-ux",
     label: "Consultoría UX",
-    linkLabel: "Ver el servicio: Consultoría UX",
+    linkLabel: "Consultoría UX",
     cases: [
       {
         id: "x-cms",

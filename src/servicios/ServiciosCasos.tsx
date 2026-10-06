@@ -181,7 +181,7 @@ function ServiceStyleCaseCard({
   groupAnchor: ServiciosAnchor;
 }) {
   const href = `#${item.ctaAnchor ?? groupAnchor}`;
-  const linkLabel = `Ver el servicio: ${item.tags.servicio} — ${item.name}`;
+  const linkLabel = item.name;
   return (
     <CaseCardShell
       href={href}
@@ -246,15 +246,7 @@ export function ServiciosCasos() {
         <p className="mt-2 max-w-2xl text-base text-muted-foreground">{SERVICIOS_VN_CASES.intro}</p>
         {SERVICIOS_VN_CASE_GROUPS.map((group, groupIndex) => (
           <div key={group.anchor} data-case-group={group.anchor} className="mt-10">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className={cn(CHILLAX, "text-lg font-bold text-foreground sm:text-xl")}>{group.label}</h3>
-              <a
-                href={`#${group.anchor}`}
-                className="relative z-20 inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                {group.linkLabel}
-              </a>
-            </div>
+            <h3 className={cn(CHILLAX, "text-lg font-bold text-foreground sm:text-xl")}>{group.label}</h3>
             <ul className="mt-4 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
               {group.cases.map((item) => (
                 <li key={item.id}>

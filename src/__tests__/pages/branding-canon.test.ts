@@ -144,29 +144,32 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     expect([...casos.querySelectorAll("[data-case-group]")].map((g) => g.getAttribute("data-case-group"))).toEqual([
       ...SERVICIOS_CASE_ANCHORS,
     ]);
-    expect(SERVICIOS_CASE_ANCHORS).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
-    expect(casos.querySelector('[data-case-group="revision-gratis"]')).not.toBeNull();
+    expect(SERVICIOS_CASE_ANCHORS).toEqual(["consultoria-ux"]);
+    expect(casos.querySelector('[data-case-group="revision-gratis"]')).toBeNull();
+    expect(casos.querySelector('[data-case-group="web-pymes"]')).toBeNull();
     for (const anchor of SERVICIOS_ANCHORS) expect(doc.getElementById(anchor), anchor).not.toBeNull();
   });
 
-  it("casos: TodoClick/Terramar en #web-pymes; WCAG en #revision-gratis; Edu21+Ratio+X|CMS+GEES en #consultoria-ux; Monitas fuera", () => {
+  it("casos: solo consultoría (X|CMS, Ratio, Edu21, dashboard); TodoClick, Terramar y contraste fuera; Monitas fuera", () => {
     const byGroup = Object.fromEntries(SERVICIOS_VN_CASE_GROUPS.map((g) => [g.anchor, g.cases.map((c) => c.name)]));
-    expect(byGroup["web-pymes"]).toEqual(expect.arrayContaining(["TodoClick.cl", "Parcelas Terramar"]));
-    expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG"]);
+    expect(byGroup["web-pymes"]).toBeUndefined();
+    expect(byGroup["revision-gratis"]).toBeUndefined();
     expect(byGroup["consultoria-ux"]).toEqual([
       "X|CMS · Da Pleisë",
       "CFO Dashboard · Ratio Irarrázaval",
       "Edu 21",
       "Dashboard de consultoría estratégica",
     ]);
-    expect(vnCases.some((c) => c.id === "monitas")).toBe(false);
+    expect(vnCases.some((c) => c.id === "monitas" || c.id === "todoclick" || c.id === "terramar" || c.id === "vientonorte-wcag")).toBe(false);
     expect(vnCases.some((c) => c.id === "claro" || c.id === "transvip")).toBe(false);
     expect(html).not.toMatch(/monitas/i);
     expect(html).not.toContain("cases/monitas");
+    expect(html).not.toContain("TodoClick");
+    expect(html).not.toContain("Parcelas Terramar");
+    expect(html).not.toContain("Ver el servicio:");
+    expect(html).not.toContain("El recorrido");
     expect(new Set(vnCases.map((c) => c.id)).size).toBe(vnCases.length);
     const byId = Object.fromEntries(vnCases.map((c) => [c.id, c]));
-    expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
-    expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
     expect(byId.edu21.startingPoint).toMatch(/^Diagnóstico base \(junio de 2022\): carga de 15,4 s y calificación «deficiente»\.$/);
     expect(byId.edu21.ctaAnchor).toBe("revision-gratis");
     expect(byId["x-cms"].image?.webp).toBe("images/products/x-cms/pos-productos.webp");
@@ -275,18 +278,19 @@ describe("/servicios/ secciones 02 (#revision-gratis) y 03 (#consultoria-ux): br
   const casos = doc.getElementById("casos-vn")!;
   const group = (anchor: string) => casos.querySelector(`[data-case-group="${anchor}"]`)!;
 
-  it("02 = WCAG; 03 = X|CMS (gap), Ratio, Edu21, GEES (gap); Claro/Transvip fuera de casos-vn", () => {
+  it("la grilla de casos es solo consultoría; Claro/Transvip quedan en Conceptos", () => {
     const ids = (anchor: string) =>
-      [...group(anchor).querySelectorAll("[data-vn-case]")].map((n) => n.getAttribute("data-vn-case"));
-    expect(ids("revision-gratis")).toEqual(["vientonorte-wcag"]);
+      [...(group(anchor)?.querySelectorAll("[data-vn-case]") ?? [])].map((n) => n.getAttribute("data-vn-case"));
+    expect(group("revision-gratis")).toBeNull();
+    expect(group("web-pymes")).toBeNull();
     expect(ids("consultoria-ux")).toEqual(["x-cms", "ratio-irarrazaval", "edu21", "consultoria-estrategica"]);
-    expect(ids("web-pymes")).toEqual(["todoclick", "terramar"]);
     expect(casos.querySelector('[data-vn-case="claro"]')).toBeNull();
     expect(casos.querySelector('[data-vn-case="transvip"]')).toBeNull();
+    expect(casos.querySelector('[data-vn-case="vientonorte-wcag"]')).toBeNull();
   });
 
   it("todas las tarjetas de casos-vn usan mockup DS 16:10 (browser); título text-xl bold", () => {
-    for (const anchor of ["web-pymes", "revision-gratis", "consultoria-ux"]) {
+    for (const anchor of ["consultoria-ux"]) {
       for (const card of group(anchor).querySelectorAll("[data-vn-case]")) {
         expect(card.getAttribute("data-card-variant"), anchor).toBe("service");
         expect(card.querySelector("[data-device-frame]"), anchor).not.toBeNull();
@@ -302,11 +306,9 @@ describe("/servicios/ secciones 02 (#revision-gratis) y 03 (#consultoria-ux): br
     }
   });
 
-  it("vientonorte.io: contraste-antes-despues y 3,50:1 → 5,76:1; Edu 21 como diagnóstico base, nunca resultado", () => {
-    const wcag = casos.querySelector('[data-vn-case="vientonorte-wcag"]')!;
-    expect(wcag.querySelector("img")!.getAttribute("src")).toContain("cases/vientonorte/contraste-antes-despues.png");
-    expect(wcag.textContent).toContain("3,50:1");
-    expect(wcag.textContent).toContain("5,76:1");
+  it("Edu 21 como diagnóstico base, nunca resultado; el caso de contraste no está", () => {
+    expect(casos.querySelector('[data-vn-case="vientonorte-wcag"]')).toBeNull();
+    expect(casos.textContent).not.toContain("3,50:1");
     const edu = casos.querySelector('[data-vn-case="edu21"]')!;
     const src = edu.querySelector("img")!.getAttribute("src") ?? "";
     expect(src).toMatch(/cases\/edu21\/(?:01-[\w-]+|06-performance-seo[\w-]*)\.png$/);
@@ -337,7 +339,7 @@ describe("/servicios/ tarjetas 02/03: formato de la 01, Conceptos Claro/Walmart/
   it("eyebrow mono + título bold como la 01; chip rubro DS; mockup browser compartido", () => {
     const eyebrow01 = card01.querySelector("p.font-mono")!.className;
     const title01 = card01.querySelector("h3")!.className;
-    for (const anchor of ["web-pymes", "revision-gratis", "consultoria-ux"]) {
+    for (const anchor of ["consultoria-ux"]) {
       for (const card of casos.querySelectorAll(`[data-case-group="${anchor}"] [data-vn-case]`)) {
         expect(card.querySelector('[data-tag="servicio"]')!.className).toBe(eyebrow01);
         expect(card.querySelector('[data-tag="rubro"]')!.getAttribute("data-slot")).toBe("badge");
