@@ -17,7 +17,7 @@ type DeviceMockupProps = {
   glow?: boolean;
   addressBar?: string;
   loading?: "eager" | "lazy";
-  /** Imagen LCP (hero): "high" + loading="eager". Se renderiza como `fetchpriority`. */
+  /** Solo atributo `fetchpriority` en la captura browser/laptop (hero LCP). Sin cambios visuales. */
   fetchPriority?: "high" | "low" | "auto";
   /** contain deja la captura entera. cover la recorta a 16:10 para una tarjeta. */
   fit?: "contain" | "cover";
@@ -68,7 +68,6 @@ export function DeviceMockup({
               alt={alt}
               className="aspect-[9/19.5] w-full object-cover object-top"
               loading={loading}
-              fetchPriority={fetchPriority}
               decoding="async"
             />
           </div>
