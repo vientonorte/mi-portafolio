@@ -22,6 +22,8 @@
  *     viewport, no tapada; DeviceMockup en la misma caja que 5d17bb9 (±2 px); sin solape.
  *  3. Sin CTA flotante en / (ni «Agendar» fijo): solo header/nav pueden ser fixed/sticky con enlaces.
  *  4. CTAs del hero: primario /servicios/#web-pymes, secundario /servicios/#consultoria-ux; canon.
+ *  5. Mobile 360×740 y 390×844: «Empezar» del bottom nav (dock) visible y su href, resuelto
+ *     contra el origen y el base path del build, = <base>servicios/#web-pymes (PO 5-oct 21:47).
  */
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
@@ -36,6 +38,12 @@ const SHOT_PREFIX = process.env.E2E_SHOT_PREFIX || 'after';
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 
 const OFFER_TEXT = 'Web en 72h · $30.000 · 50/50';
+/** Base path del deploy (p. ej. '/' o '/sub/'), derivado de la URL base del preview. */
+const BASE_PATH = (() => {
+  const p = new URL(`${BASE}/`).pathname;
+  return p.endsWith('/') ? p : `${p}/`;
+})();
+const DOCK_START_EXPECTED = new URL(`${BASE_PATH}servicios/#web-pymes`, ORIGIN).href;
 
 /**
  * Caja del DeviceMockup del hero ([data-testid="hero-mockup"]) medida sobre el build de
@@ -223,6 +231,28 @@ const overlap = (a, b) =>
   a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
 const near = (a, b) => ['x', 'y', 'width', 'height'].every((k) => Math.abs(a[k] - b[k]) <= TOL);
 
+/** Bottom nav: «Empezar» (CTA central del dock) → /servicios/#web-pymes, resuelto contra origen + base path. */
+async function checkDockStart(page, key) {
+  try {
+    const cta = page.locator('nav.bottom-nav-mobile [data-liquid-cta]');
+    await cta.waitFor({ state: 'visible', timeout: 10000 });
+    const info = await cta.evaluate((el) => ({
+      tag: el.tagName,
+      href: el.getAttribute('href'),
+      label: (el.textContent || '').replace(/\s+/g, ' ').trim(),
+    }));
+    const resolved = info.href ? new URL(info.href, page.url()).href : null;
+    record(`${key} bottom nav «Empezar» → ${DOCK_START_EXPECTED}`,
+      info.tag === 'A' && info.label === 'Empezar' && resolved === DOCK_START_EXPECTED,
+      `tag=${info.tag} label=${JSON.stringify(info.label)} href=${JSON.stringify(info.href)} resolved=${resolved}`);
+    if (SHOTS) {
+      await page.locator('nav.bottom-nav-mobile').screenshot({ path: join(SHOTS, `${SHOT_PREFIX}-bottomnav-${key}.png`) });
+    }
+  } catch (err) {
+    record(`${key} bottom nav «Empezar»`, false, err.message.split('\n')[0]);
+  }
+}
+
 async function checkMobileHero(browser) {
   for (const vp of VIEWPORTS) {
     const key = `${vp.width}x${vp.height}`;
@@ -244,6 +274,7 @@ async function checkMobileHero(browser) {
       record(`${key} DeviceMockup = baseline 5d17bb9 (±${TOL}px)`, Boolean(m.mockup && base && near(m.mockup, base)),
         `mockup=${JSON.stringify(m.mockup)} baseline=${JSON.stringify(base)}`);
       record(`${key} oferta no se solapa con el mockup`, Boolean(m.offer && m.mockup && !overlap(m.offer, m.mockup)));
+      await checkDockStart(page, key);
     } catch (err) {
       record(`${key} hero mobile`, false, err.message.split('\n')[0]);
     } finally {
