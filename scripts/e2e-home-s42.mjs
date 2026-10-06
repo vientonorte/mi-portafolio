@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global process, console, URL, setTimeout, window, document, navigator, sessionStorage, getComputedStyle */
 /**
  * E2E S42 P0 — home `/` sobre el build local (vite preview). Nunca contra producción.
  *
