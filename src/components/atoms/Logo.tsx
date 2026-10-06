@@ -202,7 +202,7 @@ export function Logo({
               )}
             >
               <span
-                className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gradient"
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gradient-canon"
                 aria-hidden="true"
               />
               {roleLabel}

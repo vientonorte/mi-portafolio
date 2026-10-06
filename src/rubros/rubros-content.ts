@@ -56,9 +56,9 @@ export function getRubro(slug: string): RubroData {
 }
 
 /**
- * CTA con gradiente AA: tokens -700 (#c2330f → #0f6aa8). Blanco da 5,56:1 y 5,76:1
- * en los extremos (y más en el centro), así que cumple 4,5:1 con texto de cualquier
- * tamaño. Sin hover:opacity (bajaría el contraste).
+ * CTA con el degradado naranja canon (--brand-gradient-canon, PO 5-oct-2026) y texto
+ * azul-noche del DS: 18px bold = texto grande; ≥ 4.39:1 en todo el degradado.
+ * Sin hover:opacity (bajaría el contraste).
  */
 export const RUBRO_CTA_CLASS =
-  "min-h-[48px] bg-brand-gradient-aa px-6 text-lg font-bold text-white shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";
+  "min-h-[48px] bg-brand-gradient-canon px-6 text-lg font-bold text-[color:var(--brand-gradient-canon-foreground)] shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";

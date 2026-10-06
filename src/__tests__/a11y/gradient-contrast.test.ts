@@ -14,6 +14,9 @@ import { render as renderServicios } from "@/servicios/entry-server";
 import { STEPS, contrast, hex, over, parseColor, sampleGradient, toRGBA, type RGBA } from "./contrast-utils";
 import {
   AZUL_700,
+  BRAND_CANON_FG,
+  BRAND_ORANGE_CANON,
+  BRAND_RED_CANON,
   CSS,
   CTA_SURFACES_C3,
   GRADIENT_PATTERN,
@@ -82,6 +85,24 @@ describe("tokens de degradado (leídos de CSS)", () => {
     expect(THEME.dark.brandOrange.toLowerCase()).toBe("#1a8fdc");
   });
 
+  it("canon naranja (PO 5-oct-2026): --brand-gradient-canon #FF1D25 → #FF931E con texto azul-noche", () => {
+    expect(BRAND_RED_CANON.toLowerCase()).toBe("#ff1d25");
+    expect(BRAND_ORANGE_CANON.toLowerCase()).toBe("#ff931e");
+    expect(BRAND_CANON_FG.toLowerCase()).toBe("#0d1b3d"); // --vn-primitive-azul-noche
+    expect(CSS.globals).toMatch(
+      /--brand-gradient-canon:\s*linear-gradient\(\s*135deg,\s*var\(--brand-red-canon\)\s*0%,\s*var\(--brand-orange-canon\)\s*100%\s*\)/
+    );
+    expect(CSS.globals).toMatch(/--brand-gradient-canon-foreground:\s*var\(--vn-primitive-azul-noche\)/);
+    expect(CSS.globals).toMatch(/\n\.bg-brand-gradient-canon,[\s\S]*?\{\s*color:\s*var\(--brand-gradient-canon-foreground\);/);
+    const w = parseColor("#ffffff");
+    const noche = parseColor(BRAND_CANON_FG);
+    // Blanco no llega a AA ni para texto grande en el extremo naranja → texto oscuro del DS.
+    expect(contrast(w, parseColor(BRAND_RED_CANON))).toBeCloseTo(3.85, 2);
+    expect(contrast(w, parseColor(BRAND_ORANGE_CANON))).toBeCloseTo(2.22, 2);
+    expect(contrast(noche, parseColor(BRAND_RED_CANON))).toBeCloseTo(4.39, 2);
+    expect(contrast(noche, parseColor(BRAND_ORANGE_CANON))).toBeCloseTo(7.61, 2);
+  });
+
   it(".heading-gradient: claro = --brand-gradient; oscuro = #ff1d25 → #ff931e", () => {
     expect(CSS.global).toMatch(/\.heading-gradient\s*\{\s*background:\s*var\(--brand-gradient\)/);
     expect(CSS.global).toMatch(/\.dark \.heading-gradient\s*\{\s*background-image:\s*linear-gradient\(135deg, #ff1d25 0%, #ff931e 100%\)/);
@@ -125,19 +146,25 @@ describe("inventario completo de degradados en src/**", () => {
 
 describe("prerender de /servicios/: solo degradados inventariados", () => {
   const doc = new DOMParser().parseFromString(renderServicios(), "text/html");
-  it("clases de degradado ⊆ {bg-brand-gradient} y cada elemento con texto usa texto blanco", () => {
+  it("clases de degradado ⊆ {bg-brand-gradient, bg-brand-gradient-canon}; texto blanco en 700, azul-noche en canon", () => {
     const els = [...doc.querySelectorAll<HTMLElement>("[class*='gradient']")];
     expect(els.length).toBeGreaterThan(0);
-    const classes = new Set(els.flatMap((el) => [...el.classList].filter((c) => c.includes("gradient"))));
-    // El celular de Conceptos salió: Claro usa el marco del navegador, sin degradado.
-    expect([...classes].sort()).toEqual(["bg-brand-gradient"]);
+    const classes = new Set(els.flatMap((el) => [...el.classList].filter((c) => c.includes("gradient") && !c.startsWith("text-[color:"))));
+    expect([...classes].sort()).toEqual(["bg-brand-gradient", "bg-brand-gradient-canon"]);
     for (const el of els) {
       if (!el.textContent?.trim()) continue;
       if (el.classList.contains("bg-gradient-to-b") && !el.classList.contains("bg-brand-gradient")) continue;
       const cls = el.className;
-      // PRIMARY_CTA_CLASS (19px bold) o número de HowWeWork (text-base bold)
+      if (el.classList.contains("bg-brand-gradient-canon")) {
+        // PRIMARY_CTA_CLASS (19px bold, texto grande) sobre naranja canon → azul-noche
+        expect(cls, el.outerHTML.slice(0, 120)).toContain("text-[color:var(--brand-gradient-canon-foreground)]");
+        expect(cls).not.toContain("text-white");
+        expect(cls).toContain("text-[1.1875rem]");
+        continue;
+      }
+      // número de HowWeWork (text-base bold) sobre el degradado 700
       expect(cls, el.outerHTML.slice(0, 120)).toContain("text-white");
-      expect(cls.includes("text-[1.1875rem]") || cls.includes("text-base")).toBe(true);
+      expect(cls.includes("text-base")).toBe(true);
     }
     for (const id of SERVICIOS_GRADIENT_ENTRIES) expect(INVENTORY.find((e) => e.id === id), id).toBeTruthy();
   });

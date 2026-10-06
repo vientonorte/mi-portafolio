@@ -13,7 +13,12 @@ export const BRAND_MARK = {
   shineOffsetY: -1.2,
 } as const;
 
+/**
+ * Anillo + núcleo del isologo. Canon de marca = naranja (Rö, 5-oct-2026): valores
+ * previos a b586c48 (#242), los mismos de favicon.svg / íconos PWA. Espejo en
+ * globals.css (--brand-red-canon / --brand-orange-canon).
+ */
 export const BRAND_GRADIENT_STOPS = [
-  { offset: 0, color: "#E8401C" },
-  { offset: 1, color: "#1A8FDC" },
+  { offset: 0, color: "#FF1D25" },
+  { offset: 1, color: "#FF931E" },
 ] as const;

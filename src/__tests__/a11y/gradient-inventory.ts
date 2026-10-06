@@ -74,6 +74,10 @@ export const THEME = { light: pick(lightVars), dark: pick(darkVars) };
 export type ThemeName = keyof typeof THEME;
 
 export const ROJO_700 = primitives["--vn-primitive-rojo-700"];
+/** Canon naranja (PO 5-oct-2026, valores pre-b586c48) y su texto (azul-noche del DS). */
+export const BRAND_RED_CANON = resolveVar(lightVars["--brand-red-canon"], lightVars);
+export const BRAND_ORANGE_CANON = resolveVar(lightVars["--brand-orange-canon"], lightVars);
+export const BRAND_CANON_FG = resolveVar(lightVars["--brand-gradient-canon-foreground"], lightVars);
 export const AZUL_700 = primitives["--vn-primitive-azul-evo-700"];
 export const AZUL_800 = primitives["--vn-primitive-azul-evo-800"];
 
@@ -184,6 +188,22 @@ function whiteOnBrand(
     }
   }
   return out;
+}
+
+/**
+ * CTA primario sobre bg-brand-gradient-canon (naranja #FF1D25 → #FF931E, PO 5-oct-2026):
+ * antes blanco sobre el degradado 700; después azul-noche (--brand-gradient-canon-foreground).
+ */
+function canonCta(label: string, size: Size, why: string): Case[] {
+  return themes.map((theme): Case => ({
+    label: `${label} · reposo`,
+    theme,
+    text: { before: white, after: [c(BRAND_CANON_FG)] },
+    base: THEME[theme].bg,
+    layers: { before: [{ stops: [c(ROJO_700), c(AZUL_700)] }], after: [{ stops: [c(BRAND_RED_CANON), c(BRAND_ORANGE_CANON)] }] },
+    size,
+    why,
+  }));
 }
 
 /** Icono blanco sobre bg-brand-gradient: contraste no textual (1.4.11) ≥ 3:1. */
@@ -349,7 +369,7 @@ const blobTint = (label: string, o: number, base: Tok): Case[] =>
 
 export const INVENTORY: Entry[] = [
   // Tokens / definiciones
-  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .bg-brand-gradient-aa, .dark .text-brand-gradient, .profile-avatar-frame::before", element: "token", matches: 13, status: "decorative", note: "Definiciones; los usos se verifican abajo." },
+  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .bg-brand-gradient-aa, .dark .text-brand-gradient, .profile-avatar-frame::before", element: "token", matches: 23, status: "decorative", note: "+10 líneas: --brand-gradient-canon (naranja, PO 5-oct-2026), .bg-brand-gradient-canon y su regla de texto azul-noche. Definiciones; los usos se verifican abajo." },
   { id: "globals-atmosphere", file: "src/styles/globals.css", component: ".section-atmosphere-* (radiales primary 3–6 %; PageSection)", element: "fondo de sección", matches: 5, status: "checked",
     cases: [
       ...tint("section-atmosphere-base", (t) => [{ stops: [primary(t, 0.05), T] }], { texts: FG_MUTED_PRIMARY }),
@@ -405,10 +425,10 @@ export const INVENTORY: Entry[] = [
   { id: "design-tokens-export", file: "src/lib/design-tokens-export.ts", component: "export CSS", element: "código", matches: 1, status: "decorative" },
 
   // Home + /servicios/
-  { id: "rubros-primary-cta", file: "src/rubros/rubros-content.ts", component: "PRIMARY_CTA_CLASS (CTAs de /servicios/web-*/)", element: "botón", matches: 1, status: "checked",
-    cases: whiteOnBrand("rubros PRIMARY_CTA_CLASS", "large", { why: "text-lg font-bold = 18px bold" }) },
+  { id: "rubros-primary-cta", file: "src/rubros/rubros-content.ts", component: "RUBRO_CTA_CLASS (CTAs de /servicios/web-*/)", element: "botón", matches: 2, status: "checked",
+    cases: canonCta("rubros RUBRO_CTA_CLASS (naranja canon, texto azul-noche)", "large", "text-lg font-bold = 18px bold") },
   { id: "primary-cta", file: "src/servicios/servicios-content.ts", component: "PRIMARY_CTA_CLASS (hero home 'Quiero mi web en 72 h', CTAs y tarjetas de /servicios/)", element: "botón", matches: 2, status: "checked",
-    cases: whiteOnBrand("PRIMARY_CTA_CLASS", "large", { why: "text-[1.1875rem] font-bold = 19px bold" }) },
+    cases: canonCta("PRIMARY_CTA_CLASS (naranja canon, texto azul-noche)", "large", "text-[1.1875rem] font-bold = 19px bold") },
   { id: "how-we-work", file: "src/components/marketing/HowWeWork.tsx", component: "HowWeWork (home + /servicios/)", element: "número de paso", matches: 1, status: "checked",
     cases: whiteOnBrand("HowWeWork paso", "normal") },
   { id: "hero-mockup-bar", file: "src/components/marketing/HeroWithMockup.tsx", component: "HeroWithMockup", element: "barra superior 6px", matches: 1, status: "decorative" },

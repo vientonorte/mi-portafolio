@@ -151,13 +151,15 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     for (const a of primaries) {
       expect(a.getAttribute("href")).toBe("#contacto");
       expect(a.textContent).toBe(r.cta.primary);
-      expect(a.className).toContain("bg-brand-gradient-aa");
+      // Naranja canon (PO 5-oct-2026) con texto azul-noche del DS
+      expect(a.className).toContain("bg-brand-gradient-canon");
+      expect(a.className).toContain("text-[color:var(--brand-gradient-canon-foreground)]");
       expect(a.className).not.toMatch(/(^|\s)bg-brand-gradient(\s|$)/);
     }
     const secondary = doc.querySelector('a[data-cta="secondary"]')!;
     expect(secondary.getAttribute("href")).toBe("/servicios/");
-    // El botón enviar del formulario también usa el gradiente AA
-    expect(doc.querySelector('button[type="submit"]')!.className).toContain("bg-brand-gradient-aa");
+    // El botón enviar del formulario también usa el naranja canon (texto azul-noche)
+    expect(doc.querySelector('button[type="submit"]')!.className).toContain("bg-brand-gradient-canon");
   });
 
   it("offer shows $30.000 CLP, 72 horas and pago 50/50", () => {
