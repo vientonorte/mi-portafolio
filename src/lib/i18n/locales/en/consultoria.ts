@@ -5,7 +5,6 @@ export const consultoria = {
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
-      stickyCta: 'Book a slot',
       entry: {
         selectedPackage: 'Selected format:',
         changePackage: 'Change',

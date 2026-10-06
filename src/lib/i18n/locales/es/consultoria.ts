@@ -5,7 +5,6 @@ export const consultoria = {
       recommended: 'Recomendada',
       back: 'Atrás',
       next: 'Continuar',
-      stickyCta: 'Agendar',
       entry: {
         selectedPackage: 'Modalidad elegida:',
         changePackage: 'Cambiar',

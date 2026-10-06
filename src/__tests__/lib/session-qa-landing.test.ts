@@ -70,7 +70,6 @@ describe("session QA · i18n parity", () => {
       "practices.validationLabel",
       "packagesSection.cta",
       "packagesSection.deliverablesLabel",
-      "stickyCta",
     ];
     for (const path of required) {
       expect(getPath(es.consultoria, path), `es.${path}`).toBeDefined();
