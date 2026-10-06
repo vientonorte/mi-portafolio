@@ -11,6 +11,8 @@ export interface HeroWithMockupProps {
   /**
    * Oferta destacada (p. ej. «Web en 72h · $30.000 · 50/50»). Va primero en el
    * hero para que quede visible sin scroll en mobile (390×844 y 360×740).
+   * Misma caja que el badge (min-h-8, 1 línea) para no mover el DeviceMockup
+   * aprobado en 5d17bb9 (criterio PO S42; e2e scripts/e2e-home-s42.mjs).
    */
   offer?: string;
   eyebrow?: string;
@@ -105,7 +107,7 @@ export function HeroWithMockup({
         <div className="space-y-5">
           {offer ? (
             <p
-              className="inline-flex min-h-9 items-center rounded-full border border-primary/50 bg-primary/15 px-4 text-sm font-semibold text-[#E8E5DF]"
+              className="inline-flex min-h-8 items-center rounded-full border border-primary/50 bg-primary/15 px-3 text-sm font-semibold leading-5 text-[#E8E5DF]"
               data-hero-offer
             >
               {offer}
