@@ -120,7 +120,7 @@ export const consultoria = {
           practices: 'Prácticas',
           packages: 'Modalidades',
           start: 'Empezar',
-          startAria: 'Empezar: ir al kickoff de consultoría',
+          startAria: 'Empezar: web para tu pyme en 72 h',
           evidence: 'Ejemplos',
           contact: 'Contacto',
           fit: 'Presupuesto',

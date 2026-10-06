@@ -120,7 +120,7 @@ export const consultoria = {
           practices: 'Practices',
           packages: 'Formats',
           start: 'Start',
-          startAria: 'Start: go to consulting kickoff',
+          startAria: 'Start: your business website in 72 h',
           evidence: 'Examples',
           contact: 'Contact',
           fit: 'Budget',

@@ -10,6 +10,7 @@ import {
   getMobileDrawerNavItems,
   getMobileMoreDividerIndex,
   matchNavItemActive,
+  trackNavClick,
 } from "@/lib/nav-config";
 import { SITE_NAV_PRIMARY_IDS } from "@/lib/site-nav";
 
@@ -133,9 +134,21 @@ describe("getDockNavAction", () => {
     });
   });
 
-  it("funnel (home): liquid center is Calendar or #contacto", () => {
+  it("S42 funnel (home): «Empezar» links to /servicios/#web-pymes; inicio/contacto anchors", () => {
     const center = getDockNavAction("consultoria", "funnel");
-    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
+    expect(center).toEqual({ kind: "http", target: "/servicios/#web-pymes" });
+    expect(center.target).not.toMatch(/\/#\/|\/s\//);
+    expect(getDockNavAction("consultoria", "home")).toEqual(center);
+    expect(getDockNavAction("inicio", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#inicio",
+      homeRoute: "/",
+    });
+    expect(getDockNavAction("contacto", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#contacto",
+      homeRoute: "/",
+    });
   });
 });
 
@@ -146,11 +159,10 @@ describe("getDockNavItems", () => {
     expect(ids[1]).toBe(DOCK_CENTER_ID);
   });
 
-  it("funnel dock keeps 3 slots with Calendar or contact on center", () => {
+  it("funnel dock keeps 3 slots with /servicios/#web-pymes on center", () => {
     const items = getDockNavItems("funnel", labels, "Proceso");
     expect(items.map((i) => i.id)).toEqual(["inicio", "consultoria", "contacto"]);
-    const center = items[1]!.action;
-    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
+    expect(items[1]!.action).toEqual({ kind: "http", target: "/servicios/#web-pymes" });
   });
 });
 
@@ -221,5 +233,19 @@ describe("executeNavAction · GTM nav_click", () => {
     );
     // Fuera de la home: vuelve a la home y luego scrollea a #contacto
     expect(navigate).toHaveBeenCalledWith("/");
+  });
+
+  it("trackNavClick pushes nav_click for the dock center <a href> (S42)", () => {
+    const center = getDockNavItems("funnel", labels, "Proceso")[1]!;
+    trackNavClick(center);
+    const layer = (window as Window & { dataLayer: unknown[] }).dataLayer;
+    expect(layer).toContainEqual(
+      expect.objectContaining({
+        event: "nav_click",
+        nav_id: "consultoria",
+        nav_kind: "http",
+        nav_target: "/servicios/#web-pymes",
+      })
+    );
   });
 });
