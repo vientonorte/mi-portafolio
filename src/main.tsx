@@ -13,6 +13,7 @@ import { ErrorBoundary } from './components/organisms/ErrorBoundary';
 import { normalizeDoubleHashUrl } from './lib/normalize-hash-url';
 import { attachLcpShell } from './lib/lcp-shell';
 import { initTracking } from './lib/track';
+import { registerServiceWorker } from './lib/sw-register';
 
 function bootstrapTheme() {
   try {
@@ -32,32 +33,13 @@ initTracking();
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   const base = import.meta.env.BASE_URL;
-  const SW_RELOAD_KEY = 'vn-sw-controller-reload';
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    try {
-      if (sessionStorage.getItem(SW_RELOAD_KEY)) return;
-      sessionStorage.setItem(SW_RELOAD_KEY, '1');
-    } catch {
-      return;
-    }
-    window.location.reload();
+  // Recarga solo ante una actualización real del SW (había controlador antes de
+  // register()); nunca en la primera instalación/claim (P0 S42: doble carga).
+  registerServiceWorker({
+    container: navigator.serviceWorker,
+    swUrl: `${base}sw.js`,
+    scope: base,
   });
-
-  navigator.serviceWorker
-    .register(`${base}sw.js`, { scope: base })
-    .then((registration) => {
-      registration.addEventListener('updatefound', () => {
-        const worker = registration.installing;
-        worker?.addEventListener('statechange', () => {
-          if (worker.state === 'activated') {
-            worker.postMessage({ type: 'SKIP_WAITING' });
-          }
-        });
-      });
-    })
-    .catch(() => {
-      /* SW opcional — el sitio funciona sin él */
-    });
 }
 
 const rootEl = document.getElementById('root');
