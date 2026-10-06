@@ -36,8 +36,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
 
 function assertCtas(container: HTMLElement, base: string) {
   const ctas = marketingCtas(container);
-  // 2 del hero + 3 tarjetas + "ver todos" + 2 casos
-  expect(ctas.length).toBe(8);
+  // 2 del hero + 3 tarjetas + "ver todos". Sin fichas freelance.
+  expect(ctas.length).toBe(6);
   for (const a of ctas) {
     const href = a.getAttribute("href") ?? "";
     expect(href.startsWith(`${base}servicios/`), href).toBe(true);
@@ -51,8 +51,6 @@ function assertCtas(container: HTMLElement, base: string) {
     `${base}servicios/#revision-gratis`,
     `${base}servicios/#consultoria-ux`,
     `${base}servicios/`,
-    `${base}servicios/#web-pymes`,
-    `${base}servicios/#revision-gratis`,
   ]);
 }
 
@@ -183,8 +181,10 @@ describe("Home P3a — base '/' (producción)", () => {
     expect(container.innerHTML).not.toContain("data-placeholder");
     expect(container.querySelector("#experiencia")).toBeNull();
     expect(container.querySelector("#quien")).toBeNull();
-    expect(container.querySelector("#home-casos")).not.toBeNull();
-    expect(container.querySelectorAll("#home-casos article")).toHaveLength(2);
+    expect(container.querySelector("#home-casos")).toBeNull();
+    expect(container.textContent).not.toContain("El recorrido");
+    expect(container.textContent).not.toContain("Freelance · Viento Norte");
+    expect(container.textContent).not.toContain("Monitas");
     expect(container.innerHTML).not.toContain("Han confiado");
     expect(container.innerHTML).not.toContain("clientes VN");
     const hero = container.querySelector('[data-testid="hero-mockup"]')!;
@@ -202,7 +202,9 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
     expect(container.querySelector("[data-placeholder]")).toBeNull();
-    expect(container.querySelectorAll("#home-casos article")).toHaveLength(2);
+    expect(container.querySelector("#home-casos")).toBeNull();
+    expect(container.textContent).not.toContain("El recorrido");
+    expect(container.textContent).not.toContain("Monitas");
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
     expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");
   });

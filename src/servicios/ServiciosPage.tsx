@@ -8,7 +8,7 @@ import { ServiciosCasos, ServiciosConceptos } from "./ServiciosCasos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
-import { HeroWithMockup, ServiceCards, SECTION_TITLE_CLASS } from "../components/marketing";
+import { HeroWithMockup, ServiceCards, SECTION_TITLE_CLASS, assetUrl } from "../components/marketing";
 import {
   CONTACT_EMAIL,
   PRIMARY_CTA_CLASS,
@@ -95,6 +95,18 @@ export function ServiciosPage() {
               ctaClassName={PRIMARY_CTA_CLASS}
               onChoose={(e, card) => chooseIntent(e, card.intent as ServiciosIntent)}
             />
+            <figure className="mt-12 max-w-3xl">
+              <img
+                src={assetUrl("images/seo/ley-21719-flujo.svg")}
+                width={1200}
+                height={630}
+                alt="Ley 21.719 en el flujo: qué dato se pide, para qué, cuánto tiempo, y si la persona puede decir que no."
+                className="h-auto w-full rounded-2xl border border-border"
+              />
+              <figcaption className="mt-3 text-sm text-muted-foreground">
+                Ley 21.719 en el flujo. La revisión gratis mira un formulario: qué dato, para qué, cuánto tiempo, y si se puede decir que no.
+              </figcaption>
+            </figure>
           </div>
         </section>
 

@@ -8,6 +8,7 @@ import { NewsCard, newsTopicLabel } from "../components/news/NewsCard";
 import { NewsCategoryPill } from "../components/news/NewsCategoryPill";
 import { formatEditionMonth, readingMinutes } from "../components/news/news-format";
 import { PageShell } from "../components/layout/PageShell";
+import { assetUrl } from "../components/marketing";
 import {
   NEWS_CATALOG,
   newsCanonical,
@@ -154,7 +155,19 @@ function NewsEditionView({ slug }: { slug: string }) {
           </button>
         </p>
 
-        <p className="mb-8 mt-6 text-lg leading-relaxed text-foreground">
+        {edition.topic === "privacidad" ? (
+          <figure className="mb-8 mt-6">
+            <img
+              src={assetUrl("images/seo/ley-21719-flujo.svg")}
+              width={1200}
+              height={630}
+              alt="Ley 21.719 en el flujo: qué dato se pide, para qué, cuánto tiempo, y si la persona puede decir que no."
+              className="h-auto w-full rounded-2xl border border-border"
+            />
+          </figure>
+        ) : null}
+
+        <p className="mb-8 text-lg leading-relaxed text-foreground">
           {edition.dek[language]}
         </p>
 

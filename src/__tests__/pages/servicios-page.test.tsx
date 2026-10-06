@@ -88,6 +88,14 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     expect(html).not.toContain("Puerta de entrada");
   });
 
+  it("muestra la imagen de la Ley 21.719 en el HTML de /servicios/", () => {
+    const img = doc.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
+    expect(img).not.toBeNull();
+    expect(img?.getAttribute("alt")).toContain("Ley 21.719");
+    expect(img?.getAttribute("width")).toBe("1200");
+    expect(img?.getAttribute("height")).toBe("630");
+  });
+
   it("has one h1 aligned with the home and lang-safe headings", () => {
     const h1s = doc.querySelectorAll("h1");
     expect(h1s).toHaveLength(1);

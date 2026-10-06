@@ -31,6 +31,16 @@ describe("News interna · card SURA + salida /seo-vn", () => {
     expect(screen.getAllByText(/min de lectura/).length).toBeGreaterThan(0);
     expect(document.body.textContent).not.toContain("/#/consultoria");
     expect(document.body.textContent).not.toContain("/auditoria");
+    expect(document.body.innerHTML).not.toContain("/images/news/");
+    expect(
+      document.querySelector('img[src="/images/vn-assets/transvip-system-design.png"]')
+    ).toBeTruthy();
+    expect(
+      document.querySelector('img[src="/images/sura/ia-automation-dashboard.png"]')
+    ).toBeTruthy();
+    expect(
+      document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]')?.getAttribute("alt")
+    ).toContain("Ley 21.719");
     const canonical = document.querySelector('link[rel="canonical"]');
     expect(canonical?.getAttribute("href")).toBe("https://vientonorte.io/");
   });
@@ -43,6 +53,8 @@ describe("News interna · card SURA + salida /seo-vn", () => {
       screen.getByRole("heading", { level: 1, name: "Privacidad por diseño, no por banner" })
     ).toBeTruthy();
     expect(screen.getByText(/Ley 21\.719 en el flujo/)).toBeTruthy();
+    const ley = document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
+    expect(ley?.getAttribute("alt")).toContain("Ley 21.719");
     expect(screen.getByRole("heading", { level: 2, name: "Otras noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
     const exit = screen.getByRole("link", { name: "Revisión gratis de un flujo" });

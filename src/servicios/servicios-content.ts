@@ -190,8 +190,8 @@ export interface BrandCase {
 
 /**
  * Freelance de Viento Norte. Sin capturas de otra marca y sin la ficha cruda de producto.
- * Solo la home (#home-casos) usa BRAND_CASES, SERVICIOS_CASES y SERVICIOS_FUNNEL: /servicios/ ya no
- * muestra «El recorrido» (TL tras QA de Rö, 2-oct).
+ * La home y /servicios/ ya no muestran «El recorrido» ni estas fichas (Rö, 6-oct).
+ * Edu21 de consultoría sigue en #consultoria-ux. La política de la app vive en /s/polijuego-privacy/.
  */
 export const BRAND_CASES: readonly BrandCase[] = [
   {
