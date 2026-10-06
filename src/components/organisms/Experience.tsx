@@ -191,18 +191,25 @@ export function Experience() {
                           )}
                         >
                           {cover ? (
-                            <div className="relative aspect-[21/9] max-h-36 w-full overflow-hidden border-b border-border/40 bg-muted sm:max-h-44">
-                              <img
-                                src={cover}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                className="h-full w-full object-cover object-top"
-                              />
-                              <div
-                                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"
-                                aria-hidden
-                              />
+                            <div className="bg-surface-matte px-3 pt-3">
+                              <figure className="experience-cover aspect-[21/9] max-h-36 w-full sm:max-h-44">
+                                <img
+                                  src={cover}
+                                  alt={
+                                    es
+                                      ? `Pieza de ${exp.company}`
+                                      : `${exp.company} still`
+                                  }
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="experience-cover__image h-full w-full"
+                                />
+                                <span className="experience-cover__grade" aria-hidden />
+                                <span className="experience-cover__vignette" aria-hidden />
+                                <figcaption className="experience-cover__caption">
+                                  {exp.company}
+                                </figcaption>
+                              </figure>
                             </div>
                           ) : null}
 

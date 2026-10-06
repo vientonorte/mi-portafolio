@@ -19,9 +19,9 @@ export const PRIMARY_CTA_CLASS =
   "min-h-[48px] bg-brand-gradient px-6 text-[1.1875rem] font-bold text-white shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";
 
 /**
- * Valores del select "¿Qué necesitas?" → payload.intent (≤80, texto libre en
- * worker/src/contact.js). Orden PO: web → revisión → consultoría → otro.
- * Va precedido por la opción vacía SERVICIOS_INTENT_PLACEHOLDER (obligatorio elegir).
+ * Valores de la línea "¿Qué te gustaría conversar?" → payload.intent (≤80,
+ * texto libre en worker/src/contact.js). Orden PO: web → revisión →
+ * consultoría → otro. Ninguna marcada = aún no elige.
  */
 export const SERVICIOS_INTENTS = [
   "Web nueva",
@@ -31,10 +31,8 @@ export const SERVICIOS_INTENTS = [
 ] as const;
 
 export type ServiciosIntent = (typeof SERVICIOS_INTENTS)[number];
-/** Estado del select: "" = aún no elige (opción placeholder). */
+/** "" = ninguna opción marcada en la línea. */
 export type ServiciosIntentValue = ServiciosIntent | "";
-
-export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {

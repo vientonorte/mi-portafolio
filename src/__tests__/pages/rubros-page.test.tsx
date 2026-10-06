@@ -140,7 +140,7 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     expect(form.getAttribute("data-endpoint")).toBe("https://contact.vientonorte.io/api/contact");
     expect(form.getAttribute("data-source")).toBe("web-dental");
     expect(form.querySelector<HTMLInputElement>('input[name="source"]')!.value).toBe("web-dental");
-    const selected = form.querySelector<HTMLOptionElement>('select[name="intent"] option[selected]');
+    const selected = form.querySelector<HTMLInputElement>('input[name="intent"][checked]');
     expect(selected?.value).toBe("Web nueva");
     expect(doc.getElementById("contacto")?.contains(form)).toBe(true);
   });

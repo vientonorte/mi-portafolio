@@ -14,7 +14,6 @@ import {
   CONTACT_EMAIL,
   CONTACT_ENDPOINT,
   PRIMARY_CTA_CLASS,
-  SERVICIOS_INTENT_PLACEHOLDER,
   SERVICIOS_INTENTS,
   SERVICIOS_SOURCE,
   type ServiciosIntentValue,
@@ -116,11 +115,11 @@ export function ServiciosContactForm({
     "aria-invalid": errors[k] ? true : undefined,
     "aria-describedby": errors[k] ? errorId(k) : undefined,
   });
-  /** El error del select se oculta en cuanto hay opción (elegida a mano o por tarjeta). */
+  /** El error de la línea se oculta en cuanto hay opción (elegida a mano o por tarjeta). */
   const intentError = intent ? undefined : errors.intent;
   const labelClass = "block text-sm font-medium text-foreground";
   const errorClass = "mt-1 text-sm font-medium text-destructive";
-  const controlClass = "mt-1.5 h-11 border-foreground/50 bg-background";
+  const controlClass = "mt-1.5 h-11 bg-background";
 
   return (
     <form
@@ -170,41 +169,55 @@ export function ServiciosContactForm({
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor={ids.empresa} className={labelClass}>
-            Empresa <span className="font-normal text-muted-foreground">(opcional)</span>
-          </label>
-          <Input id={ids.empresa} name="empresa" autoComplete="organization" className={controlClass} />
-        </div>
-        <div>
-          <label htmlFor={ids.intent} className={labelClass}>
-            ¿Qué necesitas? *
-          </label>
-          <select
-            id={ids.intent}
-            name="intent"
-            value={intent}
-            onChange={(e) => onIntentChange(e.target.value as ServiciosIntentValue)}
-            required
-            aria-invalid={intentError ? true : undefined}
-            aria-describedby={intentError ? errorId("intent") : undefined}
-            className="mt-1.5 flex h-11 w-full rounded-md border border-foreground/50 bg-background px-3 text-base text-foreground outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm"
-          >
-            <option value="">{SERVICIOS_INTENT_PLACEHOLDER}</option>
-            {SERVICIOS_INTENTS.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-          {intentError && (
-            <p id={errorId("intent")} className={errorClass}>
-              {intentError}
-            </p>
-          )}
-        </div>
+      <div>
+        <label htmlFor={ids.empresa} className={labelClass}>
+          Empresa <span className="font-normal text-muted-foreground">(opcional)</span>
+        </label>
+        <Input id={ids.empresa} name="empresa" autoComplete="organization" className={controlClass} />
       </div>
+
+      <fieldset
+        id={ids.intent}
+        tabIndex={-1}
+        aria-required="true"
+        aria-invalid={intentError ? true : undefined}
+        aria-describedby={intentError ? errorId("intent") : undefined}
+        className="min-w-0 space-y-2 rounded-md focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+      >
+        <legend className={labelClass}>¿Qué te gustaría conversar? *</legend>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {SERVICIOS_INTENTS.map((opt) => {
+            const selected = intent === opt;
+            return (
+              <label
+                key={opt}
+                className={cn(
+                  "flex min-h-11 cursor-pointer items-center rounded-md border px-4 py-3 text-left text-sm font-medium has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary",
+                  selected
+                    ? "border-transparent bg-brand-gradient text-white"
+                    : "border-border bg-background text-foreground"
+                )}
+              >
+                <input
+                  type="radio"
+                  name="intent"
+                  value={opt}
+                  checked={selected}
+                  required
+                  onChange={() => onIntentChange(opt)}
+                  className="sr-only"
+                />
+                {opt}
+              </label>
+            );
+          })}
+        </div>
+        {intentError && (
+          <p id={errorId("intent")} className={errorClass}>
+            {intentError}
+          </p>
+        )}
+      </fieldset>
 
       <div>
         <label htmlFor={ids.detalle} className={labelClass}>
@@ -219,7 +232,7 @@ export function ServiciosContactForm({
           rows={5}
           required
           minLength={10}
-          className="mt-1.5 min-h-32 border-foreground/50 bg-background"
+          className="mt-1.5 min-h-32 bg-background"
         />
         {errors.detalle && (
           <p id={errorId("detalle")} className={errorClass}>
