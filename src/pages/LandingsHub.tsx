@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { SERVICE_LANDINGS } from "../data/service-landings";
+import { SERVICE_LANDINGS, serviceLandingHref } from "../data/service-landings";
 import { ROUTES } from "../lib/routes";
 
 /** IA Hash `#/landings` → HTTP canónico `/servicios/*`. No Ads. */
@@ -32,10 +32,10 @@ export default function LandingsHub() {
       <ul className="mt-10 space-y-3">
         {indexable.map((l) => (
           <li key={l.id}>
-            <a className="underline" href={l.path}>
+            <a className="underline" href={serviceLandingHref(l)}>
               {l.h1}
             </a>
-            <span className="ml-2 text-sm text-muted-foreground">{l.path}</span>
+            <span className="ml-2 text-sm text-muted-foreground">{serviceLandingHref(l)}</span>
           </li>
         ))}
       </ul>

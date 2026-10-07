@@ -22,6 +22,10 @@ const FILES = [
   "src/servicios/ServiciosPage.tsx",
   "src/servicios/ServiciosCasos.tsx",
   "src/servicios/servicios-nav.ts",
+  // Nav minimal canónico (SSOT de links del header) y sus consumidores.
+  "src/lib/site-nav.ts",
+  "src/rubros/rubros-nav.ts",
+  "src/components/organisms/Navigation.tsx",
 ];
 
 /** Componentes de QA (banner de /qa/): sus links tampoco pueden salir del canon. */

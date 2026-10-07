@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 GTM = "GTM-PM5LBQRP"
+# Canon 2026-09-27 (P1-4, audit 2-oct): nada de /s/consultoria/ ni /s/proceso/ (stubs deprecados).
 NAV = (
     ("/", "Inicio"),
-    ("/servicios/#consultoria-ux", "Consultoría"),
     ("/servicios/", "Servicios"),
 )
 
@@ -124,7 +124,6 @@ def render_page(
         <p><a href="mailto:contacto@vientonorte.io">contacto@vientonorte.io</a></p>
         <nav aria-label="Pie">
           <a href="/">Inicio</a>
-          <a href="/servicios/#consultoria-ux">Consultoría</a>
           <a href="/servicios/">Servicios</a>
           <a href="/s/polijuego-privacy/">Privacidad Polijuego</a>
         </nav>

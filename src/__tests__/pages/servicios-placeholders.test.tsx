@@ -132,6 +132,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
       (h) =>
         !(
           h === "/qa/" ||
+          h === "/qa/servicios/" ||
           h.startsWith("/qa/images/") ||
           /^#[A-Za-z][\w-]*$/.test(h) ||
           /^\/qa\/servicios\/#[A-Za-z][\w-]*$/.test(h) ||

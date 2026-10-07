@@ -3,7 +3,8 @@ import { call, clearKv, makeEmailMock, mockOutbound, readCollection } from './he
 
 // Puente Calendar → Worker (docs/CALENDAR-BOOKING-BRIDGE.md): el Apps Script hace
 // POST /api/booking con eventId y X-VN-BOOKING-KEY. Aquí se simula ese request; no hay
-// Apps Script ni red real. Comportamiento de main: H1 (#301) cambiará los marcados "H1".
+// Apps Script ni red real. H1 (#301) ya está en main: sin secreto el webhook
+// con eventId falla cerrado, y un click del front no confirma por correo.
 const KEY = 'test-webhook-key';
 const BRIDGE = {
   name: 'Ana Legal',
@@ -79,18 +80,20 @@ describe('POST /api/booking · webhook Apps Script (mock)', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('H1 · sin secreto configurado acepta eventId sin header (main; #301 lo cambia a 401)', async () => {
+  it('H1 · sin secreto configurado rechaza eventId (falla cerrado)', async () => {
     mockOutbound();
     const res = await call('/api/booking', { method: 'POST', body: BRIDGE, envOverrides: { EMAIL } });
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(401);
+    expect(await readCollection('vn:bookings')).toHaveLength(0);
+    expect(EMAIL.send).not.toHaveBeenCalled();
   });
 
-  it('H1 · click del front sin eventId confirma por correo al email del request (main; #301 lo elimina)', async () => {
+  it('H1 · click del front sin eventId no confirma por correo al email del request', async () => {
     mockOutbound();
     const { eventId: _omit, ...click } = BRIDGE;
     const res = await call('/api/booking', { method: 'POST', body: click, envOverrides: { EMAIL } });
     expect(res.status).toBe(201);
-    expect(EMAIL.send.mock.calls.some((c) => c[0].to === 'ana@empresa.cl')).toBe(true);
+    expect(EMAIL.send.mock.calls.some((c) => c[0].to === 'ana@empresa.cl')).toBe(false);
   });
 
   it('JSON inválido → 400', async () => {

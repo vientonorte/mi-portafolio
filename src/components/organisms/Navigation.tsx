@@ -1,15 +1,14 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo, type ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
-import { Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { MobileMenu } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
-import { persistLanguage } from "../../lib/language-storage";
 import { useTranslation } from "../../lib/i18n";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
 import { ROUTES } from "../../lib/routes";
@@ -30,29 +29,25 @@ import {
   MOBILE_HEADER_CONTROL_CLASS,
 } from "../molecules/mobile-header-classes";
 import { cn } from "../../lib/utils";
+import type { SiteNavLink } from "../../lib/site-nav";
 
-/** Enlace plano (sin router ni nav-config) para páginas estáticas como /servicios/. */
-export interface StaticNavLink {
-  id: string;
-  label: string;
-  href: string;
-}
+/** Enlace plano (sin router ni nav-config) para páginas estáticas. Fuente: src/lib/site-nav.ts. */
+export type StaticNavLink = SiteNavLink;
 
 interface NavigationProps {
   onNavigateToDesignSystem?: () => void;
   onNavigateToCaseStudies?: () => void;
   /**
    * Variante estática: si se pasa, el header usa SOLO estos enlaces
-   * (sin HashRouter, sin nav-config, sin menú "Más" ni links de footer del drawer).
-   * La home no la usa: su nav sigue saliendo de nav-config.
+   * (sin HashRouter, sin nav-config). Salen de src/lib/site-nav.ts (minimalNavLinks).
+   * La home no la usa: su nav sale de nav-config (que también lee site-nav).
    */
   staticLinks?: StaticNavLink[];
   /** href del logo en la variante estática (home root, respetando base). */
   staticHomeHref?: string;
   /**
-   * Variante estática: muestra el selector de idioma. La página queda en español;
-   * elegir EN guarda el idioma con el mismo mecanismo de la home (localStorage) y
-   * navega a este href (la raíz canónica, nunca /#/).
+   * Variante estática: muestra el toggle de idioma de la home («🌐 ES»). La página queda en
+   * español; el toggle guarda "en" (misma clave que la home) y navega a este href (la raíz).
    */
   staticEnglishHref?: string;
 }
@@ -64,64 +59,140 @@ export function Navigation({ staticLinks, staticHomeHref, staticEnglishHref, ...
   return <SiteNavigation {...props} />;
 }
 
-const HEADER_BASE_CLASS =
-  "fixed top-0 left-0 right-0 transition-all duration-300";
+const HEADER_BASE_CLASS = "fixed top-0 left-0 right-0 transition-all duration-300";
 const HEADER_SOLID_CLASS =
   "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80";
+const HEADER_TRANSPARENT_CLASS =
+  "max-lg:bg-background/92 max-lg:backdrop-blur-md max-lg:border-b max-lg:border-border/30 max-lg:shadow-sm max-lg:supports-[backdrop-filter]:bg-background/88 lg:bg-transparent";
+const LOGO_LINK_CLASS =
+  "flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none";
+const NAV_ITEM_CLASS = "relative transition-all hover:bg-primary/10 hover:text-primary";
+const NAV_ITEM_ACTIVE_CLASS = "bg-primary/10 text-primary";
+const LOGO_ARIA = `Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`;
 
-/**
- * Header estático: misma cáscara visual que la home (logo, tokens, ThemeToggle,
- * breakpoints .nav-desktop-only / .nav-mobile-only), sin dependencias de router
- * — apto para prerender (react-dom/server) + hydrateRoot.
- */
-/**
- * Selector de idioma de la variante estática. Sin LanguageProvider (prerender sin
- * diccionario async): ES es la página actual; EN guarda "en" y lleva a la home.
- */
-function StaticLanguageSwitch({ englishHref, compact = false }: { englishHref: string; compact?: boolean }) {
-  const toEnglish = () => persistLanguage("en");
-  if (compact) {
-    return (
-      <a
-        href={englishHref}
-        hrefLang="en"
-        lang="en"
-        data-lang-switch="en"
-        onClick={toEnglish}
-        aria-label="English — go to the home page in English"
-        className={cn(
-          MOBILE_HEADER_CONTROL_CLASS,
-          "inline-flex items-center justify-center text-[11px] font-semibold uppercase tracking-wide text-foreground"
-        )}
-      >
-        en
-      </a>
-    );
-  }
+/** Lockup del logo: isologo en mobile, marca completa desde sm (igual en todas las páginas). */
+function NavLogoLockup({ plate }: { plate: "default" | "floating" }) {
   return (
-    <div data-lang-selector className="inline-flex items-center gap-1 text-sm font-medium text-foreground">
-      <Globe className="h-4 w-4" aria-hidden="true" />
-      <span aria-current="true" className="px-1 uppercase">
-        es
+    <>
+      {/* Mobile: solo isologo — libera ancho para utilidades / menú */}
+      <span className="min-w-0 sm:hidden">
+        <Logo size="sm" interactive showText={false} showRole={false} plate={plate} />
       </span>
-      <span aria-hidden="true" className="text-muted-foreground">
-        /
+      {/* sm+: lockup completo (marca + wordmark) */}
+      <span className="hidden min-w-0 sm:block">
+        <Logo size="sm" interactive plate={plate} />
       </span>
-      <a
-        href={englishHref}
-        hrefLang="en"
-        lang="en"
-        data-lang-switch="en"
-        onClick={toEnglish}
-        aria-label="English — go to the home page in English"
-        className="inline-flex min-h-11 items-center rounded-md px-2 uppercase transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      >
-        en
-      </a>
-    </div>
+    </>
   );
 }
 
+interface NavShellProps {
+  /** Header sólido (home siempre; estáticas siempre). */
+  solid: boolean;
+  hidden?: boolean;
+  menuOpen: boolean;
+  onToggleMenu: () => void;
+  menuControlsId: string;
+  /** Link del logo (ya armado: <a> o <motion.a>). */
+  logo: ReactNode;
+  /** Items primarios del desktop (cada uno va en su <li>). */
+  primaryItems: { id: string; node: ReactNode }[];
+  /** Toggle de idioma desktop («🌐 ES») y mobile compacto («es»). */
+  languageDesktop?: ReactNode;
+  languageMobile?: ReactNode;
+  /** Drawer/menú mobile, dentro del header (estáticas). */
+  children?: ReactNode;
+}
+
+/**
+ * Cáscara única del header (nav minimal canónico): logo · links primarios · | tema | idioma
+ * (desktop) y idioma · tema · hamburguesa (mobile). La usan SiteNavigation (home) y
+ * StaticNavigation (/servicios/, rubros), así no hay dos markups que diverjan.
+ * Sin dependencias de router: apta para prerender (react-dom/server) + hydrateRoot.
+ */
+function NavShell({
+  solid,
+  hidden = false,
+  menuOpen,
+  onToggleMenu,
+  menuControlsId,
+  logo,
+  primaryItems,
+  languageDesktop,
+  languageMobile,
+  children,
+}: NavShellProps) {
+  return (
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      initial={false}
+      animate={hidden && !menuOpen ? "hidden" : "visible"}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={cn(
+        HEADER_BASE_CLASS,
+        menuOpen ? "z-[115]" : "z-[100]",
+        solid || menuOpen ? HEADER_SOLID_CLASS : HEADER_TRANSPARENT_CLASS
+      )}
+      role="banner"
+      data-nav-shell="minimal"
+    >
+      <nav
+        className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between"
+        aria-label="Navegación principal"
+      >
+        {logo}
+
+        {/* Desktop primary — CSS .nav-desktop-only (not only Tailwind, avoids dual chrome) */}
+        <div className="nav-desktop-only hidden items-center gap-6 lg:flex">
+          <ul className="flex items-center gap-1" role="list">
+            {primaryItems.map((item) => (
+              <li key={item.id}>{item.node}</li>
+            ))}
+          </ul>
+
+          <div className="flex items-center pl-6 ml-2 border-l border-border/40">
+            <ThemeToggle />
+          </div>
+
+          {languageDesktop ? (
+            <div className="flex items-center pl-6 ml-2 border-l border-border/40">{languageDesktop}</div>
+          ) : null}
+        </div>
+
+        {/* Mobile utilities — CSS .nav-mobile-only */}
+        <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
+          {languageMobile}
+          <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={onToggleMenu}
+            aria-label={menuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+            aria-expanded={menuOpen}
+            aria-controls={menuControlsId}
+            className={cn(MOBILE_HEADER_CONTROL_CLASS, menuOpen && MOBILE_HEADER_CONTROL_ACTIVE_CLASS)}
+          >
+            {menuOpen ? (
+              <X className="h-5 w-5 text-current" aria-hidden="true" />
+            ) : (
+              <Menu className="h-5 w-5 text-current" aria-hidden="true" />
+            )}
+          </Button>
+        </div>
+      </nav>
+      {children}
+    </motion.header>
+  );
+}
+
+/**
+ * Header estático (/servicios/, /servicios/web-<rubro>/): misma cáscara que la home
+ * (NavShell), links de src/lib/site-nav.ts y toggle de idioma estático.
+ */
 function StaticNavigation({
   links,
   homeHref,
@@ -142,68 +213,35 @@ function StaticNavigation({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isMenuOpen]);
 
-  const linkClass =
-    "inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+  const drawerLinkClass =
+    "inline-flex min-h-11 w-full items-center rounded-md px-3 text-base font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
   return (
-    <header
-      className={cn(HEADER_BASE_CLASS, HEADER_SOLID_CLASS, isMenuOpen ? "z-[115]" : "z-[100]")}
-      role="banner"
-    >
-      <nav
-        className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between"
-        aria-label="Navegación principal"
-      >
-        <a
-          href={homeHref}
-          className="flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none"
-          aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
-        >
-          <span className="min-w-0 sm:hidden">
-            <Logo size="sm" interactive showText={false} showRole={false} plate="default" />
-          </span>
-          <span className="hidden min-w-0 sm:block">
-            <Logo size="sm" interactive plate="default" />
-          </span>
+    <NavShell
+      solid
+      menuOpen={isMenuOpen}
+      onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
+      menuControlsId="static-mobile-menu"
+      logo={
+        <a href={homeHref} className={LOGO_LINK_CLASS} aria-label={LOGO_ARIA}>
+          <NavLogoLockup plate="default" />
         </a>
-
-        <div className="nav-desktop-only hidden items-center gap-6 lg:flex">
-          <ul className="flex items-center gap-1" role="list">
-            {links.map((link) => (
-              <li key={link.id}>
-                <a href={link.href} className={linkClass}>
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="flex items-center gap-2 pl-6 ml-2 border-l border-border/40">
-            <ThemeToggle />
-            {englishHref ? <StaticLanguageSwitch englishHref={englishHref} /> : null}
-          </div>
-        </div>
-
-        <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
-          {englishHref ? <StaticLanguageSwitch englishHref={englishHref} compact /> : null}
-          <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
-            aria-expanded={isMenuOpen}
-            aria-controls="static-mobile-menu"
-            className={cn(MOBILE_HEADER_CONTROL_CLASS, isMenuOpen && MOBILE_HEADER_CONTROL_ACTIVE_CLASS)}
-          >
-            {isMenuOpen ? (
-              <X className="h-5 w-5 text-current" aria-hidden="true" />
-            ) : (
-              <Menu className="h-5 w-5 text-current" aria-hidden="true" />
-            )}
+      }
+      primaryItems={links.map((link) => ({
+        id: link.id,
+        node: (
+          <Button variant="ghost" asChild className={NAV_ITEM_CLASS}>
+            <a href={link.href}>{link.label}</a>
           </Button>
-        </div>
-      </nav>
+        ),
+      }))}
+      languageDesktop={englishHref ? <LanguageToggle variant="static" englishHref={englishHref} /> : undefined}
+      languageMobile={
+        englishHref ? (
+          <LanguageToggle variant="static" englishHref={englishHref} compact className={MOBILE_HEADER_CONTROL_CLASS} />
+        ) : undefined
+      }
+    >
       <div
         id="static-mobile-menu"
         hidden={!isMenuOpen}
@@ -212,18 +250,14 @@ function StaticNavigation({
         <ul className="container mx-auto flex flex-col gap-1 px-4 py-3" role="list">
           {links.map((link) => (
             <li key={link.id}>
-              <a
-                href={link.href}
-                className={cn(linkClass, "w-full text-base")}
-                onClick={() => setIsMenuOpen(false)}
-              >
+              <a href={link.href} className={drawerLinkClass} onClick={() => setIsMenuOpen(false)}>
                 {link.label}
               </a>
             </li>
           ))}
         </ul>
       </div>
-    </header>
+    </NavShell>
   );
 }
 
@@ -405,31 +439,26 @@ function SiteNavigation({
       isOnHome,
       homeSection: isOnHome ? activeHomeSection : undefined,
     });
+    const indicator = isActive ? (
+      <motion.div
+        layoutId="activeNavIndicator"
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+        initial={false}
+        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+      />
+    ) : null;
 
-    if (item.action.kind === "anchor") {
+    // anchor (#contacto) y http (/servicios/) llevan href real: los crawlers y el teclado los ven.
+    if (item.action.kind === "anchor" || item.action.kind === "http") {
       return (
-        <Button
-          variant="ghost"
-          asChild
-          className={cn(
-            "relative transition-all hover:bg-primary/10 hover:text-primary",
-            isActive && "bg-primary/10 text-primary"
-          )}
-        >
+        <Button variant="ghost" asChild className={cn(NAV_ITEM_CLASS, isActive && NAV_ITEM_ACTIVE_CLASS)}>
           <a
             href={item.action.target}
             onClick={(e) => handleNavClick(e, item)}
             aria-current={isActive ? "page" : undefined}
           >
             {item.label}
-            {isActive && (
-              <motion.div
-                layoutId="activeNavIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                initial={false}
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
+            {indicator}
           </a>
         </Button>
       );
@@ -438,134 +467,66 @@ function SiteNavigation({
     return (
       <Button
         variant="ghost"
-        className={cn(
-          "relative transition-all hover:bg-primary/10 hover:text-primary",
-          isActive && "bg-primary/10 text-primary"
-        )}
+        className={cn(NAV_ITEM_CLASS, isActive && NAV_ITEM_ACTIVE_CLASS)}
         onClick={() => runNavAction(item)}
         aria-current={isActive ? "page" : undefined}
       >
         {item.label}
-        {isActive && (
-          <motion.div
-            layoutId="activeNavIndicator"
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-            initial={false}
-            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-          />
-        )}
+        {indicator}
       </Button>
     );
   };
 
   const inicioItem = mobileNavItems.find((item) => item.id === "inicio");
+  /** Home = embudo FO con hero oscuro: header siempre sólido (WCAG contraste). Transparente solo en deep pages al top. */
+  const solid = isScrolled || isMenuOpen || isOnHome;
+
+  const primaryItems: NavShellProps["primaryItems"] = primaryNavItems.map((item) => ({
+    id: item.id,
+    node: renderPrimaryItem(item),
+  }));
+  // «Más» solo si nav-config todavía tiene destinos secundarios (hoy vacío: nav minimal canónico).
+  if (moreNavItems.length > 0) {
+    primaryItems.push({
+      id: "more",
+      node: (
+        <NavMoreMenu
+          label={navLabels.more}
+          items={moreNavItems.map(resolvedNavToMenuItem)}
+          onSelect={(menuItem) => {
+            const resolved = moreNavItems.find((entry) => entry.menuHref === menuItem.href);
+            if (resolved) runNavAction(resolved);
+          }}
+        />
+      ),
+    });
+  }
 
   return (
     <>
-      <motion.header
-        variants={{
-          visible: { y: 0 },
-          hidden: { y: "-100%" },
-        }}
-        animate={isHidden && !isMenuOpen ? "hidden" : "visible"}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
-          isMenuOpen ? "z-[115]" : "z-[100]"
-        } ${
-          /* Home = embudo FO con hero oscuro: header siempre sólido (WCAG contraste).
-             Transparente solo en deep pages al top. */
-          isScrolled || isMenuOpen || isOnHome
-            ? "bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm supports-[backdrop-filter]:bg-background/80"
-            : "max-lg:bg-background/92 max-lg:backdrop-blur-md max-lg:border-b max-lg:border-border/30 max-lg:shadow-sm max-lg:supports-[backdrop-filter]:bg-background/88 lg:bg-transparent"
-        }`}
-        role="banner"
-      >
-        <nav
-          className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between"
-          aria-label="Navegación principal"
-        >
+      <NavShell
+        solid={solid}
+        hidden={isHidden}
+        menuOpen={isMenuOpen}
+        onToggleMenu={toggleMenu}
+        menuControlsId="mobile-menu"
+        logo={
           <motion.a
             href="#inicio"
             onClick={(e) => inicioItem && handleNavClick(e, inicioItem)}
-            className="flex min-w-0 max-w-[58%] select-none items-center gap-2 rounded-lg px-2 py-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:max-w-none"
+            className={LOGO_LINK_CLASS}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            aria-label={`Inicio — ${SEO_SITE.brand} · ${SEO_SITE.role}`}
+            aria-label={LOGO_ARIA}
             data-process-label-variant={processLabelVariant}
           >
-            {/* Mobile: solo isologo — libera ancho para utilidades / menú */}
-            <span className="min-w-0 sm:hidden">
-              <Logo
-                size="sm"
-                interactive
-                showText={false}
-                showRole={false}
-                plate={isScrolled || isMenuOpen || isOnHome ? "default" : "floating"}
-              />
-            </span>
-            {/* sm+: lockup completo (marca + wordmark) */}
-            <span className="hidden min-w-0 sm:block">
-              <Logo
-                size="sm"
-                interactive
-                plate={isScrolled || isMenuOpen || isOnHome ? "default" : "floating"}
-              />
-            </span>
+            <NavLogoLockup plate={solid ? "default" : "floating"} />
           </motion.a>
-
-          {/* Desktop primary — CSS .nav-desktop-only (not only Tailwind, avoids dual chrome) */}
-          <div className="nav-desktop-only hidden items-center gap-6 lg:flex">
-            <ul className="flex items-center gap-1" role="list">
-              {primaryNavItems.map((item) => (
-                <li key={item.id}>{renderPrimaryItem(item)}</li>
-              ))}
-              <li>
-                <NavMoreMenu
-                  label={navLabels.more}
-                  items={moreNavItems.map(resolvedNavToMenuItem)}
-                  onSelect={(menuItem) => {
-                    const resolved = moreNavItems.find((entry) => entry.menuHref === menuItem.href);
-                    if (resolved) runNavAction(resolved);
-                  }}
-                />
-              </li>
-            </ul>
-
-            <div className="flex items-center pl-6 ml-2 border-l border-border/40">
-              <ThemeToggle />
-            </div>
-
-            <div className="flex items-center pl-6 ml-2 border-l border-border/40">
-              <LanguageToggle />
-            </div>
-          </div>
-
-          {/* Mobile utilities — CSS .nav-mobile-only */}
-          <div className="nav-mobile-only flex items-center gap-1.5 sm:gap-2 lg:hidden">
-            <LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />
-            <ThemeToggle className={MOBILE_HEADER_CONTROL_CLASS} />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleMenu}
-              aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-menu"
-              className={cn(
-                MOBILE_HEADER_CONTROL_CLASS,
-                isMenuOpen && MOBILE_HEADER_CONTROL_ACTIVE_CLASS
-              )}
-            >
-              <span className="sr-only">{isMenuOpen ? "Cerrar menú" : "Abrir menú"}</span>
-              {isMenuOpen ? (
-                <X className="h-5 w-5 text-current" aria-hidden="true" />
-              ) : (
-                <Menu className="h-5 w-5 text-current" aria-hidden="true" />
-              )}
-            </Button>
-          </div>
-        </nav>
-      </motion.header>
+        }
+        primaryItems={primaryItems}
+        languageDesktop={<LanguageToggle />}
+        languageMobile={<LanguageToggle compact className={MOBILE_HEADER_CONTROL_CLASS} />}
+      />
 
       <MobileMenu
         isOpen={isMenuOpen}

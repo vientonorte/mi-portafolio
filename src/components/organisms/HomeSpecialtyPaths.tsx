@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { NEWS_CATALOG, newsTopicLanding } from "../../data/news-editions";
 import { useLanguage } from "../../lib/LanguageContext";
-import { ROUTES } from "../../lib/routes";
+import { serviciosHref } from "../../lib/servicios-links";
 
 const SPECIALTIES = [
   {
@@ -16,7 +15,8 @@ const SPECIALTIES = [
     },
   },
   {
-    path: "/servicios/#revision-gratis",
+    // Slug viejo (redirección desde #279) → ancla canónica de /servicios/.
+    path: serviciosHref("revision-gratis"),
     kicker: { es: "Especialidad", en: "Specialty" },
     title: { es: "Diagnóstico WCAG 2.2 AA", en: "WCAG 2.2 AA diagnostic" },
     dek: {
@@ -34,7 +34,7 @@ const SPECIALTIES = [
     },
   },
   {
-    path: "/servicios/#consultoria-ux",
+    path: serviciosHref("consultoria-ux"),
     kicker: { es: "Oferta", en: "Offer" },
     title: { es: "Consultoría UX para pymes", en: "UX consulting for SMBs" },
     dek: {
@@ -42,11 +42,11 @@ const SPECIALTIES = [
       en: "Diagnostic, prototype, and team process. 30 min kickoff.",
     },
   },
-] as const;
+];
 
 /**
  * Home FO only: how you reach HTTP landings + news → especialidad.
- * SEM /#/consultoria no monta esto (embudo 01–03).
+ * El embudo SEM no monta esto (embudo 01–03).
  */
 export function HomeSpecialtyPaths() {
   const { language } = useLanguage();
@@ -66,8 +66,8 @@ export function HomeSpecialtyPaths() {
           title={es ? "De la home a la ficha" : "From home to the landing"}
           description={
             es
-              ? "El embudo cierra el lead. Las fichas HTTP son lo que Google lee: privacidad de datos, WCAG, IA. Agendar sigue en Servicios."
-              : "The funnel closes the lead. HTTP pages are what Google reads: data privacy, WCAG, AI. Booking stays on Services."
+              ? "El embudo cierra el lead. Las fichas HTTP son lo que Google lee: privacidad de datos, WCAG, IA. Agendar: Consultoría UX en /servicios/."
+              : "The funnel closes the lead. HTTP pages are what Google reads: data privacy, WCAG, AI. Booking: UX consulting at /servicios/."
           }
           titleId="home-specialties-heading"
           titleAs="h2"
@@ -134,12 +134,10 @@ export function HomeNewsStrip() {
                 {edition.topic} · {edition.company}
               </p>
               <p className="text-lg font-semibold tracking-tight mt-2 mb-2">
-                <Link
-                  className="no-underline text-inherit hover:underline"
-                  to={ROUTES.newsEdition(edition.slug)}
-                >
+                {/* Sin #/news/<slug> (ruta hash deprecada): la nota lleva a la consultoría canónica. */}
+                <a className="no-underline text-inherit hover:underline" href={serviciosHref("consultoria-ux")}>
                   {edition.title[language]}
-                </Link>
+                </a>
               </p>
               {landing ? (
                 <a className="text-sm underline" href={landing.path}>

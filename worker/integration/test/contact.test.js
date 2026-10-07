@@ -6,6 +6,8 @@ const VALID = {
   email: 'Ana@Empresa.cl',
   message: 'Quiero rehacer la web de mi pyme este trimestre.',
   consent: true,
+  // H2: sin formStartedAt el worker corta antes de validar el resto.
+  formStartedAt: Date.now() - 10_000,
   intent: 'web-pymes',
   source: 'servicios',
   language: 'es',
@@ -133,7 +135,7 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('honeypot _gotcha → 200 sin guardar ni enviar (main; cambia con H2 #303)', async () => {
+  it('honeypot _gotcha → 200 con la forma de un envío real, sin guardar ni enviar (H2 #303)', async () => {
     const { spy } = mockOutbound();
     const res = await call('/api/contact', {
       method: 'POST',
@@ -141,7 +143,10 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
       envOverrides: { EMAIL },
     });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ ok: true });
+    const data = await res.json();
+    expect(data.ok).toBe(true);
+    expect(data.emailed).toBe(true);
+    expect(data.leadId).toMatch(/^lead_/);
     expect(await readCollection('vn:leads')).toHaveLength(0);
     expect(EMAIL.send).not.toHaveBeenCalled();
     expect(spy).not.toHaveBeenCalled();
