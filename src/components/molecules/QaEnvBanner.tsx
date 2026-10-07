@@ -18,7 +18,7 @@ export function QaEnvBanner() {
   return (
     <div
       role="status"
-      className="sticky top-0 z-[200] border-b border-amber-500/40 bg-amber-500/15 px-3 py-2 text-center text-xs font-medium text-amber-100 backdrop-blur-md"
+      className="pointer-events-none sticky top-0 z-[200] border-b border-amber-500/40 bg-amber-500/15 px-3 py-2 text-center text-xs font-medium text-amber-100 backdrop-blur-md"
     >
       <span className="font-semibold text-amber-50">QA · no producción</span>
       <span className="mx-2 opacity-50" aria-hidden>
@@ -27,7 +27,7 @@ export function QaEnvBanner() {
       <span className="text-amber-100/90">
         VB multi-dispositivo · noindex ·{" "}
         <a
-          className="underline underline-offset-2 hover:text-white"
+          className="pointer-events-auto underline underline-offset-2 hover:text-white"
           href="/"
         >
           prod
