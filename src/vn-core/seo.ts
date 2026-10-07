@@ -14,7 +14,8 @@ export const SEO_SITE = {
    * Producto UI (HashRouter). Enlace / final URL de Ads, **nunca canonical**
    * (un canonical no lleva '#'). DoD visual = qa:hash-ui, nunca `/s/`.
    */
-  semOfferUrl: "https://vientonorte.io/#/consultoria",
+  semOfferUrl:
+    "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis",
   /** @deprecated 2026-09-09 — /s/news purged. Enlace SPA, nunca canonical. */
   shareNewsUrl: "https://vientonorte.io/#/news",
   ogProceso: "https://vientonorte.io/images/branding/og-proceso-1200.png",
