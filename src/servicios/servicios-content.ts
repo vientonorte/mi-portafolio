@@ -292,9 +292,15 @@ export interface VnCaseGroup {
   cases: readonly VnCase[];
 }
 
+/** Casos y conceptos son las experiencias de Viento Norte: un discurso, un layout, una tarjeta. */
+export const SERVICIOS_EXPERIENCIAS = {
+  heading: "Experiencias",
+  intro: "Experiencia y método en práctica.",
+} as const;
+
 export const SERVICIOS_VN_CASES = {
-  heading: "Casos de Viento Norte",
-  intro: "Agrupados por servicio. Mostramos el diagnóstico y lo que hicimos, sin cifras de resultado.",
+  heading: SERVICIOS_EXPERIENCIAS.heading,
+  intro: SERVICIOS_EXPERIENCIAS.intro,
 } as const;
 
 /**
@@ -503,7 +509,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   },
 ];
 
-/** Pieza de Conceptos: experiencia y método en práctica. No entra en la grilla de casos de Viento Norte. */
+/** Pieza de la misma grilla de experiencias. Sigue en #conceptos para no mezclar estas marcas con los casos de cliente. */
 export interface ConceptCase {
   id: string;
   name: string;
@@ -520,10 +526,7 @@ export interface ConceptCase {
   mockupFit?: "cover" | "contain";
 }
 
-export const SERVICIOS_CONCEPTOS = {
-  heading: "Conceptos",
-  intro: "Experiencia y método en práctica.",
-} as const;
+export const SERVICIOS_CONCEPTOS = SERVICIOS_EXPERIENCIAS;
 
 /**
  * Claro, Walmart y Transvip: encargos de la marca, en el currículum.

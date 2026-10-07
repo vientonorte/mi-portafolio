@@ -187,7 +187,7 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     }
     const conceptos = doc.getElementById("conceptos");
     expect(conceptos?.textContent).toContain("Transvip");
-    expect(conceptos?.textContent).toContain("Experiencia y método en práctica");
+    expect(doc.getElementById("experiencias")?.textContent).toContain("Experiencia y método en práctica");
     expect(conceptos?.textContent).not.toContain("Concepto propio");
     expect(conceptos?.textContent).not.toContain("no encargado por la marca");
     const rest = text.replace(conceptos?.textContent ?? "", "");

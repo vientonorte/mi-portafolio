@@ -45,11 +45,20 @@ function ConceptCard({ item }: { item: ConceptCase }) {
 }
 
 /** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
-export function ServiciosConceptos() {
+export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
   const visible = SERVICIOS_CONCEPTOS_CASES.filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;
+  if (embedded) {
+    return (
+      <div id="conceptos" className="contents">
+        {visible.map((item) => (
+          <ConceptCard key={item.id} item={item} />
+        ))}
+      </div>
+    );
+  }
   return (
-    <section id="conceptos" aria-labelledby="conceptos-heading" className={cn(SECTION_CLASS, "bg-muted/30")}>
+    <section id="conceptos" aria-labelledby="conceptos-heading" className={cn(SECTION_CLASS, "bg-background")}>
       <div className="container mx-auto max-w-6xl px-4">
         <h2 id="conceptos-heading" className={cn(SECTION_TITLE_CLASS, CHILLAX, "flex items-center gap-3")}>
           <IsologoAccent className="size-3" />

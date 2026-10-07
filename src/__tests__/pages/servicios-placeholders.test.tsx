@@ -84,7 +84,7 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(walmart.textContent).toContain("Encargo de la marca");
     expect(walmart.textContent).not.toContain("exploración");
     expect(transvip.textContent).toContain("Encargo del equipo de producto");
-    expect(doc.getElementById("conceptos")?.textContent).toContain("Experiencia y método en práctica");
+    expect(doc.getElementById("experiencias")?.textContent).toContain("Experiencia y método en práctica");
     expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
     expect(walmart.textContent).toContain("walmart · catálogo");
@@ -112,7 +112,7 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
 
   it("section order: hero → opciones → casos-vn → conceptos → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "conceptos", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "experiencias", "contacto"]);
   });
 
   it("built dist (if present, base '/') has no placeholders", () => {
@@ -153,7 +153,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     expect(sections[0].id).toBe("inicio");
     expect(sections[1].id).toBe("opciones");
     const ids = sections.map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "conceptos", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "experiencias", "contacto"]);
     const cards = [...doc.querySelectorAll("[data-card]")];
     // Los placeholders viajan con su tarjeta (id), no con la posición
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);

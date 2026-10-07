@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
 import { ServiciosCasos } from "./ServiciosCasos";
-import { ServiciosConceptos } from "./ServiciosConceptos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
@@ -104,8 +103,6 @@ export function ServiciosPage() {
         </section>
 
         <ServiciosCasos />
-
-        <ServiciosConceptos />
 
         <section
           id="contacto"
