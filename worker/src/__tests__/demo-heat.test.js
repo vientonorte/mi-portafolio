@@ -16,11 +16,7 @@ describe('demo-heat', () => {
     });
   });
 
-  // SKIP: ya fallaba en main antes de que estos tests corrieran en CI (ci/worker-tests).
-  // applyEvents suma 3 a la celda por cada click (peso del heatmap, d199f0d) y este test espera 1.
-  // No se arregla aquí: falta decidir cuál es el comportamiento correcto. Ver issue #295.
-  // https://github.com/vientonorte/mi-portafolio/issues/295
-  it.skip('bins clicks and counts named actions', () => {
+  it('bins clicks and counts named actions', () => {
     const next = applyEvents(emptyBucket(), [
       { type: 'start' },
       { type: 'click', x: 0.1, y: 0.1, el: 'start' },
@@ -29,7 +25,8 @@ describe('demo-heat', () => {
     expect(next.counts.start).toBe(1);
     expect(next.counts.click).toBe(1);
     expect(next.counts.cta_consult).toBe(1);
-    expect(next.grid[cellIndex(0.1, 0.1)]).toBe(1);
+    // Un click pesa 3 en la grilla; un move pesa 1. El conteo de eventos sigue en 1.
+    expect(next.grid[cellIndex(0.1, 0.1)]).toBe(3);
     expect(next.hits).toHaveLength(1);
   });
 
