@@ -1,15 +1,11 @@
-import { ResponsiveImage, SECTION_TITLE_CLASS } from "../components/marketing";
+import { SECTION_TITLE_CLASS } from "../components/marketing";
 import { cn } from "../lib/utils";
-import {
-  SERVICIOS_VN_CASE_GROUPS,
-  SERVICIOS_VN_CASES,
-  type VnCase,
-} from "./servicios-content";
+import { ServicioPieceCard } from "./ServicioPieceCard";
+import { SERVICIOS_VN_CASE_GROUPS, SERVICIOS_VN_CASES } from "./servicios-content";
 
 /** Títulos en Chillax (token del design system). */
 const CHILLAX = "font-[family-name:var(--font-chillax)]";
 const SECTION_CLASS = "scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 py-12 md:py-16";
-const TAG_CLASS = "rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground";
 
 /** Acento del isologo: el núcleo del punto en var(--primary). Decorativo. */
 function IsologoAccent({ className }: { className?: string }) {
@@ -19,45 +15,6 @@ function IsologoAccent({ className }: { className?: string }) {
       data-accent="isologo"
       className={cn("inline-block size-2.5 shrink-0 rounded-full bg-[var(--primary)]", className)}
     />
-  );
-}
-
-function VnCaseCard({ item }: { item: VnCase }) {
-  return (
-    <article
-      data-vn-case={item.id}
-      className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-    >
-      <div className="aspect-[16/9] overflow-hidden border-b border-border bg-muted">
-        <ResponsiveImage image={item.image} className="h-full w-full object-cover object-center" />
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <ul className="flex list-none flex-wrap gap-2 p-0" aria-label="Etiquetas">
-          <li data-tag="rubro" className={TAG_CLASS}>
-            {item.tags.rubro}
-          </li>
-          <li data-tag="servicio" className={TAG_CLASS}>
-            {item.tags.servicio}
-          </li>
-        </ul>
-        <h4 className={cn(CHILLAX, "mt-3 flex items-center gap-2 text-xl font-bold text-foreground")}>
-          <IsologoAccent />
-          {item.name}
-        </h4>
-        <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-foreground">
-          {item.findings.map((f) => (
-            <li key={f}>{f}</li>
-          ))}
-        </ul>
-        {item.startingPoint ? (
-          <p data-starting-point className="mt-4 rounded-md border border-border bg-muted/50 p-3 text-sm text-foreground">
-            <strong className="font-semibold">Punto de partida, no resultado: </strong>
-            {item.startingPoint}
-          </p>
-        ) : null}
-      </div>
-    </article>
   );
 }
 
@@ -85,7 +42,19 @@ export function ServiciosCasos() {
             <ul className="mt-4 grid list-none gap-6 p-0 md:grid-cols-2">
               {group.cases.map((item) => (
                 <li key={item.id}>
-                  <VnCaseCard item={item} />
+                  <ServicioPieceCard
+                  dataAttr="data-vn-case"
+                  id={item.id}
+                  name={item.name}
+                  rubro={item.tags.rubro}
+                  servicio={item.tags.servicio}
+                  summary={item.summary}
+                  findings={item.findings}
+                  image={item.image}
+                  addressBar={item.addressBar}
+                  fit={item.mockupFit}
+                  startingPoint={item.startingPoint}
+                />
                 </li>
               ))}
             </ul>

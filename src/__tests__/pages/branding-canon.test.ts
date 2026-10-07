@@ -220,7 +220,8 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     const src = readFileSync(resolve(process.cwd(), "src/servicios/ServiciosCasos.tsx"), "utf8");
     expect(src).not.toMatch(HEX);
     expect(src).toContain("bg-[var(--primary)]");
-    const markup = casos.outerHTML.replace(/href="#[\w-]+"/g, "");
+    // El marco del navegador vive en DeviceMockup (mismo chrome que Conceptos).
+    const markup = casos.outerHTML.replace(/href="#[\w-]+"/g, "").replace(/<figure[\s\S]*?<\/figure>/g, "");
     expect(markup).not.toMatch(HEX);
     expect(markup).not.toMatch(/style="/);
   });

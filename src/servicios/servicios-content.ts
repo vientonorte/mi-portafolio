@@ -280,6 +280,9 @@ export interface VnCase {
   startingPoint?: string;
   /** Una imagen real del repo (public/). */
   image: MarketingImage;
+  /** Barra del mockup. Mismo marco que Conceptos. */
+  addressBar: string;
+  mockupFit?: "cover" | "contain";
 }
 
 export interface VnCaseGroup {
@@ -318,7 +321,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "todoclick",
         name: "TodoClick.cl",
-        tags: { rubro: "E-commerce", servicio: "Web para Pymes" },
+        tags: { rubro: "E-commerce", servicio: "Diseño" },
+        addressBar: "todoclick · tienda",
         // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
         summary:
           "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
@@ -343,7 +347,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "terramar",
         name: "Parcelas Terramar",
-        tags: { rubro: "Inmobiliaria", servicio: "Web para Pymes" },
+        tags: { rubro: "Inmobiliaria", servicio: "Diseño" },
+        addressBar: "terramar · sitio",
         // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
         summary:
           "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
@@ -383,7 +388,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
             {
               id: "vientonorte-wcag",
               name: "vientonorte.io · contraste WCAG",
-              tags: { rubro: "Consultora / sitio propio", servicio: "Revisión gratis" },
+              tags: { rubro: "Consultora / sitio propio", servicio: "Desarrollo" },
+              addressBar: "vientonorte · contraste",
               // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
               summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
               findings: [
@@ -410,7 +416,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "x-cms",
         name: "X|CMS · Da Pleisë",
-        tags: { rubro: "Café / retail", servicio: "Consultoría UX" },
+        tags: { rubro: "Café / retail", servicio: "Desarrollo" },
+        addressBar: "x-cms · operaciones",
         // Fuente: src/data/consultoria-demos.ts:24-31 (Figma Sites publicado), public/images/poc-modules/README.md.
         summary:
           "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
@@ -430,7 +437,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "ratio-irarrazaval",
         name: "CFO Dashboard · Ratio Irarrázaval",
-        tags: { rubro: "Café / finanzas pyme", servicio: "Consultoría UX" },
+        tags: { rubro: "Café / finanzas pyme", servicio: "Desarrollo" },
+        addressBar: "ratio · dashboard",
         // Fuente: README de vientonorte/dashfin («Da Pleisë — CFO Dashboard»), live vientonorte.github.io/dashfin/.
         summary:
           "Dashboard financiero para un local de café con tres líneas de negocio, con vistas distintas para CFO, socio y equipo.",
@@ -450,7 +458,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "edu21",
         name: "Edu 21",
-        tags: { rubro: "Edtech", servicio: "Consultoría UX" },
+        tags: { rubro: "Edtech", servicio: "Diseño" },
+        addressBar: "edu21 · estrategia",
         // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
         summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
         findings: [
@@ -472,7 +481,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "consultoria-estrategica",
         name: "Dashboard de consultoría estratégica",
-        tags: { rubro: "Consultoría", servicio: "Consultoría UX" },
+        tags: { rubro: "Consultoría", servicio: "Diseño" },
+        addressBar: "consultoría · módulos",
         // Concepto propio de Rö, anonimizado (Rö, 1-oct 10:37). Sin marca del cliente, nombres ni montos.
         summary:
           "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",
@@ -524,18 +534,14 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "claro",
     name: "Claro",
-    tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
+    tags: { rubro: "Telecomunicaciones", servicio: "Diseño" },
     summary:
-      "Nav y tienda de equipos de Claro: header, filtros y la primera fila de productos.",
+      "Encargo de Claro, vía Havas. Siguen en producción. Nav y tienda de equipos: header, filtros y la primera fila de productos.",
     findings: [
       "Rediseño de la navegación principal",
       "Rediseño de la tienda de equipos",
       "Esos diseños siguen en producción",
     ],
-    origin: {
-      label: "Havas / Claro",
-      note: "Encargo de Claro, vía Havas. Siguen en producción.",
-    },
     addressBar: "claro · tienda equipos",
     image: {
       png: "images/cases/claro/tienda-equipos-screen.png",
@@ -548,14 +554,10 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "walmart",
     name: "Walmart",
-    tags: { rubro: "Retail", servicio: "Concepto" },
+    tags: { rubro: "Retail", servicio: "News" },
     summary:
-      "Diseño y contenido para los canales digitales de Walmart Chile. La pieza es un correo con la cabecera Lider.",
+      "Encargo de la marca, en el equipo de conversión y diseño. Mayo — junio 2022. La pieza es un correo con la cabecera Lider.",
     findings: ["Diseño y contenido para canales digitales", "Marca Lider en la cabecera"],
-    origin: {
-      label: "Walmart Chile",
-      note: "Encargo de la marca, en el equipo de conversión y diseño. Mayo — junio 2022.",
-    },
     addressBar: "walmart · catálogo",
     mockupFit: "contain",
     image: {
@@ -569,18 +571,14 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "transvip",
     name: "Sistema de diseño · App Cliente Transvip",
-    tags: { rubro: "Movilidad / transporte", servicio: "Concepto" },
+    tags: { rubro: "Movilidad / transporte", servicio: "Diseño" },
     summary:
-      "Sistema de diseño para la app de clientes, hecho en el equipo de producto: principios, componentes y pruebas de tarjetas.",
+      "Encargo del equipo de producto de Transvip. Julio 2022 — septiembre 2023. Sistema de diseño para la app de clientes: principios, componentes y pruebas de tarjetas.",
     findings: [
       "Propósito definido: acortar los tiempos de diseño del producto",
       "Librería de componentes (átomos a templates) con base en Material UI",
       "Pruebas de tarjetas y pestañas para la app móvil",
     ],
-    origin: {
-      label: "Transvip",
-      note: "Encargo del equipo de producto de Transvip. Julio 2022 — septiembre 2023.",
-    },
     addressBar: "transvip · system design",
     mockupFit: "contain",
     image: {
@@ -594,7 +592,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "mascotapp",
     name: "MASCOTAPP",
-    tags: { rubro: "App móvil · mascotas", servicio: "Concepto" },
+    tags: { rubro: "App móvil · mascotas", servicio: "Diseño" },
     summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
     findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
     addressBar: "mascotapp · concepto",
