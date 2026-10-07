@@ -328,7 +328,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "todoclick",
         name: "TodoClick.cl",
         tags: { rubro: "E-commerce", servicio: "Diseño" },
-        addressBar: "todoclick · tienda",
+        addressBar: "todoclick · heurística",
+        mockupFit: "contain",
         // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
         summary:
           "Benchmark de su tienda y su Instagram: faltaba un h1 y el camino a la compra se podía acortar.",
@@ -354,7 +355,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "terramar",
         name: "Parcelas Terramar",
         tags: { rubro: "Inmobiliaria", servicio: "Diseño" },
-        addressBar: "terramar · sitio",
+        addressBar: "terramar · heurística",
+        mockupFit: "contain",
         // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
         summary:
           "Diagnóstico de su sitio e Instagram: el contacto comercial funciona, pero el sitio necesita mapa de contenidos.",
@@ -396,6 +398,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
               name: "vientonorte.io · contraste WCAG",
               tags: { rubro: "Consultora / sitio propio", servicio: "Desarrollo" },
               addressBar: "vientonorte · contraste",
+              mockupFit: "contain",
               // Fuente: PR #280; src/styles/globals.css:29-30 (antes) y src/styles/vn-tokens.css:34,36 (después).
               summary: "Revisamos nuestro propio sitio con WCAG 2.2 AA y corregimos el contraste de los degradados.",
               findings: [
@@ -424,6 +427,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         name: "X|CMS · Da Pleisë",
         tags: { rubro: "Café / retail", servicio: "Desarrollo" },
         addressBar: "x-cms · operaciones",
+        mockupFit: "contain",
         // Fuente: src/data/consultoria-demos.ts:24-31 (Figma Sites publicado), public/images/poc-modules/README.md.
         summary:
           "Back-office para un café: punto de venta, productos y clientes en un solo panel, publicado como prototipo navegable.",
@@ -445,6 +449,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         name: "CFO Dashboard · Ratio Irarrázaval",
         tags: { rubro: "Café / finanzas pyme", servicio: "Desarrollo" },
         addressBar: "ratio · dashboard",
+        mockupFit: "contain",
         // Fuente: README de vientonorte/dashfin («Da Pleisë — CFO Dashboard»), live vientonorte.github.io/dashfin/.
         summary:
           "Dashboard financiero para un local de café con tres líneas de negocio, con vistas distintas para CFO, socio y equipo.",
@@ -466,6 +471,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         name: "Edu 21",
         tags: { rubro: "Edtech", servicio: "Diseño" },
         addressBar: "edu21 · estrategia",
+        mockupFit: "contain",
         // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
         summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
         findings: [
@@ -489,6 +495,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         name: "Dashboard de consultoría estratégica",
         tags: { rubro: "Consultoría", servicio: "Diseño" },
         addressBar: "consultoría · módulos",
+        mockupFit: "contain",
         // Concepto propio de Rö, anonimizado (Rö, 1-oct 10:37). Sin marca del cliente, nombres ni montos.
         summary:
           "Propuesta ejecutiva interactiva para una consultora: el plan de transformación digital ordenado en módulos navegables.",

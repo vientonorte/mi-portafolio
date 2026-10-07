@@ -86,6 +86,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(transvip.textContent).toContain("Encargo del equipo de producto");
     expect(doc.getElementById("experiencias")?.textContent).toContain("Experiencia y método en práctica");
     expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
+    expect(doc.querySelector("[data-vn-case='todoclick'] img")?.className).not.toContain("aspect-[16/10]");
+    expect(doc.querySelector("[data-vn-case='x-cms'] img")?.className).not.toContain("aspect-[16/10]");
+    expect(doc.querySelector("[data-vn-case='todoclick']")?.textContent).toContain("todoclick · heurística");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
     expect(walmart.textContent).toContain("walmart · catálogo");
     expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
