@@ -51,7 +51,7 @@ En **HashRouter + GitHub Pages**, casi todo devuelve HTTP 200 del shell. Los có
 
 ```bash
 # 404 de ruta
-open 'http://127.0.0.1:5173/#/pagina-que-no-existe'
+open 'http://127.0.0.1:3000/#/pagina-que-no-existe'
 
 # 404 de imagen (cualquier ResponsiveImage con src inventado en React DevTools,
 # o temporalmente fuerza src="/__broken__.png")

@@ -1,5 +1,7 @@
 # Pruebas GSC y Enlaces · Viento Norte
 
+> 🗄 **Registro histórico, superado por el canon de URLs 2026-10.** No se reescribe. Las URL `/#/`, `/s/`, `/mi-portafolio/`, `vientonorte.github.io` o `:5173` que aparecen abajo **no** están vigentes para clientes. El canon vigente está en `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **SSOT Obsidian:** `Viento Norte/Resources/SEM/2026-08-03 GSC Pruebas y Enlaces.md`  
 **SEO:** https://vientonorte.io/ · **SEM:** https://vientonorte.io/#/consultoria  
 **Fecha:** 2026-08-03

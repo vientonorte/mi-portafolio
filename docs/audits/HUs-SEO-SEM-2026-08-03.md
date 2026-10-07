@@ -1,5 +1,7 @@
 # HUs · SEO orgánico + SEM oferta
 
+> 🗄 **Registro histórico, superado por el canon de URLs 2026-10.** No se reescribe. Las URL `/#/`, `/s/`, `/mi-portafolio/`, `vientonorte.github.io` o `:5173` que aparecen abajo **no** están vigentes para clientes. El canon vigente está en `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **SoT Obsidian:** `Viento Norte/Sprints/2026-08-03 HUs SEO-SEM path-oferta.md`  
 **DS:** DS-2026-08-03 path-oferta-analytics · **Día:** Map → **Prototype**  
 **Firma Decider 2026-08-03:** P0 HU-01…04 **sí** · copy meta home/SEM **ok** · Empezar home → onboarding (no SEM) · SEM = entrada paid + onboarding local · re-Map tour-vs-embudo **rechazada** · SEM spend $0 hasta Test  

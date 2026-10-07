@@ -1,5 +1,7 @@
 # Auditoría QA · SEO · SEM — plan aplicado 2026-08-03
 
+> 🗄 **Registro histórico, superado por el canon de URLs 2026-10.** No se reescribe. Las URL `/#/`, `/s/`, `/mi-portafolio/`, `vientonorte.github.io` o `:5173` que aparecen abajo **no** están vigentes para clientes. El canon vigente está en `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **Fuente PDF:** `docs/audits/Auditoria_Vientonorte_QA_SEO_2026-07.pdf`  
 **Decider:** Rö · **Marco:** Design Sprint VN (Map) · no SEM spend sin Test path  
 **Live:**

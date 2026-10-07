@@ -1,5 +1,7 @@
 # URL canon Viento Norte
 
+> ⚠ **Canon de URLs vigente (2026-10), prevalece sobre este doc.** El link final para clientes es `https://vientonorte.io/servicios/?<utm>`, con ancla opcional `#web-pymes`, `#revision-gratis` o `#consultoria-ux` (la UTM va antes del ancla). También valen las páginas de rubro publicadas. **No se envían a clientes:** `/s/` (salvo `/s/polijuego-privacy/`), `/#/`, `/news/`, `/qa/`, `/mi-portafolio/` ni los slugs viejos de `/servicios/`. El dev local es `http://localhost:3000/` (5173 está obsoleto). Prod se sirve con GitHub Pages en `vientonorte.io` (`vientonorte.github.io` ya no es la URL pública). Las rutas `/#/…` que quedan abajo son superficies internas o de QA, o registro histórico. Detalle: `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **Canon:** `https://vientonorte.io/` (sin `/mi-portafolio/`)  
 **Producto:** front office de la **empresa** Viento Norte.  
 **Decide 14-sep-2026:** `/s/` **no** es URL de producto (ni diseño ni DoD). UI = `/#/`. Orgánico = `/servicios/*`. Ads `/s/consultoria/` = piloto, se queda 200.
@@ -33,7 +35,7 @@ No pagar a `/`. No hoppear el piloto mientras sea la única loc comercial en SER
 
 | Superficie | URL |
 |------------|-----|
-| Home embudo | http://127.0.0.1:5173/#/ |
+| Home embudo | http://127.0.0.1:3000/#/ |
 | SEM oferta | http://127.0.0.1:3000/#/consultoria |
 
 ## Legacy redirects
