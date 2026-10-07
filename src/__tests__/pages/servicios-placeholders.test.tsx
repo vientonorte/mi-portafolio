@@ -79,8 +79,12 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     );
     expect(claro.textContent).toContain("claro · tienda equipos");
     expect(claro.textContent).toContain("vía Havas");
-    expect(claro.textContent).toContain("siguen en producción");
+    expect(claro.textContent).toContain("Siguen en producción");
     expect(claro.textContent).not.toContain("no encargado por la marca");
+    expect(walmart.textContent).toContain("Encargo de la marca");
+    expect(walmart.textContent).not.toContain("exploración");
+    expect(transvip.textContent).toContain("Encargo del equipo de producto");
+    expect(doc.getElementById("conceptos")?.textContent).toContain("carrera profesional");
     expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
     expect(walmart.textContent).toContain("walmart · catálogo");

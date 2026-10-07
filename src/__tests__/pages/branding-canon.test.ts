@@ -187,7 +187,9 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     }
     const conceptos = doc.getElementById("conceptos");
     expect(conceptos?.textContent).toContain("Transvip");
-    expect(conceptos?.textContent).toContain("Concepto propio");
+    expect(conceptos?.textContent).toContain("carrera profesional");
+    expect(conceptos?.textContent).not.toContain("Concepto propio");
+    expect(conceptos?.textContent).not.toContain("no encargado por la marca");
     const rest = text.replace(conceptos?.textContent ?? "", "");
     expect(rest).not.toMatch(/Transvip|SURA Investments|Karri|Pareti/);
     expect(html).not.toContain("method/coworking/");

@@ -493,7 +493,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   },
 ];
 
-/** Pieza de «Conceptos»: exploración propia o in-house, sin cliente VN en la grilla de casos. */
+/** Pieza de la carrera: encargo de la marca. No entra en la grilla de casos de Viento Norte. */
 export interface ConceptCase {
   id: string;
   name: string;
@@ -511,13 +511,12 @@ export interface ConceptCase {
 }
 
 export const SERVICIOS_CONCEPTOS = {
-  heading: "Conceptos",
-  intro:
-    "Exploración propia, trabajo in-house o diseño hecho en otras empresas. No son encargos de un cliente de Viento Norte.",
+  heading: "Carrera",
+  intro: "Encargos de cada marca. Parte de la carrera profesional.",
 } as const;
 
 /**
- * Claro: nav y tienda vía Havas, en producción. Walmart: concepto propio. Transvip: in-house.
+ * Claro, Walmart y Transvip: encargos de la marca, en el currículum.
  * MASCOTAPP no tiene imagen: solo entra cuando placeholdersEnabled() (build QA).
  * Monitas no entra.
  */
@@ -525,7 +524,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "claro",
     name: "Claro",
-    tags: { rubro: "Telecomunicaciones", servicio: "Producción" },
+    tags: { rubro: "Telecomunicaciones", servicio: "Encargo" },
     summary:
       "Nav y tienda de equipos de Claro: header, filtros y la primera fila de productos.",
     findings: [
@@ -535,7 +534,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     ],
     origin: {
       label: "Havas / Claro",
-      note: "Diseñadas en el equipo de mejoras de Claro, vía Havas. Siguen en producción. No es un cliente de Viento Norte.",
+      note: "Encargo de Claro, vía Havas. Siguen en producción.",
     },
     addressBar: "claro · tienda equipos",
     image: {
@@ -549,19 +548,20 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "walmart",
     name: "Walmart",
-    tags: { rubro: "Retail", servicio: "Concepto" },
-    summary: "Concepto de retail: una pieza de la exploración, en el marco del navegador.",
-    findings: ["Pieza de correo de la exploración", "Marca Lider en la cabecera"],
+    tags: { rubro: "Retail", servicio: "Encargo" },
+    summary:
+      "Diseño y contenido para los canales digitales de Walmart Chile. La pieza es un correo con la cabecera Lider.",
+    findings: ["Diseño y contenido para canales digitales", "Marca Lider en la cabecera"],
     origin: {
-      label: "Concepto propio",
-      note: "Concepto propio, no encargado por la marca",
+      label: "Walmart Chile",
+      note: "Encargo de la marca, en el equipo de conversión y diseño. Mayo — junio 2022.",
     },
     addressBar: "walmart · catálogo",
     mockupFit: "contain",
     image: {
       png: "images/cases/walmart/catalogo-screen.png",
       webp: "images/cases/walmart/catalogo-screen.webp",
-      alt: "Pieza de la exploración Walmart: correo con la cabecera Lider.",
+      alt: "Correo de Walmart Chile con la cabecera Lider.",
       width: 464,
       height: 496,
     },
@@ -569,17 +569,17 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "transvip",
     name: "Sistema de diseño · App Cliente Transvip",
-    tags: { rubro: "Movilidad / transporte", servicio: "Concepto" },
+    tags: { rubro: "Movilidad / transporte", servicio: "Encargo" },
     summary:
-      "Sistema de diseño para la app de clientes, hecho dentro del equipo de producto: principios, componentes y pruebas de concepto.",
+      "Sistema de diseño para la app de clientes, hecho en el equipo de producto: principios, componentes y pruebas de tarjetas.",
     findings: [
       "Propósito definido: acortar los tiempos de diseño del producto",
       "Librería de componentes (átomos a templates) con base en Material UI",
-      "Pruebas de concepto de tarjetas y pestañas para la app móvil",
+      "Pruebas de tarjetas y pestañas para la app móvil",
     ],
     origin: {
-      label: "Proyecto in-house",
-      note: "Proyecto in-house del equipo de producto de Transvip. No es un cliente de Viento Norte.",
+      label: "Transvip",
+      note: "Encargo del equipo de producto de Transvip. Julio 2022 — septiembre 2023.",
     },
     addressBar: "transvip · system design",
     mockupFit: "contain",
