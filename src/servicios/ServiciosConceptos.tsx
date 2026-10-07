@@ -23,32 +23,6 @@ function IsologoAccent({ className }: { className?: string }) {
   );
 }
 
-function ConceptGallery({ images }: { images: NonNullable<ConceptCase["gallery"]> }) {
-  return (
-    <ol data-concept-gallery className="flex list-none gap-2 overflow-x-auto p-0" aria-label="Galería del concepto">
-      {images.map((image) => (
-        <li key={image.png} className="w-28 shrink-0">
-          <div className="overflow-hidden rounded-md border border-border bg-muted">
-            <picture>
-              {image.webp ? <source type="image/webp" srcSet={assetUrl(image.webp)} /> : null}
-              <img
-                src={assetUrl(image.png)}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-                loading="lazy"
-                decoding="async"
-                className="h-20 w-full object-cover"
-              />
-            </picture>
-          </div>
-          {image.stage ? <p className="mt-1 text-xs font-semibold text-foreground">{image.stage}</p> : null}
-        </li>
-      ))}
-    </ol>
-  );
-}
-
 function ConceptCard({ item }: { item: ConceptCase }) {
   return (
     <article
@@ -61,14 +35,13 @@ function ConceptCard({ item }: { item: ConceptCase }) {
           src={assetUrl(item.image.png)}
           alt={item.image.alt}
           addressBar={item.addressBar}
-          fit="cover"
+          fit={item.mockupFit ?? "cover"}
           glow={false}
           loading="lazy"
         />
       ) : (
         <PendingSlot variant="thumb" label="Imagen pendiente de exportar" />
       )}
-      {item.gallery && item.gallery.length > 0 ? <ConceptGallery images={item.gallery} /> : null}
       <div className="space-y-2">
         <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{item.tags.servicio}</p>
         <Badge variant="outline" className="rounded-full border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground">
