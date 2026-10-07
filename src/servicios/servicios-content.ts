@@ -493,7 +493,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
   },
 ];
 
-/** Pieza de la carrera: encargo de la marca. No entra en la grilla de casos de Viento Norte. */
+/** Pieza de Conceptos: experiencia y método en práctica. No entra en la grilla de casos de Viento Norte. */
 export interface ConceptCase {
   id: string;
   name: string;
@@ -511,8 +511,8 @@ export interface ConceptCase {
 }
 
 export const SERVICIOS_CONCEPTOS = {
-  heading: "Carrera",
-  intro: "Encargos de cada marca. Parte de la carrera profesional.",
+  heading: "Conceptos",
+  intro: "Experiencia y método en práctica.",
 } as const;
 
 /**
@@ -524,7 +524,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "claro",
     name: "Claro",
-    tags: { rubro: "Telecomunicaciones", servicio: "Encargo" },
+    tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
     summary:
       "Nav y tienda de equipos de Claro: header, filtros y la primera fila de productos.",
     findings: [
@@ -548,7 +548,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "walmart",
     name: "Walmart",
-    tags: { rubro: "Retail", servicio: "Encargo" },
+    tags: { rubro: "Retail", servicio: "Concepto" },
     summary:
       "Diseño y contenido para los canales digitales de Walmart Chile. La pieza es un correo con la cabecera Lider.",
     findings: ["Diseño y contenido para canales digitales", "Marca Lider en la cabecera"],
@@ -569,7 +569,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "transvip",
     name: "Sistema de diseño · App Cliente Transvip",
-    tags: { rubro: "Movilidad / transporte", servicio: "Encargo" },
+    tags: { rubro: "Movilidad / transporte", servicio: "Concepto" },
     summary:
       "Sistema de diseño para la app de clientes, hecho en el equipo de producto: principios, componentes y pruebas de tarjetas.",
     findings: [
