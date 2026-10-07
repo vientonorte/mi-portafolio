@@ -88,6 +88,26 @@ jobs:
       - run: npm run qa:nav
 
 
+  worker-integration:
+    name: Worker integration (Miniflare)
+    runs-on: ubuntu-latest
+    # Tests de integración del worker de contacto: fetch handler real en workerd (Miniflare)
+    # con KV en memoria, EMAIL y fetch saliente mockeados. Sin red ni Cloudflare.
+    # Paquete propio (worker/integration) para no tocar el lockfile de deploy de worker/.
+    defaults:
+      run:
+        working-directory: worker/integration
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: worker/integration/package-lock.json
+      # legacy-peer-deps igual que el .npmrc de la raíz (npm 10 se cae resolviendo los peers opcionales de vitest).
+      - run: npm ci --legacy-peer-deps
+      - run: npm test
+
   ads-query:
     name: ads-query
     runs-on: ubuntu-latest
