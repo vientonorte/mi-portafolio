@@ -503,10 +503,11 @@ export interface ConceptCase {
   addressBar: string;
   /** Portada (mockup). Ausente = solo cuando los placeholders de QA están activos (MASCOTAPP). */
   image?: MarketingImage;
-  /** Galería bajo la portada (misma card). */
-  gallery?: readonly MarketingImage[];
   origin?: { label: string; note: string };
+  /** browser = estándar de tarjeta (16:10). phone = una sola pantalla móvil. */
   mockupVariant?: "browser" | "phone";
+  /** cover recorta a 16:10. contain muestra la pantalla entera. */
+  mockupFit?: "cover" | "contain";
 }
 
 export const SERVICIOS_CONCEPTOS = {
@@ -525,12 +526,10 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     id: "claro",
     name: "Claro",
     tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
-    summary:
-      "Concepto de tienda de equipos y navegación móvil: portada del prototipo mobile y capturas de apoyo de la exploración.",
+    summary: "Concepto de tienda de equipos: una pantalla del prototipo mobile, dentro del marco del celular.",
     findings: [
       "Prototipo mobile de tienda de equipos",
-      "Exploración de navegación Claro",
-      "Vista de apoyo del concepto Chile",
+      "Header, filtros y primera fila de productos",
     ],
     origin: {
       label: "Concepto propio",
@@ -539,48 +538,31 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     addressBar: "claro · tienda equipos",
     mockupVariant: "phone",
     image: {
-      png: "images/cases/claro/tienda-equipos-mobile.png",
-      webp: "images/cases/claro/tienda-equipos-mobile.webp",
-      alt: "Prototipo mobile de tienda de equipos Claro: pantalla de catálogo en celular.",
-      width: 955,
-      height: 1600,
+      png: "images/cases/claro/tienda-equipos-screen.png",
+      webp: "images/cases/claro/tienda-equipos-screen.webp",
+      alt: "Prototipo mobile de la tienda de equipos Claro: header, filtros y primera fila de celulares.",
+      width: 206,
+      height: 446,
     },
-    gallery: [
-      {
-        png: "images/cases/claro/claro-chile.png",
-        webp: "images/cases/claro/claro-chile.webp",
-        alt: "Concepto Claro Chile: captura de apoyo del frame de exploración.",
-        width: 1600,
-        height: 667,
-        stage: "Claro Chile",
-      },
-      {
-        png: "images/cases/claro/prototipo-nav.png",
-        webp: "images/cases/claro/prototipo-nav.webp",
-        alt: "Prototipo de navegación Claro: captura de apoyo del frame de exploración.",
-        width: 380,
-        height: 1600,
-        stage: "Nav",
-      },
-    ],
   },
   {
     id: "walmart",
     name: "Walmart",
     tags: { rubro: "Retail", servicio: "Concepto" },
-    summary: "Concepto de catálogo para retail: exploración propia de listado y fichas de producto.",
-    findings: ["Catálogo de productos", "Exploración de ficha y listado"],
+    summary: "Concepto de retail: una pieza de la exploración, en el marco del navegador.",
+    findings: ["Pieza de correo de la exploración", "Marca Lider en la cabecera"],
     origin: {
       label: "Concepto propio",
       note: "Concepto propio, no encargado por la marca",
     },
     addressBar: "walmart · catálogo",
+    mockupFit: "contain",
     image: {
-      png: "images/cases/walmart/catalogo.png",
-      webp: "images/cases/walmart/catalogo.webp",
-      alt: "Concepto de catálogo Walmart: grilla de productos en exploración propia.",
-      width: 1600,
-      height: 1070,
+      png: "images/cases/walmart/catalogo-screen.png",
+      webp: "images/cases/walmart/catalogo-screen.webp",
+      alt: "Pieza de la exploración Walmart: correo con la cabecera Lider.",
+      width: 464,
+      height: 496,
     },
   },
   {
@@ -599,6 +581,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
       note: "Proyecto in-house del equipo de producto de Transvip. No es un cliente de Viento Norte.",
     },
     addressBar: "transvip · system design",
+    mockupFit: "contain",
     image: {
       png: "images/cases/transvip/system-design-proposito.png",
       webp: "images/cases/transvip/system-design-proposito.webp",

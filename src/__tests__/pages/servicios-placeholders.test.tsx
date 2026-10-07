@@ -70,6 +70,26 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.getElementById("como-trabajamos")).toBeNull();
   });
 
+  it("conceptos usan el mockup estándar: una pantalla en DeviceMockup, sin el tablero de Figma", () => {
+    const claro = doc.querySelector("[data-concept='claro']")!;
+    const walmart = doc.querySelector("[data-concept='walmart']")!;
+    const transvip = doc.querySelector("[data-concept='transvip']")!;
+    expect(claro.querySelector("img")?.getAttribute("src")).toBe(
+      "/images/cases/claro/tienda-equipos-screen.png"
+    );
+    expect(claro.querySelector("img")?.className).toContain("aspect-[9/19.5]");
+    expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
+    expect(walmart.textContent).toContain("walmart · catálogo");
+    expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
+      "/images/cases/walmart/catalogo-screen.png"
+    );
+    expect(walmart.querySelector("img")?.className).not.toContain("aspect-[16/10]");
+    expect(transvip.textContent).toContain("transvip · system design");
+    expect(transvip.querySelector("img")?.getAttribute("src")).toBe(
+      "/images/cases/transvip/system-design-proposito.png"
+    );
+  });
+
   it("Monitas y El recorrido no aparecen; Edu 21 sigue en la grilla; conceptos son Claro, Walmart y Transvip", () => {
     expect(doc.getElementById("casos")).toBeNull();
     expect(doc.body.textContent ?? "").not.toContain("Monitas");
