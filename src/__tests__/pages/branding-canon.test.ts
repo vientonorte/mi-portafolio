@@ -185,7 +185,11 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     for (const name of ["Transvip", "SURA", "Karri", "Pareti", "Coworking"]) {
       expect(casos.textContent ?? "", name).not.toContain(name);
     }
-    expect(text).not.toMatch(/Transvip|SURA Investments|Karri|Pareti/);
+    const conceptos = doc.getElementById("conceptos");
+    expect(conceptos?.textContent).toContain("Transvip");
+    expect(conceptos?.textContent).toContain("Concepto propio");
+    const rest = text.replace(conceptos?.textContent ?? "", "");
+    expect(rest).not.toMatch(/Transvip|SURA Investments|Karri|Pareti/);
     expect(html).not.toContain("method/coworking/");
     expect(casos.querySelector('[data-vn-case="coworking"]')).toBeNull();
   });

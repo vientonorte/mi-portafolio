@@ -21,7 +21,12 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
   it("renders experience, cases and founder; no client-logo strip", () => {
     expect(doc.getElementById("logo-strip-heading")).toBeNull();
     expect(doc.getElementById("experiencia")).toBeNull();
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(1); // solo Edu 21: Monitas no va en /servicios/
+    expect(doc.getElementById("casos")).toBeNull();
+    expect([...doc.querySelectorAll("#conceptos [data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
+      "claro",
+      "walmart",
+      "transvip",
+    ]);
     expect(doc.getElementById("quien")).toBeNull();
     expect(doc.getElementById("como-trabajamos")).toBeNull();
     expect(html).not.toContain("Han confiado en Viento Norte");
@@ -65,18 +70,21 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(doc.getElementById("como-trabajamos")).toBeNull();
   });
 
-  it("Monitas no aparece en /servicios/ (ni «El recorrido» ni la grilla); Edu 21 sigue", () => {
-    const recorrido = doc.getElementById("casos")!;
-    expect(recorrido.querySelector('[data-case-cta="monitas"]')).toBeNull();
-    expect(recorrido.textContent).not.toContain("Monitas");
-    expect(recorrido.querySelector('[data-case-cta="edu21"]')).not.toBeNull();
-    expect(doc.querySelector('[data-vn-case="monitas"]')).toBeNull();
+  it("Monitas y El recorrido no aparecen; Edu 21 sigue en la grilla; conceptos son Claro, Walmart y Transvip", () => {
+    expect(doc.getElementById("casos")).toBeNull();
     expect(doc.body.textContent ?? "").not.toContain("Monitas");
+    expect(doc.body.textContent ?? "").not.toContain("El recorrido");
+    expect(doc.querySelector('[data-vn-case="edu21"]')).not.toBeNull();
+    expect([...doc.querySelectorAll("#conceptos [data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
+      "claro",
+      "walmart",
+      "transvip",
+    ]);
   });
 
-  it("section order: hero → opciones → casos → casos-vn → contacto", () => {
+  it("section order: hero → opciones → casos-vn → conceptos → contacto", () => {
     const ids = [...doc.querySelectorAll("main > section")].map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos", "casos-vn", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "conceptos", "contacto"]);
   });
 
   it("built dist (if present, base '/') has no placeholders", () => {
@@ -96,12 +104,19 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     return { html, doc: parse(html) };
   };
 
-  it("renders placeholders, all inside PendingSlot (data-placeholder='pendiente-ro')", () => {
-    const { html, doc } = renderQa();
-    expect(doc.querySelector("[data-placeholder]")).toBeNull();
-    expect(html).not.toContain("pendiente");
-    expect(doc.querySelectorAll("#casos article")).toHaveLength(1); // solo Edu 21: Monitas no va en /servicios/
-    expect(doc.body.textContent ?? "").not.toMatch(/pendiente/i);
+  it("renders the MASCOTAPP placeholder inside PendingSlot and the three concepts with image", () => {
+    const { doc } = renderQa();
+    expect(doc.getElementById("casos")).toBeNull();
+    expect([...doc.querySelectorAll("#conceptos [data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
+      "claro",
+      "walmart",
+      "transvip",
+      "mascotapp",
+    ]);
+    const slot = doc.querySelector("[data-concept='mascotapp'] [data-placeholder]");
+    expect(slot).not.toBeNull();
+    expect(slot?.getAttribute("data-placeholder")).toBe("pendiente-ro");
+    expect(doc.querySelector("[data-concept='claro'] [data-placeholder]")).toBeNull();
   });
 
   it("experience strip right below the hero, casos before cómo trabajamos", () => {
@@ -110,7 +125,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     expect(sections[0].id).toBe("inicio");
     expect(sections[1].id).toBe("opciones");
     const ids = sections.map((s) => s.id).filter(Boolean);
-    expect(ids).toEqual(["inicio", "opciones", "casos", "casos-vn", "contacto"]);
+    expect(ids).toEqual(["inicio", "opciones", "casos-vn", "conceptos", "contacto"]);
     const cards = [...doc.querySelectorAll("[data-card]")];
     // Los placeholders viajan con su tarjeta (id), no con la posición
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);

@@ -448,12 +448,12 @@ function SiteNavigation({
       />
     ) : null;
 
-    // anchor (#contacto) y http (/servicios/) llevan href real: los crawlers y el teclado los ven.
-    if (item.action.kind === "anchor" || item.action.kind === "http") {
+    // Ancla, HTTP y rutas internas de la SPA llevan href. El click sigue en executeNavAction.
+    if (item.action.kind === "anchor" || item.action.kind === "http" || item.action.kind === "route") {
       return (
         <Button variant="ghost" asChild className={cn(NAV_ITEM_CLASS, isActive && NAV_ITEM_ACTIVE_CLASS)}>
           <a
-            href={item.action.target}
+            href={item.action.kind === "route" ? `#${item.action.target}` : item.action.target}
             onClick={(e) => handleNavClick(e, item)}
             aria-current={isActive ? "page" : undefined}
           >

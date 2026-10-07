@@ -49,6 +49,11 @@ function isConsentPrivacyLink(el: Element): boolean {
   return el.hasAttribute("data-privacy-link") && el.getAttribute("href") === "#/privacy";
 }
 
+/** Noticias y Sobre mí son rutas internas de la SPA (retro 7-oct). */
+function isInternalSectionLink(href: string): boolean {
+  return href === "#/news" || href === "#/sobre-mi" || href.startsWith("#/news/");
+}
+
 function renderHome() {
   window.location.hash = "#/";
   return render(
@@ -68,7 +73,7 @@ function offenders(container: HTMLElement): string[] {
   const hrefs = [...container.ownerDocument.querySelectorAll("[href]")]
     .filter((el) => !isConsentPrivacyLink(el))
     .map((el) => el.getAttribute("href") ?? "")
-    .filter((h) => !h.startsWith("data:"));
+    .filter((h) => !h.startsWith("data:") && !isInternalSectionLink(h));
   const bad = hrefs.filter(
     (h) => h.includes("/#/") || h.startsWith("#/") || OLD_SLUGS.some((slug) => h.includes(slug))
   );
@@ -105,13 +110,20 @@ describe("home canon guard: sin /#/ ni slugs viejos en la home renderizada", () 
     expect(offenders(container)).toEqual([]);
   });
 
-  it("el header de la home es el nav minimal: logo, Servicios, Contacto, sin «Más» ni Proceso", () => {
+  it("el header de la home muestra Servicios, Noticias, Sobre mí y Contacto, sin «Más» ni Proceso", () => {
     renderHome();
     const header = document.querySelector('header[data-nav-shell="minimal"]')!;
     expect(header).not.toBeNull();
     const desktop = header.querySelector(".nav-desktop-only ul")!;
-    expect([...desktop.querySelectorAll("li")].map((li) => li.textContent?.trim())).toEqual(["Servicios", "Contacto"]);
+    expect([...desktop.querySelectorAll("li")].map((li) => li.textContent?.trim())).toEqual([
+      "Servicios",
+      "Noticias",
+      "Sobre mí",
+      "Contacto",
+    ]);
     expect(desktop.querySelector('a[href="/servicios/"]')).not.toBeNull();
+    expect(desktop.querySelector('a[href="#/news"]')).not.toBeNull();
+    expect(desktop.querySelector('a[href="#/sobre-mi"]')).not.toBeNull();
     expect(desktop.querySelector('a[href="#contacto"]')).not.toBeNull();
     expect(header.textContent).not.toMatch(/Proceso|Más/);
     // Toggle de idioma de la home: «🌐 ES» (botón SPA, sin par es / EN)

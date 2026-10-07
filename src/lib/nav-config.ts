@@ -17,10 +17,10 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
-import { SITE_NAV_PRIMARY_IDS, SITE_NAV_SERVICIOS_PATH } from "./site-nav";
+import { siteServiciosHref } from "./site-nav";
 
 /** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
-const CONSULTORIA_CANON_PATH = `${SITE_NAV_SERVICIOS_PATH}#consultoria-ux`;
+const CONSULTORIA_CANON_PATH = siteServiciosHref("consultoria-ux");
 
 export type NavItemId =
   | "inicio"
@@ -86,17 +86,15 @@ export interface NavRegistryItem {
 }
 
 /**
- * Nav minimal canónico (Rö 2-oct · TL): el header de la home es el componente por defecto.
- * - Header: Servicios (HTTP /servicios/) · Contacto (#contacto). Orden y destinos: src/lib/site-nav.ts.
- * - Sin «Más»: los destinos hash (/#/proceso, /#/news, /#/consultoria, /#/sobre-mi, …) salen
- *   del nav visible (canon vn-agent 2026-09-27: nunca /#/ como destino).
- * - Dock 3: Inicio · Agendar (kickoff) · Contacto — anclas de la home o HTTP, nunca rutas hash.
+ * Header de la SPA (retro 7-oct): Servicios, Noticias, Sobre mí y Contacto.
+ * Las páginas estáticas (/servicios/, rubros) siguen en src/lib/site-nav.ts
+ * (Servicios + Contacto). Sin «Más». Dock: Inicio · kickoff · Contacto.
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: SITE_NAV_PRIMARY_IDS satisfies readonly NavItemId[],
+  headerPrimary: ["servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
   headerMore: [] as readonly NavItemId[],
-  mobileDrawer: ["inicio", ...SITE_NAV_PRIMARY_IDS] as const satisfies readonly NavItemId[],
+  mobileDrawer: ["inicio", "servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
@@ -132,7 +130,7 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "consultoria":
       return { kind: "route", target: ROUTES.consulting };
     case "servicios":
-      return { kind: "http", target: SITE_NAV_SERVICIOS_PATH };
+      return { kind: "http", target: siteServiciosHref() };
     case "news":
       return { kind: "route", target: ROUTES.news };
     case "proceso":
@@ -254,8 +252,9 @@ export function getMobileDrawerNavItems(
   return resolveNavItems(NAV_SURFACE.mobileDrawer, labels, processLabel, getHeaderNavAction);
 }
 
-/** Índice del separador «Más» en el drawer; -1 = sin separador (nav minimal sin «Más»). */
+/** Índice del separador «Más» en el drawer; -1 = sin separador. */
 export function getMobileMoreDividerIndex(): number {
+  if (NAV_SURFACE.headerMore.length === 0) return -1;
   return (NAV_SURFACE.mobileDrawer as readonly NavItemId[]).indexOf("sobre-mi");
 }
 
@@ -382,7 +381,13 @@ export function matchNavItemActive(
     return normalized === ROUTES.news || normalized.startsWith(`${ROUTES.news}/`);
   }
   if (item.id === "servicios") {
-    return normalized === ROUTES.landings || normalized.startsWith("/servicios");
+    const hub = siteServiciosHref().replace(/\/$/, "");
+    return (
+      normalized === ROUTES.landings ||
+      normalized.startsWith("/servicios") ||
+      normalized === hub ||
+      normalized.startsWith(`${hub}/`)
+    );
   }
 
   if (item.action.kind === "contact") {

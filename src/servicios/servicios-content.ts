@@ -492,3 +492,127 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
     ],
   },
 ];
+
+/** Pieza de «Conceptos»: exploración propia o in-house, sin cliente VN en la grilla de casos. */
+export interface ConceptCase {
+  id: string;
+  name: string;
+  tags: { rubro: string; servicio: string };
+  summary: string;
+  findings: string[];
+  addressBar: string;
+  /** Portada (mockup). Ausente = solo cuando los placeholders de QA están activos (MASCOTAPP). */
+  image?: MarketingImage;
+  /** Galería bajo la portada (misma card). */
+  gallery?: readonly MarketingImage[];
+  origin?: { label: string; note: string };
+  mockupVariant?: "browser" | "phone";
+}
+
+export const SERVICIOS_CONCEPTOS = {
+  heading: "Conceptos",
+  intro:
+    "Ejercicios de diseño propios o in-house, sin encargo de un cliente de Viento Norte. Son exploración, no casos.",
+} as const;
+
+/**
+ * Claro y Walmart: concepto propio. Transvip: in-house.
+ * MASCOTAPP no tiene imagen: solo entra cuando placeholdersEnabled() (build QA).
+ * Monitas no entra.
+ */
+export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
+  {
+    id: "claro",
+    name: "Claro",
+    tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
+    summary:
+      "Concepto de tienda de equipos y navegación móvil: portada del prototipo mobile y capturas de apoyo de la exploración.",
+    findings: [
+      "Prototipo mobile de tienda de equipos",
+      "Exploración de navegación Claro",
+      "Vista de apoyo del concepto Chile",
+    ],
+    origin: {
+      label: "Concepto propio",
+      note: "Concepto propio, no encargado por la marca",
+    },
+    addressBar: "claro · tienda equipos",
+    mockupVariant: "phone",
+    image: {
+      png: "images/cases/claro/tienda-equipos-mobile.png",
+      webp: "images/cases/claro/tienda-equipos-mobile.webp",
+      alt: "Prototipo mobile de tienda de equipos Claro: pantalla de catálogo en celular.",
+      width: 955,
+      height: 1600,
+    },
+    gallery: [
+      {
+        png: "images/cases/claro/claro-chile.png",
+        webp: "images/cases/claro/claro-chile.webp",
+        alt: "Concepto Claro Chile: captura de apoyo del frame de exploración.",
+        width: 1600,
+        height: 667,
+        stage: "Claro Chile",
+      },
+      {
+        png: "images/cases/claro/prototipo-nav.png",
+        webp: "images/cases/claro/prototipo-nav.webp",
+        alt: "Prototipo de navegación Claro: captura de apoyo del frame de exploración.",
+        width: 380,
+        height: 1600,
+        stage: "Nav",
+      },
+    ],
+  },
+  {
+    id: "walmart",
+    name: "Walmart",
+    tags: { rubro: "Retail", servicio: "Concepto" },
+    summary: "Concepto de catálogo para retail: exploración propia de listado y fichas de producto.",
+    findings: ["Catálogo de productos", "Exploración de ficha y listado"],
+    origin: {
+      label: "Concepto propio",
+      note: "Concepto propio, no encargado por la marca",
+    },
+    addressBar: "walmart · catálogo",
+    image: {
+      png: "images/cases/walmart/catalogo.png",
+      webp: "images/cases/walmart/catalogo.webp",
+      alt: "Concepto de catálogo Walmart: grilla de productos en exploración propia.",
+      width: 1600,
+      height: 1070,
+    },
+  },
+  {
+    id: "transvip",
+    name: "Sistema de diseño · App Cliente Transvip",
+    tags: { rubro: "Movilidad / transporte", servicio: "Concepto" },
+    summary:
+      "Sistema de diseño para la app de clientes, hecho dentro del equipo de producto: principios, componentes y pruebas de concepto.",
+    findings: [
+      "Propósito definido: acortar los tiempos de diseño del producto",
+      "Librería de componentes (átomos a templates) con base en Material UI",
+      "Pruebas de concepto de tarjetas y pestañas para la app móvil",
+    ],
+    origin: {
+      label: "Proyecto in-house",
+      note: "Proyecto in-house del equipo de producto de Transvip. No es un cliente de Viento Norte.",
+    },
+    addressBar: "transvip · system design",
+    image: {
+      png: "images/cases/transvip/system-design-proposito.png",
+      webp: "images/cases/transvip/system-design-proposito.webp",
+      alt: "Lámina Propósito del sistema de diseño de la app Transvip: objetivos, por qué, beneficios y usuarios del equipo interno.",
+      width: 1200,
+      height: 750,
+    },
+  },
+  {
+    id: "mascotapp",
+    name: "MASCOTAPP",
+    tags: { rubro: "App móvil · mascotas", servicio: "Concepto" },
+    summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
+    findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
+    addressBar: "mascotapp · concepto",
+  },
+];

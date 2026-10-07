@@ -5,31 +5,24 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ServiciosContactForm } from "./ServiciosContactForm";
 import { ServiciosCasos } from "./ServiciosCasos";
+import { ServiciosConceptos } from "./ServiciosConceptos";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
 import { ctaClickFromTarget } from "./servicios-cta";
 import {
-  CaseCards,
   HeroWithMockup,
   ServiceCards,
   SECTION_TITLE_CLASS,
-  type CaseCard,
 } from "../components/marketing";
 import {
-  BRAND_CASES,
   CONTACT_EMAIL,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
-  SERVICIOS_CASES,
-  SERVICIOS_FUNNEL,
   SERVICIOS_HERO,
   SERVICIOS_IMAGES,
   type ServiciosIntent,
   type ServiciosIntentValue,
 } from "./servicios-content";
-
-/** «El recorrido» en /servicios/: Monitas vive solo en la grilla de casos de VN (decisión Rö 1-oct). */
-const RECORRIDO_CASES = BRAND_CASES.filter((item) => item.id !== "monitas");
 
 function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -110,25 +103,9 @@ export function ServiciosPage() {
           </div>
         </section>
 
-        <CaseCards
-          heading={SERVICIOS_CASES.heading}
-          intro={SERVICIOS_CASES.intro}
-          funnel={SERVICIOS_FUNNEL}
-          cases={RECORRIDO_CASES.map(
-            (item): CaseCard => ({
-              id: item.id,
-              client: item.client,
-              kicker: item.kicker,
-              problem: item.problem,
-              whatWeDid: item.whatWeDid,
-              result: item.result,
-              images: [...item.images],
-              cta: { label: item.ctaLabel, href: `#${item.ctaAnchor}` },
-            })
-          )}
-        />
-
         <ServiciosCasos />
+
+        <ServiciosConceptos />
 
         <section
           id="contacto"
