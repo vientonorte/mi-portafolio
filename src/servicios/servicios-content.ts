@@ -526,9 +526,10 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     id: "claro",
     name: "Claro",
     tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
-    summary: "Concepto de tienda de equipos: una pantalla del prototipo mobile, dentro del marco del celular.",
+    summary:
+      "Concepto de tienda de equipos: header, filtros y la primera fila de productos, en el marco del navegador.",
     findings: [
-      "Prototipo mobile de tienda de equipos",
+      "Pantalla de la tienda de equipos",
       "Header, filtros y primera fila de productos",
     ],
     origin: {
@@ -536,13 +537,12 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
       note: "Concepto propio, no encargado por la marca",
     },
     addressBar: "claro · tienda equipos",
-    mockupVariant: "phone",
     image: {
       png: "images/cases/claro/tienda-equipos-screen.png",
       webp: "images/cases/claro/tienda-equipos-screen.webp",
-      alt: "Prototipo mobile de la tienda de equipos Claro: header, filtros y primera fila de celulares.",
-      width: 206,
-      height: 446,
+      alt: "Tienda de equipos Claro: header, filtros y primera fila de celulares.",
+      width: 1692,
+      height: 1058,
     },
   },
   {

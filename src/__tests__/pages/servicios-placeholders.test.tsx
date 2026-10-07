@@ -77,7 +77,8 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(claro.querySelector("img")?.getAttribute("src")).toBe(
       "/images/cases/claro/tienda-equipos-screen.png"
     );
-    expect(claro.querySelector("img")?.className).toContain("aspect-[9/19.5]");
+    expect(claro.textContent).toContain("claro · tienda equipos");
+    expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
     expect(walmart.textContent).toContain("walmart · catálogo");
     expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
