@@ -82,6 +82,14 @@ export const ROUTES = {
   adsLandingA11y: "/ads/auditoria-accesibilidad",
   /** Grafo de fricción institucional — noIndex hasta decisión de visibilidad. */
   grafo: "/grafo",
+
+  /**
+   * Oferta «Digitalización de tu negocio» (MVP de prueba). noIndex, sin sitemap
+   * ni nav/footer hasta OK del Decider. Shell aislado (ver shouldHideSiteChrome).
+   */
+  digitalizacion: "/digitalizacion",
+  /** Demo del dashboard de caja con datos de EJEMPLO (pyme ficticia). */
+  digitalizacionDemo: "/digitalizacion/demo",
 } as const;
 
 /** Alias legacy — solo redirects 301-equivalent (HashRouter replace). */
@@ -158,6 +166,15 @@ export function isAdsLandingPath(pathname: string): boolean {
   return normalizePathname(pathname) === ROUTES.adsLandingA11y;
 }
 
+/** Oferta «Digitalización» (landing + demo): embudo aislado, sin nav pública. */
+export function isDigitalizacionPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  return (
+    path === ROUTES.digitalizacion ||
+    path.startsWith(`${ROUTES.digitalizacion}/`)
+  );
+}
+
 /**
  * Gate único de aislamiento de shell (Navigation / BottomNav / DeepPageNav).
  * `true` para el tour de módulos, la demo con reloj, `/admin` y la landing
@@ -169,7 +186,8 @@ export function shouldHideSiteChrome(pathname: string): boolean {
     isConsultingModuleTourPath(pathname) ||
     isTimedDemoPath(pathname) ||
     isAdminPath(pathname) ||
-    isAdsLandingPath(pathname)
+    isAdsLandingPath(pathname) ||
+    isDigitalizacionPath(pathname)
   );
 }
 

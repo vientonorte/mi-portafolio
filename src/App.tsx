@@ -45,6 +45,8 @@ const AdminPhotos = lazyWithRetry(() => import('./pages/AdminPhotos'));
 const AdminHub = lazyWithRetry(() => import('./pages/AdminHub'));
 const FrameworkDetail = lazyWithRetry(() => import('./pages/FrameworkDetail'));
 const LandingAuditoria = lazyWithRetry(() => import('./pages/LandingAuditoria'));
+const Digitalizacion = lazyWithRetry(() => import('./pages/Digitalizacion'));
+const DigitalizacionDemo = lazyWithRetry(() => import('./pages/DigitalizacionDemo'));
 
 function LegacyCasesProcessRedirect() {
   const { processId } = useParams<{ processId: string }>();
@@ -194,6 +196,9 @@ function AppRoutes() {
             <Route path={ROUTES.adminRoadmap} element={<AdminHub />} />
             <Route path="/admin/fotos" element={<AdminPhotos />} />
             <Route path={ROUTES.adsLandingA11y} element={<LandingAuditoria />} />
+            {/* MVP «Digitalización» — noIndex, fuera de sitemap/nav (shell aislado). */}
+            <Route path={ROUTES.digitalizacion} element={<Digitalizacion />} />
+            <Route path={ROUTES.digitalizacionDemo} element={<DigitalizacionDemo />} />
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>
