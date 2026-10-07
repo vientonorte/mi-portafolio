@@ -4,6 +4,7 @@
  * Sin precios de Cobros/Dashboard: TODO_PRECIO (pendiente Decider). Sin testimonios ni métricas.
  */
 import { trackEvent } from "../analytics";
+import { serviciosHref } from "../servicios-links";
 
 export const VN_WHATSAPP = "56942637408";
 
@@ -17,12 +18,21 @@ export function whatsappUrl(text: string = DIGITALIZACION_WA_TEXT): string {
   return `https://wa.me/${VN_WHATSAPP}?text=${encodeURIComponent(text)}`;
 }
 
-/** Consultoría canónica = /#/consultoria. UTM ANTES del hash (el HashRouter no las lee después). */
-export const CONSULTORIA_UTM_URL =
-  "/?utm_source=vientonorte&utm_medium=landing&utm_campaign=digitalizacion_mvp#/consultoria";
+/**
+ * Consultoría del HashRouter. UTM antes del hash.
+ * La base de Vite va delante: en QA queda /qa/?utm…#/consultoria, no la home de producción.
+ */
+function spaQueryHash(queryAndHash: string): string {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  return `${base}${queryAndHash}`;
+}
 
-/** Entrada de la escalera (ya en vivo). */
-export const WEB_EXPRESS_URL = "/s/web-express/";
+export const CONSULTORIA_UTM_URL = spaQueryHash(
+  "/?utm_source=vientonorte&utm_medium=landing&utm_campaign=digitalizacion_mvp#/consultoria"
+);
+
+/** Entrada de la escalera: ancla viva. /s/web-express/ solo redirige. */
+export const WEB_EXPRESS_URL = serviciosHref("web-pymes");
 
 export const DIGITALIZACION_EVENTS = {
   cta: "digitalizacion_cta_click",

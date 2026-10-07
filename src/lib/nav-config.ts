@@ -17,10 +17,10 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
-import { SITE_NAV_PRIMARY_IDS, SITE_NAV_SERVICIOS_PATH } from "./site-nav";
+import { SITE_NAV_PRIMARY_IDS, siteServiciosHref } from "./site-nav";
 
 /** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
-const CONSULTORIA_CANON_PATH = `${SITE_NAV_SERVICIOS_PATH}#consultoria-ux`;
+const CONSULTORIA_CANON_PATH = siteServiciosHref("consultoria-ux");
 
 export type NavItemId =
   | "inicio"
@@ -132,7 +132,7 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "consultoria":
       return { kind: "route", target: ROUTES.consulting };
     case "servicios":
-      return { kind: "http", target: SITE_NAV_SERVICIOS_PATH };
+      return { kind: "http", target: siteServiciosHref() };
     case "news":
       return { kind: "route", target: ROUTES.news };
     case "proceso":
@@ -382,7 +382,13 @@ export function matchNavItemActive(
     return normalized === ROUTES.news || normalized.startsWith(`${ROUTES.news}/`);
   }
   if (item.id === "servicios") {
-    return normalized === ROUTES.landings || normalized.startsWith("/servicios");
+    const hub = siteServiciosHref().replace(/\/$/, "");
+    return (
+      normalized === ROUTES.landings ||
+      normalized.startsWith("/servicios") ||
+      normalized === hub ||
+      normalized.startsWith(`${hub}/`)
+    );
   }
 
   if (item.action.kind === "contact") {

@@ -1,4 +1,5 @@
 import catalog from "./news-editions.json";
+import { serviciosHref } from "../lib/servicios-links";
 
 export type NewsTopic = "accesibilidad" | "automatizacion" | "privacidad";
 
@@ -28,28 +29,32 @@ export function newsUtm(slug: string): string {
   return `${newsShareUrl(slug)}?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo&utm_content=${encodeURIComponent(slug)}`;
 }
 
-/** Cada news lleva a la ficha HTTP de especialidad (no /s/, no el embudo genérico). */
+/**
+ * Cada news lleva a un ancla viva de /servicios/ (base de Vite: / o /qa/).
+ * Los slugs seguridad-privacidad-digital e inteligencia-artificial-negocios
+ * redirigen al hub sin ancla (#279). Privacidad cae en la revisión gratis;
+ * automatización cae en consultoría UX.
+ */
 export const NEWS_TOPIC_LANDING: Record<
   NewsTopic,
   { path: string; label: { es: string; en: string } }
 > = {
   accesibilidad: {
-    // Slug viejo (redirección desde #279) → ancla canónica.
-    path: "/servicios/#revision-gratis",
+    path: serviciosHref("revision-gratis"),
     label: {
       es: "Diagnóstico de accesibilidad WCAG",
       en: "WCAG accessibility diagnostic",
     },
   },
   automatizacion: {
-    path: "/servicios/inteligencia-artificial-negocios/",
+    path: serviciosHref("consultoria-ux"),
     label: {
       es: "Inteligencia artificial aplicada a negocios",
       en: "AI applied to business",
     },
   },
   privacidad: {
-    path: "/servicios/seguridad-privacidad-digital/",
+    path: serviciosHref("revision-gratis"),
     label: {
       es: "Privacidad de datos · Ley 21.719",
       en: "Data privacy · Law 21.719",

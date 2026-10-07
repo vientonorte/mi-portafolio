@@ -2,21 +2,18 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { NEWS_CATALOG, newsTopicLanding } from "@/data/news-editions";
+import { serviciosHref } from "@/lib/servicios-links";
 
 describe("news → specialty landing", () => {
-  it("maps each topic to an HTTP /servicios/* ficha, not /s/consultoria", () => {
-    expect(newsTopicLanding("privacidad")?.path).toBe(
-      "/servicios/seguridad-privacidad-digital/"
-    );
-    // Canon 2026-10-01: la ficha WCAG redirige; el link va directo al ancla de /servicios/.
-    expect(newsTopicLanding("accesibilidad")?.path).toBe("/servicios/#revision-gratis");
-    expect(newsTopicLanding("automatizacion")?.path).toBe(
-      "/servicios/inteligencia-artificial-negocios/"
-    );
+  it("maps each topic to a live /servicios/ anchor, not a redirect slug", () => {
+    expect(newsTopicLanding("privacidad")?.path).toBe(serviciosHref("revision-gratis"));
+    expect(newsTopicLanding("accesibilidad")?.path).toBe(serviciosHref("revision-gratis"));
+    expect(newsTopicLanding("automatizacion")?.path).toBe(serviciosHref("consultoria-ux"));
     for (const edition of NEWS_CATALOG.editions) {
-      expect(newsTopicLanding(edition.topic)?.path.startsWith("/servicios/")).toBe(
-        true
-      );
+      const path = newsTopicLanding(edition.topic)?.path ?? "";
+      expect(path.startsWith(serviciosHref())).toBe(true);
+      expect(path).not.toContain("/servicios/seguridad-privacidad-digital/");
+      expect(path).not.toContain("/servicios/inteligencia-artificial-negocios/");
     }
   });
 

@@ -26,6 +26,8 @@ describe("/#/digitalizacion landing (MVP)", () => {
     const html = container.innerHTML;
     expect(html).toContain("https://wa.me/56942637408?text=");
     expect(html).not.toContain("/s/consultoria");
+    expect(html).not.toContain("/s/web-express");
+    expect(html).toContain("/servicios/#web-pymes");
     expect(html).not.toContain("TODO_WHATSAPP");
     const consult = container.querySelector('a[href*="#/consultoria"]');
     expect(consult?.getAttribute("href")).toMatch(/^\/\?utm_source=[^#]+#\/consultoria$/);

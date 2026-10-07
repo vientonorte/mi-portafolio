@@ -6,7 +6,8 @@ import { serviciosHref } from "../../lib/servicios-links";
 
 const SPECIALTIES = [
   {
-    path: "/servicios/seguridad-privacidad-digital/",
+    id: "privacidad",
+    path: serviciosHref("revision-gratis"),
     kicker: { es: "Especialidad", en: "Specialty" },
     title: { es: "Privacidad de datos · Ley 21.719", en: "Data privacy · Law 21.719" },
     dek: {
@@ -15,7 +16,7 @@ const SPECIALTIES = [
     },
   },
   {
-    // Slug viejo (redirección desde #279) → ancla canónica de /servicios/.
+    id: "wcag",
     path: serviciosHref("revision-gratis"),
     kicker: { es: "Especialidad", en: "Specialty" },
     title: { es: "Diagnóstico WCAG 2.2 AA", en: "WCAG 2.2 AA diagnostic" },
@@ -25,7 +26,8 @@ const SPECIALTIES = [
     },
   },
   {
-    path: "/servicios/inteligencia-artificial-negocios/",
+    id: "ia",
+    path: serviciosHref("consultoria-ux"),
     kicker: { es: "Especialidad", en: "Specialty" },
     title: { es: "IA en tu CMS o CRM", en: "AI in your CMS or CRM" },
     dek: {
@@ -34,6 +36,7 @@ const SPECIALTIES = [
     },
   },
   {
+    id: "oferta",
     path: serviciosHref("consultoria-ux"),
     kicker: { es: "Oferta", en: "Offer" },
     title: { es: "Consultoría UX para pymes", en: "UX consulting for SMBs" },
@@ -75,7 +78,7 @@ export function HomeSpecialtyPaths() {
         />
         <ul className="grid gap-4 sm:grid-cols-2 list-none p-0 m-0">
           {SPECIALTIES.map((item) => (
-            <li key={item.path}>
+            <li key={item.id}>
               <a
                 href={item.path}
                 className="block h-full rounded-2xl border border-border bg-card p-5 no-underline text-inherit hover:border-foreground/30"
