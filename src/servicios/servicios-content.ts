@@ -513,11 +513,11 @@ export interface ConceptCase {
 export const SERVICIOS_CONCEPTOS = {
   heading: "Conceptos",
   intro:
-    "Ejercicios de diseño propios o in-house, sin encargo de un cliente de Viento Norte. Son exploración, no casos.",
+    "Exploración propia, trabajo in-house o diseño hecho en otras empresas. No son encargos de un cliente de Viento Norte.",
 } as const;
 
 /**
- * Claro y Walmart: concepto propio. Transvip: in-house.
+ * Claro: nav y tienda vía Havas, en producción. Walmart: concepto propio. Transvip: in-house.
  * MASCOTAPP no tiene imagen: solo entra cuando placeholdersEnabled() (build QA).
  * Monitas no entra.
  */
@@ -525,16 +525,17 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
   {
     id: "claro",
     name: "Claro",
-    tags: { rubro: "Telecomunicaciones", servicio: "Concepto" },
+    tags: { rubro: "Telecomunicaciones", servicio: "Producción" },
     summary:
-      "Concepto de tienda de equipos: header, filtros y la primera fila de productos, en el marco del navegador.",
+      "Nav y tienda de equipos de Claro: header, filtros y la primera fila de productos.",
     findings: [
-      "Pantalla de la tienda de equipos",
-      "Header, filtros y primera fila de productos",
+      "Rediseño de la navegación principal",
+      "Rediseño de la tienda de equipos",
+      "Esos diseños siguen en producción",
     ],
     origin: {
-      label: "Concepto propio",
-      note: "Concepto propio, no encargado por la marca",
+      label: "Havas / Claro",
+      note: "Diseñadas en el equipo de mejoras de Claro, vía Havas. Siguen en producción. No es un cliente de Viento Norte.",
     },
     addressBar: "claro · tienda equipos",
     image: {
