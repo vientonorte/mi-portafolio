@@ -23,8 +23,8 @@
     "automatizacion",
     "privacidad"
   ],
-  "utmBase": "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
-  "ctaUrl": "https://vientonorte.io/#/consultoria?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
+  "utmBase": "https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
+  "ctaUrl": "https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
   "upcoming": [
     {
       "id": "havas-claro",
@@ -60,7 +60,7 @@
           "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago, confirmación. Si ese flujo no se percibe, no se reserva.",
           "En Transvip el trabajo fue el trámite de pasajeros premium y un design system web + app con accesibilidad como mejora continua — no un sello ni un overlay. El hub público documenta el corte: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.",
           "Karri (misma etapa, delivery vertical) aplicó el mismo método a calculadora de ganancias y onboarding de shoppers. No es otra landing: es el flujo que ya usa el cliente.",
-          "Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio. Especialidad: /servicios/diagnostico-accesibilidad-wcag/."
+          "Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio. Especialidad: https://vientonorte.io/servicios/#revision-gratis"
         ],
         "en": [
           "An airport transfer is not a moodboard. It is a flow: origin, destination, time, payment, confirmation. If that flow cannot be perceived, there is no booking.",
@@ -69,7 +69,7 @@
           "Viento Norte opens the same way with Chilean SMBs: free WCAG 2.2 AA on one flow. Then, if it fits, a 5–7 day Diagnostic. No KPIs that are not already in the portfolio."
         ]
       },
-      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: vientonorte.io/servicios/diagnostico-accesibilidad-wcag/",
+      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: https://vientonorte.io/servicios/#revision-gratis",
       "hashtags": [
         "#accesibilidadweb",
         "#WCAG",

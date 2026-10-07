@@ -135,10 +135,10 @@ Then test on:
 ### Automated Testing
 ```bash
 # Lighthouse mobile audit
-npx lighthouse http://localhost:5173 --preset=mobile --view
+npx lighthouse http://localhost:3000 --preset=mobile --view
 
 # axe-core accessibility
-npx axe http://localhost:5173 --mobile --save axe-mobile-report.html
+npx axe http://localhost:3000 --mobile --save axe-mobile-report.html
 ```
 
 ### Responsive Testing Commands

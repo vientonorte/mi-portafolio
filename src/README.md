@@ -165,7 +165,7 @@ npm install
 npm run dev
 ```
 
-El proyecto estará disponible en `http://localhost:5173`
+El proyecto estará disponible en `http://localhost:3000`
 
 ### Build de Producción
 

@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
@@ -53,6 +53,13 @@ export function ServiciosContactForm({
     gotcha: `${uid}-gotcha`,
   };
   const formRef = useRef<HTMLFormElement>(null);
+  /** H2 · epoch ms del montaje: el worker exige un tiempo mínimo de llenado. */
+  const formStartedAt = useRef(0);
+  useEffect(() => {
+    // Se captura al montar (no en render: Date.now() es impuro). El front no
+    // bloquea antes de 3 s; el mínimo lo aplica solo el worker.
+    formStartedAt.current = Date.now();
+  }, []);
   const [errors, setErrors] = useState<ServiciosFieldErrors>({});
   const [status, setStatus] = useState<Status>({ kind: "idle", text: "" });
 
@@ -87,12 +94,15 @@ export function ServiciosContactForm({
       const res = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildServiciosPayload(values, source)),
+        body: JSON.stringify(
+          buildServiciosPayload(values, source, undefined, formStartedAt.current)
+        ),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || data.ok === false) {
         throw new Error(data.error || `HTTP ${res.status}`);
       }
+      // Conversión (form_submit success) solo tras OK del worker (ya lo era).
       track("form_submit", { status: "success" });
       form.reset();
       onIntentChange("");

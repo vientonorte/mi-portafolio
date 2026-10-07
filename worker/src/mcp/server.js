@@ -154,7 +154,7 @@ async function callTool(name, args, env) {
     if (!a.name || String(a.name).trim().length < 2) throw new Error('name inválido');
     if (!isValidEmail(a.email)) throw new Error('email inválido');
     const calendarUrl =
-      env.CALENDAR_BOOKING_URL || env.A11Y_FREE_SCHEDULE_URL || 'https://vientonorte.io/#/contacto';
+      env.CALENDAR_BOOKING_URL || env.A11Y_FREE_SCHEDULE_URL || 'https://vientonorte.io/servicios/#consultoria-ux';
     const record = {
       id: newId('book'),
       createdAt: nowIso(),

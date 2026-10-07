@@ -4,7 +4,7 @@ import { SKILLS_CATALOG, getSkill, getSkills } from '../data/skills.js';
 import { listRecords, newId, nowIso, prependRecord, updateRecord } from '../lib/store.js';
 import { notifyInbox, notifyVisitor } from '../lib/notify.js';
 import { ga4MpConfigured, sendGa4MpEvent } from '../lib/ga4-mp.js';
-import { buildKickoffBookingConfirmation } from '../lib/email-templates.js';
+import { buildKickoffBookingConfirmation, escapeHtml } from '../lib/email-templates.js';
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
@@ -15,11 +15,59 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= MAX_EMAIL;
 }
 
+/**
+ * H1 · `eventId` de Google Calendar: id de la API (base32hex, minúsculas a-v y
+ * 0-9, 5 a 200 caracteres), opcionalmente con sufijo de instancia recurrente
+ * (`_YYYYMMDD` o `_YYYYMMDDTHHMMSSZ`) y/o el sufijo `@google.com` del iCalUID.
+ * Todo lo demás se rechaza con 400 antes de tocar KV o mandar correo.
+ */
+export const BOOKING_EVENT_ID_RE = /^[a-v0-9]{5,200}(?:_\d{8}(?:T\d{6}Z)?)?(?:@google\.com)?$/;
+
+export function isValidBookingEventId(value) {
+  return typeof value === 'string' && BOOKING_EVENT_ID_RE.test(value);
+}
+
+/** Quita CR/LF y caracteres de control (evita inyección en asunto/cabeceras). */
+function stripControl(value) {
+  return value.replace(/[\u0000-\u001f\u007f]+/g, ' ').trim();
+}
+
+/**
+ * H1 · htmlLink solo se acepta si es https, sin credenciales en la URL y de un
+ * host de Google Calendar (o el host de la agenda pública configurada en
+ * CALENDAR_BOOKING_URL). Si no cumple, se devuelve '' y el código usa la URL
+ * de agenda del servidor.
+ */
+const CALENDAR_LINK_HOSTS = new Set(['calendar.google.com', 'calendar.app.google']);
+
+export function safeCalendarLink(raw, env = {}) {
+  if (typeof raw !== 'string' || !raw) return '';
+  let parsed;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return '';
+  }
+  if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.port) {
+    return '';
+  }
+  const host = parsed.hostname.toLowerCase();
+  const allowed = new Set(CALENDAR_LINK_HOSTS);
+  try {
+    if (env.CALENDAR_BOOKING_URL) allowed.add(new URL(env.CALENDAR_BOOKING_URL).hostname);
+  } catch {
+    /* CALENDAR_BOOKING_URL inválida → solo hosts por defecto */
+  }
+  const isGoogleCalendarPath = host === 'www.google.com' && parsed.pathname.startsWith('/calendar/');
+  if (!allowed.has(host) && !isGoogleCalendarPath) return '';
+  return parsed.toString();
+}
+
 function calendarUrl(env) {
   return (
     env.CALENDAR_BOOKING_URL ||
     env.A11Y_FREE_SCHEDULE_URL ||
-    'https://vientonorte.io/#/contacto'
+    'https://vientonorte.io/servicios/#consultoria-ux'
   );
 }
 
@@ -45,20 +93,19 @@ function timingSafeStringEqual(a, b) {
 /**
  * `eventId` solo lo envía el puente Calendar → Worker (Apps Script) cuando el
  * evento ya está confirmado en Google Calendar — a diferencia del registro de
- * click desde el front (sin `eventId`, ver `recordBookingIntent`). Si hay un
- * secreto configurado, exigimos el header para evitar bookings falsos con
- * `eventId` inventado. Sin secreto configurado (aún no aprovisionado) se deja
- * pasar para no romper el flujo mientras se habilita el puente.
+ * click desde el front (sin `eventId`, ver `recordBookingIntent`).
+ *
+ * H1: es la única forma que tiene el Worker de verificar que el booking es
+ * real, así que falla CERRADO: sin VN_BOOKING_WEBHOOK_KEY configurado se
+ * rechaza todo request con `eventId` (y por lo tanto no sale confirmación).
  */
 function isTrustedBookingWebhook(request, env) {
   const expected = env.VN_BOOKING_WEBHOOK_KEY;
   if (!expected) {
-    // Transitorio: sin secreto provisto (ver docs/CALENDAR-BOOKING-BRIDGE.md)
-    // aceptamos por compatibilidad, pero dejamos rastro para monitoreo.
     console.warn(
-      '[booking] VN_BOOKING_WEBHOOK_KEY no configurado: aceptando webhook con eventId sin autenticar.'
+      '[booking] VN_BOOKING_WEBHOOK_KEY no configurado: se rechaza el webhook con eventId (falla cerrado).'
     );
-    return true;
+    return false;
   }
   const header = request.headers.get('X-VN-BOOKING-KEY') || '';
   return timingSafeStringEqual(header, expected);
@@ -238,11 +285,12 @@ export async function handleCreateBooking(request, env, cors) {
     return json({ ok: false, error: 'JSON inválido' }, 400, cors);
   }
 
-  const nameRaw = typeof body.name === 'string' ? body.name.trim().slice(0, MAX_NAME) : '';
+  const nameRaw =
+    typeof body.name === 'string' ? stripControl(body.name).slice(0, MAX_NAME) : '';
   const emailRaw = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
   const notes = typeof body.notes === 'string' ? body.notes.trim().slice(0, MAX_TEXT) : '';
   const intent = typeof body.intent === 'string' ? body.intent.trim().slice(0, 80) : 'kickoff';
-  const origin = typeof body.origin === 'string' ? body.origin.trim().slice(0, 80) : '';
+  const origin = typeof body.origin === 'string' ? stripControl(body.origin).slice(0, 80) : '';
   const packageId =
     typeof body.packageId === 'string'
       ? body.packageId.trim().slice(0, 40)
@@ -251,17 +299,27 @@ export async function handleCreateBooking(request, env, cors) {
         : '';
   const phone = typeof body.phone === 'string' ? body.phone.trim().slice(0, 40) : '';
   const website = typeof body.website === 'string' ? body.website.trim().slice(0, 400) : '';
-  const startAt = typeof body.startAt === 'string' ? body.startAt.trim().slice(0, 40) : '';
-  const eventId = typeof body.eventId === 'string' ? body.eventId.trim().slice(0, 120) : '';
-  const htmlLink = typeof body.htmlLink === 'string' ? body.htmlLink.trim().slice(0, 500) : '';
+  const startAt = typeof body.startAt === 'string' ? stripControl(body.startAt).slice(0, 40) : '';
 
-  const name = nameRaw.length >= 2 ? nameRaw : 'Agenda abierta';
-  const email = isValidEmail(emailRaw) ? emailRaw : '';
-  const url = calendarUrl(env);
+  // H1 · eventId estricto: si viene (cualquier valor no vacío), debe tener el
+  // formato de Google Calendar. Si no, 400 sin tocar KV ni mandar correo.
+  const hasEventId = body.eventId !== undefined && body.eventId !== null && body.eventId !== '';
+  if (hasEventId && !isValidBookingEventId(body.eventId)) {
+    return json({ ok: false, error: 'eventId inválido' }, 400, cors);
+  }
+  const eventId = hasEventId ? body.eventId : '';
 
   if (eventId && !isTrustedBookingWebhook(request, env)) {
     return json({ ok: false, error: 'No autorizado' }, 401, cors);
   }
+
+  // Solo un booking real (eventId válido + webhook autenticado) puede traer
+  // htmlLink; aun así, solo https de Google Calendar.
+  const htmlLink = eventId ? safeCalendarLink(body.htmlLink, env) : '';
+
+  const name = nameRaw.length >= 2 ? nameRaw : 'Agenda abierta';
+  const email = isValidEmail(emailRaw) ? emailRaw : '';
+  const url = calendarUrl(env);
 
   if (eventId) {
     const existing = await listRecords(env, 'bookings');
@@ -346,7 +404,10 @@ export async function handleCreateBooking(request, env, cors) {
     replyName: name,
   });
 
-  if (email) {
+  // H1 · la confirmación solo va al lead de un booking real (eventId válido +
+  // webhook autenticado). Un click del front (sin eventId) nunca manda correo
+  // a la dirección que venga en el request.
+  if (email && eventId) {
     const isKickoffFunnel = origin === 'ads-a11y-landing';
     const visitorEmail = isKickoffFunnel
       ? buildKickoffBookingConfirmation({
@@ -370,9 +431,9 @@ export async function handleCreateBooking(request, env, cors) {
           ]
             .filter(Boolean)
             .join('\n'),
-          html: `<p>Hola ${name},</p><p>Quedó registrada tu agenda con Viento Norte.</p>${
-            startAt ? `<p>Horario: ${startAt}</p>` : ''
-          }<p><a href="${htmlLink || url}">Abrir Calendar</a></p><p>— Viento Norte</p>`,
+          html: `<p>Hola ${escapeHtml(name)},</p><p>Quedó registrada tu agenda con Viento Norte.</p>${
+            startAt ? `<p>Horario: ${escapeHtml(startAt)}</p>` : ''
+          }<p><a href="${escapeHtml(htmlLink || url)}">Abrir Calendar</a></p><p>— Viento Norte</p>`,
         };
     await notifyVisitor(env, {
       to: email,

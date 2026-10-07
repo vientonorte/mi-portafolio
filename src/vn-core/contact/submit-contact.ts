@@ -22,6 +22,8 @@ export interface ContactPayload {
   language?: "es" | "en";
   /** Asunto VN · Kickoff · … (selecciones embudo) */
   conversationTitle?: string;
+  /** H2 · epoch ms del montaje del formulario (tiempo mínimo de llenado en el worker). */
+  formStartedAt?: number;
 }
 
 export type ContactSubmitChannel = "google_forms" | "formsubmit" | "worker" | "mailto";
@@ -31,6 +33,13 @@ export interface ContactSubmitResult {
   channel?: ContactSubmitChannel;
   error?: string;
   mailtoUrl?: string;
+  /**
+   * H2 · true solo si el worker respondió HTTP 200 con `ok: true`. Las
+   * conversiones GA4/Ads se disparan únicamente en ese caso (ver
+   * lib/contact-conversion.ts), aunque otro canal (Google Forms/FormSubmit)
+   * haya entregado el mensaje.
+   */
+  workerConfirmed?: boolean;
 }
 
 function buildSubject(payload: ContactPayload): string {
@@ -217,6 +226,7 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
       conversationTitle: payload.conversationTitle ?? "",
       consent: payload.consent === true,
       language: payload.language ?? "es",
+      formStartedAt: payload.formStartedAt,
     }),
   });
 
@@ -226,11 +236,12 @@ async function submitViaWorker(payload: ContactPayload): Promise<ContactSubmitRe
   };
 
   if (response.ok && result.ok) {
-    return { ok: true, channel: "worker" };
+    return { ok: true, channel: "worker", workerConfirmed: response.status === 200 };
   }
 
   return {
     ok: false,
+    channel: "worker",
     error: result.error || `Relay HTTP ${response.status}`,
   };
 }
@@ -280,7 +291,11 @@ export async function submitContactMessage(
   payload: ContactPayload
 ): Promise<ContactSubmitResult> {
   if (payload._gotcha) {
-    return { ok: true, channel: getGoogleFormsConfig() ? "google_forms" : "formsubmit" };
+    return {
+      ok: true,
+      channel: getGoogleFormsConfig() ? "google_forms" : "formsubmit",
+      workerConfirmed: false,
+    };
   }
 
   let lastWorkerError: string | undefined;
@@ -298,13 +313,14 @@ export async function submitContactMessage(
     if (workerResult && !workerResult.ok) {
       lastWorkerError = workerResult.error;
     }
+    const workerConfirmed = workerResult?.workerConfirmed === true;
 
     const best = pickBestResult(settled);
-    if (best) return best;
+    if (best) return { ...best, workerConfirmed };
 
     try {
       const formsubmitResult = await submitViaFormPost(payload);
-      if (formsubmitResult.ok) return formsubmitResult;
+      if (formsubmitResult.ok) return { ...formsubmitResult, workerConfirmed: false };
     } catch (error) {
       console.warn("[contact] formsubmit fallback failed:", error);
     }

@@ -48,7 +48,7 @@ bash scripts/capture-gees-screenshot.sh
 
 ## Smoke local
 
-1. `npm run dev` → `http://127.0.0.1:5173/`
+1. `npm run dev` → `http://127.0.0.1:3000/`
 2. Home arsenal: cards GEES + 4 método UX Tools visibles
 3. `/#/consultoria#consultoria-demo` → poster GEES ≠ X\|CMS
 4. Abrir un PDF: `https://vientonorte.io/resources/ux-tools/journey-map.pdf`

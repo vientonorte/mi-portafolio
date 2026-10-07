@@ -14,8 +14,8 @@ const PAGES = {
     description:
       "Tecnología para empresas: diagnóstico, prototipo o proceso. Kickoff en 30 min.",
     image: "https://vientonorte.io/images/branding/og-consultoria-1200.png",
-    dest: "https://vientonorte.io/#/consultoria",
-    canonical: "https://vientonorte.io/s/consultoria/",
+    dest: "https://vientonorte.io/servicios/#consultoria-ux",
+    canonical: "https://vientonorte.io/servicios/",
   },
 };
 

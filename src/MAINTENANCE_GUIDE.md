@@ -639,7 +639,7 @@ const navigate = useNavigate();
 <CaseStudyCard onRead={() => openProject(study.id)} />
 ```
 
-Rutas públicas en GitHub Pages: `https://vientonorte.github.io/mi-portafolio/#/proyecto/:id`
+Rutas en GitHub Pages (dominio `vientonorte.io`; ruta hash interna, no enviar a clientes): `https://vientonorte.io/#/proyecto/:id`
 
 ---
 

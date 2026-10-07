@@ -64,6 +64,8 @@ export function openA11yFreeScheduleOrFallback(fallback: () => void): boolean {
 export function openCalendarBooking(opts?: {
   packageId?: ConsultingPackageId;
   origin?: string;
+  /** H2 · se llama solo si el Worker confirmó el registro (conversiones). */
+  onConfirmed?: () => void;
 }): boolean {
   if (!A11Y_FREE_SCHEDULE_URL) return false;
   const packageId = opts?.packageId;
@@ -76,6 +78,7 @@ export function openCalendarBooking(opts?: {
         ? `Click Agendar · pack ${packageId}`
         : "Click Agendar · Google Appointment",
       packageId,
+      onConfirmed: opts?.onConfirmed,
     })
   );
   window.open(

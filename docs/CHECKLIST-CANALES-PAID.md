@@ -1,12 +1,14 @@
 # Checklist · habilitar canales (share → Ads / IG)
 
+> ⚠ **Canon de URLs vigente (2026-10), prevalece sobre este doc.** El link final para clientes es `https://vientonorte.io/servicios/?<utm>`, con ancla opcional `#web-pymes`, `#revision-gratis` o `#consultoria-ux` (la UTM va antes del ancla). También valen las páginas de rubro publicadas. **No se envían a clientes:** `/s/` (salvo `/s/polijuego-privacy/`), `/#/`, `/news/`, `/qa/`, `/mi-portafolio/` ni los slugs viejos de `/servicios/`. El dev local es `http://localhost:3000/` (5173 está obsoleto). Prod se sirve con GitHub Pages en `vientonorte.io` (`vientonorte.github.io` ya no es la URL pública). Las rutas `/#/…` que quedan abajo son superficies internas o de QA, o registro histórico. Detalle: `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **Decider:** Rö · **Actualizado:** 2026-08-26  
-**Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · conversión = eventos, no clic de página (3) UTM después del hash + Vite `npm run dev` (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
+**Lock SEM (canon `/vn-agent`):** (1) Preview Chrome Gratis → `GA4 · generate_lead` en Etiquetas activadas (2) Decider *activar campañas* · un piloto · conversión = eventos, no clic de página (3) UTM **antes** del ancla (canon 2026-10) + Vite `npm run dev` (http://localhost:3000/) (4) copy = Diagnóstico / accesibilidad de un flujo · no «Radar» en headline.  
 **Loop D:** tags GTM v4 live. Preview **Gratis → `GA4 · generate_lead` Activado 1 vez** (26 ago) · `book_call` PASS 20 ago y 26 ago.  
-**Producto UI:** `/#/consultoria`. **Orgánico:** `/servicios/*`. **Piloto Ads (no producto):** `/s/consultoria` se queda 200. No hop. No pagar a `/`.  
+**Canon 2026-10:** el link final para clientes es `https://vientonorte.io/servicios/?<utm>#ancla`. `/#/consultoria` es solo UI interna (no sirve como Final URL). `/s/consultoria` es un piloto histórico: no se envía a clientes. No pagar a `/`.  
 **Loop E:** Decider 26 ago *activar campañas*. RSA: vault `Resources/SEM/2026-08-26 RSA piloto a11y.md`. Techo = humano. No publicado en Ads UI hasta que Rö pegue. F sigue parked.  
-**Final URL Ads = producto:** `https://vientonorte.io/#/consultoria`  
-`/s/consultoria` deprecado (no UX/UI/DoD). Display path ya era `/consultoria` (sin `/s/`).  
+**Final URL Ads:** `https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis`  
+`/s/consultoria` y `/#/consultoria` quedan **deprecados como Final URL** (canon 2026-10).  
 **No usar** `/#/auditoria` ni `#/admin` en anuncios.
 
 Evidencia 15 ago: `/s/consultoria` **200** · OG `og-home-1200.png` **1200×630** · secret `VITE_GTM_ID` · **no** `VITE_GA_MEASUREMENT_ID` · #181 merged `1602ed6`. Residual humano: GTM Preview + tags GA4 en el contenedor · LinkedIn/Meta scrape (A).
@@ -34,7 +36,7 @@ Sin esto, LinkedIn/WA/IG siguen mostrando el isologo 512 o nada.
 
 - [ ] A completo
 - [ ] Cuenta Instagram **profesional** (Creador o Empresa), no personal
-- [ ] Nombre / bio: **Viento Norte** · link **`vientonorte.io/s/consultoria`** (o link in bio a esa URL)
+- [ ] Nombre / bio: **Viento Norte** · link **`https://vientonorte.io/servicios/?utm_source=instagram&utm_medium=social&utm_campaign=bio#revision-gratis`** (valores UTM propuestos; Rö confirma)
 - [ ] Avatar = isologo VN (no foto random)
 - [ ] Highlight o story fija con el mismo destino
 - [ ] Smoke: abrir el link de la bio en incógnito → llega a consultoría (pack / gratis a11y visible)
@@ -88,7 +90,7 @@ Requiere **A + D** (+ C recomendado).
 - [x] Test path FO H4/H5/S2 · firmado 18 ago
 - [x] Local: `local-ads-scenarios.sh` 133/133 PASS 26 ago
 - [x] Anuncio RSA Diagnóstico / a11y ≠ `/auditoria` · vault `SEM/2026-08-26 RSA piloto a11y.md`
-- [ ] Final URL = `https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes` (`/s/` deprecado · pegar en Ads UI)
+- [ ] Final URL = `https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis` (canon 2026-10; `/s/` y `/#/` deprecados · pegar en Ads UI)
 - [x] UTM: `utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
 - [x] Conversión = `generate_lead` + `book_call` (no clic de página) · importar en Ads UI
 - [x] Techo **150.000 CLP / 30 d** (~5.000/día) · mix 100% Search · research 26 ago
@@ -106,7 +108,7 @@ Requiere **A** (scrape). D (GTM) ya PASS. **No** come el techo 150k.
 - [ ] Página empresa **Viento Norte** (vault hoy solo perfil personal)
 - [ ] Campaign Manager · editor Classic · objective **Website visits**
 - [ ] Campaign group + campaign + ad = **PAUSED** (mín. UI ~USD 10/día **sin** ACTIVE)
-- [ ] Final URL `https://vientonorte.io/s/consultoria/?utm_source=linkedin&utm_medium=cpc&utm_campaign=a11y_gratis_pymes`
+- [ ] Final URL `https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis` (canon 2026-10)
 - [ ] Creative `campaigns/2026-08-26-piloto-a11y/assets/ad-1200x628.png` · copy Diagnóstico/a11y · no Radar
 - [ ] Insight Tag Partner ID → GTM **LinkedIn Insight 2.0** · trigger All Pages + History Change · **unpublished**
 - [ ] Spend CM = **0**
@@ -125,7 +127,7 @@ Requiere **A + B + D**.
 - [ ] IG profesional vinculado al BM
 - [ ] Pixel Meta instalado **en el mismo GTM** (no un segundo snippet)
 - [ ] Test Events: visita `/s/consultoria` + CTA visible en el pixel
-- [ ] Destino del anuncio = `https://vientonorte.io/s/consultoria`
+- [ ] Destino del anuncio = `https://vientonorte.io/servicios/?utm_source=meta&utm_medium=paid_social&utm_campaign=a11y_gratis_pymes#revision-gratis` (canon 2026-10; valores UTM propuestos)
 - [ ] Creativo 1080×1080 y/o 1080×1920 (subir por CMS → PR si es OG; stories aparte)
 - [ ] No gastar hasta ver evento de lead o Calendar en Events Manager
 

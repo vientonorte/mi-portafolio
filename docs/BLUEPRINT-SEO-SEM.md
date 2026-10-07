@@ -1,5 +1,7 @@
 # Blueprint SEO + SEM · Viento Norte
 
+> ⚠ **Canon de URLs vigente (2026-10), prevalece sobre este doc.** El link final para clientes es `https://vientonorte.io/servicios/?<utm>`, con ancla opcional `#web-pymes`, `#revision-gratis` o `#consultoria-ux` (la UTM va antes del ancla). También valen las páginas de rubro publicadas. **No se envían a clientes:** `/s/` (salvo `/s/polijuego-privacy/`), `/#/`, `/news/`, `/qa/`, `/mi-portafolio/` ni los slugs viejos de `/servicios/`. El dev local es `http://localhost:3000/` (5173 está obsoleto). Prod se sirve con GitHub Pages en `vientonorte.io` (`vientonorte.github.io` ya no es la URL pública). Las rutas `/#/…` que quedan abajo son superficies internas o de QA, o registro histórico. Detalle: `docs/AUDITORIA-CANON-DOCS-2026-10.md`.
+
 **Decide 15 ago:** `/#/consultoria` se **queda** y es el funnel de conversión (3 packs + OB).  
 **Decide 14 sep:** `/s/` no es producto. Orgánico = `/servicios/*`. `/s/consultoria` = piloto Ads (200).  
 No deprecar el hash. No pagar a `/`. No hoppear el piloto.
@@ -19,7 +21,7 @@ Vault (misma decisión): `Viento Norte/Resources/SEM/2026-08-15 BLUEPRINT SEO-SE
 
 ## Checklist SEO
 
-`bash ~/.grok/skills/seo-vn/scripts/local-onboarding-smoke.sh http://127.0.0.1:5173`
+`bash ~/.grok/skills/seo-vn/scripts/local-onboarding-smoke.sh http://127.0.0.1:3000`
 
 | # | Check |
 |---|--------|
