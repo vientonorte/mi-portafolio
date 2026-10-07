@@ -9,7 +9,7 @@ export const nav = {
       caseStudies: 'Casos de Estudio',
       process: 'Proceso',
       services: 'Servicios',
-      news: 'News',
+      news: 'Noticias',
       more: 'Más',
       consulting: 'Consultoría ✦',
       /** Label dock liquid (sin ✦ — isologo es el único glifo) */

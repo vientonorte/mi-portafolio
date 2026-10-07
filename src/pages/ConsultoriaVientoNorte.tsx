@@ -9,15 +9,10 @@ import {
   HomeMarketingHero,
   HomeMarketingSections,
 } from "../components/organisms/HomeMarketing";
-import {
-  HomeNewsStrip,
-  HomeSpecialtyPaths,
-} from "../components/organisms/HomeSpecialtyPaths";
+import { HomeNewsStrip } from "../components/organisms/HomeSpecialtyPaths";
 import { Contact } from "../components/organisms/Contact";
 import { ProcessNavigation } from "../components/molecules/ProcessNavigation";
-import { StickyCTA } from "../components/molecules/StickyCTA";
 import { type ConsultingPackageId } from "../data/vientonorte-consulting";
-import { openCalendarBooking } from "../lib/site-contact";
 import { consultingMotiveMessage } from "../lib/consulting-contact-motive";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
@@ -30,7 +25,6 @@ import {
   type SectionScrollState,
 } from "../lib/navigate-to-section";
 import { consumePendingSectionScroll } from "../lib/normalize-hash-url";
-import { scrollToSection } from "../lib/scroll-to-section";
 import { parsePackFromSearch } from "../lib/consulting-pack-url";
 import { CONSULTORIA_FUNNEL_KICKOFF_ID } from "../lib/nav-config";
 import type { ProcessNavSection } from "../hooks/useProcessSectionSpy";
@@ -161,7 +155,7 @@ export default function ConsultoriaVientoNorte({
 
         {isSem ? null : <HomeMarketingSections />}
 
-        {isSem ? null : <HomeSpecialtyPaths />}
+        {isSem ? null : <HomeNewsStrip />}
 
         <ConsultoriaPackages
           selectedPackageId={selectedPackage}
@@ -179,27 +173,10 @@ export default function ConsultoriaVientoNorte({
 
         <ConsultoriaOnboarding packageId={selectedPackage} />
 
-        {isSem ? null : <HomeNewsStrip />}
-
         <Contact
           key={selectedPackage ?? "none"}
           surface="consulting"
           contactDraft={contactDraft}
-        />
-
-        <StickyCTA
-          label={t.consultoria.stickyCta}
-          ariaLabel={t.consultoria.stickyCta}
-          onClick={() => {
-            if (
-              !openCalendarBooking({
-                packageId: selectedPackage,
-                origin: "sticky-cta",
-              })
-            )
-              scrollToSection("contacto");
-          }}
-          showAfterScroll={480}
         />
       </div>
     </PageShell>

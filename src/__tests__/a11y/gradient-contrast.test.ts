@@ -129,9 +129,11 @@ describe("prerender de /servicios/: solo degradados inventariados", () => {
     const els = [...doc.querySelectorAll<HTMLElement>("[class*='gradient']")];
     expect(els.length).toBeGreaterThan(0);
     const classes = new Set(els.flatMap((el) => [...el.classList].filter((c) => c.includes("gradient"))));
-    expect([...classes]).toEqual(["bg-brand-gradient"]);
+    // bg-gradient-to-b es el marco del celular en Conceptos (decorativo, sin texto).
+    expect([...classes].sort()).toEqual(["bg-brand-gradient", "bg-gradient-to-b"]);
     for (const el of els) {
       if (!el.textContent?.trim()) continue;
+      if (el.classList.contains("bg-gradient-to-b") && !el.classList.contains("bg-brand-gradient")) continue;
       const cls = el.className;
       // PRIMARY_CTA_CLASS (19px bold) o número de HowWeWork (text-base bold)
       expect(cls, el.outerHTML.slice(0, 120)).toContain("text-white");

@@ -6,19 +6,15 @@ import { useTranslation } from "../../lib/i18n";
 import { trackEvent } from "../../vn-core/analytics/fo-events";
 import { serviciosHref } from "../../lib/servicios-links";
 import {
-  CaseCards,
   HeroWithMockup,
   ServiceCards,
   SECTION_TITLE_CLASS,
-  type CaseCard,
   type ServiceCardData,
 } from "../marketing";
+import { ServiciosConceptos } from "../../servicios/ServiciosConceptos";
 import {
-  BRAND_CASES,
   PRIMARY_CTA_CLASS,
   SERVICIOS_CARDS,
-  SERVICIOS_CASES,
-  SERVICIOS_FUNNEL,
   SERVICIOS_IMAGES,
 } from "../../servicios/servicios-content";
 
@@ -27,7 +23,7 @@ import {
  * home FO. Solo home: la landing SEM (/consultoria) conserva su hero y embudo.
  *
  * Todos los CTA son `<a href>` reales hacia /servicios/ (con la base de Vite).
- * El recorrido es las tres formas de partir y los casos. Sin franja, bio ni segundo método.
+ * Tres formas de partir y, debajo, los conceptos. Sin «El recorrido».
  */
 
 const COPY = {
@@ -60,19 +56,6 @@ function trackCta(ctaId: string, href: string) {
  */
 function homeServiceCards(): ServiceCardData[] {
   return SERVICIOS_CARDS.map((card) => ({ ...card, href: serviciosHref(card.id) }));
-}
-
-function homeCases(): CaseCard[] {
-  return BRAND_CASES.map((item) => ({
-    id: item.id,
-    client: item.client,
-    kicker: item.kicker,
-    problem: item.problem,
-    whatWeDid: item.whatWeDid,
-    result: item.result,
-    images: [...item.images],
-    cta: { label: item.ctaLabel, href: serviciosHref(item.ctaAnchor) },
-  }));
 }
 
 export function HomeMarketingHero() {
@@ -160,14 +143,7 @@ export function HomeMarketingSections() {
         </div>
       </section>
 
-      <CaseCards
-        id="home-casos"
-        heading={SERVICIOS_CASES.heading}
-        intro={SERVICIOS_CASES.intro}
-        cases={homeCases()}
-        funnel={SERVICIOS_FUNNEL}
-      />
-
+      <ServiciosConceptos />
     </div>
   );
 }
