@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { ArrowLeft, Newspaper, Share2 } from "lucide-react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { SEOHead } from "../components/atoms/SEOHead";
@@ -6,6 +7,7 @@ import { SectionBadge } from "../components/atoms/SectionBadge";
 import { SectionTitle } from "../components/atoms/SectionTitle";
 import { NewsCard, newsTopicLabel } from "../components/news/NewsCard";
 import { NewsCategoryPill } from "../components/news/NewsCategoryPill";
+import { NewsFilters, selectNewsEditions, type NewsSort } from "../components/news/NewsFilters";
 import { formatEditionMonth, readingMinutes } from "../components/news/news-format";
 import { PageShell } from "../components/layout/PageShell";
 import { assetUrl } from "../components/marketing";
@@ -24,6 +26,12 @@ function NewsIndex() {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const es = language === "es";
+  const [topics, setTopics] = useState(() => new Set<string>(NEWS_CATALOG.topics));
+  const [sort, setSort] = useState<NewsSort>("recent");
+  const editions = useMemo(
+    () => selectNewsEditions(NEWS_CATALOG.editions, topics, sort),
+    [topics, sort],
+  );
 
   return (
     <PageShell crumbs={[{ label: t.breadcrumbs.news, current: true }]}>
@@ -32,7 +40,7 @@ function NewsIndex() {
         url={newsCanonical()}
         keywords="newsletter UX, accesibilidad WCAG, privacidad Ley 21.719, automatización CMS, Viento Norte"
       />
-      <section className="container mx-auto max-w-3xl px-6 py-16">
+      <section className="container mx-auto max-w-6xl px-6 py-16">
         <div className="section-header section-header-gap flex flex-col items-start space-y-3 md:space-y-4">
           <SectionBadge icon={Newspaper}>News</SectionBadge>
           <SectionTitle as="h1" align="left">
@@ -47,13 +55,39 @@ function NewsIndex() {
           </p>
         </div>
 
-        <ul className="m-0 mb-12 grid list-none gap-4 p-0">
-          {NEWS_CATALOG.editions.map((edition) => (
-            <li key={edition.slug}>
-              <NewsCard edition={edition} language={language} />
-            </li>
-          ))}
-        </ul>
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+          <p className="m-0 text-sm text-muted-foreground" aria-live="polite">
+            {es
+              ? `${editions.length} ${editions.length === 1 ? "edición" : "ediciones"}`
+              : `${editions.length} ${editions.length === 1 ? "edition" : "editions"}`}
+          </p>
+          <NewsFilters
+            language={language}
+            appliedTopics={topics}
+            appliedSort={sort}
+            onApply={(nextTopics, nextSort) => {
+              setTopics(nextTopics);
+              setSort(nextSort);
+            }}
+          />
+        </div>
+
+        {editions.length === 0 ? (
+          <p className="mt-8 text-sm text-muted-foreground">
+            {es ? "Ninguna edición coincide con esos filtros." : "No edition matches these filters."}
+          </p>
+        ) : (
+          <ul
+            aria-label={es ? "Ediciones" : "Editions"}
+            className="m-0 mb-12 mt-8 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {editions.map((edition) => (
+              <li key={edition.slug} className="min-w-0">
+                <NewsCard edition={edition} language={language} />
+              </li>
+            ))}
+          </ul>
+        )}
 
         <h2 className="mb-2 text-xl font-semibold tracking-tight">
           {es ? "En preparación" : "Upcoming"}
@@ -195,17 +229,19 @@ function NewsEditionView({ slug }: { slug: string }) {
           </p>
         ) : null}
 
-        <h2 className="mb-4 mt-12 text-xl font-semibold tracking-tight">
+      </article>
+      <section className="container mx-auto max-w-6xl px-6 pb-16">
+        <h2 className="mb-4 text-xl font-semibold tracking-tight">
           {es ? "Otras noticias" : "Other articles"}
         </h2>
-        <ul className="m-0 grid list-none gap-4 p-0">
+        <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-2">
           {related.map((item) => (
-            <li key={item.slug}>
+            <li key={item.slug} className="min-w-0">
               <NewsCard edition={item} language={language} heading="h3" />
             </li>
           ))}
         </ul>
-      </article>
+      </section>
     </PageShell>
   );
 }

@@ -125,10 +125,10 @@ export function NewsCard({
   }
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-foreground/30">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-foreground/30">
       <Link
         to={ROUTES.newsEdition(edition.slug)}
-        className="flex flex-col text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-full flex-col text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <div className="relative aspect-video overflow-hidden bg-muted">
           {visual ? (
@@ -149,7 +149,7 @@ export function NewsCard({
           </div>
         </div>
         <div className="h-0.5 bg-foreground" aria-hidden="true" />
-        <div className="flex flex-col gap-3 p-5">
+        <div className="flex flex-1 flex-col gap-3 p-5">
           <p className="m-0 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <time dateTime={edition.month}>{month}</time>
             <span aria-hidden="true">|</span>
@@ -159,8 +159,8 @@ export function NewsCard({
           <Title className="m-0 text-xl font-semibold tracking-tight text-foreground">
             {edition.title[language]}
           </Title>
-          <p className="m-0 text-sm leading-relaxed text-muted-foreground">{edition.dek[language]}</p>
-          <span className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+          <p className="m-0 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{edition.dek[language]}</p>
+          <span className="mt-auto inline-flex items-center gap-2 pt-1 text-sm font-semibold text-foreground">
             {es ? "Leer la noticia" : "Read the article"}
             <ArrowRight className="size-4" aria-hidden="true" />
           </span>

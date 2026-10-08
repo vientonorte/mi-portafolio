@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import News from "@/pages/News";
@@ -28,6 +29,8 @@ describe("News interna · card SURA + salida a servicios", () => {
     renderNews("/news");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getAllByText("Leer la noticia")).toHaveLength(3);
+    expect(screen.getByRole("list", { name: "Ediciones" }).className).toContain("lg:grid-cols-3");
+    expect(screen.getByRole("button", { name: /Filtrar y ordenar/ })).toBeTruthy();
     expect(screen.getByText("Accesibilidad")).toBeTruthy();
     expect(screen.getAllByText(/min de lectura/).length).toBeGreaterThan(0);
     expect(document.body.textContent).not.toContain("/#/consultoria");
@@ -40,6 +43,18 @@ describe("News interna · card SURA + salida a servicios", () => {
     );
     const canonical = document.querySelector('link[rel="canonical"]');
     expect(canonical?.getAttribute("href")).toBe("https://vientonorte.io/");
+  });
+
+  it("filtrar por categoría deja solo esa edición", async () => {
+    const user = userEvent.setup();
+    renderNews("/news");
+    await user.click(screen.getByRole("button", { name: /Filtrar y ordenar/ }));
+    await user.click(screen.getByRole("checkbox", { name: "Accesibilidad" }));
+    await user.click(screen.getByRole("checkbox", { name: "Automatización" }));
+    await user.click(screen.getByRole("button", { name: "Aplicar filtros" }));
+    expect(screen.getAllByText("Leer la noticia")).toHaveLength(1);
+    expect(screen.getByRole("heading", { name: "Privacidad por diseño, no por banner" })).toBeTruthy();
+    expect(screen.queryByText("Accesibilidad")).toBeNull();
   });
 
   it("la edición sigue el artículo: volver, un H1, lead y otras noticias", () => {
