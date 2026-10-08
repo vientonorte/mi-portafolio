@@ -65,20 +65,64 @@ export function newsTopicLabel(topic: string, language: Language): string {
  * foto o banner, categoría, fecha, minutos, título, bajada, «Leer la noticia».
  * Tokens de Viento Norte. No copia la paleta ni la marca SURA.
  */
+const HOME_TAG = "rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold text-foreground";
+
 export function NewsCard({
   edition,
   language,
   heading = "h2",
+  variant = "press",
 }: {
   edition: NewsEdition;
   language: Language;
   heading?: "h2" | "h3";
+  /** press = sala de /news. home = la grilla de tarjetas del inicio. */
+  variant?: "press" | "home";
 }) {
   const es = language === "es";
   const Title = heading;
   const minutes = readingMinutes(edition.paragraphs[language]);
   const month = formatEditionMonth(edition.month, language);
   const visual = CARD_VISUAL[edition.topic as TopicKey];
+
+  if (variant === "home") {
+    return (
+      <article className="flex h-full flex-col rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+        <Link
+          to={ROUTES.newsEdition(edition.slug)}
+          className="flex h-full flex-col gap-5 p-6 text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-muted">
+            {visual ? (
+              <img
+                src={assetUrl(visual.src)}
+                alt={visual.alt[language]}
+                width={visual.width}
+                height={visual.height}
+                className="size-full object-cover object-top"
+              />
+            ) : null}
+          </div>
+          <div className="flex flex-1 flex-col">
+            <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label={es ? "Etiquetas" : "Tags"}>
+              <li className={HOME_TAG}>{newsTopicLabel(edition.topic, language)}</li>
+              <li className={HOME_TAG}>{es ? `${minutes} min` : `${minutes} min read`}</li>
+            </ul>
+            <Title className="m-0 mt-3 text-xl font-bold leading-snug text-foreground">
+              {edition.title[language]}
+            </Title>
+            <p className="m-0 mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              {edition.dek[language]}
+            </p>
+            <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+              {es ? "Leer la noticia" : "Read the article"}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </span>
+          </div>
+        </Link>
+      </article>
+    );
+  }
 
   return (
     <article className="overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-foreground/30">

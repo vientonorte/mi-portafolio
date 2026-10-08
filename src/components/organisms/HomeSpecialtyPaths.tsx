@@ -13,7 +13,7 @@ export function HomeNewsStrip() {
     <PageSection
       id="news"
       padding="default"
-      width="wide"
+      width="content"
       tone="default"
       aria-labelledby="home-news-heading"
     >
@@ -29,10 +29,10 @@ export function HomeNewsStrip() {
         titleAs="h2"
         align="left"
       />
-      <ul className="grid gap-4 list-none p-0 m-0">
+      <ul className="m-0 mt-8 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
         {NEWS_CATALOG.editions.map((edition) => (
-          <li key={edition.slug}>
-            <NewsCard edition={edition} language={language} heading="h3" />
+          <li key={edition.slug} className="h-full">
+            <NewsCard edition={edition} language={language} heading="h3" variant="home" />
           </li>
         ))}
       </ul>
