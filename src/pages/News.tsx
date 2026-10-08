@@ -204,16 +204,25 @@ function NewsEditionView({ slug }: { slug: string }) {
           </p>
         ))}
 
-        <p className="mt-8 text-sm text-muted-foreground">
-          {es ? "Fuente (no inventada): " : "Source (not invented): "}
-          {edition.source}
-          {edition.hubPath ? (
-            <>
-              {" · "}
-              <Link to={edition.hubPath}>{edition.hubPath}</Link>
-            </>
-          ) : null}
-        </p>
+        {edition.hubPath ? (
+          <p className="mt-8 text-sm text-muted-foreground">
+            {edition.hubPath.startsWith("/empresa/") ? (
+              <>
+                {es ? "Caso en el portafolio: " : "Case in the portfolio: "}
+                <Link className="font-medium text-foreground underline" to={edition.hubPath}>
+                  {edition.company}
+                </Link>
+              </>
+            ) : (
+              <>
+                {es ? "Marco: " : "Framework: "}
+                <Link className="font-medium text-foreground underline" to={edition.hubPath}>
+                  {es ? "Ley 21.719" : "Law 21.719"}
+                </Link>
+              </>
+            )}
+          </p>
+        ) : null}
 
         {exit ? (
           <p className="mt-8">

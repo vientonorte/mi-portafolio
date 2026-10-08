@@ -65,6 +65,10 @@ describe("News interna · card SURA + salida a servicios", () => {
     expect(screen.getByText(/Ley 21\.719 en el flujo/)).toBeTruthy();
     const ley = document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
     expect(ley?.getAttribute("alt")).toContain("Ley 21.719");
+    expect(screen.getByRole("link", { name: "Ley 21.719" }).getAttribute("href")).toBe("/privacy");
+    expect(document.body.textContent).toContain("Marco:");
+    expect(document.body.textContent).not.toContain("ficha-contra-archivo");
+    expect(document.body.textContent).not.toContain("projects-data.ts");
     expect(screen.getByRole("heading", { level: 2, name: "Otras noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
     const exit = screen.getByRole("link", { name: "Revisión gratis de un flujo" });
@@ -85,6 +89,13 @@ describe("News interna · card SURA + salida a servicios", () => {
     renderNews("/news/automatizacion-sura");
     expect(screen.getByRole("link", { name: "Ver servicios" }).getAttribute("href")).toBe(serviciosHref());
     expect(document.body.textContent).not.toContain("inteligencia-artificial-negocios");
+    const caso = screen.getByRole("link", { name: "SURA Investments" });
+    expect(caso.getAttribute("href")).toBe("/empresa/sura-investments");
+    expect(document.body.textContent).toContain("Caso en el portafolio");
+    expect(document.body.textContent).not.toContain("projects-data.ts");
+    expect(document.body.textContent).not.toContain("suraHub");
+    expect(document.body.textContent).not.toContain("Fuente (no inventada)");
+    expect(document.body.textContent).not.toContain("/empresa/sura-investments");
   });
 
   it("la salida pública no usa hash de mentoría ni slug", () => {
