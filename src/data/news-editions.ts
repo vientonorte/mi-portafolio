@@ -65,3 +65,15 @@ export const NEWS_TOPIC_LANDING: Record<
 export function newsTopicLanding(topic: string) {
   return NEWS_TOPIC_LANDING[topic as NewsTopic];
 }
+
+/**
+ * Salida pública desde la nota interna.
+ * Accesibilidad y privacidad: ancla de revisión gratis.
+ * Automatización: el hub /servicios/ (la ficha no tiene ancla propia).
+ * Respeta la base de Vite (`/` o `/qa/`). Nunca /#/ ni un slug.
+ */
+export function newsPublicExit(topic: string): string | undefined {
+  if (topic === "accesibilidad" || topic === "privacidad") return serviciosHref("revision-gratis");
+  if (topic === "automatizacion") return serviciosHref();
+  return undefined;
+}

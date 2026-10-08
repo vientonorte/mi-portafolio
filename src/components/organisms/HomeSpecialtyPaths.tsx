@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
+import { NewsCard } from "../news/NewsCard";
 import { SectionHeader } from "../molecules/SectionHeader";
-import { NEWS_CATALOG, newsTopicLanding } from "../../data/news-editions";
+import { NEWS_CATALOG } from "../../data/news-editions";
 import { useLanguage } from "../../lib/LanguageContext";
-import { ROUTES } from "../../lib/routes";
 
 /** Home FO: ediciones. El embudo SEM no monta esto. */
 export function HomeNewsStrip() {
@@ -31,27 +30,11 @@ export function HomeNewsStrip() {
         align="left"
       />
       <ul className="grid gap-4 list-none p-0 m-0">
-        {NEWS_CATALOG.editions.map((edition) => {
-          const landing = newsTopicLanding(edition.topic);
-          return (
-            <li key={edition.slug} className="rounded-2xl border border-border bg-card p-5">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground m-0">
-                {edition.topic} · {edition.company}
-              </p>
-              <p className="text-lg font-semibold tracking-tight mt-2 mb-2">
-                <Link className="no-underline text-inherit hover:underline" to={ROUTES.newsEdition(edition.slug)}>
-                  {edition.title[language]}
-                </Link>
-              </p>
-              {landing ? (
-                <a className="text-sm underline" href={landing.path}>
-                  {es ? "Ir a la ficha · " : "Open landing · "}
-                  {landing.label[language]}
-                </a>
-              ) : null}
-            </li>
-          );
-        })}
+        {NEWS_CATALOG.editions.map((edition) => (
+          <li key={edition.slug}>
+            <NewsCard edition={edition} language={language} heading="h3" />
+          </li>
+        ))}
       </ul>
     </PageSection>
   );

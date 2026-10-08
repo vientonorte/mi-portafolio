@@ -28,6 +28,7 @@ export function ServicioPieceCard({
   image,
   addressBar,
   fit = "cover",
+  pixelScale,
   startingPoint,
 }: {
   dataAttr: "data-vn-case" | "data-concept";
@@ -40,6 +41,7 @@ export function ServicioPieceCard({
   image: MarketingImage;
   addressBar: string;
   fit?: "cover" | "contain";
+  pixelScale?: number;
   startingPoint?: string;
 }) {
   return (
@@ -53,6 +55,9 @@ export function ServicioPieceCard({
         alt={image.alt}
         addressBar={addressBar}
         fit={fit}
+        imageWidth={image.width}
+        imageHeight={image.height}
+        pixelScale={pixelScale}
         glow={false}
         loading="lazy"
       />

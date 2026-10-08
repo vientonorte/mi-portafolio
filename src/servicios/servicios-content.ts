@@ -531,6 +531,8 @@ export interface ConceptCase {
   mockupVariant?: "browser" | "phone";
   /** cover recorta a 16:10. contain muestra la pantalla entera. */
   mockupFit?: "cover" | "contain";
+  /** Escala entera para un archivo de pocos píxeles. 2 = cada píxel de origen se pinta 2×2. */
+  pixelScale?: number;
 }
 
 export const SERVICIOS_CONCEPTOS = SERVICIOS_EXPERIENCIAS;
@@ -570,12 +572,13 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     findings: ["Diseño y contenido para canales digitales", "Marca Lider en la cabecera"],
     addressBar: "walmart · catálogo",
     mockupFit: "contain",
+    pixelScale: 2,
     image: {
       png: "images/cases/walmart/catalogo-screen.png",
       webp: "images/cases/walmart/catalogo-screen.webp",
-      alt: "Correo de Walmart Chile con la cabecera Lider.",
-      width: 464,
-      height: 496,
+      alt: "Correo de Walmart Chile con la cabecera Lider, en los píxeles del archivo de origen.",
+      width: 125,
+      height: 117,
     },
   },
   {

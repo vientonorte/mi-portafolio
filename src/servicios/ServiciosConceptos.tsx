@@ -40,6 +40,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
       image={item.image}
       addressBar={item.addressBar}
       fit={item.mockupFit ?? "cover"}
+      pixelScale={item.pixelScale}
     />
   );
 }
