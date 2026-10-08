@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, Newspaper, Share2 } from "lucide-react";
+import { ArrowLeft, Newspaper } from "lucide-react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { SEOHead } from "../components/atoms/SEOHead";
 import { Logo } from "../components/atoms/Logo";
@@ -8,6 +8,7 @@ import { SectionTitle } from "../components/atoms/SectionTitle";
 import { NewsCard, newsTopicLabel } from "../components/news/NewsCard";
 import { NewsCategoryPill } from "../components/news/NewsCategoryPill";
 import { NewsFilters, selectNewsEditions, type NewsSort } from "../components/news/NewsFilters";
+import { NewsShare } from "../components/news/NewsShare";
 import { formatEditionMonth, readingMinutes } from "../components/news/news-format";
 import { PageShell } from "../components/layout/PageShell";
 import { assetUrl } from "../components/marketing";
@@ -16,7 +17,6 @@ import {
   newsCanonical,
   newsEditionBySlug,
   newsPublicExit,
-  newsShareUrl,
 } from "../data/news-editions";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
@@ -107,18 +107,6 @@ function NewsIndex() {
   );
 }
 
-function shareEdition(title: string, slug: string) {
-  const url = newsShareUrl(slug);
-  const nav = navigator as Navigator & {
-    share?: (data: ShareData) => Promise<void>;
-  };
-  if (typeof nav.share === "function") {
-    void nav.share({ title, url }).catch(() => undefined);
-    return;
-  }
-  void navigator.clipboard?.writeText(url);
-}
-
 function NewsEditionView({ slug }: { slug: string }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
@@ -174,14 +162,7 @@ function NewsEditionView({ slug }: { slug: string }) {
             <span aria-hidden="true">|</span>
             <span>{es ? `${minutes} min de lectura` : `${minutes} min read`}</span>
           </span>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 font-medium text-foreground"
-            onClick={() => shareEdition(title, edition.slug)}
-          >
-            <Share2 className="size-4" aria-hidden="true" />
-            {es ? "Compartir" : "Share"}
-          </button>
+          <NewsShare edition={edition} language={language} />
         </p>
 
         {edition.topic === "privacidad" ? (
