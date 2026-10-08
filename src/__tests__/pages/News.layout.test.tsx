@@ -62,12 +62,16 @@ describe("News interna · card SURA + salida a servicios", () => {
     expect(screen.getByRole("link", { name: "Volver a las noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByRole("heading", { level: 1, name: "Privacidad por diseño, no por banner" })).toBeTruthy();
-    expect(screen.getByText(/Ley 21\.719 en el flujo/)).toBeTruthy();
+    expect(screen.getByText("Se cumple en el trámite, no en un banner de cookies.")).toBeTruthy();
     const ley = document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
     expect(ley?.getAttribute("alt")).toContain("Ley 21.719");
     expect(screen.getByRole("link", { name: "Ley 21.719" }).getAttribute("href")).toBe("/privacy");
     expect(document.body.textContent).toContain("Marco:");
-    expect(document.body.textContent).not.toContain("ficha-contra-archivo");
+    expect(document.body.textContent).not.toContain("contra-archivo");
+    expect(document.body.textContent).not.toContain("Grounded Theory");
+    expect(document.body.textContent).not.toContain("hub público");
+    expect(document.body.textContent).not.toContain("seguridad-privacidad-digital");
+    expect(document.body.textContent).not.toContain("Sin KPI");
     expect(document.body.textContent).not.toContain("projects-data.ts");
     expect(screen.getByRole("heading", { level: 2, name: "Otras noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
