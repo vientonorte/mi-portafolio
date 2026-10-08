@@ -63,6 +63,9 @@ describe("News interna · card SURA + salida a servicios", () => {
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByRole("heading", { level: 1, name: "Privacidad por diseño, no por banner" })).toBeTruthy();
     expect(screen.getByText("Se cumple en el trámite, no en un banner de cookies.")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/cómo la persona sigue el trámite si dice que no/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿Qué le preguntas a un formulario");
     const ley = document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
     expect(ley?.getAttribute("alt")).toContain("Ley 21.719");
     expect(screen.getByRole("link", { name: "Ley 21.719" }).getAttribute("href")).toBe("/privacy");
@@ -85,12 +88,20 @@ describe("News interna · card SURA + salida a servicios", () => {
   it("accesibilidad no cita el slug y automatización sale al hub", () => {
     const { unmount } = renderNews("/news/accesibilidad-transvip");
     expect(document.body.textContent).not.toContain("diagnostico-accesibilidad-wcag");
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/−40% de tiempo de reserva/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿En qué paso se cae una reserva");
+    expect(document.body.textContent).not.toContain("hub público");
     expect(screen.getByRole("link", { name: "Revisión gratis de un flujo" }).getAttribute("href")).toBe(
       serviciosHref("revision-gratis"),
     );
     unmount();
 
     renderNews("/news/automatizacion-sura");
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/6 casos de error/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿Dónde se traba un onboarding");
+    expect(document.body.textContent).not.toContain("hub público");
     expect(screen.getByRole("link", { name: "Ver servicios" }).getAttribute("href")).toBe(serviciosHref());
     expect(document.body.textContent).not.toContain("inteligencia-artificial-negocios");
     const caso = screen.getByRole("link", { name: "SURA Investments" });

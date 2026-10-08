@@ -185,6 +185,13 @@ function NewsEditionView({ slug }: { slug: string }) {
           </p>
         ))}
 
+        <section className="mt-10" aria-labelledby="news-ejemplo">
+          <h2 id="news-ejemplo" className="mb-3 text-xl font-semibold tracking-tight">
+            {es ? "En la práctica" : "In practice"}
+          </h2>
+          <p className="m-0 leading-relaxed">{edition.ejemplo[language]}</p>
+        </section>
+
         {edition.hubPath ? (
           <p className="mt-8 text-sm text-muted-foreground">
             {edition.hubPath.startsWith("/empresa/") ? (
