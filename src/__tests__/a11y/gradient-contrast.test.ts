@@ -129,8 +129,8 @@ describe("prerender de /servicios/: solo degradados inventariados", () => {
     const els = [...doc.querySelectorAll<HTMLElement>("[class*='gradient']")];
     expect(els.length).toBeGreaterThan(0);
     const classes = new Set(els.flatMap((el) => [...el.classList].filter((c) => c.includes("gradient"))));
-    // bg-gradient-to-b es el marco del celular en Conceptos (decorativo, sin texto).
-    expect([...classes].sort()).toEqual(["bg-brand-gradient", "bg-gradient-to-b"]);
+    // El celular de Conceptos salió: Claro usa el marco del navegador, sin degradado.
+    expect([...classes].sort()).toEqual(["bg-brand-gradient"]);
     for (const el of els) {
       if (!el.textContent?.trim()) continue;
       if (el.classList.contains("bg-gradient-to-b") && !el.classList.contains("bg-brand-gradient")) continue;
