@@ -94,6 +94,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
       "/images/cases/walmart/catalogo-screen.png"
     );
+    expect(walmart.querySelector("img")?.getAttribute("width")).toBe("125");
+    expect(walmart.querySelector("img")?.getAttribute("data-pixel-scale")).toBe("2");
+    expect(walmart.querySelector("img")?.className).toContain("[image-rendering:pixelated]");
     expect(walmart.querySelector("img")?.className).not.toContain("aspect-[16/10]");
     expect(transvip.textContent).toContain("transvip · system design");
     expect(transvip.querySelector("img")?.getAttribute("src")).toBe(

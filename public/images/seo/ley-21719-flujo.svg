@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Ley 21.719 en el flujo</title>
+  <desc id="desc">Qué dato se pide, para qué, cuánto tiempo, y si la persona puede decir que no.</desc>
+  <rect width="1200" height="630" fill="#f4f1ea"/>
+  <text x="72" y="110" fill="#142033" font-family="Georgia, serif" font-size="48">Ley 21.719 en el flujo</text>
+  <text x="72" y="168" fill="#3d4a5c" font-family="Georgia, serif" font-size="24">Un formulario. Cuatro preguntas visibles.</text>
+  <g font-family="Georgia, serif" font-size="32" fill="#142033">
+    <text x="96" y="280">1. Qué dato se pide</text>
+    <text x="96" y="360">2. Para qué</text>
+    <text x="96" y="440">3. Cuánto tiempo</text>
+    <text x="96" y="520">4. Decir que no, sin romper el trámite</text>
+  </g>
+</svg>

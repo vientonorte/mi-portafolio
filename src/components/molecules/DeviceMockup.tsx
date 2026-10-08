@@ -19,6 +19,14 @@ type DeviceMockupProps = {
   loading?: "eager" | "lazy";
   /** contain deja la captura entera. cover la recorta a 16:10 para una tarjeta. */
   fit?: "contain" | "cover";
+  /** Tamaño real del archivo. Si falta, el marco asume 1440×900. */
+  imageWidth?: number;
+  imageHeight?: number;
+  /**
+   * Escala entera de un archivo chico. 2 pinta cada píxel de origen como 2×2.
+   * No interpola y no inventa píxeles.
+   */
+  pixelScale?: number;
 };
 
 export function DeviceMockup({
@@ -31,7 +39,11 @@ export function DeviceMockup({
   addressBar = "x-cms · local",
   loading = "lazy",
   fit = "contain",
+  imageWidth = 1440,
+  imageHeight = 900,
+  pixelScale,
 }: DeviceMockupProps) {
+  const scaled = typeof pixelScale === "number" && pixelScale > 1;
   if (variant === "phone") {
     return (
       <figure className={cn("relative mx-auto w-full max-w-[280px]", className)}>
@@ -92,11 +104,14 @@ export function DeviceMockup({
       <img
         src={src}
         alt={alt}
-        width={1440}
-        height={900}
+        width={imageWidth}
+        height={imageHeight}
+        data-pixel-scale={scaled ? pixelScale : undefined}
+        style={scaled ? { width: `min(100%, ${imageWidth * (pixelScale ?? 1)}px)` } : undefined}
         className={cn(
-          "block h-auto w-full bg-[#0a0a0a]",
-          fit === "cover"
+          "block h-auto bg-[#0a0a0a]",
+          scaled ? "mx-auto max-w-full [image-rendering:pixelated]" : "w-full",
+          !scaled && fit === "cover"
             ? "aspect-[16/10] object-cover object-top"
             : "object-contain object-top",
         )}
