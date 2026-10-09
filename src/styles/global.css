@@ -398,9 +398,6 @@ html.dark .liquid-nav-cta__halo {
     width: 100%;
   }
 
-  html[data-nav="subpage"] .page-shell {
-    padding-top: var(--header-height);
-  }
 
   .process-nav-mobile {
     position: fixed;
@@ -449,9 +446,34 @@ html[data-nav="site"] .process-nav-mobile {
  * --header-height = altura del SubpageToolbar para scroll-mt, scrollToSection
  * y que el contenido no quede “bajo” el sticky al anclar.
  */
-html[data-nav="subpage"] {
-  --header-height: 4.125rem; /* toolbar real ~66px en 390px */
+/* Shells aislados (sin nav compartida): conservan la barra propia (SubpageToolbar). */
+html[data-nav="isolated"] {
+  --header-height: 4.125rem;
   scroll-padding-top: calc(var(--header-height) + 0.5rem);
+}
+
+@media (min-width: 640px) {
+  html[data-nav="isolated"] {
+    --header-height: 4rem;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  html[data-nav="isolated"] .page-shell {
+    padding-top: var(--header-height);
+  }
+}
+
+/*
+ * TL 9-oct: las subpáginas usan la misma nav fija que la home (Navigation), así que
+ * --header-height es el de :root (4rem / 5rem desde sm) y el contenido baja bajo el header.
+ */
+html[data-nav="subpage"] {
+  scroll-padding-top: calc(var(--header-height) + 0.5rem);
+}
+
+html[data-nav="subpage"] main {
+  padding-top: var(--header-height);
 }
 
 html[data-nav="subpage"] .subpage-toolbar {
@@ -471,11 +493,6 @@ html[data-nav="subpage"] [id].scroll-mt-20 {
   scroll-margin-top: calc(var(--header-height) + 0.75rem);
 }
 
-@media (min-width: 640px) {
-  html[data-nav="subpage"] {
-    --header-height: 4rem;
-  }
-}
 
 /* Primera sección tras toolbar: menos aire superior (evita “vacío” enorme) */
 html[data-nav="subpage"] .page-shell > .page-shell__content > :first-child.section-pad-default,
@@ -505,6 +522,7 @@ html[data-nav="subpage"] main:has([data-surface="consultoria-offer"]),
 main:has([data-surface="timed-demo"]),
 html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
   padding-bottom: 0;
+  padding-top: 0;
 }
 
 @media (min-width: 1024px) {
