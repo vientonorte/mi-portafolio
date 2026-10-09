@@ -33,16 +33,16 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(html).not.toContain("clientes VN");
   });
 
-  it("hero uses the Figma DeviceMockup with the X|CMS capture", () => {
+  it("hero uses the pyme example mockup", () => {
     const mock = doc.querySelector('[data-testid="hero-mockup"]')!;
     expect(mock).not.toBeNull();
     const imgs = [...mock.querySelectorAll("img")];
-    // Recorte limpio del POS: sin cifras de demo que parezcan métricas (Rö/TL, 1-oct 10:42).
-    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/products/x-cms/pos-productos.png"]);
-    expect(imgs[0].getAttribute("alt")).toMatch(/X\|CMS/);
+    // Decider 9-oct: el hero muestra el sitio ficticio, no el POS de X|CMS.
+    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/branding/hero-ejemplo.png"]);
+    expect(imgs[0].getAttribute("alt")).toMatch(/pyme/);
     // width/height los fija DeviceMockup (marco del navegador), no la imagen.
     expect(imgs[0].getAttribute("loading")).toBe("eager");
-    expect(mock.textContent).toContain("x-cms · operaciones");
+    expect(mock.textContent).toContain("ejemplo · tu web");
     expect(mock.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
@@ -57,10 +57,10 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     ]);
     expect(cards[0].querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
     expect(cards[0].textContent).toContain("ejemplo · tu web");
-    expect(cards[1].querySelector("img")?.getAttribute("src")).toBe("/images/products/x-cms/pos-productos.png");
+    expect(cards[1].querySelector("img")?.getAttribute("src")).toBe("/images/poc-modules/pedidos.png");
     expect(cards[1].textContent).toContain("x-cms · flujo");
     const img = cards[2].querySelector("img")!;
-    expect(img.getAttribute("src")).toBe("/images/products/ratio/cfo-dashboard.png");
+    expect(img.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
     expect(cards[2].textContent).toContain("x-cms · operaciones");
     expect(img.getAttribute("loading")).toBe("lazy");
     expect(img.getAttribute("alt")).toBeTruthy();
@@ -88,9 +88,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-vn-case='todoclick'] img")?.className).not.toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-vn-case='x-cms'] img")?.className).not.toContain("aspect-[16/10]");
-    expect(doc.querySelector("[data-vn-case='todoclick']")?.textContent).toContain("todoclick · heurística");
+    expect(doc.querySelector("[data-vn-case='todoclick']")?.textContent).toContain("todoclick · tienda");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
-    expect(walmart.textContent).toContain("walmart · catálogo");
+    expect(walmart.textContent).toContain("lider · correo");
     expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
       "/images/cases/walmart/catalogo-screen.png"
     );
