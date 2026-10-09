@@ -138,7 +138,12 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     thumbnail: {
       kind: "device",
       addressBar: "x-cms · flujo",
-      image: { ...SERVICIOS_IMAGES.xcmsClean, alt: "Flujo de punto de venta en X|CMS. Maqueta de Viento Norte." },
+      image: {
+        png: "images/poc-modules/pedidos.png",
+        alt: "Sistema POS de X|CMS para Da Pleisë: catálogo, cliente y carrito, pantalla completa.",
+        width: 1440,
+        height: 900,
+      },
     },
   },
   {
@@ -158,7 +163,7 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     priceNote: "Partimos con un kickoff de 30 min.",
     cta: "Conversar mi caso",
     intent: "Consultoría UX",
-    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.ratioClean },
+    thumbnail: { kind: "device", addressBar: "x-cms · operaciones", image: SERVICIOS_IMAGES.xcms },
   },
 ];
 
@@ -258,10 +263,10 @@ export type ServiciosAnchor = "web-pymes" | "revision-gratis" | "consultoria-ux"
 export const SERVICIOS_ANCHORS: readonly ServiciosAnchor[] = ["web-pymes", "revision-gratis", "consultoria-ux"];
 /** Anclas con casos en la grilla. #revision-gratis no tiene caso (PO, 1-oct 10:31). */
 /**
- * Caso 6 (vientonorte.io · contraste WCAG, #revision-gratis). Aprobado por el TL (1-oct 10:36).
- * Para sacarlo basta con poner false: desaparecen el grupo y su ancla de la grilla.
+ * Caso 6 (vientonorte.io · contraste WCAG). Rö, 9-oct: el mockup no cumple.
+ * false lo saca de la grilla y de su ancla. El código del caso queda.
  */
-export const SERVICIOS_SHOW_VN_WCAG_CASE = true;
+export const SERVICIOS_SHOW_VN_WCAG_CASE = false;
 
 export const SERVICIOS_CASE_ANCHORS: readonly ServiciosAnchor[] = SERVICIOS_SHOW_VN_WCAG_CASE
   ? ["web-pymes", "revision-gratis", "consultoria-ux"]
@@ -327,7 +332,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         id: "todoclick",
         name: "TodoClick.cl",
         tags: { rubro: "E-commerce", servicio: "Diseño" },
-        addressBar: "todoclick · heurística",
+        addressBar: "todoclick · tienda",
         mockupFit: "contain",
         // Fuente: benchmark PDF mc-todoclick-benchmark.pdf → inv/pdf/txt/mc-todoclick-benchmark.txt L9, L186, L194-195.
         summary:
@@ -343,18 +348,18 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Faltan datos útiles para comprar, como la política de despacho, en las historias destacadas.",
         ],
         image: {
-          png: "images/cases/todoclick/benchmark-heuristica.png",
-          webp: "images/cases/todoclick/benchmark-heuristica.webp",
-          alt: "Página del benchmark de TodoClick.cl: evaluación heurística de los llamados a la acción.",
-          width: 1200,
-          height: 675,
+          png: "images/cases/todoclick/tienda.png",
+          webp: "images/cases/todoclick/tienda.webp",
+          alt: "Tienda TodoClick.cl: destacados de la semana, navegación por categoría y precio.",
+          width: 907,
+          height: 567,
         },
       },
       {
         id: "terramar",
         name: "Parcelas Terramar",
         tags: { rubro: "Inmobiliaria", servicio: "Diseño" },
-        addressBar: "terramar · heurística",
+        addressBar: "terramar · mapa",
         mockupFit: "contain",
         // Fuente: benchmark PDF mc-terramar-benchmark.pdf → inv/pdf/txt/mc-terramar-benchmark.txt L9, L197.
         summary:
@@ -376,11 +381,11 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Conviene reorganizar los contenidos según lo que necesita la audiencia.",
         ],
         image: {
-          png: "images/cases/terramar/benchmark-heuristica.png",
-          webp: "images/cases/terramar/benchmark-heuristica.webp",
-          alt: "Página del benchmark de Parcelas Terramar: evaluación heurística de los llamados a la acción.",
-          width: 1200,
-          height: 675,
+          png: "images/cases/terramar/mapa.png",
+          webp: "images/cases/terramar/mapa.webp",
+          alt: "Mapa de parcelas de Terramar: lotes numerados sobre la foto aérea, con el logo de la inmobiliaria.",
+          width: 935,
+          height: 584,
         },
       },
     ],
@@ -436,11 +441,8 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Prototipo navegable publicado en Figma Sites",
         ],
         image: {
-          png: "images/products/x-cms/pos-productos.png",
-          webp: "images/products/x-cms/pos-productos.webp",
-          alt: "Punto de venta de X|CMS: grilla de productos de café por categoría y carrito.",
-          width: 1260,
-          height: 709,
+          ...SERVICIOS_IMAGES.xcms,
+          alt: "Panel de X|CMS para Da Pleisë: menú de operaciones, tendencia de ventas y distribución por línea.",
         },
       },
       {
@@ -569,7 +571,7 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
     summary:
       "Encargo de la marca, en el equipo de conversión y diseño. Mayo — junio 2022. La pieza es un correo con la cabecera Lider.",
     findings: ["Diseño y contenido para canales digitales", "Marca Lider en la cabecera"],
-    addressBar: "walmart · catálogo",
+    addressBar: "lider · correo",
     mockupFit: "contain",
     pixelScale: 2,
     image: {
