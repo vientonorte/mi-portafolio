@@ -136,6 +136,21 @@ describe("Home P3a — base '/' (producción)", () => {
     assertHeroButtons(container, "/", ES_LABELS);
   });
 
+  it("stacks the mockup above the hero buttons (mobile source order) and keeps the desktop columns", () => {
+    const { container } = renderAt(<Home />);
+    const heading = screen.getByRole("heading", { level: 1 });
+    const mock = container.querySelector('[data-testid="hero-mockup"]')!;
+    const primary = container.querySelector('[data-marketing-cta="hero-primary"]')!;
+    const following = Node.DOCUMENT_POSITION_FOLLOWING;
+    expect(heading.compareDocumentPosition(mock) & following).toBeTruthy();
+    expect(mock.compareDocumentPosition(primary) & following).toBeTruthy();
+    expect(primary.closest('[data-testid="hero-mockup"]')).toBeNull();
+    const frame = mock.parentElement!;
+    expect(frame.className).toContain("lg:col-start-2");
+    expect(frame.className).toContain("lg:row-span-2");
+    expect(frame.parentElement?.className).toContain("lg:grid-cols-[1fr_1.1fr]");
+  });
+
   it("hero buttons have EN labels when language is English", () => {
     localStorage.setItem("language", "en");
     try {

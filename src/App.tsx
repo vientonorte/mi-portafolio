@@ -137,7 +137,7 @@ function AppRoutes() {
         Ir al contenido principal
       </a>
       {!isDeepPage && !hideSiteChrome && <RouterNavigation />}
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} className="pb-[var(--bottom-nav-total)] lg:pb-0">
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             {/* Home FO = embudo. SEM paid = /consultoria (dock sí). Tour módulos = fullscreen. */}

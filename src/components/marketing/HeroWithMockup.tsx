@@ -94,8 +94,12 @@ export function HeroWithMockup({
       aria-labelledby={headingId}
     >
       <div className="h-1.5 w-full bg-brand-gradient" aria-hidden />
-      <div className="container mx-auto grid max-w-6xl items-center gap-10 px-4 py-10 md:py-16 lg:grid-cols-[1fr_1.1fr]">
-        <div className="space-y-5">
+      {/*
+        Mobile: copy, then the frame, then the CTAs (the frame sits above the buttons).
+        lg: copy + CTAs in column 1, frame in column 2 spanning both rows.
+      */}
+      <div className="container mx-auto grid max-w-6xl items-center gap-4 px-4 py-6 md:gap-6 md:py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-x-10 lg:gap-y-5 lg:py-16">
+        <div className="space-y-3 lg:col-start-1 lg:row-start-1 lg:space-y-5">
           {badge ? (
             <p className="inline-flex min-h-8 items-center rounded-full border border-primary/40 bg-primary/10 px-3 text-xs font-medium text-[#E8E5DF]">
               {badge}
@@ -111,11 +115,15 @@ export function HeroWithMockup({
             {title}
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-white/75 md:text-lg">{subtitle}</p>
-          {actions ? (
-            <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:items-center">{actions}</div>
-          ) : null}
         </div>
-        {mockupNode}
+        <div className="mx-auto w-full min-w-0 max-w-[300px] sm:max-w-[480px] lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mx-0 lg:max-w-none">
+          {mockupNode}
+        </div>
+        {actions ? (
+          <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-3 lg:col-start-1 lg:row-start-2">
+            {actions}
+          </div>
+        ) : null}
       </div>
     </section>
   );
