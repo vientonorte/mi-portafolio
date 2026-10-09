@@ -69,7 +69,9 @@ export function ServiciosPage() {
           eyebrow={SERVICIOS_HERO.eyebrow}
           title={SERVICIOS_HERO.title}
           subtitle={SERVICIOS_HERO.audience}
-          desktopImage={SERVICIOS_IMAGES.xcmsClean}
+          desktopImage={SERVICIOS_IMAGES.ejemplo}
+          addressBar="ejemplo · tu web"
+          caption="Ejemplo · sitio de una pyme"
           actions={
             <>
               <Button asChild size="lg" className={cn(PRIMARY_CTA_CLASS, "px-8")}>

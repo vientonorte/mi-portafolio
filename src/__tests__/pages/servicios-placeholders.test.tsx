@@ -33,16 +33,16 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(html).not.toContain("clientes VN");
   });
 
-  it("hero uses the Figma DeviceMockup with the X|CMS capture", () => {
+  it("hero uses the pyme example mockup", () => {
     const mock = doc.querySelector('[data-testid="hero-mockup"]')!;
     expect(mock).not.toBeNull();
     const imgs = [...mock.querySelectorAll("img")];
-    // Recorte limpio del POS: sin cifras de demo que parezcan métricas (Rö/TL, 1-oct 10:42).
-    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/products/x-cms/pos-productos.png"]);
-    expect(imgs[0].getAttribute("alt")).toMatch(/X\|CMS/);
-    // width/height los fija DeviceMockup (marco del navegador), no la imagen.
+    // Decider 9-oct: el hero muestra el sitio ficticio, no el POS de X|CMS.
+    expect(imgs.map((i) => i.getAttribute("src"))).toEqual(["/images/branding/hero-ejemplo.png"]);
+    expect(imgs[0].getAttribute("alt")).toMatch(/pyme/);
     expect(imgs[0].getAttribute("loading")).toBe("eager");
-    expect(mock.textContent).toContain("x-cms · operaciones");
+    expect(mock.textContent).toContain("ejemplo · tu web");
+    expect(mock.textContent).not.toContain("X|CMS · demo 5 min");
     expect(mock.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
