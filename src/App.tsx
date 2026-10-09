@@ -12,6 +12,7 @@ import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
+import { ServiciosRedirect } from './components/layout/ServiciosRedirect';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
@@ -28,7 +29,6 @@ const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'
 const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
 const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
 const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
-const News = lazyWithRetry(() => import('./pages/News'));
 const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
@@ -136,7 +136,8 @@ function AppRoutes() {
       <a href="#main" className="skip-link">
         Ir al contenido principal
       </a>
-      {!isDeepPage && !hideSiteChrome && <RouterNavigation />}
+      {/* Nav compartida en todas las vistas con chrome (home y subpáginas). Sin SubpageToolbar ni migas (TL 9-oct). */}
+      {!hideSiteChrome && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -147,8 +148,9 @@ function AppRoutes() {
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/news/:slug" element={<News />} />
-            <Route path={ROUTES.news} element={<News />} />
+            {/* News fuera de canon (TL 9-oct): #/news y #/news/<slug> → /servicios/ (replace, respeta /qa/). */}
+            <Route path="/news/:slug" element={<ServiciosRedirect />} />
+            <Route path={ROUTES.news} element={<ServiciosRedirect />} />
             <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />

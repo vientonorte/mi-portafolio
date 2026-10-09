@@ -49,9 +49,9 @@ function isConsentPrivacyLink(el: Element): boolean {
   return el.hasAttribute("data-privacy-link") && el.getAttribute("href") === "#/privacy";
 }
 
-/** Noticias y Sobre mí son rutas internas de la SPA (retro 7-oct). */
+/** Sobre mí es ruta interna de la SPA (retro 7-oct). #/news salió del canon (TL 9-oct). */
 function isInternalSectionLink(href: string): boolean {
-  return href === "#/news" || href === "#/sobre-mi" || href.startsWith("#/news/");
+  return href === "#/sobre-mi";
 }
 
 function renderHome() {
@@ -110,22 +110,21 @@ describe("home canon guard: sin /#/ ni slugs viejos en la home renderizada", () 
     expect(offenders(container)).toEqual([]);
   });
 
-  it("el header de la home muestra Servicios, Noticias, Sobre mí y Contacto, sin «Más» ni Proceso", () => {
+  it("el header de la home muestra Servicios, Sobre mí y Contacto, sin Noticias, «Más» ni Proceso", () => {
     renderHome();
     const header = document.querySelector('header[data-nav-shell="minimal"]')!;
     expect(header).not.toBeNull();
     const desktop = header.querySelector(".nav-desktop-only ul")!;
     expect([...desktop.querySelectorAll("li")].map((li) => li.textContent?.trim())).toEqual([
       "Servicios",
-      "Noticias",
       "Sobre mí",
       "Contacto",
     ]);
     expect(desktop.querySelector('a[href="/servicios/"]')).not.toBeNull();
-    expect(desktop.querySelector('a[href="#/news"]')).not.toBeNull();
+    expect(desktop.querySelector('a[href="#/news"]')).toBeNull();
     expect(desktop.querySelector('a[href="#/sobre-mi"]')).not.toBeNull();
     expect(desktop.querySelector('a[href="#contacto"]')).not.toBeNull();
-    expect(header.textContent).not.toMatch(/Proceso|Más/);
+    expect(header.textContent).not.toMatch(/Proceso|Más|Noticias/);
     // Toggle de idioma de la home: «🌐 ES» (botón SPA, sin par es / EN)
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     expect(screen.getAllByRole("button", { name: "Cambiar a English" }).length).toBe(2);

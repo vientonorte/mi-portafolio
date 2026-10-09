@@ -46,7 +46,7 @@ function assertCtas(container: HTMLElement, base: string) {
   }
   expect(ctas.map((a) => a.getAttribute("href"))).toEqual([
     `${base}servicios/#web-pymes`,
-    `${base}servicios/#revision-gratis`,
+    `${base}servicios/#consultoria-ux`,
     `${base}servicios/#web-pymes`,
     `${base}servicios/#revision-gratis`,
     `${base}servicios/#consultoria-ux`,
@@ -69,14 +69,15 @@ function assertHeroButtons(container: HTMLElement, base: string, labels: [string
   expect(secondary.tagName).toBe("A");
   expect(secondary).toHaveAttribute("data-marketing-cta", "hero-secondary");
   expect(secondary).toHaveTextContent(labels[1]);
-  expect(secondary).toHaveAttribute("href", `${base}servicios/#revision-gratis`);
+  expect(secondary).toHaveAttribute("href", `${base}servicios/#consultoria-ux`);
   // Sin Calendar ni "Ver prototipo" en el hero
   expect(hero.textContent).not.toMatch(/prototipo|prototype|calendar|agenda/i);
   for (const a of links) expect(a.getAttribute("href")).not.toMatch(/calendar\.google|\/#\//);
 }
 
-const ES_LABELS: [string, string] = ["Quiero mi web en 72 h", "Revisión gratis de mi sitio"];
-const EN_LABELS: [string, string] = ["I want my website in 72 h", "Free review of my site"];
+// S42 (PO 5-oct 21:25): secundario = consultoría UX (antes revisión gratis).
+const ES_LABELS: [string, string] = ["Quiero mi web en 72 h", "Consultoría UX"];
+const EN_LABELS: [string, string] = ["I want my website in 72 h", "UX consulting"];
 
 describe("serviciosHref", () => {
   it("builds HTTP URLs from BASE_URL, never hash routes", () => {
@@ -131,7 +132,7 @@ describe("Home P3a — base '/' (producción)", () => {
     assertCtas(container, "/");
   });
 
-  it("hero has exactly two buttons: web 72 h (primary) and revisión gratis (secondary)", () => {
+  it("hero has exactly two buttons: web 72 h (primary) and consultoría UX (secondary)", () => {
     const { container } = renderAt(<Home />);
     assertHeroButtons(container, "/", ES_LABELS);
   });
@@ -165,7 +166,27 @@ describe("Home P3a — base '/' (producción)", () => {
     expect(prevented).toEqual([false, false]);
     const events = (w.dataLayer ?? []).filter((e) => e.event === "home_servicios_cta");
     expect(events.map((e) => e.cta_id)).toEqual(["hero-primary", "hero-secondary"]);
-    expect(events.map((e) => e.link_url)).toEqual(["/servicios/#web-pymes", "/servicios/#revision-gratis"]);
+    expect(events.map((e) => e.link_url)).toEqual(["/servicios/#web-pymes", "/servicios/#consultoria-ux"]);
+  });
+
+  it("hero shows the S42 offer «Web en 72h · $30.000 · 50/50» first", () => {
+    const { container } = renderAt(<Home />);
+    const offer = container.querySelector("#inicio [data-hero-offer]");
+    expect(offer).not.toBeNull();
+    expect(offer).toHaveTextContent("Web en 72h · $30.000 · 50/50");
+    // Primer bloque de texto del hero (antes del H1) para quedar sin scroll en mobile
+    const hero = container.querySelector("#inicio")!;
+    const first = hero.querySelector("p, h1");
+    expect(first).toBe(offer);
+  });
+
+  it("hero LCP image: fetchpriority=high, eager (no lazy), intrinsic width/height", () => {
+    const { container } = renderAt(<Home />);
+    const img = container.querySelector<HTMLImageElement>('[data-testid="hero-mockup"] img')!;
+    expect(img.getAttribute("fetchpriority")).toBe("high");
+    expect(img.getAttribute("loading")).toBe("eager");
+    expect(img.getAttribute("width")).toBe("1440");
+    expect(img.getAttribute("height")).toBe("900");
   });
 
   it("no in-page #anchor links inside the marketing sections", () => {
