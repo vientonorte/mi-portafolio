@@ -39,9 +39,16 @@ export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {
   /**
-   * Hero de home y /servicios/: sitio ficticio marcado «Ejemplo».
-   * Sin cifras ni precios dentro del dispositivo.
+   * Hero de /servicios/ (Decider 9-oct): sitio ficticio marcado «Ejemplo».
+   * Sin cifras ni precios. La home sigue con `xcms`.
    */
+  ejemplo: {
+    webp: "images/branding/hero-ejemplo.webp",
+    png: "images/branding/hero-ejemplo.png",
+    alt: "Ejemplo de un sitio para una pyme. Maqueta ilustrativa, sin cifras ni precios.",
+    width: 1440,
+    height: 900,
+  },
   /**
    * Captura X|CMS del estándar Figma de Rö
    * (DeviceMockup, barra "x-cms · operaciones").
@@ -55,7 +62,7 @@ export const SERVICIOS_IMAGES = {
   },
   /**
    * Recorte limpio del POS de X|CMS (pedidos.png 180,480-1440,900): sin la fila «Ventas Hoy» ni cifras de demo
-   * que parezcan métricas. Hero y tarjetas de /servicios/ (la home sigue con `xcms`).
+   * que parezcan métricas. Tarjeta de revisión gratis. El hero de /servicios/ es `ejemplo`.
    */
   xcmsClean: {
     webp: "images/products/x-cms/pos-productos.webp",
