@@ -117,7 +117,7 @@ describe("old service fichas /servicios/<slug>/ redirect (PO 2026-09-27)", () =>
 });
 
 describe("every /s/** (except polijuego-privacy), /servicios/<slug>/ and /poc/ is a redirect page", () => {
-  const all = [...redirectPaths, ...fichaPaths, "/poc/", "/auditoria/", "/news/"];
+  const all = [...redirectPaths, ...fichaPaths, "/poc/", "/auditoria/"];
 
   it.each(all)("%s: meta refresh 0 + canonical + noindex + JS replace", (from) => {
     const html = readPage(from);

@@ -18,7 +18,6 @@
     { "from": "/s/servicios/desarrollo-seguro-cumplimiento-ley-21719/", "to": "/servicios/", "anchor": "" },
     { "from": "/poc/", "to": "/servicios/", "anchor": "" },
     { "from": "/auditoria/", "to": "/servicios/", "anchor": "revision-gratis" },
-    { "from": "/news/", "to": "/servicios/", "anchor": "" },
     { "from": "/servicios/consultoria-ux-pymes/", "to": "/servicios/", "anchor": "consultoria-ux" },
     { "from": "/servicios/diagnostico-accesibilidad-wcag/", "to": "/servicios/", "anchor": "revision-gratis" },
     { "from": "/servicios/asistente-ia/", "to": "/servicios/", "anchor": "" },
