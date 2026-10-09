@@ -117,6 +117,7 @@
     "preprod:dev": "bash scripts/preprod-gate.sh --with-dev",
     "preprod:routes": "bash scripts/preprod-gate.sh --with-routes",
     "qa:error-ui": "bash scripts/qa-error-ui.sh",
+    "e2e:home": "node scripts/e2e-home-s42.mjs",
     "export:skills": "node scripts/export-skills.mjs",
     "dev:local": "bash scripts/start-local.sh"
   },

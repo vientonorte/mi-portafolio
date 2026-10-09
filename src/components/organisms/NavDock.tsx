@@ -10,6 +10,7 @@ import {
   DOCK_CENTER_ID,
   executeNavAction,
   getDockNavItems,
+  trackNavClick,
   type DockVariant,
   type ResolvedNavItem,
   matchNavItemActive,
@@ -107,7 +108,7 @@ export function NavDock({ variant }: NavDockProps) {
   // Distinct from header aria-label so AT users don't hear two "main" navs
   const ariaLabel = t.nav.bottomNav;
 
-  // Home = embudo: center label = kickoff “Empezar”
+  // Home = embudo: center label «Empezar» → /servicios/#web-pymes (S42)
   const centerLabel = isOnHome
     ? t.consultoria.landing.nav.start
     : t.nav.consultingDock;
@@ -147,7 +148,11 @@ export function NavDock({ variant }: NavDockProps) {
                   /* Solo texto bajo el isologo — sin ✦ ni Lucide (logo = único glifo) */
                   label={centerLabel}
                   active={active}
-                  onClick={() => handleTap(item)}
+                  /* S42: destino HTTP real (/servicios/#web-pymes en home, #consultoria-ux en el resto) */
+                  href={item.action.kind === "http" ? item.action.target : undefined}
+                  onClick={() =>
+                    item.action.kind === "http" ? trackNavClick(item) : handleTap(item)
+                  }
                   ariaLabel={centerAria}
                 />
               ) : (
