@@ -57,10 +57,10 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     ]);
     expect(cards[0].querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
     expect(cards[0].textContent).toContain("ejemplo · tu web");
-    expect(cards[1].querySelector("img")?.getAttribute("src")).toBe("/images/products/x-cms/pos-productos.png");
+    expect(cards[1].querySelector("img")?.getAttribute("src")).toBe("/images/poc-modules/pedidos.png");
     expect(cards[1].textContent).toContain("x-cms · flujo");
     const img = cards[2].querySelector("img")!;
-    expect(img.getAttribute("src")).toBe("/images/products/ratio/cfo-dashboard.png");
+    expect(img.getAttribute("src")).toBe("/images/consultoria/x-cms-dashboard.png");
     expect(cards[2].textContent).toContain("x-cms · operaciones");
     expect(img.getAttribute("loading")).toBe("lazy");
     expect(img.getAttribute("alt")).toBeTruthy();
@@ -88,9 +88,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(claro.querySelector("img")?.className).toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-vn-case='todoclick'] img")?.className).not.toContain("aspect-[16/10]");
     expect(doc.querySelector("[data-vn-case='x-cms'] img")?.className).not.toContain("aspect-[16/10]");
-    expect(doc.querySelector("[data-vn-case='todoclick']")?.textContent).toContain("todoclick · heurística");
+    expect(doc.querySelector("[data-vn-case='todoclick']")?.textContent).toContain("todoclick · tienda");
     expect(doc.querySelector("[data-concept-gallery]")).toBeNull();
-    expect(walmart.textContent).toContain("walmart · catálogo");
+    expect(walmart.textContent).toContain("lider · correo");
     expect(walmart.querySelector("img")?.getAttribute("src")).toBe(
       "/images/cases/walmart/catalogo-screen.png"
     );
