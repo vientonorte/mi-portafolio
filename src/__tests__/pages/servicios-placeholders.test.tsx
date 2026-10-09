@@ -138,19 +138,16 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
     return { html, doc: parse(html) };
   };
 
-  it("renders the MASCOTAPP placeholder inside PendingSlot and the three concepts with image", () => {
-    const { doc } = renderQa();
+  it("no pinta MASCOTAPP ni «Imagen pendiente de exportar»", () => {
+    const { html, doc } = renderQa();
     expect(doc.getElementById("casos")).toBeNull();
-    expect([...doc.querySelectorAll("#conceptos [data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
+    expect([...doc.querySelectorAll("[data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
       "claro",
       "walmart",
       "transvip",
-      "mascotapp",
     ]);
-    const slot = doc.querySelector("[data-concept='mascotapp'] [data-placeholder]");
-    expect(slot).not.toBeNull();
-    expect(slot?.getAttribute("data-placeholder")).toBe("pendiente-ro");
-    expect(doc.querySelector("[data-concept='claro'] [data-placeholder]")).toBeNull();
+    expect(doc.querySelector("[data-placeholder]")).toBeNull();
+    expect(html).not.toMatch(/Imagen pendiente de exportar/);
   });
 
   it("experience strip right below the hero, casos before cómo trabajamos", () => {

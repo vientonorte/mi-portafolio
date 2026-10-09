@@ -14,11 +14,11 @@ describe("MASCOTAPP solo en el build QA", () => {
     expect(SERVICIOS_CONCEPTOS_CASES.some((c) => c.id === "mascotapp")).toBe(false);
   });
 
-  it("QA (base /qa/): conceptCases() agrega MASCOTAPP al final, sin imagen", () => {
+  it("QA (base /qa/): conceptCases() no agrega MASCOTAPP sin imagen", () => {
     vi.stubEnv("BASE_URL", "/qa/");
     const cases = conceptCases();
-    expect(cases.map((c) => c.id)).toEqual(["claro", "walmart", "transvip", "mascotapp"]);
-    expect(cases.at(-1)?.image).toBeUndefined();
+    expect(cases.map((c) => c.id)).toEqual(["claro", "walmart", "transvip"]);
+    expect(cases.every((c) => c.image)).toBe(true);
   });
 
   it("la guarda del build de prod corre en CI y en deploy", () => {

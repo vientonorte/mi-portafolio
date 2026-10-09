@@ -45,7 +45,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
   );
 }
 
-/** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
+/** Claro, Walmart y Transvip. Sin imagen no entra a la grilla. */
 export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
   const visible = conceptCases().filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;

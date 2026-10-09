@@ -235,9 +235,10 @@ describe("Home P3a — base '/qa/' (QA)", () => {
     const { container } = renderAt(<Home />);
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
-    expect(container.querySelector("[data-concept='mascotapp'] [data-placeholder]")).not.toBeNull();
+    expect(container.querySelector("[data-concept='mascotapp']")).toBeNull();
+    expect(container.innerHTML).not.toContain("Imagen pendiente de exportar");
     expect(container.querySelector("#home-casos")).toBeNull();
-    expect(container.querySelectorAll("#conceptos [data-concept]")).toHaveLength(4);
+    expect(container.querySelectorAll("#conceptos [data-concept]")).toHaveLength(3);
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
     expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");
   });

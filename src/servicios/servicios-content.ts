@@ -604,24 +604,10 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
 ];
 
 /**
- * MASCOTAPP (PendingSlot, sin imagen) solo en el build QA (base /qa/). La comparación usa
- * import.meta.env.BASE_URL en línea: en el build de prod Vite la reemplaza por "/" y el
- * minificador elimina la rama, así el texto no llega al bundle público
- * (guarda: scripts/check-prod-no-mascotapp.sh). En vitest se evalúa en runtime (vi.stubEnv).
+ * MASCOTAPP no se pinta sin imagen. El build QA (9-oct) no puede mostrar
+ * «Imagen pendiente de exportar». Vuelve a conceptCases cuando tenga portada.
+ * Prod sigue sin la palabra (scripts/check-prod-no-mascotapp.sh).
  */
 export function conceptCases(): readonly ConceptCase[] {
-  if (import.meta.env.BASE_URL === "/qa/") {
-    return [
-      ...SERVICIOS_CONCEPTOS_CASES,
-      {
-        id: "mascotapp",
-        name: "MASCOTAPP",
-        tags: { rubro: "App móvil · mascotas", servicio: "Diseño" },
-        summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
-        findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
-        addressBar: "mascotapp · concepto",
-      },
-    ];
-  }
   return SERVICIOS_CONCEPTOS_CASES;
 }
