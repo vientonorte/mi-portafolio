@@ -27,7 +27,7 @@ describe("News interna · card SURA + salida a servicios", () => {
   it("el índice tiene un H1 y la card con categoría, tiempo y leer", () => {
     renderNews("/news");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-    expect(screen.getAllByText("Leer la noticia")).toHaveLength(3);
+    expect(screen.getAllByText("Ver el servicio")).toHaveLength(3);
     expect(screen.getByText("Accesibilidad")).toBeTruthy();
     expect(screen.getAllByText(/min de lectura/).length).toBeGreaterThan(0);
     expect(document.body.textContent).not.toContain("/#/consultoria");
