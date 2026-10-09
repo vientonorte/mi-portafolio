@@ -95,6 +95,9 @@ jobs:
       - name: Guard — prod build sin MASCOTAPP (solo /qa/)
         run: bash scripts/check-prod-no-mascotapp.sh
 
+      - name: Guard — dist sin placeholders ni enlaces a /#/news o /news/
+        run: bash scripts/check-dist-no-placeholders.sh
+
       - name: Artifact smoke (domain root)
         env:
           VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}

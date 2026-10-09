@@ -107,6 +107,7 @@
     "qa:prototypes": "node scripts/qa-prototypes.mjs",
     "qa:nav": "vitest run src/__tests__/lib/nav-config.test.ts",
     "qa:no-mascotapp": "bash scripts/check-prod-no-mascotapp.sh",
+    "qa:no-placeholders": "bash scripts/check-dist-no-placeholders.sh",
     "qa:sitemap": "SITEMAP_REQUIRE_DIST=1 vitest run src/__tests__/lib/sitemap-gate.test.ts",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",
