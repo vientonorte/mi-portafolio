@@ -15,12 +15,28 @@ import { attachLcpShell } from './lib/lcp-shell';
 import { initTracking } from './lib/track';
 import { registerServiceWorker } from './lib/sw-register';
 
+function applyTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.classList.toggle('dark', saved === 'dark');
+    return;
+  }
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.classList.toggle('dark', prefersDark);
+}
+
 function bootstrapTheme() {
   try {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = saved === 'dark' || (!saved && prefersDark);
-    document.documentElement.classList.toggle('dark', isDark);
+    applyTheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || saved === 'light') return;
+        applyTheme();
+      } catch {
+        /* keep the class already applied */
+      }
+    });
   } catch {
     /* localStorage blocked — default light */
   }
