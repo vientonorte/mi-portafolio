@@ -50,6 +50,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.guard.outputs.ref }}
+          # Historia completa: el sitemap de build usa la fecha git de cada ruta como lastmod
+          # (con depth 1 todas las rutas tomarían la fecha del commit desplegado).
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -88,6 +91,9 @@ jobs:
           VITE_GOOGLE_FORM_ENTRY_LANGUAGE: ${{ secrets.VITE_GOOGLE_FORM_ENTRY_LANGUAGE }}
           VITE_A11Y_FREE_SCHEDULE_URL: ${{ secrets.VITE_A11Y_FREE_SCHEDULE_URL }}
           VITE_VIDEO_CALL_URL: ${{ secrets.VITE_VIDEO_CALL_URL }}
+
+      - name: Guard — prod build sin MASCOTAPP (solo /qa/)
+        run: bash scripts/check-prod-no-mascotapp.sh
 
       - name: Artifact smoke (domain root)
         env:

@@ -2,7 +2,7 @@ import { PendingSlot, SECTION_TITLE_CLASS } from "../components/marketing";
 import { placeholdersEnabled } from "../components/marketing/marketing-env";
 import { cn } from "../lib/utils";
 import { ServicioPieceCard } from "./ServicioPieceCard";
-import { SERVICIOS_CONCEPTOS, SERVICIOS_CONCEPTOS_CASES, type ConceptCase } from "./servicios-content";
+import { SERVICIOS_CONCEPTOS, conceptCases, type ConceptCase } from "./servicios-content";
 
 const CHILLAX = "font-[family-name:var(--font-chillax)]";
 const SECTION_CLASS = "scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 py-12 md:py-16";
@@ -47,7 +47,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
 
 /** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
 export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
-  const visible = SERVICIOS_CONCEPTOS_CASES.filter((item) => item.image || placeholdersEnabled());
+  const visible = conceptCases().filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;
   if (embedded) {
     return (

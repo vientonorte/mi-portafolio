@@ -377,7 +377,7 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     kind: "design",
     url: null,
     foCaseId: null,
-    notes: "skip; file key CBguM4Y5rIvc9TV5pGhOxL; MASCOTAPP pages, not Claro",
+    notes: "skip; file key CBguM4Y5rIvc9TV5pGhOxL; concepto app de mascotas (solo QA), not Claro",
   },
 ];
 
