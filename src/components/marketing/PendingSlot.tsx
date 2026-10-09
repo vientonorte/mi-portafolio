@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/utils";
-import { PLACEHOLDER_MARKER, placeholdersEnabled } from "./marketing-env";
+import { PLACEHOLDER_MARKER, PLACEHOLDERS_ENABLED } from "./marketing-env";
 
 /**
  * Único punto de entrada para contenido pendiente de autorización (logos,
- * casos, mockups). Solo se renderiza en el build de QA (base "/qa/"); en
- * producción (base "/") devuelve null y las secciones que dependen de él
- * se omiten por completo.
+ * casos, mockups). Apagado en todo build (prod y /qa/, TL 9-oct): devuelve null
+ * y las secciones que dependen de él se omiten por completo.
  */
 
 export type PendingSlotVariant = "logo" | "thumb" | "case";
@@ -21,7 +20,7 @@ export interface PendingSlotProps {
 }
 
 export function PendingSlot({ label, variant = "thumb", className, children }: PendingSlotProps) {
-  if (!placeholdersEnabled()) return null;
+  if (!PLACEHOLDERS_ENABLED) return null;
   return (
     <div
       data-placeholder={PLACEHOLDER_MARKER}

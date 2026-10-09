@@ -19,9 +19,9 @@ export const PRIMARY_CTA_CLASS =
   "min-h-[48px] bg-brand-gradient px-6 text-[1.1875rem] font-bold text-white shadow-sm transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary";
 
 /**
- * Valores del select "¿Qué necesitas?" → payload.intent (≤80, texto libre en
- * worker/src/contact.js). Orden PO: web → revisión → consultoría → otro.
- * Va precedido por la opción vacía SERVICIOS_INTENT_PLACEHOLDER (obligatorio elegir).
+ * Valores de la línea "¿Qué te gustaría conversar?" → payload.intent (≤80,
+ * texto libre en worker/src/contact.js). Orden PO: web → revisión →
+ * consultoría → otro. Ninguna marcada = aún no elige.
  */
 export const SERVICIOS_INTENTS = [
   "Web nueva",
@@ -31,10 +31,8 @@ export const SERVICIOS_INTENTS = [
 ] as const;
 
 export type ServiciosIntent = (typeof SERVICIOS_INTENTS)[number];
-/** Estado del select: "" = aún no elige (opción placeholder). */
+/** "" = ninguna opción marcada en la línea. */
 export type ServiciosIntentValue = ServiciosIntent | "";
-
-export const SERVICIOS_INTENT_PLACEHOLDER = "Elige qué necesitas";
 
 /** Capturas reales de trabajo VN (X|CMS). Rutas relativas a public/. */
 export const SERVICIOS_IMAGES = {
@@ -539,7 +537,7 @@ export const SERVICIOS_CONCEPTOS = SERVICIOS_EXPERIENCIAS;
 
 /**
  * Claro, Walmart y Transvip: encargos de la marca, en el currículum.
- * MASCOTAPP no tiene imagen: solo entra cuando placeholdersEnabled() (build QA).
+ * MASCOTAPP no tiene imagen: vive solo en conceptCases() del build QA (ver abajo).
  * Monitas no entra.
  */
 export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
@@ -602,12 +600,27 @@ export const SERVICIOS_CONCEPTOS_CASES: readonly ConceptCase[] = [
       height: 750,
     },
   },
-  {
-    id: "mascotapp",
-    name: "MASCOTAPP",
-    tags: { rubro: "App móvil · mascotas", servicio: "Diseño" },
-    summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
-    findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
-    addressBar: "mascotapp · concepto",
-  },
 ];
+
+/**
+ * MASCOTAPP (PendingSlot, sin imagen) solo en el build QA (base /qa/). La comparación usa
+ * import.meta.env.BASE_URL en línea: en el build de prod Vite la reemplaza por "/" y el
+ * minificador elimina la rama, así el texto no llega al bundle público
+ * (guarda: scripts/check-prod-no-mascotapp.sh). En vitest se evalúa en runtime (vi.stubEnv).
+ */
+export function conceptCases(): readonly ConceptCase[] {
+  if (import.meta.env.BASE_URL === "/qa/") {
+    return [
+      ...SERVICIOS_CONCEPTOS_CASES,
+      {
+        id: "mascotapp",
+        name: "MASCOTAPP",
+        tags: { rubro: "App móvil · mascotas", servicio: "Diseño" },
+        summary: "Concepto de app móvil para el cuidado de mascotas, trabajado desde los flujos de usuario.",
+        findings: ["Flujos de usuario por tarea", "Pantallas móviles", "Kit de interfaz e íconos"],
+        addressBar: "mascotapp · concepto",
+      },
+    ];
+  }
+  return SERVICIOS_CONCEPTOS_CASES;
+}
