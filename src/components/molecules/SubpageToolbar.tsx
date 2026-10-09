@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { shouldHideSiteChrome } from "../../lib/routes";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { LanguageToggle } from "../atoms/LanguageToggle";
 import { ThemeToggle } from "../atoms/ThemeToggle";
@@ -27,6 +28,9 @@ interface SubpageToolbarProps {
   trailing?: ReactNode;
 }
 
+/** Barra propia de subpágina (logo + migas). Apagada: la nav compartida cubre todas las vistas. */
+export const SUBPAGE_TOOLBAR_ENABLED = false;
+
 export function SubpageToolbar({
   crumbs,
   className,
@@ -35,7 +39,15 @@ export function SubpageToolbar({
   trailing,
 }: SubpageToolbarProps) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { language } = useLanguage();
+
+  // TL 9-oct: las subpáginas usan la nav compartida (Navigation, montada en App) y no
+  // llevan barra propia ni migas. Se conserva solo el contenido `trailing` si lo hay.
+  // Excepción: los shells aislados (sin nav compartida) conservan su barra propia.
+  if (!SUBPAGE_TOOLBAR_ENABLED && !shouldHideSiteChrome(pathname)) {
+    return trailing ? <div className={cn("container mx-auto max-w-7xl px-4 pt-3", className)}>{trailing}</div> : null;
+  }
 
   return (
     <motion.header

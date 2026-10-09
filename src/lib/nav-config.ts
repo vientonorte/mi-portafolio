@@ -91,9 +91,9 @@ export interface NavRegistryItem {
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  headerPrimary: ["servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
   headerMore: [] as readonly NavItemId[],
-  mobileDrawer: ["inicio", "servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  mobileDrawer: ["inicio", "servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {

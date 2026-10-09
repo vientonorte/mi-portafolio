@@ -1,8 +1,7 @@
 import { ArrowRight, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
-import type { NewsEdition } from "../../data/news-editions";
+import { newsTopicLanding, type NewsEdition } from "../../data/news-editions";
 import type { Language } from "../../lib/i18n/types";
-import { ROUTES } from "../../lib/routes";
+import { serviciosHref } from "../../lib/servicios-links";
 import { assetUrl } from "../marketing";
 import { NewsCategoryPill } from "./NewsCategoryPill";
 import { formatEditionMonth, readingMinutes } from "./news-format";
@@ -84,12 +83,14 @@ export function NewsCard({
   const minutes = readingMinutes(edition.paragraphs[language]);
   const month = formatEditionMonth(edition.month, language);
   const visual = CARD_VISUAL[edition.topic as TopicKey];
+  // Sin #/news (fuera de canon): la card lleva al ancla de /servicios/ de su tema.
+  const landingHref = newsTopicLanding(edition.topic)?.path ?? serviciosHref();
 
   if (variant === "home") {
     return (
       <article className="flex h-full flex-col rounded-xl border border-border bg-card text-card-foreground shadow-sm">
-        <Link
-          to={ROUTES.newsEdition(edition.slug)}
+        <a
+          href={landingHref}
           className="flex h-full flex-col gap-5 p-6 text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-muted">
@@ -115,19 +116,19 @@ export function NewsCard({
               {edition.dek[language]}
             </p>
             <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
-              {es ? "Leer la noticia" : "Read the article"}
+              {es ? "Ver el servicio" : "See the service"}
               <ArrowRight className="size-4" aria-hidden="true" />
             </span>
           </div>
-        </Link>
+        </a>
       </article>
     );
   }
 
   return (
     <article className="overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-foreground/30">
-      <Link
-        to={ROUTES.newsEdition(edition.slug)}
+      <a
+        href={landingHref}
         className="flex flex-col text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <div className="relative aspect-video overflow-hidden bg-muted">
@@ -161,11 +162,11 @@ export function NewsCard({
           </Title>
           <p className="m-0 text-sm leading-relaxed text-muted-foreground">{edition.dek[language]}</p>
           <span className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
-            {es ? "Leer la noticia" : "Read the article"}
+            {es ? "Ver el servicio" : "See the service"}
             <ArrowRight className="size-4" aria-hidden="true" />
           </span>
         </div>
-      </Link>
+      </a>
     </article>
   );
 }
