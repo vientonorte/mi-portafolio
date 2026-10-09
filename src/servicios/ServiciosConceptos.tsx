@@ -1,4 +1,4 @@
-import { PendingSlot, SECTION_TITLE_CLASS } from "../components/marketing";
+import { SECTION_TITLE_CLASS } from "../components/marketing";
 import { placeholdersEnabled } from "../components/marketing/marketing-env";
 import { cn } from "../lib/utils";
 import { ServicioPieceCard } from "./ServicioPieceCard";
@@ -18,16 +18,8 @@ function IsologoAccent({ className }: { className?: string }) {
 }
 
 function ConceptCard({ item }: { item: ConceptCase }) {
-  if (!item.image) {
-    return (
-      <article
-        data-concept={item.id}
-        className="flex h-full flex-col gap-5 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm"
-      >
-        <PendingSlot variant="thumb" label="Imagen pendiente de exportar" />
-      </article>
-    );
-  }
+  // Asset pendiente (p. ej. MASCOTAPP): la card no se renderiza (sin caja placeholder).
+  if (!item.image) return null;
   return (
     <ServicioPieceCard
       dataAttr="data-concept"
@@ -45,7 +37,7 @@ function ConceptCard({ item }: { item: ConceptCase }) {
   );
 }
 
-/** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
+/** Solo conceptos con portada (Claro, Walmart, Transvip). Sin ninguno, la sección no se renderiza. */
 export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
   const visible = conceptCases().filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;

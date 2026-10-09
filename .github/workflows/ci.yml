@@ -163,6 +163,8 @@ jobs:
         run: npm run qa:sitemap
       - name: Prod build sin MASCOTAPP (solo /qa/)
         run: npm run qa:no-mascotapp
+      - name: Dist sin placeholders ni enlaces a /#/news o /news/
+        run: npm run qa:no-placeholders
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)
