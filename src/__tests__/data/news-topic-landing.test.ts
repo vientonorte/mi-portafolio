@@ -26,4 +26,21 @@ describe("news → specialty landing", () => {
     expect(NEWS_CATALOG.ctaUrl).not.toContain("/#/consultoria");
     expect(NEWS_CATALOG.ctaUrl).toContain("/servicios/");
   });
+
+  it("cada edición trae ejemplo y preguntas, sin respuesta escrita", () => {
+    expect(NEWS_CATALOG.cuñas.estado).toBe("esperando-audio");
+    expect(NEWS_CATALOG.cuñas.archivo).toBe("{slug}--{id}.m4a");
+    expect(NEWS_CATALOG.cuñas.reel).toBe("9:16");
+    for (const edition of NEWS_CATALOG.editions) {
+      expect(edition.ejemplo.es.length).toBeGreaterThan(40);
+      expect(edition.ejemplo.en.length).toBeGreaterThan(40);
+      expect(edition.entrevista).toHaveLength(3);
+      for (const toma of edition.entrevista) {
+        expect(toma.id).toMatch(/^(a11y|auto|priv)-\d{2}$/);
+        expect(toma.pregunta.endsWith("?")).toBe(true);
+        expect(toma.apoyo.length).toBeGreaterThan(10);
+        expect(toma).not.toHaveProperty("respuesta");
+      }
+    }
+  });
 });

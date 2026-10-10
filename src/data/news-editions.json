@@ -25,6 +25,13 @@
   ],
   "utmBase": "https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=organic&utm_campaign=weekly_seo",
   "ctaUrl": "https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo",
+  "cuñas": {
+    "estado": "esperando-audio",
+    "archivo": "{slug}--{id}.m4a",
+    "segundos": [20, 35],
+    "reel": "9:16",
+    "regla": "Una pregunta, un audio de Rö, una cuña. El reel y el pie de Instagram salen de ese audio. No se publica una respuesta escrita como si él la hubiera dicho."
+  },
   "upcoming": [
     {
       "id": "havas-claro",
@@ -48,8 +55,8 @@
         "en": "A booking flow people can actually use"
       },
       "dek": {
-        "es": "Accesibilidad en movilidad premium: el trámite de traslado, no el overlay. Caso Transvip (hub público).",
-        "en": "Accessibility in premium mobility: the transfer flow, not an overlay. Transvip case (public hub)."
+        "es": "Accesibilidad en movilidad premium: el trámite de traslado, no el overlay. Caso Transvip.",
+        "en": "Accessibility in premium mobility: the transfer flow, not an overlay. Transvip case."
       },
       "evidence": [
         "Design system web + app con mejora continua y accesibilidad",
@@ -58,24 +65,45 @@
       "paragraphs": {
         "es": [
           "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago, confirmación. Si ese flujo no se percibe, no se reserva.",
-          "En Transvip el trabajo fue el trámite de pasajeros premium y un design system web + app con accesibilidad como mejora continua — no un sello ni un overlay. El hub público documenta el corte: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.",
+          "En Transvip el trabajo fue el trámite de pasajeros premium y un design system web + app con accesibilidad como mejora continua — no un sello ni un overlay. El caso documenta el corte: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.",
           "Karri (misma etapa, delivery vertical) aplicó el mismo método a calculadora de ganancias y onboarding de shoppers. No es otra landing: es el flujo que ya usa el cliente.",
           "Viento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días. Sin KPIs que no estén en el portafolio. Especialidad: https://vientonorte.io/servicios/#revision-gratis"
         ],
         "en": [
           "An airport transfer is not a moodboard. It is a flow: origin, destination, time, payment, confirmation. If that flow cannot be perceived, there is no booking.",
-          "At Transvip the work was the premium passenger journey and a web + app design system with accessibility as continuous improvement — not a badge or overlay. The public hub records the cut: passenger app, −40% booking time, +25% conversion, NPS 82.",
+          "At Transvip the work was the premium passenger journey and a web + app design system with accessibility as continuous improvement — not a badge or overlay. The case records the cut: passenger app, −40% booking time, +25% conversion, NPS 82.",
           "Karri (same period, delivery vertical) applied the same method to an earnings calculator and shopper onboarding. Not another landing page: the flow the customer already uses.",
           "Viento Norte opens the same way with Chilean SMBs: free WCAG 2.2 AA on one flow. Then, if it fits, a 5–7 day Diagnostic. No KPIs that are not already in the portfolio."
         ]
       },
-      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Hub público: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: https://vientonorte.io/servicios/#revision-gratis",
+      "linkedinBody": "Un traslado al aeropuerto no es un moodboard. Es un flujo: origen, destino, horario, pago.\n\nSi ese flujo no se percibe, no se reserva. En Transvip el corte fue el trámite de pasajeros y un design system con accesibilidad continua — no un overlay. Caso Transvip: App Pasajeros, −40% tiempo de reserva, +25% conversión, NPS 82.\n\nViento Norte abre igual con pymes en Chile: gratis, un flujo a WCAG 2.2 AA. Después, si aplica, Diagnóstico 5–7 días.\n\nCTA: https://vientonorte.io/servicios/#revision-gratis",
       "hashtags": [
         "#accesibilidadweb",
         "#WCAG",
         "#UXChile",
         "#VientoNorte",
         "#operacionesdigitales"
+      ],
+      "ejemplo": {
+        "es": "La reserva muestra origen, destino, horario y pago, en ese orden. En la app de pasajeros de Transvip el corte documentado es −40% de tiempo de reserva, +25% de conversión y NPS 82.",
+        "en": "The booking shows origin, destination, time, and payment, in that order. In the Transvip passenger app the documented cut is −40% booking time, +25% conversion, and NPS 82."
+      },
+      "entrevista": [
+        {
+          "id": "a11y-01",
+          "pregunta": "¿En qué paso se cae una reserva al aeropuerto cuando la persona no ve el trámite?",
+          "apoyo": "Puedes nombrar origen, destino, horario, pago y confirmación. Sin cifras nuevas."
+        },
+        {
+          "id": "a11y-02",
+          "pregunta": "¿Qué cambió en la app de pasajeros de Transvip?",
+          "apoyo": "Solo estas cifras: −40% tiempo de reserva, +25% conversión, NPS 82."
+        },
+        {
+          "id": "a11y-03",
+          "pregunta": "¿Por qué un overlay de accesibilidad no reemplaza el trámite?",
+          "apoyo": "El caso es el flujo de reserva, no un sello encima."
+        }
       ]
     },
     {
@@ -91,8 +119,8 @@
         "en": "Automate the procedure, not the noise"
       },
       "dek": {
-        "es": "POC de IA y onboarding regional en wealth. Caso SURA Investments (hub público). Sin ChatGPT genérico sobre tu base.",
-        "en": "AI POC and regional onboarding in wealth. SURA Investments case (public hub). No generic ChatGPT on your data."
+        "es": "POC de IA y onboarding regional en wealth. Caso SURA Investments. Sin ChatGPT genérico sobre tu base.",
+        "en": "AI POC and regional onboarding in wealth. SURA Investments case. No generic ChatGPT on your data."
       },
       "evidence": [
         "POC IA: dashboard de análisis y automatización de procesos",
@@ -102,24 +130,45 @@
       "paragraphs": {
         "es": [
           "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM: consulta, onboarding, error, siguiente paso.",
-          "En SURA Investments el hub público registra un framework UX Enterprise en 5+ países, onboarding con −40% de tiempo (7–11 min vs 15+) y una POC de IA: dashboard de análisis y automatización de procesos. El dato y el tenant siguen siendo del cliente.",
+          "En SURA Investments el caso registra un framework UX Enterprise en 5+ países, onboarding con −40% de tiempo (7–11 min vs 15+) y una POC de IA: dashboard de análisis y automatización de procesos. El dato y el tenant siguen siendo del cliente.",
           "Viento Norte no vende ChatGPT genérico con tu base en la nube. La automatización que proponemos es del flujo: qué ve el cliente, qué firma, qué paga. X|CMS es esa apuesta — prototipo que se ve como la operación, no como un anuncio.",
           "Si el cuello está en un trámite digital, el primer corte sigue siendo un flujo (gratis, WCAG). La automatización entra cuando el trámite ya se puede usar."
         ],
         "en": [
           "Automating a financial product is not dropping a chatbot on top. It is cutting the procedure that already lives in the CMS or CRM: query, onboarding, error, next step.",
-          "The public SURA Investments hub records a UX Enterprise framework in 5+ countries, onboarding at −40% time (7–11 min vs 15+), and an AI POC: analysis dashboard and process automation. Data and tenant stay with the client.",
+          "The SURA Investments case records a UX Enterprise framework in 5+ countries, onboarding at −40% time (7–11 min vs 15+), and an AI POC: analysis dashboard and process automation. Data and tenant stay with the client.",
           "Viento Norte does not sell generic ChatGPT with your database in the cloud. The automation we propose is the flow: what the customer sees, signs, and pays. X|CMS is that bet — a prototype that looks like the operation, not an ad.",
           "If the bottleneck is a digital procedure, the first cut is still one flow (free, WCAG). Automation comes after the procedure can be used."
         ]
       },
-      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nHub público SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nCTA: vientonorte.io/servicios/inteligencia-artificial-negocios/",
+      "linkedinBody": "Automatizar un producto financiero no es pegar un chatbot encima. Es recortar el trámite que ya vive en el CMS o CRM.\n\nCaso SURA Investments: framework UX Enterprise en 5+ países, onboarding −40% de tiempo (7–11 min vs 15+), POC de IA para análisis y automatización. El dato sigue siendo del cliente.\n\nViento Norte no vende ChatGPT genérico con tu base en la nube. Primero un flujo que se pueda usar (gratis, WCAG). Después, si aplica, automatizar ese trámite.\n\nCTA: https://vientonorte.io/servicios/?utm_source=linkedin&utm_medium=organic&utm_campaign=news_seo&utm_content=automatizacion",
       "hashtags": [
         "#automatizacion",
         "#DesignOps",
         "#UXChile",
         "#VientoNorte",
         "#operacionesdigitales"
+      ],
+      "ejemplo": {
+        "es": "El onboarding de SURA Investments pasa de más de 15 minutos a 7–11 (−40%), con 6 casos de error. La POC es un dashboard de análisis. El dato y el tenant se quedan en el cliente. El framework está en 5 países o más.",
+        "en": "SURA Investments onboarding goes from over 15 minutes to 7–11 (−40%), with 6 error cases. The POC is an analysis dashboard. Data and tenant stay with the client. The framework is in 5 or more countries."
+      },
+      "entrevista": [
+        {
+          "id": "auto-01",
+          "pregunta": "¿Dónde se traba un onboarding de inversiones?",
+          "apoyo": "Consulta, alta, error, siguiente paso. El tiempo documentado es 7–11 minutos frente a más de 15, −40%, y 6 casos de error."
+        },
+        {
+          "id": "auto-02",
+          "pregunta": "¿Qué analiza la POC sin sacar el dato del cliente?",
+          "apoyo": "Dashboard de análisis y automatización. El dato y el tenant siguen en el cliente."
+        },
+        {
+          "id": "auto-03",
+          "pregunta": "¿Qué le dices a quien quiere pegar un chatbot encima del trámite?",
+          "apoyo": "Primero el flujo que la persona ve, firma y paga. Sin un producto de IA nuevo."
+        }
       ]
     },
     {
@@ -129,42 +178,60 @@
       "published": null,
       "company": "Viento Norte",
       "hubPath": "/privacy",
-      "source": "Writing/Voice · Resources ALGONOVA no · ficha-contra-archivo método · Ley 21.719",
+      "source": "Comentario interno, no se publica. Método contra-archivo (transparencia) frente a WCAG y minimización. Sin nombres de causa. Grounded Theory D1–D7 queda fuera de la página. Havas/Claro sin KPI hasta que haya evidencia. Los números de Transvip y SURA no se reescriben aquí. El slug seguridad-privacidad-digital redirige al hub.",
       "title": {
         "es": "Privacidad por diseño, no por banner",
         "en": "Privacy by design, not by banner"
       },
       "dek": {
-        "es": "Ley 21.719 en el flujo. Método contra-archivo (transparencia) vs skills VN (WCAG, minimización). Sin nombres de causa.",
-        "en": "Chilean Law 21.719 in the flow. Contra-archivo method (transparency) vs VN skills (WCAG, minimization). No case names."
+        "es": "Se cumple en el trámite, no en un banner de cookies.",
+        "en": "It is met in the procedure, not in a cookie banner."
       },
       "evidence": [
-        "Ley 21.719: minimización, finalidad, ARSOPL — página /privacy",
-        "Método ficha-contra-archivo: Grounded Theory D1–D7 (skill, no expediente público)"
+        "Ley 21.719: qué dato se pide, para qué, cuánto tiempo, y si la persona puede decir que no."
       ],
       "paragraphs": {
         "es": [
           "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, cuánto tiempo, y si la persona puede decir que no sin romper el trámite.",
           "Accesibilidad y privacidad fallan juntas. Un formulario opaco no es WCAG 2.2 AA y no minimiza datos. Un overlay de «accesibilidad» no sustituye ninguna de las dos.",
-          "El método contra-archivo (fichas, Grounded Theory, dimensiones D1–D7) sirve para leer opacidad institucional: qué no se documenta, qué se desplaza, qué se archiva mal. Las skills de Viento Norte —WCAG, privacidad por diseño, Design Ops en CMS/CRM— son el reverso operativo: hacer el trámite legible, mínimo y atribuible. Comparar método vs skills no es un juicio a una institución concreta; es un mapa de trabajo para empresas que digitalizan un flujo en Chile.",
-          "Havas/Claro (Nov 2021–Abr 2022) aparece en el portafolio como diseño de servicios telecom. Sin KPI hasta que el hub tenga evidencia. Transvip y SURA sí tienen hub público; esos números no se reescriben aquí.",
-          "Si tu producto toca datos personales en Chile, el primer corte es un flujo —gratis, WCAG— y después el Diagnóstico. Especialidad: /servicios/seguridad-privacidad-digital/."
+          "El trámite tiene que ser legible, mínimo y atribuible: qué ve la persona, qué firma y qué dato queda guardado.",
+          "Si tu producto toca datos personales en Chile, el primer corte es un flujo, gratis, a WCAG 2.2 AA. Después, si aplica, el Diagnóstico de 5–7 días."
         ],
         "en": [
-          "Chilean Law 21.719 is not a cookie banner. It is the flow: which data you ask, why, for how long, and whether someone can say no without breaking the procedure.",
+          "Law 21.719 is not a cookie banner. It is the flow: which data you ask, why, for how long, and whether someone can say no without breaking the procedure.",
           "Accessibility and privacy fail together. An opaque form is not WCAG 2.2 AA and does not minimize data. An «accessibility» overlay replaces neither.",
-          "The contra-archivo method (files, Grounded Theory, D1–D7) reads institutional opacity: what is not documented, what is displaced, what is poorly archived. Viento Norte skills — WCAG, privacy by design, Design Ops on CMS/CRM — are the operational reverse: make the procedure readable, minimal, attributable. Comparing method vs skills is not a judgment of a named institution; it is a work map for companies digitizing a flow in Chile.",
-          "Havas/Claro (Nov 2021–Apr 2022) is in the portfolio as telecom service design. No KPI until the hub has evidence. Transvip and SURA have public hubs; those numbers are not rewritten here.",
-          "If your product touches personal data in Chile, the first cut is one flow — free, WCAG — then the Diagnostic. Specialty: /servicios/seguridad-privacidad-digital/."
+          "The procedure has to be readable, minimal, and attributable: what the person sees, what they sign, and which data is kept.",
+          "If your product touches personal data in Chile, the first cut is one flow, free, at WCAG 2.2 AA. Then, if it fits, the 5–7 day Diagnostic."
         ]
       },
-      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, y si se puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl método contra-archivo lee opacidad institucional. Las skills de Viento Norte (WCAG, privacidad por diseño, Design Ops en CMS/CRM) son el reverso: trámite legible y mínimo. No es un juicio a una institución: es un mapa para empresas que digitalizan un flujo en Chile.\n\nCTA: vientonorte.io/servicios/seguridad-privacidad-digital/",
+      "linkedinBody": "Ley 21.719 no se cumple con un banner de cookies. Se cumple en el flujo: qué dato pedís, para qué, cuánto tiempo, y si la persona puede decir que no sin romper el trámite.\n\nAccesibilidad y privacidad fallan juntas. Un overlay no sustituye WCAG ni minimiza datos.\n\nEl trámite tiene que ser legible, mínimo y atribuible: qué ve la persona, qué firma y qué dato queda guardado.\n\nCTA: https://vientonorte.io/servicios/#revision-gratis",
       "hashtags": [
         "#Ley21719",
         "#privacidadpordiseño",
         "#WCAG",
         "#VientoNorte",
         "#datosChile"
+      ],
+      "ejemplo": {
+        "es": "El formulario deja escrito qué dato pide, para qué, cuánto tiempo queda guardado, y cómo la persona sigue el trámite si dice que no.",
+        "en": "The form states which data it asks, why, how long it is kept, and how the person continues if they say no."
+      },
+      "entrevista": [
+        {
+          "id": "priv-01",
+          "pregunta": "¿Qué le preguntas a un formulario antes de dejarlo pedir un dato?",
+          "apoyo": "Qué dato, para qué, cuánto tiempo, y si se puede decir que no. Ley 21.719. Sin nombres de causa y sin cifras."
+        },
+        {
+          "id": "priv-02",
+          "pregunta": "¿Cómo se dice que no sin romper el trámite?",
+          "apoyo": "El trámite sigue. No hace falta un caso con nombre."
+        },
+        {
+          "id": "priv-03",
+          "pregunta": "¿Por qué un banner de cookies no cumple la ley?",
+          "apoyo": "La ley se cumple en el flujo, no en el aviso."
+        }
       ]
     }
   ]

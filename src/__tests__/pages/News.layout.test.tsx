@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import News from "@/pages/News";
@@ -28,6 +29,8 @@ describe("News interna · card SURA + salida a servicios", () => {
     renderNews("/news");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getAllByText("Leer la noticia")).toHaveLength(3);
+    expect(screen.getByRole("list", { name: "Ediciones" }).className).toContain("lg:grid-cols-3");
+    expect(screen.getByRole("button", { name: /Filtrar y ordenar/ })).toBeTruthy();
     expect(screen.getByText("Accesibilidad")).toBeTruthy();
     expect(screen.getAllByText(/min de lectura/).length).toBeGreaterThan(0);
     expect(document.body.textContent).not.toContain("/#/consultoria");
@@ -42,14 +45,37 @@ describe("News interna · card SURA + salida a servicios", () => {
     expect(canonical?.getAttribute("href")).toBe("https://vientonorte.io/");
   });
 
+  it("filtrar por categoría deja solo esa edición", async () => {
+    const user = userEvent.setup();
+    renderNews("/news");
+    await user.click(screen.getByRole("button", { name: /Filtrar y ordenar/ }));
+    await user.click(screen.getByRole("checkbox", { name: "Accesibilidad" }));
+    await user.click(screen.getByRole("checkbox", { name: "Automatización" }));
+    await user.click(screen.getByRole("button", { name: "Aplicar filtros" }));
+    expect(screen.getAllByText("Leer la noticia")).toHaveLength(1);
+    expect(screen.getByRole("heading", { name: "Privacidad por diseño, no por banner" })).toBeTruthy();
+    expect(screen.queryByText("Accesibilidad")).toBeNull();
+  });
+
   it("la edición sigue el artículo: volver, un H1, lead y otras noticias", () => {
     renderNews("/news/privacidad-flujo");
     expect(screen.getByRole("link", { name: "Volver a las noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByRole("heading", { level: 1, name: "Privacidad por diseño, no por banner" })).toBeTruthy();
-    expect(screen.getByText(/Ley 21\.719 en el flujo/)).toBeTruthy();
+    expect(screen.getByText("Se cumple en el trámite, no en un banner de cookies.")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/cómo la persona sigue el trámite si dice que no/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿Qué le preguntas a un formulario");
     const ley = document.querySelector('img[src="/images/seo/ley-21719-flujo.svg"]');
     expect(ley?.getAttribute("alt")).toContain("Ley 21.719");
+    expect(screen.getByRole("link", { name: "Ley 21.719" }).getAttribute("href")).toBe("/privacy");
+    expect(document.body.textContent).toContain("Marco:");
+    expect(document.body.textContent).not.toContain("contra-archivo");
+    expect(document.body.textContent).not.toContain("Grounded Theory");
+    expect(document.body.textContent).not.toContain("hub público");
+    expect(document.body.textContent).not.toContain("seguridad-privacidad-digital");
+    expect(document.body.textContent).not.toContain("Sin KPI");
+    expect(document.body.textContent).not.toContain("projects-data.ts");
     expect(screen.getByRole("heading", { level: 2, name: "Otras noticias" })).toBeTruthy();
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
     const exit = screen.getByRole("link", { name: "Revisión gratis de un flujo" });
@@ -62,14 +88,29 @@ describe("News interna · card SURA + salida a servicios", () => {
   it("accesibilidad no cita el slug y automatización sale al hub", () => {
     const { unmount } = renderNews("/news/accesibilidad-transvip");
     expect(document.body.textContent).not.toContain("diagnostico-accesibilidad-wcag");
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/−40% de tiempo de reserva/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿En qué paso se cae una reserva");
+    expect(document.body.textContent).not.toContain("hub público");
     expect(screen.getByRole("link", { name: "Revisión gratis de un flujo" }).getAttribute("href")).toBe(
       serviciosHref("revision-gratis"),
     );
     unmount();
 
     renderNews("/news/automatizacion-sura");
+    expect(screen.getByRole("heading", { name: "En la práctica" })).toBeTruthy();
+    expect(screen.getByText(/6 casos de error/)).toBeTruthy();
+    expect(document.body.textContent).not.toContain("¿Dónde se traba un onboarding");
+    expect(document.body.textContent).not.toContain("hub público");
     expect(screen.getByRole("link", { name: "Ver servicios" }).getAttribute("href")).toBe(serviciosHref());
     expect(document.body.textContent).not.toContain("inteligencia-artificial-negocios");
+    const caso = screen.getByRole("link", { name: "SURA Investments" });
+    expect(caso.getAttribute("href")).toBe("/empresa/sura-investments");
+    expect(document.body.textContent).toContain("Caso en el portafolio");
+    expect(document.body.textContent).not.toContain("projects-data.ts");
+    expect(document.body.textContent).not.toContain("suraHub");
+    expect(document.body.textContent).not.toContain("Fuente (no inventada)");
+    expect(document.body.textContent).not.toContain("/empresa/sura-investments");
   });
 
   it("la salida pública no usa hash de mentoría ni slug", () => {
