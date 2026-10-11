@@ -1,5 +1,4 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
-import { khuroItem } from "./khuro-portfoliobox";
 
 /** Visual evidence for /sobre-mi — images first, captions short. */
 export type AboutVisualTile = {
@@ -111,11 +110,9 @@ export const EXPERIENCE_COVER: Record<string, string> = {
   karri: portfolioImages.karri.deliveryBrand,
   "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
   "Karri by Transvip": portfolioImages.karri.deliveryBrand,
-  "Empresas Pareti": khuroItem("pareti")?.image ?? "",
-  "Maraña Agencia Digital": khuroItem("marana")?.image ?? "",
-  "La Voz de los Cerros": khuroItem("voz-cerros")?.image ?? "",
-  "La Negra Colorá": khuroItem("negra-colora")?.image ?? "",
-  "Teatro Di Popolo": khuroItem("teatro-di-popolo")?.image ?? "",
+  // Sin portada para Pareti, Maraña, La Voz de los Cerros, La Negra Colorá y Teatro Di Popolo:
+  // venían del CDN de Portfoliobox (cloudfront, 403 desde S42) y no hay export en public/images/**
+  // ni en los exports de Figma. Sin export no hay portada (no se inventa ni se pone placeholder).
 };
 
 export const METHOD_STRIP = [
