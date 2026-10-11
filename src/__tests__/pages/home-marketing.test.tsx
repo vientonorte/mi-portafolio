@@ -36,8 +36,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
 
 function assertCtas(container: HTMLElement, base: string) {
   const ctas = marketingCtas(container);
-  // 2 del hero + 3 tarjetas + "ver todos". Los conceptos no tienen CTA.
-  expect(ctas.length).toBe(6);
+  // 2 del hero + 3 tarjetas + "ver todos" + «Ver más» de Experiencias (→ /servicios/#experiencias).
+  expect(ctas.length).toBe(7);
   for (const a of ctas) {
     const href = a.getAttribute("href") ?? "";
     expect(href.startsWith(`${base}servicios/`), href).toBe(true);
@@ -51,6 +51,7 @@ function assertCtas(container: HTMLElement, base: string) {
     `${base}servicios/#revision-gratis`,
     `${base}servicios/#consultoria-ux`,
     `${base}servicios/`,
+    `${base}servicios/#experiencias`,
   ]);
 }
 

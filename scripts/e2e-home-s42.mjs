@@ -19,7 +19,7 @@
  *  1. Primera visita (contexto limpio, SW habilitado): exactamente 1 carga de documento
  *     en el main frame (sin location.reload() por el SW) y ningún /g/collect con dr = origen propio.
  *  2. Mobile 360×740 y 390×844: oferta «Web en 72h · $30.000 · 50/50» entera dentro del
- *     viewport, no tapada; DeviceMockup en la misma caja que 5d17bb9 (±2 px); sin solape.
+ *     viewport, no tapada; DeviceMockup en la misma caja que la baseline de #320 (±2 px); sin solape.
  *  3. Sin CTA flotante en / (ni «Agendar» fijo): solo header/nav pueden ser fixed/sticky con enlaces.
  *  4. CTAs del hero: primario /servicios/#web-pymes, secundario /servicios/#consultoria-ux; canon.
  *  5. Mobile 360×740 y 390×844: «Empezar» del bottom nav (dock) visible y su href, resuelto
@@ -46,13 +46,15 @@ const BASE_PATH = (() => {
 const DOCK_START_EXPECTED = new URL(`${BASE_PATH}servicios/#web-pymes`, ORIGIN).href;
 
 /**
- * Caja del DeviceMockup del hero ([data-testid="hero-mockup"]) medida sobre el build de
- * 5d17bb9 (main aprobado por Rö, mockup congelado) servido con `vite preview`, 5-oct-2026,
- * Chrome, contexto mobile (isMobile, DPR 2), scrollY 0, fuentes cargadas.
+ * Caja del DeviceMockup del hero ([data-testid="hero-mockup"]) con el layout de #320
+ * (1024c73: en mobile el mockup va sobre los CTA, max-w 300 px), aprobada por Rö el 11-oct-2026.
+ * Medida con `--measure` sobre `vite preview` del build de s42/pr1-sw-hero-nav, Chrome,
+ * contexto mobile (isMobile, DPR 2), scrollY 0, fuentes cargadas.
+ * Baseline anterior (5d17bb9, 5-oct): 360x740 {16,568,328,278} · 390x844 {16,568,358,296.8}.
  */
-const MOCKUP_BASELINE_5D17BB9 = {
-  '360x740': { x: 16, y: 568, width: 328, height: 278 },
-  '390x844': { x: 16, y: 568, width: 358, height: 296.8 },
+const MOCKUP_BASELINE = {
+  '360x740': { x: 30, y: 368, width: 300, height: 260.5 },
+  '390x844': { x: 45, y: 333, width: 300, height: 260.5 },
 };
 const TOL = 2;
 
@@ -267,11 +269,11 @@ async function checkMobileHero(browser) {
         console.log(`📐 ${key} ${JSON.stringify(m)}`);
         continue;
       }
-      const base = MOCKUP_BASELINE_5D17BB9[key];
+      const base = MOCKUP_BASELINE[key];
       record(`${key} oferta «${OFFER_TEXT}» presente`, m.offerText === OFFER_TEXT, `text=${JSON.stringify(m.offerText)}`);
       record(`${key} oferta entera dentro del viewport y no tapada`, Boolean(m.offer && inside(m.offer, vp) && m.offerVisibleAtCenter),
         `offer=${JSON.stringify(m.offer)} visibleAtCenter=${m.offerVisibleAtCenter}`);
-      record(`${key} DeviceMockup = baseline 5d17bb9 (±${TOL}px)`, Boolean(m.mockup && base && near(m.mockup, base)),
+      record(`${key} DeviceMockup = baseline #320 (±${TOL}px)`, Boolean(m.mockup && base && near(m.mockup, base)),
         `mockup=${JSON.stringify(m.mockup)} baseline=${JSON.stringify(base)}`);
       record(`${key} oferta no se solapa con el mockup`, Boolean(m.offer && m.mockup && !overlap(m.offer, m.mockup)));
       await checkDockStart(page, key);
