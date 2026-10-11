@@ -148,7 +148,10 @@ export function HomeMarketingSections() {
         </div>
       </section>
 
-      <ServiciosConceptos />
+      <ServiciosConceptos
+        moreHref={serviciosHref("experiencias")}
+        onMore={() => trackCta("experiencias-ver-mas", serviciosHref("experiencias"))}
+      />
     </div>
   );
 }

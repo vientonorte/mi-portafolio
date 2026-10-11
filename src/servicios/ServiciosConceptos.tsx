@@ -1,5 +1,6 @@
 import { PendingSlot, SECTION_TITLE_CLASS } from "../components/marketing";
 import { placeholdersEnabled } from "../components/marketing/marketing-env";
+import { ArrowRight } from "lucide-react";
 import { cn } from "../lib/utils";
 import { ServicioPieceCard } from "./ServicioPieceCard";
 import { SERVICIOS_CONCEPTOS, SERVICIOS_CONCEPTOS_CASES, type ConceptCase } from "./servicios-content";
@@ -46,7 +47,16 @@ function ConceptCard({ item }: { item: ConceptCase }) {
 }
 
 /** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
-export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
+export function ServiciosConceptos({
+  embedded = false,
+  moreHref,
+  onMore,
+}: {
+  embedded?: boolean;
+  /** Home: «Ver más» → /servicios/#experiencias (URL HTTP desde la base de Vite, nunca /#/ ni /s/). */
+  moreHref?: string;
+  onMore?: () => void;
+}) {
   const visible = SERVICIOS_CONCEPTOS_CASES.filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;
   if (embedded) {
@@ -73,6 +83,19 @@ export function ServiciosConceptos({ embedded = false }: { embedded?: boolean })
             </li>
           ))}
         </ul>
+        {moreHref ? (
+          <p className="mt-8">
+            <a
+              href={moreHref}
+              data-marketing-cta="experiencias-ver-mas"
+              onClick={onMore}
+              className="inline-flex min-h-[44px] items-center gap-2 font-semibold text-foreground underline underline-offset-4 hover:text-primary"
+            >
+              Ver más
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </a>
+          </p>
+        ) : null}
       </div>
     </section>
   );
