@@ -142,7 +142,7 @@ export function SuraOnboardingEvidence({ lang }: SuraOnboardingEvidenceProps) {
         transition={{ delay: 0.4 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        <Card className="p-6 text-center bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10 border-2 border-blue-200/50 dark:border-blue-800/30">
+        <Card className="p-6 text-center bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-orange-900/10 border-2 border-orange-200/50 dark:border-orange-800/30">
           <div className="text-3xl mb-2">🎨</div>
           <h4 className="text-sm mb-1">Design System</h4>
           <p className="text-xs text-muted-foreground">

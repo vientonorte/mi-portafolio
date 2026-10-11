@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="Rodrigo Gaete">
   <defs>
     <linearGradient id="rg" x1="8" y1="32" x2="32" y2="8" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF1D25"/>
+      <stop stop-color="#FF931E"/>
       <stop offset="1" stop-color="#FF931E"/>
     </linearGradient>
     <radialGradient id="shine" cx="0.35" cy="0.3" r="0.65">

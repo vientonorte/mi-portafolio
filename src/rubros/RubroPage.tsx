@@ -135,7 +135,7 @@ export function RubroPage({ slug }: { slug: string }) {
                     {step.before}
                   </p>
                   <p className="text-sm leading-relaxed text-foreground">
-                    <span className="block font-mono text-xs uppercase tracking-[0.14em] text-[#0f6aa8] dark:text-[#7cc4f2]">
+                    <span className="block font-mono text-xs uppercase tracking-[0.14em] text-primary">
                       Después
                     </span>
                     {step.after}

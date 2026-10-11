@@ -13,12 +13,14 @@ import { describe, expect, it } from "vitest";
 import { render as renderServicios } from "@/servicios/entry-server";
 import { STEPS, contrast, hex, over, parseColor, sampleGradient, toRGBA, type RGBA } from "./contrast-utils";
 import {
-  AZUL_700,
+  AZUL_NOCHE,
   CSS,
   CTA_SURFACES_C3,
   GRADIENT_PATTERN,
   INVENTORY,
-  ROJO_700,
+  NARANJA,
+  NARANJA_600,
+  NARANJA_700,
   ROOT,
   SERVICIOS_GRADIENT_ENTRIES,
   SOLID_CTA_SURFACES,
@@ -70,21 +72,22 @@ function walk(dir: string, out: string[] = []): string[] {
 }
 
 describe("tokens de degradado (leídos de CSS)", () => {
-  it("--brand-gradient usa las variantes 700 AA de vn-tokens.css", () => {
-    expect(ROJO_700.toLowerCase()).toBe("#c2330f");
-    expect(AZUL_700.toLowerCase()).toBe("#0f6aa8");
+  it("--brand-gradient = naranja canon plano desde tokens (sin rojo ni azul)", () => {
+    expect(NARANJA.toLowerCase()).toBe("#ff931e");
+    expect(NARANJA_700.toLowerCase()).toBe("#9e4f00");
+    expect(AZUL_NOCHE.toLowerCase()).toBe("#0d1b3d");
     expect(CSS.globals).toMatch(
-      /--brand-gradient:\s*linear-gradient\(\s*135deg,\s*var\(--vn-primitive-rojo-700\)\s*0%,\s*var\(--vn-primitive-azul-evo-700\)\s*100%\s*\)/
+      /--brand-gradient:\s*linear-gradient\(\s*135deg,\s*var\(--vn-primitive-naranja\)\s*0%,\s*var\(--vn-primitive-naranja\)\s*100%\s*\)/
     );
     expect(CSS.globals).toMatch(/\.dark \.text-brand-gradient\s*\{\s*background-image:\s*var\(--brand-gradient-on-dark\)/);
-    expect(CSS.globals).toMatch(/--brand-gradient-on-dark:\s*linear-gradient\(\s*135deg,\s*var\(--brand-red\)\s*0%,\s*var\(--brand-orange\)\s*100%/);
-    expect(THEME.dark.brandRed.toLowerCase()).toBe("#e8401c");
-    expect(THEME.dark.brandOrange.toLowerCase()).toBe("#1a8fdc");
+    expect(CSS.globals).toMatch(/--brand-gradient-on-dark:\s*linear-gradient\(\s*135deg,\s*var\(--brand-orange\)\s*0%,\s*var\(--brand-orange\)\s*100%/);
+    expect(THEME.dark.brandOrange.toLowerCase()).toBe("#ff931e");
+    expect(THEME.light.brandOrange.toLowerCase()).toBe("#ff931e");
   });
 
-  it(".heading-gradient: claro = --brand-gradient; oscuro = #ff1d25 → #ff931e", () => {
-    expect(CSS.global).toMatch(/\.heading-gradient\s*\{\s*background:\s*var\(--brand-gradient\)/);
-    expect(CSS.global).toMatch(/\.dark \.heading-gradient\s*\{\s*background-image:\s*linear-gradient\(135deg, #ff1d25 0%, #ff931e 100%\)/);
+  it(".heading-gradient: claro = --brand-gradient-text (naranja-700); oscuro = --brand-gradient-on-dark", () => {
+    expect(CSS.global).toMatch(/\.heading-gradient\s*\{\s*background:\s*var\(--brand-gradient-text\)/);
+    expect(CSS.global).toMatch(/\.dark \.heading-gradient\s*\{\s*background-image:\s*var\(--brand-gradient-on-dark\)/);
   });
 
   it("src/index.css (tokens legacy #ff1d25/#ff931e) no se importa en ninguna entrada", () => {
@@ -154,19 +157,14 @@ describe("contraste WCAG en cada 5 % de cada degradado (después de este PR)", (
   }
 });
 
-describe("antes de este PR (documenta los fallos corregidos)", () => {
-  const before = (id: string, label: string, theme: "light" | "dark") => {
-    const k = INVENTORY.find((e) => e.id === id)!.cases!.find((x) => x.label === label && x.theme === theme)!;
-    return minRatio(k, "before").ratio;
-  };
-  it("--brand-gradient con texto blanco: 3.50:1 (min en #1A8FDC) → falla AA texto normal", () => {
-    expect(before("how-we-work", "HowWeWork paso · reposo", "light")).toBeCloseTo(3.5, 2);
+describe("antes de este PR (naranja canon): blanco sobre #FF931E no cumple", () => {
+  it("blanco sobre naranja 2.22:1 (falla); azul-noche sobre naranja 7.61:1", () => {
+    expect(contrast(parseColor("#ffffff"), parseColor(NARANJA))).toBeLessThan(3);
+    expect(contrast(parseColor(AZUL_NOCHE), parseColor(NARANJA))).toBeGreaterThanOrEqual(7.6);
   });
-  it("brillo via-white/20 sobre CTA: 2.70:1 → ahora via-white/10", () => {
-    expect(before("casestudies", "CTA final text-lg · brillo animado (pico)", "light")).toBeLessThan(3);
-  });
-  it(".heading-gradient claro #ff1d25→#ff931e: < 3:1 incluso para texto grande", () => {
-    expect(before("stats-tooltip", "Valor .heading-gradient", "light")).toBeLessThan(3);
+  it("rojo plano #FF1D25 con blanco < 4.5:1 (sale del isologo y de .heading-gradient)", () => {
+    expect(contrast(parseColor("#ffffff"), parseColor("#ff1d25"))).toBeLessThan(4.5);
+    expect(CSS.global).not.toMatch(/#ff1d25/i);
   });
 });
 
@@ -218,28 +216,26 @@ describe("AA: barra móvil glass, AboutEvidenceBento, botones azules dark (antes
     expect(dark.after).toBeGreaterThanOrEqual(4.5);
   });
 
-  describe("botones sólidos azules en dark", () => {
-    const white = parseColor("#ffffff");
-    it("tokens: --vn-color-cta-bg = azul-evo-700, cta-bg-hover = azul-evo-800, cta-fg = blanco; --primary claro sigue en #0f6aa8", () => {
-      expect(THEME.light.ctaBg.toLowerCase()).toBe("#0f6aa8");
-      expect(THEME.dark.ctaBg.toLowerCase()).toBe("#0f6aa8");
-      expect(THEME.dark.ctaFg.toLowerCase()).toBe("#ffffff");
-      expect(THEME.light.primary.toLowerCase()).toBe("#0f6aa8");
-      expect(CSS.vnTokens).toMatch(/--vn-color-cta-bg-hover:\s*var\(--vn-primitive-azul-evo-800\)/);
+  describe("botones sólidos en naranja canon (tokens --vn-color-cta-*)", () => {
+    it("tokens: cta-bg = naranja, cta-bg-hover = naranja-600, cta-fg = azul-noche; --primary claro = naranja-700", () => {
+      expect(THEME.light.ctaBg.toLowerCase()).toBe("#ff931e");
+      expect(THEME.dark.ctaBg.toLowerCase()).toBe("#ff931e");
+      expect(THEME.light.ctaBgHover.toLowerCase()).toBe(NARANJA_600.toLowerCase());
+      expect(THEME.dark.ctaFg.toLowerCase()).toBe("#0d1b3d");
+      expect(THEME.light.primary.toLowerCase()).toBe("#9e4f00");
+      expect(THEME.dark.primary.toLowerCase()).toBe("#ff931e");
+      expect(THEME.dark.primaryFg.toLowerCase()).toBe("#0d1b3d");
     });
-    it("antes: bg-primary oscuro (#1A8FDC) + text-primary-foreground (#fff) = 3.50:1", () => {
-      expect(contrast(parseColor(THEME.dark.primaryFg), parseColor(THEME.dark.primary))).toBeCloseTo(3.5, 2);
-    });
-    it("después: Button default y ProcessNavigation activo usan --vn-color-cta-* → 5.76:1 (hover 6.79:1)", () => {
+    it("Button default y ProcessNavigation activo usan --vn-color-cta-* → azul-noche sobre naranja ≥ 7.6:1 (hover ≥ 6.3:1)", () => {
       const btn = readFileSync(join(ROOT, "src/components/ui/button.tsx"), "utf8");
       expect(btn).toMatch(/default: "bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\] hover:bg-\[var\(--vn-color-cta-bg-hover\)\]"/);
       const nav = readFileSync(join(ROOT, "src/components/molecules/ProcessNavigation.tsx"), "utf8");
       expect(nav).toMatch(/bg-\[var\(--vn-color-cta-bg\)\] text-\[var\(--vn-color-cta-fg\)\]/);
       const r = contrast(parseColor(THEME.dark.ctaFg), parseColor(THEME.dark.ctaBg));
-      expect(r).toBeGreaterThanOrEqual(4.5);
-      expect(r).toBeCloseTo(5.76, 2);
-      expect(contrast(white, parseColor("#0b5f96"))).toBeGreaterThanOrEqual(4.5);
+      expect(r).toBeGreaterThanOrEqual(7.6);
+      expect(contrast(parseColor(THEME.dark.ctaFg), parseColor(THEME.light.ctaBgHover))).toBeGreaterThanOrEqual(6.3);
     });
+
   });
 });
 
@@ -248,20 +244,20 @@ describe("superficies azules sólidas (no botones) → --vn-color-cta-* (antes �
   const r = (bg: string) => contrast(white, parseColor(bg));
   const src = (f: string) => readFileSync(join(ROOT, f), "utf8");
 
-  it("tokens intactos: --primary-foreground dark = #fff, --primary light = #0f6aa8, --primary dark = #1A8FDC", () => {
-    expect(THEME.dark.primaryFg.toLowerCase()).toBe("#ffffff");
-    expect(THEME.light.primary.toLowerCase()).toBe("#0f6aa8");
-    expect(THEME.dark.primary.toLowerCase()).toBe("#1a8fdc");
-    expect(THEME.dark.ctaBgHover.toLowerCase()).toBe("#0b5f96");
+  it("tokens: --primary-foreground dark = azul-noche, --primary light = naranja-700, --primary dark = naranja", () => {
+    expect(THEME.dark.primaryFg.toLowerCase()).toBe("#0d1b3d");
+    expect(THEME.light.primary.toLowerCase()).toBe("#9e4f00");
+    expect(THEME.dark.primary.toLowerCase()).toBe("#ff931e");
+    expect(THEME.dark.ctaBgHover.toLowerCase()).toBe("#e8861b");
   });
 
-  it("antes / después por tema: dark 3.50 → 5.76:1 (hover 6.79:1); light 5.76 → 5.76:1 (sin empeorar)", () => {
-    expect(r(THEME.dark.primary)).toBeCloseTo(3.5, 2);
-    expect(r(THEME.dark.ctaBg)).toBeCloseTo(5.76, 2);
-    expect(r(THEME.dark.ctaBgHover)).toBeCloseTo(6.79, 2);
-    expect(r(THEME.light.primary)).toBeCloseTo(5.76, 2);
-    expect(r(THEME.light.ctaBg)).toBeGreaterThanOrEqual(r(THEME.light.primary));
-    expect(r(THEME.light.ctaBgHover)).toBeGreaterThanOrEqual(r(THEME.light.primary));
+  it("texto sobre cta-bg / primary cumple AA en ambos temas", () => {
+    const navy = parseColor(AZUL_NOCHE);
+    const rn = (bg: string) => contrast(navy, parseColor(bg));
+    expect(rn(THEME.dark.ctaBg)).toBeGreaterThanOrEqual(7.6);
+    expect(rn(THEME.dark.ctaBgHover)).toBeGreaterThanOrEqual(6.3);
+    expect(rn(THEME.dark.primary)).toBeGreaterThanOrEqual(7.6);
+    expect(r(THEME.light.primary)).toBeGreaterThanOrEqual(5.8);
   });
 
   const PATTERNS: Record<string, { mustMatch: RegExp[]; mustNot: RegExp[] }> = {
@@ -322,9 +318,8 @@ describe("superficies azules sólidas (no botones) → --vn-color-cta-* (antes �
       expect(e.status).toBe("checked");
       const dark = e.cases!.find((k) => k.label === label && k.theme === "dark")!;
       const light = e.cases!.find((k) => k.label === label && k.theme === "light")!;
-      expect(minRatio(dark, "before").ratio).toBeCloseTo(3.5, 2);
-      expect(minRatio(dark, "after").ratio).toBeCloseTo(5.76, 2);
-      expect(minRatio(light, "after").ratio).toBeGreaterThanOrEqual(minRatio(light, "before").ratio);
+      expect(minRatio(dark, "after").ratio).toBeGreaterThanOrEqual(7.6);
+      expect(minRatio(light, "after").ratio).toBeGreaterThanOrEqual(7.6);
     }
   });
 });
@@ -346,9 +341,9 @@ describe("tercer commit: skip-links, checkbox, CaseStudyCard hover, tab ProjectD
     "checkbox-checked": {
       mustMatch: [
         new RegExp(`data-\\[state=checked\\]:${CTA} data-\\[state=checked\\]:${FG} dark:data-\\[state=checked\\]:${CTA}`),
-        /data-\[state=checked\]:border-\[var\(--vn-color-cta-bg\)\]/,
+        /data-\[state=checked\]:border-primary/,
       ],
-      mustNot: [/checked\]:bg-primary/, /checked\]:text-primary-foreground/, /checked\]:border-primary/],
+      mustNot: [/checked\]:bg-primary/, /checked\]:text-primary-foreground/],
     },
     "case-study-hover": {
       mustMatch: [new RegExp(`group-hover:${CTA} group-hover:${FG}`)],
@@ -389,14 +384,15 @@ describe("tercer commit: skip-links, checkbox, CaseStudyCard hover, tab ProjectD
     });
   }
 
-  it("valores clave: blanco sobre azul dark 3.50 → 5.76:1; caja del checkbox vs página dark ≥ 3:1", () => {
+  it("valores clave: azul-noche sobre naranja ≥ 7.6:1 (hover ≥ 6.3:1); borde del checkbox vs página ≥ 3:1 en ambos temas", () => {
     const skip = CTA_SURFACES_C3.find((x) => x.id === "skip-framework")!.cases.find((k) => k.theme === "dark")!;
-    expect(minRatio(skip, "before").ratio).toBeCloseTo(3.5, 2);
-    expect(minRatio(skip, "after").ratio).toBeCloseTo(5.76, 2);
+    expect(minRatio(skip, "after").ratio).toBeGreaterThanOrEqual(7.6);
     const reload = CTA_SURFACES_C3.find((x) => x.id === "language-reload")!.cases.find((k) => k.theme === "dark" && k.label.endsWith("hover"))!;
-    expect(minRatio(reload, "after").ratio).toBeCloseTo(6.79, 2);
-    const box = CTA_SURFACES_C3.find((x) => x.id === "checkbox-checked")!.cases.find((k) => k.label.includes("caja") && k.theme === "dark")!;
-    expect(minRatio(box, "after").ratio).toBeGreaterThanOrEqual(3);
+    expect(minRatio(reload, "after").ratio).toBeGreaterThanOrEqual(6.3);
+    for (const theme of ["light", "dark"] as const) {
+      const box = CTA_SURFACES_C3.find((x) => x.id === "checkbox-checked")!.cases.find((k) => k.label.includes("caja") && k.theme === theme)!;
+      expect(minRatio(box, "after").ratio).toBeGreaterThanOrEqual(3);
+    }
   });
 
   it(".skip-link efectivo (cascada global.css → design-system.css) sigue ≥ 4.5:1 y no se toca", () => {

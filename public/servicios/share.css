@@ -28,11 +28,12 @@
   --vn-primitive-marfil: #f7f2e7;
   --vn-primitive-pizarra: #4a5568;
   --vn-primitive-rojo: #e8401c;
-  --vn-primitive-azul-evo: #1a8fdc;
+  --vn-primitive-naranja: #ff931e; /* espejo de vn-tokens.css · azul-noche encima 7.61:1 */
   --brand-red: #e8401c;
-  --brand-orange: #1a8fdc;
-  --brand-gradient: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-orange) 100%);
-  --vn-color-brand: var(--vn-primitive-azul-evo);
+  --brand-orange: var(--vn-primitive-naranja);
+  --brand-gradient: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange) 100%);
+  --brand-on-gradient: var(--vn-primitive-azul-noche);
+  --vn-color-brand: var(--vn-primitive-naranja);
   --vn-color-brand-dark: #0a0a0a;
   --vn-color-accent: var(--vn-primitive-rojo);
   --vn-color-surface: #ffffff;
@@ -179,7 +180,7 @@ body {
 }
 
 .share-nav a[aria-current="page"] {
-  background: rgba(26, 143, 220, 0.12);
+  background: rgba(255, 147, 30, 0.12);
   color: var(--vn-color-brand-dark);
 }
 
@@ -305,7 +306,7 @@ body {
   margin: 0.25rem 0.5rem 0.25rem 0;
   border-radius: 999px;
   background: var(--brand-gradient);
-  color: #fff;
+  color: var(--brand-on-gradient);
   text-decoration: none;
   font-weight: 600;
 }

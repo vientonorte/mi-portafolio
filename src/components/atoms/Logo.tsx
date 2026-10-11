@@ -78,7 +78,7 @@ export function LogoMarkSvg({
       <defs>
         <linearGradient id={gradientId} x1="8" y1="32" x2="32" y2="8" gradientUnits="userSpaceOnUse">
           {BRAND_GRADIENT_STOPS.map((stop) => (
-            <stop key={stop.offset} offset={stop.offset} stopColor={stop.color} />
+            <stop key={stop.offset} offset={stop.offset} style={{ stopColor: stop.color }} />
           ))}
         </linearGradient>
         <radialGradient id={shineId} cx="0.35" cy="0.3" r="0.65">

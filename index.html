@@ -169,14 +169,16 @@
         font-size: 0.875rem;
         letter-spacing: 0.04em;
       }
+      /* Boot (antes del CSS de la app): espejo de --vn-primitive-naranja en vn-tokens.css. */
+      :root { --vn-boot-brand: #FF931E; }
       #root:empty::before {
         content: "";
         width: 40px;
         height: 40px;
         border-radius: 50%;
         border: 3px solid rgba(247, 242, 231, 0.12);
-        border-top-color: #1a8fdc;
-        border-right-color: #e8401c;
+        border-top-color: var(--vn-boot-brand);
+        border-right-color: var(--vn-boot-brand);
         animation: vn-spin 0.85s linear infinite;
       }
       #root:empty::after {
@@ -195,7 +197,7 @@
       @media (prefers-reduced-motion: reduce) {
         #root:empty::before {
           animation: none;
-          border-top-color: #1a8fdc;
+          border-top-color: var(--vn-boot-brand);
         }
       }
       /* Static LCP: texto del documento (no React). Se oculta cuando pinta #inicio. */

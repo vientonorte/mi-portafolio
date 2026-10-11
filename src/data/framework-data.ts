@@ -384,7 +384,7 @@ export const frameworkPhases: FrameworkPhase[] = [
     descriptionEN: "Design never ends. Post-launch monitoring, success metrics analysis, new opportunity identification and iterative improvement cycles.",
     image: "https://images.unsplash.com/photo-1580070558439-b2696af4600d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
     icon: "RefreshCw",
-    color: "#1A8FDC",
+    color: "#FF931E",
     objectives: [
       "Monitorear impacto real de los cambios implementados",
       "Identificar nuevas oportunidades de mejora",

@@ -74,8 +74,11 @@ export const THEME = { light: pick(lightVars), dark: pick(darkVars) };
 export type ThemeName = keyof typeof THEME;
 
 export const ROJO_700 = primitives["--vn-primitive-rojo-700"];
-export const AZUL_700 = primitives["--vn-primitive-azul-evo-700"];
-export const AZUL_800 = primitives["--vn-primitive-azul-evo-800"];
+/** Naranja canon VN (tokens): relleno + texto azul-noche; -700 para texto sobre claro. */
+export const NARANJA = primitives["--vn-primitive-naranja"];
+export const NARANJA_600 = primitives["--vn-primitive-naranja-600"];
+export const NARANJA_700 = primitives["--vn-primitive-naranja-700"];
+export const AZUL_NOCHE = primitives["--vn-primitive-azul-noche"];
 
 /** Color de Tailwind v4 (oklch) leído de node_modules/tailwindcss/theme.css. */
 export function tw(name: string, alpha = 1): RGBA {
@@ -95,20 +98,22 @@ export const val = <X,>(v: V<X>, era: Era): X =>
     ? (v as { before: X; after: X })[era]
     : (v as X);
 
-/** --brand-gradient: antes #E8401C→#1A8FDC; después rojo-700 → azul-evo-700. */
+/** --brand-gradient: antes rojo-700 → azul-evo-700; después naranja canon plano (sin rojo ni azul). */
 export const BRAND: V<RGBA[]> = {
-  before: [c("#E8401C"), c("#1A8FDC")],
-  after: [c(ROJO_700), c(AZUL_700)],
+  before: [c("#c2330f"), c("#0f6aa8")],
+  after: [c(NARANJA), c(NARANJA)],
 };
-/** .text-brand-gradient: claro = BRAND; oscuro = tonos base (sin cambio). */
+/** Texto sobre la marca: antes blanco; después azul-noche (--brand-on-gradient / --vn-color-cta-fg). */
+export const ON_BRAND: V<RGBA[]> = { before: [c("#ffffff")], after: [c(AZUL_NOCHE)] };
+/** .text-brand-gradient: claro = naranja-700 plano (AA sobre claro); oscuro = naranja canon plano. */
 export const BRAND_TEXT = {
-  light: BRAND,
-  dark: [c(THEME.dark.brandRed), c(THEME.dark.brandOrange)] as RGBA[],
+  light: { before: [c("#c2330f"), c("#0f6aa8")], after: [c(NARANJA_700), c(NARANJA_700)] } as V<RGBA[]>,
+  dark: [c(THEME.dark.brandOrange), c(THEME.dark.brandOrange)] as RGBA[],
 };
-/** .heading-gradient: antes #ff1d25→#ff931e en ambos temas; después claro = BRAND 700. */
+/** .heading-gradient: claro = naranja-700 plano; oscuro = naranja canon plano (antes #ff1d25→#ff931e). */
 export const HEADING_TEXT = {
-  light: { before: [c("#ff1d25"), c("#ff931e")], after: [c(ROJO_700), c(AZUL_700)] } as V<RGBA[]>,
-  dark: [c("#ff1d25"), c("#ff931e")] as RGBA[],
+  light: { before: [c("#c2330f"), c("#0f6aa8")], after: [c(NARANJA_700), c(NARANJA_700)] } as V<RGBA[]>,
+  dark: { before: [c("#ff1d25"), c("#ff931e")], after: [c(NARANJA), c(NARANJA)] } as V<RGBA[]>,
 };
 
 /* ── Modelo ─────────────────────────────────────────────────────────────── */
@@ -154,13 +159,13 @@ function whiteOnBrand(
   for (const theme of themes) {
     const surf = THEME[theme][opts.surface ?? "bg"];
     const brand = { before: [{ stops: val(BRAND, "before") }], after: [{ stops: val(BRAND, "after") }] };
-    out.push({ label: `${label} · reposo`, theme, text: white, base: surf, layers: brand, size, why: opts.why });
+    out.push({ label: `${label} · reposo`, theme, text: ON_BRAND, base: surf, layers: brand, size, why: opts.why });
     if (opts.hoverOpacity) {
       const o = opts.hoverOpacity;
       out.push({
         label: `${label} · hover opacity-${o * 100}`,
         theme,
-        text: white,
+        text: ON_BRAND,
         base: surf,
         layers: { before: [{ stops: val(BRAND, "before"), opacity: o }], after: [{ stops: val(BRAND, "after"), opacity: o }] },
         size,
@@ -172,7 +177,7 @@ function whiteOnBrand(
       out.push({
         label: `${label} · brillo animado (pico)`,
         theme,
-        text: white,
+        text: ON_BRAND,
         base: surf,
         layers: {
           before: [{ stops: val(BRAND, "before") }, { stops: sh("before") }],
@@ -188,7 +193,7 @@ function whiteOnBrand(
 
 /** Icono blanco sobre bg-brand-gradient: contraste no textual (1.4.11) ≥ 3:1. */
 function iconOnBrand(label: string): Case[] {
-  return [{ label, theme: "light", text: white, base: "#ffffff", layers: { before: [{ stops: val(BRAND, "before") }], after: [{ stops: val(BRAND, "after") }] }, size: "non-text" }];
+  return [{ label, theme: "light", text: ON_BRAND, base: "#ffffff", layers: { before: [{ stops: val(BRAND, "before") }], after: [{ stops: val(BRAND, "after") }] }, size: "non-text" }];
 }
 
 /**
@@ -201,7 +206,7 @@ function solidCtaWhite(label: string, size: Size = "normal", opts: { hover?: boo
     out.push({
       label,
       theme,
-      text: white,
+      text: ON_BRAND,
       base: THEME[theme].bg,
       layers: {
         before: [{ stops: [c(THEME[theme].primary)] }],
@@ -214,7 +219,7 @@ function solidCtaWhite(label: string, size: Size = "normal", opts: { hover?: boo
       out.push({
         label: `${label} · hover`,
         theme,
-        text: white,
+        text: ON_BRAND,
         base: THEME[theme].bg,
         layers: {
           before: [{ stops: [c(THEME[theme].primary)] }], // hover:bg-primary (mismo hex)
@@ -256,7 +261,9 @@ function checkedBoxVsPage(label: string): Case[] {
   return themes.map((theme): Case => ({
     label,
     theme,
-    text: { before: [c(THEME[theme].primary)], after: [c(THEME[theme].ctaBg)] },
+    // Después: borde del check marcado = --primary (claro naranja-700 5.88:1, oscuro naranja 8.9:1);
+    // el relleno naranja sobre blanco solo da 2.22:1, por eso el borde lleva el contorno ≥ 3:1.
+    text: { before: [c("#0f6aa8")], after: [c(THEME[theme].primary)] },
     base: THEME[theme].bg,
     layers: [],
     size: "non-text",
@@ -349,7 +356,7 @@ const blobTint = (label: string, o: number, base: Tok): Case[] =>
 
 export const INVENTORY: Entry[] = [
   // Tokens / definiciones
-  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .bg-brand-gradient-aa, .dark .text-brand-gradient, .profile-avatar-frame::before", element: "token", matches: 13, status: "decorative", note: "Definiciones; los usos se verifican abajo." },
+  { id: "token-brand-gradient", file: "src/styles/globals.css", component: "--brand-gradient / --brand-gradient-on-dark, .bg-/.text-/.border-brand-gradient, .bg-brand-gradient-aa, .dark .text-brand-gradient, --brand-gradient-text, .bg-brand-gradient.bg-brand-gradient (texto azul-noche), .profile-avatar-frame::before", element: "token", matches: 17, status: "decorative", note: "Definiciones; los usos se verifican abajo." },
   { id: "globals-atmosphere", file: "src/styles/globals.css", component: ".section-atmosphere-* (radiales primary 3–6 %; PageSection)", element: "fondo de sección", matches: 5, status: "checked",
     cases: [
       ...tint("section-atmosphere-base", (t) => [{ stops: [primary(t, 0.05), T] }], { texts: FG_MUTED_PRIMARY }),
@@ -519,7 +526,7 @@ export const INVENTORY: Entry[] = [
   { id: "sura", file: "src/components/organisms/SuraOnboardingEvidence.tsx", component: "SuraOnboardingEvidence", element: "tiles icono, fondos slate-50→100 detrás de mockups Figma (sin texto vivo), tarjetas de color", matches: 8, status: "checked",
     cases: [
       ...iconOnBrand("Iconos tile"),
-      ...(["blue", "green", "purple"] as const).flatMap((hue) =>
+      ...(["orange", "green", "purple"] as const).flatMap((hue) =>
         themes.flatMap((theme) =>
           (["fg", "mutedFg"] as Tok[]).map((t): Case => ({
             label: `Tarjeta ${hue} · ${t}`,
