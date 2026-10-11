@@ -116,6 +116,7 @@ export function HomeMarketingSections() {
   const copy = COPY[language === "en" ? "en" : "es"];
   const cards = homeServiceCards();
   const allHref = serviciosHref();
+  const experienciasHref = serviciosHref("experiencias");
 
   return (
     <div data-testid="home-marketing">
@@ -148,10 +149,22 @@ export function HomeMarketingSections() {
         </div>
       </section>
 
-      <ServiciosConceptos
-        moreHref={serviciosHref("experiencias")}
-        onMore={() => trackCta("experiencias-ver-mas", serviciosHref("experiencias"))}
-      />
+      <ServiciosConceptos />
+      {/* «Ver más» de Experiencias → /servicios/#experiencias (URL HTTP desde la base de Vite;
+          en /qa/ = /qa/servicios/#experiencias). Fuera de ServiciosConceptos para no chocar con #317. */}
+      <div className="-mt-6 bg-background pb-12 md:-mt-8 md:pb-16">
+        <p className="container mx-auto max-w-6xl px-4">
+          <a
+            href={experienciasHref}
+            data-marketing-cta="experiencias-ver-mas"
+            onClick={() => trackCta("experiencias-ver-mas", experienciasHref)}
+            className="inline-flex min-h-[44px] items-center gap-2 font-semibold text-foreground underline underline-offset-4 hover:text-primary"
+          >
+            {language === "en" ? "See more" : "Ver más"}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
