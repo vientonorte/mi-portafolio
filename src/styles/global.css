@@ -301,14 +301,14 @@ html.dark .bottom-nav-mobile--glass {
     ),
     linear-gradient(
       145deg,
-      color-mix(in srgb, #ff1d25 38%, transparent) 0%,
-      color-mix(in srgb, #ff931e 42%, transparent) 100%
+      color-mix(in srgb, var(--vn-primitive-naranja) 38%, transparent) 0%,
+      color-mix(in srgb, var(--vn-primitive-naranja) 42%, transparent) 100%
     );
   -webkit-backdrop-filter: blur(10px) saturate(1.25);
   backdrop-filter: blur(10px) saturate(1.25);
   border: 1px solid color-mix(in srgb, #ffffff 32%, transparent);
   box-shadow:
-    0 6px 16px rgba(255, 29, 37, 0.16),
+    0 6px 16px rgba(255, 147, 30, 0.16),
     0 2px 6px rgba(15, 23, 42, 0.1),
     inset 0 1px 0 color-mix(in srgb, #ffffff 40%, transparent);
   transition: box-shadow 0.18s ease-out, border-color 0.18s ease-out, opacity 0.18s ease-out;
@@ -335,7 +335,7 @@ html.dark .bottom-nav-mobile--glass {
 .liquid-nav-cta--active .liquid-nav-cta__halo {
   opacity: 1;
   box-shadow:
-    0 8px 18px rgba(255, 29, 37, 0.22),
+    0 8px 18px rgba(255, 147, 30, 0.22),
     0 0 0 1.5px color-mix(in srgb, var(--primary) 42%, transparent),
     inset 0 1px 0 color-mix(in srgb, #ffffff 48%, transparent);
 }
@@ -357,14 +357,14 @@ html.dark .liquid-nav-cta__halo {
     ),
     linear-gradient(
       145deg,
-      color-mix(in srgb, #ff1d25 48%, transparent) 0%,
-      color-mix(in srgb, #ff931e 50%, transparent) 100%
+      color-mix(in srgb, var(--vn-primitive-naranja) 48%, transparent) 0%,
+      color-mix(in srgb, var(--vn-primitive-naranja) 50%, transparent) 100%
     );
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .liquid-nav-cta__halo {
-    background: color-mix(in srgb, #ff1d25 32%, #ff931e 32%, transparent);
+    background: color-mix(in srgb, var(--vn-primitive-naranja) 32%, var(--vn-primitive-naranja) 32%, transparent);
   }
 }
 
@@ -541,10 +541,10 @@ html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
 }
 
 /* Títulos con gradiente — webkit completo (Safari) */
-/* Claro: degradado de marca AA (700). Antes #ff1d25→#ff931e = 2.22:1 sobre
-   blanco. Oscuro: se mantiene #ff1d25→#ff931e (≥4.66:1 sobre #171717). */
+/* Claro: naranja-700 plano (token de texto, 5.88:1 sobre blanco). Antes rojo→naranja
+   = 2.22:1 sobre blanco. Oscuro: naranja canon plano (token on-dark). */
 .heading-gradient {
-  background: var(--brand-gradient);
+  background: var(--brand-gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -552,7 +552,7 @@ html[data-nav="subpage"] main:has([data-surface="timed-demo"]) {
 }
 
 .dark .heading-gradient {
-  background-image: linear-gradient(135deg, #ff1d25 0%, #ff931e 100%);
+  background-image: var(--brand-gradient-on-dark);
 }
 
 .subpage-hero {

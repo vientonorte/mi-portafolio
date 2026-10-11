@@ -27,16 +27,18 @@
   --vn-primitive-marfil:      #f7f2e7;
   --vn-primitive-pizarra:     #4a5568;
   --vn-primitive-rojo:        #E8401C;
-  --vn-primitive-azul-evo:    #1A8FDC;
+  --vn-primitive-naranja:     #FF931E;  /* canon VN · azul-noche encima 7.61:1 */
   --vn-primitive-amarillo:    #F5B945;
   --vn-primitive-success:     #2d9a5a;
   /* Variantes AA (WCAG 2.2) · espejo en public/s/share.css */
-  --vn-primitive-azul-evo-700: #0f6aa8;  /* blanco 5.76:1 */
-  --vn-primitive-azul-evo-800: #0b5f96;  /* blanco 6.79:1 */
+  --vn-primitive-naranja-600: #E8861B;  /* hover de relleno · azul-noche 6.33:1 */
+  --vn-primitive-naranja-700: #9E4F00;  /* texto/enlace sobre blanco 5.88:1 · blanco encima 5.88:1 · ≥ 4.5 en superficies mate */
+  --vn-primitive-naranja-800: #8F4700;  /* blanco 6.84:1 */
   --vn-primitive-rojo-700:     #c2330f;  /* sobre blanco 5.56:1 */
 
   /* ── Paleta semántica (light mode) ─────────────────────────── */
-  --vn-color-brand:           var(--vn-primitive-azul-evo);
+  --vn-color-brand:           var(--vn-primitive-naranja);
+  --vn-color-on-brand:        var(--vn-primitive-azul-noche);
   --vn-color-brand-dark:      var(--vn-primitive-azul-noche);
   --vn-color-accent:          var(--vn-primitive-rojo);
   --vn-color-warning:         var(--vn-primitive-amarillo);
@@ -44,13 +46,13 @@
   --vn-color-surface:         var(--vn-primitive-marfil);
   --vn-color-on-surface:      var(--vn-primitive-azul-noche);
   --vn-color-muted:           var(--vn-primitive-pizarra);
-  --vn-color-link:            var(--vn-primitive-azul-evo-700);
+  --vn-color-link:            var(--vn-primitive-naranja-700);
   --vn-color-accent-text:     var(--vn-primitive-rojo-700);
-  --vn-color-cta-bg:          var(--vn-primitive-azul-evo-700);
-  --vn-color-cta-bg-hover:    var(--vn-primitive-azul-evo-800);
-  --vn-color-cta-fg:          #ffffff;
+  --vn-color-cta-bg:          var(--vn-primitive-naranja);
+  --vn-color-cta-bg-hover:    var(--vn-primitive-naranja-600);
+  --vn-color-cta-fg:          var(--vn-primitive-azul-noche);
   --vn-color-control-border:  var(--vn-primitive-pizarra);
-  --vn-color-focus:           var(--vn-primitive-azul-evo-700);
+  --vn-color-focus:           var(--vn-primitive-naranja-700);
 
   /* ── Bordes derivados ───────────────────────────────────────── */
   --vn-border-subtle:   rgba(13, 27, 61, 0.08);
@@ -119,7 +121,7 @@
     0 12px 40px rgba(13, 27, 61, 0.14),
     0 4px  8px  rgba(13, 27, 61, 0.08);
   --vn-shadow-glow:
-    0 0 32px rgba(26, 143, 220, 0.20);  /* azul-evo glow */
+    0 0 32px rgba(255, 147, 30, 0.22);  /* naranja glow */
 
   /* ── Motion ─────────────────────────────────────────────────── */
   /* Alias DS (design-tokens.ts) + prefijo VN — misma fuente de verdad */

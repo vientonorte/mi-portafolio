@@ -18,7 +18,7 @@ export function ScrollProgress() {
         className="fixed top-0 left-0 right-0 h-1 origin-left z-50"
         style={{
           scaleX,
-          background: "linear-gradient(90deg, var(--brand-red) 0%, var(--brand-orange) 100%)",
+          background: "var(--brand-gradient)",
           willChange: "transform",
         }}
         role="progressbar"
@@ -32,7 +32,7 @@ export function ScrollProgress() {
         className="fixed top-0 left-0 right-0 h-1 origin-left z-40 blur-sm"
         style={{
           scaleX,
-          background: "linear-gradient(90deg, var(--brand-red) 0%, var(--brand-orange) 100%)",
+          background: "var(--brand-gradient)",
           opacity: 0.5,
           willChange: "transform",
         }}

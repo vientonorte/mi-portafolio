@@ -49,7 +49,7 @@ export function DeviceFrame({ variant, image, loading = "lazy", size = "md", cla
       >
         <span className="h-2 w-2 rounded-full bg-[#E8401C]" />
         <span className="h-2 w-2 rounded-full bg-neutral-500" />
-        <span className="h-2 w-2 rounded-full bg-[#1A8FDC]" />
+        <span className="h-2 w-2 rounded-full bg-[var(--vn-primitive-naranja)]" />
         {size === "md" ? <span className="ml-3 h-3 flex-1 rounded bg-neutral-700" /> : null}
       </div>
       <div className="bg-white">
