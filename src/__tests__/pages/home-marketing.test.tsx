@@ -30,7 +30,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
   const marketing = container.querySelector('[data-testid="home-marketing"]');
   return [
     ...(hero?.querySelectorAll<HTMLAnchorElement>("a") ?? []),
-    ...(marketing?.querySelectorAll<HTMLAnchorElement>("a") ?? []),
+    // Los CTA de Experiencias (#web-pymes / #consultoria-ux sobre la grilla) se prueban aparte.
+    ...[...(marketing?.querySelectorAll<HTMLAnchorElement>("a") ?? [])].filter((a) => !a.closest("#experiencias")),
   ];
 }
 
