@@ -19,15 +19,15 @@ describe("Sobre mí: imágenes exportadas en el repo", () => {
     expect(existsSync(localFile(src)), src).toBe(true);
   });
 
-  it("Maraña, La Negra Colorá, Pareti y Teatro Di Popolo: webp 840×360 (21:9) local, alt en español, sin «SENSIBLE»/«drive» en el nombre", () => {
-    for (const company of ["Maraña Agencia Digital", "La Negra Colorá", "Empresas Pareti", "Teatro Di Popolo"]) {
+  it("Maraña, La Negra Colorá, Pareti, Teatro Di Popolo y Karri: webp 840×360 (21:9) local, alt en español, sin «SENSIBLE»/«drive» en el nombre", () => {
+    for (const company of ["Maraña Agencia Digital", "La Negra Colorá", "Empresas Pareti", "Teatro Di Popolo", "Karri by Transvip"]) {
       const src = EXPERIENCE_COVER[company];
       expect(src, company).toMatch(/^\/images\/experience\/[a-z0-9-]+\.webp$/);
       expect(src).not.toMatch(/sensible|drive/i);
       const meta = EXPERIENCE_COVER_META[src];
       expect(meta, company).toBeDefined();
       expect([meta.width, meta.height]).toEqual([840, 360]);
-      expect(meta.alt.length).toBeGreaterThan(30);
+      expect(meta.alt.length).toBeGreaterThan(10);
       const buf = readFileSync(localFile(src));
       expect(buf.subarray(0, 4).toString("latin1")).toBe("RIFF");
       expect(buf.subarray(8, 12).toString("latin1")).toBe("WEBP");
@@ -40,5 +40,13 @@ describe("Sobre mí: imágenes exportadas en el repo", () => {
     for (const company of ["La Voz de los Cerros"]) {
       expect(EXPERIENCE_COVER[company]).toBeUndefined();
     }
+  });
+
+  it("Karri usa su propio logo (alt «Logo de Karri»), nunca la portada de Transvip", () => {
+    const karri = EXPERIENCE_COVER["Karri by Transvip"];
+    expect(karri).toBe("/images/experience/karri-logo.webp");
+    expect(EXPERIENCE_COVER.karri).toBe(karri);
+    expect(karri).not.toBe(EXPERIENCE_COVER.transvip);
+    expect(EXPERIENCE_COVER_META[karri].alt).toBe("Logo de Karri");
   });
 });

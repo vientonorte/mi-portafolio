@@ -70,9 +70,12 @@ export function Experience() {
           const isOpen = openKey === key;
           const panelId = `${baseId}-panel-${index}`;
           const btnId = `${baseId}-dot-${index}`;
+          // Nombre de empresa primero: Karri by Transvip comparte companyId "transvip" y no debe
+          // heredar la portada de Transvip.
           const cover =
+            EXPERIENCE_COVER[exp.company] ||
             (exp.companyId && EXPERIENCE_COVER[exp.companyId]) ||
-            EXPERIENCE_COVER[exp.company];
+            undefined;
           const coverMeta = cover ? EXPERIENCE_COVER_META[cover] : undefined;
 
           return (
