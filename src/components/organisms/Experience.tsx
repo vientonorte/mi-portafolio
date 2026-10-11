@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { getExperiences, type ExperienceEntry } from "../../data/experience-data";
-import { EXPERIENCE_COVER } from "../../data/about-visuals";
+import { EXPERIENCE_COVER, EXPERIENCE_COVER_META } from "../../data/about-visuals";
 import { CompanyLogo } from "../atoms/CompanyLogo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -73,6 +73,7 @@ export function Experience() {
           const cover =
             (exp.companyId && EXPERIENCE_COVER[exp.companyId]) ||
             EXPERIENCE_COVER[exp.company];
+          const coverMeta = cover ? EXPERIENCE_COVER_META[cover] : undefined;
 
           return (
             <li
@@ -194,7 +195,9 @@ export function Experience() {
                             <div className="relative aspect-[21/9] max-h-36 w-full overflow-hidden border-b border-border/40 bg-muted sm:max-h-44">
                               <img
                                 src={cover}
-                                alt=""
+                                alt={coverMeta?.alt ?? ""}
+                                width={coverMeta?.width}
+                                height={coverMeta?.height}
                                 loading="lazy"
                                 decoding="async"
                                 className="h-full w-full object-cover object-top"

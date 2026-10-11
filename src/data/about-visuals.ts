@@ -102,6 +102,12 @@ export const ABOUT_VISUAL_TILES: AboutVisualTile[] = [
   },
 ];
 
+const COVER_BASE = import.meta.env.BASE_URL || "/";
+const MARANA_COVER = `${COVER_BASE}images/experience/marana-sitio-home.webp`;
+const NEGRA_COLORA_COVER = `${COVER_BASE}images/experience/negra-colora-infografia.webp`;
+const PARETI_COVER = `${COVER_BASE}images/experience/pareti-sitio-web.webp`;
+const TEATRO_DI_POPOLO_COVER = `${COVER_BASE}images/experience/teatro-di-popolo-sacco-vanzetti.webp`;
+
 /** Cover image per experience companyId (timeline). */
 /** Keys: companyId y/o company name exacto del catalog. */
 export const EXPERIENCE_COVER: Record<string, string> = {
@@ -110,9 +116,38 @@ export const EXPERIENCE_COVER: Record<string, string> = {
   karri: portfolioImages.karri.deliveryBrand,
   "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
   "Karri by Transvip": portfolioImages.karri.deliveryBrand,
-  // Sin portada para Pareti, Maraña, La Voz de los Cerros, La Negra Colorá y Teatro Di Popolo:
-  // venían del CDN de Portfoliobox (cloudfront, 403 desde S42) y no hay export en public/images/**
-  // ni en los exports de Figma. Sin export no hay portada (no se inventa ni se pone placeholder).
+  // Portadas aprobadas por Rö (TL 16:02 y 16:05, 11-oct; Pareti y Teatro desde su Behance): exports locales en public/images/experience/,
+  // webp 840×360 (21:9, el mismo marco aspect-[21/9] del timeline), sin metadatos EXIF/XMP.
+  "Maraña Agencia Digital": MARANA_COVER,
+  "La Negra Colorá": NEGRA_COLORA_COVER,
+  "Empresas Pareti": PARETI_COVER,
+  "Teatro Di Popolo": TEATRO_DI_POPOLO_COVER,
+  // Sin portada para La Voz de los Cerros: venía del CDN de Portfoliobox (cloudfront, 403 desde
+  // S42) y no hay export aprobado. Sin export no hay portada (no se inventa ni placeholder).
+};
+
+/** alt descriptivo y tamaño intrínseco (evita layout shift) por URL de portada. */
+export const EXPERIENCE_COVER_META: Record<string, { alt: string; width: number; height: number }> = {
+  [MARANA_COVER]: {
+    alt: "Portada del sitio de Maraña Agencia Digital: menú principal y mensaje de bienvenida sobre estrategia digital y metodología ágil",
+    width: 840,
+    height: 360,
+  },
+  [PARETI_COVER]: {
+    alt: "Sitio web de Grupo Empresas Pareti: logo P&C sobre la foto de una caja registradora antigua",
+    width: 840,
+    height: 360,
+  },
+  [TEATRO_DI_POPOLO_COVER]: {
+    alt: "Escena de «Sacco & Vanzetti» de Teatro Di Popolo: pilas de periódicos sobre el escenario en penumbra",
+    width: 840,
+    height: 360,
+  },
+  [NEGRA_COLORA_COVER]: {
+    alt: "Infografía de La Negra Colorá sobre la comunidad Barrientos Paillalef del Lof Ñanco, con un mapa de la zona",
+    width: 840,
+    height: 360,
+  },
 };
 
 export const METHOD_STRIP = [
