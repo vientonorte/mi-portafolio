@@ -19,8 +19,13 @@ function IsologoAccent({ className }: { className?: string }) {
   );
 }
 
-/** Experiencias de Viento Norte: casos y conceptos en la misma grilla y la misma tarjeta. */
-export function ServiciosCasos() {
+/**
+ * Experiencias de Viento Norte: casos y conceptos en la misma grilla y la misma tarjeta.
+ * Componente único para la home y /servicios/#experiencias. `ctaHref` arma los dos CTA
+ * de arriba (#web-pymes, #consultoria-ux): ancla local en /servicios/; en la home, URL HTTP
+ * a /servicios/#… desde la base de Vite (nunca /#/ ni /s/).
+ */
+export function ServiciosCasos({ ctaHref = (anchor: string) => `#${anchor}` }: { ctaHref?: (anchor: string) => string } = {}) {
   return (
     <section id="experiencias" aria-labelledby="experiencias-heading" className={cn(SECTION_CLASS, "bg-background")}>
       <div className="container mx-auto max-w-6xl px-4">
@@ -36,7 +41,7 @@ export function ServiciosCasos() {
                 {SERVICIOS_VN_CASE_GROUPS.map((group) => (
                   <a
                     key={group.anchor}
-                    href={`#${group.anchor}`}
+                    href={ctaHref(group.anchor)}
                     className="inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4 hover:text-primary"
                   >
                     {group.linkLabel}
