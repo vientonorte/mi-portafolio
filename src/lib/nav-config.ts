@@ -16,7 +16,7 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
-import { siteServiciosHref } from "./site-nav";
+import { SITE_NAV_PRIMARY_IDS, siteNoticiasHref, siteServiciosHref, type SiteNavPrimaryId } from "./site-nav";
 
 /** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
 const CONSULTORIA_CANON_PATH = siteServiciosHref("consultoria-ux");
@@ -89,11 +89,21 @@ export interface NavRegistryItem {
  * Las páginas estáticas (/servicios/, rubros) siguen en src/lib/site-nav.ts
  * (Servicios + Contacto). Sin «Más». Dock: Inicio · kickoff · Contacto.
  */
+/** Id del SSOT (src/lib/site-nav.ts) → id del registro de la SPA. */
+const SITE_TO_SPA_ID: Record<SiteNavPrimaryId, NavItemId> = {
+  servicios: "servicios",
+  noticias: "news",
+  contacto: "contacto",
+};
+
+/** Header de la home = la misma lista que /servicios/ y /noticias/ (SITE_NAV_PRIMARY_IDS). */
+export const HEADER_PRIMARY_IDS: readonly NavItemId[] = SITE_NAV_PRIMARY_IDS.map((id) => SITE_TO_SPA_ID[id]);
+
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  headerPrimary: HEADER_PRIMARY_IDS,
   headerMore: [] as readonly NavItemId[],
-  mobileDrawer: ["inicio", "servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  mobileDrawer: ["inicio", ...HEADER_PRIMARY_IDS, "sobre-mi"] as readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
@@ -131,7 +141,8 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "servicios":
       return { kind: "http", target: siteServiciosHref() };
     case "news":
-      return { kind: "route", target: ROUTES.news };
+      // S42 v3: Noticias es la página estática /noticias/ (HTTP, respeta /qa/). Nunca #/news.
+      return { kind: "http", target: siteNoticiasHref() };
     case "proceso":
       return { kind: "route", target: ROUTES.process };
     case "sobre-mi":

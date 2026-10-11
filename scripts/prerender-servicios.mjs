@@ -6,6 +6,7 @@
  * 1. vite build --ssr con dos entradas (mismo config/base/aliases):
  *    - src/servicios/entry-server.tsx → /servicios/ (índice, #277)
  *    - src/rubros/entry-server.tsx    → /servicios/<slug>/ por cada entrada de src/data/rubros.json (P4)
+ *    - src/noticias/entry-server.tsx  → /noticias/ (S42 v3, ediciones de src/data/news-editions.json)
  * 2. /servicios/: inyecta render() en dist/servicios/index.html (<!--ssr-outlet-->).
  * 3. Rubros: toma la plantilla dist/rubros/index.html (entrada Vite "rubros"), inyecta el
  *    <head> del rubro (<!--rubro-head-->), el HTML (<!--ssr-outlet-->) y data-slug, y escribe
@@ -130,6 +131,7 @@ export async function prerenderServicios({ root, outDir, base }) {
           input: {
             servicios: path.join(root, 'src/servicios/entry-server.tsx'),
             rubros: path.join(root, 'src/rubros/entry-server.tsx'),
+            noticias: path.join(root, 'src/noticias/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -153,6 +155,18 @@ export async function prerenderServicios({ root, outDir, base }) {
     }
     fs.writeFileSync(target, html.replace(OUTLET, appHtml), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, target)} (${appHtml.length} bytes, base ${base})`);
+
+    // /noticias/ (índice estático de ediciones existentes)
+    const noticiasTarget = path.join(outDir, 'noticias', 'index.html');
+    if (!fs.existsSync(noticiasTarget)) throw new Error(`[prerender-servicios] falta ${noticiasTarget}`);
+    const noticiasHtml = fs.readFileSync(noticiasTarget, 'utf8');
+    if (!noticiasHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/noticias/index.html sin <!--ssr-outlet-->');
+    }
+    const noticias = await load('noticias');
+    const noticiasApp = noticias.render();
+    fs.writeFileSync(noticiasTarget, noticiasHtml.replace(OUTLET, noticiasApp), 'utf8');
+    console.log(`[prerender-servicios] ${path.relative(root, noticiasTarget)} (${noticiasApp.length} bytes, base ${base})`);
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');

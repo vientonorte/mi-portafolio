@@ -19,6 +19,16 @@
           }
           return;
         }
+        // S42 v3: vista hash #/news (y #/news/<slug>, #/news?utm…) → /noticias/ antes de montar la SPA
+        // (sin doble carga). Conserva la query real y la de la ruta hash. Respeta la base (/ o /qa/).
+        var hn = location.hash || "";
+        if (/^#\/news(\/|\?|$)/.test(hn)) {
+          var hq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
+          var qs = q || hq;
+          if (q && hq) qs = q + "&" + hq.slice(1);
+          location.replace("%BASE_URL%noticias/" + qs);
+          return;
+        }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
           location.replace(location.origin + "/servicios/" + q);

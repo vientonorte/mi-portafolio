@@ -12,7 +12,7 @@ import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
-import { ServiciosRedirect } from './components/layout/ServiciosRedirect';
+import { NoticiasRedirect } from './components/layout/NoticiasRedirect';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
@@ -148,9 +148,9 @@ function AppRoutes() {
             <Route path="/sobre-mi" element={<SobreMi />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
-            {/* News fuera de canon (TL 9-oct): #/news y #/news/<slug> → /servicios/ (replace, respeta /qa/). */}
-            <Route path="/news/:slug" element={<ServiciosRedirect />} />
-            <Route path={ROUTES.news} element={<ServiciosRedirect />} />
+            {/* S42 v3: #/news y #/news/<slug> → /noticias/ (página estática; replace, respeta /qa/). */}
+            <Route path="/news/:slug" element={<NoticiasRedirect />} />
+            <Route path={ROUTES.news} element={<NoticiasRedirect />} />
             <Route path={ROUTES.grafo} element={<Grafo />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/proceso" element={<CaseStudiesPage />} />
