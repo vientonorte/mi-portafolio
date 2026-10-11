@@ -165,6 +165,14 @@ img {
   pointer-events: auto;
 }
 
+/* Clear the pinned dock. Class name must not contain "bottom-nav":
+   scripts/qa-hash-ui.mjs treats [class*="bottom-nav"] as chrome. */
+@media (max-width: 1023px) {
+  #main {
+    padding-bottom: var(--bottom-nav-total);
+  }
+}
+
 /*
  * Chrome breakpoints — !important so utility order / display:block never
  * leaves desktop with header + dock (double main nav) or hides dock on mobile.
