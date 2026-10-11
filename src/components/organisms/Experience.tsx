@@ -15,6 +15,16 @@ import { useTranslation } from "../../lib/i18n";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { cn } from "../../lib/utils";
 
+/** Portada tipo logo (EXPERIENCE_COVER_META fit "contain"): llena el marco sin recortar. */
+const CONTAIN_COVER_STYLE = {
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  padding: "1rem 1rem 2.25rem",
+} as const;
+
 function expKey(exp: ExperienceEntry) {
   return `${exp.company}-${exp.period}`;
 }
@@ -203,11 +213,9 @@ export function Experience() {
                                 height={coverMeta?.height}
                                 loading="lazy"
                                 decoding="async"
-                                className={
-                                  coverMeta?.fit === "contain"
-                                    ? "absolute inset-0 h-full w-full object-contain p-4"
-                                    : "h-full w-full object-cover object-top"
-                                }
+                                className={coverMeta?.fit === "contain" ? undefined : "h-full w-full object-cover object-top"}
+                                // Logo: entero y centrado. Inline porque una regla global img { height: auto } gana a h-full.
+                                style={coverMeta?.fit === "contain" ? CONTAIN_COVER_STYLE : undefined}
                               />
                               <div
                                 className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"
