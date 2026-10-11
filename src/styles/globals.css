@@ -832,7 +832,7 @@
     background: linear-gradient(
       160deg,
       color-mix(in srgb, var(--vn-primitive-rojo) 16%, transparent) 0%,
-      color-mix(in srgb, var(--vn-primitive-azul-evo) 12%, transparent) 48%,
+      color-mix(in srgb, var(--vn-color-brand) 12%, transparent) 48%,
       transparent 100%
     );
     mix-blend-mode: soft-light;
