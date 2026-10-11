@@ -22,6 +22,7 @@ const HOME_ROOTS = new Set(["/", "/qa/"]);
 const isAllowedHref = (href: string) =>
   HOME_ROOTS.has(href) ||
   href === "/servicios/" ||
+  href === "/noticias/" ||
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
@@ -164,7 +165,8 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     for (const anchor of ["/servicios/#revision-gratis", "/servicios/#web-pymes", "/servicios/#consultoria-ux"]) {
       expect(navHrefs).not.toContain(anchor);
     }
-    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?)?$/);
+    expect(navHrefs).toContain("/noticias/");
+    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?|noticias\/)?$/);
   });
 
   it("template has SEO + outlet, and built dist (if present) is the prerendered page", () => {
@@ -355,7 +357,7 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
     expect(nav.querySelector('a[aria-label^="Inicio"]')?.getAttribute("href")).toBe("/");
     // Links primarios del desktop: exactamente Servicios · Contacto
     const desktop = nav.querySelector(".nav-desktop-only ul")!;
-    expect([...desktop.querySelectorAll("a")].map((a) => a.textContent)).toEqual(["Servicios", "Contacto"]);
+    expect([...desktop.querySelectorAll("a")].map((a) => a.textContent)).toEqual(["Servicios", "Noticias", "Contacto"]);
     // Sin el par «es / EN» del selector viejo
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     expect(header.textContent).not.toMatch(/es\s*\/\s*en/i);
