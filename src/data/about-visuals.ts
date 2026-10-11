@@ -130,7 +130,10 @@ export const EXPERIENCE_COVER: Record<string, string> = {
 };
 
 /** alt descriptivo y tamaño intrínseco (evita layout shift) por URL de portada. */
-export const EXPERIENCE_COVER_META: Record<string, { alt: string; width: number; height: number }> = {
+export const EXPERIENCE_COVER_META: Record<
+  string,
+  { alt: string; width: number; height: number; fit?: "contain" }
+> = {
   [MARANA_COVER]: {
     alt: "Portada del sitio de Maraña Agencia Digital: menú principal y mensaje de bienvenida sobre estrategia digital y metodología ágil",
     width: 840,
@@ -141,12 +144,13 @@ export const EXPERIENCE_COVER_META: Record<string, { alt: string; width: number;
     width: 840,
     height: 360,
   },
-  // Logo (no foto): lienzo ancho 1400×260 (~5,4:1) con el logo centrado, para que el recorte
-  // object-cover del marco (21:9 en móvil, ~5,4:1 en escritorio con max-h) nunca lo corte.
+  // Logo (no foto): webp con transparencia, se muestra entero (object-contain) sobre la
+  // superficie de logos del marco, sin recorte en ningún ancho.
   [KARRI_COVER]: {
     alt: "Logo de Karri",
-    width: 1400,
-    height: 260,
+    width: 560,
+    height: 191,
+    fit: "contain",
   },
   [TEATRO_DI_POPOLO_COVER]: {
     alt: "Escena de «Sacco & Vanzetti» de Teatro Di Popolo: pilas de periódicos sobre el escenario en penumbra",

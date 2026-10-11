@@ -208,7 +208,11 @@ export function Experience() {
                                   height={coverMeta?.height}
                                   loading="lazy"
                                   decoding="async"
-                                  className="experience-cover__image h-full w-full"
+                                  className={
+                                    coverMeta?.fit === "contain"
+                                      ? "absolute inset-0 h-full w-full object-contain p-4"
+                                      : "experience-cover__image h-full w-full"
+                                  }
                                 />
                                 <span className="experience-cover__grade" aria-hidden />
                                 <span className="experience-cover__vignette" aria-hidden />
