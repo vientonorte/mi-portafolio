@@ -26,7 +26,8 @@ describe("Sobre mí: imágenes exportadas en el repo", () => {
       expect(src).not.toMatch(/sensible|drive/i);
       const meta = EXPERIENCE_COVER_META[src];
       expect(meta, company).toBeDefined();
-      expect([meta.width, meta.height]).toEqual(company === "Karri by Transvip" ? [1400, 260] : [840, 360]);
+      if (company === "Karri by Transvip") expect(meta.fit).toBe("contain");
+      else expect([meta.width, meta.height]).toEqual([840, 360]);
       expect(meta.alt.length).toBeGreaterThan(10);
       const buf = readFileSync(localFile(src));
       expect(buf.subarray(0, 4).toString("latin1")).toBe("RIFF");

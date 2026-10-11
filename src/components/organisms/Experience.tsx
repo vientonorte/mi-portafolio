@@ -203,7 +203,11 @@ export function Experience() {
                                 height={coverMeta?.height}
                                 loading="lazy"
                                 decoding="async"
-                                className="h-full w-full object-cover object-top"
+                                className={
+                                  coverMeta?.fit === "contain"
+                                    ? "absolute inset-0 h-full w-full object-contain p-4"
+                                    : "h-full w-full object-cover object-top"
+                                }
                               />
                               <div
                                 className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"
