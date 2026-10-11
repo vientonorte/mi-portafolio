@@ -106,6 +106,7 @@ const COVER_BASE = import.meta.env.BASE_URL || "/";
 const MARANA_COVER = `${COVER_BASE}images/experience/marana-sitio-home.webp`;
 const NEGRA_COLORA_COVER = `${COVER_BASE}images/experience/negra-colora-infografia.webp`;
 const PARETI_COVER = `${COVER_BASE}images/experience/pareti-sitio-web.webp`;
+const KARRI_COVER = `${COVER_BASE}images/experience/karri-logo.webp`;
 const TEATRO_DI_POPOLO_COVER = `${COVER_BASE}images/experience/teatro-di-popolo-sacco-vanzetti.webp`;
 
 /** Cover image per experience companyId (timeline). */
@@ -113,9 +114,11 @@ const TEATRO_DI_POPOLO_COVER = `${COVER_BASE}images/experience/teatro-di-popolo-
 export const EXPERIENCE_COVER: Record<string, string> = {
   "sura-investments": portfolioImages.sura.webPrototype,
   transvip: portfolioImages.transvip.figmaPrototype,
-  karri: portfolioImages.karri.deliveryBrand,
+  karri: KARRI_COVER,
   "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
-  "Karri by Transvip": portfolioImages.karri.deliveryBrand,
+  // Karri (Rö, 16:55): logo propio de Karri (public/images/karri/logo.png) en el formato de
+  // portada 840×360; nunca la portada de Transvip (comparte companyId "transvip").
+  "Karri by Transvip": KARRI_COVER,
   // Portadas aprobadas por Rö (TL 16:02 y 16:05, 11-oct; Pareti y Teatro desde su Behance): exports locales en public/images/experience/,
   // webp 840×360 (21:9, el mismo marco aspect-[21/9] del timeline), sin metadatos EXIF/XMP.
   "Maraña Agencia Digital": MARANA_COVER,
@@ -135,6 +138,11 @@ export const EXPERIENCE_COVER_META: Record<string, { alt: string; width: number;
   },
   [PARETI_COVER]: {
     alt: "Sitio web de Grupo Empresas Pareti: logo P&C sobre la foto de una caja registradora antigua",
+    width: 840,
+    height: 360,
+  },
+  [KARRI_COVER]: {
+    alt: "Logo de Karri",
     width: 840,
     height: 360,
   },
