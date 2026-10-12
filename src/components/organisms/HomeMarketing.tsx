@@ -28,14 +28,18 @@ import {
 
 const COPY = {
   es: {
+    // Oferta TL/PO S42 (texto exacto). Términos en servicios-content: $30.000 CLP,
+    // 72 horas hábiles, pago 50/50 (50% al partir, 50% al entregar).
+    offer: "Web en 72h · $30.000 · 50/50",
     ctaPrimary: "Quiero mi web en 72 h",
-    ctaSecondary: "Revisión gratis de mi sitio",
+    ctaSecondary: "Consultoría UX",
     optionsHeading: "Tres formas de partir",
     allServices: "Ver todos los servicios",
   },
   en: {
+    offer: "Website in 72h · $30.000 · 50/50",
     ctaPrimary: "I want my website in 72 h",
-    ctaSecondary: "Free review of my site",
+    ctaSecondary: "UX consulting",
     optionsHeading: "Three ways to start",
     allServices: "See all services",
   },
@@ -63,14 +67,15 @@ export function HomeMarketingHero() {
   const t = useTranslation(language).consultoria.landing;
   const copy = COPY[language === "en" ? "en" : "es"];
   // Decisión PO: exactamente 2 botones en el hero (sin Calendar ni "Ver prototipo").
+  // S42 (PO 5-oct 21:25): primario = web 72 h; secundario = consultoría UX.
   const primaryHref = serviciosHref("web-pymes");
-  const secondaryHref = serviciosHref("revision-gratis");
+  const secondaryHref = serviciosHref("consultoria-ux");
 
   return (
     <HeroWithMockup
       id="inicio"
       headingId="home-hero-heading"
-      badge={t.badge}
+      offer={copy.offer}
       eyebrow={t.principleBadge}
       title={t.title}
       subtitle={t.description}
@@ -111,6 +116,7 @@ export function HomeMarketingSections() {
   const copy = COPY[language === "en" ? "en" : "es"];
   const cards = homeServiceCards();
   const allHref = serviciosHref();
+  const experienciasHref = serviciosHref("experiencias");
 
   return (
     <div data-testid="home-marketing">
@@ -144,6 +150,21 @@ export function HomeMarketingSections() {
       </section>
 
       <ServiciosConceptos />
+      {/* «Ver más» de Experiencias → /servicios/#experiencias (URL HTTP desde la base de Vite;
+          en /qa/ = /qa/servicios/#experiencias). Fuera de ServiciosConceptos para no chocar con #317. */}
+      <div className="-mt-6 bg-background pb-12 md:-mt-8 md:pb-16">
+        <p className="container mx-auto max-w-6xl px-4">
+          <a
+            href={experienciasHref}
+            data-marketing-cta="experiencias-ver-mas"
+            onClick={() => trackCta("experiencias-ver-mas", experienciasHref)}
+            className="inline-flex min-h-[44px] items-center gap-2 font-semibold text-foreground underline underline-offset-4 hover:text-primary"
+          >
+            {language === "en" ? "See more" : "Ver más"}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

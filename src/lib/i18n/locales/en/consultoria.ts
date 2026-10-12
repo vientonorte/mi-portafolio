@@ -5,7 +5,6 @@ export const consultoria = {
       recommended: 'Recommended',
       back: 'Back',
       next: 'Continue',
-      stickyCta: 'Book a slot',
       entry: {
         selectedPackage: 'Selected format:',
         changePackage: 'Change',
@@ -121,7 +120,7 @@ export const consultoria = {
           practices: 'Practices',
           packages: 'Formats',
           start: 'Start',
-          startAria: 'Start: go to consulting kickoff',
+          startAria: 'Start: your business website in 72 h',
           evidence: 'Examples',
           contact: 'Contact',
           fit: 'Budget',

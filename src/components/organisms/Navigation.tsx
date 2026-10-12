@@ -11,6 +11,7 @@ import { Logo } from "../atoms/Logo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { useProcessNavLabel } from "../../lib/process-label-experiment";
+import { isDeepPortfolioPage } from "../../lib/page-depth";
 import { ROUTES } from "../../lib/routes";
 import { SEO_SITE } from "../../lib/seo";
 import { scrollToSection } from "../../lib/scroll-to-section";
@@ -478,8 +479,12 @@ function SiteNavigation({
   };
 
   const inicioItem = mobileNavItems.find((item) => item.id === "inicio");
-  /** Home = embudo FO con hero oscuro: header siempre sólido (WCAG contraste). Transparente solo en deep pages al top. */
-  const solid = isScrolled || isMenuOpen || isOnHome;
+  /**
+   * Header sólido en toda la SPA (WCAG contraste). Desde el 9-oct las subpáginas también
+   * montan esta nav (sin SubpageToolbar), con el contenido bajo el header: el modo
+   * transparente al top dejaba ver el fondo oscuro del body con texto oscuro encima.
+   */
+  const solid = isScrolled || isMenuOpen || isOnHome || isDeepPortfolioPage(location.pathname);
 
   const primaryItems: NavShellProps["primaryItems"] = primaryNavItems.map((item) => ({
     id: item.id,

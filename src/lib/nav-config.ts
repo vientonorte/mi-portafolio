@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import type { NavigateFunction } from "react-router-dom";
 import { ROUTES, isConsultingOfferPath, isProcessPath } from "./routes";
-import { A11Y_FREE_SCHEDULE_URL } from "./site-contact";
 import { VIENTO_NORTE_LINKS } from "./viento-norte-links";
 import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
@@ -92,9 +91,9 @@ export interface NavRegistryItem {
  */
 export const NAV_SURFACE = {
   dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
-  headerPrimary: ["servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  headerPrimary: ["servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
   headerMore: [] as readonly NavItemId[],
-  mobileDrawer: ["inicio", "servicios", "news", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
+  mobileDrawer: ["inicio", "servicios", "sobre-mi", "contacto"] as const satisfies readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
@@ -155,14 +154,12 @@ export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAc
   if (id === "contacto") {
     return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
   }
-  // Embudo (home): liquid CTA = Calendar (único agendamiento)
-  if (variant === "funnel" && A11Y_FREE_SCHEDULE_URL) {
-    return { kind: "external", target: A11Y_FREE_SCHEDULE_URL };
+  // S42 (PO 5-oct 21:47): CTA central del dock = enlace HTTP a /servicios/ (canon, sin /#/ ni /s/).
+  // Home («Empezar») → web 72 h, primario como el hero. Resto de rutas («Consultoría») →
+  // consultoría UX canónica (/servicios/#consultoria-ux). Sin Calendar ni ruta hash /consultoria.
+  if (variant === "home" || variant === "funnel") {
+    return { kind: "http", target: siteServiciosHref("web-pymes") };
   }
-  if (variant === "funnel") {
-    return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
-  }
-  // home/deep: consultoría canónica (/servicios/#consultoria-ux), no /#/consultoria.
   return { kind: "http", target: CONSULTORIA_CANON_PATH };
 }
 
@@ -282,15 +279,20 @@ export interface NavRuntimeContext {
   callbacks?: NavRuntimeCallbacks;
 }
 
+/** Evento nav_click (también para enlaces <a href> que navegan solos). */
+export function trackNavClick(item: ResolvedNavItem): void {
+  analytics.navClick({
+    nav_id: item.id,
+    nav_kind: item.action.kind,
+    nav_target: item.action.target,
+  });
+}
+
 export function executeNavAction(item: ResolvedNavItem, ctx: NavRuntimeContext): void {
   const { action } = item;
   const { pathname, navigate, pendingScrollRef, callbacks } = ctx;
 
-  analytics.navClick({
-    nav_id: item.id,
-    nav_kind: action.kind,
-    nav_target: action.target,
-  });
+  trackNavClick(item);
 
   if (action.kind === "external") {
     window.open(action.target, "_blank", "noopener,noreferrer");

@@ -10,6 +10,7 @@ import {
   getMobileDrawerNavItems,
   getMobileMoreDividerIndex,
   matchNavItemActive,
+  trackNavClick,
 } from "@/lib/nav-config";
 import { SITE_NAV_PRIMARY_IDS } from "@/lib/site-nav";
 
@@ -46,15 +47,15 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     expect(NAV_SURFACE.dock).toHaveLength(3);
   });
 
-  it("desktop primary = Servicios, Noticias, Sobre mí, Contacto", () => {
-    expect([...NAV_SURFACE.headerPrimary]).toEqual(["servicios", "news", "sobre-mi", "contacto"]);
+  it("desktop primary = Servicios, Sobre mí, Contacto (sin Noticias: #/news fuera de canon, TL 9-oct)", () => {
+    expect([...NAV_SURFACE.headerPrimary]).toEqual(["servicios", "sobre-mi", "contacto"]);
     expect([...SITE_NAV_PRIMARY_IDS]).toEqual(["servicios", "contacto"]);
   });
 
   it("sin «Más»: proceso, consultoría, negocios y design system quedan fuera", () => {
     expect(NAV_SURFACE.headerMore).toEqual([]);
-    expect([...NAV_SURFACE.mobileDrawer]).toEqual(["inicio", "servicios", "news", "sobre-mi", "contacto"]);
-    for (const id of ["proceso", "consultoria", "negocios", "experiencia", "design-system", "auditoria"]) {
+    expect([...NAV_SURFACE.mobileDrawer]).toEqual(["inicio", "servicios", "sobre-mi", "contacto"]);
+    for (const id of ["news", "proceso", "consultoria", "negocios", "experiencia", "design-system", "auditoria"]) {
       expect(NAV_SURFACE.headerPrimary as readonly string[]).not.toContain(id);
       expect(NAV_SURFACE.headerMore as readonly string[]).not.toContain(id);
       expect(NAV_SURFACE.mobileDrawer as readonly string[]).not.toContain(id);
@@ -62,7 +63,7 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     expect(getMobileMoreDividerIndex()).toBe(-1);
   });
 
-  it("ningún destino del nav es /#/ ni un slug viejo; Noticias y Sobre mí son rutas internas", () => {
+  it("ningún destino del nav es /#/, /news ni un slug viejo; Sobre mí es ruta interna", () => {
     const targets = allNavTargets();
     expect(targets.length).toBeGreaterThan(0);
     for (const t of targets) {
@@ -71,22 +72,18 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
       expect(t, t).not.toMatch(/diagnostico-accesibilidad-wcag|consultoria-ux-pymes/);
       expect(t, t).not.toMatch(/^\/(proceso|consultoria|privacy|contacto)\b/);
     }
-    expect(targets).toContain("/news");
+    expect(targets.some((t) => /(^|\/)news(\/|$)/.test(t))).toBe(false);
     expect(targets).toContain("/sobre-mi");
   });
 });
 
 describe("getHeaderPrimaryNavItems", () => {
-  it("exposes servicios, noticias, sobre mí and contacto", () => {
+  it("exposes servicios, sobre mí and contacto (no news)", () => {
     const items = getHeaderPrimaryNavItems(labels, "Proceso");
-    expect(items.map((item) => item.id)).toEqual(["servicios", "news", "sobre-mi", "contacto"]);
+    expect(items.map((item) => item.id)).toEqual(["servicios", "sobre-mi", "contacto"]);
     expect(items.find((item) => item.id === "servicios")?.action).toEqual({
       kind: "http",
       target: "/servicios/",
-    });
-    expect(items.find((item) => item.id === "news")?.action).toEqual({
-      kind: "route",
-      target: "/news",
     });
     expect(items.find((item) => item.id === "sobre-mi")?.action).toEqual({
       kind: "route",
@@ -107,12 +104,12 @@ describe("getHeaderMoreNavItems", () => {
 });
 
 describe("getMobileDrawerNavItems", () => {
-  it("drawer = Inicio · Servicios · Noticias · Sobre mí · Contacto", () => {
+  it("drawer = Inicio · Servicios · Sobre mí · Contacto", () => {
     for (const pathname of ["/", "/proceso"]) {
       const items = getMobileDrawerNavItems(labels, "Proceso", pathname);
-      expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "news", "sobre-mi", "contacto"]);
+      expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "sobre-mi", "contacto"]);
       expect(items[0]!.action).toEqual({ kind: "anchor", target: "#inicio", homeRoute: "/" });
-      expect(items[4]!.action).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
+      expect(items[3]!.action).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
     }
   });
 });
@@ -133,9 +130,21 @@ describe("getDockNavAction", () => {
     });
   });
 
-  it("funnel (home): liquid center is Calendar or #contacto", () => {
+  it("S42 funnel (home): «Empezar» links to /servicios/#web-pymes; inicio/contacto anchors", () => {
     const center = getDockNavAction("consultoria", "funnel");
-    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
+    expect(center).toEqual({ kind: "http", target: "/servicios/#web-pymes" });
+    expect(center.target).not.toMatch(/\/#\/|\/s\//);
+    expect(getDockNavAction("consultoria", "home")).toEqual(center);
+    expect(getDockNavAction("inicio", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#inicio",
+      homeRoute: "/",
+    });
+    expect(getDockNavAction("contacto", "funnel")).toEqual({
+      kind: "anchor",
+      target: "#contacto",
+      homeRoute: "/",
+    });
   });
 });
 
@@ -146,11 +155,10 @@ describe("getDockNavItems", () => {
     expect(ids[1]).toBe(DOCK_CENTER_ID);
   });
 
-  it("funnel dock keeps 3 slots with Calendar or contact on center", () => {
+  it("funnel dock keeps 3 slots with /servicios/#web-pymes on center", () => {
     const items = getDockNavItems("funnel", labels, "Proceso");
     expect(items.map((i) => i.id)).toEqual(["inicio", "consultoria", "contacto"]);
-    const center = items[1]!.action;
-    expect(center.kind === "external" || center.target === "#contacto").toBe(true);
+    expect(items[1]!.action).toEqual({ kind: "http", target: "/servicios/#web-pymes" });
   });
 });
 
@@ -221,5 +229,19 @@ describe("executeNavAction · GTM nav_click", () => {
     );
     // Fuera de la home: vuelve a la home y luego scrollea a #contacto
     expect(navigate).toHaveBeenCalledWith("/");
+  });
+
+  it("trackNavClick pushes nav_click for the dock center <a href> (S42)", () => {
+    const center = getDockNavItems("funnel", labels, "Proceso")[1]!;
+    trackNavClick(center);
+    const layer = (window as Window & { dataLayer: unknown[] }).dataLayer;
+    expect(layer).toContainEqual(
+      expect.objectContaining({
+        event: "nav_click",
+        nav_id: "consultoria",
+        nav_kind: "http",
+        nav_target: "/servicios/#web-pymes",
+      })
+    );
   });
 });

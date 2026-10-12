@@ -32,4 +32,26 @@ describe("LiquidNavCta", () => {
     await user.click(screen.getByRole("button", { name: "Consultoría" }));
     expect(onClick).toHaveBeenCalledOnce();
   });
+
+  it("S42: renders a real link when href is given (same data hooks, onClick still fires)", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn((e?: unknown) => {
+      (e as Event | undefined)?.preventDefault?.();
+    });
+    render(
+      <LiquidNavCta
+        label="Empezar"
+        ariaLabel="Empezar: web para tu pyme en 72 h"
+        href="/servicios/#web-pymes"
+        onClick={onClick}
+      />
+    );
+    expect(screen.queryByRole("button")).toBeNull();
+    const link = screen.getByRole("link", { name: "Empezar: web para tu pyme en 72 h" });
+    expect(link).toHaveAttribute("href", "/servicios/#web-pymes");
+    expect(link).toHaveAttribute("data-liquid-cta", "consultoria");
+    expect(link.querySelector(".liquid-nav-cta__mark")).toBeTruthy();
+    await user.click(link);
+    expect(onClick).toHaveBeenCalledOnce();
+  });
 });
