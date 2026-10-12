@@ -13,7 +13,14 @@ export const BRAND_MARK = {
   shineOffsetY: -1.2,
 } as const;
 
+/**
+ * Isologo plano en naranja canon desde tokens (--vn-primitive-naranja en vn-tokens.css).
+ * Dos paradas iguales para no cambiar el gradiente SVG del isologo; sin rojo ni azul.
+ * favicon.svg, icon-192/512 e isologo-512 usan el mismo color (test: brand-orange-contrast).
+ */
+export const BRAND_ORANGE_TOKEN = "var(--vn-primitive-naranja)";
+export const BRAND_ORANGE_HEX = "#FF931E";
 export const BRAND_GRADIENT_STOPS = [
-  { offset: 0, color: "#E8401C" },
-  { offset: 1, color: "#1A8FDC" },
+  { offset: 0, color: BRAND_ORANGE_TOKEN },
+  { offset: 1, color: BRAND_ORANGE_TOKEN },
 ] as const;

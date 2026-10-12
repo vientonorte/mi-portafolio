@@ -8,12 +8,12 @@ export const FIXTURE_PATH = join(__dirname, "../ssot/fixture-2026-09-02.json");
 export const CUSTOMER_ID = "811-405-3092";
 export const DEFAULT_CAMPAIGN_ID = "24184249593";
 export const PAID_FINAL_URL =
-  "https://vientonorte.io/#/consultoria?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes";
+  "https://vientonorte.io/servicios/?utm_source=google&utm_medium=cpc&utm_campaign=a11y_gratis_pymes#revision-gratis";
 
-/** DoD: producto = /#/consultoria. /s/consultoria deprecado (no cumple UX/UI/aceptación). */
+/** DoD: producto = /servicios/ (+ ancla #revision-gratis en Final URL). /#/consultoria y /s/consultoria deprecados. */
 export const LOCK = {
   ampliaDesactivada: true,
-  allowedUrlPart: "/#/consultoria",
+  allowedUrlPart: "/servicios/",
   deprecatedPath: "/s/consultoria",
 };
 

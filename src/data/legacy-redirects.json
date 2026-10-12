@@ -14,16 +14,17 @@
     { "from": "/s/servicios/asistente-ecommerce/", "to": "/servicios/", "anchor": "" },
     { "from": "/s/servicios/inteligencia-artificial-negocios/", "to": "/servicios/", "anchor": "" },
     { "from": "/s/servicios/privacidad-datos/", "to": "/servicios/", "anchor": "" },
-    { "from": "/s/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "" },
+    { "from": "/s/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "revision-gratis" },
     { "from": "/s/servicios/desarrollo-seguro-cumplimiento-ley-21719/", "to": "/servicios/", "anchor": "" },
     { "from": "/poc/", "to": "/servicios/", "anchor": "" },
+    { "from": "/auditoria/", "to": "/servicios/", "anchor": "revision-gratis" },
     { "from": "/servicios/consultoria-ux-pymes/", "to": "/servicios/", "anchor": "consultoria-ux" },
     { "from": "/servicios/diagnostico-accesibilidad-wcag/", "to": "/servicios/", "anchor": "revision-gratis" },
     { "from": "/servicios/asistente-ia/", "to": "/servicios/", "anchor": "" },
     { "from": "/servicios/asistente-ecommerce/", "to": "/servicios/", "anchor": "" },
     { "from": "/servicios/inteligencia-artificial-negocios/", "to": "/servicios/", "anchor": "" },
     { "from": "/servicios/privacidad-datos/", "to": "/servicios/", "anchor": "" },
-    { "from": "/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "" },
+    { "from": "/servicios/seguridad-privacidad-digital/", "to": "/servicios/", "anchor": "revision-gratis" },
     { "from": "/servicios/desarrollo-seguro-cumplimiento-ley-21719/", "to": "/servicios/", "anchor": "" }
   ]
 }

@@ -21,6 +21,7 @@ function isAllowedHref(href: string, base = "/"): boolean {
   return (
     href === base ||
     href === `${base}servicios/` ||
+    href === `${base}noticias/` ||
     /^#[A-Za-z][\w-]*$/.test(href) ||
     href === "mailto:contacto@vientonorte.io"
   );
@@ -140,7 +141,7 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     expect(form.getAttribute("data-endpoint")).toBe("https://contact.vientonorte.io/api/contact");
     expect(form.getAttribute("data-source")).toBe("web-dental");
     expect(form.querySelector<HTMLInputElement>('input[name="source"]')!.value).toBe("web-dental");
-    const selected = form.querySelector<HTMLOptionElement>('select[name="intent"] option[selected]');
+    const selected = form.querySelector<HTMLInputElement>('input[name="intent"][checked]');
     expect(selected?.value).toBe("Web nueva");
     expect(doc.getElementById("contacto")?.contains(form)).toBe(true);
   });
@@ -210,11 +211,12 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     const desktop = [...nav.querySelectorAll(".nav-desktop-only ul a")];
     expect(desktop.map((a) => [a.textContent, a.getAttribute("href")])).toEqual([
       ["Servicios", "/servicios/"],
+      ["Noticias", "/noticias/"],
       ["Contacto", "#contacto"],
     ]);
     // Drawer móvil: mismos links
     const drawer = [...header.querySelectorAll("#static-mobile-menu a")].map((a) => a.getAttribute("href"));
-    expect(drawer).toEqual(["/servicios/", "#contacto"]);
+    expect(drawer).toEqual(["/servicios/", "/noticias/", "#contacto"]);
     // Toggle de idioma estático (antes no había): desktop + móvil, guarda "en" y va a la home
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];

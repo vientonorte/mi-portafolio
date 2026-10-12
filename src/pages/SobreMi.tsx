@@ -6,6 +6,7 @@ import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { Micro1ToolEvidence } from '../components/organisms/Micro1ToolEvidence';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
+import { ProcessNavigation } from '../components/molecules/ProcessNavigation';
 
 import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
@@ -22,6 +23,17 @@ const SobreMi = () => {
   const location = useLocation();
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const es = language === 'es';
+  const aboutSections = [
+    { id: 'sobre-mi', number: '01', label: es ? 'Perfil' : 'Profile' },
+    { id: 'habilidades', number: '02', label: es ? 'Método' : 'Method' },
+    { id: 'alcance', number: '03', label: es ? 'Alcance' : 'Scope' },
+    { id: 'experiencia', number: '04', label: es ? 'Trayecto' : 'Timeline' },
+    { id: 'evidencia-vn', number: '05', label: es ? 'Casos' : 'Cases' },
+    { id: 'evidencia-micro1', number: '06', label: 'micro1' },
+    { id: 'testimonios', number: '07', label: es ? 'Voces' : 'Voices' },
+    { id: 'contacto', number: '08', label: es ? 'Contacto' : 'Contact' },
+  ];
 
   useEffect(() => {
     const scrollTo = (location.state as SectionScrollState | null)?.scrollTo;
@@ -40,6 +52,10 @@ const SobreMi = () => {
         {...t.seo.pages.about}
         keywords={t.seo.keywords}
         url={canonicalFromPath('/sobre-mi')}
+      />
+      <ProcessNavigation
+        sections={aboutSections}
+        mobileAriaLabel={es ? 'Secciones de Sobre mí' : 'About sections'}
       />
       {/*
         L1 Perfil unificado (ficha + ciclo de decisión en un bloque)

@@ -8,12 +8,22 @@ import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { getExperiences, type ExperienceEntry } from "../../data/experience-data";
-import { EXPERIENCE_COVER } from "../../data/about-visuals";
+import { EXPERIENCE_COVER, EXPERIENCE_COVER_META } from "../../data/about-visuals";
 import { CompanyLogo } from "../atoms/CompanyLogo";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { cn } from "../../lib/utils";
+
+/** Portada tipo logo (EXPERIENCE_COVER_META fit "contain"): llena el marco sin recortar. */
+const CONTAIN_COVER_STYLE = {
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  padding: "1rem 1rem 2.25rem",
+} as const;
 
 function expKey(exp: ExperienceEntry) {
   return `${exp.company}-${exp.period}`;
@@ -70,9 +80,13 @@ export function Experience() {
           const isOpen = openKey === key;
           const panelId = `${baseId}-panel-${index}`;
           const btnId = `${baseId}-dot-${index}`;
+          // Nombre de empresa primero: Karri by Transvip comparte companyId "transvip" y no debe
+          // heredar la portada de Transvip.
           const cover =
+            EXPERIENCE_COVER[exp.company] ||
             (exp.companyId && EXPERIENCE_COVER[exp.companyId]) ||
-            EXPERIENCE_COVER[exp.company];
+            undefined;
+          const coverMeta = cover ? EXPERIENCE_COVER_META[cover] : undefined;
 
           return (
             <li
@@ -191,18 +205,29 @@ export function Experience() {
                           )}
                         >
                           {cover ? (
-                            <div className="relative aspect-[21/9] max-h-36 w-full overflow-hidden border-b border-border/40 bg-muted sm:max-h-44">
-                              <img
-                                src={cover}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                className="h-full w-full object-cover object-top"
-                              />
-                              <div
-                                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"
-                                aria-hidden
-                              />
+                            <div className="bg-surface-matte px-3 pt-3">
+                              <figure className="experience-cover aspect-[21/9] max-h-36 w-full sm:max-h-44">
+                                <img
+                                  src={cover}
+                                  alt={
+                                    es
+                                      ? (coverMeta?.alt ?? `Pieza de ${exp.company}`)
+                                      : `${exp.company} still`
+                                  }
+                                  width={coverMeta?.width}
+                                  height={coverMeta?.height}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className={coverMeta?.fit === "contain" ? undefined : "experience-cover__image h-full w-full"}
+                                  // Logo: entero y centrado. Inline porque una regla global img { height: auto } gana a h-full.
+                                  style={coverMeta?.fit === "contain" ? CONTAIN_COVER_STYLE : undefined}
+                                />
+                                <span className="experience-cover__grade" aria-hidden />
+                                <span className="experience-cover__vignette" aria-hidden />
+                                <figcaption className="experience-cover__caption">
+                                  {exp.company}
+                                </figcaption>
+                              </figure>
                             </div>
                           ) : null}
 

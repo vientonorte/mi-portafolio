@@ -128,9 +128,9 @@ export function Skills() {
 
       <div
         id="flujo-mejora-continua"
-        className="scroll-mt-24 rounded-2xl border border-border/40 bg-zinc-950 px-4 py-8 text-zinc-50 shadow-lg sm:px-8 sm:py-10"
+        className="scroll-mt-24 rounded-2xl border border-border bg-card px-4 py-8 text-card-foreground shadow-lg sm:px-8 sm:py-10"
       >
-        <h3 className="text-center text-lg font-semibold tracking-tight text-white sm:text-xl">
+        <h3 className="text-center text-lg font-semibold tracking-tight text-foreground sm:text-xl">
           {es ? "Flujo de Mejora Continua" : "Continuous Improvement Flow"}
         </h3>
 
@@ -163,7 +163,7 @@ export function Skills() {
                     onFocus={() => setActivePhase(phase.id)}
                     className={cn(
                       "flex w-[4.5rem] flex-col items-center gap-2 rounded-xl p-1 transition-transform sm:w-[5.5rem]",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       "hover:scale-105 active:scale-95"
                     )}
                     aria-current={isActive ? "step" : undefined}
@@ -177,13 +177,18 @@ export function Skills() {
                       className={cn(
                         "flex h-14 w-14 items-center justify-center rounded-full border-2 transition-colors sm:h-16 sm:w-16",
                         isActive
-                          ? "border-primary bg-primary/20 text-primary shadow-[0_0_24px_rgba(255,147,30,0.35)]"
-                          : "border-primary/50 bg-primary/10 text-primary"
+                          ? "border-primary bg-primary/15 text-primary shadow-[0_0_24px_color-mix(in_srgb,var(--primary)_40%,transparent)]"
+                          : "border-primary/40 bg-primary/10 text-primary"
                       )}
                     >
                       <Icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden />
                     </span>
-                    <span className="text-center text-[10px] font-medium leading-tight text-zinc-200 sm:text-xs">
+                    <span
+                      className={cn(
+                        "text-center text-[10px] font-medium leading-tight sm:text-xs",
+                        isActive ? "text-foreground" : "text-muted-foreground"
+                      )}
+                    >
                       {phase.title[language]}
                     </span>
                   </button>
@@ -200,7 +205,7 @@ export function Skills() {
         </div>
 
         <p
-          className="mt-5 min-h-[1.25rem] text-center text-sm text-zinc-400"
+          className="mt-5 min-h-[1.25rem] text-center text-sm text-muted-foreground"
           aria-live="polite"
         >
           {activeBlurb}

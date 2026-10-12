@@ -1,5 +1,4 @@
 import { portfolioImages } from "../lib/portfolio-image-urls";
-import { khuroItem } from "./khuro-portfoliobox";
 
 /** Visual evidence for /sobre-mi — images first, captions short. */
 export type AboutVisualTile = {
@@ -103,19 +102,66 @@ export const ABOUT_VISUAL_TILES: AboutVisualTile[] = [
   },
 ];
 
+const COVER_BASE = import.meta.env.BASE_URL || "/";
+const MARANA_COVER = `${COVER_BASE}images/experience/marana-sitio-home.webp`;
+const NEGRA_COLORA_COVER = `${COVER_BASE}images/experience/negra-colora-infografia.webp`;
+const PARETI_COVER = `${COVER_BASE}images/experience/pareti-sitio-web.webp`;
+const KARRI_COVER = `${COVER_BASE}images/experience/karri-logo.webp`;
+const TEATRO_DI_POPOLO_COVER = `${COVER_BASE}images/experience/teatro-di-popolo-sacco-vanzetti.webp`;
+
 /** Cover image per experience companyId (timeline). */
 /** Keys: companyId y/o company name exacto del catalog. */
 export const EXPERIENCE_COVER: Record<string, string> = {
   "sura-investments": portfolioImages.sura.webPrototype,
   transvip: portfolioImages.transvip.figmaPrototype,
-  karri: portfolioImages.karri.deliveryBrand,
+  karri: KARRI_COVER,
   "Viento Norte": portfolioImages.consultoria.xCmsDashboard,
-  "Karri by Transvip": portfolioImages.karri.deliveryBrand,
-  "Empresas Pareti": khuroItem("pareti")?.image ?? "",
-  "Maraña Agencia Digital": khuroItem("marana")?.image ?? "",
-  "La Voz de los Cerros": khuroItem("voz-cerros")?.image ?? "",
-  "La Negra Colorá": khuroItem("negra-colora")?.image ?? "",
-  "Teatro Di Popolo": khuroItem("teatro-di-popolo")?.image ?? "",
+  // Karri (Rö, 16:55): logo propio de Karri (public/images/karri/logo.png) como portada;
+  // nunca la portada de Transvip (comparte companyId "transvip").
+  "Karri by Transvip": KARRI_COVER,
+  // Portadas aprobadas por Rö (TL 16:02 y 16:05, 11-oct; Pareti y Teatro desde su Behance): exports locales en public/images/experience/,
+  // webp 840×360 (21:9, el mismo marco aspect-[21/9] del timeline), sin metadatos EXIF/XMP.
+  "Maraña Agencia Digital": MARANA_COVER,
+  "La Negra Colorá": NEGRA_COLORA_COVER,
+  "Empresas Pareti": PARETI_COVER,
+  "Teatro Di Popolo": TEATRO_DI_POPOLO_COVER,
+  // Sin portada para La Voz de los Cerros: venía del CDN de Portfoliobox (cloudfront, 403 desde
+  // S42) y no hay export aprobado. Sin export no hay portada (no se inventa ni placeholder).
+};
+
+/** alt descriptivo y tamaño intrínseco (evita layout shift) por URL de portada. */
+export const EXPERIENCE_COVER_META: Record<
+  string,
+  { alt: string; width: number; height: number; fit?: "contain" }
+> = {
+  [MARANA_COVER]: {
+    alt: "Portada del sitio de Maraña Agencia Digital: menú principal y mensaje de bienvenida sobre estrategia digital y metodología ágil",
+    width: 840,
+    height: 360,
+  },
+  [PARETI_COVER]: {
+    alt: "Sitio web de Grupo Empresas Pareti: logo P&C sobre la foto de una caja registradora antigua",
+    width: 840,
+    height: 360,
+  },
+  // Logo (no foto): webp con transparencia, se muestra entero (object-contain) sobre la
+  // superficie de logos del marco, sin recorte en ningún ancho.
+  [KARRI_COVER]: {
+    alt: "Logo de Karri",
+    width: 560,
+    height: 191,
+    fit: "contain",
+  },
+  [TEATRO_DI_POPOLO_COVER]: {
+    alt: "Escena de «Sacco & Vanzetti» de Teatro Di Popolo: pilas de periódicos sobre el escenario en penumbra",
+    width: 840,
+    height: 360,
+  },
+  [NEGRA_COLORA_COVER]: {
+    alt: "Infografía de La Negra Colorá sobre la comunidad Barrientos Paillalef del Lof Ñanco, con un mapa de la zona",
+    width: 840,
+    height: 360,
+  },
 };
 
 export const METHOD_STRIP = [

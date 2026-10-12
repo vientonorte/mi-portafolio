@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->
-  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json). Sin share legacy ni rutas hash. -->
+  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/. Sin share legacy ni rutas hash. -->
   <url>
     <loc>https://vientonorte.io/</loc>
     <lastmod>2026-09-27</lastmod>
@@ -19,5 +19,11 @@
     <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vientonorte.io/noticias/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

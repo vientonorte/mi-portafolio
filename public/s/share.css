@@ -28,11 +28,12 @@
   --vn-primitive-marfil: #f7f2e7;
   --vn-primitive-pizarra: #4a5568;
   --vn-primitive-rojo: #e8401c;
-  --vn-primitive-azul-evo: #1a8fdc;
+  --vn-primitive-naranja: #ff931e; /* espejo de vn-tokens.css · azul-noche encima 7.61:1 */
   --brand-red: #e8401c;
-  --brand-orange: #1a8fdc;
-  --brand-gradient: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-orange) 100%);
-  --vn-color-brand: var(--vn-primitive-azul-evo);
+  --brand-orange: var(--vn-primitive-naranja);
+  --brand-gradient: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange) 100%);
+  --brand-on-gradient: var(--vn-primitive-azul-noche);
+  --vn-color-brand: var(--vn-primitive-naranja);
   --vn-color-brand-dark: #0a0a0a;
   --vn-color-accent: var(--vn-primitive-rojo);
   --vn-color-surface: #ffffff;
@@ -82,21 +83,21 @@
   --vn-z-sticky: 20;
   /* Variantes AA (WCAG 2.2): texto blanco / sobre blanco ≥ 4.5:1 */
   --vn-primitive-white: #ffffff;
-  --vn-primitive-azul-evo-700: #0f6aa8; /* blanco 5.76:1 */
-  --vn-primitive-azul-evo-800: #0b5f96; /* blanco 6.79:1 */
+  --vn-primitive-naranja-600: #e8861b; /* azul-noche 6.33:1 */
+  --vn-primitive-naranja-700: #9e4f00; /* sobre blanco 5.88:1 */
   --vn-primitive-rojo-700: #c2330f; /* sobre blanco 5.56:1 */
   --vn-primitive-hueso: #f7f5f1; /* superficie card /s/ */
   /* Semánticos AA */
   --vn-color-surface-alt: var(--vn-primitive-hueso);
   --vn-color-surface-inverse: var(--vn-color-brand-dark);
   --vn-color-on-inverse: var(--vn-primitive-white);
-  --vn-color-link: var(--vn-primitive-azul-evo-700);
+  --vn-color-link: var(--vn-primitive-naranja-700);
   --vn-color-accent-text: var(--vn-primitive-rojo-700);
-  --vn-color-cta-bg: var(--vn-primitive-azul-evo-700);
-  --vn-color-cta-bg-hover: var(--vn-primitive-azul-evo-800);
-  --vn-color-cta-fg: var(--vn-primitive-white);
+  --vn-color-cta-bg: var(--vn-primitive-naranja);
+  --vn-color-cta-bg-hover: var(--vn-primitive-naranja-600);
+  --vn-color-cta-fg: var(--vn-primitive-azul-noche);
   --vn-color-control-border: var(--vn-primitive-pizarra); /* 7.5:1 vs blanco */
-  --vn-color-focus: var(--vn-primitive-azul-evo-700);
+  --vn-color-focus: var(--vn-primitive-naranja-700);
   --vn-color-focus-on-inverse: var(--vn-primitive-white);
   --vn-color-danger-text: var(--vn-primitive-rojo-700);
 }
@@ -184,12 +185,12 @@ body {
   min-height: 2rem;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid rgba(26, 143, 220, 0.4);
-  background: rgba(26, 143, 220, 0.12);
+  border: 1px solid rgba(255, 147, 30, 0.4);
+  background: rgba(255, 147, 30, 0.12);
   padding: 0 0.75rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: #1a8fdc;
+  color: var(--vn-primitive-naranja-700, #9e4f00);
   letter-spacing: 0.02em;
 }
 
@@ -269,7 +270,7 @@ body {
 }
 
 .share-nav a[aria-current="page"] {
-  background: rgba(26, 143, 220, 0.12);
+  background: rgba(255, 147, 30, 0.12);
   color: var(--vn-color-brand-dark);
 }
 
@@ -371,7 +372,7 @@ body {
   margin: 0.25rem 0.5rem 0.25rem 0;
   border-radius: 999px;
   background: var(--brand-gradient);
-  color: #fff;
+  color: var(--brand-on-gradient);
   text-decoration: none;
   font-weight: 600;
   border: 0;

@@ -1,33 +1,14 @@
-import { PendingSlot, SECTION_TITLE_CLASS } from "../components/marketing";
 import { placeholdersEnabled } from "../components/marketing/marketing-env";
 import { cn } from "../lib/utils";
+import { serviciosHref } from "../lib/servicios-links";
 import { ServicioPieceCard } from "./ServicioPieceCard";
-import { SERVICIOS_CONCEPTOS, SERVICIOS_CONCEPTOS_CASES, type ConceptCase } from "./servicios-content";
+import { ServiciosCasos } from "./ServiciosCasos";
+import { conceptCases, type ConceptCase } from "./servicios-content";
 
-const CHILLAX = "font-[family-name:var(--font-chillax)]";
-const SECTION_CLASS = "scroll-mt-[calc(var(--header-height)+0.75rem)] border-t border-border/40 py-12 md:py-16";
-
-function IsologoAccent({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden
-      data-accent="isologo"
-      className={cn("inline-block size-2.5 shrink-0 rounded-full bg-[var(--primary)]", className)}
-    />
-  );
-}
 
 function ConceptCard({ item }: { item: ConceptCase }) {
-  if (!item.image) {
-    return (
-      <article
-        data-concept={item.id}
-        className="flex h-full flex-col gap-5 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm"
-      >
-        <PendingSlot variant="thumb" label="Imagen pendiente de exportar" />
-      </article>
-    );
-  }
+  // Asset pendiente (p. ej. MASCOTAPP): la card no se renderiza (sin caja placeholder).
+  if (!item.image) return null;
   return (
     <ServicioPieceCard
       dataAttr="data-concept"
@@ -45,9 +26,9 @@ function ConceptCard({ item }: { item: ConceptCase }) {
   );
 }
 
-/** Claro, Walmart y Transvip siempre. MASCOTAPP solo si el build muestra placeholders. */
+/** Solo conceptos con portada (Claro, Walmart, Transvip). Sin ninguno, la sección no se renderiza. */
 export function ServiciosConceptos({ embedded = false }: { embedded?: boolean }) {
-  const visible = SERVICIOS_CONCEPTOS_CASES.filter((item) => item.image || placeholdersEnabled());
+  const visible = conceptCases().filter((item) => item.image || placeholdersEnabled());
   if (visible.length === 0) return null;
   if (embedded) {
     return (
@@ -58,22 +39,6 @@ export function ServiciosConceptos({ embedded = false }: { embedded?: boolean })
       </div>
     );
   }
-  return (
-    <section id="conceptos" aria-labelledby="conceptos-heading" className={cn(SECTION_CLASS, "bg-background")}>
-      <div className="container mx-auto max-w-6xl px-4">
-        <h2 id="conceptos-heading" className={cn(SECTION_TITLE_CLASS, CHILLAX, "flex items-center gap-3")}>
-          <IsologoAccent className="size-3" />
-          {SERVICIOS_CONCEPTOS.heading}
-        </h2>
-        <p className="mt-2 max-w-2xl text-base text-muted-foreground">{SERVICIOS_CONCEPTOS.intro}</p>
-        <ul className="mt-8 grid list-none gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((item) => (
-            <li key={item.id}>
-              <ConceptCard item={item} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
+  // Home: la misma sección Experiencias que /servicios/ (un solo componente), con CTA HTTP a /servicios/#….
+  return <ServiciosCasos ctaHref={serviciosHref} />;
 }

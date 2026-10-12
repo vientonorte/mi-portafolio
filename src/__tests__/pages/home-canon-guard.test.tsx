@@ -110,21 +110,21 @@ describe("home canon guard: sin /#/ ni slugs viejos en la home renderizada", () 
     expect(offenders(container)).toEqual([]);
   });
 
-  it("el header de la home muestra Servicios, Sobre mí y Contacto, sin Noticias, «Más» ni Proceso", () => {
+  it("el header de la home = lista única (site-nav): Servicios, Noticias (/noticias/) y Contacto, sin «Más» ni Proceso", () => {
     renderHome();
     const header = document.querySelector('header[data-nav-shell="minimal"]')!;
     expect(header).not.toBeNull();
     const desktop = header.querySelector(".nav-desktop-only ul")!;
     expect([...desktop.querySelectorAll("li")].map((li) => li.textContent?.trim())).toEqual([
       "Servicios",
-      "Sobre mí",
+      "Noticias",
       "Contacto",
     ]);
     expect(desktop.querySelector('a[href="/servicios/"]')).not.toBeNull();
     expect(desktop.querySelector('a[href="#/news"]')).toBeNull();
-    expect(desktop.querySelector('a[href="#/sobre-mi"]')).not.toBeNull();
+    expect(desktop.querySelector('a[href="/noticias/"]')).not.toBeNull();
     expect(desktop.querySelector('a[href="#contacto"]')).not.toBeNull();
-    expect(header.textContent).not.toMatch(/Proceso|Más|Noticias/);
+    expect(header.textContent).not.toMatch(/Proceso|Más/);
     // Toggle de idioma de la home: «🌐 ES» (botón SPA, sin par es / EN)
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     expect(screen.getAllByRole("button", { name: "Cambiar a English" }).length).toBe(2);

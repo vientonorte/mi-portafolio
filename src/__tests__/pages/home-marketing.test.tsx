@@ -30,7 +30,8 @@ function marketingCtas(container: HTMLElement): HTMLAnchorElement[] {
   const marketing = container.querySelector('[data-testid="home-marketing"]');
   return [
     ...(hero?.querySelectorAll<HTMLAnchorElement>("a") ?? []),
-    ...(marketing?.querySelectorAll<HTMLAnchorElement>("a") ?? []),
+    // Los CTA de Experiencias (#web-pymes / #consultoria-ux sobre la grilla) se prueban aparte.
+    ...[...(marketing?.querySelectorAll<HTMLAnchorElement>("a") ?? [])].filter((a) => !a.closest("#experiencias")),
   ];
 }
 
@@ -246,14 +247,16 @@ describe("Home P3a — base '/' (producción)", () => {
 });
 
 describe("Home P3a — base '/qa/' (QA)", () => {
-  it("CTAs respect /qa/ base and placeholders appear only via PendingSlot", () => {
+  it("CTAs respect /qa/ base and QA renders no placeholders (TL 9-oct)", () => {
     vi.stubEnv("BASE_URL", "/qa/");
     const { container } = renderAt(<Home />);
     assertCtas(container, "/qa/");
     assertHeroButtons(container, "/qa/", ES_LABELS);
-    expect(container.querySelector("[data-concept='mascotapp'] [data-placeholder]")).not.toBeNull();
+    expect(container.querySelector("[data-placeholder]")).toBeNull();
+    expect(container.querySelector("[data-concept='mascotapp']")).toBeNull();
+    expect(container.textContent).not.toContain("Imagen pendiente de exportar");
     expect(container.querySelector("#home-casos")).toBeNull();
-    expect(container.querySelectorAll("#conceptos [data-concept]")).toHaveLength(4);
+    expect(container.querySelectorAll("#conceptos [data-concept]")).toHaveLength(3);
     const heroSrc = container.querySelector('[data-testid="hero-mockup"] img')?.getAttribute("src");
     expect(heroSrc).toBe("/qa/images/consultoria/x-cms-dashboard.png");
   });

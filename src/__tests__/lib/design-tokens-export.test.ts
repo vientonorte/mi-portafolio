@@ -53,7 +53,8 @@ describe("design-tokens-export", () => {
     expect(css).toContain(":root {");
     expect(css).toContain(".dark {");
     expect(css).toContain("--brand-red: #E8401C");
-    expect(css).toContain("--primary: #1A8FDC"); // dark override
+    expect(css).toContain("--primary: #FF931E"); // dark override (naranja canon)
+    expect(css).not.toMatch(/#1A8FDC|#0F6AA8/i);
   });
 
   it("builds Figma handoff prompt with tokens and frames", () => {

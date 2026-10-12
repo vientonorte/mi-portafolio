@@ -1,11 +1,17 @@
 /**
  * Entorno de los componentes marketing.
- * Placeholders (contenido pendiente de autorización de Rö) solo en el build QA (base "/qa/").
+ * Placeholders (contenido pendiente de autorización de Rö): APAGADOS en todo build,
+ * prod y /qa/ (TL 9-oct, QA de Rö 12:52). Una card con asset pendiente no se muestra
+ * y una sección que queda vacía se omite entera. El guard
+ * scripts/check-dist-no-placeholders.sh falla si el dist trae texto o marcadores.
  */
 export const PLACEHOLDER_MARKER = "pendiente-ro";
 
+/** Constante (no función) para que el minificador elimine el markup de PendingSlot del bundle. */
+export const PLACEHOLDERS_ENABLED = false as boolean;
+
 export function placeholdersEnabled(): boolean {
-  return import.meta.env.BASE_URL === "/qa/";
+  return PLACEHOLDERS_ENABLED;
 }
 
 /**

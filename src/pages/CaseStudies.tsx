@@ -572,7 +572,7 @@ export default function CaseStudies({
                   whileHover={{ scale: 1.05 }}
                   className="flex-1 w-full"
                 >
-                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/30 rounded-xl p-6">
+                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl p-6">
                     <h4 className="font-bold text-center mb-4 text-blue-600 dark:text-blue-400">
                       {t.caseStudies.valueChain.phases.discovery}
                     </h4>

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import es from "../../lib/i18n/locales/es";
@@ -77,6 +77,7 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
       "https://vientonorte.io/",
       "https://vientonorte.io/servicios/",
       "https://vientonorte.io/servicios/web-dental/",
+      "https://vientonorte.io/noticias/",
     ]);
     expect(sitemap).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
@@ -121,9 +122,17 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
 });
 
 describe("SEO P0 · /s/news purged", () => {
-  it("does not ship public/s/news or public/news crawler HTML", () => {
+  it("does not ship public/s/news; public/news/ is only a noindex redirect to /noticias/ (S42 v3)", () => {
     expect(existsSync(resolve(root, "public/s/news"))).toBe(false);
-    expect(existsSync(resolve(root, "public/news"))).toBe(false);
+    const newsDir = resolve(root, "public/news");
+    expect(readdirSync(newsDir)).toEqual(["index.html"]);
+    const hop = readFileSync(resolve(newsDir, "index.html"), "utf8");
+    expect(hop).toContain('<meta name="robots" content="noindex, follow" />');
+    expect(hop).toContain('<link rel="canonical" href="https://vientonorte.io/noticias/" />');
+    expect(hop).toContain('<meta http-equiv="refresh" content="0;url=../noticias/" />');
+    expect(hop).toContain("location.replace(");
+    expect(hop).toContain("target.search = location.search");
+    expect(hop).toContain("target.hash = location.hash");
     expect(existsSync(resolve(root, "public/images/news"))).toBe(false);
   });
 });
