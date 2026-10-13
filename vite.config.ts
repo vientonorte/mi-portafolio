@@ -159,6 +159,8 @@
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
               rubros: path.resolve(__dirname, 'rubros/index.html'),
+              // /sobre-mi/ (13-oct): perfil prerenderizado; #/sobre-mi redirige aquí.
+              'sobre-mi': path.resolve(__dirname, 'sobre-mi/index.html'),
             },
         output: isSsrChild ? undefined : {
           manualChunks(id) {

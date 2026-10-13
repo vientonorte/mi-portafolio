@@ -82,8 +82,6 @@ archive/src-assets-hash-*/
 # Documentos y hojas de cálculo
 *.doc
 *.docx
-!public/Rodrigo-Gaete-CV-ES-ATS.docx
-!public/Rodrigo-Gaete-CV-EN-ATS.docx
 !docs/entregables/Rodrigo-Gaete-CV-ES-ATS.docx
 !docs/entregables/Rodrigo-Gaete-CV-EN-ATS.docx
 *.xls
@@ -122,3 +120,7 @@ backend/data/_export-driver.bundled.cjs
 /tmp/ollama*.log
 /tmp/ollama*.pid
 .vn-ssr-servicios/
+
+# 13-oct (TL): únicos PDF publicados, CV UX/UI ES/EN limpios (sin teléfono/dirección/RUT ni metadatos).
+!public/cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-ES.pdf
+!public/cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-EN.pdf
