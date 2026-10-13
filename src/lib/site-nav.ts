@@ -52,6 +52,12 @@ export function siteNoticiasHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}noticias/`;
 }
 
+/** /sobre-mi/ (perfil, página estática prerenderizada) respetando base de Vite. */
+export function siteSobreMiHref(fragment?: string): string {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/${fragment ? `#${fragment}` : ""}`;
+}
+
 /**
  * Lista ÚNICA de links del header (S42 v3): home, /servicios/, /noticias/ y rubros.
  * Servicios · Noticias · Contacto. La home la consume vía nav-config (NAV_SURFACE.headerPrimary

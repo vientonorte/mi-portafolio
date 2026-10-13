@@ -35,6 +35,14 @@
           location.replace("%BASE_URL%privacidad/" + (q || pq));
           return;
         }
+        // 13-oct: vista hash #/sobre-mi (y #/sobre-mi?utm…) → /sobre-mi/ (página estática). Conserva query.
+        if (/^#\/sobre-mi(\/|\?|$)/.test(hn)) {
+          var sq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
+          var sqs = q || sq;
+          if (q && sq) sqs = q + "&" + sq.slice(1);
+          location.replace("%BASE_URL%sobre-mi/" + sqs);
+          return;
+        }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
           location.replace(location.origin + "/servicios/" + q);

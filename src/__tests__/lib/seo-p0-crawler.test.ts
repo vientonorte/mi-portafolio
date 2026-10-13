@@ -83,6 +83,7 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
       "https://vientonorte.io/s/polijuego-privacy/",
       "https://vientonorte.io/servicios/",
       "https://vientonorte.io/servicios/web-dental/",
+      "https://vientonorte.io/sobre-mi/",
     ]);
     expect(sitemap.replace("/s/polijuego-privacy/", "")).not.toContain("/s/");
     expect(sitemap).not.toContain("#");

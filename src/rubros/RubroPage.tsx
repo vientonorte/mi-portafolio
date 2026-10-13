@@ -1,3 +1,4 @@
+import { StaticBreadcrumbs } from "../components/static/StaticBreadcrumbs";
 import { useState, type MouseEvent } from "react";
 import { Navigation } from "../components/organisms/Navigation";
 import Footer from "../components/Footer";
@@ -63,6 +64,16 @@ export function RubroPage({ slug }: { slug: string }) {
         data-page="rubro"
         data-rubro={slug}
       >
+        <div className="container mx-auto max-w-6xl px-4 pt-4">
+          <StaticBreadcrumbs
+            className="text-sm text-muted-foreground"
+            items={[
+              { label: "Inicio", path: "/" },
+              { label: "Servicios", path: "/servicios/" },
+              { label: rubro.badge, path: `/servicios/${slug}/` },
+            ]}
+          />
+        </div>
         <HeroWithMockup
           id="inicio"
           headingId="rubro-hero-heading"

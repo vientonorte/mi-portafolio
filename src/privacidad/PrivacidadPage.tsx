@@ -1,3 +1,4 @@
+import { StaticBreadcrumbs } from "../components/static/StaticBreadcrumbs";
 import { Navigation } from "../components/organisms/Navigation";
 import Footer from "../components/Footer";
 import { SECTION_TITLE_CLASS } from "../components/marketing";
@@ -27,17 +28,14 @@ export function PrivacidadPage() {
       />
       <main id="main" tabIndex={-1} className="pt-[var(--header-height)]" data-page="privacidad">
         <section aria-labelledby="privacidad-heading" className="container mx-auto max-w-3xl px-6 py-12 md:py-16">
-          <nav aria-label="Migas de pan" className="mb-6 text-sm text-muted-foreground" data-breadcrumbs>
-            <ol className="m-0 flex list-none flex-wrap gap-2 p-0">
-              <li>
-                <a href={homeHref()} className="underline underline-offset-2 hover:text-foreground">
-                  Inicio
-                </a>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">Política de privacidad</li>
-            </ol>
-          </nav>
+          {/* BreadcrumbList ya va en el <head> de privacidad/index.html. */}
+          <StaticBreadcrumbs
+            jsonLd={false}
+            items={[
+              { label: "Inicio", path: "/" },
+              { label: "Política de privacidad", path: "/privacidad/" },
+            ]}
+          />
           <p className="text-sm font-medium text-primary">{p.badge}</p>
           <h1 id="privacidad-heading" className={cn(SECTION_TITLE_CLASS, "font-[family-name:var(--font-chillax)]")}>
             {p.title}

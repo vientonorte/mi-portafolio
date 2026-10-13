@@ -1,10 +1,11 @@
+import { StaticBreadcrumbs } from "../components/static/StaticBreadcrumbs";
 import { ArrowRight } from "lucide-react";
 import { Navigation } from "../components/organisms/Navigation";
 import Footer from "../components/Footer";
 import { newsTopicLabel } from "../components/news/NewsCard";
 import { formatEditionMonth, readingMinutes } from "../components/news/news-format";
 import { newsEditionBySlug, newsTopicLanding } from "../data/news-editions";
-import { homeHref, siteNoticiasHref } from "../lib/site-nav";
+import { homeHref } from "../lib/site-nav";
 import { serviciosHref } from "../lib/servicios-links";
 import { cn } from "../lib/utils";
 import { noticiasNavLinks } from "../noticias/NoticiasPage";
@@ -39,27 +40,14 @@ export function NoticiaPage({ slug }: { slug: string }) {
       <main id="main" tabIndex={-1} className="pt-[var(--header-height)]" data-page="noticia" data-news-slug={slug}>
         <article aria-labelledby="noticia-heading" className="py-10 md:py-14">
           <div className="container mx-auto max-w-3xl px-4">
-            <nav aria-label="Migas de pan" data-breadcrumbs>
-              <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0 text-sm text-muted-foreground">
-                <li>
-                  <a href={homeHref()} className="underline-offset-4 hover:underline">
-                    Inicio
-                  </a>
-                </li>
-                <li aria-hidden="true">›</li>
-                <li>
-                  <a href={siteNoticiasHref()} className="underline-offset-4 hover:underline">
-                    Noticias
-                  </a>
-                </li>
-                <li aria-hidden="true">›</li>
-                <li>
-                  <span aria-current="page" className="font-medium text-foreground">
-                    {edition.title.es}
-                  </span>
-                </li>
-              </ol>
-            </nav>
+            <StaticBreadcrumbs
+              className="text-sm text-muted-foreground"
+              items={[
+                { label: "Inicio", path: "/" },
+                { label: "Noticias", path: "/noticias/" },
+                { label: edition.title.es, path: `/noticias/${slug}/` },
+              ]}
+            />
             <header className="mt-6">
               <p className="m-0 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">{newsTopicLabel(edition.topic, "es")}</span>

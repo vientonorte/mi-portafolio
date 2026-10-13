@@ -164,6 +164,8 @@
               // Plantilla de ediciones: scripts/prerender-servicios.mjs genera dist/noticias/<slug>/index.html
               // por edición de src/data/news-editions.json y borra dist/noticia/.
               noticia: path.resolve(__dirname, 'noticia/index.html'),
+              // /sobre-mi/ (13-oct): perfil prerenderizado; #/sobre-mi redirige aquí.
+              'sobre-mi': path.resolve(__dirname, 'sobre-mi/index.html'),
             },
         output: isSsrChild ? undefined : {
           manualChunks(id) {

@@ -296,6 +296,9 @@ NOTICIAS_PATH = "/noticias/"
 NOTICIAS_PRIORITY = 0.6
 PRIVACIDAD_PATH = "/privacidad/"
 PRIVACIDAD_PRIORITY = 0.3
+# 13-oct: /sobre-mi/ (perfil, página Vite prerenderizada).
+SOBRE_MI_PATH = "/sobre-mi/"
+SOBRE_MI_PRIORITY = 0.6
 
 
 def main() -> None:
@@ -357,6 +360,8 @@ def main() -> None:
     # 13-oct: /privacidad/ (página Vite prerenderizada, privacidad/index.html). #/privacy redirige aquí.
     print("privacidad (vite)", PRIVACIDAD_PATH)
     locs.append((ORIGIN + PRIVACIDAD_PATH, PRIVACIDAD_PRIORITY))
+    print("sobre-mi (vite)", SOBRE_MI_PATH)
+    locs.append((ORIGIN + SOBRE_MI_PATH, SOBRE_MI_PRIORITY))
     # El sitemap ya no se escribe aquí: lo genera scripts/generate-sitemap.mjs en build.
     for loc, _pri in locs:
         assert_sitemap_policy(loc)

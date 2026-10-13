@@ -163,6 +163,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
             noticia: path.join(root, 'src/noticia/entry-server.tsx'),
             privacidad: path.join(root, 'src/privacidad/entry-server.tsx'),
+            'sobre-mi': path.join(root, 'src/sobre-mi/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -225,6 +226,17 @@ export async function prerenderServicios({ root, outDir, base }) {
     const privApp = privacidad.render();
     fs.writeFileSync(privTarget, privHtml.replace(OUTLET, privApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, privTarget)} (${privApp.length} bytes, base ${base})`);
+    // /sobre-mi/ (perfil; timeline #322 + SSOT trayectoria)
+    const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
+    if (!fs.existsSync(sobreMiTarget)) throw new Error(`[prerender-servicios] falta ${sobreMiTarget}`);
+    const sobreMiHtml = fs.readFileSync(sobreMiTarget, 'utf8');
+    if (!sobreMiHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/sobre-mi/index.html sin <!--ssr-outlet-->');
+    }
+    const sobreMi = await load('sobre-mi');
+    const sobreMiApp = sobreMi.render();
+    fs.writeFileSync(sobreMiTarget, sobreMiHtml.replace(OUTLET, sobreMiApp), 'utf8');
+    console.log(`[prerender-servicios] ${path.relative(root, sobreMiTarget)} (${sobreMiApp.length} bytes, base ${base})`);
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');

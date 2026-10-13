@@ -91,6 +91,8 @@ export function sourcesFor(route) {
   if (/^\/noticias\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/.test(route))
     return ["noticia/index.html", "src/noticia", "src/components/news", "src/data/news-editions.json"];
   if (route === "/privacidad/") return ["privacidad/index.html", "src/privacidad"];
+  if (route === "/sobre-mi/")
+    return ["sobre-mi/index.html", "src/sobre-mi", "src/data/experience-data.ts", "src/data/about-visuals.ts", "public/cv"];
   const rubro = route.match(/^\/servicios\/([^/]+)\/$/)?.[1];
   if (rubro && RUBROS.includes(rubro))
     return ["rubros/index.html", "src/rubros", "src/data/rubros.json", `public/images/rubros/${rubro}`];
