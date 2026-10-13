@@ -248,6 +248,7 @@ jobs:
           node scripts/qa-hash-ui.mjs http://127.0.0.1:4173
           node scripts/qa-sobre-mi-mobile.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile
           node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile/rail
+          node scripts/e2e-noticias-slug.mjs http://127.0.0.1:4173
 
       - name: Capturas /sobre-mi/ móvil
         if: always()
