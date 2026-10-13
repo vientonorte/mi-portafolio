@@ -142,6 +142,16 @@ async function checkRoute(page, { path, label }) {
       }
       return { label, path, ok: errors.length === 0, errors, title: await page.title() };
     }
+    // 13-oct: #/sobre-mi redirige a /sobre-mi/ (página estática prerenderizada, sin #root).
+    if (path === '/sobre-mi') {
+      await page.waitForURL(/\/sobre-mi\/(\?.*)?$/, { timeout: 20000 });
+      const h1 = (await page.locator('#sobre-mi-root h1').first().textContent({ timeout: 20000 })) || '';
+      if (!h1.trim()) errors.push('/sobre-mi/ sin h1');
+      if (!(await page.locator('link[rel="canonical"][href$="/sobre-mi/"]').count())) {
+        errors.push('/sobre-mi/ sin canonical propio');
+      }
+      return { label, path, ok: errors.length === 0, errors, title: await page.title() };
+    }
     // #main siempre en el shell; tour oferta es fixed (puede no “visible” a PW por height)
     await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
     if (
