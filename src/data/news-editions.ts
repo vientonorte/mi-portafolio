@@ -7,6 +7,20 @@ export type NewsEdition = (typeof catalog.editions)[number];
 
 export const NEWS_CATALOG = catalog;
 
+/** Origen público del canonical de cada edición (/noticias/<slug>/). */
+export const NEWS_ORIGIN = "https://vientonorte.io";
+
+/** Página prerenderizada de una edición: /noticias/<slug>/ respetando la base de Vite (/ o /qa/). */
+export function newsEditionHref(slug: string): string {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.endsWith("/") ? base : `${base}/`}noticias/${encodeURIComponent(slug)}/`;
+}
+
+/** Canonical absoluto de una edición: https://vientonorte.io/noticias/<slug>/ (sin base QA, sin '#'). */
+export function newsEditionCanonical(slug: string): string {
+  return `${NEWS_ORIGIN}/noticias/${encodeURIComponent(slug)}/`;
+}
+
 export function newsEditionBySlug(slug: string): NewsEdition | undefined {
   return catalog.editions.find((e) => e.slug === slug);
 }

@@ -159,6 +159,9 @@
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
               rubros: path.resolve(__dirname, 'rubros/index.html'),
+              // Plantilla de ediciones: scripts/prerender-servicios.mjs genera dist/noticias/<slug>/index.html
+              // por edición de src/data/news-editions.json y borra dist/noticia/.
+              noticia: path.resolve(__dirname, 'noticia/index.html'),
             },
         output: isSsrChild ? undefined : {
           manualChunks(id) {
