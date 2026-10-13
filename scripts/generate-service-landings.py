@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate public/servicios/<slug>/ + rewrite public/sitemap.xml (home + /servicios/) from service-landings.json.
+"""Generate public/servicios/<slug>/ from service-landings.json.
 
 PO 2026-09-27: las fichas antiguas /servicios/<slug>/ ya no se publican como página (share.css):
 cada slug registrado en src/data/legacy-redirects.json se emite como página de redirección a
@@ -244,8 +244,7 @@ def page_html(item: dict, siblings: list[dict]) -> str:
 # src/data/rubros.json). Sin /s/, sin /#/,
 # sin fichas individuales (asistente-ia, asistente-ecommerce, inteligencia-artificial-negocios
 # ni el resto de /servicios/<slug>/ hasta que cumplan el estándar de la página nueva).
-# Este script es el único que escribe public/sitemap.xml: lo reescribe completo.
-SITEMAP_HOME = (ORIGIN + "/", DATA["homeLastmod"], "weekly", 1.0)
+# El sitemap lo escribe scripts/generate-sitemap.mjs después de vite build (lastmod desde git log).
 
 
 # Denylist del sitemap: única fuente en src/data/sitemap-canon.json (la misma que usa el gate
@@ -287,36 +286,6 @@ def assert_sitemap_policy(loc: str) -> None:
         raise SystemExit(f"sitemap: URL fuera de canon: {loc}")
 
 
-def write_sitemap(locs: list[tuple[str, float]]) -> None:
-    sm = ROOT / "public/sitemap.xml"
-
-    def entry_lastmod(loc: str) -> str:
-        if loc == ORIGIN + SOBRE_MI_PATH:
-            return SOBRE_MI_LASTMOD
-        return LASTMOD
-
-    entries = [SITEMAP_HOME] + [(loc, entry_lastmod(loc), "weekly", pri) for loc, pri in locs]
-    blocks = []
-    for loc, lastmod, freq, pri in entries:
-        assert_sitemap_policy(loc)
-        blocks.append(
-            f"""  <url>
-    <loc>{loc}</loc>
-    <lastmod>{lastmod}</lastmod>
-    <changefreq>{freq}</changefreq>
-    <priority>{pri}</priority>
-  </url>"""
-        )
-    xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /nosotros/ + /sobre-mi/ + /contacto/ + /privacidad/. Sin share legacy ni rutas hash. -->\n"
-        + "\n".join(blocks)
-        + "\n</urlset>\n"
-    )
-    sm.write_text(xml)
-    print("sitemap", sm)
 
 
 # P4: landings por rubro (src/data/rubros.json) — páginas Vite prerenderizadas en
@@ -333,10 +302,6 @@ CONTACTO_PATH = "/contacto/"
 CONTACTO_PRIORITY = 0.5
 PRIVACIDAD_PATH = "/privacidad/"
 PRIVACIDAD_PRIORITY = 0.3
-# Ship 2026-10-13: la ficha HTTP es el loc. El hash #/sobre-mi no entra al sitemap.
-SOBRE_MI_LASTMOD = "2026-10-13"
-
-
 def main() -> None:
     landings = DATA["landings"]
     locs = []
@@ -393,7 +358,8 @@ def main() -> None:
     # S42 v3: /noticias/ (página Vite prerenderizada, noticias/index.html). /news/ es solo redirección.
     print("noticias (vite)", NOTICIAS_PATH)
     locs.append((ORIGIN + NOTICIAS_PATH, NOTICIAS_PRIORITY))
-    # /nosotros/ (página de empresa, Vite prerenderizada). /sobre-mi/ sigue viva y en el sitemap.
+    # /nosotros/, /sobre-mi/, /contacto/ y /privacidad/ son páginas Vite. El sitemap
+    # lo escribe scripts/generate-sitemap.mjs en build (lastmod = git log de las fuentes).
     print("nosotros (vite)", NOSOTROS_PATH)
     locs.append((ORIGIN + NOSOTROS_PATH, NOSOTROS_PRIORITY))
     print("sobre-mi (vite)", SOBRE_MI_PATH)
@@ -402,7 +368,8 @@ def main() -> None:
     locs.append((ORIGIN + CONTACTO_PATH, CONTACTO_PRIORITY))
     print("privacidad (vite)", PRIVACIDAD_PATH)
     locs.append((ORIGIN + PRIVACIDAD_PATH, PRIVACIDAD_PRIORITY))
-    write_sitemap(locs)
+    for loc, _pri in locs:
+        assert_sitemap_policy(loc)
 
 
 if __name__ == "__main__":
