@@ -52,11 +52,6 @@ const experienceCatalog: LocalizedExperience[] = [
   {
     isCurrent: true,
     logo: portfolioImages.brands.micro1,
-    evidenceSectionId: "evidencia-micro1",
-    evidenceCta: {
-      es: "Ver evidencia · Anotación y QA de grabación",
-      en: "View evidence · Annotation and recording QA",
-    },
     es: {
       company: "micro1",
       position: "AI Trainer / Gameplay Data Capture Specialist · Jornada parcial",

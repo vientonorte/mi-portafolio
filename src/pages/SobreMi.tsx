@@ -4,7 +4,6 @@ import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
 import { Volunteer } from '../components/organisms/Volunteer';
 import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
-import { Micro1ToolEvidence } from '../components/organisms/Micro1ToolEvidence';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
 import { ProcessNavigation } from '../components/molecules/ProcessNavigation';
@@ -32,9 +31,8 @@ const SobreMi = () => {
     { id: 'experiencia', number: '04', label: es ? 'Trayecto' : 'Timeline' },
     { id: 'voluntariado', number: '05', label: es ? 'Voluntariado' : 'Volunteer' },
     { id: 'evidencia-vn', number: '06', label: es ? 'Casos' : 'Cases' },
-    { id: 'evidencia-micro1', number: '07', label: 'micro1' },
-    { id: 'testimonios', number: '08', label: es ? 'Voces' : 'Voices' },
-    { id: 'contacto', number: '09', label: es ? 'Contacto' : 'Contact' },
+    { id: 'testimonios', number: '07', label: es ? 'Voces' : 'Voices' },
+    { id: 'contacto', number: '08', label: es ? 'Contacto' : 'Contact' },
   ];
 
   useEffect(() => {
@@ -62,8 +60,8 @@ const SobreMi = () => {
       {/*
         L1 Perfil unificado (ficha + ciclo de decisión en un bloque)
         L2 Método + alcance
-        L3 Timeline (VN / micro1 con CTA a evidencia) + voluntariado
-        L4 Evidencias ancladas al cargo
+        L3 Timeline (VN con CTA a casos; micro1 queda en el trayecto) + voluntariado
+        L4 Evidencia VN anclada al cargo
         Enterprise employment SURA/Transvip → /proyectos
       */}
       <About />
@@ -72,7 +70,6 @@ const SobreMi = () => {
       <Experience />
       <Volunteer />
       <MetodoRoEvidence />
-      <Micro1ToolEvidence />
       <Testimonials />
       <Contact />
     </PageShell>
