@@ -97,9 +97,13 @@ export const CONTACT_API_URL =
   import.meta.env.VITE_CONTACT_API_URL ??
   'https://contact.vientonorte.io/api/contact';
 
-/** CV público — PDF ATS desde public/ (ES default · EN si locale en). */
-export const CV_ASSET = 'cv-rodrigo-gaete-ux.pdf';
-export const CV_ASSET_EN = 'cv-rodrigo-gaete-ux-en.pdf';
+/**
+ * CV público (TL 13-oct): CV UX/UI Product Designer limpio en public/cv/ (sin Gmail, teléfono, RUT
+ * ni metadatos). Las rutas viejas public/cv-rodrigo-gaete-ux(-en).pdf quedan con el mismo PDF limpio
+ * para no romper links externos.
+ */
+export const CV_ASSET = 'cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-ES.pdf';
+export const CV_ASSET_EN = 'cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-EN.pdf';
 export const CV_DOCX_ES = 'Rodrigo-Gaete-CV-ES-ATS.docx';
 export const CV_DOCX_EN = 'Rodrigo-Gaete-CV-EN-ATS.docx';
 

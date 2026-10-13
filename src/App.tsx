@@ -147,6 +147,7 @@ function AppRoutes() {
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
             {/* 13-oct: #/sobre-mi → /sobre-mi/ (página estática prerenderizada). */}
             <Route path="/sobre-mi" element={<SobreMiRedirect />} />
+            <Route path="/sobre-mi/:section" element={<SobreMiRedirect />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
             {/* S42 v3: #/news y #/news/<slug> → /noticias/ (página estática; replace, respeta /qa/). */}

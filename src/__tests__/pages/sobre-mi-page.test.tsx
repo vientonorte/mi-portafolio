@@ -5,7 +5,7 @@
  */
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render } from "@/sobre-mi/entry-server";
 import { render as renderServicios } from "@/servicios/entry-server";
 import { render as renderNoticias } from "@/noticias/entry-server";
@@ -87,5 +87,50 @@ describe("sin links internos /#/", () => {
       const bad = hrefs.filter((h) => /^(\/|\/qa\/)?#\//.test(h) || /vientonorte\.io\/(qa\/)?#\//.test(h));
       expect(bad).toEqual([]);
     }
+  });
+});
+
+describe("deep links #/sobre-mi/<sección> → /sobre-mi/#<sección>", () => {
+  it("builder agrega la sección como fragmento y conserva UTM", () => {
+    expect(buildSobreMiRedirectUrl("", "", "experiencia")).toBe("/sobre-mi/#experiencia");
+    expect(buildSobreMiRedirectUrl("?utm_source=x", "", "experiencia")).toBe("/sobre-mi/?utm_source=x#experiencia");
+    expect(buildSobreMiRedirectUrl("", "", "<script>")).toBe("/sobre-mi/");
+  });
+  it("la sección destino existe en la página", () => {
+    const d = parse(render());
+    expect(d.getElementById("experiencia")).not.toBeNull();
+  });
+  it("script inline de index.html: #/sobre-mi/experiencia → /sobre-mi/#experiencia", () => {
+    const home = readFileSync(resolve(root, "index.html"), "utf8");
+    const m = home.match(/var ssec = \(hn\.split\("\?"\)\[0\]\.match\((\/.+?\/)\) \|\| \[\]\)\[1\];/);
+    expect(m).not.toBeNull();
+    // eslint-disable-next-line no-new-func
+    const re = new Function(`return ${m![1]}`)() as RegExp;
+    expect("#/sobre-mi/experiencia".match(re)?.[1]).toBe("experiencia");
+    expect("#/sobre-mi".match(re)).toBeNull();
+  });
+  it("SPA: ruta /sobre-mi/:section y state.scrollTo redirigen con fragmento", async () => {
+    const { render: rtl } = await import("@testing-library/react");
+    const { MemoryRouter, Routes, Route } = await import("react-router-dom");
+    const { SobreMiRedirect } = await import("@/components/layout/SobreMiRedirect");
+    const replace = vi.fn();
+    vi.stubGlobal("location", { ...window.location, search: "", replace });
+    rtl(
+      <MemoryRouter initialEntries={["/sobre-mi/experiencia"]}>
+        <Routes>
+          <Route path="/sobre-mi/:section" element={<SobreMiRedirect />} />
+        </Routes>
+      </MemoryRouter>
+    );
+    rtl(
+      <MemoryRouter initialEntries={[{ pathname: "/sobre-mi", state: { scrollTo: "experiencia" } }]}>
+        <Routes>
+          <Route path="/sobre-mi" element={<SobreMiRedirect />} />
+        </Routes>
+      </MemoryRouter>
+    );
+    expect(replace).toHaveBeenNthCalledWith(1, "/sobre-mi/#experiencia");
+    expect(replace).toHaveBeenNthCalledWith(2, "/sobre-mi/#experiencia");
+    vi.unstubAllGlobals();
   });
 });

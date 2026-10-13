@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { siteSobreMiHref } from "../../lib/site-nav";
 
 /**
@@ -7,19 +7,23 @@ import { siteSobreMiHref } from "../../lib/site-nav";
  * NoticiasRedirect: conserva la query real y la de la ruta hash (UTM). Respaldo para la navegación
  * dentro de la SPA; en carga directa redirige el script inline de index.html.
  */
-export function buildSobreMiRedirectUrl(outerSearch: string, hashSearch: string): string {
+export function buildSobreMiRedirectUrl(outerSearch: string, hashSearch: string, section?: string | null): string {
   const params = new URLSearchParams(outerSearch);
   new URLSearchParams(hashSearch).forEach((v, k) => {
     if (!params.has(k)) params.set(k, v);
   });
   const qs = params.toString();
-  return `${siteSobreMiHref()}${qs ? `?${qs}` : ""}`;
+  const sec = section && /^[a-z0-9-]+$/.test(section) ? `#${section}` : "";
+  return `${siteSobreMiHref()}${qs ? `?${qs}` : ""}${sec}`;
 }
 
 export function SobreMiRedirect() {
-  const { search } = useLocation();
+  const { search, state } = useLocation();
+  const { section } = useParams();
+  // Deep link: #/sobre-mi/<sección> o navegación interna con state.scrollTo (section/sobre-mi/<sección>).
+  const target = section ?? (state as { scrollTo?: string } | null)?.scrollTo ?? null;
   useEffect(() => {
-    window.location.replace(buildSobreMiRedirectUrl(window.location.search, search));
-  }, [search]);
+    window.location.replace(buildSobreMiRedirectUrl(window.location.search, search, target));
+  }, [search, target]);
   return null;
 }
