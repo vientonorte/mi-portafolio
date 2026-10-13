@@ -132,6 +132,16 @@ async function checkRoute(page, { path, label }) {
 
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
+    // 13-oct: #/privacy redirige a /privacidad/ (página estática prerenderizada, sin #root).
+    if (path === '/privacy') {
+      await page.waitForURL(/\/privacidad\/(\?.*)?$/, { timeout: 20000 });
+      const h1 = (await page.locator('#privacidad-root h1').first().textContent({ timeout: 20000 })) || '';
+      if (!h1.trim()) errors.push('/privacidad/ sin h1');
+      if (!(await page.locator('link[rel="canonical"][href$="/privacidad/"]').count())) {
+        errors.push('/privacidad/ sin canonical propio');
+      }
+      return { label, path, ok: errors.length === 0, errors, title: await page.title() };
+    }
     // #main siempre en el shell; tour oferta es fixed (puede no “visible” a PW por height)
     await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
     if (
