@@ -46,7 +46,7 @@ export function siteNoticiasHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}noticias/`;
 }
 
-/** /sobre-mi/ (página estática prerenderizada). No es la ruta hash. */
+/** /sobre-mi/ — misma ficha que /#/sobre-mi, en URL HTTP. */
 export function siteSobreMiHref(): string {
   const base = import.meta.env.BASE_URL || "/";
   return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/`;

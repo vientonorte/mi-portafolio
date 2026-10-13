@@ -169,7 +169,7 @@ export async function prerenderServicios({ root, outDir, base }) {
     fs.writeFileSync(noticiasTarget, noticiasHtml.replace(OUTLET, noticiasApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, noticiasTarget)} (${noticiasApp.length} bytes, base ${base})`);
 
-    // /sobre-mi/ (ficha HTTP; el perfil largo sigue en el HashRouter)
+    // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
     const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
     if (!fs.existsSync(sobreMiTarget)) throw new Error(`[prerender-servicios] falta ${sobreMiTarget}`);
     const sobreMiHtml = fs.readFileSync(sobreMiTarget, 'utf8');
@@ -177,9 +177,12 @@ export async function prerenderServicios({ root, outDir, base }) {
       throw new Error('[prerender-servicios] dist/sobre-mi/index.html sin <!--ssr-outlet-->');
     }
     const sobreMi = await load('sobreMi');
-    const sobreMiApp = sobreMi.render();
-    if (sobreMiApp.includes('/#/')) {
-      throw new Error('[prerender-servicios] /sobre-mi/ no puede enlazar una ruta hash');
+    const sobreMiApp = await sobreMi.render();
+    if (!sobreMiApp.includes('id="habilidades"') || !sobreMiApp.includes('UX Manager')) {
+      throw new Error('[prerender-servicios] /sobre-mi/ no renderizó la ficha canónica');
+    }
+    if (sobreMiApp.includes('Prototipos en Figma')) {
+      throw new Error('[prerender-servicios] /sobre-mi/ sigue con la ficha inventada');
     }
     fs.writeFileSync(sobreMiTarget, sobreMiHtml.replace(OUTLET, sobreMiApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, sobreMiTarget)} (${sobreMiApp.length} bytes, base ${base})`);
