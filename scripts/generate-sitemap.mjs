@@ -87,6 +87,9 @@ export function sourcesFor(route) {
   if (route === "/servicios/")
     return ["servicios/index.html", "src/servicios", "src/data/service-landings.json", "scripts/prerender-servicios.mjs"];
   if (route === "/noticias/") return ["noticias/index.html", "src/noticias", "src/components/news", "src/data/news-editions.json"];
+  // /noticias/<slug>/: plantilla + página de edición + tarjetas + datos de news-editions.json.
+  if (/^\/noticias\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/.test(route))
+    return ["noticia/index.html", "src/noticia", "src/components/news", "src/data/news-editions.json"];
   const rubro = route.match(/^\/servicios\/([^/]+)\/$/)?.[1];
   if (rubro && RUBROS.includes(rubro))
     return ["rubros/index.html", "src/rubros", "src/data/rubros.json", `public/images/rubros/${rubro}`];
