@@ -36,11 +36,13 @@
           return;
         }
         // 13-oct: vista hash #/sobre-mi (y #/sobre-mi?utm…) → /sobre-mi/ (página estática). Conserva query.
+        // #/sobre-mi/<sección> → /sobre-mi/#<sección> (deep link).
         if (/^#\/sobre-mi(\/|\?|$)/.test(hn)) {
           var sq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
           var sqs = q || sq;
           if (q && sq) sqs = q + "&" + sq.slice(1);
-          location.replace("%BASE_URL%sobre-mi/" + sqs);
+          var ssec = (hn.split("?")[0].match(/^#\/sobre-mi\/([a-z0-9-]+)\/?$/) || [])[1];
+          location.replace("%BASE_URL%sobre-mi/" + sqs + (ssec ? "#" + ssec : ""));
           return;
         }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.

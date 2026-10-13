@@ -147,6 +147,7 @@ function AppRoutes() {
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
             {/* 13-oct: #/sobre-mi → /sobre-mi/ (página estática prerenderizada). */}
             <Route path="/sobre-mi" element={<SobreMiRedirect />} />
+            <Route path="/sobre-mi/:section" element={<SobreMiRedirect />} />
             <Route path="/contacto" element={<Contacto />} />
             {/* 13-oct: #/privacy → /privacidad/ (página estática). */}
             <Route path="/privacy" element={<PrivacyRedirect />} />
