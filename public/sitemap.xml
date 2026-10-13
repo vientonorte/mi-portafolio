@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->
-  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/. Sin share legacy ni rutas hash. -->
+  <!-- Generado en build por scripts/generate-sitemap.mjs desde dist/**/index.html públicos; lastmod = último commit de las fuentes. -->
   <url>
     <loc>https://vientonorte.io/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://vientonorte.io/noticias/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://vientonorte.io/s/polijuego-privacy/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://vientonorte.io/servicios/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://vientonorte.io/servicios/web-dental/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vientonorte.io/noticias/</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
 </urlset>

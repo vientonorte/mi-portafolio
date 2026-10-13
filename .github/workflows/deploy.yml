@@ -92,6 +92,9 @@ jobs:
           VITE_A11Y_FREE_SCHEDULE_URL: ${{ secrets.VITE_A11Y_FREE_SCHEDULE_URL }}
           VITE_VIDEO_CALL_URL: ${{ secrets.VITE_VIDEO_CALL_URL }}
 
+      - name: Sitemap de build (dist/sitemap.xml, lastmod = git log)
+        run: node scripts/generate-sitemap.mjs
+
       - name: Guard — prod build sin MASCOTAPP (solo /qa/)
         run: bash scripts/check-prod-no-mascotapp.sh
 
