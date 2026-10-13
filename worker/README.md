@@ -13,8 +13,7 @@ Reenvía el formulario de contacto a tu Gmail **sin publicar** `gaete.gaona@gmai
 | Capa | Qué ve el visitante | Qué recibes tú |
 |------|---------------------|----------------|
 | Sitio | `contacto@vientonorte.cl` | — |
-| **Formulario → FormSubmit** (canal principal, opción A) | POST vía iframe en el navegador | Email en `gaete.gaona@gmail.com` con `Reply-To` del visitante |
-| Formulario → Worker (respaldo silencioso) | Solo si FormSubmit en navegador falla | Email Sending si dominio en CF; si no, FormSubmit server-side (puede 429) |
+| **Formulario → Worker** (único canal desde 13-oct-2026) | `fetch` a `/api/contact` | Lead en KV + aviso por Cloudflare Email (binding `EMAIL`) a `CONTACT_INBOX` con `Reply-To` del visitante |
 | Email Routing (opcional) | mailto al alias | Reenvío directo a Gmail |
 
 ## Setup (una vez)
@@ -34,8 +33,8 @@ En Cloudflare Dashboard → **Email** → **Email Routing** (zona `vientonorte.c
 npx wrangler email sending enable vientonorte.cl
 ```
 
-Sin esto, el Worker usa FormSubmit como fallback (puede devolver 429 desde IPs de Cloudflare).
-El sitio también tiene fallback en el navegador vía iframe.
+Sin binding `EMAIL` (o si falla), el lead igual queda en KV y la respuesta lleva `emailed:false`.
+FormSubmit salió del worker y del navegador (13-oct-2026).
 
 ### 3. Secretos del Worker
 
@@ -65,17 +64,10 @@ En `wrangler.toml`, añadir a `ALLOWED_ORIGIN`:
 ALLOWED_ORIGIN = "https://vientonorte.github.io,http://localhost:3000"
 ```
 
-## Activación FormSubmit (obligatorio)
+## Envío de correo
 
-La primera vez que el **navegador** envía a FormSubmit, llega un correo de **activación** a
-`CONTACT_INBOX` (`gaete.gaona@gmail.com`) — debes abrir el enlace para confirmar.
-
+Solo Cloudflare Email (binding `EMAIL`). No hay FormSubmit ni otro relay de terceros.
 Runbook completo del sitio: [`docs/CONTACT_AND_PRIVACY.md`](../docs/CONTACT_AND_PRIVACY.md)
-
-## Fallback en el Worker
-
-Si Email Sending del dominio no está activo, el Worker intenta **FormSubmit** server-side.
-Desde IPs de Cloudflare puede devolver 429; no afecta al canal principal del navegador.
 
 ## QA
 
