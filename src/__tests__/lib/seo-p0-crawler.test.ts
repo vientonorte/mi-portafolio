@@ -78,6 +78,7 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
       "https://vientonorte.io/servicios/",
       "https://vientonorte.io/servicios/web-dental/",
       "https://vientonorte.io/noticias/",
+      "https://vientonorte.io/sobre-mi/",
     ]);
     expect(sitemap).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
@@ -118,6 +119,11 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
     expect(indexHtml).toContain('location.origin + "/servicios/"');
     expect(indexHtml).not.toContain('location.origin + "/s/consultoria/"');
     expect(indexHtml).not.toContain('location.origin + "/#/consultoria"');
+  });
+
+  it("bare /sobre-mi hops to the HTTP ficha, not a hash route", () => {
+    expect(indexHtml).toContain('basePath + "sobre-mi/"');
+    expect(indexHtml).not.toContain('basePath + "sobre-mi/#');
   });
 });
 

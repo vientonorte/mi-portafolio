@@ -146,6 +146,13 @@ jobs:
             echo "index.html still hops /poc to hash" >&2
             exit 1
           fi
+          test -f dist/sobre-mi/index.html
+          grep -q 'Rodrigo Gaete' dist/sobre-mi/index.html
+          grep -q 'id="prototipos"' dist/sobre-mi/index.html
+          if grep -q '/#/' dist/sobre-mi/index.html; then
+            echo "dist/sobre-mi links a hash route" >&2
+            exit 1
+          fi
 
       - name: Guard — no internal files in published dist
         run: |

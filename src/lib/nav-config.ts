@@ -16,7 +16,7 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
-import { SITE_NAV_PRIMARY_IDS, siteNoticiasHref, siteServiciosHref, type SiteNavPrimaryId } from "./site-nav";
+import { SITE_NAV_PRIMARY_IDS, siteNoticiasHref, siteServiciosHref, siteSobreMiHref, type SiteNavPrimaryId } from "./site-nav";
 
 /** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
 const CONSULTORIA_CANON_PATH = siteServiciosHref("consultoria-ux");
@@ -146,7 +146,8 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "proceso":
       return { kind: "route", target: ROUTES.process };
     case "sobre-mi":
-      return { kind: "route", target: "/sobre-mi" };
+      // Página HTTP /sobre-mi/. El HashRouter no es una URL que GitHub Pages sirva.
+      return { kind: "http", target: siteSobreMiHref() };
     case "design-system":
       return { kind: "route", target: ROUTES.designSystem };
     case "uxtools":

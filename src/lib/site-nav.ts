@@ -46,6 +46,12 @@ export function siteNoticiasHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}noticias/`;
 }
 
+/** /sobre-mi/ (página estática prerenderizada). No es la ruta hash. */
+export function siteSobreMiHref(): string {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/`;
+}
+
 /**
  * Lista ÚNICA de links del header (S42 v3): home, /servicios/, /noticias/ y rubros.
  * Servicios · Noticias · Contacto. La home la consume vía nav-config (NAV_SURFACE.headerPrimary
