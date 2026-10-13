@@ -54,8 +54,8 @@ export const contact = {
         consentPrivacyLink: 'privacy policy',
         consentRequired: 'You must accept data processing to send',
         validationError: 'Please fix the errors in the form',
-        success: 'Message sent! Check your email for a copy — reply within 24 h.',
-        successFallback: 'Message sent! Check your email for a copy — reply within 24 h.',
+        success: "We received your message. We'll reply within 2 business days.",
+        successFallback: "We received your message. We'll reply within 2 business days.",
         mailtoFallback: 'We couldn\'t send via the form',
         mailtoFallbackDesc: 'Open your email client with the message ready to send.',
         mailtoAction: 'Open email',
@@ -123,9 +123,7 @@ export const contact = {
         send: 'Send message',
         sending: 'Sending…',
         editMessage: 'You can edit the message before sending',
-        privacyNote:
-          'Your data goes to the Viento Norte Worker and Google Forms. We keep the lead to reply — no marketing.',
-        success: 'Done! I\'ll reply within 24 hours.',
+        success: "We received your message. We'll reply within 2 business days.",
       },
       social: {
         title: 'Or write me directly',
