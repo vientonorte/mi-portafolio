@@ -104,17 +104,18 @@ export const CONTACT_API_URL =
  */
 export const CV_ASSET = 'cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-ES.pdf';
 export const CV_ASSET_EN = 'cv/Rodrigo-Gaete-CV-UX-UI-Product-Designer-EN.pdf';
-export const CV_DOCX_ES = 'Rodrigo-Gaete-CV-ES-ATS.docx';
-export const CV_DOCX_EN = 'Rodrigo-Gaete-CV-EN-ATS.docx';
 
 export function getCvDownloadUrl(language: 'es' | 'en' = 'es'): string {
   const file = language === 'en' ? CV_ASSET_EN : CV_ASSET;
   return `${import.meta.env.BASE_URL}${file}`;
 }
 
+/**
+ * @deprecated PO 13-oct: solo se publican los 2 CV PDF. Los .docx ATS se movieron a docs/entregables/
+ * (no publicados); este helper devuelve el PDF limpio equivalente para no romper llamadas.
+ */
 export function getCvDocxUrl(language: 'es' | 'en' = 'es'): string {
-  const file = language === 'en' ? CV_DOCX_EN : CV_DOCX_ES;
-  return `${import.meta.env.BASE_URL}${file}`;
+  return getCvDownloadUrl(language);
 }
 
 export function getContactMailtoUrl(): string {
