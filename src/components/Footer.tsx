@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { sitePrivacyHref } from '../lib/site-nav';
 import { SITE_CONTACT, getContactMailtoUrl } from '../lib/site-contact';
 import { VIENTO_NORTE_LINKS } from '../lib/viento-norte-links';
 import { useLanguage } from '../lib/LanguageContext';
@@ -73,9 +73,9 @@ const SiteFooter = () => {
             ·
           </li>
           <li>
-            <Link to="/privacy" className="underline underline-offset-2 hover:text-white/90">
+            <a href={sitePrivacyHref()} className="underline underline-offset-2 hover:text-white/90">
               {t.privacy}
-            </Link>
+            </a>
           </li>
           <li aria-hidden className="text-white/40">
             ·

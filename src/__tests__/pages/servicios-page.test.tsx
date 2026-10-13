@@ -25,6 +25,7 @@ const isAllowedHref = (href: string) =>
   href === "/noticias/" ||
   href === "/sobre-mi/" ||
   href === "/qa/sobre-mi/" ||
+  href === "/privacidad/" ||
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
