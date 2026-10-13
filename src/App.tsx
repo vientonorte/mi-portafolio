@@ -13,6 +13,7 @@ import { PortfolioChrome } from './components/layout/PortfolioChrome';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { NoticiasRedirect } from './components/layout/NoticiasRedirect';
+import { SobreMiRedirect } from './components/layout/SobreMiRedirect';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
@@ -26,7 +27,6 @@ const ConsultoriaVientoNorte = lazyWithRetry(
 const LandingsHub = lazyWithRetry(() => import('./pages/LandingsHub'));
 const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
-const SobreMi = lazyWithRetry(() => import('./pages/SobreMi'));
 const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
 const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
 const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
@@ -161,7 +161,8 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/proyectos" element={<Proyectos />} />
             <Route path="/proyectos/autosuggest-fondos" element={<AutosuggestFondos />} />
-            <Route path="/sobre-mi" element={<SobreMi />} />
+            {/* #/sobre-mi → /sobre-mi/. El hash no es la ficha. */}
+            <Route path="/sobre-mi" element={<SobreMiRedirect />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/privacy" element={<Privacy />} />
             {/* S42 v3: #/news y #/news/<slug> → /noticias/ (página estática; replace, respeta /qa/). */}

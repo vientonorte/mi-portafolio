@@ -289,7 +289,13 @@ def assert_sitemap_policy(loc: str) -> None:
 
 def write_sitemap(locs: list[tuple[str, float]]) -> None:
     sm = ROOT / "public/sitemap.xml"
-    entries = [SITEMAP_HOME] + [(loc, LASTMOD, "weekly", pri) for loc, pri in locs]
+
+    def entry_lastmod(loc: str) -> str:
+        if loc == ORIGIN + SOBRE_MI_PATH:
+            return SOBRE_MI_LASTMOD
+        return LASTMOD
+
+    entries = [SITEMAP_HOME] + [(loc, entry_lastmod(loc), "weekly", pri) for loc, pri in locs]
     blocks = []
     for loc, lastmod, freq, pri in entries:
         assert_sitemap_policy(loc)
@@ -321,6 +327,8 @@ NOTICIAS_PATH = "/noticias/"
 NOTICIAS_PRIORITY = 0.6
 SOBRE_MI_PATH = "/sobre-mi/"
 SOBRE_MI_PRIORITY = 0.5
+# Ship 2026-10-13: la ficha HTTP es el loc. El hash #/sobre-mi no entra al sitemap.
+SOBRE_MI_LASTMOD = "2026-10-13"
 
 
 def main() -> None:

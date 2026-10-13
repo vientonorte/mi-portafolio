@@ -11,7 +11,7 @@ const STATIC_ROUTES = [
   '/',
   '/proyectos',
   '/proyectos/autosuggest-fondos',
-  '/sobre-mi',
+  // #/sobre-mi redirige a la ficha HTTP. Lo cubre checkSobreMiHttp.
   '/contacto',
   '/privacy',
   '/grafo',
@@ -291,6 +291,35 @@ async function checkMobileMenuNav(browser) {
   }
 }
 
+/** `#/sobre-mi` no es vista. Tiene que terminar en /sobre-mi/ con la ficha. */
+async function checkSobreMiHttp(page) {
+  try {
+    await page.goto(`${BASE}/#/sobre-mi`, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await page.waitForFunction(
+      () => {
+        const path = (location.pathname || '/').replace(/\/+$/, '') || '/';
+        return path === '/sobre-mi' && !location.hash.startsWith('#/');
+      },
+      { timeout: 15000 }
+    );
+    await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
+    await page.waitForSelector('#habilidades', { state: 'attached', timeout: 20000 });
+    const text = await page.locator('#main').innerText();
+    const errors = [];
+    if (!text.includes('UX Manager')) errors.push('sin UX Manager');
+    if (text.includes('Prototipos en Figma')) errors.push('ficha inventada');
+    const title = await page.title();
+    if (!title.includes('Sobre mí')) errors.push(`title: ${title}`);
+    return { label: '#/sobre-mi → /sobre-mi/', ok: errors.length === 0, errors };
+  } catch (err) {
+    return {
+      label: '#/sobre-mi → /sobre-mi/',
+      ok: false,
+      errors: [err.message.split('\n')[0]],
+    };
+  }
+}
+
 async function checkSection(page, { path, sectionId, label, lazy = false }) {
   try {
     await page.goto(hashUrl(path), { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -350,6 +379,10 @@ async function main() {
   const page = await context.newPage();
 
   const results = [];
+  const sobreMi = await checkSobreMiHttp(page);
+  results.push(sobreMi);
+  console.log(sobreMi.ok ? `✅ ${sobreMi.label}` : `❌ ${sobreMi.label} — ${sobreMi.errors.join('; ')}`);
+
   for (const route of routes) {
     const r = await checkRoute(page, route);
     results.push(r);

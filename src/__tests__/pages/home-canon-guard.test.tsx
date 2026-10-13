@@ -49,11 +49,6 @@ function isConsentPrivacyLink(el: Element): boolean {
   return el.hasAttribute("data-privacy-link") && el.getAttribute("href") === "#/privacy";
 }
 
-/** Sobre mí es ruta interna de la SPA (retro 7-oct). #/news salió del canon (TL 9-oct). */
-function isInternalSectionLink(href: string): boolean {
-  return href === "#/sobre-mi";
-}
-
 function renderHome() {
   window.location.hash = "#/";
   return render(
@@ -73,7 +68,7 @@ function offenders(container: HTMLElement): string[] {
   const hrefs = [...container.ownerDocument.querySelectorAll("[href]")]
     .filter((el) => !isConsentPrivacyLink(el))
     .map((el) => el.getAttribute("href") ?? "")
-    .filter((h) => !h.startsWith("data:") && !isInternalSectionLink(h));
+    .filter((h) => !h.startsWith("data:"));
   const bad = hrefs.filter(
     (h) => h.includes("/#/") || h.startsWith("#/") || OLD_SLUGS.some((slug) => h.includes(slug))
   );

@@ -10,7 +10,8 @@ import SobreMi from "../pages/SobreMi";
 import { createSobreMiHttpHistory } from "./http-history";
 
 /**
- * Misma ficha que /#/sobre-mi. La URL pública es /sobre-mi/.
+ * Ficha pública en /sobre-mi/. `#/sobre-mi` no es otra página: index.html
+ * la manda aquí antes de montar la SPA. Si el hash llega igual, se quita.
  * Un hash de otra ruta (#/proyectos) sale al apex, donde vive el HashRouter.
  */
 export function CanonicalSobreMi() {
