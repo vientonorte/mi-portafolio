@@ -30,7 +30,7 @@ afterEach(() => {
 describe("guard check-dist-no-placeholders.sh (TL 9-oct)", () => {
   it("pasa con un dist limpio, incluidas vistas hash internas y data-placeholder de Radix", () => {
     const dir = dist({
-      "servicios/index.html": '<a href="/qa/#/sobre-mi">x</a><a href="#/proyectos">y</a><a href="https://vientonorte.io/#/contacto">z</a>',
+      "servicios/index.html": '<a href="#/proyectos">y</a><a href="https://vientonorte.io/#/contacto">z</a><a href="/sobre-mi/">s</a>',
       "assets/app.js": 'const a={to:"/sobre-mi"},b={href:"/#/proyectos"};x={"data-placeholder":y?"":void 0};const n="https://otro.cl/news/";',
     });
     expect(run(dir)).toBe(0);
@@ -58,6 +58,18 @@ describe("guard check-dist-no-placeholders.sh (TL 9-oct)", () => {
 
   it.each(['n={to:"/news/"+s}', "n={href:`/#/news/${s}`}", 'n={to:"/news"}'])("falla con href/to a News en JS: %s", (js) => {
     expect(run(dist({ "assets/a.js": js }))).toBe(1);
+  });
+
+  it.each([
+    '<a href="/#/sobre-mi">n</a>',
+    '<a href="#/sobre-mi/">n</a>',
+    '<a href="/qa/#/sobre-mi">n</a>',
+  ])("falla con href hash a Sobre mí: %s", (html) => {
+    expect(run(dist({ "servicios/index.html": html }))).toBe(1);
+  });
+
+  it("el path HTTP /sobre-mi sigue permitido en el bundle", () => {
+    expect(run(dist({ "assets/a.js": 'n={to:"/sobre-mi"}' }))).toBe(0);
   });
 
   it("sin index.html devuelve 2", () => {

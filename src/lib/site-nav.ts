@@ -46,7 +46,7 @@ export function siteNoticiasHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}noticias/`;
 }
 
-/** /sobre-mi/ — misma ficha que /#/sobre-mi, en URL HTTP. */
+/** /sobre-mi/. `#/sobre-mi` redirige aquí; no es una URL pública. */
 export function siteSobreMiHref(): string {
   const base = import.meta.env.BASE_URL || "/";
   return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/`;

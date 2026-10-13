@@ -6,7 +6,9 @@
 #      archivo. El atributo data-placeholder a secas no se busca: Radix lo usa en Select.
 #   2. Enlaces a News, fuera de canon: href (HTML) o href:/to: (JS) que apunten a /#/news,
 #      #/news o /news/ (relativos, con base /qa/ o absolutos a vientonorte.io).
-# Solo mira esos patrones: otras vistas hash internas (#/sobre-mi, #/proyectos, …) no se tocan.
+#   3. Enlaces hash a la ficha Sobre mí (#/sobre-mi, /#/sobre-mi). La URL es /sobre-mi/.
+#      El path /sobre-mi (ruta del replace y de la ficha HTTP) sí puede quedar en el bundle.
+# Otras vistas hash internas (#/proyectos, …) no se tocan.
 # Los source maps (*.map) se ignoran. Uso: npm run build && npm run qa:no-placeholders
 # (DIST=otro/dir para otra salida).
 set -euo pipefail
@@ -43,5 +45,22 @@ if hits=$(grep -R -I -l -E --include='*.js' --include='*.mjs' "$JS_RE" "$DIST");
   fail=1
 fi
 
+# #/sobre-mi redirige a /sobre-mi/. No es un href público. No marca el path /sobre-mi.
+SOBRE='(/?#/sobre-mi)'
+SOBRE_HTML="href=[\"']${HOST}${SOBRE}"
+SOBRE_JS="(href|to)[\"']?[[:space:]]*:[[:space:]]*[\"'\`]${HOST}${SOBRE}"
+if hits=$(grep -R -I -l -E --include='*.html' "$SOBRE_HTML" "$DIST"); then
+  echo "href hash a Sobre mí (la URL es /sobre-mi/) en HTML del dist:" >&2
+  echo "$hits" >&2
+  grep -R -I -o -h -E --include='*.html' ".{0,30}${SOBRE_HTML}.{0,30}" "$DIST" | head -20 >&2 || true
+  fail=1
+fi
+if hits=$(grep -R -I -l -E --include='*.js' --include='*.mjs' "$SOBRE_JS" "$DIST"); then
+  echo "href/to hash a Sobre mí (la URL es /sobre-mi/) en JS del dist:" >&2
+  echo "$hits" >&2
+  grep -R -I -o -h -E --include='*.js' --include='*.mjs' ".{0,30}${SOBRE_JS}.{0,30}" "$DIST" | head -20 >&2 || true
+  fail=1
+fi
+
 if [ "$fail" -ne 0 ]; then exit 1; fi
-echo "OK: dist sin placeholders ni enlaces a /#/news o /news/ ($DIST)"
+echo "OK: dist sin placeholders ni enlaces a /#/news, /news/ o #/sobre-mi ($DIST)"

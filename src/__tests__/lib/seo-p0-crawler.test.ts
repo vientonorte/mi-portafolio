@@ -86,6 +86,9 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
     expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
+    expect(sitemap).toMatch(
+      /<loc>https:\/\/vientonorte\.io\/sobre-mi\/<\/loc>\s*<lastmod>2026-10-13<\/lastmod>/
+    );
   });
 });
 
@@ -124,6 +127,13 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
   it("bare /sobre-mi hops to the HTTP ficha, not a hash route", () => {
     expect(indexHtml).toContain('basePath + "sobre-mi/"');
     expect(indexHtml).not.toContain('basePath + "sobre-mi/#');
+  });
+
+  it("#/sobre-mi hops to /sobre-mi/ before the SPA mounts", () => {
+    const head = indexHtml.slice(0, indexHtml.indexOf('<div id="root"'));
+    expect(head).toContain('location.replace("%BASE_URL%sobre-mi/" + sms)');
+    expect(head).toMatch(/\^#\\\/sobre-mi/);
+    expect(head).not.toContain('location.replace("%BASE_URL%#/sobre-mi');
   });
 });
 
