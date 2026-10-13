@@ -165,6 +165,8 @@ jobs:
         run: npm run qa:no-mascotapp
       - name: Dist sin placeholders ni enlaces a /#/news o /news/
         run: npm run qa:no-placeholders
+      - name: /sobre-mi/ — toda imagen referenciada existe en dist
+        run: npm run qa:sobre-mi-images
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)
