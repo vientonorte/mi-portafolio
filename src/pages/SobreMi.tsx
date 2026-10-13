@@ -2,6 +2,7 @@ import { About } from '../components/organisms/About';
 import { Skills } from '../components/organisms/Skills';
 import { ProfileScope } from '../components/organisms/ProfileScope';
 import { Experience } from '../components/organisms/Experience';
+import { Volunteer } from '../components/organisms/Volunteer';
 import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { Micro1ToolEvidence } from '../components/organisms/Micro1ToolEvidence';
 import { Testimonials } from '../components/organisms/Testimonials';
@@ -29,10 +30,11 @@ const SobreMi = () => {
     { id: 'habilidades', number: '02', label: es ? 'Método' : 'Method' },
     { id: 'alcance', number: '03', label: es ? 'Alcance' : 'Scope' },
     { id: 'experiencia', number: '04', label: es ? 'Trayecto' : 'Timeline' },
-    { id: 'evidencia-vn', number: '05', label: es ? 'Casos' : 'Cases' },
-    { id: 'evidencia-micro1', number: '06', label: 'micro1' },
-    { id: 'testimonios', number: '07', label: es ? 'Voces' : 'Voices' },
-    { id: 'contacto', number: '08', label: es ? 'Contacto' : 'Contact' },
+    { id: 'voluntariado', number: '05', label: es ? 'Voluntariado' : 'Volunteer' },
+    { id: 'evidencia-vn', number: '06', label: es ? 'Casos' : 'Cases' },
+    { id: 'evidencia-micro1', number: '07', label: 'micro1' },
+    { id: 'testimonios', number: '08', label: es ? 'Voces' : 'Voices' },
+    { id: 'contacto', number: '09', label: es ? 'Contacto' : 'Contact' },
   ];
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const SobreMi = () => {
       {/*
         L1 Perfil unificado (ficha + ciclo de decisión en un bloque)
         L2 Método + alcance
-        L3 Timeline (VN / micro1 con CTA a evidencia)
+        L3 Timeline (VN / micro1 con CTA a evidencia) + voluntariado
         L4 Evidencias ancladas al cargo
         Enterprise employment SURA/Transvip → /proyectos
       */}
@@ -68,6 +70,7 @@ const SobreMi = () => {
       <Skills />
       <ProfileScope />
       <Experience />
+      <Volunteer />
       <MetodoRoEvidence />
       <Micro1ToolEvidence />
       <Testimonials />
