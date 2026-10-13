@@ -82,8 +82,6 @@ archive/src-assets-hash-*/
 # Documentos y hojas de cálculo
 *.doc
 *.docx
-!public/Rodrigo-Gaete-CV-ES-ATS.docx
-!public/Rodrigo-Gaete-CV-EN-ATS.docx
 !docs/entregables/Rodrigo-Gaete-CV-ES-ATS.docx
 !docs/entregables/Rodrigo-Gaete-CV-EN-ATS.docx
 *.xls

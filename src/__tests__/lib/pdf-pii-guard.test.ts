@@ -6,7 +6,7 @@
 import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
-import { inflateSync } from "node:zlib";
+import { inflateRawSync, inflateSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
@@ -19,7 +19,7 @@ const KNOWN_PENDING = new Set([
   "docs/entregables/Rodrigo-Gaete-CV-ES-ATS.pdf",
   "docs/entregables/Rodrigo-Gaete-CV-EN-ATS.pdf",
 ]);
-const PII = [/@gmail\.com/i, /\+?56[\s.-]?9[\s.-]?\d{4}[\s.-]?\d{4}/, /\bRUT\b/, /\b\d{1,2}\.\d{3}\.\d{3}-[\dkK]\b/];
+const PII = [/@(gmail|googlemail|hotmail|outlook|live|yahoo|icloud|me)\.(com|cl|es)\b/i, /\+?56[\s.-]?9[\s.-]?\d{4}[\s.-]?\d{4}/, /\bRUT\b/, /\b\d{1,2}\.\d{3}\.\d{3}-[\dkK]\b/];
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
@@ -71,5 +71,70 @@ describe("PDFs del repo sin PII (Gmail, teléfono, RUT) ni metadatos personales"
   });
   it("las excepciones pendientes siguen existiendo (si se limpian, sacarlas de KNOWN_PENDING)", () => {
     for (const p of KNOWN_PENDING) expect(pdfs).toContain(p);
+  });
+});
+
+/**
+ * Extensión TL 13-oct: TODO archivo .pdf/.docx/.txt que termina en dist/ (= public/ + build) sin
+ * correos personales, teléfono ni RUT, incluidos metadatos (Info/XMP del PDF; docProps/*.xml del docx).
+ * Sin build se revisa public/ (lo que Vite copia a dist/). `DIST_PII_REQUIRE=1` (npm run qa:pii-dist,
+ * tras `npm run build`) exige dist/.
+ */
+function unzipXml(file: string): string {
+  // ZIP mínimo: recorre los local file headers e infla (método 8) o copia (método 0) cada entrada .xml.
+  const buf = readFileSync(file);
+  let out = "";
+  let i = 0;
+  while (i + 30 <= buf.length && buf.readUInt32LE(i) === 0x04034b50) {
+    const method = buf.readUInt16LE(i + 8);
+    const csize = buf.readUInt32LE(i + 18);
+    const nlen = buf.readUInt16LE(i + 26);
+    const xlen = buf.readUInt16LE(i + 28);
+    const name = buf.subarray(i + 30, i + 30 + nlen).toString("utf8");
+    const start = i + 30 + nlen + xlen;
+    const data = buf.subarray(start, start + csize);
+    if (/\.(xml|rels)$/.test(name)) {
+      try {
+        out += "\n" + (method === 8 ? inflateRawSync(data) : data).toString("utf8");
+      } catch {
+        /* entrada ilegible */
+      }
+    }
+    i = start + csize;
+  }
+  return out.replace(/<[^>]+>/g, " ");
+}
+
+const distDir = join(root, "dist");
+const requireDist = process.env.DIST_PII_REQUIRE === "1";
+const hasDist = (() => {
+  try {
+    return statSync(distDir).isDirectory();
+  } catch {
+    return false;
+  }
+})();
+const scanDir = requireDist || hasDist ? distDir : join(root, "public");
+
+function walkExt(dir: string, out: string[] = []): string[] {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) walkExt(p, out);
+    else if (/\.(pdf|docx|txt)$/i.test(name)) out.push(p);
+  }
+  return out;
+}
+
+describe("dist/ (o public/) sin PII en .pdf/.docx/.txt (contenido y metadatos)", () => {
+  if (requireDist) it("dist/ existe", () => expect(hasDist).toBe(true));
+  const files = (requireDist && !hasDist ? [] : walkExt(scanDir)).map((p) => relative(root, p)).sort();
+  it("no publica .docx (PO 13-oct: solo los 2 CV PDF)", () => {
+    expect(files.filter((f) => f.toLowerCase().endsWith(".docx"))).toEqual([]);
+  });
+  it.each(files.length ? files : ["(sin archivos)"])("%s", (rel) => {
+    if (rel === "(sin archivos)") return;
+    const abs = join(root, rel);
+    const text = rel.endsWith(".docx") ? unzipXml(abs) : rel.endsWith(".pdf") ? pdfText(abs) : readFileSync(abs, "utf8");
+    for (const re of PII) expect(text, `${rel} ${re}`).not.toMatch(re);
   });
 });
