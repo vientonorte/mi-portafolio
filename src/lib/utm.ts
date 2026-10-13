@@ -32,6 +32,29 @@ export function cleanPath(raw: string | null | undefined): string {
   return p.slice(0, 200);
 }
 
+export const ENTRY_ANCHOR_KEY = "vn_entry_anchor";
+/** Anclas que no describen la intención de entrada (destino del form, skip-link). */
+const NEUTRAL_ANCHORS = new Set(["contacto", "main"]);
+const ANCHOR_RE = /^#([A-Za-z0-9._~-]{1,60})$/;
+
+/**
+ * Ancla de sección válida ("#web-pymes"), o "" si es una ruta hash (#/…), está vacía,
+ * es neutra (#contacto, #main) o trae caracteres fuera de la allowlist del worker.
+ */
+export function cleanAnchor(raw: string | null | undefined): string {
+  if (typeof raw !== "string") return "";
+  const m = ANCHOR_RE.exec(raw.trim());
+  if (!m || NEUTRAL_ANCHORS.has(m[1])) return "";
+  return `#${m[1]}`;
+}
+
+/** landing_path con ancla: "/servicios/" + "#web-pymes" → "/servicios/#web-pymes" (≤200). */
+export function landingPathWithAnchor(path: string, anchor: string | null | undefined): string {
+  const base = cleanPath(path);
+  const a = cleanAnchor(anchor);
+  return a ? `${base}${a}`.slice(0, 200) : base;
+}
+
 /** Lee utm_source/medium/campaign de un query string ("?a=b" o "a=b"). */
 export function parseUtm(search: string | null | undefined): UtmParams {
   const out: UtmParams = { utm_source: "", utm_medium: "", utm_campaign: "" };
@@ -79,13 +102,16 @@ export function getFirstTouch(storage: Storage | null = getSessionStorage()): Fi
  * Devuelve el primer toque vigente (el guardado o el nuevo).
  */
 export function recordFirstTouch(
-  loc: { pathname: string; search: string } | null = typeof window !== "undefined" ? window.location : null,
+  loc: { pathname: string; search: string; hash?: string } | null = typeof window !== "undefined" ? window.location : null,
   storage: Storage | null = getSessionStorage()
 ): FirstTouch | null {
   if (!loc) return null;
   const existing = getFirstTouch(storage);
   if (existing) return existing;
-  const touch: FirstTouch = { ...parseUtm(loc.search), landing_path: cleanPath(loc.pathname) };
+  const touch: FirstTouch = {
+    ...parseUtm(loc.search),
+    landing_path: landingPathWithAnchor(loc.pathname, loc.hash),
+  };
   if (storage) {
     try {
       storage.setItem(FIRST_TOUCH_KEY, JSON.stringify(touch));
@@ -96,13 +122,48 @@ export function recordFirstTouch(
   return touch;
 }
 
-/** Campos de atribución para el payload del formulario (vacío si no hay primer toque). */
-export function attributionFields(touch: FirstTouch | null = getFirstTouch()): Partial<FirstTouch> {
+/** Guarda la última ancla de sección visitada (p. ej. clic en «Quiero mi web» → #web-pymes). */
+export function recordEntryAnchor(
+  hash: string | null | undefined,
+  storage: Storage | null = getSessionStorage()
+): string {
+  const a = cleanAnchor(hash);
+  if (a && storage) {
+    try {
+      storage.setItem(ENTRY_ANCHOR_KEY, a);
+    } catch {
+      /* bloqueado */
+    }
+  }
+  return a;
+}
+
+export function getEntryAnchor(storage: Storage | null = getSessionStorage()): string {
+  if (!storage) return "";
+  try {
+    return cleanAnchor(storage.getItem(ENTRY_ANCHOR_KEY));
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Campos de atribución para el payload del formulario (vacío si no hay primer toque).
+ * landing_path lleva el ancla de entrada si el primer toque no traía una
+ * (p. ej. /servicios/ → clic a #web-pymes → "/servicios/#web-pymes").
+ */
+export function attributionFields(
+  touch: FirstTouch | null = getFirstTouch(),
+  anchor: string = getEntryAnchor()
+): Partial<FirstTouch> {
   if (!touch) return {};
+  const landing_path = touch.landing_path.includes("#")
+    ? touch.landing_path
+    : landingPathWithAnchor(touch.landing_path, anchor);
   return {
     utm_source: touch.utm_source,
     utm_medium: touch.utm_medium,
     utm_campaign: touch.utm_campaign,
-    landing_path: touch.landing_path,
+    landing_path,
   };
 }

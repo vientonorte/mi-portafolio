@@ -6,8 +6,9 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { ContactConsentField } from "../molecules/ContactConsentField";
+import { PrivacyNotice } from "../molecules/PrivacyNotice";
 import { Tabs, TabsContent } from "../ui/tabs";
-import { Mail, Link, MapPin, Send, Clock, Bot, PenLine, Shield } from "lucide-react";
+import { Mail, Link, MapPin, Send, Clock, Bot, PenLine } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PageSection } from "../layout/PageSection";
@@ -117,7 +118,20 @@ export function Contact({
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const validateDirectForm = (): boolean => {
+  /** Orden visual de los campos: el foco va al primero con error (QA 13-oct F1). */
+  const FIELD_FOCUS_ORDER = ["name", "email", "message", "consent"] as const;
+  const [liveStatus, setLiveStatus] = useState<{ kind: "idle" | "sending" | "ok" | "error"; text: string }>({
+    kind: "idle",
+    text: "",
+  });
+
+  const [focusRequest, setFocusRequest] = useState<{ id: string; n: number } | null>(null);
+  useEffect(() => {
+    if (!focusRequest) return;
+    document.getElementById(focusRequest.id)?.focus();
+  }, [focusRequest]);
+
+  const validateDirectForm = (): Record<string, string> => {
     const newErrors: Record<string, string> = {};
 
     if (!sharedIdentity.name.trim()) newErrors.name = t.form.errors.nameRequired;
@@ -132,19 +146,25 @@ export function Contact({
     if (!sharedIdentity.consent) newErrors.consent = t.form.consentRequired;
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return newErrors;
   };
 
   const handleDirectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (gotcha) return;
 
-    if (!validateDirectForm()) {
+    const found = validateDirectForm();
+    const firstInvalid = FIELD_FOCUS_ORDER.find((k) => found[k]);
+    if (firstInvalid) {
+      setLiveStatus({ kind: "error", text: t.form.validationError });
       toast.error(t.form.validationError);
+      // Tras el re-render con los errores (el panel puede volver a montarse).
+      setFocusRequest({ id: firstInvalid, n: Date.now() });
       return;
     }
 
     setIsSubmitting(true);
+    setLiveStatus({ kind: "sending", text: t.form.sending });
 
     try {
       const result = await submitContactMessage({
@@ -164,6 +184,8 @@ export function Contact({
         // H2 · conversión solo si el worker confirmó con 200.
         // generate_lead (TL 13-oct): solo si el worker confirmó con 200; sin PII; tema = motivo (opción cerrada).
         if (trackContactSubmitted(result)) trackFormLead(200, { formId: "home-contacto", topic: motive });
+        trackContactSubmitted(result);
+        setLiveStatus({ kind: "ok", text: t.form.success });
         toast.success(t.form.success);
         setSharedIdentity(emptyContactIdentity());
         setSharedMessage("");
@@ -173,6 +195,7 @@ export function Contact({
         return;
       }
 
+      setLiveStatus({ kind: "error", text: `${t.form.mailtoFallback} ${t.form.mailtoFallbackDesc}` });
       if (result.mailtoUrl) {
         analytics.submitContactForm(false);
         toast.error(t.form.mailtoFallback, {
@@ -194,6 +217,7 @@ export function Contact({
       });
     } catch {
       analytics.submitContactForm(false);
+      setLiveStatus({ kind: "error", text: `${t.form.mailtoFallback} ${t.form.mailtoFallbackDesc}` });
       toast.error(t.form.mailtoFallback, {
         description: t.form.mailtoFallbackDesc,
       });
@@ -512,11 +536,6 @@ export function Contact({
                         error={errors.consent}
                       />
 
-                      <p className="flex items-start gap-2 text-xs text-muted-foreground">
-                        <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                        {t.assistant.privacyNote}
-                      </p>
-
                       <input
                         type="text"
                         name="_gotcha"
@@ -538,6 +557,26 @@ export function Contact({
                         {isSubmitting ? t.form.sending : t.form.submit}
                         <Send className="ml-2 h-4 w-4" />
                       </Button>
+
+                      <PrivacyNotice />
+
+                      {/* Estados anunciados: enviando/éxito (polite) y error (assertive). */}
+                      <p
+                        role="status"
+                        aria-live="polite"
+                        data-contact-status="polite"
+                        className="min-h-5 text-sm font-medium text-foreground"
+                      >
+                        {liveStatus.kind === "sending" || liveStatus.kind === "ok" ? liveStatus.text : ""}
+                      </p>
+                      <p
+                        role="alert"
+                        aria-live="assertive"
+                        data-contact-status="assertive"
+                        className="min-h-0 text-sm font-medium text-destructive empty:hidden"
+                      >
+                        {liveStatus.kind === "error" ? liveStatus.text : ""}
+                      </p>
                     </form>
                   </TabsContent>
                 </Tabs>
