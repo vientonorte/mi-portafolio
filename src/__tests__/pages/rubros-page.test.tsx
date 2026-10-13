@@ -22,6 +22,7 @@ function isAllowedHref(href: string, base = "/"): boolean {
     href === base ||
     href === `${base}servicios/` ||
     href === `${base}noticias/` ||
+    href === `${base}privacidad/` ||
     /^#[A-Za-z][\w-]*$/.test(href) ||
     href === "mailto:contacto@vientonorte.io"
   );

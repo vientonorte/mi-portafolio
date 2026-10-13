@@ -6,13 +6,6 @@ import { withPackQuery } from "./consulting-pack-url";
 /** Alias público (Email Routing → inbox privado). No publicar Gmail en el sitio. */
 export const PUBLIC_CONTACT_EMAIL = "contacto@vientonorte.io";
 
-/**
- * Inbox real para FormSubmit (action del form, no se muestra en UI).
- * Override: VITE_FORM_SUBMIT_INBOX
- */
-export const FORM_SUBMIT_INBOX =
-  import.meta.env.VITE_FORM_SUBMIT_INBOX ?? 'gaete.gaona@gmail.com';
-
 export const SITE_CONTACT = {
   email: PUBLIC_CONTACT_EMAIL,
   linkedin: 'https://www.linkedin.com/in/rodrigo-gaete-ux/',

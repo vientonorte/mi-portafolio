@@ -29,6 +29,12 @@
           location.replace("%BASE_URL%noticias/" + qs);
           return;
         }
+        // 13-oct: vista hash #/privacy → /privacidad/ (página estática). Conserva la query.
+        if (/^#\/privacy(\/|\?|$)/.test(hn)) {
+          var pq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
+          location.replace("%BASE_URL%privacidad/" + (q || pq));
+          return;
+        }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
           location.replace(location.origin + "/servicios/" + q);

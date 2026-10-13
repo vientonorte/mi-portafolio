@@ -156,6 +156,8 @@
               servicios: path.resolve(__dirname, 'servicios/index.html'),
               // /noticias/ (S42 v3): página estática prerenderizada (scripts/prerender-servicios.mjs).
               noticias: path.resolve(__dirname, 'noticias/index.html'),
+              // /privacidad/ (13-oct): política prerenderizada; #/privacy redirige aquí.
+              privacidad: path.resolve(__dirname, 'privacidad/index.html'),
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
               rubros: path.resolve(__dirname, 'rubros/index.html'),
