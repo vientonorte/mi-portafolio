@@ -23,6 +23,7 @@ const isAllowedHref = (href: string) =>
   HOME_ROOTS.has(href) ||
   href === "/servicios/" ||
   href === "/noticias/" ||
+  href === "/privacidad/" ||
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||

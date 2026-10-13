@@ -294,6 +294,8 @@ RUBRO_PATHS = rubro_paths(ROOT)
 RUBRO_PRIORITY = 0.8
 NOTICIAS_PATH = "/noticias/"
 NOTICIAS_PRIORITY = 0.6
+PRIVACIDAD_PATH = "/privacidad/"
+PRIVACIDAD_PRIORITY = 0.3
 
 
 def main() -> None:
@@ -352,6 +354,9 @@ def main() -> None:
     # S42 v3: /noticias/ (página Vite prerenderizada, noticias/index.html). /news/ es solo redirección.
     print("noticias (vite)", NOTICIAS_PATH)
     locs.append((ORIGIN + NOTICIAS_PATH, NOTICIAS_PRIORITY))
+    # 13-oct: /privacidad/ (página Vite prerenderizada, privacidad/index.html). #/privacy redirige aquí.
+    print("privacidad (vite)", PRIVACIDAD_PATH)
+    locs.append((ORIGIN + PRIVACIDAD_PATH, PRIVACIDAD_PRIORITY))
     # El sitemap ya no se escribe aquí: lo genera scripts/generate-sitemap.mjs en build.
     for loc, _pri in locs:
         assert_sitemap_policy(loc)

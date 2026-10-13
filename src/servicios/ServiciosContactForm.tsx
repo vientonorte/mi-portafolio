@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { cn } from "../lib/utils";
+import { CONTACT_SUCCESS_MESSAGE, PrivacyNotice } from "../components/molecules/PrivacyNotice";
 import { track } from "../lib/track";
 import {
   buildServiciosPayload,
@@ -107,7 +108,7 @@ export function ServiciosContactForm({
       onIntentChange("");
       setStatus({
         kind: "ok",
-        text: "¡Listo! Recibimos tu mensaje. Te respondemos en menos de 24 horas hábiles.",
+        text: CONTACT_SUCCESS_MESSAGE,
       });
     } catch {
       track("form_submit", { status: "error" });
@@ -287,6 +288,8 @@ export function ServiciosContactForm({
       >
         {status.kind === "sending" ? "Enviando…" : "Enviar mensaje"}
       </Button>
+
+      <PrivacyNotice />
 
       <p
         role="status"
