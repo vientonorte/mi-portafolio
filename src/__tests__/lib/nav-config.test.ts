@@ -63,7 +63,7 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     expect(getMobileMoreDividerIndex()).toBe(-1);
   });
 
-  it("ningún destino del nav es /#/, /news ni un slug viejo; Sobre mí es ruta interna", () => {
+  it("ningún destino del nav es /#/, /news ni un slug viejo; Sobre mí es /sobre-mi/", () => {
     const targets = allNavTargets();
     expect(targets.length).toBeGreaterThan(0);
     for (const t of targets) {
@@ -74,7 +74,8 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     }
     expect(targets.some((t) => /(^|\/)news(\/|$)/.test(t))).toBe(false);
     expect(targets).toContain("/noticias/");
-    expect(targets).toContain("/sobre-mi");
+    expect(targets).toContain("/sobre-mi/");
+    expect(targets).not.toContain("/sobre-mi");
   });
 });
 
@@ -108,6 +109,10 @@ describe("getMobileDrawerNavItems", () => {
       expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "news", "contacto", "sobre-mi"]);
       expect(items[0]!.action).toEqual({ kind: "anchor", target: "#inicio", homeRoute: "/" });
       expect(items[3]!.action).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
+      expect(items.find((item) => item.id === "sobre-mi")?.action).toEqual({
+        kind: "http",
+        target: "/sobre-mi/",
+      });
     }
   });
 });

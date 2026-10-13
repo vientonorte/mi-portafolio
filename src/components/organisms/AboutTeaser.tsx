@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, MessageSquare, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -9,6 +8,7 @@ import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import { portfolioImages } from "../../lib/portfolio-image-urls";
 import { scrollToSection } from "../../lib/scroll-to-section";
+import { siteSobreMiHref } from "../../lib/site-nav";
 
 /** Logos con asset propio — el resto del relato va en chips de texto. */
 const FEATURED_BRAND_LOGOS = [
@@ -18,7 +18,6 @@ const FEATURED_BRAND_LOGOS = [
 ] as const;
 
 export function AboutTeaser() {
-  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = useTranslation(language).aboutTeaser;
   const prefersReducedMotion = useReducedMotion();
@@ -98,15 +97,17 @@ export function AboutTeaser() {
               {language === "es" ? "Conversemos" : "Let's talk"}
             </Button>
             <Button
+              asChild
               variant="outline"
               className="group border-2 hover:border-primary hover:bg-primary/5"
-              onClick={() => navigate("/sobre-mi")}
             >
-              {t.cta}
-              <ArrowRight
-                className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                aria-hidden
-              />
+              <a href={siteSobreMiHref()}>
+                {t.cta}
+                <ArrowRight
+                  className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </a>
             </Button>
           </div>
         </motion.div>

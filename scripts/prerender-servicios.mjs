@@ -132,6 +132,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             servicios: path.join(root, 'src/servicios/entry-server.tsx'),
             rubros: path.join(root, 'src/rubros/entry-server.tsx'),
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
+            sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -167,6 +168,21 @@ export async function prerenderServicios({ root, outDir, base }) {
     const noticiasApp = noticias.render();
     fs.writeFileSync(noticiasTarget, noticiasHtml.replace(OUTLET, noticiasApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, noticiasTarget)} (${noticiasApp.length} bytes, base ${base})`);
+
+    // /sobre-mi/ (ficha HTTP; el perfil largo sigue en el HashRouter)
+    const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
+    if (!fs.existsSync(sobreMiTarget)) throw new Error(`[prerender-servicios] falta ${sobreMiTarget}`);
+    const sobreMiHtml = fs.readFileSync(sobreMiTarget, 'utf8');
+    if (!sobreMiHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/sobre-mi/index.html sin <!--ssr-outlet-->');
+    }
+    const sobreMi = await load('sobreMi');
+    const sobreMiApp = sobreMi.render();
+    if (sobreMiApp.includes('/#/')) {
+      throw new Error('[prerender-servicios] /sobre-mi/ no puede enlazar una ruta hash');
+    }
+    fs.writeFileSync(sobreMiTarget, sobreMiHtml.replace(OUTLET, sobreMiApp), 'utf8');
+    console.log(`[prerender-servicios] ${path.relative(root, sobreMiTarget)} (${sobreMiApp.length} bytes, base ${base})`);
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');

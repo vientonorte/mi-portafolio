@@ -29,6 +29,14 @@
           location.replace("%BASE_URL%noticias/" + qs);
           return;
         }
+        // /sobre-mi (sin barra) no es archivo. La ficha es /sobre-mi/. Sin hop a hash.
+        var basePath = "%BASE_URL%";
+        if (basePath.charAt(0) !== "/") basePath = "/" + basePath;
+        if (basePath.slice(-1) !== "/") basePath += "/";
+        if (p === basePath + "sobre-mi") {
+          location.replace(basePath + "sobre-mi/" + q);
+          return;
+        }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
           location.replace(location.origin + "/servicios/" + q);
