@@ -90,6 +90,7 @@ export function sourcesFor(route) {
   // /noticias/<slug>/: plantilla + página de edición + tarjetas + datos de news-editions.json.
   if (/^\/noticias\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/.test(route))
     return ["noticia/index.html", "src/noticia", "src/components/news", "src/data/news-editions.json"];
+  if (route === "/privacidad/") return ["privacidad/index.html", "src/privacidad"];
   const rubro = route.match(/^\/servicios\/([^/]+)\/$/)?.[1];
   if (rubro && RUBROS.includes(rubro))
     return ["rubros/index.html", "src/rubros", "src/data/rubros.json", `public/images/rubros/${rubro}`];

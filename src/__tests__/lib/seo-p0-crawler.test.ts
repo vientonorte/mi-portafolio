@@ -76,10 +76,13 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
     expect([...locs].sort()).toEqual([
       "https://vientonorte.io/",
       "https://vientonorte.io/noticias/",
+      "https://vientonorte.io/noticias/accesibilidad-transvip/",
+      "https://vientonorte.io/noticias/automatizacion-sura/",
+      "https://vientonorte.io/noticias/privacidad-flujo/",
+      "https://vientonorte.io/privacidad/",
       "https://vientonorte.io/s/polijuego-privacy/",
       "https://vientonorte.io/servicios/",
       "https://vientonorte.io/servicios/web-dental/",
-      "https://vientonorte.io/privacidad/",
     ]);
     expect(sitemap.replace("/s/polijuego-privacy/", "")).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
