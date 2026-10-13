@@ -25,8 +25,8 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
   });
   afterEach(() => vi.restoreAllMocks());
 
-  it('happy path: guarda el lead con UTMs en KV, avisa por FormSubmit y confirma al visitante', async () => {
-    const { calls } = mockOutbound({ formsubmit: 'ok' });
+  it('happy path: guarda el lead con UTMs en KV, avisa por Cloudflare Email y confirma al visitante', async () => {
+    const { calls } = mockOutbound();
     const res = await call('/api/contact', { method: 'POST', body: VALID, envOverrides: { EMAIL } });
 
     expect(res.status).toBe(200);
@@ -51,26 +51,26 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
       landing_path: '/servicios/', // sin query string (cleanLandingPath)
     });
 
-    // Aviso al inbox VN: FormSubmit (mock, sin red) con el inbox configurado.
-    const fs = calls.filter((c) => c.url.startsWith('https://formsubmit.co/ajax/'));
-    expect(fs).toHaveLength(1);
-    expect(fs[0].url).toBe('https://formsubmit.co/ajax/inbox-test%40vientonorte.test');
-    expect(fs[0].body).toMatchObject({
-      email: 'ana@empresa.cl',
-      _subject: 'VN · web-pymes · Ana Pyme',
-    });
+    // Sin FormSubmit: ningún fetch saliente a formsubmit.co.
+    expect(calls.filter((c) => c.url.includes('formsubmit.co'))).toHaveLength(0);
 
-    // EMAIL binding: solo la confirmación al visitante (el aviso salió por FormSubmit).
-    expect(EMAIL.send).toHaveBeenCalledTimes(1);
-    const confirmation = EMAIL.send.mock.calls[0][0];
+    // EMAIL binding: primero el aviso al inbox VN, después la confirmación al visitante.
+    expect(EMAIL.send).toHaveBeenCalledTimes(2);
+    const admin = EMAIL.send.mock.calls[0][0];
+    expect(admin).toMatchObject({
+      to: 'inbox-test@vientonorte.test',
+      replyTo: { email: 'ana@empresa.cl', name: 'Ana Pyme' },
+      subject: 'VN · web-pymes · Ana Pyme',
+    });
+    const confirmation = EMAIL.send.mock.calls[1][0];
     expect(confirmation.to).toBe('ana@empresa.cl');
     expect(confirmation.from).toEqual({ email: 'contacto@vientonorte.io', name: 'Viento Norte' });
     expect(confirmation.subject).toBeTruthy();
     expect(confirmation.html).toContain('Ana Pyme');
   });
 
-  it('si FormSubmit falla, el aviso al inbox sale por el binding EMAIL con replyTo del visitante', async () => {
-    mockOutbound({ formsubmit: 'fail' });
+  it('el aviso al inbox sale por el binding EMAIL con replyTo del visitante y las UTMs', async () => {
+    mockOutbound();
     const res = await call('/api/contact', { method: 'POST', body: VALID, envOverrides: { EMAIL } });
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ ok: true, emailed: true });
@@ -88,8 +88,19 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
     expect(visitor.to).toBe('ana@empresa.cl');
   });
 
-  it('sin FormSubmit ni EMAIL igual guarda el lead y responde emailed:false', async () => {
-    mockOutbound({ formsubmit: 'fail' });
+  it('si el binding EMAIL falla, igual guarda el lead y responde emailed:false (sin reintentar por terceros)', async () => {
+    const { calls } = mockOutbound();
+    const FAILING = { send: vi.fn(async () => { throw new Error('E_SEND_FAILED'); }) };
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const res = await call('/api/contact', { method: 'POST', body: VALID, envOverrides: { EMAIL: FAILING } });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, emailed: false });
+    expect(await readCollection('vn:leads')).toHaveLength(1);
+    expect(calls.filter((c) => c.url.includes('formsubmit.co'))).toHaveLength(0);
+  });
+
+  it('sin EMAIL igual guarda el lead y responde emailed:false', async () => {
+    mockOutbound();
     const res = await call('/api/contact', { method: 'POST', body: VALID });
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ ok: true, emailed: false });
@@ -97,7 +108,7 @@ describe('POST /api/contact (fetch handler real + KV Miniflare)', () => {
   });
 
   it('con GA4_MP_API_SECRET manda generate_lead con las UTMs (GA4 MP mockeado)', async () => {
-    const { calls } = mockOutbound({ formsubmit: 'ok' });
+    const { calls } = mockOutbound();
     const res = await call('/api/contact', {
       method: 'POST',
       body: VALID,

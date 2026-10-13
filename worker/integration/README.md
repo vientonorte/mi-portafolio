@@ -5,7 +5,7 @@ Corren el `fetch` handler real (`../src/index.js`) dentro de `workerd` con
 
 - KV `ADMIN_KV` y R2 `IMAGES_BUCKET` reales en memoria (Miniflare);
 - binding `EMAIL` (send_email) mockeado: los tests verifican qué se enviaría;
-- fetch saliente (FormSubmit, GA4 MP) mockeado; `outboundService` bloquea cualquier request que se escape;
+- fetch saliente (GA4 MP) mockeado; un fetch a FormSubmit hace fallar el test; `outboundService` bloquea cualquier request que se escape;
 - el webhook Apps Script → `/api/booking` se simula como request con `X-VN-BOOKING-KEY`.
 
 ```bash
