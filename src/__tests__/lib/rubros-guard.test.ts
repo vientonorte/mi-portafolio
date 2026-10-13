@@ -57,12 +57,9 @@ describe("rubros · guardas de rutas", () => {
         expect(res.status, `${script}: ${res.stderr}`).toBe(0);
       }
       for (const p of rubroPaths) expect(existsSync(join(dir, "public", p.slice(1))), p).toBe(false);
-      // Sitemap regenerado: incluye el rubro, sin /s/ ni '#'
+      // El sitemap ya no lo escriben los generadores Python (scripts/generate-sitemap.mjs en build):
+      // el versionado queda intacto.
       const sm = readFileSync(join(dir, "public/sitemap.xml"), "utf8");
-      for (const p of rubroPaths) expect(sm).toContain(`<loc>https://vientonorte.io${p}</loc>`);
-      expect(sm).not.toContain("/s/");
-      expect(sm).not.toContain("#");
-      // Y es idéntico al versionado
       expect(sm).toBe(readFileSync(resolve(root, "public/sitemap.xml"), "utf8"));
     } finally {
       rmSync(dir, { recursive: true, force: true });

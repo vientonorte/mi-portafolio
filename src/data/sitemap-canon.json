@@ -14,5 +14,5 @@
   ],
   "denyUrls": ["vnmkt.figma.site", "vientonorte.github.io/mi-portafolio/consultoria"],
   "denyExceptions": ["/s/polijuego-privacy/"],
-  "outsideSitemap": ["/s/polijuego-privacy/"]
+  "outsideSitemap": []
 }
