@@ -1,3 +1,4 @@
+import { StaticBreadcrumbs } from "../components/static/StaticBreadcrumbs";
 import { useCallback, useState, type MouseEvent } from "react";
 import { Navigation } from "../components/organisms/Navigation";
 import { homeHref, serviciosNavLinks } from "./servicios-nav";
@@ -62,6 +63,15 @@ export function ServiciosPage() {
           if (cta) track("cta_click", cta);
         }}
       >
+        <div className="container mx-auto max-w-6xl px-4 pt-4">
+          <StaticBreadcrumbs
+            className="text-sm text-muted-foreground"
+            items={[
+              { label: "Inicio", path: "/" },
+              { label: "Servicios", path: "/servicios/" },
+            ]}
+          />
+        </div>
         <HeroWithMockup
           id="inicio"
           headingId="servicios-hero-heading"

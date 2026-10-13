@@ -1,3 +1,4 @@
+import { StaticBreadcrumbs } from "../components/static/StaticBreadcrumbs";
 import { Navigation } from "../components/organisms/Navigation";
 import Footer from "../components/Footer";
 import { NewsCard } from "../components/news/NewsCard";
@@ -27,6 +28,12 @@ export function NoticiasPage() {
       <main id="main" tabIndex={-1} className="pt-[var(--header-height)]" data-page="noticias">
         <section aria-labelledby="noticias-heading" className="border-b border-border/40 py-12 md:py-16">
           <div className="container mx-auto max-w-6xl px-4">
+            <StaticBreadcrumbs
+              items={[
+                { label: "Inicio", path: "/" },
+                { label: "Noticias", path: "/noticias/" },
+              ]}
+            />
             <h1
               id="noticias-heading"
               className={cn(SECTION_TITLE_CLASS, "font-[family-name:var(--font-chillax)]")}

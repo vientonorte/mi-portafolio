@@ -305,7 +305,7 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/. Sin share legacy ni rutas hash. -->\n"
+        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /sobre-mi/. Sin share legacy ni rutas hash. -->\n"
         + "\n".join(blocks)
         + "\n</urlset>\n"
     )
@@ -319,6 +319,9 @@ RUBRO_PATHS = rubro_paths(ROOT)
 RUBRO_PRIORITY = 0.8
 NOTICIAS_PATH = "/noticias/"
 NOTICIAS_PRIORITY = 0.6
+# 13-oct: /sobre-mi/ (perfil, página Vite prerenderizada).
+SOBRE_MI_PATH = "/sobre-mi/"
+SOBRE_MI_PRIORITY = 0.6
 
 
 def main() -> None:
@@ -377,6 +380,8 @@ def main() -> None:
     # S42 v3: /noticias/ (página Vite prerenderizada, noticias/index.html). /news/ es solo redirección.
     print("noticias (vite)", NOTICIAS_PATH)
     locs.append((ORIGIN + NOTICIAS_PATH, NOTICIAS_PRIORITY))
+    print("sobre-mi (vite)", SOBRE_MI_PATH)
+    locs.append((ORIGIN + SOBRE_MI_PATH, SOBRE_MI_PRIORITY))
     write_sitemap(locs)
 
 
