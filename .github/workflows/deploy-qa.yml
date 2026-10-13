@@ -52,6 +52,9 @@ jobs:
       - name: Guard — dist QA sin placeholders ni enlaces a /#/news o /news/
         run: bash scripts/check-dist-no-placeholders.sh
 
+      - name: Guard — dist QA sin PII (.pdf/.docx/.txt, contenido + metadatos)
+        run: npm run qa:pii-dist
+
       - name: SPA fallback + noindex
         run: |
           set -euo pipefail

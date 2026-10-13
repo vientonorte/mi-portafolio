@@ -94,6 +94,7 @@
     "build": "npm run sync:images && vite build && node scripts/generate-sitemap.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs --public",
     "qa:sitemap-200": "node scripts/sitemap-200.mjs",
+    "qa:pii-dist": "DIST_PII_REQUIRE=1 vitest run src/__tests__/lib/pdf-pii-guard.test.ts",
     "preview": "vite preview --port 4173",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint . --ext ts,tsx --fix",

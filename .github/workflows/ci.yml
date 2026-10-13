@@ -175,6 +175,8 @@ jobs:
         run: npm run qa:sitemap
       - name: Sitemap 200 (cada loc responde 200 en vite preview :4180)
         run: npm run qa:sitemap-200
+      - name: dist sin PII (.pdf/.docx/.txt, contenido + metadatos)
+        run: npm run qa:pii-dist
       - name: Prod build sin MASCOTAPP (solo /qa/)
         run: npm run qa:no-mascotapp
       - name: Dist sin placeholders ni enlaces a /#/news o /news/
