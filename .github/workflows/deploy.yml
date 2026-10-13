@@ -147,10 +147,11 @@ jobs:
             exit 1
           fi
           test -f dist/sobre-mi/index.html
-          grep -q 'Rodrigo Gaete' dist/sobre-mi/index.html
-          grep -q 'id="prototipos"' dist/sobre-mi/index.html
-          if grep -q '/#/' dist/sobre-mi/index.html; then
-            echo "dist/sobre-mi links a hash route" >&2
+          grep -q 'UX Manager' dist/sobre-mi/index.html
+          grep -q 'id="habilidades"' dist/sobre-mi/index.html
+          grep -q 'id="evidencia-vn"' dist/sobre-mi/index.html
+          if grep -q 'Prototipos en Figma' dist/sobre-mi/index.html; then
+            echo "dist/sobre-mi is the invented ficha, not the canonical profile" >&2
             exit 1
           fi
 

@@ -118,7 +118,11 @@ function GlobalNotFoundPage() {
   );
 }
 
-function AppRoutes() {
+/**
+ * Chrome de la SPA (nav, dock). La ficha HTTP /sobre-mi/ usa el mismo marco
+ * que /#/sobre-mi. El contenido no se reescribe.
+ */
+export function PortfolioFrame({ children }: { children: React.ReactNode }) {
   const pathname = useLocation().pathname;
   const isDeepPage = isDeepPortfolioPage(pathname);
   /**
@@ -139,8 +143,20 @@ function AppRoutes() {
       {/* Nav compartida en todas las vistas con chrome (home y subpáginas). Sin SubpageToolbar ni migas (TL 9-oct). */}
       {!hideSiteChrome && <RouterNavigation />}
       <main id="main" tabIndex={-1}>
-        <Suspense fallback={<PageSkeleton />}>
-          <Routes>
+        {children}
+      </main>
+      {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
+      {!isDeepPage && !hideSiteChrome && <BottomNav />}
+      {isDeepPage && !hideSiteChrome && <DeepPageNav />}
+    </PortfolioChrome>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <PortfolioFrame>
+      <Suspense fallback={<PageSkeleton />}>
+        <Routes>
             {/* Home FO = embudo. SEM paid = /consultoria (dock sí). Tour módulos = fullscreen. */}
             <Route path="/" element={<Home />} />
             <Route path="/proyectos" element={<Proyectos />} />
@@ -204,11 +220,7 @@ function AppRoutes() {
             <Route path="*" element={<GlobalNotFoundPage />} />
           </Routes>
         </Suspense>
-      </main>
-      {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
-      {!isDeepPage && !hideSiteChrome && <BottomNav />}
-      {isDeepPage && !hideSiteChrome && <DeepPageNav />}
-    </PortfolioChrome>
+    </PortfolioFrame>
   );
 }
 

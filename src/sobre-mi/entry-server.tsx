@@ -1,7 +1,14 @@
+import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
-import { SobreMiPublicPage } from "./SobreMiPublicPage";
+import { loadTranslation } from "../lib/i18n/loader";
+import { CanonicalSobreMi } from "./CanonicalSobreMi";
 
-/** Prerender /sobre-mi/ (build). El cliente hidrata con hydrateRoot. */
-export function render(): string {
-  return renderToString(<SobreMiPublicPage />);
+/** Prerender /sobre-mi/ con la ficha de /#/sobre-mi. El idioma de build es es. */
+export async function render(): Promise<string> {
+  await loadTranslation("es");
+  return renderToString(
+    <StrictMode>
+      <CanonicalSobreMi />
+    </StrictMode>
+  );
 }
