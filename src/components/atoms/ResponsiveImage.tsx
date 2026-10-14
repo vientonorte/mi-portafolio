@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../ui/skeleton";
@@ -40,6 +40,14 @@ export function ResponsiveImage({
 }: ResponsiveImageProps) {
   const [didError, setDidError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // HTML prerenderizado (/sobre-mi/): si la imagen cargó antes de hidratar,
+  // onLoad no vuelve a disparar y quedaba en opacity-0 (imágenes invisibles).
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el?.complete && el.naturalWidth > 0) setIsLoading(false);
+  }, [src]);
 
   const wrapperStyle = aspectRatio ? { aspectRatio } : undefined;
 
@@ -94,6 +102,7 @@ export function ResponsiveImage({
     >
       {isLoading && <Skeleton className="absolute inset-0 h-full w-full" />}
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         sizes={sizes}

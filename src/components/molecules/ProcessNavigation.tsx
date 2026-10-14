@@ -24,6 +24,10 @@ export function ProcessNavigation({
   return (
     <>
       {showMobile ? (
+      <>
+      {/* En móvil la barra es position:fixed (global.css): el espaciador reserva su alto
+          para que no tape el inicio de la página. */}
+      <div aria-hidden className="process-nav-mobile-spacer lg:hidden" />
       <nav
         className="process-nav-mobile lg:hidden sticky z-[45] border-b border-border/60 bg-background shadow-[0_8px_16px_-12px_rgba(15,23,42,0.28)]"
         style={{ top: "var(--process-nav-mobile-top, 3.25rem)" }}
@@ -54,6 +58,7 @@ export function ProcessNavigation({
           </ul>
         </div>
       </nav>
+      </>
       ) : null}
 
       {/* Desktop: lateral TOC */}

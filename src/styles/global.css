@@ -413,6 +413,11 @@ html.dark .liquid-nav-cta__halo {
     left: 0;
     right: 0;
   }
+
+  /* Alto de .process-nav-mobile (py-2 + chips min-h-11 + borde). */
+  .process-nav-mobile-spacer {
+    height: 3.8125rem;
+  }
 }
 
 /* Rare: toolbar under global header if both ever coexist (should not on deep pages). */

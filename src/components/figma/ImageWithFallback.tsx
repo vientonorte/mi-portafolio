@@ -11,7 +11,9 @@ function resolveFit(className?: string): ImageFit {
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const { src, alt, className, loading } = props;
 
-  if (!src || !alt) return null;
+  // alt="" es válido (logo decorativo junto al nombre de la empresa): antes se
+  // descartaba la imagen y los logos del Trayecto en /sobre-mi/ quedaban vacíos.
+  if (!src) return null;
 
   const fit = resolveFit(className);
   const isPriority = loading === "eager";
@@ -30,7 +32,7 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
   return (
     <ResponsiveImage
       src={src}
-      alt={alt}
+      alt={alt ?? ""}
       fit={fit}
       priority={isPriority}
       className={cn("h-full w-full", layoutClasses)}
