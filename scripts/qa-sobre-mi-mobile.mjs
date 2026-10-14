@@ -17,7 +17,13 @@ for (let y = 0; y <= height; y += 500) {
   await page.evaluate((v) => window.scrollTo(0, v), y);
   await page.waitForTimeout(80);
 }
-await page.waitForLoadState("networkidle");
+// Forzar carga de las lazy (WebKit headless en CI no siempre las pide al hacer scroll)
+// y esperar decode: lo que se valida es que, cargadas, queden visibles (opacity) en la UI.
+await page.evaluate(async () => {
+  const imgs = [...document.querySelectorAll("img")];
+  imgs.forEach((i) => { i.loading = "eager"; });
+  await Promise.all(imgs.map((i) => (i.complete ? null : new Promise((r) => { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }); setTimeout(r, 8000); }))));
+});
 await page.waitForTimeout(800);
 
 const r = await page.evaluate(() => {
@@ -28,7 +34,9 @@ const r = await page.evaluate(() => {
     shown: i.getBoundingClientRect().width > 0,
   }));
   // Cada fila del Trayecto: el primer hijo es la caja del logo (img o ícono fallback).
-  const boxes = [...document.querySelectorAll("#experiencia button[id*='-dot-']")]
+  // (el botón "-dot-" es el punto del riel; la fila con logo es el otro botón expandible)
+  const boxes = [...document.querySelectorAll("#experiencia button[aria-expanded]")]
+    .filter((b) => b.querySelector("p"))
     .map((b) => b.firstElementChild)
     .filter(Boolean);
   const rows = boxes.length;
