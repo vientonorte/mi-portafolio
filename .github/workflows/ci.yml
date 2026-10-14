@@ -196,7 +196,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
-      - run: npx playwright install chromium
+      - run: npx playwright install --with-deps chromium webkit
       - name: Servir build y validar rutas
         run: |
           mkdir -p preview-root
@@ -221,6 +221,15 @@ jobs:
           node scripts/qa-routes.mjs http://127.0.0.1:4173
           node scripts/qa-prototypes.mjs http://127.0.0.1:4173
           node scripts/qa-hash-ui.mjs http://127.0.0.1:4173
+          node scripts/qa-sobre-mi-mobile.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile
+
+      - name: Capturas /sobre-mi/ móvil
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-sobre-mi-mobile
+          path: qa-sobre-mi-mobile/
+          if-no-files-found: ignore
 
   a11y:
     name: Accesibilidad WCAG AA
