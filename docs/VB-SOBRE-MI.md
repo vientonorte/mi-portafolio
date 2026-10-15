@@ -24,7 +24,7 @@ Marca **PASS / FAIL** en móvil + desktop. Solo con PASS en VB-1…VB-6 → merg
 |----|----------|------|
 | VB-7 | ≥8 tiles cargan imagen en 4G / móvil | |
 | VB-8 | No hay tile “Dashboard IA” que sea **uploader PDF** | |
-| VB-9 | No hay tile Edu21 que sea **landing de marca ajena (i3)** | |
+| VB-9 | No hay tile pyme de mobiliario educacional que sea **landing de marca ajena (i3)** | |
 | VB-10 | Transvip desk/mobile se leen como **app real** | |
 | VB-11 | Labels Global / Nacional legibles | |
 

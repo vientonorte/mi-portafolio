@@ -181,9 +181,9 @@ export const CASES = [
     url: 'https://vientonorte.io/#/proyecto/karri-design-sprint',
   },
   {
-    id: 'edu21',
+    id: 'mobiliario-edu',
     published: true,
-    company: 'Edu21',
+    company: 'Pyme de mobiliario educacional',
     title: { es: 'Producto educativo', en: 'Education product' },
     url: 'https://vientonorte.io/#/proyectos',
   },

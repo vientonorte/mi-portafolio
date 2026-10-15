@@ -628,93 +628,93 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     },
   },
   {
-    id: "edu21-heuristic-web",
+    id: "mobiliario-edu-heuristic-web",
     kind: "case",
-    imagePath: img((i) => i.edu21.heuristicWeb),
+    imagePath: img((i) => i.mobiliarioEdu.heuristicWeb),
     href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "radar",
     copy: {
       es: {
-        kindLabel: "Edu 21 · E1",
+        kindLabel: "Pyme de mobiliario educacional · E1",
         title: "Heurística del sitio web",
         outcome:
-          "Auditoría heurística del sitio Edu 21: hallazgos priorizados para mejorar la experiencia del catálogo y la web.",
+          "Auditoría heurística del sitio web de una pyme de mobiliario educacional: hallazgos priorizados para mejorar la experiencia del catálogo y la web.",
         metric: "Heurística",
       },
       en: {
-        kindLabel: "Edu 21 · S1",
+        kindLabel: "Pyme de mobiliario educacional · S1",
         title: "Website heuristic review",
         outcome:
-          "Heuristic audit of the Edu 21 site: prioritized findings to improve catalog and web experience.",
+          "Heuristic audit of an educational furniture SME site: prioritized findings to improve catalog and web experience.",
         metric: "Heuristic",
       },
     },
   },
   {
-    id: "edu21-service-strategy",
+    id: "mobiliario-edu-service-strategy",
     kind: "case",
-    imagePath: img((i) => i.edu21.serviceStrategy),
+    imagePath: img((i) => i.mobiliarioEdu.serviceStrategy),
     href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
-        kindLabel: "Edu 21 · E2",
+        kindLabel: "Pyme de mobiliario educacional · E2",
         title: "Estrategia de servicios",
         outcome:
-          "Taller de diseño de servicios Edu 21: estrategia de productos y servicios educativos con método documentado.",
+          "Taller de diseño de servicios para una pyme de mobiliario educacional: estrategia de productos y servicios educativos con método documentado.",
         metric: "Service design",
       },
       en: {
-        kindLabel: "Edu 21 · S2",
+        kindLabel: "Pyme de mobiliario educacional · S2",
         title: "Service strategy",
         outcome:
-          "Edu 21 service design workshop: education product/service strategy with documented method.",
+          "Service design workshop for an educational furniture SME: education product/service strategy with documented method.",
         metric: "Service design",
       },
     },
   },
   {
-    id: "edu21-sales-pitch",
+    id: "mobiliario-edu-sales-pitch",
     kind: "case",
-    imagePath: img((i) => i.edu21.salesPitch),
+    imagePath: img((i) => i.mobiliarioEdu.salesPitch),
     href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "marco",
     copy: {
       es: {
-        kindLabel: "Edu 21 · E3",
+        kindLabel: "Pyme de mobiliario educacional · E3",
         title: "Pitch y herramientas comerciales",
         outcome:
-          "Simulación de pitch y kit comercial Edu 21: de la estrategia a la conversación de venta.",
+          "Simulación de pitch y kit comercial para una pyme de mobiliario educacional: de la estrategia a la conversación de venta.",
         metric: "Pitch",
       },
       en: {
-        kindLabel: "Edu 21 · S3",
+        kindLabel: "Pyme de mobiliario educacional · S3",
         title: "Pitch & sales tools",
         outcome:
-          "Edu 21 pitch simulation and commercial kit: from strategy to the sales conversation.",
+          "Pitch simulation and commercial kit for an educational furniture SME: from strategy to the sales conversation.",
         metric: "Pitch",
       },
     },
   },
   {
-    id: "edu21-storyboard",
+    id: "mobiliario-edu-storyboard",
     kind: "case",
-    imagePath: img((i) => i.edu21.storyboard),
+    imagePath: img((i) => i.mobiliarioEdu.storyboard),
     href: `${ROUTES.consultingFunnel}#valor`,
     bundleId: "ops",
     copy: {
       es: {
-        kindLabel: "Edu 21 · Video",
+        kindLabel: "Pyme de mobiliario educacional · Video",
         title: "Storyboard corporativo",
         outcome:
-          "Storyboard de video corporativo Edu 21: narrativa visual para enablement y marca.",
+          "Storyboard de video corporativo para una pyme de mobiliario educacional: narrativa visual para enablement y marca.",
         metric: "Storyboard",
       },
       en: {
-        kindLabel: "Edu 21 · Video",
+        kindLabel: "Pyme de mobiliario educacional · Video",
         title: "Corporate storyboard",
         outcome:
-          "Edu 21 corporate video storyboard: visual narrative for enablement and brand.",
+          "Corporate video storyboard for an educational furniture SME: visual narrative for enablement and brand.",
         metric: "Storyboard",
       },
     },

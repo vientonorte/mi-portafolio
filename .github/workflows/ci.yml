@@ -167,6 +167,10 @@ jobs:
         run: npm run qa:no-placeholders
       - name: /sobre-mi/ — toda imagen referenciada existe en dist
         run: npm run qa:sobre-mi-images
+      - name: Anonimización — dist sin /edu[ _-]?21/i (HTML/JS/JSON/XML, nombres, PDFs)
+        run: |
+          command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
+          npm run qa:no-edu21
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)
