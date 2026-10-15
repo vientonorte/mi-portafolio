@@ -125,7 +125,7 @@ describe("branding-home canon", () => {
   });
 
   it("los casos propios apuntan solo a anclas de /servicios/", () => {
-    expect(BRAND_CASES.map((c) => c.id)).toEqual(["monitas", "edu21"]);
+    expect(BRAND_CASES.map((c) => c.id)).toEqual(["monitas", "mobiliario-edu"]);
     expect(BRAND_CASES.map((c) => c.ctaAnchor)).toEqual(["web-pymes", "revision-gratis"]);
     expect(BRAND_CASES.every((c) => c.images.length === 0)).toBe(true);
     expect(SERVICIOS_FUNNEL.map((step) => step.title)).toEqual(["Llegan", "Entienden", "Confían", "Escriben"]);
@@ -153,14 +153,14 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     for (const anchor of SERVICIOS_ANCHORS) expect(doc.getElementById(anchor), anchor).not.toBeNull();
   });
 
-  it("casos: TodoClick.cl y Parcelas Terramar en #web-pymes; Edu 21 en #consultoria-ux; Monitas fuera de /servicios/", () => {
+  it("casos: TodoClick.cl y Parcelas Terramar en #web-pymes; pyme de mobiliario educacional en #consultoria-ux; Monitas fuera de /servicios/", () => {
     // arrayContaining: la grilla recibe más productos de VN sin reescribir este test (lista de Rö pendiente).
     const byGroup = Object.fromEntries(SERVICIOS_VN_CASE_GROUPS.map((g) => [g.anchor, g.cases.map((c) => c.name)]));
     expect(byGroup["web-pymes"]).toEqual(expect.arrayContaining(["TodoClick.cl", "Parcelas Terramar"]));
     expect(byGroup["consultoria-ux"]).toEqual([
       "X|CMS · Da Pleisë",
       "CFO Dashboard · Ratio Irarrázaval",
-      "Edu 21",
+      "Pyme de mobiliario educacional",
       "Dashboard de consultoría estratégica",
     ]);
     if (SERVICIOS_SHOW_VN_WCAG_CASE) expect(byGroup["revision-gratis"]).toEqual(["vientonorte.io · contraste WCAG"]);
@@ -171,7 +171,7 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     const byId = Object.fromEntries(vnCases.map((c) => [c.id, c]));
     expect(byId.todoclick.findings.some((f) => /\bh1\b/.test(f))).toBe(true);
     expect(byId.terramar.findings.length).toBeLessThanOrEqual(7);
-    expect(byId.edu21.startingPoint).toMatch(/Deficiente/);
+    expect(byId["mobiliario-edu"].startingPoint).toMatch(/Deficiente/);
   });
 
   it("secciones eliminadas: sin experiencia de Rö, quién está detrás, cómo trabajamos, Coworking ni WCAG propia", () => {

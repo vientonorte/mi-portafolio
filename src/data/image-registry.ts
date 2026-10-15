@@ -156,52 +156,52 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Benchmark anonimizado · descubrimiento de servicios"
   ),
   entry(
-    "edu21.heuristicWeb",
-    "Edu 21",
+    "mobiliarioEdu.heuristicWeb",
+    "pyme de mobiliario educacional",
     "Heurística web",
-    "cases/edu21/01-heuristic-web.png",
-    portfolioImages.edu21.heuristicWeb,
-    "Edu 21 · heurística sitio web (E1)"
+    "cases/mobiliario-edu/01-heuristic-web.png",
+    portfolioImages.mobiliarioEdu.heuristicWeb,
+    "pyme de mobiliario educacional · heurística sitio web (E1)"
   ),
   entry(
-    "edu21.competitiveBenchmark",
-    "Edu 21",
+    "mobiliarioEdu.competitiveBenchmark",
+    "pyme de mobiliario educacional",
     "Benchmark competencias",
-    "cases/edu21/02-competitive-benchmark.png",
-    portfolioImages.edu21.competitiveBenchmark,
-    "Edu 21 · benchmark de competencias (E1)"
+    "cases/mobiliario-edu/02-competitive-benchmark.png",
+    portfolioImages.mobiliarioEdu.competitiveBenchmark,
+    "pyme de mobiliario educacional · benchmark de competencias (E1)"
   ),
   entry(
-    "edu21.serviceStrategy",
-    "Edu 21",
+    "mobiliarioEdu.serviceStrategy",
+    "pyme de mobiliario educacional",
     "Estrategia de servicios",
-    "cases/edu21/03-service-strategy.png",
-    portfolioImages.edu21.serviceStrategy,
-    "Edu 21 · diseño de estrategia de servicios (E2)"
+    "cases/mobiliario-edu/03-service-strategy.png",
+    portfolioImages.mobiliarioEdu.serviceStrategy,
+    "pyme de mobiliario educacional · diseño de estrategia de servicios (E2)"
   ),
   entry(
-    "edu21.salesPitch",
-    "Edu 21",
+    "mobiliarioEdu.salesPitch",
+    "pyme de mobiliario educacional",
     "Pitch comercial",
-    "cases/edu21/04-sales-pitch.png",
-    portfolioImages.edu21.salesPitch,
-    "Edu 21 · pitch / herramientas comerciales (E3)"
+    "cases/mobiliario-edu/04-sales-pitch.png",
+    portfolioImages.mobiliarioEdu.salesPitch,
+    "pyme de mobiliario educacional · pitch / herramientas comerciales (E3)"
   ),
   entry(
-    "edu21.storyboard",
-    "Edu 21",
+    "mobiliarioEdu.storyboard",
+    "pyme de mobiliario educacional",
     "Storyboard video",
-    "cases/edu21/05-storyboard.png",
-    portfolioImages.edu21.storyboard,
-    "Edu 21 · storyboard video corporativo (E3)"
+    "cases/mobiliario-edu/05-storyboard.png",
+    portfolioImages.mobiliarioEdu.storyboard,
+    "pyme de mobiliario educacional · storyboard video corporativo (E3)"
   ),
   entry(
-    "edu21.performanceSeo",
-    "Edu 21",
+    "mobiliarioEdu.performanceSeo",
+    "pyme de mobiliario educacional",
     "Performance / SEO",
-    "cases/edu21/06-performance-seo.png",
-    portfolioImages.edu21.performanceSeo,
-    "Edu 21 · speed / performance report"
+    "cases/mobiliario-edu/06-performance-seo.png",
+    portfolioImages.mobiliarioEdu.performanceSeo,
+    "pyme de mobiliario educacional · speed / performance report"
   ),
 ];
 
