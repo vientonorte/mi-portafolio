@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../ui/skeleton";
-import { resolveImageSrc } from "../../lib/image-overrides";
-import { useImageManifestVersion } from "../../lib/image-manifest-context";
-import { webpSiblingOf } from "../../lib/webp-siblings";
 
 export type ImageFit = "cover" | "contain" | "scale-down";
 
@@ -16,8 +13,6 @@ export interface ResponsiveImageProps {
   fit?: ImageFit;
   aspectRatio?: string;
   sizes?: string;
-  /** srcset explícito (variantes por ancho). Sin variantes, no se emite srcset. */
-  srcSet?: string;
   priority?: boolean;
   onClick?: () => void;
 }
@@ -40,24 +35,19 @@ export function ResponsiveImage({
   fit = "cover",
   aspectRatio,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
-  srcSet,
   priority = false,
   onClick,
 }: ResponsiveImageProps) {
   const [didError, setDidError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const imgRef = useRef<HTMLImageElement>(null);
-  // Re-render cuando llega el manifest: la ruta puede cambiar en caliente.
-  useImageManifestVersion();
-  const resolvedSrc = resolveImageSrc(src);
-  const webpSrc = srcSet ? null : webpSiblingOf(resolvedSrc);
 
   // HTML prerenderizado (/sobre-mi/): si la imagen cargó antes de hidratar,
-  // onLoad no vuelve a disparar y quedaba en opacity-0.
+  // onLoad no vuelve a disparar y quedaba en opacity-0 (imágenes invisibles).
   useEffect(() => {
     const el = imgRef.current;
     if (el?.complete && el.naturalWidth > 0) setIsLoading(false);
-  }, [resolvedSrc]);
+  }, [src]);
 
   const wrapperStyle = aspectRatio ? { aspectRatio } : undefined;
 
@@ -73,7 +63,7 @@ export function ResponsiveImage({
         aria-label={`${alt} — error 404, imagen no disponible`}
         data-error-status="404"
         data-testid="image-error-404"
-        title={`404 · ${resolvedSrc}`}
+        title={`404 · ${src}`}
       >
         <span
           className="absolute top-2 right-2 rounded-md bg-destructive text-destructive-foreground text-[10px] font-bold tracking-wide px-1.5 py-0.5 tabular-nums shadow-sm"
@@ -111,14 +101,11 @@ export function ResponsiveImage({
       tabIndex={onClick ? 0 : undefined}
     >
       {isLoading && <Skeleton className="absolute inset-0 h-full w-full" />}
-      <picture className="contents">
-      {webpSrc && <source type="image/webp" srcSet={webpSrc} />}
       <img
         ref={imgRef}
-        src={resolvedSrc}
+        src={src}
         alt={alt}
-        srcSet={srcSet}
-        sizes={srcSet ? sizes : undefined}
+        sizes={sizes}
         decoding="async"
         loading={priority ? "eager" : "lazy"}
         onError={() => {
@@ -133,7 +120,6 @@ export function ResponsiveImage({
           imgClassName
         )}
       />
-      </picture>
     </div>
   );
 }
