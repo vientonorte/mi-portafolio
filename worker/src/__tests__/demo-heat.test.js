@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
+  HEAT_PATHS,
+  HEAT_PATH_ALIASES,
   applyEvents,
+  canonicalHeatPath,
+  isHeatPath,
   cellIndex,
   emptyBucket,
   normalizeEvent,
@@ -39,5 +43,17 @@ describe('demo-heat', () => {
     expect(next.sessions.started).toBe(1);
     expect(next.sessions.left).toBe(1);
     expect(next.sessions.dwellMs).toBe(7000);
+  });
+
+  it('acepta el id canónico y el alias legado del caso anonimizado', () => {
+    const legacy = ['edu', '21-edu'].join('');
+    expect(HEAT_PATHS).toContain('mobiliario-edu-edu');
+    expect(HEAT_PATHS).not.toContain(legacy);
+    expect(isHeatPath('mobiliario-edu-edu')).toBe(true);
+    expect(isHeatPath(legacy)).toBe(true);
+    expect(canonicalHeatPath(legacy)).toBe('mobiliario-edu-edu');
+    expect(canonicalHeatPath('x-cms-n2n')).toBe('x-cms-n2n');
+    expect(isHeatPath('otro-edu')).toBe(false);
+    expect(Object.keys(HEAT_PATH_ALIASES)).toEqual([legacy]);
   });
 });
