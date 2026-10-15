@@ -16,7 +16,7 @@ export type ConsultoriaDemoConfig = {
     | "suraAnalytics"
     | "transvipMobile"
     | "karriDelivery"
-    | "edu21Pitch"
+    | "mobiliarioEduPitch"
     | "coworkingFunnel";
 };
 
@@ -62,10 +62,10 @@ export const CONSULTORIA_DEMO_KARRI = {
   poster: "karriDelivery",
 } as const satisfies ConsultoriaDemoConfig;
 
-export const CONSULTORIA_DEMO_EDU21 = {
-  id: "edu21-edu",
-  label: "Edu 21 · Educación",
-  poster: "edu21Pitch",
+export const CONSULTORIA_DEMO_MOBILIARIO_EDU = {
+  id: "mobiliario-edu-edu",
+  label: "Pyme de mobiliario educacional",
+  poster: "mobiliarioEduPitch",
 } as const satisfies ConsultoriaDemoConfig;
 
 /** Social / ads / campañas (capacidad VN) */
@@ -86,7 +86,7 @@ export const CONSULTORIA_DEMOS: readonly ConsultoriaDemoConfig[] = [
   CONSULTORIA_DEMO_TRANSVIP,
   CONSULTORIA_DEMO_KARRI,
   CONSULTORIA_DEMO_ADS,
-  CONSULTORIA_DEMO_EDU21,
+  CONSULTORIA_DEMO_MOBILIARIO_EDU,
 ];
 
 export type ConsultoriaDemoId = (typeof CONSULTORIA_DEMOS)[number]["id"];

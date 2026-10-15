@@ -142,7 +142,7 @@ describe("track con Umami", () => {
   it("inyecta un solo script defer con el ID y encola hasta que carga", () => {
     vi.stubEnv("VITE_UMAMI_WEBSITE_ID", "test-website-id");
     track("form_submit", { status: "error" });
-    track("cta_click", { ancla: "revision-gratis", posicion: "caso-edu21" });
+    track("cta_click", { ancla: "revision-gratis", posicion: "caso-mobiliario-edu" });
     const scripts = umamiScripts();
     expect(scripts).toHaveLength(1);
     const s = scripts[0] as HTMLScriptElement;
@@ -155,7 +155,7 @@ describe("track con Umami", () => {
     s.dispatchEvent(new Event("load"));
     expect(calls).toEqual([
       ["form_submit", { status: "error" }],
-      ["cta_click", { ancla: "revision-gratis", posicion: "caso-edu21" }],
+      ["cta_click", { ancla: "revision-gratis", posicion: "caso-mobiliario-edu" }],
     ]);
   });
 });
@@ -204,10 +204,10 @@ describe("cta_click en los CTAs reales de /servicios/", () => {
   it("mapea tarjeta y caso a {ancla, posicion}", () => {
     document.body.innerHTML = `
       <ol><li data-card="revision-gratis"><a href="#contacto" id="a1"><span id="s1">Pedir</span></a></li></ol>
-      <a href="#consultoria-ux" data-case-cta="edu21" id="a2">Ver</a>
+      <a href="#consultoria-ux" data-case-cta="mobiliario-edu" id="a2">Ver</a>
       <a href="#contacto" id="a3">Escríbenos</a>`;
     expect(ctaClickFromTarget(document.getElementById("s1"))).toEqual({ ancla: "revision-gratis", posicion: "opciones-2" });
-    expect(ctaClickFromTarget(document.getElementById("a2"))).toEqual({ ancla: "consultoria-ux", posicion: "caso-edu21" });
+    expect(ctaClickFromTarget(document.getElementById("a2"))).toEqual({ ancla: "consultoria-ux", posicion: "caso-mobiliario-edu" });
     expect(ctaClickFromTarget(document.getElementById("a3"))).toBeNull();
   });
 });

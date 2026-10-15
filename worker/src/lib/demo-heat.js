@@ -12,7 +12,7 @@ export const HEAT_PATHS = [
   'transvip-app',
   'karri-shoppers',
   'ads-campaigns',
-  'edu21-edu',
+  'mobiliario-edu-edu',
 ];
 export const HEAT_COLS = 32;
 export const HEAT_ROWS = 18;

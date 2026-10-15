@@ -94,8 +94,8 @@ const experienceCatalog: LocalizedExperience[] = [
     logo: portfolioImages.brands.vientoNorte,
     evidenceSectionId: "evidencia-vn",
     evidenceCta: {
-      es: "Ver evidencia · Monitas, Edu21, funnels, FO",
-      en: "View evidence · Monitas, Edu21, funnels, FO",
+      es: "Ver evidencia · Monitas, pyme de mobiliario educacional, funnels, FO",
+      en: "View evidence · Monitas, educational furniture SME, funnels, FO",
     },
     es: {
       company: "Viento Norte",
@@ -109,7 +109,7 @@ const experienceCatalog: LocalizedExperience[] = [
         "Implementación n2n de operaciones digitales y UX; diseño aplicado a negocio, web y experiencia de cliente.",
       impact: "Interfaces + n2n: e-comm, educación, enterprise y FO con dueño del dato",
       achievements: [
-        "UI/UX de producto: e-comm (Monitas), educación (Edu21), patrones y funnels nacionales",
+        "UI/UX de producto: e-comm (Monitas), educación (pyme de mobiliario educacional), patrones y funnels nacionales",
         "Operaciones digitales con cumplimiento por diseño (n2n) y design ops",
         "Marca VN: consultoría, demos, FO y práctica independiente (poemario, foto, documental)",
       ],
@@ -127,7 +127,7 @@ const experienceCatalog: LocalizedExperience[] = [
         "End-to-end digital ops and UX; design applied to business, web, and customer experience.",
       impact: "Interfaces + n2n: e-comm, education, enterprise, and FO with data ownership",
       achievements: [
-        "Product UI/UX: e-comm (Monitas), education (Edu21), national patterns and funnels",
+        "Product UI/UX: e-comm (Monitas), education (educational furniture SME), national patterns and funnels",
         "Digital operations with compliance by design (n2n) and design ops",
         "VN brand: consulting, demos, FO, and independent practice (poetry, photo, documentary)",
       ],

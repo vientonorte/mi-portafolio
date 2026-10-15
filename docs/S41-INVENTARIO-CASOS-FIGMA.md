@@ -231,7 +231,7 @@ Pasada enfocada en **Walmart** y **Maraña**. Solo lectura en Figma, Drive, Gmai
 
 Lugares revisados sin resultado:
 - **Figma Desktop:** `settings.json` contiene unas 70 pestañas o recientes y ninguna es de Walmart. Tampoco hay coincidencias en IndexedDB, Local Storage, Session Storage ni Service Worker. Solo hay una cuenta autenticada.
-- **Conector Figma:** tiene acceso a 5 plans: Rö (pro), EDU21, Proyectos, SURA (org, guest) y un Starter. No tiene una herramienta para buscar archivos, y no hay key candidata que validar.
+- **Conector Figma:** tiene acceso a 5 plans: Rö (pro), MOBILIARIO_EDU, Proyectos, SURA (org, guest) y un Starter. No tiene una herramienta para buscar archivos, y no hay key candidata que validar.
 - **Spotlight y `find`** en Documents, Desktop, Downloads, iCloud y el vault: no hay `.fig`, PNG, JPG ni PDF de caso. El único resultado por nombre es un documento laboral, que no es un asset (ruta omitida).
 - **Drive** (ambos conectores): «Walmart» solo aparece dentro de los CVs. No hay ningún archivo con «Walmart» o «Lider» en el título.
 - **Gmail:** no hay ningún link de figma.com asociado a Walmart. Solo aparece correo promocional de retail.

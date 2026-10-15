@@ -1,7 +1,7 @@
 # Assets release · Viento Norte FO
 
 **Actualizado:** 2026-07-21 · **shipped**  
-**PRs:** #118 (landing + GEES/UX Tools) · #119 (Coworking + Edu 21)  
+**PRs:** #118 (landing + GEES/UX Tools) · #119 (Coworking + pyme de mobiliario educacional)  
 **Prod:** https://vientonorte.io/
 
 ## Disponibilidad
@@ -23,7 +23,7 @@
 | X \| CMS poster | `images/consultoria/x-cms-dashboard.png` | arsenal · demo | ✅ | ✅ |
 | UX Tools ×4 | `images/ux-tools/*` + `resources/ux-tools/*.pdf` | arsenal | ✅ | ✅ |
 | Coworking método ×6 | `images/method/coworking/*` | 4 arsenal + 2 reserva | ✅ | ✅ #119 |
-| Edu 21 ×6 | `images/cases/edu21/*` | 4 arsenal + 2 reserva · marca sí | ✅ | ✅ #119 |
+| pyme de mobiliario educacional ×6 | `images/cases/mobiliario-edu/*` | 4 arsenal + 2 reserva · marca sí | ✅ | ✅ #119 |
 | Brands monogram ×7 | `images/brands/*.svg` | Experience / About | ✅ | ✅ |
 
 ### Re-captura / curación

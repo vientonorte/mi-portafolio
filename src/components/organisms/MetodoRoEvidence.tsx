@@ -9,7 +9,7 @@ import { METODO_RO_CASES } from "../../data/metodo-ro-cases";
 
 /**
  * Evidencia del cargo UX Manager · Viento Norte
- * (bullets: Monitas, Edu21, funnels, design ops, FO).
+ * (bullets: Monitas, pyme de mobiliario educacional, funnels, design ops, FO).
  * No es galería general del portafolio enterprise (SURA/Transvip → /proyectos).
  */
 export function MetodoRoEvidence() {
