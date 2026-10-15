@@ -53,7 +53,9 @@ for (const i of shown) {
 }
 if (r.rows > 0 && r.logos < r.rows) errors.push(`Trayecto: ${r.logos}/${r.rows} cajas de logo con imagen o ícono (las demás quedan vacías)`);
 
-await page.evaluate(() => window.scrollTo(0, 0));
+// scroll-behavior: smooth en html: forzar salto instantáneo y esperar a que llegue a 0.
+await page.evaluate(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }));
+await page.waitForFunction(() => window.scrollY === 0, null, { timeout: 5000 }).catch(() => {});
 await page.waitForTimeout(300);
 const overlap = await page.evaluate(() => {
   const nav = document.querySelector(".process-nav-mobile");

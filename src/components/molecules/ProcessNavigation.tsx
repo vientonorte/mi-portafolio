@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "../ui/card";
 import { CheckCircle2 } from "lucide-react";
@@ -20,6 +21,26 @@ export function ProcessNavigation({
 }: ProcessNavigationProps) {
   const { activeSection, visitedSections, scrollToSection } = useProcessSectionSpy(sections);
   const prefersReducedMotion = useReducedMotion();
+  const mobileNavRef = useRef<HTMLElement>(null);
+
+  // El espaciador móvil toma el alto real de la barra (cambia con nº de chips, fuente, zoom).
+  useEffect(() => {
+    const nav = mobileNavRef.current;
+    if (!nav || typeof window === "undefined") return;
+    const root = document.documentElement;
+    const apply = () => {
+      const h = nav.getBoundingClientRect().height;
+      if (h > 0) root.style.setProperty("--process-nav-mobile-h", `${Math.ceil(h)}px`);
+    };
+    apply();
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(apply);
+    ro.observe(nav);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty("--process-nav-mobile-h");
+    };
+  }, [showMobile]);
 
   return (
     <>
@@ -29,6 +50,7 @@ export function ProcessNavigation({
           para que no tape el inicio de la página. */}
       <div aria-hidden className="process-nav-mobile-spacer lg:hidden" />
       <nav
+        ref={mobileNavRef}
         className="process-nav-mobile lg:hidden sticky z-[45] border-b border-border/60 bg-background shadow-[0_8px_16px_-12px_rgba(15,23,42,0.28)]"
         style={{ top: "var(--process-nav-mobile-top, 3.25rem)" }}
         aria-label={mobileAriaLabel ?? "Secciones de la página"}
