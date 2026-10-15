@@ -43,6 +43,7 @@ export function NavigablePrototypes() {
                 <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
                   {KIND_LABEL[p.kind][language]}
                 </Badge>
+                <span className="sr-only"> · </span>
                 <span className="text-xs text-muted-foreground">{p.client}</span>
                 <span className="sr-only">: </span>
               </span>

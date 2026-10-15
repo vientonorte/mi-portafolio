@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # Captura mockups reales X|CMS → public/images/poc-modules/{dashboard,riesgo,inventario,pedidos,clientes,reportes}.png
 # Fuente: https://pouch-growl-74881457.figma.site (login admin demo)
-# Uso: bash scripts/capture-poc-modules.sh
+# Uso: XCMS_DEMO_USER=… XCMS_DEMO_PASS=… bash scripts/capture-poc-modules.sh
+# Credenciales de la demo: se ven en la pantalla de login del Figma Site; no se versionan.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/public/images/poc-modules"
 XCMS_URL="${XCMS_URL:-https://pouch-growl-74881457.figma.site}"
+
+if [ -z "${XCMS_DEMO_USER:-}" ] || [ -z "${XCMS_DEMO_PASS:-}" ]; then
+  echo "Falta XCMS_DEMO_USER / XCMS_DEMO_PASS (usuario demo de la pantalla de login)." >&2
+  exit 1
+fi
+export XCMS_DEMO_USER XCMS_DEMO_PASS
 
 mkdir -p "$OUT"
 cd "$ROOT"
@@ -59,7 +66,7 @@ async function shot(page, name) {
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 
-await login(page, "admin@cms.com", "admin123");
+await login(page, process.env.XCMS_DEMO_USER, process.env.XCMS_DEMO_PASS);
 
 /** Nav label X|CMS → archivo POC */
 const map = [
