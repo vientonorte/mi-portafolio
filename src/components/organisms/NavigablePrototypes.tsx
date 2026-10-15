@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
 import { useLanguage } from "../../lib/LanguageContext";
@@ -6,7 +7,6 @@ import { NAVIGABLE_PROTOTYPES } from "../../data/navigable-prototypes";
 
 const KIND_LABEL = {
   proto: { es: "Prototipo Figma", en: "Figma prototype" },
-  site: { es: "Figma Sites", en: "Figma Sites" },
   file: { es: "Archivo Figma", en: "Figma file" },
 } as const;
 
@@ -25,8 +25,8 @@ export function NavigablePrototypes() {
         title={es ? "Prototipos navegables" : "Navigable prototypes"}
         description={
           es
-            ? "Ábrelos y recórrelos: se abren en Figma en una pestaña nueva."
-            : "Open and click through them: they open in Figma in a new tab."
+            ? "Prototipos y archivos Figma de proyectos reales. Se abren en una pestaña nueva; no requieren cuenta."
+            : "Prototypes and Figma files from real projects. They open in a new tab; no account needed."
         }
       />
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
@@ -39,14 +39,18 @@ export function NavigablePrototypes() {
               data-prototype-id={p.id}
               className="flex h-full flex-col gap-1 rounded-lg border border-[color:var(--logo-surface-border)] bg-surface-matte-elevated p-4 transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2"
             >
-              <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                {p.client} · {KIND_LABEL[p.kind][language]}
+              <span className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
+                  {KIND_LABEL[p.kind][language]}
+                </Badge>
+                <span className="text-xs text-muted-foreground">{p.client}</span>
+                <span className="sr-only">: </span>
               </span>
-              <span className="flex items-center gap-2 text-base font-semibold">
-                {p.title[language]}
-                <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
-                <span className="sr-only">{es ? "(abre en pestaña nueva)" : "(opens in new tab)"}</span>
+              <span className="flex items-start justify-between gap-2 text-base font-semibold">
+                <span>{p.title[language]}</span>
+                <ExternalLink className="mt-1 h-4 w-4 shrink-0" aria-hidden />
               </span>
+              <span className="sr-only"> {es ? "(abre en pestaña nueva)" : "(opens in new tab)"}</span>
             </a>
           </li>
         ))}

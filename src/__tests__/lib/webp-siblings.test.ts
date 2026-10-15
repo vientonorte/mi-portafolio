@@ -33,7 +33,7 @@ describe("webp siblings", () => {
 
 describe("prototipos navegables", () => {
   it("solo URLs https de Figma reales del repo, incluye Claro", () => {
-    expect(NAVIGABLE_PROTOTYPES.length).toBeGreaterThanOrEqual(6);
+    expect(NAVIGABLE_PROTOTYPES.map((p) => p.id)).toEqual(["sura-ria", "claro-tienda", "claro-portal", "valuesite-avem"]);
     for (const p of NAVIGABLE_PROTOTYPES) {
       expect(p.url).toMatch(/^https:\/\/(www\.figma\.com\/(proto|design)\/|[a-z-]+-\d+\.figma\.site)/);
       expect(p.url).not.toMatch(/vnmkt/i);
