@@ -109,6 +109,7 @@
     "qa:no-mascotapp": "bash scripts/check-prod-no-mascotapp.sh",
     "qa:no-placeholders": "bash scripts/check-dist-no-placeholders.sh",
     "qa:sobre-mi-images": "node scripts/check-dist-sobre-mi-images.mjs",
+    "qa:no-edu21": "node scripts/check-dist-no-edu21.mjs dist",
     "qa:sitemap": "SITEMAP_REQUIRE_DIST=1 vitest run src/__tests__/lib/sitemap-gate.test.ts",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",

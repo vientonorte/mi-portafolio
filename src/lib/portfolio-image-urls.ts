@@ -80,17 +80,17 @@ export const portfolioImages = {
     i18nGap: img("method/coworking/i18n-gap.png"),
     serviceDiscovery: img("method/coworking/service-discovery.png"),
   },
-  /** Case Edu 21 — permiso GO 2026-07-21 · marca visible */
-  edu21: {
-    heuristicWeb: img("cases/edu21/01-heuristic-web.png"),
-    competitiveBenchmark: img("cases/edu21/02-competitive-benchmark.png"),
-    serviceStrategy: img("cases/edu21/03-service-strategy.png"),
-    salesPitch: img("cases/edu21/04-sales-pitch.png"),
-    storyboard: img("cases/edu21/05-storyboard.png"),
-    performanceSeo: img("cases/edu21/06-performance-seo.png"),
+  /** Case pyme de mobiliario educacional — permiso GO 2026-07-21 · marca visible */
+  mobiliarioEdu: {
+    heuristicWeb: img("cases/mobiliario-edu/01-heuristic-web.png"),
+    competitiveBenchmark: img("cases/mobiliario-edu/02-competitive-benchmark.png"),
+    serviceStrategy: img("cases/mobiliario-edu/03-service-strategy.png"),
+    salesPitch: img("cases/mobiliario-edu/04-sales-pitch.png"),
+    storyboard: img("cases/mobiliario-edu/05-storyboard.png"),
+    performanceSeo: img("cases/mobiliario-edu/06-performance-seo.png"),
     /** Extra UI evidence (S1 wall) from Asesorías */
-    fichaProducto: img("cases/edu21-extra/01-ficha-producto.png"),
-    ctaBrochure: img("cases/edu21-extra/02-cta-brochure.png"),
+    fichaProducto: img("cases/mobiliario-edu-extra/01-ficha-producto.png"),
+    ctaBrochure: img("cases/mobiliario-edu-extra/02-cta-brochure.png"),
   },
   /** Monitas.cl e-comm UX — práctica Viento Norte (Asesorías) */
   monitas: {

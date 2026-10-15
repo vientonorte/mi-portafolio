@@ -15,8 +15,8 @@ export function consultoriaDemoPoster(config: ConsultoriaDemoConfig): string {
       return img.transvip.appMobile;
     case "karriDelivery":
       return img.karri.deliveryBrand;
-    case "edu21Pitch":
-      return img.edu21.salesPitch;
+    case "mobiliarioEduPitch":
+      return img.mobiliarioEdu.salesPitch;
     case "coworkingFunnel":
       return img.methodCoworking.funnelConversion;
     case "xCmsDashboard":

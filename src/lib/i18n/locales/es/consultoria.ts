@@ -381,12 +381,12 @@ export const consultoria = {
             highlights: ['Social media', 'Ads', 'Campañas', 'Conversión'],
             embedTitle: 'Social & ads',
           },
-          'edu21-edu': {
-            projectName: 'Edu 21 · Educación',
+          'mobiliario-edu-edu': {
+            projectName: 'Pyme de mobiliario educacional',
             approach:
               'Estrategia y pitch de producto educativo: heurística, benchmark y narrativa comercial.',
             highlights: ['Educación', 'Estrategia', 'Pitch'],
-            embedTitle: 'Edu 21',
+            embedTitle: 'Pyme de mobiliario educacional',
           },
         },
       },

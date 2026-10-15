@@ -104,11 +104,11 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     );
   });
 
-  it("Monitas y El recorrido no aparecen; Edu 21 sigue en la grilla; conceptos son Claro, Walmart y Transvip", () => {
+  it("Monitas y El recorrido no aparecen; pyme de mobiliario educacional sigue en la grilla; conceptos son Claro, Walmart y Transvip", () => {
     expect(doc.getElementById("casos")).toBeNull();
     expect(doc.body.textContent ?? "").not.toContain("Monitas");
     expect(doc.body.textContent ?? "").not.toContain("El recorrido");
-    expect(doc.querySelector('[data-vn-case="edu21"]')).not.toBeNull();
+    expect(doc.querySelector('[data-vn-case="mobiliario-edu"]')).not.toBeNull();
     expect([...doc.querySelectorAll("#conceptos [data-concept]")].map((el) => el.getAttribute("data-concept"))).toEqual([
       "claro",
       "walmart",
