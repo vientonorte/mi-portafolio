@@ -22,7 +22,7 @@ function ssotUrl(id: string): string {
   return url;
 }
 
-export const NAVIGABLE_PROTOTYPES: readonly NavigablePrototype[] = [
+const ALL_PROTOTYPES: NavigablePrototype[] = [
   { id: "sura-ria", client: "SURA Investments", kind: "proto", url: RIA_US_PROTO_URL,
     title: { es: "RIA US · onboarding multi-país", en: "RIA US · multi-country onboarding" } },
   { id: "transvip-app", client: "Transvip", kind: "proto", url: TRANSVIP_APP_PROTO_URL,
@@ -37,4 +37,8 @@ export const NAVIGABLE_PROTOTYPES: readonly NavigablePrototype[] = [
     title: { es: "POC dashboard IA / DEI", en: "AI / DEI dashboard POC" } },
   { id: "vn-xcms", client: "Viento Norte", kind: "site", url: CONSULTORIA_DEMO_X_CMS.figmaSitesUrl ?? "",
     title: { es: "X | CMS · demo navegable", en: "X | CMS · live demo" } },
-].filter((p) => p.url.startsWith("https://"));
+];
+
+export const NAVIGABLE_PROTOTYPES: readonly NavigablePrototype[] = ALL_PROTOTYPES.filter((p) =>
+  p.url.startsWith("https://"),
+);
