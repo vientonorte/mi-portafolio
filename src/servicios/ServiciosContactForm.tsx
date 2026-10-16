@@ -4,6 +4,7 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { cn } from "../lib/utils";
 import { track } from "../lib/track";
+import { trackFormLead } from "../lib/form-lead";
 import {
   buildServiciosPayload,
   validateServiciosContact,
@@ -103,6 +104,8 @@ export function ServiciosContactForm({
       }
       // Conversión (form_submit success) solo tras OK del worker (ya lo era).
       track("form_submit", { status: "success" });
+      // generate_lead (TL 13-oct): solo HTTP 200, sin PII; form_id = source ("servicios" / "web-<rubro>").
+      trackFormLead(res.status, { formId: source, topic: values.intent });
       form.reset();
       onIntentChange("");
       setStatus({
