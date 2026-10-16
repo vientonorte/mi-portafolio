@@ -60,7 +60,7 @@ function webhookBooking(extra = {}) {
 }
 
 beforeEach(() => {
-  // FormSubmit falla → notifyInbox cae al binding EMAIL (así vemos todo envío).
+  // Sin red: notifyInbox usa solo el binding EMAIL (FormSubmit salió el 13-oct).
   vi.stubGlobal(
     'fetch',
     vi.fn().mockResolvedValue(new Response(JSON.stringify({ success: 'false' }), { status: 200 }))

@@ -1,37 +1,11 @@
 import { escapeHtml } from './email-templates.js';
 
-/** Aviso inbox VN (FormSubmit → Cloudflare Email). */
+/** Aviso inbox VN: solo Cloudflare Email (binding EMAIL). FormSubmit salió el 13-oct. */
 
 export async function notifyInbox(env, { subject, text, html, replyTo, replyName }) {
   const inbox = env.CONTACT_INBOX || 'gaete.gaona@gmail.com';
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.io';
   const fromName = env.CONTACT_FROM_NAME || 'Viento Norte';
-
-  try {
-    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Referer: 'https://vientonorte.io/',
-        Origin: 'https://vientonorte.io',
-      },
-      body: JSON.stringify({
-        name: replyName || fromName,
-        email: replyTo || fromEmail,
-        message: text,
-        _subject: subject,
-        _replyto: replyTo || fromEmail,
-        _template: 'table',
-      }),
-    });
-    const data = await response.json().catch(() => ({}));
-    if (data.success === 'true' || data.success === true) {
-      return { ok: true, channel: 'formsubmit' };
-    }
-  } catch (err) {
-    console.warn('[notify] formsubmit failed:', err?.message || err);
-  }
 
   if (env.EMAIL) {
     try {

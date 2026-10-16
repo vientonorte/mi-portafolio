@@ -44,45 +44,6 @@ async function sendViaCloudflareEmail(env, message) {
   return { ok: true };
 }
 
-async function sendViaFormSubmit(inbox, payload) {
-  // Un error de red (DNS, conexión cortada, FormSubmit caído) no debe tumbar el
-  // handler con 500: se devuelve ok:false y sendContactEmail cae a EMAIL.
-  try {
-    return await postFormSubmit(inbox, payload);
-  } catch (err) {
-    console.warn('[contact] formsubmit network error:', err?.message || err);
-    return { ok: false, error: 'formsubmit_network' };
-  }
-}
-
-async function postFormSubmit(inbox, payload) {
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Referer: 'https://vientonorte.io/servicios/',
-      Origin: 'https://vientonorte.io',
-    },
-    body: JSON.stringify({
-      name: payload.safeName,
-      email: payload.safeEmail,
-      message: payload.safeMessage,
-      _subject: payload.subject,
-      _replyto: payload.safeEmail,
-      _template: 'table',
-    }),
-  });
-
-  if (!response.ok) return { ok: false, error: `formsubmit ${response.status}` };
-  const data = await response.json().catch(() => ({}));
-  if (data.success === 'true' || data.success === true) return { ok: true, channel: 'formsubmit' };
-  const message = typeof data.message === 'string' ? data.message : 'formsubmit rejected';
-  console.warn('[contact] formsubmit rejected:', message);
-  if (/activation/i.test(message)) return { ok: false, error: 'pending_activation', message };
-  return { ok: false, error: message };
-}
-
 async function deliverEmail(env, message) {
   if (env.EMAIL) {
     try {
@@ -105,15 +66,14 @@ async function sendContactEmail(env, payload) {
     html: payload.html,
   };
 
-  // FormSubmit primero: dominio vientonorte.cl aún no está en Email Sending.
-  const formsubmit = await sendViaFormSubmit(payload.inbox, payload);
-  if (formsubmit.ok) return { ok: true, channel: 'formsubmit' };
-
+  // Solo Cloudflare Email (binding EMAIL). FormSubmit salió (QA 13-oct: fallaba siempre y
+  // sumaba ~10 s de latencia a cada envío). Sin binding o si falla: el lead igual queda en KV
+  // y la respuesta lleva emailed:false.
   const sent = await deliverEmail(env, adminMessage);
   if (sent.ok) return { ok: true, channel: sent.channel };
 
-  console.warn('[contact] all channels failed. formsubmit:', formsubmit.error);
-  return formsubmit;
+  console.warn('[contact] cloudflare email unavailable; lead kept in KV only');
+  return { ok: false, error: env.EMAIL ? 'email_failed' : 'email_not_configured' };
 }
 
 async function sendVisitorConfirmation(env, payload) {
