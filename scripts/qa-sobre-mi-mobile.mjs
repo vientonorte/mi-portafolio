@@ -25,6 +25,18 @@ await page.evaluate(async () => {
   await Promise.all(imgs.map((i) => (i.complete ? null : new Promise((r) => { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }); setTimeout(r, 8000); }))));
 });
 await page.waitForTimeout(800);
+// transition-opacity 300ms tras onLoad/efecto post-hidratación: esperar a que asiente
+// (si alguna queda en opacity 0 tras 6s, el check de abajo falla igual).
+await page
+  .waitForFunction(
+    () =>
+      [...document.querySelectorAll("img")]
+        .filter((i) => i.getBoundingClientRect().width > 0 && i.naturalWidth > 0)
+        .every((i) => Number(getComputedStyle(i).opacity) > 0),
+    null,
+    { timeout: 6000, polling: 200 },
+  )
+  .catch(() => {});
 
 const r = await page.evaluate(() => {
   const imgs = [...document.querySelectorAll("img")].map((i) => ({
@@ -53,7 +65,9 @@ for (const i of shown) {
 }
 if (r.rows > 0 && r.logos < r.rows) errors.push(`Trayecto: ${r.logos}/${r.rows} cajas de logo con imagen o ícono (las demás quedan vacías)`);
 
-await page.evaluate(() => window.scrollTo(0, 0));
+// scroll-behavior: smooth en html: forzar salto instantáneo y esperar a que llegue a 0.
+await page.evaluate(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }));
+await page.waitForFunction(() => window.scrollY === 0, null, { timeout: 5000 }).catch(() => {});
 await page.waitForTimeout(300);
 const overlap = await page.evaluate(() => {
   const nav = document.querySelector(".process-nav-mobile");

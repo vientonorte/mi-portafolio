@@ -5,8 +5,12 @@ import { ImageManifestContext } from "./image-manifest-context";
 import { fetchAndApplyManifest } from "./image-overrides";
 import { isAdminPath } from "./routes";
 
-/** Manifest remoto solo en admin (evita CORS en GitHub Pages hasta ACAO en el Worker). */
-const PUBLIC_MANIFEST_ENABLED = import.meta.env.VITE_IMAGE_MANIFEST_PUBLIC === "true";
+/**
+ * Manifest remoto también en rutas públicas: el Worker ya responde
+ * Access-Control-Allow-Origin: https://vientonorte.io (verificado 13-oct-2026).
+ * Se apaga con VITE_IMAGE_MANIFEST_PUBLIC=false.
+ */
+const PUBLIC_MANIFEST_ENABLED = import.meta.env.VITE_IMAGE_MANIFEST_PUBLIC !== "false";
 
 export function ImageManifestProvider({ children }: { children: ReactNode }) {
   const [version, setVersion] = useState(0);

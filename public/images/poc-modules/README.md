@@ -14,10 +14,10 @@ Capturas live del producto **X|CMS** (Figma Sites) para la landing oferta (hist�
 **Regenerar:**
 
 ```bash
-bash scripts/capture-poc-modules.sh
+XCMS_DEMO_USER=… XCMS_DEMO_PASS=… bash scripts/capture-poc-modules.sh
 ```
 
-Demo login (solo captura): `admin@cms.com` / `admin123`  
+Demo login (solo captura): usuario admin de la pantalla de login de la demo, vía `XCMS_DEMO_USER` / `XCMS_DEMO_PASS` (no se versiona la contraseña)  
 Fuente: https://pouch-growl-74881457.figma.site
 
 `pos-mobile.(png|webp)` — recorte vertical 500×820 de `pedidos.png` (módulo POS) para el marco de teléfono del hero de `/servicios/`.

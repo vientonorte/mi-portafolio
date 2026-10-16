@@ -6,6 +6,7 @@ import { Volunteer } from '../components/organisms/Volunteer';
 import { MetodoRoEvidence } from '../components/organisms/MetodoRoEvidence';
 import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
+import { NavigablePrototypes } from '../components/organisms/NavigablePrototypes';
 import { ProcessNavigation } from '../components/molecules/ProcessNavigation';
 
 import { SEOHead } from '../components/atoms/SEOHead';
@@ -31,8 +32,9 @@ const SobreMi = () => {
     { id: 'experiencia', number: '04', label: es ? 'Trayecto' : 'Timeline' },
     { id: 'voluntariado', number: '05', label: es ? 'Voluntariado' : 'Volunteer' },
     { id: 'evidencia-vn', number: '06', label: es ? 'Casos' : 'Cases' },
-    { id: 'testimonios', number: '07', label: es ? 'Voces' : 'Voices' },
-    { id: 'contacto', number: '08', label: es ? 'Contacto' : 'Contact' },
+    { id: 'prototipos', number: '07', label: es ? 'Prototipos' : 'Prototypes' },
+    { id: 'testimonios', number: '08', label: es ? 'Voces' : 'Voices' },
+    { id: 'contacto', number: '09', label: es ? 'Contacto' : 'Contact' },
   ];
 
   useEffect(() => {
@@ -70,6 +72,7 @@ const SobreMi = () => {
       <Experience />
       <Volunteer />
       <MetodoRoEvidence />
+      <NavigablePrototypes />
       <Testimonials />
       <Contact />
     </PageShell>

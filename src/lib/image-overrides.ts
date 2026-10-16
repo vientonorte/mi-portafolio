@@ -43,6 +43,31 @@ export function resolveImageUrl(id: string, fallback: string): string {
   return overrides.get(id) ?? fallback;
 }
 
+function stripQuery(url: string): string {
+  return url.split("?")[0];
+}
+
+/** Ruta por defecto (sin ?v=) → id del registro (p. ej. "sura.webPrototype"). */
+const idByDefaultUrl = new Map<string, string>();
+(function index(node: unknown, prefix: string[]) {
+  if (typeof node === "string") {
+    idByDefaultUrl.set(stripQuery(node), prefix.join("."));
+    return;
+  }
+  if (node && typeof node === "object") {
+    for (const [k, v] of Object.entries(node)) index(v, [...prefix, k]);
+  }
+})(portfolioImages, []);
+
+/**
+ * Cambio dinámico de ruta: si el manifest del Worker trae override para la imagen
+ * cuyo src por defecto es `src`, devuelve el override; si no, `src` tal cual.
+ */
+export function resolveImageSrc(src: string): string {
+  const id = idByDefaultUrl.get(stripQuery(src));
+  return id ? (overrides.get(id) ?? src) : src;
+}
+
 export async function fetchAndApplyManifest(apiUrl: string): Promise<void> {
   try {
     const res = await fetch(apiUrl, { credentials: "omit" });
