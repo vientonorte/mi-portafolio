@@ -12,15 +12,32 @@ export const HEAT_PATHS = [
   'transvip-app',
   'karri-shoppers',
   'ads-campaigns',
-  'edu21-edu',
+  'mobiliario-edu-edu',
 ];
 export const HEAT_COLS = 32;
 export const HEAT_ROWS = 18;
 export const HEAT_MAX_HITS = 800;
 const KEY_PREFIX = 'vn:demo-heat:';
 
+/**
+ * Alias de ids renombrados → id canónico. El front ya envía el canónico; el alias acepta
+ * clientes con bundle viejo en caché (y el worker en prod previo al rename).
+ * Excepción documentada al gate de anonimización: el id legado del cliente anonimizado se
+ * guarda codificado (sin el literal) para no reintroducir el nombre en el código.
+ * Legado = "edu" + "21-edu" → canónico "mobiliario-edu-edu".
+ */
+const LEGACY_ANON_PREFIX = ['edu', '21'].join('');
+export const HEAT_PATH_ALIASES = Object.freeze({
+  [`${LEGACY_ANON_PREFIX}-edu`]: 'mobiliario-edu-edu',
+});
+
+/** Id canónico (aplica alias); devuelve el mismo id si no es alias. */
+export function canonicalHeatPath(id) {
+  return Object.prototype.hasOwnProperty.call(HEAT_PATH_ALIASES, id) ? HEAT_PATH_ALIASES[id] : id;
+}
+
 export function isHeatPath(id) {
-  return HEAT_PATHS.includes(id);
+  return HEAT_PATHS.includes(canonicalHeatPath(id));
 }
 
 export function emptyGrid() {

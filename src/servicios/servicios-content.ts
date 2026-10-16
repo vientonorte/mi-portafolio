@@ -214,8 +214,8 @@ export const BRAND_CASES: readonly BrandCase[] = [
     ctaAnchor: "web-pymes",
   },
   {
-    id: "edu21",
-    client: "Edu21",
+    id: "mobiliario-edu",
+    client: "Pyme de mobiliario educacional",
     kicker: "Freelance · Viento Norte",
     problem: "El servicio se explicaba en piezas sueltas y el camino de la familia no se veía.",
     whatWeDid: "Heurística, storyboard del servicio y benchmark. El mismo embudo.",
@@ -315,8 +315,8 @@ export const SERVICIOS_VN_CASES = {
 
 /**
  * Casos de VN agrupados por ancla. Fuentes (todas en el repo):
- * - Edu 21: problema de BRAND_CASES; entregables de docs/staging/edu21-pack/PERMISO.md;
- *   punto de partida = informe SEO WordPress jun. 2022 (inv/pdf/txt/edu21-seo.txt L59, L84).
+ * - pyme de mobiliario educacional: problema de BRAND_CASES; entregables de docs/staging/mobiliario-edu-pack/PERMISO.md;
+ *   punto de partida = informe SEO WordPress jun. 2022 (inv/pdf/txt/mobiliario-edu-seo.txt L59, L84).
  * - TodoClick.cl y Parcelas Terramar: con nombre (permiso en docs/staging/casos-mc-pack/PERMISO.md). Hallazgos de sus
  *   benchmark PDF (Benchmark Maraña, 2021), texto extraído en el box de ops: inv/pdf/txt/mc-*-benchmark.txt
  *   (las líneas van en cada hallazgo). Imagen: página 3 de cada PDF (escala heurística), sin logo de la marca;
@@ -474,12 +474,12 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         },
       },
       {
-        id: "edu21",
-        name: "Edu 21",
+        id: "mobiliario-edu",
+        name: "Pyme de mobiliario educacional",
         tags: { rubro: "Edtech", servicio: "Diseño" },
-        addressBar: "edu21 · estrategia",
+        addressBar: "mobiliario-edu · estrategia",
         mockupFit: "contain",
-        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/edu21-pack/PERMISO.md L26-28.
+        // Brief vn-productos-grilla-2026-10-01 §2; etapas en docs/staging/mobiliario-edu-pack/PERMISO.md L26-28.
         summary: "Taller de diseño de servicios en tres etapas: heurística, estrategia y herramientas comerciales.",
         findings: [
           "Heurística del sitio web",
@@ -487,12 +487,12 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
           "Estrategia de servicios y productos",
           "Pitch comercial y storyboard del servicio",
         ],
-        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (edu21-seo.pdf, jun. 2022) → inv/pdf/txt/edu21-seo.txt
+        // Diagnóstico base, no resultado: informe «SEO - WORDPRES» (mobiliario-edu-seo.pdf, jun. 2022) → inv/pdf/txt/mobiliario-edu-seo.txt
         // L59 «15.4 segundos» y L84 «CALIFICACIÓN : Deficiente» (box de ops).
         startingPoint: "Informe SEO del sitio (junio de 2022): carga de 15,4 s y SEO «Deficiente».",
         image: {
-          png: "images/cases/edu21/03-service-strategy.png",
-          alt: "Tablero de estrategia de servicios de Edu 21: audiencias, problemas, mensaje, canales y metas.",
+          png: "images/cases/mobiliario-edu/03-service-strategy.png",
+          alt: "Tablero de estrategia de servicios de una pyme de mobiliario educacional: audiencias, problemas, mensaje, canales y metas.",
           width: 1200,
           height: 672,
         },

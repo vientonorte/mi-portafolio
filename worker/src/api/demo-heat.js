@@ -3,6 +3,7 @@ import { requireAdmin } from '../lib/require-admin.js';
 import {
   HEAT_PATHS,
   applyEvents,
+  canonicalHeatPath,
   emptyBucket,
   heatKey,
   isHeatPath,
@@ -37,10 +38,12 @@ export async function handleDemoHeatIngest(request, env, cors) {
     return json({ ok: false, error: 'JSON inválido' }, 400, cors);
   }
 
-  const pathId = typeof body.pathId === 'string' ? body.pathId.trim() : '';
-  if (!isHeatPath(pathId)) {
+  const rawPathId = typeof body.pathId === 'string' ? body.pathId.trim() : '';
+  if (!isHeatPath(rawPathId)) {
     return json({ ok: false, error: 'pathId inválido' }, 400, cors);
   }
+  // Alias (id legado) → se acumula en la clave canónica.
+  const pathId = canonicalHeatPath(rawPathId);
 
   const rawEvents = Array.isArray(body.events) ? body.events.slice(0, MAX_BATCH) : [];
   const events = rawEvents.map(normalizeEvent).filter(Boolean);
@@ -60,7 +63,7 @@ export async function handleDemoHeatRead(request, env, cors) {
 
   const url = new URL(request.url);
   const only = url.searchParams.get('path') || '';
-  const ids = isHeatPath(only) ? [only] : HEAT_PATHS;
+  const ids = isHeatPath(only) ? [canonicalHeatPath(only)] : HEAT_PATHS;
 
   const paths = {};
   for (const id of ids) {

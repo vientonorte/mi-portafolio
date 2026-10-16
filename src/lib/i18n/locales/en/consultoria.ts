@@ -381,12 +381,12 @@ export const consultoria = {
             highlights: ['Social media', 'Ads', 'Campaigns', 'Conversion'],
             embedTitle: 'Social & ads',
           },
-          'edu21-edu': {
-            projectName: 'Edu 21 · Education',
+          'mobiliario-edu-edu': {
+            projectName: 'Educational furniture SME',
             approach:
               'Edtech strategy and pitch: heuristics, benchmark, and commercial narrative.',
             highlights: ['Education', 'Strategy', 'Pitch'],
-            embedTitle: 'Edu 21',
+            embedTitle: 'Educational furniture SME',
           },
         },
       },

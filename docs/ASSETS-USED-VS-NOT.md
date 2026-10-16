@@ -12,10 +12,10 @@
 
 | Capa | En uso (producto) | Staging / espejo | Solo iCloud |
 |------|-------------------|------------------|------------|
-| `public/images/**` | GEES, UX Tools, method/coworking, cases/edu21, brands, SURA/TV/Karri… | — | — |
+| `public/images/**` | GEES, UX Tools, method/coworking, cases/mobiliario-edu, brands, SURA/TV/Karri… | — | — |
 | `public/resources/**` PDF | **4** UX Tools | — | — |
-| Arsenal | ~38 cards (incluye method + Edu 21) | — | — |
-| Edu 21 | **6** PNG public · **4** arsenal | `docs/staging/edu21-pack/` | ~243 origen |
+| Arsenal | ~38 cards (incluye method + pyme de mobiliario educacional) | — | — |
+| pyme de mobiliario educacional | **6** PNG public · **4** arsenal | `docs/staging/mobiliario-edu-pack/` | ~243 origen |
 | Coworking | **6** PNG public · **4** arsenal | — | 21 origen |
 | Asesorías resto | 0 | — | ~912 privado |
 | `src/assets` hash | **39** build only | archive local | — |
@@ -69,12 +69,12 @@ Todos los paths bajo `sura/`, `transvip/`, `karri/`, `framework/`, `brands/`, `b
 
 ---
 
-## 4 · Edu 21 (GO 2026-07-21 · marca visible)
+## 4 · pyme de mobiliario educacional (GO 2026-07-21 · marca visible)
 
 | Path | Estado |
 |------|--------|
-| `public/images/cases/edu21/01…06-*.png` | ✅ en sitio (registry + 4 arsenal) |
-| `docs/staging/edu21-pack/` | espejo + `PERMISO.md` cerrado |
+| `public/images/cases/mobiliario-edu/01…06-*.png` | ✅ en sitio (registry + 4 arsenal) |
+| `docs/staging/mobiliario-edu-pack/` | espejo + `PERMISO.md` cerrado |
 | Cotizaciones Asesorías | **no** copiadas |
 
 **No en arsenal (sí en public/registry):** `02-competitive-benchmark`, `06-performance-seo` (reserva).
@@ -94,7 +94,7 @@ Todos los paths bajo `sura/`, `transvip/`, `karri/`, `framework/`, `brands/`, `b
 | Método Coworking | `method-funnel-structure`, `method-a11y-contrast`, `method-i18n-gap`, `method-service-discovery` |
 | Otros | `proceso-ux`, `design-system`, `auditoria-ejemplo`, `figjam-audit-board`, `consultoria-arbol`, `valuesite-avem-landing` |
 
-**No hay card de arsenal** para Edu 21 (correcto hasta permiso).
+**No hay card de arsenal** para pyme de mobiliario educacional (correcto hasta permiso).
 
 ---
 
@@ -114,7 +114,7 @@ Todos los paths bajo `sura/`, `transvip/`, `karri/`, `framework/`, `brands/`, `b
 |------|---|-------------|
 | `Asesorías/**` total | ~912 | **No** (default) |
 | Coworking | 21 | **6 PNG copiados** anonimizados → method/ |
-| Edu 21 | 243 | **6 thumbs** solo staging |
+| pyme de mobiliario educacional | 243 | **6 thumbs** solo staging |
 | Servicios PDF | 3 | No (decisión: no reescribir oferta) |
 | Agua Vegana PDF | 1 | No (privado) |
 | Personas/CV | ~25 carpetas | No |
@@ -129,7 +129,7 @@ Detalle: Obsidian `Viento Norte/Resources/Inventario Asesorías iCloud.md`.
 public/images/*          → SÍ (43/43)
 public/resources/pdf     → SÍ (4/4)
 method/coworking/*       → SÍ en código; 4 en arsenal + 2 reserva
-docs/staging/edu21/*     → NO en UI (espera permiso)
+docs/staging/mobiliario-edu/*     → NO en UI (espera permiso)
 Asesorías iCloud resto   → NO
 src/assets hashes        → SÍ build, no URL semántica
 Servicios/*.pdf          → NO (decisión)
@@ -142,6 +142,6 @@ Agua Vegana              → NO
 
 | Acción | Pasa a “en uso” cuando… |
 |--------|-------------------------|
-| Edu 21 | Permiso + move a `public/` + arsenal |
+| pyme de mobiliario educacional | Permiso + move a `public/` + arsenal |
 | 2 capturas coworking reserva | Añadir card arsenal o borrar |
 | Migrar figma:asset | Menos dependencia de `src/assets` hashes |
