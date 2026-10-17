@@ -1,3 +1,4 @@
+import { cn } from "../../lib/utils";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "../ui/card";
@@ -12,12 +13,18 @@ interface ProcessNavigationProps {
   mobileAriaLabel?: string;
   /** Home/SEM FO: dock cubre 01–03. Default true (detalle de caso). */
   showMobile?: boolean;
+  /**
+   * Desde qué breakpoint se muestra el rail fijo de escritorio. "xl" en /sobre-mi/: entre 1024 y
+   * 1279px el rail tapaba contenido (pre-QA #343). Default "lg" para no cambiar otras páginas.
+   */
+  desktopRailFrom?: "lg" | "xl";
 }
 
 export function ProcessNavigation({
   sections,
   mobileAriaLabel,
   showMobile = true,
+  desktopRailFrom = "lg",
 }: ProcessNavigationProps) {
   const { activeSection, visitedSections, scrollToSection } = useProcessSectionSpy(sections);
   const prefersReducedMotion = useReducedMotion();
@@ -94,7 +101,7 @@ export function ProcessNavigation({
             ? { duration: 0 }
             : { duration: 0.25, ease: [0.4, 0, 0.2, 1], delay: 0.15 }
         }
-        className="hidden lg:block fixed right-6 top-1/2 z-30 -translate-y-1/2"
+        className={cn(desktopRailFrom === "xl" ? "hidden xl:block" : "hidden lg:block", "process-nav-rail fixed right-6 top-1/2 z-30 -translate-y-1/2")}
       >
         <Card className="p-4 bg-background/95 backdrop-blur-lg border-2 shadow-xl max-w-[200px]">
           <nav aria-label={mobileAriaLabel ?? "Process navigation"}>

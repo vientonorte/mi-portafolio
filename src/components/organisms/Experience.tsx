@@ -122,8 +122,7 @@ export function Experience() {
         titleId="experience-heading"
       />
 
-      {/* lg–1679px: el rail fijo de secciones (ProcessNavigation, right-6) se superpone hasta ~160px; reservar ese ancho. */}
-      <ol className="space-y-0 lg:pr-44 min-[1680px]:pr-0" role="list" aria-label={t.title}>
+      <ol className="space-y-0" role="list" aria-label={t.title}>
         {experiences.map((exp, index) => {
           const key = expKey(exp);
           const isLast = index === experiences.length - 1;
@@ -416,7 +415,7 @@ export function Experience() {
 
       <section
         aria-labelledby="formacion-heading"
-        className="mt-8 rounded-xl border border-border/60 bg-card/60 p-4 sm:p-5 lg:mr-44 min-[1680px]:mr-0"
+        className="mt-8 rounded-xl border border-border/60 bg-card/60 p-4 sm:p-5"
       >
         <h3
           id="formacion-heading"

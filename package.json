@@ -111,6 +111,7 @@
     "qa:sobre-mi-images": "node scripts/check-dist-sobre-mi-images.mjs",
     "qa:no-edu21": "node scripts/check-dist-no-edu21.mjs dist",
     "qa:no-removed-claims": "node scripts/check-dist-no-removed-claims.mjs dist",
+    "qa:sobre-mi-rail": "node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173",
     "qa:sitemap": "SITEMAP_REQUIRE_DIST=1 vitest run src/__tests__/lib/sitemap-gate.test.ts",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "rm -rf dist coverage",

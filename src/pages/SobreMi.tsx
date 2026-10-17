@@ -47,6 +47,8 @@ const SobreMi = () => {
 
   return (
     <PageShell
+      // Rail de secciones solo desde xl; entre 1280 y 1679px toda la ficha reserva su ancho (≈156px + right-6); desde 1680 el contenido ya lo libra.
+      contentClassName="xl:pr-48 min-[1680px]:pr-0"
       crumbs={withHomeCrumb(t.breadcrumbs.home, () => navigate('/'), [
         { label: t.breadcrumbs.about, current: true },
       ])}
@@ -59,6 +61,7 @@ const SobreMi = () => {
       <ProcessNavigation
         sections={aboutSections}
         mobileAriaLabel={es ? 'Secciones de Sobre mí' : 'About sections'}
+        desktopRailFrom="xl"
       />
       {/* Migas visibles de la ficha (BreadcrumbList JSON-LD en sobre-mi/index.html). Enlace HTTP a la home, nunca /#/. */}
       <div className="sobre-mi-breadcrumbs container mx-auto max-w-5xl px-4 pt-4 sm:pt-6">
