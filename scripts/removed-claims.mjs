@@ -12,7 +12,9 @@ export const DIRECT_RULES = [
   // Karri «+58 % engagement» (no está en la SSOT; PO 17-10 15:11): cualquier +58 %.
   { id: "karri-58", re: /\+\s?58\s?%|(?<![\d.,])58\s?%\s*(de\s+|more\s+|más\s+)?engagement|engagement[^.\n]{0,40}\b58\s?%|aument[óo]\s+(un\s+)?58\s?%/gi },
   { id: "nps-72", re: /NPS\s*(de\s*|of\s*|:\s*)?72\b/gi },
-  { id: "nps-72-split", re: /["']NPS["'][^{}]{0,40}["']72["']/g },
+  { id: "nps-72-split", re: /["'`]NPS["'`][^{}]{0,40}["'`]72["'`]/g },
+  // Valor antes de la etiqueta (POC Apple, feat/servicios-ds): value: "72", label: { es: "NPS" … }.
+  { id: "nps-72-split-rev", re: /["'`]72["'`][\s\S]{0,80}?["'`]NPS["'`]/g },
   {
     id: "etnografo-certificado",
     re: /etn[oó]graf[oa]s?\s+certificad|certificad[oa]\s+(como\s+)?etn[oó]graf|certified\s+ethnographer|ethnographer\s+certif/gi,
