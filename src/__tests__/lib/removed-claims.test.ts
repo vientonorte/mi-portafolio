@@ -39,6 +39,9 @@ describe("afirmaciones retiradas de la trayectoria (SSOT 2026-10-17)", () => {
     expect(ids("El engagement con notificaciones aumentó un 58% post-lanzamiento")).toContain("karri-58");
     expect(ids("58% more engagement")).toContain("karri-58");
     expect(ids("+35% activación · −42% abandono del onboarding")).toHaveLength(0);
+    // POC Apple (feat/servicios-ds): cifras retiradas en la oferta enterprise.
+    expect(ids('{ value: "72", label: { es: "NPS", en: "NPS" }, brand: "SURA" }')).toContain("nps-72-split-rev");
+    expect(ids('{ value: "−40%", label: { es: "Tiempo de onboarding" }, brand: "SURA" }')).not.toHaveLength(0);
     expect(ids("−40% fricción en onboarding · alcance 5+ países")).toEqual(expect.arrayContaining(["5-paises", "sura-40-onboarding"]));
   });
 

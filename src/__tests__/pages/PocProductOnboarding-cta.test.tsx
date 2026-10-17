@@ -48,12 +48,14 @@ describe("PocProductOnboarding CTA hierarchy", () => {
     expect(navigate).not.toHaveBeenCalledWith("/");
   });
 
-  it("enterprise offer shows measured numbers and no competitor names", () => {
+  it("enterprise offer shows only SSOT figures and no competitor names", () => {
     renderTour();
     const offer = screen.getByTestId("offer-enterprise");
-    expect(offer).toHaveTextContent("−40%");
-    expect(offer).toHaveTextContent("72");
+    expect(offer).toHaveTextContent("7–11 min");
+    expect(offer).toHaveTextContent("13–15");
     expect(offer).toHaveTextContent("8");
+    // Retiradas por Rö (SSOT l.103): ni −40 % ni NPS 72.
+    expect(offer.textContent).not.toMatch(/40\s?%|NPS|\b72\b/);
     expect(offer).toHaveTextContent("SURA");
     expect(offer).toHaveTextContent("Migración de un proyecto");
     expect(offer).toHaveTextContent("Auditoría de un flujo");

@@ -37,19 +37,25 @@ import {
 
 type Screen = "intro" | "oferta" | "principles" | PocModuleId | "build" | "start";
 
-/** Cifras ya publicadas. Sin tarifa y sin otras casas. */
+/**
+ * Solo cifras de la SSOT TRAYECTORIA-INVESTIGACION-RO.md (vault, 2026-10-17). Sin tarifa y sin otras casas.
+ * Las dos cifras retiradas por Rö (SSOT viva l.103) no van; el gate qa:no-removed-claims las bloquea.
+ */
 const OFFER_FIGURES = [
   {
-    value: "−40%",
-    label: { es: "Tiempo de onboarding", en: "Onboarding time" },
+    // SSOT l.68: onboarding de clientes «de 15+ a 7–11 min», en 4 pasos (autodeclarado, aprobado).
+    value: "7–11 min",
+    label: { es: "Onboarding de clientes, antes 15+", en: "Client onboarding, was 15+" },
     brand: "SURA",
   },
   {
-    value: "72",
-    label: { es: "NPS", en: "NPS" },
+    // SSOT l.92: 2 rondas de test moderado, 13–15 participantes en total.
+    value: "13–15",
+    label: { es: "Participantes en test moderado", en: "Moderated-test participants" },
     brand: "SURA",
   },
   {
+    // SSOT l.76: «8 prototipos» de la plataforma RIA EE.UU. (autodeclarado, aprobado).
     value: "8",
     label: { es: "Prototipos", en: "Prototypes" },
     brand: "SURA",
@@ -155,7 +161,7 @@ export default function PocProductOnboarding({
         oferta: {
           kicker: "Viento Norte",
           title: "Enterprise.\nMigración y auditoría.",
-          body: "Un proyecto. Un flujo. Los números son de un onboarding ya medido.",
+          body: "Un proyecto. Un flujo. Las cifras son de proyectos SURA.",
           close: "El alcance se cierra en el kickoff.",
         },
         principles: {
@@ -199,7 +205,7 @@ export default function PocProductOnboarding({
         oferta: {
           kicker: "Viento Norte",
           title: "Enterprise.\nMigration and audit.",
-          body: "One project. One flow. The numbers are from an onboarding already measured.",
+          body: "One project. One flow. The figures come from SURA projects.",
           close: "Scope closes at the kickoff.",
         },
         principles: {
