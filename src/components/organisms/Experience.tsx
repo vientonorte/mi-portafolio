@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Briefcase, ChevronRight, Link2 } from "lucide-react";
+import { Briefcase, ChevronDown, ChevronRight, GraduationCap, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PageSection } from "../layout/PageSection";
 import { SectionHeader } from "../molecules/SectionHeader";
@@ -23,6 +23,25 @@ const CONTAIN_COVER_STYLE = {
   height: "100%",
   objectFit: "contain",
   padding: "1rem 1rem 2.25rem",
+} as const;
+
+/**
+ * Redacción exacta de la SSOT TRAYECTORIA-INVESTIGACION-RO.md (certifica el curso, no un título;
+ * mediación cultural es certificado de participación).
+ */
+const FORMACION = {
+  es: [
+    "Antropología, Universidad Austral de Chile (UACh), 2011–2015",
+    "Curso certificado de análisis de datos cualitativos (Academia Etnográfica, 2022)",
+    "Certificado de participación en mediación cultural (CNCA, 2017)",
+    "Diseñador UX/UI, Desafío Latam",
+  ],
+  en: [
+    "Anthropology studies, Universidad Austral de Chile (UACh), 2011–2015",
+    "Certified course in qualitative data analysis (Academia Etnográfica, 2022)",
+    "Certificate of participation in cultural mediation (CNCA, 2017)",
+    "UX/UI Designer, Desafío Latam",
+  ],
 } as const;
 
 function expKey(exp: ExperienceEntry) {
@@ -267,6 +286,45 @@ export function Experience() {
                               ))}
                             </ul>
 
+                            {exp.detailGroups && exp.detailGroups.length > 0 ? (
+                              <details className="experience-detail group rounded-lg border border-border/60 bg-card/40">
+                                <summary
+                                  className={cn(
+                                    "flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary",
+                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
+                                  )}
+                                >
+                                  <span>
+                                    {es ? "Ver detalle" : "View detail"}
+                                    <span className="sr-only"> · {exp.company}</span>
+                                  </span>
+                                  <ChevronDown
+                                    className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+                                    aria-hidden
+                                  />
+                                </summary>
+                                <div className="space-y-3 px-3 pb-3 pt-1">
+                                  {exp.detailGroups.map((group) => (
+                                    <section key={group.title} aria-label={group.title}>
+                                      <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-foreground/80">
+                                        {group.title}
+                                      </h4>
+                                      <ul className="mt-1.5 space-y-1.5" role="list">
+                                        {group.items.map((item) => (
+                                          <li
+                                            key={item.slice(0, 48)}
+                                            className="text-sm leading-snug text-muted-foreground"
+                                          >
+                                            · {item}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </section>
+                                  ))}
+                                </div>
+                              </details>
+                            ) : null}
+
                             {exp.tools && exp.tools.length > 0 && (
                               <div className="flex flex-wrap gap-1.5">
                                 {exp.tools.map((tool) => (
@@ -324,6 +382,26 @@ export function Experience() {
           );
         })}
       </ol>
+
+      <section
+        aria-labelledby="formacion-heading"
+        className="mt-8 rounded-xl border border-border/60 bg-card/60 p-4 sm:p-5"
+      >
+        <h3
+          id="formacion-heading"
+          className="flex items-center gap-2 text-base font-semibold sm:text-lg"
+        >
+          <GraduationCap className="h-5 w-5 text-primary" aria-hidden />
+          {es ? "Formación y certificados" : "Education and certificates"}
+        </h3>
+        <ul className="mt-3 space-y-1.5" role="list">
+          {FORMACION[language].map((line) => (
+            <li key={line} className="text-sm leading-snug text-muted-foreground">
+              · {line}
+            </li>
+          ))}
+        </ul>
+      </section>
     </PageSection>
   );
 }

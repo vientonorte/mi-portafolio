@@ -306,9 +306,9 @@ export const processesData: Record<string, ProcessDetailData> = {
     ],
     evidence: {
       company: "SURA",
-      metric: "−40%",
-      metricLabel: "abandono en onboarding",
-      metricLabelEN: "onboarding drop-off",
+      metric: "7–11 min",
+      metricLabel: "onboarding de clientes (antes 15+)",
+      metricLabelEN: "client onboarding (was 15+)",
     },
     benefits: [
       "Decisiones basadas en data real, no suposiciones",
@@ -391,9 +391,9 @@ export const processesData: Record<string, ProcessDetailData> = {
     ],
     evidence: {
       company: "SURA",
-      metric: "NPS 72",
-      metricLabel: "plataforma inversiones",
-      metricLabelEN: "investments platform",
+      metric: "13–15",
+      metricLabel: "participantes en test moderado",
+      metricLabelEN: "moderated-test participants",
     },
     benefits: [
       "Comprensión profunda de necesidades reales",

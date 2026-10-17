@@ -24,6 +24,11 @@ export interface ExperienceEntry {
   /** Evidencia táctica (antes: achievements) */
   achievements: string[];
   tools?: string[];
+  /**
+   * Segundo nivel (detalle) en <details>/<summary>. Cada cifra debe existir en la SSOT
+   * TRAYECTORIA-INVESTIGACION-RO.md (vault) con su fuente; ver docs/SSOT-TRAYECTORIA-CIFRAS.md.
+   */
+  detailGroups?: { title: string; items: string[] }[];
   companyId?: string;
   /** Ancla a sección de evidencia visual en /sobre-mi (no /empresa). */
   evidenceSectionId?: string;
@@ -139,39 +144,107 @@ const experienceCatalog: LocalizedExperience[] = [
     companyId: "sura-investments",
     es: {
       company: "SURA Investments",
-      position: "UX Lead · Associate, Estrategia Digital",
-      period: "Sept 2023 — Jun 2026 · 2 años 10 meses",
+      position: "UX Lead · Asociado Estrategia Digital",
+      period: "Sept 2023 — Jun 2026 · 2 años 9 meses",
       location: "Chile · Híbrido",
       stage: "Wealth · Regional",
       context:
-        "Plataformas de inversión y corredores en un entorno regulado, multi-país y multi-perfil.",
+        "Plataformas de inversión en 7 mercados: Chile, Perú, Colombia, México, EE.UU., Uruguay y la oferta de fondos de Luxemburgo.",
       role:
-        "Liderazgo UX/UI en células de Wealth Management: design thinking con negocio, PMs, POs y tech leads.",
-      impact: "−40% fricción en onboarding · alcance 5+ países · handoff con design system",
+        "Liderazgo UX/UI en células de Wealth Management: discovery, sprints y design system con negocio, PMs, POs y tech leads.",
+      impact: "Onboarding de clientes de 15+ a 7–11 min, en 4 pasos · design system regional",
       achievements: [
-        "Experiencias accesibles y alineadas a cumplimiento (WCAG / privacidad por diseño)",
-        "Evolución de productos regionales con design system y criterios de aceptación claros",
-        "Facilitación de sprints y discovery con áreas de negocio en iniciativas multi-país",
+        "Onboarding de asesores de la plataforma RIA para EE.UU. (release v1)",
+        "Herramienta de órdenes de inversión para asesores, con flujo APV",
+        "2 rondas de test moderado con 13–15 participantes",
       ],
-      tools: ["Figma", "Design Thinking", "Accesibilidad", "Jira", "Confluence"],
+      detailGroups: [
+        {
+          title: "Proyectos",
+          items: [
+            "Plataforma RIA para EE.UU.: UX/UI del onboarding de asesores, release v1 en sep 2024.",
+            "Herramienta de órdenes de inversión para asesores (oct 2024 – mar 2025): cartera, condiciones, medios de pago, flujo APV, comprobante e historial.",
+            "Flujo «Hazte cliente»: onboarding de clientes de 15+ a 7–11 min, en 4 pasos.",
+            "Trabajé en Mis Beneficios (México), la app de planes privados de retiro: levantamiento de dolores, journey map de RR.HH. y prototipo MVP de activación de cuenta.",
+          ],
+        },
+        {
+          title: "Design system y ecosistema",
+          items: [
+            "Participé en la auditoría de marca y experiencia de 17 sitios en 6 países.",
+            "Design system regional del ecosistema de sitios públicos: 150+ componentes, 1.600+ variantes, 900+ íconos y 1.400+ tokens.",
+          ],
+        },
+        {
+          title: "Research",
+          items: [
+            "2 rondas de test de usabilidad moderado del sitio público (dic 2023 – ene 2024), con 13–15 participantes en total.",
+            "Research contextual con asesores y UX analytics de producto.",
+          ],
+        },
+        {
+          title: "Metas de estrategia (propuestas, no resultados)",
+          items: [
+            "Meta: −30 % en tiempo de onboarding digital respecto del AS IS.",
+            "Meta: −95 % en errores normativos con una estrategia de experiencia regulatoria.",
+            "Meta: NPS > 80 para 2026.",
+            "OKR propuesto: revisión UX en el 100 % de los releases críticos.",
+          ],
+        },
+      ],
+      tools: ["Figma", "Figma Make", "Figma vía MCP", "Google Analytics", "Jira", "Confluence"],
     },
     en: {
       company: "SURA Investments",
       position: "UX Lead · Associate, Digital Strategy",
-      period: "Sep 2023 — Jun 2026 · 2 yrs 10 mos",
+      period: "Sep 2023 — Jun 2026 · 2 yrs 9 mos",
       location: "Chile · Hybrid",
       stage: "Wealth · Regional",
       context:
-        "Investment platforms and brokerage in a regulated, multi-country, multi-profile environment.",
+        "Investment platforms across 7 markets: Chile, Peru, Colombia, Mexico, the US, Uruguay and the Luxembourg fund offering.",
       role:
-        "UX/UI leadership in Wealth Management cells: design thinking with business, PMs, POs, and tech leads.",
-      impact: "−40% onboarding friction · 5+ countries · design-system handoff",
+        "UX/UI leadership in Wealth Management cells: discovery, sprints and design system with business, PMs, POs and tech leads.",
+      impact: "Client onboarding from 15+ to 7–11 min, in 4 steps · regional design system",
       achievements: [
-        "Accessible experiences aligned with compliance (WCAG / privacy by design)",
-        "Regional product evolution with design system and clear acceptance criteria",
-        "Sprint and discovery facilitation with business areas on multi-country initiatives",
+        "Advisor onboarding for the US RIA platform (release v1)",
+        "Investment order tool for advisors, including the APV flow",
+        "2 rounds of moderated testing with 13–15 participants",
       ],
-      tools: ["Figma", "Design Thinking", "Accessibility", "Jira", "Confluence"],
+      detailGroups: [
+        {
+          title: "Projects",
+          items: [
+            "US RIA platform: UX/UI for advisor onboarding, release v1 in Sep 2024.",
+            "Investment order tool for advisors (Oct 2024 – Mar 2025): portfolio, terms, payment methods, APV flow, receipt and history.",
+            "«Become a client» flow: client onboarding from 15+ to 7–11 min, in 4 steps.",
+            "Worked on Mis Beneficios (Mexico), the private retirement plans app: pain-point research, HR journey map and an account-activation MVP prototype.",
+          ],
+        },
+        {
+          title: "Design system and ecosystem",
+          items: [
+            "Took part in the brand and experience audit of 17 sites in 6 countries.",
+            "Regional design system for the public-site ecosystem: 150+ components, 1,600+ variants, 900+ icons and 1,400+ tokens.",
+          ],
+        },
+        {
+          title: "Research",
+          items: [
+            "2 rounds of moderated usability testing on the public site (Dec 2023 – Jan 2024), 13–15 participants in total.",
+            "Contextual research with advisors and product UX analytics.",
+          ],
+        },
+        {
+          title: "Strategy goals (proposed, not results)",
+          items: [
+            "Goal: −30% digital onboarding time versus the AS IS.",
+            "Goal: −95% regulatory errors through a regulatory-experience strategy.",
+            "Goal: NPS > 80 for 2026.",
+            "Proposed OKR: UX review on 100% of critical releases.",
+          ],
+        },
+      ],
+      tools: ["Figma", "Figma Make", "Figma via MCP", "Google Analytics", "Jira", "Confluence"],
     },
   },
   {
@@ -226,12 +299,21 @@ const experienceCatalog: LocalizedExperience[] = [
         "Producto mobility premium: reserva, app pasajeros y sistemas internos bajo presión de entrega.",
       role:
         "Liderazgo UX/UI en sprints con POs, stakeholders y gerencia de Tecnología y Producto.",
-      impact: "Design system web + app · discovery activo · handoff Figma navegable",
+      impact: "Reservas: −40% tiempo de reserva · +25% conversión · NPS 82",
       achievements: [
-        "Design system funcional con mejora continua para web y aplicación",
+        "Design system de 130+ componentes propios sobre Material UI",
+        "Flujo de reservas con −40% de tiempo y +25% de conversión",
         "Discovery: usabilidad, benchmarks, encuestas y análisis de métricas",
-        "Accesibilidad y prototipos alta fidelidad como handoff a desarrollo",
-        "Refinamiento de flujos de reserva y experiencia premium",
+      ],
+      detailGroups: [
+        {
+          title: "Detalle",
+          items: [
+            "Design system «APP Cliente»: 130+ componentes propios construidos sobre Material UI, para web y aplicación.",
+            "Flujo de reservas: −40% en tiempo de reserva, +25% de conversión y NPS 82.",
+            "Accesibilidad y prototipos de alta fidelidad como handoff a desarrollo.",
+          ],
+        },
       ],
       tools: ["Figma", "Google Analytics", "User Testing", "Design Systems", "Accesibilidad"],
     },
@@ -245,12 +327,21 @@ const experienceCatalog: LocalizedExperience[] = [
         "Premium mobility product: booking, passenger app, and internal systems under delivery pressure.",
       role:
         "UX/UI leadership in sprints with POs, stakeholders, and Technology & Product leadership.",
-      impact: "Web + app design system · active discovery · navigable Figma handoff",
+      impact: "Booking: −40% booking time · +25% conversion · NPS 82",
       achievements: [
-        "Functional design system with continuous improvement for web and app",
+        "Design system with 130+ own components built on Material UI",
+        "Booking flow with −40% time and +25% conversion",
         "Discovery: usability, benchmarks, surveys, and metric analysis",
-        "Accessibility and high-fidelity prototypes as dev handoff",
-        "Booking flow refinement and premium experience",
+      ],
+      detailGroups: [
+        {
+          title: "Detail",
+          items: [
+            "«APP Cliente» design system: 130+ own components built on Material UI, for web and app.",
+            "Booking flow: −40% booking time, +25% conversion and NPS 82.",
+            "Accessibility and high-fidelity prototypes as dev handoff.",
+          ],
+        },
       ],
       tools: ["Figma", "Google Analytics", "User Testing", "Design Systems", "Accessibility"],
     },
@@ -268,7 +359,7 @@ const experienceCatalog: LocalizedExperience[] = [
         "Shoppers sin transparencia de ganancias: alta fricción en onboarding y abandono del funnel.",
       role:
         "Lead UX de la vertical: calculadora, notificaciones y priorización con research.",
-      impact: "+35% activación · +58% engagement · −42% abandono onboarding",
+      impact: "+35% activación · −42% abandono del onboarding",
       achievements: [
         "Calculadora de ganancias y transparencia financiera",
         "Hub de notificaciones y optimización de onboarding",
@@ -286,7 +377,7 @@ const experienceCatalog: LocalizedExperience[] = [
         "Shoppers lacked earnings transparency: high onboarding friction and funnel drop-off.",
       role:
         "Vertical UX lead: calculator, notifications, and research-led prioritization.",
-      impact: "+35% activation · +58% engagement · −42% onboarding drop-off",
+      impact: "+35% activation · −42% onboarding drop-off",
       achievements: [
         "Earnings calculator and financial transparency",
         "Notification hub and onboarding optimization",

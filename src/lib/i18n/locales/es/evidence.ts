@@ -51,14 +51,14 @@ export const valueCarousel = {
           id: 'sura-case',
           badge: 'Caso en producción',
           title: 'RIA SURA US',
-          titleAccent: '−40% onboarding',
+          titleAccent: 'onboarding v1',
           description:
             'Onboarding multi-perfil para asesores USA: 8 prototipos navegables, 3 flujos de auth y progressive disclosure.',
           highlights: ['Fintech regulado', '8 prototipos', 'Mercado USA'],
           metrics: [
-            { value: '−40%', label: 'Tiempo onboarding' },
+            { value: 'v1', label: 'Release (sep 2024)' },
             { value: '8', label: 'Prototipos' },
-            { value: 'NPS 72', label: 'Plataforma' },
+            { value: '3', label: 'Flujos de auth' },
           ],
           cta: 'Ver caso completo',
           ctaSecondary: 'Ver fase UX Analytics',
@@ -92,9 +92,9 @@ export const impactStats = {
       tapNavigate: 'Toca de nuevo para abrir la fase',
       stats: [
         {
-          value: '−40%',
-          label: 'Abandono en onboarding',
-          description: 'SURA Ecosistema — 7-11 min vs 15+',
+          value: '7–11 min',
+          label: 'Onboarding de clientes en 4 pasos',
+          description: 'SURA Ecosistema — antes 15+ min',
           spoiler:
             'Analytics de abandono paso a paso en el funnel "Hazte cliente": de 15+ min a 7-11 con 6 casos de error documentados.',
           phase: 'UX Analytics',
@@ -102,9 +102,9 @@ export const impactStats = {
           company: 'SURA',
         },
         {
-          value: 'NPS 72',
-          label: 'Plataforma inversiones SURA',
-          description: '+25 pts sobre baseline',
+          value: '13–15',
+          label: 'Participantes en test moderado SURA',
+          description: '2 rondas de test moderado del sitio público',
           spoiler:
             '12 entrevistas + testing con retail e institucionales: transparencia y progressive disclosure como drivers de confianza.',
           phase: 'UX Research',

@@ -171,6 +171,8 @@ jobs:
         run: |
           command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
           npm run qa:no-edu21
+      - name: Trayectoria — dist sin afirmaciones retiradas (SURA −40 %, 5+ países, 17 participantes, NPS 72, etnógrafo certificado)
+        run: npm run qa:no-removed-claims
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)

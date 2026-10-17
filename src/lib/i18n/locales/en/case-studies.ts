@@ -136,7 +136,7 @@ export const featuredCaseStudies = {
         title: 'Regional UX Enterprise Implementation',
         company: 'SURA Investments',
         description:
-          'Adapted Design Thinking framework for regional technology initiatives: scalable UX/UI guidelines across 5+ countries.',
+          'Adapted Design Thinking framework for regional technology initiatives: scalable UX/UI guidelines across 7 markets.',
         tags: ['Fintech', 'Enterprise', 'Design Thinking', 'Regional'],
       },
       'sura-ria-us': {

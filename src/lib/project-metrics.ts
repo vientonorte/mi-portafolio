@@ -11,32 +11,32 @@ type LocalizedMetrics = Record<Language, ProjectMetric[]>;
 const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
   "sura-ux-enterprise": {
     es: [
-      { label: "Alcance regional", value: "5+ países" },
-      { label: "Tiempo discovery", value: "-40%" },
+      { label: "Alcance regional", value: "7 mercados" },
+      { label: "Sitios auditados", value: "17" },
     ],
     en: [
-      { label: "Regional reach", value: "5+ countries" },
-      { label: "Discovery time", value: "-40%" },
+      { label: "Regional reach", value: "7 markets" },
+      { label: "Sites audited", value: "17" },
     ],
   },
   "sura-inversiones-dashboard": {
     es: [
       { label: "Consulta de info", value: "-45%" },
-      { label: "NPS", value: "72" },
+      { label: "Test moderado", value: "2 rondas" },
     ],
     en: [
       { label: "Info lookup time", value: "-45%" },
-      { label: "NPS", value: "72" },
+      { label: "Moderated tests", value: "2 rounds" },
     ],
   },
   "sura-ecosistema-digital": {
     es: [
-      { label: "Onboarding", value: "-40%" },
-      { label: "Design System", value: "50+" },
+      { label: "Onboarding", value: "7–11 min" },
+      { label: "Design System", value: "150+" },
     ],
     en: [
-      { label: "Onboarding", value: "-40%" },
-      { label: "Design System", value: "50+" },
+      { label: "Onboarding", value: "7–11 min" },
+      { label: "Design System", value: "150+" },
     ],
   },
   

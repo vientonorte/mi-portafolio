@@ -33,6 +33,15 @@ export function Breadcrumbs({ links, className }: BreadcrumbsProps) {
                   {Icon && <Icon className="h-4 w-4" aria-hidden="true" />}
                   {link.label}
                 </span>
+              ) : link.href ? (
+                <a
+                  href={link.href}
+                  onClick={link.onClick}
+                  className="text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-1 -mx-1 flex items-center gap-1.5"
+                >
+                  {Icon && <Icon className="h-4 w-4" aria-hidden="true" />}
+                  {link.label}
+                </a>
               ) : (
                 <motion.button
                   onClick={link.onClick}

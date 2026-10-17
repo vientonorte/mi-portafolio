@@ -11,7 +11,7 @@ export const aboutTeaser = {
       badge: 'Sobre mí',
       title: 'UX Lead regional · Fintech & Mobility',
       lead:
-        'De Senior Product Designer en Transvip/Karri a UX Lead en SURA Investments (Wealth, 5+ países). Mismo estándar de método: research, Design Ops, design system y resultados medibles.',
+        'De Senior Product Designer en Transvip/Karri a UX Lead en SURA Investments (Wealth, 7 mercados). Mismo estándar de método: research, Design Ops, design system y resultados medibles.',
       detail:
         'Marcas en el relato: SURA Investments · Transvip · Karri · Valuesite · Havas/Claro · Walmart · Maraña · docencia en Desafío Latam. No solo logos — contexto, rol y evidencia por etapa.',
       brandsLabel: 'Marcas y contextos',
@@ -44,7 +44,7 @@ export const autosuggestPage = {
       metrics: [
         { value: '−45%', label: 'Tiempo de consulta de información' },
         { value: '+30%', label: 'Engagement usuarios retail' },
-        { value: 'NPS 72', label: 'Mejora de 25 puntos vs. baseline' },
+        { value: '13–15', label: 'Participantes en 2 rondas de test moderado' },
       ],
       sections: {
         challenge: {
@@ -82,7 +82,7 @@ export const about = {
       title: 'UX Manager · Viento Norte',
       subtitle: '7+ años craft · 3+ lead mobility→wealth',
       description:
-        'Hoy UX Manager en Viento Norte (n2n) y AI Trainer en micro1. Antes UX Lead en SURA Investments (Wealth, 5+ países, hasta jun. 2026). Research, Design Sprints, design system y −40% onboarding.',
+        'Hoy UX Manager en Viento Norte (n2n) y AI Trainer en micro1. Antes UX Lead en SURA Investments (Wealth, 7 mercados, hasta jun. 2026). Research, Design Sprints, design system y onboarding de 15+ a 7–11 min.',
       philosophy: {
         idea: {
           title: 'Idea',
