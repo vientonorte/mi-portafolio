@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* global console, process */
 // QA /sobre-mi/ — el rail fijo de secciones (ProcessNavigation .process-nav-rail) no tapa contenido.
-// 1024: el rail no se ve (solo desde xl). 1280 / 1440 / 1680: se recorre la página con scroll y
+// 1024 / 1280 / 1440: el rail no se ve (solo desde 1680px). 1680 / 1920: se recorre la página con scroll y
 // ningún texto, imagen, svg, botón, enlace o campo visible (fuera de capas position:fixed) cruza
 // la caja del rail. Uso: node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173 [dir-capturas]
 import { mkdirSync } from "node:fs";
@@ -14,15 +14,15 @@ const browser = await chromium.launch();
 const failures = [];
 const summary = [];
 
-for (const width of [1024, 1280, 1440, 1680]) {
+for (const width of [1024, 1280, 1440, 1680, 1920]) {
   const page = await (await browser.newContext({ viewport: { width, height: 900 } })).newPage();
   await page.goto(`${base}/sobre-mi/`, { waitUntil: "networkidle" });
   const railVisible = await page.evaluate(() => {
     const r = document.querySelector(".process-nav-rail");
     return !!r && getComputedStyle(r).display !== "none" && r.getBoundingClientRect().width > 0;
   });
-  if (width < 1280) {
-    if (railVisible) failures.push(`${width}px: el rail se ve (debe aparecer solo desde 1280px)`);
+  if (width < 1680) {
+    if (railVisible) failures.push(`${width}px: el rail se ve (debe aparecer solo desde 1680px)`);
     summary.push(`${width}px rail oculto: ${!railVisible}`);
     continue;
   }
@@ -88,4 +88,4 @@ if (failures.length) {
   for (const f of failures.slice(0, 40)) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log("✅ /sobre-mi/: el rail no tapa contenido (1280/1440/1680) y está oculto a 1024");
+console.log("✅ /sobre-mi/: rail oculto a 1024/1280/1440 y sin solape a 1680/1920");
