@@ -22,8 +22,26 @@ Toda cifra visible debe estar en esa SSOT. Si no está, no va. Gate: `npm run qa
 | Herramientas: Google Analytics, Figma Make, Figma vía MCP | l.133 |
 | Curso certificado de análisis de datos cualitativos (Academia Etnográfica, 2022) | l.176, l.223 |
 | Certificado de participación en mediación cultural (CNCA, 2017) | l.175, l.224 |
-| Antropología UACh 2011–2015 | l.6 |
+| Antropología, UACh, 2011–2015 | l.6, l.258 |
+| Diseñador UX/UI, Desafío Latam, 2020–2021 | l.9, l.259 |
+
+### Formación y certificados (detalle, `<details>`)
+
+| Línea en el sitio | SSOT (línea) |
+|---|---|
+| Etnografías en contextos complejos, Universidad Austral de Chile, 2017 | l.255 |
+| Primer Seminario «Antropología y Comunidades», UACh y CEC, 2017 | l.177 |
+| Fotografía Profesional y Fotoperiodismo, Instituto Profesional ARCOS, 2017–2018 | l.8 |
+| Diplomado en Gestión de Operaciones y Transformación Digital, PUC Escuela de Negocios, 2019 | l.9, l.260 |
+| Scrum Master, CHILETEC, 2019 | l.262 |
+| Diploma de participación en la 3.ª Escuela de Memoria y Derechos Humanos, 2021 | l.178 (l.262 dice «Escuela DDHH UC»; el diploma no nombra a la UC, por eso no se nombra emisor) |
+| Diplomado New Municipalism, Universidad Abierta de Recoleta, 2022 | l.7, l.179, l.261 |
+| Diseño accesible e inclusivo, Desafío Latam, 2025 | l.259 |
+| Innovación centrada en las personas, Laboratorio de Gobierno, 2026 | l.263 |
+
+Fuera a propósito: «Otros cursos, sin leer en detalle» (CIPER, Reuters, Coursera Data Science Orientation, UDEMY; l.181),
+porque la SSOT no los verifica ni les da año (salvo Coursera 2022-12).
 
 Retiradas en todo el sitio (2026-10-17, PO): SURA −40 % (onboarding, fricción, discovery), «5+ países»,
-«17 participantes», NPS 72, «etnógrafo certificado». Karri «+58 % engagement» salió de la línea de tiempo
-(no está en la SSOT).
+«17 participantes», NPS 72, «etnógrafo certificado» y Karri «+58 % engagement» (no está en la SSOT;
+reemplazado por +35 % activación / −42 % abandono del onboarding, l.125, o retirado).

@@ -33,6 +33,12 @@ describe("afirmaciones retiradas de la trayectoria (SSOT 2026-10-17)", () => {
     expect(ids('{label:`Onboarding`,value:`-40%`}')).not.toHaveLength(0);
     expect(ids("40% menos fricción")).not.toHaveLength(0);
     expect(ids("SURA 23–26 · 5+ países")).toContain("5-paises");
+    // Karri «+58 % engagement» (PO 17-10 15:11), cualquier variante es/en.
+    expect(ids("+58% engagement")).toContain("karri-58");
+    expect(ids('{label:`Engagement`,value:`+58%`}')).toContain("karri-58");
+    expect(ids("El engagement con notificaciones aumentó un 58% post-lanzamiento")).toContain("karri-58");
+    expect(ids("58% more engagement")).toContain("karri-58");
+    expect(ids("+35% activación · −42% abandono del onboarding")).toHaveLength(0);
     expect(ids("−40% fricción en onboarding · alcance 5+ países")).toEqual(expect.arrayContaining(["5-paises", "sura-40-onboarding"]));
   });
 

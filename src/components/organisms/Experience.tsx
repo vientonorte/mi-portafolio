@@ -26,22 +26,52 @@ const CONTAIN_COVER_STYLE = {
 } as const;
 
 /**
- * Redacción exacta de la SSOT TRAYECTORIA-INVESTIGACION-RO.md (certifica el curso, no un título;
- * mediación cultural es certificado de participación).
+ * Formación y certificados — solo lo que lista la SSOT TRAYECTORIA-INVESTIGACION-RO.md, con su
+ * redacción y año (mapa en docs/SSOT-TRAYECTORIA-CIFRAS.md). El curso de análisis cualitativo
+ * certifica el curso, no un título; mediación cultural es certificado de participación.
+ * Primer nivel: `main`. Resto en <details> accesible.
  */
 const FORMACION = {
-  es: [
-    "Antropología, Universidad Austral de Chile (UACh), 2011–2015",
-    "Curso certificado de análisis de datos cualitativos (Academia Etnográfica, 2022)",
-    "Certificado de participación en mediación cultural (CNCA, 2017)",
-    "Diseñador UX/UI, Desafío Latam",
-  ],
-  en: [
-    "Anthropology studies, Universidad Austral de Chile (UACh), 2011–2015",
-    "Certified course in qualitative data analysis (Academia Etnográfica, 2022)",
-    "Certificate of participation in cultural mediation (CNCA, 2017)",
-    "UX/UI Designer, Desafío Latam",
-  ],
+  es: {
+    main: [
+      "Antropología, Universidad Austral de Chile (UACh), 2011–2015",
+      "Curso certificado de análisis de datos cualitativos (Academia Etnográfica, 2022)",
+      "Certificado de participación en mediación cultural (CNCA, 2017)",
+      "Diseñador UX/UI, Desafío Latam, 2020–2021",
+    ],
+    more: [
+      "Etnografías en contextos complejos, Universidad Austral de Chile, 2017",
+      "Primer Seminario «Antropología y Comunidades», UACh y Centro de Estudios Comunitarios (CEC), 2017",
+      "Fotografía Profesional y Fotoperiodismo, Instituto Profesional ARCOS, 2017–2018",
+      "Diplomado en Gestión de Operaciones y Transformación Digital, PUC Escuela de Negocios, 2019",
+      "Scrum Master, CHILETEC, 2019",
+      "Diploma de participación en la 3.ª Escuela de Memoria y Derechos Humanos, 2021",
+      "Diplomado New Municipalism, Universidad Abierta de Recoleta, 2022",
+      "Diseño accesible e inclusivo, Desafío Latam, 2025",
+      "Innovación centrada en las personas, Laboratorio de Gobierno, 2026",
+    ],
+    moreLabel: "Ver toda la formación",
+  },
+  en: {
+    main: [
+      "Anthropology studies, Universidad Austral de Chile (UACh), 2011–2015",
+      "Certified course in qualitative data analysis (Academia Etnográfica, 2022)",
+      "Certificate of participation in cultural mediation (CNCA, 2017)",
+      "UX/UI Designer, Desafío Latam, 2020–2021",
+    ],
+    more: [
+      "Ethnographies in complex contexts, Universidad Austral de Chile, 2017",
+      "First Seminar «Antropología y Comunidades», UACh and Centro de Estudios Comunitarios (CEC), 2017",
+      "Professional Photography and Photojournalism, Instituto Profesional ARCOS, 2017–2018",
+      "Diploma in Operations Management and Digital Transformation, PUC Business School, 2019",
+      "Scrum Master, CHILETEC, 2019",
+      "Certificate of participation, 3rd School of Memory and Human Rights, 2021",
+      "New Municipalism diploma, Universidad Abierta de Recoleta, 2022",
+      "Accessible and inclusive design, Desafío Latam, 2025",
+      "Human-centred innovation, Laboratorio de Gobierno, 2026",
+    ],
+    moreLabel: "View all education",
+  },
 } as const;
 
 function expKey(exp: ExperienceEntry) {
@@ -92,7 +122,8 @@ export function Experience() {
         titleId="experience-heading"
       />
 
-      <ol className="space-y-0" role="list" aria-label={t.title}>
+      {/* lg–1679px: el rail fijo de secciones (ProcessNavigation, right-6) se superpone hasta ~160px; reservar ese ancho. */}
+      <ol className="space-y-0 lg:pr-44 min-[1680px]:pr-0" role="list" aria-label={t.title}>
         {experiences.map((exp, index) => {
           const key = expKey(exp);
           const isLast = index === experiences.length - 1;
@@ -385,7 +416,7 @@ export function Experience() {
 
       <section
         aria-labelledby="formacion-heading"
-        className="mt-8 rounded-xl border border-border/60 bg-card/60 p-4 sm:p-5"
+        className="mt-8 rounded-xl border border-border/60 bg-card/60 p-4 sm:p-5 lg:mr-44 min-[1680px]:mr-0"
       >
         <h3
           id="formacion-heading"
@@ -395,12 +426,35 @@ export function Experience() {
           {es ? "Formación y certificados" : "Education and certificates"}
         </h3>
         <ul className="mt-3 space-y-1.5" role="list">
-          {FORMACION[language].map((line) => (
+          {FORMACION[language].main.map((line) => (
             <li key={line} className="text-sm leading-snug text-muted-foreground">
               · {line}
             </li>
           ))}
         </ul>
+        <details className="experience-detail group mt-3 rounded-lg border border-border/60 bg-card/40">
+          <summary
+            className={cn(
+              "flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
+            )}
+          >
+            <span>
+              {FORMACION[language].moreLabel} ({FORMACION[language].more.length})
+            </span>
+            <ChevronDown
+              className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+              aria-hidden
+            />
+          </summary>
+          <ul className="space-y-1.5 px-3 pb-3 pt-1" role="list">
+            {FORMACION[language].more.map((line) => (
+              <li key={line} className="text-sm leading-snug text-muted-foreground">
+                · {line}
+              </li>
+            ))}
+          </ul>
+        </details>
       </section>
     </PageSection>
   );

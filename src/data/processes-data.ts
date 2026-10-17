@@ -668,9 +668,9 @@ export const processesData: Record<string, ProcessDetailData> = {
     ],
     evidence: {
       company: "Karri",
-      metric: "+58%",
-      metricLabel: "engagement notificaciones",
-      metricLabelEN: "notification engagement",
+      metric: "−42%",
+      metricLabel: "abandono del onboarding",
+      metricLabelEN: "onboarding drop-off",
     },
     benefits: [
       "Producto en constante evolución",

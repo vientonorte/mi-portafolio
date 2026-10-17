@@ -251,18 +251,12 @@ export const karriNotificacionesProject = {
         "Ajustes en priorización basados en comportamiento real",
         "Optimización de copy de notificaciones push"
       ],
-      impact: "El engagement con notificaciones aumentó un 58% post-lanzamiento del hub",
+      impact: "El hub centralizado dejó visibles los avisos críticos para shoppers",
     }
   ],
   designComponents: [ComponentSidebarCliente, ComponentMisPagos],
   designComponentNames: ["Centro de notificaciones", "Mis pagos — shopper"],
   results: [
-    {
-      label: "Engagement con notificaciones",
-      value: "+58%",
-      description: "Aumento en interacción con notificaciones tras implementar el hub centralizado",
-      icon: TrendingUp
-    },
     {
       label: "Reducción de abandono",
       value: "-42%",

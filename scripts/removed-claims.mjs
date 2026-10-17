@@ -9,6 +9,8 @@ export const DIRECT_RULES = [
   { id: "5-paises", re: /\b5\s?\+\s?(pa[ií]ses|countries)/gi },
   { id: "mas-de-5-paises", re: /m[aá]s de 5 pa[ií]ses|more than 5 countries/gi },
   { id: "17-participantes", re: /\b17\s+participa(ntes|nts)\b/gi },
+  // Karri «+58 % engagement» (no está en la SSOT; PO 17-10 15:11): cualquier +58 %.
+  { id: "karri-58", re: /\+\s?58\s?%|(?<![\d.,])58\s?%\s*(de\s+|more\s+|más\s+)?engagement|engagement[^.\n]{0,40}\b58\s?%|aument[óo]\s+(un\s+)?58\s?%/gi },
   { id: "nps-72", re: /NPS\s*(de\s*|of\s*|:\s*)?72\b/gi },
   { id: "nps-72-split", re: /["']NPS["'][^{}]{0,40}["']72["']/g },
   {

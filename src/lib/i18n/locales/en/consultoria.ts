@@ -371,7 +371,7 @@ export const consultoria = {
             projectName: 'Karri · Shoppers',
             approach:
               'Shopper activation and engagement with clear narrative and product metrics.',
-            highlights: ['+35% activation', '+58% engagement', 'Mobility'],
+            highlights: ['+35% activation', '−42% onboarding drop-off', 'Mobility'],
             embedTitle: 'Karri · Shoppers',
           },
           'ads-campaigns': {

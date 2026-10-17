@@ -122,12 +122,12 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
   },
   "karri-notificaciones": {
     es: [
-      { label: "Engagement", value: "+58%" },
-      { label: "Abandono auth", value: "-42%" },
+      { label: "Activación", value: "+35%" },
+      { label: "Abandono onboarding", value: "-42%" },
     ],
     en: [
-      { label: "Engagement", value: "+58%" },
-      { label: "Auth drop-off", value: "-42%" },
+      { label: "Activation", value: "+35%" },
+      { label: "Onboarding drop-off", value: "-42%" },
     ],
   },
   "karri-design-sprint": {

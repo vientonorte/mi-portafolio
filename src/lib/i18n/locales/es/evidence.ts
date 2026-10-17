@@ -122,8 +122,8 @@ export const impactStats = {
           company: 'Karri',
         },
         {
-          value: '+58%',
-          label: 'Engagement notificaciones',
+          value: '−42%',
+          label: 'Abandono del onboarding',
           description: 'Hub centralizado Karri',
           spoiler:
             'El 40% de shoppers no encontraba avisos críticos: hub unificado + onboarding simplificado en refinamiento continuo.',

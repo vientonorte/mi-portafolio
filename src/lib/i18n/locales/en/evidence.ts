@@ -122,8 +122,8 @@ export const impactStats = {
           company: 'Karri',
         },
         {
-          value: '+58%',
-          label: 'Notification engagement',
+          value: '−42%',
+          label: 'Onboarding drop-off',
           description: 'Karri centralized hub',
           spoiler:
             '40% of shoppers missed critical alerts: unified hub + simplified onboarding through continuous refinement.',
