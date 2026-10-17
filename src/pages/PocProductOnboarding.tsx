@@ -35,7 +35,45 @@ import {
   type PocModuleId,
 } from "../data/poc-product-modules";
 
-type Screen = "intro" | "principles" | PocModuleId | "build" | "start";
+type Screen = "intro" | "oferta" | "principles" | PocModuleId | "build" | "start";
+
+/** Cifras ya publicadas. Sin tarifa y sin otras casas. */
+const OFFER_FIGURES = [
+  {
+    value: "−40%",
+    label: { es: "Tiempo de onboarding", en: "Onboarding time" },
+    brand: "SURA",
+  },
+  {
+    value: "72",
+    label: { es: "NPS", en: "NPS" },
+    brand: "SURA",
+  },
+  {
+    value: "8",
+    label: { es: "Prototipos", en: "Prototypes" },
+    brand: "SURA",
+  },
+] as const;
+
+const OFFER_LINES = [
+  {
+    n: "01",
+    title: { es: "Migración de un proyecto", en: "One project migration" },
+    hint: {
+      es: "El sistema queda operable. Kickoff de 30 min.",
+      en: "The system becomes operable. 30 min kickoff.",
+    },
+  },
+  {
+    n: "02",
+    title: { es: "Auditoría de un flujo", en: "Audit of one flow" },
+    hint: {
+      es: "5–7 días. Accesibilidad del paso que ya usa el cliente.",
+      en: "5–7 days. Accessibility of the step the customer already uses.",
+    },
+  },
+] as const;
 
 const TRAJECTORY = ["SURA", "Transvip", "Karri", "Pymes"] as const;
 
@@ -79,6 +117,7 @@ export default function PocProductOnboarding({
   const screens: Screen[] = useMemo(
     () => [
       "intro",
+      "oferta",
       "principles",
       ...POC_MODULES.map((m) => m.id),
       "build",
@@ -112,6 +151,12 @@ export default function PocProductOnboarding({
           kicker: "Consultoría · Front office",
           title: "Software que se instala.\nNo se alquila la nube.",
           body: "Módulos-producto a la medida: job claro, roles reales, dato en tu perímetro.",
+        },
+        oferta: {
+          kicker: "Viento Norte",
+          title: "Enterprise.\nMigración y auditoría.",
+          body: "Un proyecto. Un flujo. Los números son de un onboarding ya medido.",
+          close: "El alcance se cierra en el kickoff.",
         },
         principles: {
           kicker: "Promesa",
@@ -150,6 +195,12 @@ export default function PocProductOnboarding({
           kicker: "Consulting · Front office",
           title: "Software you install.\nNot cloud you rent forever.",
           body: "Custom product modules: clear job, real roles, data in your perimeter.",
+        },
+        oferta: {
+          kicker: "Viento Norte",
+          title: "Enterprise.\nMigration and audit.",
+          body: "One project. One flow. The numbers are from an onboarding already measured.",
+          close: "Scope closes at the kickoff.",
         },
         principles: {
           kicker: "Promise",
@@ -336,7 +387,7 @@ export default function PocProductOnboarding({
   };
 
   const lang = es ? "es" : "en";
-  const inModules = active >= 2 && active < 2 + POC_MODULES.length;
+  const inModules = POC_MODULES.some((m) => m.id === screens[active]);
 
   return (
     <>
@@ -493,6 +544,43 @@ export default function PocProductOnboarding({
                   </p>
                 </div>
               </div>
+            </div>
+          </TourScreen>
+
+          <TourScreen id="oferta" enterActive={enterKey === "oferta" && !reduceMotion}>
+            <div className="mx-auto w-full max-w-3xl" data-testid="offer-enterprise">
+              <BrandKicker>{t.oferta.kicker}</BrandKicker>
+              <TourTitle>{t.oferta.title}</TourTitle>
+              <TourBody className="mt-6">{t.oferta.body}</TourBody>
+              <ul className="mt-16 grid gap-10 sm:grid-cols-3">
+                {OFFER_FIGURES.map((fig) => (
+                  <li key={fig.value}>
+                    <p className="font-display text-5xl font-semibold tracking-tight text-[#f5f5f7] md:text-6xl">
+                      {fig.value}
+                    </p>
+                    <p className="mt-3 text-[15px] text-white/70">{fig.label[lang]}</p>
+                    <p className="mt-1 text-[12px] uppercase tracking-[0.16em] text-white/35">
+                      {fig.brand}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <ul className="mt-16 grid gap-8">
+                {OFFER_LINES.map((line) => (
+                  <li key={line.n} className="border-t border-white/10 pt-6">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/35">
+                      {line.n}
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold tracking-tight text-white/95">
+                      {line.title[lang]}
+                    </p>
+                    <p className="mt-2 text-[15px] leading-relaxed text-white/45">
+                      {line.hint[lang]}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-12 text-[13px] text-white/35">{t.oferta.close}</p>
             </div>
           </TourScreen>
 
