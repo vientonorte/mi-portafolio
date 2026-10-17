@@ -171,6 +171,8 @@ jobs:
         run: |
           command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
           npm run qa:no-edu21
+      - name: Trayectoria — dist sin afirmaciones retiradas (SURA −40 %, 5+ países, 17 participantes, NPS 72, etnógrafo certificado)
+        run: npm run qa:no-removed-claims
       - name: Bundle size check
         run: |
           BUNDLE=$(du -k dist/assets/*.js | sort -n | tail -1 | cut -f1)
@@ -226,6 +228,7 @@ jobs:
           node scripts/qa-prototypes.mjs http://127.0.0.1:4173
           node scripts/qa-hash-ui.mjs http://127.0.0.1:4173
           node scripts/qa-sobre-mi-mobile.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile
+          node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile/rail
 
       - name: Capturas /sobre-mi/ móvil
         if: always()

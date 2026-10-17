@@ -30,7 +30,7 @@ export const ABOUT_VISUAL_TILES: AboutVisualTile[] = [
       es: "Onboarding RIA multi-país",
       en: "Multi-country RIA onboarding",
     },
-    label: { es: "Onboarding −40%", en: "Onboarding −40%" },
+    label: { es: "Onboarding 7–11 min", en: "Onboarding 7–11 min" },
     span: "sm:col-span-1",
     kind: "mockup",
   },

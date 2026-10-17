@@ -51,14 +51,14 @@ export const valueCarousel = {
           id: 'sura-case',
           badge: 'Production case',
           title: 'RIA SURA US',
-          titleAccent: '−40% onboarding',
+          titleAccent: 'onboarding v1',
           description:
             'Multi-profile onboarding for US advisors: 8 navigable prototypes, 3 auth flows, and progressive disclosure.',
           highlights: ['Regulated fintech', '8 prototypes', 'US market'],
           metrics: [
-            { value: '−40%', label: 'Onboarding time' },
+            { value: 'v1', label: 'Release (Sep 2024)' },
             { value: '8', label: 'Prototypes' },
-            { value: 'NPS 72', label: 'Platform' },
+            { value: '3', label: 'Auth flows' },
           ],
           cta: 'View full case',
           ctaSecondary: 'View UX Analytics phase',
@@ -92,9 +92,9 @@ export const impactStats = {
       tapNavigate: 'Tap again to open phase',
       stats: [
         {
-          value: '−40%',
-          label: 'Onboarding drop-off',
-          description: 'SURA Ecosystem — 7-11 min vs 15+',
+          value: '7–11 min',
+          label: 'Client onboarding in 4 steps',
+          description: 'SURA Ecosystem — was 15+ min',
           spoiler:
             'Step-by-step drop-off analytics in the "Become a client" funnel: from 15+ min to 7-11 with 6 documented error cases.',
           phase: 'UX Analytics',
@@ -102,9 +102,9 @@ export const impactStats = {
           company: 'SURA',
         },
         {
-          value: 'NPS 72',
-          label: 'SURA investments platform',
-          description: '+25 pts above baseline',
+          value: '13–15',
+          label: 'SURA moderated-test participants',
+          description: '2 rounds of moderated testing on the public site',
           spoiler:
             '12 interviews + testing with retail and institutional users: transparency and progressive disclosure as trust drivers.',
           phase: 'UX Research',
@@ -122,8 +122,8 @@ export const impactStats = {
           company: 'Karri',
         },
         {
-          value: '+58%',
-          label: 'Notification engagement',
+          value: '−42%',
+          label: 'Onboarding drop-off',
           description: 'Karri centralized hub',
           spoiler:
             '40% of shoppers missed critical alerts: unified hub + simplified onboarding through continuous refinement.',

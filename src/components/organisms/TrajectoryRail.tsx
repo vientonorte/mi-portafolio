@@ -15,7 +15,7 @@ const STAGES = {
     {
       id: "regional",
       label: "Regional",
-      sub: "SURA 23–26 · 5+ países",
+      sub: "SURA 23–26 · 7 mercados",
     },
     {
       id: "international",
@@ -37,7 +37,7 @@ const STAGES = {
     {
       id: "regional",
       label: "Regional",
-      sub: "SURA 23–26 · 5+ countries",
+      sub: "SURA 23–26 · 7 markets",
     },
     {
       id: "international",
