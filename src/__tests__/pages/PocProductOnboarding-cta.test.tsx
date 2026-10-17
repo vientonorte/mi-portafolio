@@ -48,6 +48,19 @@ describe("PocProductOnboarding CTA hierarchy", () => {
     expect(navigate).not.toHaveBeenCalledWith("/");
   });
 
+  it("enterprise offer shows measured numbers and no competitor names", () => {
+    renderTour();
+    const offer = screen.getByTestId("offer-enterprise");
+    expect(offer).toHaveTextContent("−40%");
+    expect(offer).toHaveTextContent("72");
+    expect(offer).toHaveTextContent("8");
+    expect(offer).toHaveTextContent("SURA");
+    expect(offer).toHaveTextContent("Migración de un proyecto");
+    expect(offer).toHaveTextContent("Auditoría de un flujo");
+    expect(offer).toHaveTextContent("5–7 días");
+    expect(offer.textContent).not.toMatch(/Ilógica|Modyo|Multiplica|UF/);
+  });
+
   it("start fold: one primary Agendar, Empezar is ghost to funnel", () => {
     renderTour();
     expect(screen.getByTestId("offer-cta-schedule")).toBeInTheDocument();
