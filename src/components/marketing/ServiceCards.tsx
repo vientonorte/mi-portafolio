@@ -16,10 +16,12 @@ export interface ServiceCardData {
   id: string;
   eyebrow: string;
   title: string;
-  /** Línea corta "para quién" (kicker sobre el título), p. ej. "¿No tienes sitio?". Opcional. */
+  /** Mismo trabajo que «Para quién», visible con la tarjeta cerrada. */
   audience?: string;
   forWhom: string;
   includes: string[];
+  /** Qué entra en el precio y qué se cotiza aparte. Visible con la tarjeta cerrada. */
+  closedScope?: string;
   /** Sin precio = pendiente (p. ej. consultoría UX, decisión Rö 1-oct): no se muestra el bloque «Precio». */
   price?: string;
   priceNote?: string;
@@ -158,6 +160,11 @@ export function ServiceCards({ cards, ctaClassName, onChoose, testId = "servicio
                 ) : card.priceNote ? (
                   <p className="text-sm text-muted-foreground" data-price-note>
                     {card.priceNote}
+                  </p>
+                ) : null}
+                {card.closedScope ? (
+                  <p className="text-sm text-muted-foreground" data-closed-scope>
+                    {card.closedScope}
                   </p>
                 ) : null}
                 <Button asChild size="lg" className={cn(ctaClassName, "w-full")}>

@@ -51,9 +51,9 @@ describe("/servicios/ v2 — prerender base '/' (producción)", () => {
     expect(cards.map((c) => c.getAttribute("data-card"))).toEqual(["web-pymes", "revision-gratis", "consultoria-ux"]);
     expect(doc.querySelector("[data-placeholder]")).toBeNull();
     expect(cards.map((c) => c.querySelector("[data-audience]")?.textContent)).toEqual([
-      "¿No tienes sitio?",
-      "¿Tu sitio tiene problemas?",
-      "¿Buscas talento joven o un equipo UX?",
+      "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
+      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
+      "Sin precio publicado. Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     ]);
     expect(cards[0].querySelector("img")?.getAttribute("src")).toBe("/images/branding/hero-ejemplo.png");
     expect(cards[0].textContent).toContain("ejemplo · tu web");

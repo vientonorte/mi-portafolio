@@ -103,9 +103,9 @@ describe("Home P3a — base '/' (producción)", () => {
       (c) => c.querySelector("[data-audience]")?.textContent
     );
     expect(audience).toEqual([
-      "¿No tienes sitio?",
-      "¿Tu sitio tiene problemas?",
-      "¿Buscas talento joven o un equipo UX?",
+      "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
+      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
+      "Sin precio publicado. Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     ]);
     expect(container.querySelector("#home-como-trabajamos")).toBeNull();
     expect(container.querySelector("#experiencia")).toBeNull();
