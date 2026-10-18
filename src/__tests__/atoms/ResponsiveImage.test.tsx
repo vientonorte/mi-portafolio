@@ -11,7 +11,12 @@ describe("ResponsiveImage", () => {
         aspectRatio="16 / 9"
       />
     );
-    expect(screen.getByRole("img", { name: "Proyecto SURA RIA" })).toBeInTheDocument();
+    const img = screen.getByRole("img", { name: "Proyecto SURA RIA" });
+    expect(img).toBeInTheDocument();
+    expect(img.className).not.toContain("opacity-0");
+    expect(img).toHaveAttribute("width", "16");
+    expect(img).toHaveAttribute("height", "9");
+    expect(img).toHaveStyle({ width: "100%", height: "100%" });
   });
 
   it("shows visible 404 fallback when image fails to load", () => {

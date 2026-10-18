@@ -42,12 +42,24 @@ export function ResponsiveImage({
   const [isLoading, setIsLoading] = useState(true);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // HTML prerenderizado (/sobre-mi/): si la imagen cargó antes de hidratar,
-  // onLoad no vuelve a disparar y quedaba en opacity-0 (imágenes invisibles).
+  // El HTML de /sobre-mi/ se prerenderiza. opacity-0 en ese HTML deja la foto
+  // invisible si el lazy-load o el onLoad no llegan a hidratar. La imagen se pinta
+  // sola; el skeleton solo tapa el hueco hasta que hay píxeles.
   useEffect(() => {
     const el = imgRef.current;
-    if (el?.complete && el.naturalWidth > 0) setIsLoading(false);
+    if (!el) return;
+    if (el.complete && el.naturalWidth > 0) {
+      setIsLoading(false);
+      return;
+    }
+    const markLoaded = () => setIsLoading(false);
+    el.addEventListener("load", markLoaded);
+    return () => el.removeEventListener("load", markLoaded);
   }, [src]);
+
+  const ratio = aspectRatio?.split("/").map((part) => Number(part.trim()));
+  const widthAttr = ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[0] : 1;
+  const heightAttr = ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[1] : 1;
 
   const wrapperStyle = aspectRatio ? { aspectRatio } : undefined;
 
@@ -100,11 +112,13 @@ export function ResponsiveImage({
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      {isLoading && <Skeleton className="absolute inset-0 h-full w-full" />}
+      {isLoading && <Skeleton className="pointer-events-none absolute inset-0 z-0 h-full w-full" />}
       <img
         ref={imgRef}
         src={src}
         alt={alt}
+        width={widthAttr}
+        height={heightAttr}
         sizes={sizes}
         decoding="async"
         loading={priority ? "eager" : "lazy"}
@@ -113,10 +127,11 @@ export function ResponsiveImage({
           setIsLoading(false);
         }}
         onLoad={() => setIsLoading(false)}
+        // Inline: gana a cualquier height:auto suelto y le da caja al lazy-load.
+        style={{ width: "100%", height: "100%" }}
         className={cn(
-          "h-full w-full transition-opacity duration-300",
+          "relative z-[1] h-full w-full",
           fitClasses[fit],
-          isLoading ? "opacity-0" : "opacity-100",
           imgClassName
         )}
       />
