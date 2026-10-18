@@ -26,7 +26,7 @@ describe('POST /api/booking · webhook Apps Script (mock)', () => {
   afterEach(() => vi.restoreAllMocks());
 
   it('con la clave correcta registra booking + lead en KV, avisa al inbox y confirma al visitante', async () => {
-    const { calls } = mockOutbound({ formsubmit: 'ok' });
+    const { calls } = mockOutbound();
     const res = await call('/api/booking', {
       method: 'POST',
       body: BRIDGE,
@@ -43,12 +43,12 @@ describe('POST /api/booking · webhook Apps Script (mock)', () => {
     const leads = await readCollection('vn:leads');
     expect(leads[0]).toMatchObject({ email: 'ana@empresa.cl', source: 'calendar', eventId: 'evt123abc' });
 
-    const fs = calls.filter((c) => c.url.startsWith('https://formsubmit.co/ajax/'));
-    expect(fs).toHaveLength(1);
-    expect(fs[0].body._subject).toContain('VN · agenda · Ana Legal');
+    expect(calls.filter((c) => c.url.includes('formsubmit.co'))).toHaveLength(0);
 
-    expect(EMAIL.send).toHaveBeenCalledTimes(1);
-    expect(EMAIL.send.mock.calls[0][0].to).toBe('ana@empresa.cl');
+    // Aviso al inbox por Cloudflare Email y confirmación al visitante.
+    expect(EMAIL.send).toHaveBeenCalledTimes(2);
+    expect(EMAIL.send.mock.calls[0][0].subject).toContain('VN · agenda · Ana Legal');
+    expect(EMAIL.send.mock.calls[1][0].to).toBe('ana@empresa.cl');
   });
 
   it('el mismo eventId dos veces deduplica (deduped:true, un solo booking)', async () => {

@@ -11,19 +11,16 @@ export function makeEmailMock() {
 }
 
 /**
- * Mock del fetch saliente (FormSubmit, GA4 Measurement Protocol). Cualquier URL no
- * prevista hace fallar el test: no hay red en estos tests.
+ * Mock del fetch saliente (solo GA4 Measurement Protocol). Cualquier URL no prevista
+ * hace fallar el test (no hay red). FormSubmit salió del worker el 13-oct: un fetch a
+ * formsubmit.co rompe el test a propósito.
  */
-export function mockOutbound({ formsubmit = 'ok' } = {}) {
+export function mockOutbound() {
   const calls = [];
   const spy = vi.spyOn(globalThis, 'fetch').mockImplementation(async (input, init = {}) => {
     const url = typeof input === 'string' ? input : input.url;
     const body = init.body ? JSON.parse(init.body) : null;
     calls.push({ url, body });
-    if (url.startsWith('https://formsubmit.co/ajax/')) {
-      if (formsubmit === 'ok') return Response.json({ success: 'true' });
-      return Response.json({ success: 'false', message: 'rejected' }, { status: 200 });
-    }
     if (url.startsWith('https://www.google-analytics.com/mp/collect')) {
       return new Response(null, { status: 204 });
     }
