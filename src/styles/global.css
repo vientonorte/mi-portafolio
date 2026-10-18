@@ -104,10 +104,14 @@ body:not([data-menu-open="true"]) {
 
 /* Focus ring: definido en globals.css (*:focus-visible → outline-primary) */
 
-img {
+/* En @layer base: si queda suelto, height:auto gana a .h-full (Tailwind va en
+   @layer utilities) y las <img loading=lazy> de /sobre-mi/ colapsan a alto 0. */
+@layer base {
+  img {
     max-width: 100%;
     height: auto;
     display: block;
+  }
 }
 
 /* Removed: [aria-hidden="true"] { display: none } hides decorative SVG icons
