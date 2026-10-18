@@ -7,6 +7,8 @@
  *    - src/servicios/entry-server.tsx → /servicios/ (índice, #277)
  *    - src/rubros/entry-server.tsx    → /servicios/<slug>/ por cada entrada de src/data/rubros.json (P4)
  *    - src/noticias/entry-server.tsx  → /noticias/ (S42 v3, ediciones de src/data/news-editions.json)
+ *    - src/noticia/entry-server.tsx   → /noticias/<slug>/ por edición de news-editions.json
+ *      (plantilla dist/noticia/index.html, <!--noticia-head-->; luego se borra dist/noticia/)
  * 2. /servicios/: inyecta render() en dist/servicios/index.html (<!--ssr-outlet-->).
  * 3. Rubros: toma la plantilla dist/rubros/index.html (entrada Vite "rubros"), inyecta el
  *    <head> del rubro (<!--rubro-head-->), el HTML (<!--ssr-outlet-->) y data-slug, y escribe
@@ -23,6 +25,7 @@ import { pathToFileURL } from 'node:url';
 export const OUTLET = '<!--ssr-outlet-->';
 export const HEAD_OUTLET = '<!--rubro-head-->';
 export const SLUG_ATTR = 'data-slug=""';
+export const NOTICIA_HEAD_OUTLET = '<!--noticia-head-->';
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Slugs de src/data/rubros.json (validados). */
@@ -88,6 +91,27 @@ export function assertRubroLinksResolve(outDir, slugs) {
   }
 }
 
+/** Slugs de src/data/news-editions.json (validados). */
+export function readNoticiaSlugs(root) {
+  const data = JSON.parse(fs.readFileSync(path.join(root, 'src/data/news-editions.json'), 'utf8'));
+  const slugs = (data.editions || []).map((e) => e.slug);
+  for (const slug of slugs) {
+    if (!SLUG_RE.test(slug)) throw new Error(`[prerender-servicios] slug inválido en news-editions.json: ${slug}`);
+  }
+  return slugs;
+}
+
+/** HTML final de una edición a partir de la plantilla dist/noticia/index.html. */
+export function injectNoticia(template, { slug, head, app }) {
+  for (const marker of [NOTICIA_HEAD_OUTLET, OUTLET, SLUG_ATTR]) {
+    if (!template.includes(marker)) throw new Error(`[prerender-servicios] plantilla de noticia sin ${marker}`);
+  }
+  return template
+    .replace(NOTICIA_HEAD_OUTLET, head)
+    .replace(SLUG_ATTR, `data-slug="${slug}"`)
+    .replace(OUTLET, app);
+}
+
 /** HTML final de un rubro a partir de la plantilla construida por Vite. */
 export function injectRubro(template, { slug, head, app }) {
   for (const marker of [HEAD_OUTLET, OUTLET, SLUG_ATTR]) {
@@ -112,6 +136,11 @@ export async function prerenderServicios({ root, outDir, base }) {
   }
   const slugs = readRubroSlugs(root);
   assertRubroPathsFree(root, slugs);
+  const noticiaTemplatePath = path.join(outDir, 'noticia', 'index.html');
+  if (!fs.existsSync(noticiaTemplatePath)) {
+    throw new Error(`[prerender-servicios] falta ${noticiaTemplatePath}`);
+  }
+  const noticiaSlugs = readNoticiaSlugs(root);
 
   const prev = process.env.VN_SSR_CHILD;
   process.env.VN_SSR_CHILD = '1';
@@ -132,6 +161,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             servicios: path.join(root, 'src/servicios/entry-server.tsx'),
             rubros: path.join(root, 'src/rubros/entry-server.tsx'),
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
+            noticia: path.join(root, 'src/noticia/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -167,6 +197,22 @@ export async function prerenderServicios({ root, outDir, base }) {
     const noticiasApp = noticias.render();
     fs.writeFileSync(noticiasTarget, noticiasHtml.replace(OUTLET, noticiasApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, noticiasTarget)} (${noticiasApp.length} bytes, base ${base})`);
+
+    // /noticias/<slug>/ (una página por edición existente)
+    const noticia = await load('noticia');
+    const noticiaTemplate = fs.readFileSync(noticiaTemplatePath, 'utf8');
+    for (const slug of noticiaSlugs) {
+      const dest = path.join(outDir, 'noticias', slug, 'index.html');
+      if (fs.existsSync(dest)) {
+        throw new Error(`[prerender-servicios] ${path.relative(root, dest)} ya existe (¿copiado desde public/?)`);
+      }
+      const app = noticia.render(slug);
+      const out = injectNoticia(noticiaTemplate, { slug, head: noticia.renderHead(slug), app });
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.writeFileSync(dest, out, 'utf8');
+      console.log(`[prerender-servicios] ${path.relative(root, dest)} (${app.length} bytes, base ${base})`);
+    }
+    fs.rmSync(path.join(outDir, 'noticia'), { recursive: true, force: true });
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');
