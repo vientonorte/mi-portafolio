@@ -115,8 +115,8 @@ export const hero = {
       },
       resultsLabel: 'Results',
       resultCards: [
-        { metric: '−40%', description: 'SURA onboarding', company: 'SURA Investments' },
-        { metric: 'NPS 72', description: 'investments platform', company: 'SURA' },
+        { metric: '7–11 min', description: 'SURA onboarding (was 15+)', company: 'SURA Investments' },
+        { metric: '7 markets', description: 'regional reach', company: 'SURA' },
         { metric: '+35%', description: 'shopper activation', company: 'Karri' },
       ],
     };

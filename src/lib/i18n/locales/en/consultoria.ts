@@ -109,8 +109,8 @@ export const consultoria = {
         ],
         metrics: [
           { value: '3', label: 'Formats' },
-          { value: '−40%', label: 'SURA onboarding' },
-          { value: 'NPS 72', label: 'SURA' },
+          { value: '7–11 min', label: 'SURA onboarding' },
+          { value: '7', label: 'SURA markets' },
           { value: '<24 h', label: 'Reply' },
         ],
         nav: {
@@ -357,7 +357,7 @@ export const consultoria = {
             projectName: 'SURA · Onboarding',
             approach:
               'Production case: investments onboarding with less friction and Wealth metrics.',
-            highlights: ['Fintech', 'Onboarding', '−40%', 'Enterprise'],
+            highlights: ['Fintech', 'Onboarding', '4 steps', 'Enterprise'],
             embedTitle: 'SURA · Onboarding',
           },
           'transvip-app': {
@@ -371,7 +371,7 @@ export const consultoria = {
             projectName: 'Karri · Shoppers',
             approach:
               'Shopper activation and engagement with clear narrative and product metrics.',
-            highlights: ['+35% activation', '+58% engagement', 'Mobility'],
+            highlights: ['+35% activation', '−42% onboarding drop-off', 'Mobility'],
             embedTitle: 'Karri · Shoppers',
           },
           'ads-campaigns': {

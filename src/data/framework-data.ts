@@ -534,7 +534,7 @@ export const frameworkCaseStudies = {
       {
         company: "SURA Investments",
         project: "Ecosistema Digital & Onboarding",
-        impact: "-40% tiempo de onboarding (de 15+ min a 7-11 min)",
+        impact: "Onboarding de clientes de 15+ a 7–11 min, en 4 pasos",
         phases: ["Research", "UI Design", "Testing", "Iteration"],
       },
       {
@@ -564,7 +564,7 @@ export const frameworkCaseStudies = {
       {
         company: "SURA Investments",
         project: "Digital Ecosystem & Onboarding",
-        impact: "-40% onboarding time (from 15+ min to 7-11 min)",
+        impact: "Client onboarding from 15+ to 7–11 min, in 4 steps",
         phases: ["Research", "UI Design", "Testing", "Iteration"],
       },
       {

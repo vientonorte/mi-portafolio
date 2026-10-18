@@ -21,7 +21,7 @@ const principles = {
         "El hero comunica nicho (Fintech & Mobility), métricas y CTA a negocios sin copy genérico.",
       examples: [
         "Headline + badges de especialización",
-        "Cards de resultado con KPI (−40%, NPS 72)",
+        "Cards de resultado con KPI (+35%, NPS 82)",
         "CTA primario → /proyectos",
       ],
     },
@@ -98,7 +98,7 @@ const principles = {
         "Hero states niche (Fintech & Mobility), metrics, and business CTA without generic copy.",
       examples: [
         "Headline + specialization badges",
-        "Result cards with KPIs (−40%, NPS 72)",
+        "Result cards with KPIs (+35%, NPS 82)",
         "Primary CTA → /proyectos",
       ],
     },

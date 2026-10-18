@@ -167,17 +167,17 @@ export const suraHub: CompanyHub = {
   },
   highlights: {
     es: [
-      "Framework UX Enterprise implementado en 5+ países",
+      "Framework UX Enterprise en 7 mercados",
       "Dashboard de inversiones con +45% mejora en consultas",
       "Ecosistema digital: +20 sitios unificados con CMS",
-      "Onboarding: -40% tiempo (7-11 min vs 15+ min) + 6 casos de error",
+      "Onboarding de clientes: de 15+ a 7–11 min, en 4 pasos",
       "POC IA: dashboard de análisis y automatización de procesos",
     ],
     en: [
-      "UX Enterprise framework implemented in 5+ countries",
+      "UX Enterprise framework across 7 markets",
       "Investment dashboard with +45% query improvement",
       "Digital ecosystem: 20+ unified sites with CMS",
-      "Onboarding: -40% time (7-11 min vs 15+ min) + 6 error cases",
+      "Client onboarding: from 15+ to 7–11 min, in 4 steps",
       "AI POC: analysis dashboard and process automation",
     ],
   },
@@ -255,8 +255,7 @@ export const suraHub: CompanyHub = {
         challenge: "Implementar experiencia usuaria coherente en múltiples iniciativas tecnológicas a nivel regional, considerando diferencias culturales y regulatorias de cada país.",
         solution: "Desarrollo de framework de Design Thinking adaptado a contextos enterprise, con lineamientos UX/UI escalables que permiten consistencia manteniendo flexibilidad local.",
         metrics: [
-          "Framework implementado en 5+ países de la región",
-          "Reducción de 40% en tiempo de discovery de nuevas iniciativas",
+          "Framework aplicado en 7 mercados (Chile, Perú, Colombia, México, EE.UU., Uruguay y la oferta de fondos de Luxemburgo)",
           "Alineación de equipos multidisciplinarios en procesos UX",
         ],
         learnings: [
@@ -310,7 +309,6 @@ export const suraHub: CompanyHub = {
         metrics: [
           "Reducción de 45% en tiempo de consulta de información",
           "Aumento de 30% en engagement de usuarios retail",
-          "NPS de 72 puntos (mejora de 25 puntos)",
         ],
         learnings: [
           "Los usuarios financieros valoran la profundidad sobre la simplicidad excesiva",
@@ -369,8 +367,8 @@ export const suraHub: CompanyHub = {
           "Unificación de +20 sitios bajo arquitectura coherente",
           "CMS implementado: autonomía de negocio para gestión de contenidos",
           "Flujo onboarding: 4 pasos claros (Ingreso, Validación email, Verificación identidad, Confirmación)",
-          "Tiempo reducido: 7-11 min vs 15+ min previo (-40% tiempo)",
-          "Design System: 50+ componentes reutilizables con Atomic Design",
+          "Tiempo: de 15+ a 7–11 min, en 4 pasos",
+          "Design system regional: 150+ componentes, 1.600+ variantes, 900+ íconos y 1.400+ tokens",
           "6 casos de error documentados y diseñados con UX claro",
           "Fase 1 Chile completada (Sep 24 - Oct 25), Fase 2 regional en curso",
         ],
@@ -736,14 +734,14 @@ export const suraHub: CompanyHub = {
       },
     },
     regionalReach: {
-      value: "5+ países",
+      value: "7 mercados",
       context: {
         es: "Alcance regional",
         en: "Regional reach",
       },
       detail: {
-        es: "Framework UX Enterprise implementado en 5+ países de la región.",
-        en: "UX Enterprise framework implemented in 5+ countries in the region.",
+        es: "Framework UX Enterprise en 7 mercados (Chile, Perú, Colombia, México, EE.UU., Uruguay y la oferta de fondos de Luxemburgo).",
+        en: "UX Enterprise framework across 7 markets (Chile, Peru, Colombia, Mexico, the US, Uruguay and the Luxembourg fund offering).",
       },
     },
   },
