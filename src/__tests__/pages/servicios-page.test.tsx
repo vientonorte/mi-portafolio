@@ -64,13 +64,13 @@ describe("/servicios/ prerender (react-dom/server)", () => {
     }
   });
 
-  it("each card has its 'para quién' audience line (exact PO text), before the title", () => {
+  it("each card shows the same job as Para quién before the title", () => {
     const cards = [...doc.querySelectorAll("[data-card]")];
     const lines = cards.map((c) => c.querySelector("[data-audience]")?.textContent);
     expect(lines).toEqual([
-      "¿No tienes sitio?",
-      "¿Tu sitio tiene problemas?",
-      "¿Buscas talento joven o un equipo UX?",
+      "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
+      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
+      "Sin precio publicado. Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     ]);
     for (const c of cards) {
       const aud = c.querySelector("[data-audience]")!;
@@ -283,6 +283,23 @@ describe("/servicios/ contact form (client)", () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1));
     const body = JSON.parse(String((fetchSpy.mock.calls[0][1] as RequestInit).body));
     expect(body).toMatchObject({ source: "servicios", intent: "Otro servicio digital", consent: true });
+  });
+
+  it("el ancla de la tarjeta marca el formulario al cargar; #contacto no lo borra", async () => {
+    window.location.hash = "#revision-gratis";
+    rtlRender(<ServiciosPage />);
+    await waitFor(() => expect(checkedIntent()).toBe("Revisión gratis de un flujo"));
+    window.location.hash = "#contacto";
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    expect(checkedIntent()).toBe("Revisión gratis de un flujo");
+    window.location.hash = "";
+  });
+
+  it("Escríbenos baja a #contacto y no marca una opción", () => {
+    window.location.hash = "";
+    rtlRender(<ServiciosPage />);
+    fireEvent.click(screen.getByRole("link", { name: /^Escríbenos$/ }));
+    expect(checkedIntent()).toBe("");
   });
 
   it.each([

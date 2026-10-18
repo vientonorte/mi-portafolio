@@ -1,4 +1,5 @@
-import { useCallback, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useState, type MouseEvent } from "react";
+import { useLocationHash } from "../lib/use-location-hash";
 import { Navigation } from "../components/organisms/Navigation";
 import { homeHref, serviciosNavLinks } from "./servicios-nav";
 import Footer from "../components/Footer";
@@ -30,6 +31,14 @@ function prefersReducedMotion(): boolean {
 export function ServiciosPage() {
   const [intent, setIntent] = useState<ServiciosIntentValue>("");
   const [announcement, setAnnouncement] = useState("");
+  const hash = useLocationHash();
+
+  useEffect(() => {
+    const card = SERVICIOS_CARDS.find((item) => item.id === hash);
+    if (!card) return;
+    setIntent(card.intent);
+    setAnnouncement(`Opción seleccionada en el formulario: ${card.intent}.`);
+  }, [hash]);
 
   const chooseIntent = useCallback((e: MouseEvent<HTMLAnchorElement>, next: ServiciosIntent) => {
     e.preventDefault();

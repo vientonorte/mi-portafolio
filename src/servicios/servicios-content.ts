@@ -99,7 +99,10 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     id: "web-pymes",
     eyebrow: "Web en 72 horas",
     title: "Web para Pymes en 72 horas",
-    audience: "¿No tienes sitio?",
+    audience:
+      "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
+    closedScope:
+      "Entran una página con tu marca, formulario y 1 ronda de cambios. Dominio, hosting y tienda se cotizan aparte.",
     forWhom:
       "Para emprendedores y pymes que hoy venden solo por redes sociales y necesitan una página con su marca.",
     includes: [
@@ -129,7 +132,9 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     id: "revision-gratis",
     eyebrow: "Gratis",
     title: "Revisión gratis de un flujo",
-    audience: "¿Tu sitio tiene problemas?",
+    audience:
+      "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
+    closedScope: "Entra un flujo. Sin compromiso.",
     forWhom:
       "Para pymes que ya tienen web, tienda o formulario y quieren saber si cualquier persona puede usarlo.",
     includes: [
@@ -156,7 +161,8 @@ export const SERVICIOS_CARDS: ServicioCard[] = [
     id: "consultoria-ux",
     eyebrow: "Consultoría",
     title: "Consultoría UX para Pymes",
-    audience: "¿Buscas talento joven o un equipo UX?",
+    audience:
+      "Sin precio publicado. Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     forWhom:
       "Para pymes en Chile que necesitan ordenar un flujo o proceso digital sobre su CMS o CRM.",
     includes: [
