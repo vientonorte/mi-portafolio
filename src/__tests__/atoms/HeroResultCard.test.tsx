@@ -6,13 +6,13 @@ describe("HeroResultCard", () => {
   it("renders metric, description and accessible company label", () => {
     render(
       <HeroResultCard
-        metric="−40%"
-        description="abandono en onboarding"
+        metric="7–11 min"
+        description="onboarding de clientes"
         company="SURA Investments"
       />
     );
-    expect(screen.getByText("−40%")).toBeInTheDocument();
-    expect(screen.getByText("abandono en onboarding")).toBeInTheDocument();
+    expect(screen.getByText("7–11 min")).toBeInTheDocument();
+    expect(screen.getByText("onboarding de clientes")).toBeInTheDocument();
     expect(screen.getByText("SURA Investments")).toHaveClass("sr-only");
     expect(screen.getByRole("img", { name: "SURA Investments logo" })).toBeInTheDocument();
   });

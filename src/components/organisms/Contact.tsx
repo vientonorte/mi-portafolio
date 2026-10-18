@@ -21,6 +21,7 @@ import {
 import { submitContactMessage } from "../../lib/submit-contact";
 import { analytics } from "../../lib/analytics";
 import { trackContactSubmitted } from "../../lib/contact-conversion";
+import { trackFormLead } from "../../lib/form-lead";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
 import {
@@ -161,7 +162,8 @@ export function Contact({
 
       if (result.ok) {
         // H2 · conversión solo si el worker confirmó con 200.
-        trackContactSubmitted(result);
+        // generate_lead (TL 13-oct): solo si el worker confirmó con 200; sin PII; tema = motivo (opción cerrada).
+        if (trackContactSubmitted(result)) trackFormLead(200, { formId: "home-contacto", topic: motive });
         toast.success(t.form.success);
         setSharedIdentity(emptyContactIdentity());
         setSharedMessage("");

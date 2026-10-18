@@ -138,14 +138,14 @@ const componentExamples = {
     preview: (
       <div className="max-w-xs">
         <HeroResultCard
-          metric="−40%"
+          metric="7–11 min"
           description="onboarding SURA"
           company="SURA Investments"
         />
       </div>
     ),
     code: `<HeroResultCard
-  metric="−40%"
+  metric="7–11 min"
   description="onboarding SURA"
   company="SURA Investments"
 />`,
@@ -157,9 +157,9 @@ const componentExamples = {
     preview: (
       <div className="max-w-sm w-full">
         <ImpactMetricCard
-          value="−40%"
-          label="Abandono en onboarding"
-          description="SURA Ecosistema — 7-11 min vs 15+"
+          value="7–11 min"
+          label="Onboarding en 4 pasos"
+          description="SURA Ecosistema — antes 15+ min"
           spoiler="Analytics de abandono paso a paso en el funnel Hazte cliente."
           phase="UX Analytics"
           company="SURA"
@@ -177,8 +177,8 @@ const componentExamples = {
       </div>
     ),
     code: `<ImpactMetricCard
-  value="−40%"
-  label="Abandono en onboarding"
+  value="7–11 min"
+  label="Onboarding en 4 pasos"
   spoiler="…"
   phase="UX Analytics"
   company="SURA"
@@ -346,14 +346,14 @@ const componentExamples = {
     preview: (
       <div className="max-w-xs">
         <HeroResultCard
-          metric="−40%"
+          metric="7–11 min"
           description="SURA onboarding"
           company="SURA Investments"
         />
       </div>
     ),
     code: `<HeroResultCard
-  metric="−40%"
+  metric="7–11 min"
   description="SURA onboarding"
   company="SURA Investments"
 />`,
@@ -365,9 +365,9 @@ const componentExamples = {
     preview: (
       <div className="max-w-sm w-full">
         <ImpactMetricCard
-          value="−40%"
-          label="Onboarding drop-off"
-          description="SURA Ecosystem — 7-11 min vs 15+"
+          value="7–11 min"
+          label="Onboarding in 4 steps"
+          description="SURA Ecosystem — was 15+ min"
           spoiler="Step-by-step abandonment analytics in the signup funnel."
           phase="UX Analytics"
           company="SURA"
@@ -385,8 +385,8 @@ const componentExamples = {
       </div>
     ),
     code: `<ImpactMetricCard
-  value="−40%"
-  label="Onboarding drop-off"
+  value="7–11 min"
+  label="Onboarding in 4 steps"
   spoiler="…"
   phase="UX Analytics"
   company="SURA"

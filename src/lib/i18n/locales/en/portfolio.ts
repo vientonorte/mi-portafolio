@@ -11,7 +11,7 @@ export const aboutTeaser = {
       badge: 'About',
       title: 'Regional UX Lead · Fintech & Mobility',
       lead:
-        'From Senior Product Designer at Transvip/Karri to UX Lead at SURA Investments (Wealth, 5+ countries). Same method standard: research, Design Ops, design systems, and measured outcomes.',
+        'From Senior Product Designer at Transvip/Karri to UX Lead at SURA Investments (Wealth, 7 markets). Same method standard: research, Design Ops, design systems, and measured outcomes.',
       detail:
         'Brands in the narrative: SURA Investments · Transvip · Karri · Valuesite · Havas/Claro · Walmart · Maraña · teaching at Desafío Latam. Not just logos — context, role, and evidence per stage.',
       brandsLabel: 'Brands and contexts',
@@ -44,7 +44,7 @@ export const autosuggestPage = {
       metrics: [
         { value: '−45%', label: 'Time to find information' },
         { value: '+30%', label: 'Retail user engagement' },
-        { value: 'NPS 72', label: '25-point lift vs. baseline' },
+        { value: '13–15', label: 'Participants in 2 moderated-test rounds' },
       ],
       sections: {
         challenge: {
@@ -82,7 +82,7 @@ export const about = {
       title: 'UX Manager · Viento Norte',
       subtitle: '7+ years craft · 3+ lead mobility→wealth',
       description:
-        'Now UX Manager at Viento Norte (n2n) and AI Trainer at micro1. Previously UX Lead at SURA Investments (Wealth, 5+ countries, through Jun 2026). Research, Design Sprints, design systems, and −40% onboarding.',
+        'Now UX Manager at Viento Norte (n2n) and AI Trainer at micro1. Previously UX Lead at SURA Investments (Wealth, 7 markets, through Jun 2026). Research, Design Sprints, design systems, and onboarding from 15+ to 7–11 min.',
       philosophy: {
         idea: {
           title: 'Idea',

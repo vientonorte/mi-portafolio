@@ -8,6 +8,7 @@ import { Testimonials } from '../components/organisms/Testimonials';
 import { Contact } from '../components/organisms/Contact';
 import { NavigablePrototypes } from '../components/organisms/NavigablePrototypes';
 import { ProcessNavigation } from '../components/molecules/ProcessNavigation';
+import { Breadcrumbs } from '../components/molecules/Breadcrumbs';
 
 import { SEOHead } from '../components/atoms/SEOHead';
 import { PageShell } from '../components/layout/PageShell';
@@ -58,7 +59,19 @@ const SobreMi = () => {
       <ProcessNavigation
         sections={aboutSections}
         mobileAriaLabel={es ? 'Secciones de Sobre mí' : 'About sections'}
+        // Rail solo desde 1680px (ahí el contenido ya lo libra; sin gutter que corte fondos).
+        desktopRailFrom="1680"
       />
+      {/* Migas visibles de la ficha (BreadcrumbList JSON-LD en sobre-mi/index.html). Enlace HTTP a la home, nunca /#/. */}
+      <div className="sobre-mi-breadcrumbs container mx-auto max-w-5xl px-4 pt-4 sm:pt-6">
+        <Breadcrumbs
+          className="mb-0"
+          links={[
+            { label: t.breadcrumbs.home, href: import.meta.env.BASE_URL || '/' },
+            { label: t.breadcrumbs.about, current: true },
+          ]}
+        />
+      </div>
       {/*
         L1 Perfil unificado (ficha + ciclo de decisión en un bloque)
         L2 Método + alcance
