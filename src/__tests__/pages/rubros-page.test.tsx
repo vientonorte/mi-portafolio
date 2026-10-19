@@ -215,18 +215,9 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
       ["Noticias", "/noticias/"],
       ["Contacto", "#contacto"],
     ]);
-    // Drawer móvil: la misma lista que la home (Inicio + primarios + Sobre mí)
-    const drawer = [...header.querySelectorAll("#static-mobile-menu a")].map((a) => [
-      a.textContent,
-      a.getAttribute("href"),
-    ]);
-    expect(drawer).toEqual([
-      ["Inicio", "/"],
-      ["Servicios", "/servicios/"],
-      ["Noticias", "/noticias/"],
-      ["Contacto", "#contacto"],
-      ["Sobre mí", "/sobre-mi/"],
-    ]);
+    // El panel móvil es el de la home: cerrado en el prerender, se abre en el cliente.
+    expect(header.querySelector("#static-mobile-menu")).toBeNull();
+    expect(doc.querySelector("#mobile-menu")).toBeNull();
     // Toggle de idioma estático (antes no había): desktop + móvil, guarda "en" y va a la home
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];
@@ -240,6 +231,22 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     for (const a of header.querySelectorAll("a")) {
       expect(a.getAttribute("href") ?? "").not.toContain("/#/");
     }
+  });
+
+  it("el menú móvil abierto es el panel de la home: Inicio, Sobre mí y Privacidad como botón", () => {
+    const { getByRole, unmount } = rtlRender(<RubroPage slug={SLUG} />);
+    fireEvent.click(getByRole("button", { name: "Abrir menú de navegación" }));
+    const dialog = getByRole("dialog");
+    expect(dialog.getAttribute("id")).toBe("mobile-menu");
+    expect(getByRole("button", { name: "Inicio" })).toBeTruthy();
+    expect(getByRole("button", { name: "Servicios" })).toBeTruthy();
+    expect(getByRole("button", { name: "Sobre mí" })).toBeTruthy();
+    const privacy = getByRole("button", { name: "Privacidad" });
+    expect(privacy.tagName).toBe("BUTTON");
+    expect(privacy.getAttribute("href")).toBeNull();
+    expect(dialog.innerHTML).not.toContain("#/privacy");
+    expect(dialog.innerHTML).not.toContain("/#/");
+    unmount();
   });
 
   it("el toggle guarda «en» con la clave de la home y deja navegar a la raíz", () => {

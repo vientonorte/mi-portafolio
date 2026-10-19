@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Button } from '../ui/button';
 import { Menu, X } from "lucide-react";
-import { MobileMenu } from "../molecules/MobileMenu";
+import { MobileMenu, MobileMenuPanel } from "../molecules/MobileMenu";
 import { NavMoreMenu } from "../molecules/NavMoreMenu";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { LanguageToggle } from "../atoms/LanguageToggle";
@@ -31,6 +31,9 @@ import {
 } from "../molecules/mobile-header-classes";
 import { cn } from "../../lib/utils";
 import { staticMobileDrawerLinks, type SiteNavLink } from "../../lib/site-nav";
+import { footer as esFooter } from "../../lib/i18n/locales/es/portfolio";
+import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
+import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 
 /** Enlace plano (sin router ni nav-config) para páginas estáticas. Fuente: src/lib/site-nav.ts. */
 export type StaticNavLink = SiteNavLink;
@@ -191,8 +194,9 @@ function NavShell({
 }
 
 /**
- * Header estático (/servicios/, /servicios/web-<rubro>/): misma cáscara que la home
- * (NavShell), links de src/lib/site-nav.ts y toggle de idioma estático.
+ * Header estático (/servicios/, /noticias/, rubros): misma cáscara que la home
+ * (NavShell) y el mismo panel móvil (MobileMenuPanel). El escritorio sigue en
+ * minimalNavLinks. Sin HashRouter.
  */
 function StaticNavigation({
   links,
@@ -206,23 +210,35 @@ function StaticNavigation({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMenuOpen) {
+      document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
+      return;
+    }
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsMenuOpen(false);
     };
     document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+    document.body.setAttribute("data-menu-open", "true");
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
+    };
   }, [isMenuOpen]);
 
   const contactHref = links.find((link) => link.id === "contacto")?.href ?? "#contacto";
   const drawerLinks = staticMobileDrawerLinks({ contactHref });
+  const currentPath = typeof window === "undefined" ? "" : window.location.pathname.replace(/\/+$/, "") || "/";
 
   return (
+    <>
     <NavShell
       solid
       menuOpen={isMenuOpen}
       onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
-      menuControlsId="static-mobile-menu"
+      menuControlsId="mobile-menu"
       logo={
         <a href={homeHref} className={LOGO_LINK_CLASS} aria-label={LOGO_ARIA}>
           <NavLogoLockup plate="default" />
@@ -242,25 +258,49 @@ function StaticNavigation({
           <LanguageToggle variant="static" englishHref={englishHref} compact className={MOBILE_HEADER_CONTROL_CLASS} />
         ) : undefined
       }
-    >
-      <div
-        id="static-mobile-menu"
-        hidden={!isMenuOpen}
-        className="nav-mobile-only border-t border-border/40 bg-background lg:hidden"
-      >
-        <ul className="container mx-auto flex flex-col gap-1 px-4 py-3" role="list">
-          {drawerLinks.map((link) => (
-            <li key={link.id}>
-              <Button variant="ghost" asChild className="h-11 w-full justify-start px-3 text-base">
-                <a href={link.href} onClick={() => setIsMenuOpen(false)}>
-                  {link.label}
-                </a>
-              </Button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </NavShell>
+    />
+    <MobileMenuPanel
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        items={drawerLinks.map((link) => {
+          const target = link.href.startsWith("#")
+            ? ""
+            : link.href.replace(/\/+$/, "") || "/";
+          return {
+            id: link.id,
+            label: link.label,
+            active: target !== "" && target === currentPath,
+          };
+        })}
+        onSelect={(index) => {
+          const link = drawerLinks[index];
+          if (!link) return;
+          setIsMenuOpen(false);
+          if (link.href.startsWith("#")) {
+            window.setTimeout(() => scrollToSection(link.href), 32);
+            return;
+          }
+          window.location.assign(link.href);
+        }}
+        sections={[]}
+        onSection={() => {}}
+        sectionsLabel="Secciones"
+        quickLinksLabel="Enlaces rápidos"
+        footerItems={[
+          { id: "contact", label: esFooter.contact, href: getContactMailtoUrl(), kind: "href" },
+          { id: "linkedin", label: esFooter.linkedin, href: SITE_CONTACT.linkedin, kind: "external" },
+          { id: "privacy", label: esFooter.privacy, kind: "spa" },
+          { id: "uxtools", label: esFooter.uxtools, href: VIENTO_NORTE_LINKS.uxtools, kind: "external" },
+        ]}
+        onSpa={() => {
+          setIsMenuOpen(false);
+          const base = homeHref.endsWith("/") ? homeHref : `${homeHref}/`;
+          window.location.assign(`${base}#/privacy`);
+        }}
+        dialogLabel="Menú de navegación móvil"
+        menuLabel="Menú móvil"
+      />
+    </>
   );
 }
 

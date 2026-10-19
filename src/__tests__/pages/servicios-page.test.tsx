@@ -168,7 +168,8 @@ describe("/servicios/ prerender (react-dom/server)", () => {
       expect(navHrefs).not.toContain(anchor);
     }
     expect(navHrefs).toContain("/noticias/");
-    expect(navHrefs).toContain("/sobre-mi/");
+    // Sobre mí vive en el panel móvil (el de la home), no en el HTML del menú cerrado.
+    expect(navHrefs).not.toContain("/sobre-mi/");
     for (const h of navHrefs) {
       expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?|noticias\/|sobre-mi\/)?$/);
     }
@@ -404,6 +405,21 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
   it("ningún link del nav ni de la página usa /#/", () => {
     const hrefs = [...doc.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
     for (const h of hrefs) expect(h, h).not.toContain("/#/");
+  });
+
+  it("el menú móvil abierto es el panel de la home: Inicio, Sobre mí y Privacidad como botón", () => {
+    rtlRender(<ServiciosPage />);
+    fireEvent.click(screen.getByRole("button", { name: "Abrir menú de navegación" }));
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.getAttribute("id")).toBe("mobile-menu");
+    expect(screen.getByRole("button", { name: "Inicio" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Servicios" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Sobre mí" })).toBeTruthy();
+    const privacy = screen.getByRole("button", { name: "Privacidad" });
+    expect(privacy.tagName).toBe("BUTTON");
+    expect(privacy.getAttribute("href")).toBeNull();
+    expect(dialog.innerHTML).not.toContain("#/privacy");
+    expect(dialog.innerHTML).not.toContain("/#/");
   });
 
   it("elegir EN guarda el idioma con el mecanismo de la home y navega a la raíz", () => {
