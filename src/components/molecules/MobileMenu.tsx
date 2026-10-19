@@ -246,13 +246,21 @@ export function MobileMenu({
                 ).map((item) => (
                   <li key={item.id}>
                     {item.kind === "spa" ? (
-                      <Button variant="outline" type="button" onClick={() => navigate(item.href)}>
+                      <Button
+                        variant="outline"
+                        type="button"
+                        onClick={() => {
+                          onClose();
+                          navigate(item.href);
+                        }}
+                      >
                         {item.label}
                       </Button>
                     ) : (
                       <Button variant="outline" asChild>
                         <a
                           href={item.href}
+                          onClick={onClose}
                           {...(item.kind === "external"
                             ? { target: "_blank", rel: "noopener noreferrer" }
                             : {})}
