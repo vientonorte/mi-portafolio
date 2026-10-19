@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { cn } from "../../lib/utils";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { ROUTES } from "../../lib/routes";
 import { scrollToSection } from "../../lib/scroll-to-section";
@@ -209,34 +209,31 @@ export function MobileMenu({
                 {quickLinksLabel}
               </p>
               <ul className="flex flex-wrap gap-2 px-4" role="list">
-                <li>
-                  <a
-                    href={getContactMailtoUrl()}
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.contact}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={SITE_CONTACT.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.linkedin}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={VIENTO_NORTE_LINKS.uxtools}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.uxtools}
-                  </a>
-                </li>
+                {(
+                  [
+                    { id: "contact", label: footer.contact, href: getContactMailtoUrl(), kind: "href" },
+                    { id: "linkedin", label: footer.linkedin, href: SITE_CONTACT.linkedin, kind: "external" },
+                    { id: "privacy", label: footer.privacy, href: ROUTES.privacy, kind: "spa" },
+                    { id: "uxtools", label: footer.uxtools, href: VIENTO_NORTE_LINKS.uxtools, kind: "external" },
+                  ] as const
+                ).map((item) => (
+                  <li key={item.id}>
+                    <Button variant="outline" asChild>
+                      {item.kind === "spa" ? (
+                        <Link to={item.href}>{item.label}</Link>
+                      ) : (
+                        <a
+                          href={item.href}
+                          {...(item.kind === "external"
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {item.label}
+                        </a>
+                      )}
+                    </Button>
+                  </li>
+                ))}
               </ul>
             </div>
           </motion.div>
