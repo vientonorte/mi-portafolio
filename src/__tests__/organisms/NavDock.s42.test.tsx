@@ -15,7 +15,7 @@ function renderDock(path: string) {
 }
 
 describe("NavDock · S42 CTA central (PO 5-oct)", () => {
-  it("home: «Empezar» is a real link to /servicios/#web-pymes (3 slots, no layout change)", () => {
+  it("home: «Empezar» is a real link to /servicios/#web-pymes (5 slots)", () => {
     const { container } = renderDock("/");
     const cta = container.querySelector("[data-liquid-cta]") as HTMLElement;
     expect(cta.tagName).toBe("A");
@@ -23,7 +23,9 @@ describe("NavDock · S42 CTA central (PO 5-oct)", () => {
     expect(within(cta).getByText("Empezar")).toBeInTheDocument();
     expect(cta.getAttribute("href")).not.toMatch(/\/#\/|\/s\//);
     expect(container.querySelectorAll("[data-liquid-cta]")).toHaveLength(1);
-    expect(screen.getAllByRole("link").length + screen.queryAllByRole("button").length).toBe(3);
+    expect(screen.getAllByRole("link").length + screen.queryAllByRole("button").length).toBe(5);
+    expect(screen.getByRole("button", { name: "Servicios" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Noticias" })).toBeInTheDocument();
   });
 
   it("deep routes: center «Consultoría» stays secondary → /servicios/#consultoria-ux", () => {

@@ -15,6 +15,7 @@ import { NotFoundPage } from './components/layout/NotFoundPage';
 import { NoticiasRedirect } from './components/layout/NoticiasRedirect';
 import { SobreMiRedirect } from './components/layout/SobreMiRedirect';
 import { QaEnvBanner } from './components/molecules/QaEnvBanner';
+import { PageSectionsProvider } from './lib/page-sections';
 import { isDeepPortfolioPage } from './lib/page-depth';
 import { LEGACY_ROUTES, ROUTES, shouldHideSiteChrome } from './lib/routes';
 import { useLanguage } from './lib/LanguageContext';
@@ -135,19 +136,21 @@ export function PortfolioFrame({ children }: { children: React.ReactNode }) {
 
   return (
     <PortfolioChrome>
-      <QaEnvBanner />
-      <ScrollManager />
-      <a href="#main" className="skip-link">
-        Ir al contenido principal
-      </a>
-      {/* Nav compartida en todas las vistas con chrome (home y subpáginas). Sin SubpageToolbar ni migas (TL 9-oct). */}
-      {!hideSiteChrome && <RouterNavigation />}
-      <main id="main" tabIndex={-1}>
-        {children}
-      </main>
-      {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
-      {!isDeepPage && !hideSiteChrome && <BottomNav />}
-      {isDeepPage && !hideSiteChrome && <DeepPageNav />}
+      <PageSectionsProvider>
+        <QaEnvBanner />
+        <ScrollManager />
+        <a href="#main" className="skip-link">
+          Ir al contenido principal
+        </a>
+        {/* Nav compartida en todas las vistas con chrome (home y subpáginas). Sin SubpageToolbar ni migas (TL 9-oct). */}
+        {!hideSiteChrome && <RouterNavigation />}
+        <main id="main" tabIndex={-1}>
+          {children}
+        </main>
+        {/* Footer de links/copyright retirado: contacto y UX Tools en nav; privacidad en header */}
+        {!isDeepPage && !hideSiteChrome && <BottomNav />}
+        {isDeepPage && !hideSiteChrome && <DeepPageNav />}
+      </PageSectionsProvider>
     </PortfolioChrome>
   );
 }

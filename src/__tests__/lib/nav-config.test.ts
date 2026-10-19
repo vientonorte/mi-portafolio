@@ -41,10 +41,10 @@ function allNavTargets(): string[] {
 }
 
 describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
-  it("P0: dock has 3 slots with liquid consultoria in the center", () => {
-    expect([...NAV_SURFACE.dock]).toEqual(["inicio", "consultoria", "contacto"]);
-    expect(NAV_SURFACE.dock[1]).toBe(DOCK_CENTER_ID);
-    expect(NAV_SURFACE.dock).toHaveLength(3);
+  it("P0: dock has 5 slots with liquid consultoria in the center", () => {
+    expect([...NAV_SURFACE.dock]).toEqual(["inicio", "servicios", "consultoria", "news", "contacto"]);
+    expect(NAV_SURFACE.dock[2]).toBe(DOCK_CENTER_ID);
+    expect(NAV_SURFACE.dock).toHaveLength(5);
   });
 
   it("desktop primary = lista única de site-nav: Servicios, Noticias (/noticias/), Contacto (S42 v3)", () => {
@@ -152,16 +152,27 @@ describe("getDockNavAction", () => {
 });
 
 describe("getDockNavItems", () => {
-  it("places consultoria as center CTA between inicio and contacto", () => {
+  it("places consultoria as center CTA between servicios and noticias", () => {
     const ids = getDockNavItems("home", labels, "Proceso").map((item) => item.id);
-    expect(ids).toEqual(["inicio", "consultoria", "contacto"]);
-    expect(ids[1]).toBe(DOCK_CENTER_ID);
+    expect(ids).toEqual(["inicio", "servicios", "consultoria", "news", "contacto"]);
+    expect(ids[2]).toBe(DOCK_CENTER_ID);
+    expect(getDockNavItems("home", labels, "Proceso").find((item) => item.id === "servicios")?.action).toEqual({
+      kind: "http",
+      target: "/servicios/",
+    });
+    expect(getDockNavItems("home", labels, "Proceso").find((item) => item.id === "news")?.action).toEqual({
+      kind: "http",
+      target: "/noticias/",
+    });
   });
 
-  it("funnel dock keeps 3 slots with /servicios/#web-pymes on center", () => {
+  it("funnel dock keeps 5 slots with /servicios/#web-pymes on center", () => {
     const items = getDockNavItems("funnel", labels, "Proceso");
-    expect(items.map((i) => i.id)).toEqual(["inicio", "consultoria", "contacto"]);
-    expect(items[1]!.action).toEqual({ kind: "http", target: "/servicios/#web-pymes" });
+    expect(items.map((i) => i.id)).toEqual(["inicio", "servicios", "consultoria", "news", "contacto"]);
+    expect(items.find((item) => item.id === "consultoria")!.action).toEqual({
+      kind: "http",
+      target: "/servicios/#web-pymes",
+    });
   });
 });
 
@@ -235,7 +246,7 @@ describe("executeNavAction · GTM nav_click", () => {
   });
 
   it("trackNavClick pushes nav_click for the dock center <a href> (S42)", () => {
-    const center = getDockNavItems("funnel", labels, "Proceso")[1]!;
+    const center = getDockNavItems("funnel", labels, "Proceso").find((item) => item.id === "consultoria")!;
     trackNavClick(center);
     const layer = (window as Window & { dataLayer: unknown[] }).dataLayer;
     expect(layer).toContainEqual(

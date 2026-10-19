@@ -11,6 +11,7 @@ import { useTranslation } from "../../lib/i18n";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
 import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 import { matchNavItemActive, type ResolvedNavItem } from "../../lib/nav-config";
+import { usePageSections } from "../../lib/page-sections";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -125,6 +126,8 @@ export function MobileMenu({
   );
 
   const quickLinksLabel = language === "es" ? "Enlaces rápidos" : "Quick links";
+  const sectionsLabel = language === "es" ? "Secciones" : "Sections";
+  const pageSections = usePageSections();
 
   return (
     <AnimatePresence mode="wait">
@@ -199,6 +202,30 @@ export function MobileMenu({
                   );
                 })}
               </ul>
+              {pageSections.length > 0 ? (
+                <>
+                  <p className="px-4 pb-1 pt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {sectionsLabel}
+                  </p>
+                  <ul className="flex w-full flex-col gap-0.5" role="list">
+                    {pageSections.map((section) => (
+                      <li key={section.id}>
+                        <Button
+                          variant="ghost"
+                          className="h-11 w-full justify-start rounded-xl px-4 text-base"
+                          onClick={() => {
+                            onClose();
+                            window.setTimeout(() => scrollToSection(section.id), 32);
+                          }}
+                        >
+                          <span className="w-8 shrink-0 font-bold tabular-nums">{section.number}</span>
+                          {section.label}
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
             </nav>
 
             <div

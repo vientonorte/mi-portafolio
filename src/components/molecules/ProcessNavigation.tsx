@@ -7,6 +7,7 @@ import {
   useProcessSectionSpy,
   type ProcessNavSection,
 } from "../../hooks/useProcessSectionSpy";
+import { useRegisterPageSections } from "../../lib/page-sections";
 
 interface ProcessNavigationProps {
   sections: ProcessNavSection[];
@@ -29,6 +30,7 @@ export function ProcessNavigation({
   const { activeSection, visitedSections, scrollToSection } = useProcessSectionSpy(sections);
   const prefersReducedMotion = useReducedMotion();
   const mobileNavRef = useRef<HTMLElement>(null);
+  useRegisterPageSections(showMobile ? [] : sections);
 
   // El espaciador móvil toma el alto real de la barra (cambia con nº de chips, fuente, zoom).
   useEffect(() => {
