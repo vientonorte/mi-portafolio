@@ -304,10 +304,9 @@ export const privacyPage = {
         { label: 'Portability' },
         { label: 'Restriction' },
       ],
-      appTitle: 'R.A.D.A.R. El Polijuego app',
-      appBody:
-        'The native game does not use this page. On-device board, AES-256-GCM vault, zero network for content, in-app purge.',
-      appCta: 'Read the app policy',
+      appTitle: 'The game',
+      appBody: 'This page is the site policy. The game has its own.',
+      appCta: 'R.A.D.A.R. El Polijuego',
       controllerTitle: 'Controller',
       controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     };

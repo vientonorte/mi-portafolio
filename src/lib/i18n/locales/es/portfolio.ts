@@ -282,10 +282,9 @@ export const privacyPage = {
         { label: 'Portabilidad' },
         { label: 'Limitación' },
       ],
-      appTitle: 'App R.A.D.A.R. El Polijuego',
-      appBody:
-        'El juego nativo no usa esta página. Tablero en el teléfono, vault AES-256-GCM, cero red de contenido, purge in-app.',
-      appCta: 'Ver política de la app',
+      appTitle: 'El juego',
+      appBody: 'Esta página es del sitio. El juego tiene la suya.',
+      appCta: 'R.A.D.A.R. El Polijuego',
       controllerTitle: 'Responsable',
       controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     };
