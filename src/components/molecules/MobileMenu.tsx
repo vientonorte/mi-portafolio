@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from '../ui/button';
 import { cn } from "../../lib/utils";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { ROUTES } from "../../lib/routes";
 import { scrollToSection } from "../../lib/scroll-to-section";
@@ -245,10 +245,12 @@ export function MobileMenu({
                   ] as const
                 ).map((item) => (
                   <li key={item.id}>
-                    <Button variant="outline" asChild>
-                      {item.kind === "spa" ? (
-                        <Link to={item.href}>{item.label}</Link>
-                      ) : (
+                    {item.kind === "spa" ? (
+                      <Button variant="outline" type="button" onClick={() => navigate(item.href)}>
+                        {item.label}
+                      </Button>
+                    ) : (
+                      <Button variant="outline" asChild>
                         <a
                           href={item.href}
                           {...(item.kind === "external"
@@ -257,8 +259,8 @@ export function MobileMenu({
                         >
                           {item.label}
                         </a>
-                      )}
-                    </Button>
+                      </Button>
+                    )}
                   </li>
                 ))}
               </ul>
