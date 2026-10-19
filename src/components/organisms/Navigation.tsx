@@ -30,7 +30,7 @@ import {
   MOBILE_HEADER_CONTROL_CLASS,
 } from "../molecules/mobile-header-classes";
 import { cn } from "../../lib/utils";
-import type { SiteNavLink } from "../../lib/site-nav";
+import { staticMobileDrawerLinks, type SiteNavLink } from "../../lib/site-nav";
 
 /** Enlace plano (sin router ni nav-config) para páginas estáticas. Fuente: src/lib/site-nav.ts. */
 export type StaticNavLink = SiteNavLink;
@@ -216,6 +216,8 @@ function StaticNavigation({
 
   const drawerLinkClass =
     "inline-flex min-h-11 w-full items-center rounded-md px-3 text-base font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+  const contactHref = links.find((link) => link.id === "contacto")?.href ?? "#contacto";
+  const drawerLinks = staticMobileDrawerLinks({ contactHref });
 
   return (
     <NavShell
@@ -249,7 +251,7 @@ function StaticNavigation({
         className="nav-mobile-only border-t border-border/40 bg-background lg:hidden"
       >
         <ul className="container mx-auto flex flex-col gap-1 px-4 py-3" role="list">
-          {links.map((link) => (
+          {drawerLinks.map((link) => (
             <li key={link.id}>
               <a href={link.href} className={drawerLinkClass} onClick={() => setIsMenuOpen(false)}>
                 {link.label}

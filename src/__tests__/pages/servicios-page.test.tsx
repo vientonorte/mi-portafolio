@@ -23,6 +23,8 @@ const isAllowedHref = (href: string) =>
   HOME_ROOTS.has(href) ||
   href === "/servicios/" ||
   href === "/noticias/" ||
+  href === "/sobre-mi/" ||
+  href === "/qa/sobre-mi/" ||
   href.startsWith("/images/") ||
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
@@ -166,7 +168,10 @@ describe("/servicios/ prerender (react-dom/server)", () => {
       expect(navHrefs).not.toContain(anchor);
     }
     expect(navHrefs).toContain("/noticias/");
-    for (const h of navHrefs) expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?|noticias\/)?$/);
+    expect(navHrefs).toContain("/sobre-mi/");
+    for (const h of navHrefs) {
+      expect(h, h ?? "").toMatch(/^\/(?:servicios\/(?:#[a-z][\w-]*)?|noticias\/|sobre-mi\/)?$/);
+    }
   });
 
   it("template has SEO + outlet, and built dist (if present) is the prerendered page", () => {

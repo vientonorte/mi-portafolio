@@ -66,3 +66,20 @@ export function minimalNavLinks({ contactHref }: { contactHref: string }): SiteN
     { id: "contacto", label: SITE_NAV_LABELS.contacto, href: contactHref },
   ];
 }
+
+/**
+ * Drawer móvil de /servicios/, /noticias/ y rubros. La misma lista que el drawer
+ * de la home: Inicio · Servicios · Noticias · Contacto · Sobre mí.
+ * El header de escritorio sigue en minimalNavLinks.
+ */
+export function staticMobileDrawerLinks({
+  contactHref,
+}: {
+  contactHref: string;
+}): SiteNavLink[] {
+  return [
+    { id: "inicio", label: "Inicio", href: homeHref() },
+    ...minimalNavLinks({ contactHref }),
+    { id: "sobre-mi", label: "Sobre mí", href: siteSobreMiHref() },
+  ];
+}
