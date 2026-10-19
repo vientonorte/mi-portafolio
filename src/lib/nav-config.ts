@@ -36,7 +36,7 @@ export type NavItemId =
 
 export type DockNavItemId = Extract<
   NavItemId,
-  "inicio" | "consultoria" | "contacto"
+  "inicio" | "servicios" | "consultoria" | "news" | "contacto"
 >;
 
 /** Slot central elevado del dock (liquid CTA → consultoría / kickoff). */
@@ -87,7 +87,8 @@ export interface NavRegistryItem {
 /**
  * Header de la SPA (retro 7-oct): Servicios, Noticias, Sobre mí y Contacto.
  * Las páginas estáticas (/servicios/, rubros) siguen en src/lib/site-nav.ts
- * (Servicios + Contacto). Sin «Más». Dock: Inicio · kickoff · Contacto.
+ * (Servicios + Contacto). Sin «Más».
+ * Dock móvil: Inicio · Servicios · kickoff · Noticias · Contacto.
  */
 /** Id del SSOT (src/lib/site-nav.ts) → id del registro de la SPA. */
 const SITE_TO_SPA_ID: Record<SiteNavPrimaryId, NavItemId> = {
@@ -100,7 +101,7 @@ const SITE_TO_SPA_ID: Record<SiteNavPrimaryId, NavItemId> = {
 export const HEADER_PRIMARY_IDS: readonly NavItemId[] = SITE_NAV_PRIMARY_IDS.map((id) => SITE_TO_SPA_ID[id]);
 
 export const NAV_SURFACE = {
-  dock: ["inicio", "consultoria", "contacto"] as const satisfies readonly DockNavItemId[],
+  dock: ["inicio", "servicios", "consultoria", "news", "contacto"] as const satisfies readonly DockNavItemId[],
   headerPrimary: HEADER_PRIMARY_IDS,
   headerMore: [] as readonly NavItemId[],
   mobileDrawer: ["inicio", ...HEADER_PRIMARY_IDS, "sobre-mi"] as readonly NavItemId[],
@@ -165,6 +166,12 @@ export function getDockNavAction(id: DockNavItemId, variant: DockVariant): NavAc
   }
   if (id === "contacto") {
     return { kind: "anchor", target: "#contacto", homeRoute: ROUTES.home };
+  }
+  if (id === "servicios") {
+    return { kind: "http", target: siteServiciosHref() };
+  }
+  if (id === "news") {
+    return { kind: "http", target: siteNoticiasHref() };
   }
   // S42 (PO 5-oct 21:47): CTA central del dock = enlace HTTP a /servicios/ (canon, sin /#/ ni /s/).
   // Home («Empezar») → web 72 h, primario como el hero. Resto de rutas («Consultoría») →

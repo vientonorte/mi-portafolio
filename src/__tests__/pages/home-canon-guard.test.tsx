@@ -105,6 +105,25 @@ describe("home canon guard: sin /#/ ni slugs viejos en la home renderizada", () 
     expect(offenders(container)).toEqual([]);
   });
 
+  it("Privacidad cierra el overlay y no publica #/privacy", async () => {
+    const { container } = renderHome();
+    fireEvent.click(screen.getAllByRole("button", { name: /Abrir menú de navegación/ })[0]!);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 50));
+    });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Privacidad" }));
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 50));
+    });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(document.getElementById("mobile-menu")).toBeNull();
+    expect(document.body.style.overflow).not.toBe("hidden");
+    expect(document.body.hasAttribute("data-menu-open")).toBe(false);
+    expect(window.location.hash).toBe("#/privacy");
+    expect(offenders(container)).toEqual([]);
+  });
+
   it("el header de la home = lista única (site-nav): Servicios, Noticias (/noticias/) y Contacto, sin «Más» ni Proceso", () => {
     renderHome();
     const header = document.querySelector('header[data-nav-shell="minimal"]')!;

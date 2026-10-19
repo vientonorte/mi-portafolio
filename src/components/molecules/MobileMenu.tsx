@@ -11,6 +11,7 @@ import { useTranslation } from "../../lib/i18n";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
 import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
 import { matchNavItemActive, type ResolvedNavItem } from "../../lib/nav-config";
+import { usePageSections } from "../../lib/page-sections";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -125,6 +126,8 @@ export function MobileMenu({
   );
 
   const quickLinksLabel = language === "es" ? "Enlaces rápidos" : "Quick links";
+  const sectionsLabel = language === "es" ? "Secciones" : "Sections";
+  const pageSections = usePageSections();
 
   return (
     <AnimatePresence mode="wait">
@@ -199,6 +202,30 @@ export function MobileMenu({
                   );
                 })}
               </ul>
+              {pageSections.length > 0 ? (
+                <>
+                  <p className="px-4 pb-1 pt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {sectionsLabel}
+                  </p>
+                  <ul className="flex w-full flex-col gap-0.5" role="list">
+                    {pageSections.map((section) => (
+                      <li key={section.id}>
+                        <Button
+                          variant="ghost"
+                          className="h-11 w-full justify-start rounded-xl px-4 text-base"
+                          onClick={() => {
+                            onClose();
+                            window.setTimeout(() => scrollToSection(section.id), 32);
+                          }}
+                        >
+                          <span className="w-8 shrink-0 font-bold tabular-nums">{section.number}</span>
+                          {section.label}
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
             </nav>
 
             <div
@@ -209,34 +236,41 @@ export function MobileMenu({
                 {quickLinksLabel}
               </p>
               <ul className="flex flex-wrap gap-2 px-4" role="list">
-                <li>
-                  <a
-                    href={getContactMailtoUrl()}
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.contact}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={SITE_CONTACT.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.linkedin}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={VIENTO_NORTE_LINKS.uxtools}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-border/70 bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                  >
-                    {footer.uxtools}
-                  </a>
-                </li>
+                {(
+                  [
+                    { id: "contact", label: footer.contact, href: getContactMailtoUrl(), kind: "href" },
+                    { id: "linkedin", label: footer.linkedin, href: SITE_CONTACT.linkedin, kind: "external" },
+                    { id: "privacy", label: footer.privacy, href: ROUTES.privacy, kind: "spa" },
+                    { id: "uxtools", label: footer.uxtools, href: VIENTO_NORTE_LINKS.uxtools, kind: "external" },
+                  ] as const
+                ).map((item) => (
+                  <li key={item.id}>
+                    {item.kind === "spa" ? (
+                      <Button
+                        variant="outline"
+                        type="button"
+                        onClick={() => {
+                          onClose();
+                          navigate(item.href);
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    ) : (
+                      <Button variant="outline" asChild>
+                        <a
+                          href={item.href}
+                          onClick={onClose}
+                          {...(item.kind === "external"
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {item.label}
+                        </a>
+                      </Button>
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
           </motion.div>

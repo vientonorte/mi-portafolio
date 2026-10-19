@@ -59,6 +59,7 @@ const SobreMi = () => {
       <ProcessNavigation
         sections={aboutSections}
         mobileAriaLabel={es ? 'Secciones de Sobre mí' : 'About sections'}
+        showMobile={false}
         // Rail solo desde 1680px (ahí el contenido ya lo libra; sin gutter que corte fondos).
         desktopRailFrom="1680"
       />

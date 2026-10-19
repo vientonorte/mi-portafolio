@@ -22,6 +22,7 @@ function isAllowedHref(href: string, base = "/"): boolean {
     href === base ||
     href === `${base}servicios/` ||
     href === `${base}noticias/` ||
+    href === `${base}sobre-mi/` ||
     /^#[A-Za-z][\w-]*$/.test(href) ||
     href === "mailto:contacto@vientonorte.io"
   );
@@ -214,9 +215,18 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
       ["Noticias", "/noticias/"],
       ["Contacto", "#contacto"],
     ]);
-    // Drawer móvil: mismos links
-    const drawer = [...header.querySelectorAll("#static-mobile-menu a")].map((a) => a.getAttribute("href"));
-    expect(drawer).toEqual(["/servicios/", "/noticias/", "#contacto"]);
+    // Drawer móvil: la misma lista que la home (Inicio + primarios + Sobre mí)
+    const drawer = [...header.querySelectorAll("#static-mobile-menu a")].map((a) => [
+      a.textContent,
+      a.getAttribute("href"),
+    ]);
+    expect(drawer).toEqual([
+      ["Inicio", "/"],
+      ["Servicios", "/servicios/"],
+      ["Noticias", "/noticias/"],
+      ["Contacto", "#contacto"],
+      ["Sobre mí", "/sobre-mi/"],
+    ]);
     // Toggle de idioma estático (antes no había): desktop + móvil, guarda "en" y va a la home
     expect(header.querySelector("[data-lang-selector]")).toBeNull();
     const switches = [...header.querySelectorAll('a[data-lang-switch="en"]')];
