@@ -311,8 +311,7 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /sobre-mi/ + /privacidad/. Sin share legacy ni rutas hash. -->
-"
+        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /sobre-mi/ + /privacidad/. Sin share legacy ni rutas hash. -->\n"
         + "\n".join(blocks)
         + "\n</urlset>\n"
     )
