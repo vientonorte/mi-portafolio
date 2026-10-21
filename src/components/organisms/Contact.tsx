@@ -184,7 +184,6 @@ export function Contact({
         // H2 · conversión solo si el worker confirmó con 200.
         // generate_lead (TL 13-oct): solo si el worker confirmó con 200; sin PII; tema = motivo (opción cerrada).
         if (trackContactSubmitted(result)) trackFormLead(200, { formId: "home-contacto", topic: motive });
-        trackContactSubmitted(result);
         setLiveStatus({ kind: "ok", text: t.form.success });
         toast.success(t.form.success);
         setSharedIdentity(emptyContactIdentity());
