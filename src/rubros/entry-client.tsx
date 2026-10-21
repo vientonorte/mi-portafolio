@@ -8,6 +8,7 @@ import { RubroPage } from "./RubroPage";
 import { RUBRO_SLUGS } from "./rubros-content";
 import { analyticsConfig } from "../vn-core/analytics/config";
 import { initGTM } from "../vn-core/analytics/gtm";
+import { initTracking } from "../lib/track";
 
 const rootEl = document.getElementById("rubro-root");
 if (!rootEl) throw new Error("No se encontró #rubro-root");
@@ -30,3 +31,5 @@ if (rootEl.firstElementChild) {
 }
 
 if (analyticsConfig.gtmId) initGTM(analyticsConfig.gtmId);
+// Primer toque (UTM + landing_path con ancla) también en landings de rubro (QA 13-oct F5).
+initTracking();

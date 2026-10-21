@@ -79,6 +79,7 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
       "https://vientonorte.io/servicios/web-dental/",
       "https://vientonorte.io/noticias/",
       "https://vientonorte.io/sobre-mi/",
+      "https://vientonorte.io/privacidad/",
     ]);
     expect(sitemap).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
