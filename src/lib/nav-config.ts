@@ -16,7 +16,7 @@ import { navigateToPageSection } from "./navigate-to-section";
 import { scrollToSection } from "./scroll-to-section";
 import type { NavItem, NavItemType } from "./nav-types";
 import { analytics } from "./analytics";
-import { SITE_NAV_PRIMARY_IDS, siteNoticiasHref, siteServiciosHref, siteSobreMiHref, type SiteNavPrimaryId } from "./site-nav";
+import { SITE_NAV_PRIMARY_IDS, siteNoticiasHref, siteServiciosHref, siteSobreMiHref, siteNosotrosHref, type SiteNavPrimaryId } from "./site-nav";
 
 /** Consultoría canónica (canon vn-agent 2026-09-27): reemplaza /#/consultoria en el nav visible. */
 const CONSULTORIA_CANON_PATH = siteServiciosHref("consultoria-ux");
@@ -31,6 +31,7 @@ export type NavItemId =
   | "news"
   | "contacto"
   | "sobre-mi"
+  | "nosotros"
   | "design-system"
   | "uxtools";
 
@@ -73,6 +74,7 @@ export interface NavLabels {
   news: string;
   contact: string;
   about: string;
+  nosotros: string;
   designSystem: string;
   uxtools: string;
   more: string;
@@ -104,7 +106,7 @@ export const NAV_SURFACE = {
   dock: ["inicio", "servicios", "consultoria", "news", "contacto"] as const satisfies readonly DockNavItemId[],
   headerPrimary: HEADER_PRIMARY_IDS,
   headerMore: [] as readonly NavItemId[],
-  mobileDrawer: ["inicio", ...HEADER_PRIMARY_IDS, "sobre-mi"] as readonly NavItemId[],
+  mobileDrawer: ["inicio", ...HEADER_PRIMARY_IDS, "nosotros"] as readonly NavItemId[],
 } as const;
 
 const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
@@ -117,6 +119,7 @@ const NAV_REGISTRY: Record<NavItemId, NavRegistryItem> = {
   news: { id: "news", icon: Newspaper, labelKey: "news" },
   contacto: { id: "contacto", icon: Mail, labelKey: "contact" },
   "sobre-mi": { id: "sobre-mi", icon: User, labelKey: "about" },
+  nosotros: { id: "nosotros", icon: User, labelKey: "nosotros" },
   "design-system": { id: "design-system", icon: FolderOpen, labelKey: "designSystem" },
   uxtools: { id: "uxtools", icon: Sparkles, labelKey: "uxtools" },
 };
@@ -149,6 +152,9 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "sobre-mi":
       // Página HTTP /sobre-mi/. El HashRouter no es una URL que GitHub Pages sirva.
       return { kind: "http", target: siteSobreMiHref() };
+    case "nosotros":
+      // Página HTTP /nosotros/ (empresa). /sobre-mi/ sigue viva y en el sitemap.
+      return { kind: "http", target: siteNosotrosHref() };
     case "design-system":
       return { kind: "route", target: ROUTES.designSystem };
     case "uxtools":
@@ -271,7 +277,7 @@ export function getMobileDrawerNavItems(
 /** Índice del separador «Más» en el drawer; -1 = sin separador. */
 export function getMobileMoreDividerIndex(): number {
   if (NAV_SURFACE.headerMore.length === 0) return -1;
-  return (NAV_SURFACE.mobileDrawer as readonly NavItemId[]).indexOf("sobre-mi");
+  return (NAV_SURFACE.mobileDrawer as readonly NavItemId[]).indexOf("nosotros");
 }
 
 export function resolvedNavToMenuItem(item: ResolvedNavItem): NavItem {
@@ -388,6 +394,7 @@ export function matchNavItemActive(
   if (item.id === "experiencia" || item.id === "sobre-mi") {
     return normalized === "/sobre-mi";
   }
+  if (item.id === "nosotros") return normalized === "/nosotros";
 
   if (item.id === "negocios") return isProjectsPath(normalized);
   if (item.id === "proceso") return isProcessPath(normalized);

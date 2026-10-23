@@ -156,6 +156,8 @@
               servicios: path.resolve(__dirname, 'servicios/index.html'),
               // /noticias/ (S42 v3): página estática prerenderizada (scripts/prerender-servicios.mjs).
               noticias: path.resolve(__dirname, 'noticias/index.html'),
+              // /nosotros/ (página de empresa, prerenderizada).
+              nosotros: path.resolve(__dirname, 'nosotros/index.html'),
               // /sobre-mi/ : ficha HTTP (el HashRouter /#/sobre-mi no existe como path en Pages).
               sobreMi: path.resolve(__dirname, 'sobre-mi/index.html'),
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera

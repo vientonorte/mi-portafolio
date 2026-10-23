@@ -1,6 +1,7 @@
 export const nav = {
       home: 'Home',
       about: 'About',
+      nosotros: 'About us',
       projects: 'Business',
       experience: 'Experience',
       skills: 'Skills',
