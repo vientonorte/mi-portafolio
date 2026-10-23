@@ -333,6 +333,7 @@ function SiteNavigation({
       news: t.nav.news,
       contact: t.nav.contact,
       about: t.nav.about,
+    nosotros: t.nav.nosotros,
       designSystem: t.nav.designSystem,
       uxtools: t.nav.uxtools,
       more: t.nav.more,

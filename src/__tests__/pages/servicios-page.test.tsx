@@ -407,14 +407,14 @@ describe("/servicios/ nav · selector de idioma (variante estática de Navigatio
     for (const h of hrefs) expect(h, h).not.toContain("/#/");
   });
 
-  it("el menú móvil abierto es el panel de la home: Inicio, Sobre mí y Privacidad como botón", () => {
+  it("el menú móvil abierto es el panel de la home: Inicio, Nosotros y Privacidad como botón", () => {
     rtlRender(<ServiciosPage />);
     fireEvent.click(screen.getByRole("button", { name: "Abrir menú de navegación" }));
     const dialog = screen.getByRole("dialog");
     expect(dialog.getAttribute("id")).toBe("mobile-menu");
     expect(screen.getByRole("button", { name: "Inicio" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Servicios" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Sobre mí" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Nosotros" })).toBeTruthy();
     const privacy = screen.getByRole("button", { name: "Privacidad" });
     expect(privacy.tagName).toBe("BUTTON");
     expect(privacy.getAttribute("href")).toBeNull();

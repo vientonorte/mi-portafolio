@@ -23,6 +23,7 @@ const labels = {
   news: "Noticias",
   contact: "Contacto",
   about: "Sobre mí",
+  nosotros: "Nosotros",
   designSystem: "Design System",
   uxtools: "UX Tools",
   more: "Más",
@@ -54,7 +55,7 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
 
   it("sin «Más»: proceso, consultoría, negocios y design system quedan fuera", () => {
     expect(NAV_SURFACE.headerMore).toEqual([]);
-    expect([...NAV_SURFACE.mobileDrawer]).toEqual(["inicio", "servicios", "news", "contacto", "sobre-mi"]);
+    expect([...NAV_SURFACE.mobileDrawer]).toEqual(["inicio", "servicios", "news", "contacto", "nosotros"]);
     for (const id of ["proceso", "consultoria", "negocios", "experiencia", "design-system", "auditoria"]) {
       expect(NAV_SURFACE.headerPrimary as readonly string[]).not.toContain(id);
       expect(NAV_SURFACE.headerMore as readonly string[]).not.toContain(id);
@@ -63,7 +64,7 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     expect(getMobileMoreDividerIndex()).toBe(-1);
   });
 
-  it("ningún destino del nav es /#/, /news ni un slug viejo; Sobre mí es /sobre-mi/", () => {
+  it("ningún destino del nav es /#/, /news ni un slug viejo; Nosotros es /nosotros/", () => {
     const targets = allNavTargets();
     expect(targets.length).toBeGreaterThan(0);
     for (const t of targets) {
@@ -74,8 +75,8 @@ describe("NAV_SURFACE · nav minimal canónico (audit 2-oct P1-3)", () => {
     }
     expect(targets.some((t) => /(^|\/)news(\/|$)/.test(t))).toBe(false);
     expect(targets).toContain("/noticias/");
-    expect(targets).toContain("/sobre-mi/");
-    expect(targets).not.toContain("/sobre-mi");
+    expect(targets).toContain("/nosotros/");
+    expect(targets).not.toContain("/nosotros");
   });
 });
 
@@ -103,15 +104,15 @@ describe("getHeaderMoreNavItems", () => {
 });
 
 describe("getMobileDrawerNavItems", () => {
-  it("drawer = Inicio + lista única (Servicios · Noticias · Contacto) + Sobre mí", () => {
+  it("drawer = Inicio + lista única (Servicios · Noticias · Contacto) + Nosotros", () => {
     for (const pathname of ["/", "/proceso"]) {
       const items = getMobileDrawerNavItems(labels, "Proceso", pathname);
-      expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "news", "contacto", "sobre-mi"]);
+      expect(items.map((item) => item.id)).toEqual(["inicio", "servicios", "news", "contacto", "nosotros"]);
       expect(items[0]!.action).toEqual({ kind: "anchor", target: "#inicio", homeRoute: "/" });
       expect(items[3]!.action).toEqual({ kind: "anchor", target: "#contacto", homeRoute: "/" });
-      expect(items.find((item) => item.id === "sobre-mi")?.action).toEqual({
+      expect(items.find((item) => item.id === "nosotros")?.action).toEqual({
         kind: "http",
-        target: "/sobre-mi/",
+        target: "/nosotros/",
       });
     }
   });

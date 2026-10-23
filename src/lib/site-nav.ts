@@ -52,6 +52,12 @@ export function siteSobreMiHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/`;
 }
 
+/** /nosotros/ (página de empresa, prerenderizada) respetando base de Vite. */
+export function siteNosotrosHref(): string {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.endsWith("/") ? base : `${base}/`}nosotros/`;
+}
+
 /**
  * Lista ÚNICA de links del header (S42 v3): home, /servicios/, /noticias/ y rubros.
  * Servicios · Noticias · Contacto. La home la consume vía nav-config (NAV_SURFACE.headerPrimary
@@ -69,7 +75,7 @@ export function minimalNavLinks({ contactHref }: { contactHref: string }): SiteN
 
 /**
  * Drawer móvil de /servicios/, /noticias/ y rubros. La misma lista que el drawer
- * de la home: Inicio · Servicios · Noticias · Contacto · Sobre mí.
+ * de la home: Inicio · Servicios · Noticias · Contacto · Nosotros.
  * El header de escritorio sigue en minimalNavLinks.
  */
 export function staticMobileDrawerLinks({
@@ -80,6 +86,6 @@ export function staticMobileDrawerLinks({
   return [
     { id: "inicio", label: "Inicio", href: homeHref() },
     ...minimalNavLinks({ contactHref }),
-    { id: "sobre-mi", label: "Sobre mí", href: siteSobreMiHref() },
+    { id: "nosotros", label: "Nosotros", href: siteNosotrosHref() },
   ];
 }
