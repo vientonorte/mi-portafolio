@@ -158,7 +158,7 @@
               noticias: path.resolve(__dirname, 'noticias/index.html'),
               // /nosotros/ (página de empresa, prerenderizada).
               nosotros: path.resolve(__dirname, 'nosotros/index.html'),
-              // /sobre-mi/ : ficha HTTP (el HashRouter /#/sobre-mi no existe como path en Pages).
+              // /sobre-mi/ : redirect estático a https://ro.vientonorte.io/ (conserva el ancla).
               sobreMi: path.resolve(__dirname, 'sobre-mi/index.html'),
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.

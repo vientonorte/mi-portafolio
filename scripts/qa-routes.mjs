@@ -291,32 +291,33 @@ async function checkMobileMenuNav(browser) {
   }
 }
 
-/** `#/sobre-mi` no es vista. Tiene que terminar en /sobre-mi/ con la ficha. */
+/** `#/sobre-mi` y /sobre-mi/#ancla terminan en https://ro.vientonorte.io/ (ancla intacta). */
 async function checkSobreMiHttp(page) {
+  const label = '#/sobre-mi y /sobre-mi/#experiencia → ro.vientonorte.io';
   try {
-    await page.goto(`${BASE}/#/sobre-mi`, { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForFunction(
-      () => {
-        const path = (location.pathname || '/').replace(/\/+$/, '') || '/';
-        return path === '/sobre-mi' && !location.hash.startsWith('#/');
-      },
-      { timeout: 15000 }
+    // ro.vientonorte.io es otro sitio (Vercel): en CI se responde en local para no depender del DNS.
+    await page.route('https://ro.vientonorte.io/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>ro</title><p>ro</p>' })
     );
-    await page.waitForSelector('#main', { state: 'attached', timeout: 25000 });
-    await page.waitForSelector('#habilidades', { state: 'attached', timeout: 20000 });
-    const text = await page.locator('#main').innerText();
     const errors = [];
-    if (!text.includes('UX Manager')) errors.push('sin UX Manager');
-    if (text.includes('Prototipos en Figma')) errors.push('ficha inventada');
-    const title = await page.title();
-    if (!title.includes('Sobre mí')) errors.push(`title: ${title}`);
-    return { label: '#/sobre-mi → /sobre-mi/', ok: errors.length === 0, errors };
+    const cases = [
+      [`${BASE}/#/sobre-mi`, 'https://ro.vientonorte.io/'],
+      [`${BASE}/sobre-mi/#experiencia`, 'https://ro.vientonorte.io/#experiencia'],
+      [`${BASE}/sobre-mi/?utm_source=cv#habilidades`, 'https://ro.vientonorte.io/?utm_source=cv#habilidades'],
+      [`${BASE}/mi-portafolio/#experiencia`, 'https://ro.vientonorte.io/#experiencia'],
+    ];
+    for (const [from, to] of cases) {
+      await page.goto(from, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {});
+      try {
+        await page.waitForURL((u) => u.href === to, { timeout: 15000 });
+      } catch {
+        errors.push(`${from} → ${page.url()} (esperado ${to})`);
+      }
+    }
+    await page.unroute('https://ro.vientonorte.io/**');
+    return { label, ok: errors.length === 0, errors };
   } catch (err) {
-    return {
-      label: '#/sobre-mi → /sobre-mi/',
-      ok: false,
-      errors: [err.message.split('\n')[0]],
-    };
+    return { label, ok: false, errors: [err.message.split('\n')[0]] };
   }
 }
 

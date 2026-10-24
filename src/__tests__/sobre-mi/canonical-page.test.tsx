@@ -6,9 +6,9 @@ import { canonicalFromPath } from "@/vn-core/seo";
 import { sobreMiHttpStays } from "@/sobre-mi/http-history";
 
 describe("sobre-mi HTTP ficha", () => {
-  it("canonicalizes the profile to the HTTP URL", () => {
-    expect(canonicalFromPath("/sobre-mi")).toBe("https://vientonorte.io/sobre-mi/");
-    expect(canonicalFromPath("/sobre-mi/")).toBe("https://vientonorte.io/sobre-mi/");
+  it("canonicalizes the profile to ro.vientonorte.io", () => {
+    expect(canonicalFromPath("/sobre-mi")).toBe("https://ro.vientonorte.io/");
+    expect(canonicalFromPath("/sobre-mi/")).toBe("https://ro.vientonorte.io/");
     expect(canonicalFromPath("/proyectos")).toBe("https://vientonorte.io/");
   });
 
@@ -20,18 +20,18 @@ describe("sobre-mi HTTP ficha", () => {
     expect(sobreMiHttpStays("/empresa/transvip")).toBe(false);
   });
 
-  it("#/sobre-mi replaces to the slash URL and keeps a section anchor", () => {
-    expect(buildSobreMiRedirectUrl("", "")).toBe("/sobre-mi/");
+  it("#/sobre-mi replaces to ro.vientonorte.io and keeps a section anchor", () => {
+    expect(buildSobreMiRedirectUrl("", "")).toBe("https://ro.vientonorte.io/");
     expect(buildSobreMiRedirectUrl("?utm_source=wa", "?utm_medium=chat")).toBe(
-      "/sobre-mi/?utm_source=wa&utm_medium=chat"
+      "https://ro.vientonorte.io/?utm_source=wa&utm_medium=chat"
     );
-    expect(buildSobreMiRedirectUrl("", "", "experiencia")).toBe("/sobre-mi/#experiencia");
+    expect(buildSobreMiRedirectUrl("", "", "experiencia")).toBe("https://ro.vientonorte.io/#experiencia");
     vi.stubEnv("BASE_URL", "/qa/");
-    expect(buildSobreMiRedirectUrl("?a=1", "")).toBe("/qa/sobre-mi/?a=1");
+    expect(buildSobreMiRedirectUrl("?a=1", "")).toBe("https://ro.vientonorte.io/?a=1");
     vi.unstubAllEnvs();
   });
 
-  it("the hash route replaces the document to /sobre-mi/", () => {
+  it("the hash route replaces the document to ro.vientonorte.io", () => {
     const replace = vi.fn();
     vi.spyOn(window, "location", "get").mockReturnValue({
       ...window.location,
@@ -45,7 +45,7 @@ describe("sobre-mi HTTP ficha", () => {
         </Routes>
       </MemoryRouter>
     );
-    expect(replace).toHaveBeenCalledWith("/sobre-mi/#experiencia");
+    expect(replace).toHaveBeenCalledWith("https://ro.vientonorte.io/#experiencia");
     vi.restoreAllMocks();
   });
 });
