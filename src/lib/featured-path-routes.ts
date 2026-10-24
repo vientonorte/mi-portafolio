@@ -1,3 +1,4 @@
+import { siteSobreMiHref } from "./site-nav";
 import type { NavigateFunction } from "react-router-dom";
 import { ROUTES } from "./routes";
 import { navigateToPageSection } from "./navigate-to-section";
@@ -58,7 +59,7 @@ export function navigateFeaturedPath(
       else if (id === "contacto") navigate(ROUTES.contact);
       else if (id === "proyectos") navigate(ROUTES.projects);
       else if (id === "proceso") navigate(ROUTES.process);
-      else if (id === "sobre-mi") navigate("/sobre-mi");
+      else if (id === "sobre-mi") window.location.assign(siteSobreMiHref());
       else navigate(ROUTES.home);
       break;
     case "path": {
@@ -74,6 +75,10 @@ export function navigateFeaturedPath(
     }
     case "section": {
       const [page, sectionId] = rest;
+      if (page === "sobre-mi") {
+        window.location.assign(siteSobreMiHref(sectionId));
+        break;
+      }
       const dest = resolveConsultoriaPath(`/${page}`, sectionId);
       navigateToPageSection(navigate, dest, sectionId, currentPath);
       break;

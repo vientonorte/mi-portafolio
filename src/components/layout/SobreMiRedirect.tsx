@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { siteSobreMiHref } from "../../lib/site-nav";
 
 /**
- * `#/sobre-mi` no es URL pública. La ficha es /sobre-mi/.
+ * `#/sobre-mi` no es URL pública. La ficha es https://ro.vientonorte.io/.
  * Respaldo del script de index.html (carga directa, antes de montar la SPA).
  * En navegación dentro del HashRouter, replace: no queda la ruta hash en el historial.
  * Conserva la query real y la de la ruta hash. Un scrollTo de sección baja como ancla
@@ -20,7 +20,7 @@ export function buildSobreMiRedirectUrl(
   });
   const qs = params.toString();
   const anchor = sectionId && /^[A-Za-z][\w-]*$/.test(sectionId) ? `#${sectionId}` : "";
-  return `${siteSobreMiHref()}${qs ? `?${qs}` : ""}${anchor}`;
+  return `${siteSobreMiHref()}${qs ? `?${qs}` : ""}${anchor}`; // https://ro.vientonorte.io/
 }
 
 export function SobreMiRedirect() {

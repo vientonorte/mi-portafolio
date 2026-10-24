@@ -195,7 +195,6 @@ export async function prerenderServicios({ root, outDir, base }) {
             rubros: path.join(root, 'src/rubros/entry-server.tsx'),
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
             nosotros: path.join(root, 'src/nosotros/entry-server.tsx'),
-            sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
             contacto: path.join(root, 'src/contacto/entry-server.tsx'),
             privacidad: path.join(root, 'src/privacidad/entry-server.tsx'),
           },
@@ -259,22 +258,8 @@ export async function prerenderServicios({ root, outDir, base }) {
     const privApp = (await load('privacidad')).render();
     publish(privTarget, privHtml, privApp);
 
-    // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
-    const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
-    if (!fs.existsSync(sobreMiTarget)) throw new Error(`[prerender-servicios] falta ${sobreMiTarget}`);
-    const sobreMiHtml = fs.readFileSync(sobreMiTarget, 'utf8');
-    if (!sobreMiHtml.includes(OUTLET)) {
-      throw new Error('[prerender-servicios] dist/sobre-mi/index.html sin <!--ssr-outlet-->');
-    }
-    const sobreMi = await load('sobreMi');
-    const sobreMiApp = await sobreMi.render();
-    if (!sobreMiApp.includes('id="habilidades"') || !sobreMiApp.includes('UX Manager')) {
-      throw new Error('[prerender-servicios] /sobre-mi/ no renderizó la ficha canónica');
-    }
-    if (sobreMiApp.includes('Prototipos en Figma')) {
-      throw new Error('[prerender-servicios] /sobre-mi/ sigue con la ficha inventada');
-    }
-    publish(sobreMiTarget, sobreMiHtml, sobreMiApp);
+    // /sobre-mi/ no se prerenderiza. El stub estático (sobre-mi/index.html) redirige a
+    // https://ro.vientonorte.io/ con un solo <head>. Inyectar el SSR duplicaba title y canonical (#378).
 
     // /contacto/ — ficha HTTP. Sin esto, Pages sirve 404.html (copia de la home).
     const contactoTarget = path.join(outDir, 'contacto', 'index.html');
