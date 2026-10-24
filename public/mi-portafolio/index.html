@@ -2,15 +2,15 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Redirigiendo a Viento Norte…</title>
+    <title>Portafolio de Rodrigo Gaete · ro.vientonorte.io</title>
     <meta
       name="description"
-      content="La ruta /mi-portafolio/ ya no es canónica. Redirige a https://vientonorte.io/"
+      content="El portafolio de Rodrigo Gaete está en https://ro.vientonorte.io/ (los CV citan /mi-portafolio/)."
     />
     <meta name="robots" content="noindex, follow" />
-    <link rel="canonical" href="https://vientonorte.io/" />
+    <link rel="canonical" href="https://ro.vientonorte.io/" />
     <!-- OG mínimo para shares viejos que aún usen esta URL -->
-    <meta property="og:url" content="https://vientonorte.io/" />
+    <meta property="og:url" content="https://ro.vientonorte.io/" />
     <meta property="og:title" content="Viento Norte · UXtech" />
     <meta
       property="og:description"
@@ -20,27 +20,25 @@
       property="og:image"
       content="https://vientonorte.io/images/branding/og-portfolio.png"
     />
-    <meta http-equiv="refresh" content="0;url=https://vientonorte.io/" />
     <script>
       (function () {
+        // Los CV enlazan https://vientonorte.io/mi-portafolio/ → portafolio en ro.vientonorte.io.
+        // Conserva query y ancla de sección; descarta rutas hash legado (#/...).
         var h = window.location.hash || "";
-        if (h.indexOf("#/mi-portafolio") === 0) {
-          h = "#" + (h.slice("#/mi-portafolio".length) || "/");
-        }
-        if (!h || h === "#" || h === "#/") {
-          window.location.replace("https://vientonorte.io/");
-          return;
-        }
-        window.location.replace("https://vientonorte.io/" + h);
+        if (h.indexOf("#/") === 0) h = "";
+        window.location.replace("https://ro.vientonorte.io/" + window.location.search + h);
       })();
     </script>
+    <meta http-equiv="refresh" content="0;url=https://ro.vientonorte.io/" />
   </head>
   <body>
-    <p>
-      Canon:
-      <a href="https://vientonorte.io/">https://vientonorte.io/</a>
-      (sin <code>/mi-portafolio/</code>).
-    </p>
+    <main>
+      <h1>El portafolio se mudó</h1>
+      <p>
+        El portafolio de Rodrigo Gaete ahora está en
+        <a href="https://ro.vientonorte.io/">ro.vientonorte.io</a>.
+      </p>
+    </main>
   </body>
 </html>
 

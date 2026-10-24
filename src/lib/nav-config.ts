@@ -139,7 +139,7 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "negocios":
       return { kind: "route", target: ROUTES.projects };
     case "experiencia":
-      return { kind: "section", target: "/sobre-mi", sectionId: "experiencia" };
+      return { kind: "http", target: siteSobreMiHref("experiencia") };
     case "consultoria":
       return { kind: "route", target: ROUTES.consulting };
     case "servicios":
@@ -150,10 +150,10 @@ function getStaticNavAction(id: NavItemId): NavAction {
     case "proceso":
       return { kind: "route", target: ROUTES.process };
     case "sobre-mi":
-      // Página HTTP /sobre-mi/. El HashRouter no es una URL que GitHub Pages sirva.
+      // Portafolio en https://ro.vientonorte.io/ (/sobre-mi/ es redirect).
       return { kind: "http", target: siteSobreMiHref() };
     case "nosotros":
-      // Página HTTP /nosotros/ (empresa). /sobre-mi/ sigue viva y en el sitemap.
+      // Página HTTP /nosotros/ (empresa). /sobre-mi/ redirige a ro.vientonorte.io.
       return { kind: "http", target: siteNosotrosHref() };
     case "design-system":
       return { kind: "route", target: ROUTES.designSystem };
