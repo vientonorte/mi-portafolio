@@ -18,7 +18,7 @@ export default defineConfig({
         r2Buckets: ['IMAGES_BUCKET'],
         bindings: {
           ALLOWED_ORIGIN:
-            'https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,http://localhost:3000',
+            'https://vientonorte.io,https://www.vientonorte.io,https://vientonorte.github.io,https://ro.vientonorte.io,http://localhost:3000',
           CONTACT_FROM: 'contacto@vientonorte.io',
           CONTACT_FROM_NAME: 'Viento Norte',
           CONTACT_INBOX: 'inbox-test@vientonorte.test',
