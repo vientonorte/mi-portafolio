@@ -47,7 +47,7 @@
     "cmdk": "^1.1.1",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.5.0",
-    "lucide-react": "^1.57.0",
+    "lucide-react": "^1.61.0",
     "motion": "*",
     "next-themes": "^0.4.6",
     "react": "19.3.1",
@@ -55,7 +55,7 @@
     "react-dom": "19.3.1",
     "react-helmet-async": "^3.0.0",
     "react-hook-form": "^7.90.0",
-    "react-resizable-panels": "^4.14.5",
+    "react-resizable-panels": "^4.14.8",
     "react-router-dom": "^7.18.4",
     "recharts": "^3.10.1",
     "sonner": "^2.0.8",
@@ -128,6 +128,6 @@
     "dev:local": "bash scripts/start-local.sh"
   },
   "optionalDependencies": {
-    "@rolldown/binding-darwin-arm64": "^1.2.14"
+    "@rolldown/binding-darwin-arm64": "^1.2.15"
   }
 }
