@@ -12,6 +12,7 @@ Código: `worker/src/api/qr-fruta.js` · tests: `worker/src/__tests__/qr-fruta.t
 | Pajaritos | https://contact.vientonorte.io/q/pajaritos |
 | Las Rejas | https://contact.vientonorte.io/q/las-rejas |
 | U. Católica | https://contact.vientonorte.io/q/u-catolica |
+| Estación Central | https://contact.vientonorte.io/q/estacion-central |
 
 Cada una responde `302` al Google Form
 `https://docs.google.com/forms/d/e/1FAIpQLSfRpG5wLwm2jJp2AjCGsyFGFxyJEPWB4c0UBvwUSOerrEtjXg/viewform`

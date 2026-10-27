@@ -11,6 +11,7 @@ export const QR_PUNTOS = Object.freeze([
   'pajaritos',
   'las-rejas',
   'u-catolica',
+  'estacion-central',
 ]);
 
 // Prellenado futuro: claves `entry.<dígitos>` permitidas. Vacía por ahora → no se reenvía nada.
