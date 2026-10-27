@@ -61,6 +61,10 @@ Sin token o token incorrecto → `401` (también si el secret no está cargado).
 ## Privacidad
 
 No se guarda IP, User-Agent ni cookies; las claves KV solo contienen punto y fecha y los valores son
-números. El handler no hace `console.log` del request. Nota: `[observability]` está activo en
-`wrangler.toml` (Workers Logs registra metadata de invocación de Cloudflare); si se quiere cero
-metadata para `/q/*`, evaluar `head_sampling_rate` o desactivarlo — decisión aparte.
+números. El handler no hace `console.log` del request.
+
+`worker/wrangler.toml` tiene `[observability] enabled = true` con
+`[observability.logs] invocation_logs = false`: Workers Logs **no** registra la metadata de
+invocación (URL, headers, IP de Cloudflare) de ningún request del worker, incluido `/q/*`.
+Solo quedarían líneas `console.*` explícitas del código (ninguna con PII). Efecto real recién
+con el próximo deploy (orden TL).

@@ -59,3 +59,8 @@ bucket_name = "mi-portafolio-images"
 # Se aplica con el deploy del lunes junto con H1 y H2. Solo en este toml, no en wrangler.contact.toml.
 [observability]
 enabled = true
+
+# QR FRUTA / privacidad: sin invocation logs (metadata de request: URL, headers, IP de CF).
+# console.log del código seguiría registrándose; el worker no loguea PII.
+[observability.logs]
+invocation_logs = false
