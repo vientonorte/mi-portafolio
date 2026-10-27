@@ -5,22 +5,22 @@ Código: `worker/src/api/qr-fruta.js` · tests: `worker/src/__tests__/qr-fruta.t
 
 ## URLs de los QR
 
-Allowlist estática en `worker/src/qr-points.ts` (12 puntos; agregar uno = PR + deploy).
+Allowlist estática en `worker/src/qr-points.ts` (12 puntos `{slug, label, comuna}`; agregar uno = PR + deploy). Comunas según la ficha de cada estación en es.wikipedia.org (27-oct-2026).
 
-| Punto | URL |
-|---|---|
-| general | https://contact.vientonorte.io/q/general |
-| los-leones | https://contact.vientonorte.io/q/los-leones |
-| u-catolica | https://contact.vientonorte.io/q/u-catolica |
-| u-de-chile | https://contact.vientonorte.io/q/u-de-chile |
-| los-heroes | https://contact.vientonorte.io/q/los-heroes |
-| estacion-central | https://contact.vientonorte.io/q/estacion-central |
-| baquedano | https://contact.vientonorte.io/q/baquedano |
-| union-latinoamericana | https://contact.vientonorte.io/q/union-latinoamericana |
-| las-rejas | https://contact.vientonorte.io/q/las-rejas |
-| pajaritos | https://contact.vientonorte.io/q/pajaritos |
-| san-pablo | https://contact.vientonorte.io/q/san-pablo |
-| plaza-de-maipu | https://contact.vientonorte.io/q/plaza-de-maipu |
+| Punto | Comuna | URL |
+|---|---|---|
+| General | — | https://contact.vientonorte.io/q/general |
+| Los Leones | Providencia | https://contact.vientonorte.io/q/los-leones |
+| Universidad Católica | Santiago | https://contact.vientonorte.io/q/u-catolica |
+| Universidad de Chile | Santiago | https://contact.vientonorte.io/q/u-de-chile |
+| Los Héroes | Santiago | https://contact.vientonorte.io/q/los-heroes |
+| Estación Central | Estación Central | https://contact.vientonorte.io/q/estacion-central |
+| Baquedano | Providencia | https://contact.vientonorte.io/q/baquedano |
+| Unión Latinoamericana | Santiago | https://contact.vientonorte.io/q/union-latinoamericana |
+| Las Rejas | Estación Central / Lo Prado | https://contact.vientonorte.io/q/las-rejas |
+| Pajaritos | Lo Prado | https://contact.vientonorte.io/q/pajaritos |
+| San Pablo | Lo Prado | https://contact.vientonorte.io/q/san-pablo |
+| Plaza de Maipú | Maipú | https://contact.vientonorte.io/q/plaza-de-maipu |
 
 Cada una responde `302` al Google Form
 `https://docs.google.com/forms/d/e/1FAIpQLSfRpG5wLwm2jJp2AjCGsyFGFxyJEPWB4c0UBvwUSOerrEtjXg/viewform`
@@ -43,20 +43,33 @@ consistente; escaneos simultáneos pueden perder incrementos. Sirve para tendenc
 
 ## Ver el conteo
 
-Secret (lo carga Rö, nunca en el repo ni en el chat):
+Dos secrets (los carga Rö; nunca en el repo ni en el chat):
 
-```sh
-cd worker && npx wrangler secret put QR_STATS_TOKEN
+- `QR_VIEW_KEY` — llave de **vista** (≥32 bytes, base64url). Ej. para generarla localmente:
+  `openssl rand -base64 32 | tr '+/' '-_' | tr -d '='`, luego `cd worker && npx wrangler secret put QR_VIEW_KEY`.
+- `QR_STATS_TOKEN` — token **admin** (Bearer). `cd worker && npx wrangler secret put QR_STATS_TOKEN`.
+
+Vista móvil (HTML, totales por punto con comuna + tabla por día en fecha Chile, «actualizado a las HH:MM CL»):
+
+```
+https://contact.vientonorte.io/q/stats?k=<QR_VIEW_KEY>
+https://contact.vientonorte.io/q/stats?k=<QR_VIEW_KEY>&format=json
 ```
 
+Admin:
+
 ```sh
-# JSON
-curl -s -H "Authorization: Bearer <TOKEN>" https://contact.vientonorte.io/q/stats
-# Tabla HTML
+curl -s -H "Authorization: Bearer <TOKEN>" https://contact.vientonorte.io/q/stats            # JSON
 curl -s -H "Authorization: Bearer <TOKEN>" "https://contact.vientonorte.io/q/stats?format=html"
 ```
 
-Sin token o token incorrecto → `401` (también si el secret no está cargado).
+Sin key/token, incorrectos o secret sin cargar → `401` (página mínima). Solo lectura: no hay POST ni reset.
+Comparación constant-time. Headers en `/q/stats`: `Cache-Control: no-store`, `Referrer-Policy: no-referrer`,
+`X-Robots-Tag: noindex`, `Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'`
+(sin JS de terceros ni analytics; CSS inline, fuente del sistema).
+
+Nota: la `?k=` va en la URL; con `no-referrer` no se filtra a otros sitios, pero queda en el historial
+del navegador de quien la abra. Rotar con `wrangler secret put QR_VIEW_KEY` si se comparte de más.
 
 ## Privacidad
 
