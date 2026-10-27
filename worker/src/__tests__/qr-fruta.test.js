@@ -96,6 +96,6 @@ describe('QR FRUTA /q/stats', () => {
     expect(body.stats['las-rejas'].days[santiagoDate()]).toBe(1);
     const html = await worker.fetch(new Request('https://contact.vientonorte.io/q/stats?format=html', { headers: auth }), env, makeCtx());
     expect(html.headers.get('Content-Type')).toContain('text/html');
-    expect(await html.text()).toContain('las-rejas');
+    expect(await html.text()).toContain('Las Rejas');
   });
 });

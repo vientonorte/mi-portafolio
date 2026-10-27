@@ -1,4 +1,4 @@
-import { QR_POINTS } from '../qr-points.ts';
+import { QR_POINTS, QR_POINT_DEFS } from '../qr-points.ts';
 // Contador QR FRUTA · GET /q/:punto → 302 al Google Form, GET /q/stats (Bearer QR_STATS_TOKEN).
 // Privacidad: no se guarda IP, UA, cookies ni se loguea el request. Conteo en ADMIN_KV
 // (aproximado: KV no es atómico, escrituras simultáneas pueden perder incrementos).
@@ -83,21 +83,52 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 }
 
-export async function handleQrStats(request, env) {
-  const noStore = { 'Cache-Control': 'no-store' };
-  const secret = env.QR_STATS_TOKEN;
-  if (!secret) return new Response('Unauthorized', { status: 401, headers: noStore });
+const STATS_HEADERS = {
+  'Cache-Control': 'no-store',
+  'Referrer-Policy': 'no-referrer',
+  'X-Robots-Tag': 'noindex',
+  'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'",
+};
+
+const PAGE_CSS =
+  'body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;padding:16px;max-width:720px;margin-inline:auto;color:#111;background:#fff}' +
+  'h1{font-size:1.25rem;margin:0 0 4px}h2{font-size:1.05rem;margin:24px 0 8px}p.meta{color:#555;font-size:.85rem;margin:0 0 16px}' +
+  'table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:8px 6px;border-bottom:1px solid #e5e5e5;text-align:left}' +
+  'td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.c{color:#666;font-size:.8rem;display:block}' +
+  '.wrap{overflow-x:auto}@media(prefers-color-scheme:dark){body{background:#111;color:#eee}th,td{border-color:#333}.c,p.meta{color:#aaa}}';
+
+function unauthorized() {
+  const html = `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>401</title><style>${PAGE_CSS}</style><h1>No autorizado</h1>`;
+  return new Response(html, {
+    status: 401,
+    headers: { ...STATS_HEADERS, 'Content-Type': 'text/html; charset=utf-8', 'WWW-Authenticate': 'Bearer' },
+  });
+}
+
+function santiagoTime(now = new Date()) {
+  return new Intl.DateTimeFormat('es-CL', {
+    timeZone: 'America/Santiago',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(now);
+}
+
+/** Admin: Bearer QR_STATS_TOKEN · Vista: ?k=QR_VIEW_KEY. Secret sin cargar = no autoriza. */
+export function statsAuth(request, env) {
+  const url = new URL(request.url);
   const auth = request.headers.get('Authorization') || '';
   const m = /^Bearer\s+(.+)$/.exec(auth);
-  if (!m || !timingSafeEqual(m[1].trim(), secret)) {
-    return new Response('Unauthorized', {
-      status: 401,
-      headers: { ...noStore, 'WWW-Authenticate': 'Bearer' },
-    });
-  }
+  if (m && env.QR_STATS_TOKEN && timingSafeEqual(m[1].trim(), env.QR_STATS_TOKEN)) return 'admin';
+  const k = url.searchParams.get('k');
+  if (k && env.QR_VIEW_KEY && timingSafeEqual(k, env.QR_VIEW_KEY)) return 'view';
+  return null;
+}
+
+export async function readQrStats(env) {
   const kv = env.ADMIN_KV;
   const stats = {};
-  for (const punto of QR_PUNTOS) stats[punto] = { total: 0, days: {} };
+  for (const slug of QR_PUNTOS) stats[slug] = { total: 0, days: {} };
   if (kv) {
     let cursor;
     do {
@@ -112,24 +143,51 @@ export async function handleQrStats(request, env) {
       cursor = res.list_complete ? undefined : res.cursor;
     } while (cursor);
   }
+  return QR_POINT_DEFS.map((p) => ({ slug: p.slug, label: p.label, comuna: p.comuna, ...stats[p.slug] }));
+}
+
+export function renderStatsHtml(puntos, now = new Date()) {
+  const days = [...new Set(puntos.flatMap((p) => Object.keys(p.days)))].sort().reverse();
+  const totalAll = puntos.reduce((a, p) => a + p.total, 0);
+  const totRows = puntos
+    .map(
+      (p) =>
+        `<tr><td>${escapeHtml(p.label)}<span class="c">${escapeHtml(p.comuna)}</span></td><td class="n">${p.total}</td></tr>`
+    )
+    .join('');
+  const dayHead = puntos.map((p) => `<th class="n" title="${escapeHtml(p.comuna)}">${escapeHtml(p.label)}</th>`).join('');
+  const dayRows = days
+    .map(
+      (d) =>
+        `<tr><td>${escapeHtml(d)}</td>${puntos.map((p) => `<td class="n">${p.days[d] || 0}</td>`).join('')}</tr>`
+    )
+    .join('');
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>QR FRUTA · conteo</title><style>${PAGE_CSS}</style></head><body>
+<h1>QR FRUTA · escaneos</h1><p class="meta">actualizado a las ${santiagoTime(now)} CL · conteo aproximado · total ${totalAll}</p>
+<h2>Total por punto</h2><table><thead><tr><th>Punto · comuna</th><th class="n">Total</th></tr></thead><tbody>${totRows}</tbody></table>
+<h2>Por día (fecha Chile)</h2><div class="wrap"><table><thead><tr><th>Día</th>${dayHead}</tr></thead><tbody>${dayRows || `<tr><td colspan="${puntos.length + 1}">Sin escaneos aún</td></tr>`}</tbody></table></div>
+</body></html>`;
+}
+
+export async function handleQrStats(request, env) {
+  const who = statsAuth(request, env);
+  if (!who) return unauthorized();
+  const puntos = await readQrStats(env);
   const url = new URL(request.url);
+  const format = url.searchParams.get('format');
+  const accept = request.headers.get('Accept') || '';
+  // Vista (?k=) → HTML por defecto; admin (Bearer) → JSON por defecto (compat).
   const wantsHtml =
-    url.searchParams.get('format') === 'html' ||
-    (url.searchParams.get('format') !== 'json' &&
-      (request.headers.get('Accept') || '').includes('text/html'));
+    format === 'html' || (format !== 'json' && (who === 'view' || accept.includes('text/html')));
   if (wantsHtml) {
-    const rows = [];
-    for (const [punto, s] of Object.entries(stats)) {
-      for (const day of Object.keys(s.days).sort()) {
-        rows.push(`<tr><td>${escapeHtml(punto)}</td><td>${escapeHtml(day)}</td><td>${s.days[day]}</td></tr>`);
-      }
-      rows.push(`<tr><th>${escapeHtml(punto)}</th><th>total</th><th>${s.total}</th></tr>`);
-    }
-    const html = `<!doctype html><meta charset="utf-8"><title>QR FRUTA</title><h1>QR FRUTA · conteo (aproximado)</h1><table border="1" cellpadding="4"><tr><th>punto</th><th>día (Santiago)</th><th>escaneos</th></tr>${rows.join('')}</table>`;
-    return new Response(html, { status: 200, headers: { ...noStore, 'Content-Type': 'text/html; charset=utf-8' } });
+    return new Response(renderStatsHtml(puntos), {
+      status: 200,
+      headers: { ...STATS_HEADERS, 'Content-Type': 'text/html; charset=utf-8' },
+    });
   }
-  return new Response(JSON.stringify({ ok: true, approximate: true, stats }), {
-    status: 200,
-    headers: { ...noStore, 'Content-Type': 'application/json' },
-  });
+  const stats = Object.fromEntries(puntos.map((p) => [p.slug, p]));
+  return new Response(
+    JSON.stringify({ ok: true, approximate: true, updatedAt: new Date().toISOString(), puntos, stats }),
+    { status: 200, headers: { ...STATS_HEADERS, 'Content-Type': 'application/json' } }
+  );
 }
