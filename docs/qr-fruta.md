@@ -5,14 +5,22 @@ Código: `worker/src/api/qr-fruta.js` · tests: `worker/src/__tests__/qr-fruta.t
 
 ## URLs de los QR
 
+Allowlist estática en `worker/src/qr-points.ts` (12 puntos; agregar uno = PR + deploy).
+
 | Punto | URL |
 |---|---|
 | general | https://contact.vientonorte.io/q/general |
-| Unión Latinoamericana | https://contact.vientonorte.io/q/union-latinoamericana |
-| Pajaritos | https://contact.vientonorte.io/q/pajaritos |
-| Las Rejas | https://contact.vientonorte.io/q/las-rejas |
-| U. Católica | https://contact.vientonorte.io/q/u-catolica |
-| Estación Central | https://contact.vientonorte.io/q/estacion-central |
+| los-leones | https://contact.vientonorte.io/q/los-leones |
+| u-catolica | https://contact.vientonorte.io/q/u-catolica |
+| u-de-chile | https://contact.vientonorte.io/q/u-de-chile |
+| los-heroes | https://contact.vientonorte.io/q/los-heroes |
+| estacion-central | https://contact.vientonorte.io/q/estacion-central |
+| baquedano | https://contact.vientonorte.io/q/baquedano |
+| union-latinoamericana | https://contact.vientonorte.io/q/union-latinoamericana |
+| las-rejas | https://contact.vientonorte.io/q/las-rejas |
+| pajaritos | https://contact.vientonorte.io/q/pajaritos |
+| san-pablo | https://contact.vientonorte.io/q/san-pablo |
+| plaza-de-maipu | https://contact.vientonorte.io/q/plaza-de-maipu |
 
 Cada una responde `302` al Google Form
 `https://docs.google.com/forms/d/e/1FAIpQLSfRpG5wLwm2jJp2AjCGsyFGFxyJEPWB4c0UBvwUSOerrEtjXg/viewform`

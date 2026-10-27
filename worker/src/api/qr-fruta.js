@@ -1,3 +1,4 @@
+import { QR_POINTS } from '../qr-points.ts';
 // Contador QR FRUTA · GET /q/:punto → 302 al Google Form, GET /q/stats (Bearer QR_STATS_TOKEN).
 // Privacidad: no se guarda IP, UA, cookies ni se loguea el request. Conteo en ADMIN_KV
 // (aproximado: KV no es atómico, escrituras simultáneas pueden perder incrementos).
@@ -5,14 +6,7 @@
 export const QR_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSfRpG5wLwm2jJp2AjCGsyFGFxyJEPWB4c0UBvwUSOerrEtjXg/viewform';
 
-export const QR_PUNTOS = Object.freeze([
-  'general',
-  'union-latinoamericana',
-  'pajaritos',
-  'las-rejas',
-  'u-catolica',
-  'estacion-central',
-]);
+export const QR_PUNTOS = QR_POINTS;
 
 // Prellenado futuro: claves `entry.<dígitos>` permitidas. Vacía por ahora → no se reenvía nada.
 export const QR_PREFILL_ALLOWLIST = Object.freeze([]);
