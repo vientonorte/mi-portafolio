@@ -11,6 +11,7 @@ import { canonicalFromPath } from "../lib/seo";
 import { ROUTES } from "../lib/routes";
 
 const APP_PRIVACY = "https://vientonorte.io/s/polijuego-privacy/";
+const CAMPO_APP = "https://campo.vientonorte.io";
 
 const Privacy = () => {
   const { language } = useLanguage();
@@ -122,6 +123,27 @@ const Privacy = () => {
             {p.appCta}
           </a>
         </article>
+
+        <section
+          aria-labelledby="privacy-campo-title"
+          className="rounded-2xl border border-border bg-card p-6 mb-10"
+        >
+          <h2 id="privacy-campo-title" className="text-lg font-semibold tracking-tight m-0">
+            {p.campoTitle}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2 mb-3">{p.campoLead}</p>
+          <ul className="mb-4 space-y-2 text-sm text-muted-foreground list-disc pl-5">
+            {p.campoItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <a
+            href={CAMPO_APP}
+            className="inline-flex min-h-11 items-center text-primary underline underline-offset-2 text-sm font-medium"
+          >
+            {p.campoCta}
+          </a>
+        </section>
 
         <h2 className="text-xl font-semibold tracking-tight mb-2">
           {p.controllerTitle}
