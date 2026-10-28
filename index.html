@@ -30,20 +30,21 @@
           return;
         }
         // Definición: la ruta hash de una ficha HTTP redirige a la URL con barra.
-        // #/sobre-mi, #/sobre-mi/ y #/sobre-mi?utm → /sobre-mi/. Ancla de sección (#experiencia) no entra.
+        // #/sobre-mi, #/sobre-mi/ y #/sobre-mi?utm → https://ro.vientonorte.io/. Ancla de sección (#experiencia) no entra.
         if (/^#\/sobre-mi(\/|\?|$)/.test(hn)) {
           var smq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
           var sms = q || smq;
           if (q && smq) sms = q + "&" + smq.slice(1);
-          location.replace("%BASE_URL%sobre-mi/" + sms);
+          location.replace("https://ro.vientonorte.io/" + sms);
           return;
         }
         // /sobre-mi (sin barra) no es archivo. La ficha es /sobre-mi/. Sin hop a hash.
         var basePath = "%BASE_URL%";
         if (basePath.charAt(0) !== "/") basePath = "/" + basePath;
         if (basePath.slice(-1) !== "/") basePath += "/";
-        if (p === basePath + "sobre-mi") {
-          location.replace(basePath + "sobre-mi/" + q);
+        // /sobre-mi y /sobre-mi/<sub> (404 → este shell) → ro.vientonorte.io, con query y ancla.
+        if (p === basePath + "sobre-mi" || p.indexOf(basePath + "sobre-mi/") === 0) {
+          location.replace("https://ro.vientonorte.io/" + q + (hn.indexOf("#/") === 0 ? "" : hn));
           return;
         }
         // 13-oct: vista hash #/privacy → /privacidad/ (página estática). Conserva la query.

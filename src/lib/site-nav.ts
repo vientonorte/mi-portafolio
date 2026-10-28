@@ -52,10 +52,13 @@ export function siteNoticiasHref(): string {
   return `${base.endsWith("/") ? base : `${base}/`}noticias/`;
 }
 
-/** /sobre-mi/. `#/sobre-mi` redirige aquí; no es una URL pública. */
-export function siteSobreMiHref(): string {
-  const base = import.meta.env.BASE_URL || "/";
-  return `${base.endsWith("/") ? base : `${base}/`}sobre-mi/`;
+/** Portafolio de Rodrigo Gaete: https://ro.vientonorte.io/ (antes /sobre-mi/, hoy redirect). */
+export const RO_PORTAFOLIO_URL = "https://ro.vientonorte.io/";
+
+/** Ficha personal. `#/sobre-mi` y /sobre-mi/ redirigen aquí. Ancla opcional (`experiencia`). */
+export function siteSobreMiHref(anchor?: string): string {
+  const a = anchor && /^[A-Za-z][\w-]*$/.test(anchor) ? `#${anchor}` : "";
+  return `${RO_PORTAFOLIO_URL}${a}`;
 }
 
 /** /nosotros/ (página de empresa, prerenderizada) respetando base de Vite. */

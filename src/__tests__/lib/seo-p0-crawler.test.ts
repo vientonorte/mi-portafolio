@@ -79,7 +79,6 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
       "https://vientonorte.io/servicios/web-dental/",
       "https://vientonorte.io/noticias/",
       "https://vientonorte.io/nosotros/",
-      "https://vientonorte.io/sobre-mi/",
       "https://vientonorte.io/privacidad/",
     ]);
     expect(sitemap).not.toContain("/s/");
@@ -88,9 +87,9 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
     expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
-    expect(sitemap).toMatch(
-      /<loc>https:\/\/vientonorte\.io\/sobre-mi\/<\/loc>\s*<lastmod>2026-10-13<\/lastmod>/
-    );
+    // /sobre-mi/ es redirect a ro.vientonorte.io: fuera del sitemap, y ro.* tampoco entra (otro host).
+    expect(sitemap).not.toContain("<loc>https://vientonorte.io/sobre-mi/");
+    expect(sitemap).not.toContain("<loc>https://ro.vientonorte.io");
   });
 });
 
@@ -101,9 +100,10 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
   );
   const legacyPoc = readFileSync(resolve(root, "public/poc/index.html"), "utf8");
 
-  it(" /mi-portafolio refreshes to apex HTTP, not hash", () => {
+  it(" /mi-portafolio (citado en los CV) refreshes to ro.vientonorte.io, not hash", () => {
     expect(legacyPortfolio).toContain('http-equiv="refresh"');
-    expect(legacyPortfolio).toContain('content="0;url=https://vientonorte.io/"');
+    expect(legacyPortfolio).toContain('content="0;url=https://ro.vientonorte.io/"');
+    expect(legacyPortfolio).toContain('rel="canonical" href="https://ro.vientonorte.io/"');
     expect(legacyPortfolio).toContain('name="robots" content="noindex, follow"');
     expect(legacyPortfolio).not.toContain('id="root"');
     expect(legacyPortfolio).not.toContain("/#/");
@@ -126,14 +126,14 @@ describe("SEO P0 · legacy HTTP redirects (GSC)", () => {
     expect(indexHtml).not.toContain('location.origin + "/#/consultoria"');
   });
 
-  it("bare /sobre-mi hops to the HTTP ficha, not a hash route", () => {
-    expect(indexHtml).toContain('basePath + "sobre-mi/"');
+  it("bare /sobre-mi and /sobre-mi/<sub> hop to ro.vientonorte.io, not a hash route", () => {
+    expect(indexHtml).toContain('p.indexOf(basePath + "sobre-mi/") === 0');
     expect(indexHtml).not.toContain('basePath + "sobre-mi/#');
   });
 
-  it("#/sobre-mi hops to /sobre-mi/ before the SPA mounts", () => {
+  it("#/sobre-mi hops to ro.vientonorte.io before the SPA mounts", () => {
     const head = indexHtml.slice(0, indexHtml.indexOf('<div id="root"'));
-    expect(head).toContain('location.replace("%BASE_URL%sobre-mi/" + sms)');
+    expect(head).toContain('location.replace("https://ro.vientonorte.io/" + sms)');
     expect(head).toMatch(/\^#\\\/sobre-mi/);
     expect(head).not.toContain('location.replace("%BASE_URL%#/sobre-mi');
   });

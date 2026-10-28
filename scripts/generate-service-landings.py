@@ -311,7 +311,7 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /nosotros/ + /sobre-mi/ + /privacidad/. Sin share legacy ni rutas hash. -->\n"
+        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /nosotros/ + /privacidad/. Sin share legacy, rutas hash ni redirects (/sobre-mi/ → ro.vientonorte.io). -->\n"
         + "\n".join(blocks)
         + "\n</urlset>\n"
     )
@@ -391,11 +391,10 @@ def main() -> None:
     # S42 v3: /noticias/ (página Vite prerenderizada, noticias/index.html). /news/ es solo redirección.
     print("noticias (vite)", NOTICIAS_PATH)
     locs.append((ORIGIN + NOTICIAS_PATH, NOTICIAS_PRIORITY))
-    # /nosotros/ (página de empresa, Vite prerenderizada). /sobre-mi/ sigue viva y en el sitemap.
+    # /nosotros/ (página de empresa, Vite prerenderizada).
     print("nosotros (vite)", NOSOTROS_PATH)
     locs.append((ORIGIN + NOSOTROS_PATH, NOSOTROS_PRIORITY))
-    print("sobre-mi (vite)", SOBRE_MI_PATH)
-    locs.append((ORIGIN + SOBRE_MI_PATH, SOBRE_MI_PRIORITY))
+    # /sobre-mi/ ya no entra: es redirect (noindex) a https://ro.vientonorte.io/, otro host.
     # 13-oct: /privacidad/ (página Vite prerenderizada, privacidad/index.html). #/privacy redirige aquí.
     print("privacidad (vite)", PRIVACIDAD_PATH)
     locs.append((ORIGIN + PRIVACIDAD_PATH, PRIVACIDAD_PRIORITY))
