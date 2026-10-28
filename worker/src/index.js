@@ -39,10 +39,11 @@ import {
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
+import { handleQrRedirect, handleQrStats } from './api/qr-fruta.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -50,6 +51,14 @@ export default {
     // Cortocircuito antes de cualquier handler (y antes de CORS) → 404 para todo método.
     if (path === '/api/admin/auth/passkey' || path.startsWith('/api/admin/auth/passkey/')) {
       return json({ ok: false, error: 'Not found' }, 404);
+    }
+
+    // QR FRUTA: público, sin CORS (escaneo directo desde el celular).
+    if (path === '/q/stats' && request.method === 'GET') {
+      return handleQrStats(request, env);
+    }
+    if (path.startsWith('/q/') && request.method === 'GET') {
+      return handleQrRedirect(request, env, ctx, path.slice(3).replace(/\/$/, ''));
     }
 
     if (path === '/admin-gate' && request.method === 'GET') {

@@ -202,7 +202,26 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VN_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - run: npm run sync:images
       - run: npm run build
-      - run: npx playwright install --with-deps chromium webkit
+      - name: Versión de Playwright (lockfile)
+        id: pw
+        run: echo "version=$(node -p "require('./package-lock.json').packages['node_modules/playwright'].version")" >> "$GITHUB_OUTPUT"
+      - name: Caché navegadores Playwright
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-
+            ${{ runner.os }}-playwright-
+      - name: Instalar navegadores Playwright
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
+        run: npx playwright install --with-deps chromium webkit
+      - name: Instalar deps del sistema Playwright (cache hit)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: npx playwright install-deps chromium webkit
       - name: Servir build y validar rutas
         run: |
           mkdir -p preview-root
