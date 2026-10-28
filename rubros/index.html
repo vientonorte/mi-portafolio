@@ -2,6 +2,11 @@
 <html lang="es" data-nav="site">
   <head>
     <meta charset="UTF-8" />
+    <!-- Seguridad (28-10-2026): CSP y Referrer-Policy por meta, porque GitHub Pages no permite headers.
+         frame-ancestors, X-Frame-Options y HSTS NO funcionan por meta: requieren headers reales
+         (proxy Cloudflare / DNS, con OK de Rö). Fuera de este cambio. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://contact.vientonorte.io https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://www.google.com https://docs.google.com https://cloud.umami.is https://api-gateway.umami.dev; frame-src https://www.googletagmanager.com https://td.doubleclick.net https://embed.figma.com https://www.figma.com https://*.figma.site https://player.vimeo.com; media-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co https://docs.google.com https://contact.vientonorte.io" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Viento Norte · Rodrigo Gaete" />
 <!--rubro-head-->
