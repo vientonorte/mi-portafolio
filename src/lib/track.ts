@@ -8,7 +8,7 @@
  * Privacidad: cada evento pasa por un sanitizador con allowlist de claves por evento.
  * Nunca viajan email, nombre, mensaje ni teléfono.
  */
-import { cleanPath, cleanUtmValue, parseUtm, recordFirstTouch } from "./utm";
+import { cleanPath, cleanUtmValue, parseUtm, recordEntryAnchor, recordFirstTouch } from "./utm";
 
 export const UMAMI_SCRIPT_SRC = "https://cloud.umami.is/script.js";
 
@@ -171,6 +171,8 @@ export function buildPageViewProps(
 export function initTracking(): void {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   recordFirstTouch(window.location);
+  recordEntryAnchor(window.location.hash);
+  window.addEventListener("hashchange", () => recordEntryAnchor(window.location.hash));
   if (!isTrackingEnabled()) return;
   loadUmami();
   send({}); // pageview nativo
