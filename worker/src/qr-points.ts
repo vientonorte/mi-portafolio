@@ -26,6 +26,8 @@ export const QR_POINT_DEFS: readonly QrPoint[] = Object.freeze([
   { slug: 'bellas-artes', label: 'Bellas Artes', comuna: '—' },
   { slug: 'santa-isabel', label: 'Santa Isabel', comuna: '—' },
   { slug: 'irarrazaval', label: 'Irarrázaval', comuna: '—' },
+  // Canal digital: mismo destino (QR_FORM_URL) que los-leones, contador propio.
+  { slug: 'facebook', label: 'Facebook', comuna: '—' },
 ]);
 
 export const QR_POINTS: readonly string[] = Object.freeze(QR_POINT_DEFS.map((p) => p.slug));
