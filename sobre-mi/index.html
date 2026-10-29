@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-nav="site">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <!-- Seguridad (28-10-2026): CSP y Referrer-Policy por meta, porque GitHub Pages no permite headers.
@@ -8,64 +8,34 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://contact.vientonorte.io https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://www.google.com https://docs.google.com https://cloud.umami.is https://api-gateway.umami.dev; frame-src https://www.googletagmanager.com https://td.doubleclick.net https://embed.figma.com https://www.figma.com https://*.figma.site https://player.vimeo.com; media-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co https://docs.google.com https://contact.vientonorte.io" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="Viento Norte · Rodrigo Gaete" />
-    <title>Sobre mí · Viento Norte</title>
+    <title>Portafolio de Rodrigo Gaete · ro.vientonorte.io</title>
     <meta
       name="description"
-      content="Rodrigo Gaete, UX Manager en Viento Norte. Antes UX Lead en SURA Investments. Design Ops, research, design systems. SURA, Transvip y Karri."
+      content="El portafolio de Rodrigo Gaete se mudó a https://ro.vientonorte.io/"
     />
-    <link rel="canonical" href="https://vientonorte.io/sobre-mi/" />
-
-    <meta property="og:type" content="profile" />
-    <meta property="og:site_name" content="Viento Norte" />
-    <meta property="og:locale" content="es_CL" />
-    <meta property="og:url" content="https://vientonorte.io/sobre-mi/" />
-    <meta property="og:title" content="Sobre mí · Viento Norte" />
-    <meta
-      property="og:description"
-      content="Rodrigo Gaete, UX Manager en Viento Norte. Antes UX Lead en SURA Investments. Design Ops, research, design systems. SURA, Transvip y Karri."
-    />
-    <meta property="og:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Rodrigo Gaete — UX Manager, Viento Norte" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sobre mí · Viento Norte" />
-    <meta
-      name="twitter:description"
-      content="Rodrigo Gaete, UX Manager en Viento Norte. Antes UX Lead en SURA Investments. Design Ops, research, design systems. SURA, Transvip y Karri."
-    />
-    <meta name="twitter:image" content="https://vientonorte.io/images/branding/og-home-1200.png" />
-
-    <meta name="theme-color" content="#0d1b3d" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="%BASE_URL%favicon.ico" />
-    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/chillax/chillax-700.woff2" crossorigin />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://ro.vientonorte.io/" />
+    <meta property="og:url" content="https://ro.vientonorte.io/" />
+    <!-- Redirect cliente (GitHub Pages no tiene 301). Conserva query (utm) y ancla:
+         /sobre-mi/#experiencia → https://ro.vientonorte.io/#experiencia.
+         El script va antes del meta refresh: con JS gana location.replace (con hash);
+         sin JS, el refresh lleva a la raíz. -->
     <script>
       (function () {
-        try {
-          var saved = localStorage.getItem("theme");
-          var dark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
-          document.documentElement.classList.toggle("dark", dark);
-        } catch (e) {}
+        var h = window.location.hash || "";
+        if (h.indexOf("#/") === 0) h = "";
+        window.location.replace("https://ro.vientonorte.io/" + window.location.search + h);
       })();
     </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://vientonorte.io/" },
-          { "@type": "ListItem", "position": 2, "name": "Sobre mí", "item": "https://vientonorte.io/sobre-mi/" }
-        ]
-      }
-    </script>
+    <meta http-equiv="refresh" content="0;url=https://ro.vientonorte.io/" />
   </head>
   <body>
-    <div id="sobre-mi-root"><!--ssr-outlet--></div>
-    <script type="module" src="/src/sobre-mi/entry-client.tsx"></script>
+    <main>
+      <h1>El portafolio se mudó</h1>
+      <p>
+        El portafolio de Rodrigo Gaete ahora está en
+        <a href="https://ro.vientonorte.io/">ro.vientonorte.io</a>.
+      </p>
+    </main>
   </body>
 </html>

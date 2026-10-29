@@ -133,7 +133,6 @@ export async function prerenderServicios({ root, outDir, base }) {
             rubros: path.join(root, 'src/rubros/entry-server.tsx'),
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
             nosotros: path.join(root, 'src/nosotros/entry-server.tsx'),
-            sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -181,23 +180,8 @@ export async function prerenderServicios({ root, outDir, base }) {
     fs.writeFileSync(nosotrosTarget, nosotrosHtml.replace(OUTLET, nosotrosApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, nosotrosTarget)} (${nosotrosApp.length} bytes, base ${base})`);
 
-    // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
-    const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
-    if (!fs.existsSync(sobreMiTarget)) throw new Error(`[prerender-servicios] falta ${sobreMiTarget}`);
-    const sobreMiHtml = fs.readFileSync(sobreMiTarget, 'utf8');
-    if (!sobreMiHtml.includes(OUTLET)) {
-      throw new Error('[prerender-servicios] dist/sobre-mi/index.html sin <!--ssr-outlet-->');
-    }
-    const sobreMi = await load('sobreMi');
-    const sobreMiApp = await sobreMi.render();
-    if (!sobreMiApp.includes('id="habilidades"') || !sobreMiApp.includes('UX Manager')) {
-      throw new Error('[prerender-servicios] /sobre-mi/ no renderizó la ficha canónica');
-    }
-    if (sobreMiApp.includes('Prototipos en Figma')) {
-      throw new Error('[prerender-servicios] /sobre-mi/ sigue con la ficha inventada');
-    }
-    fs.writeFileSync(sobreMiTarget, sobreMiHtml.replace(OUTLET, sobreMiApp), 'utf8');
-    console.log(`[prerender-servicios] ${path.relative(root, sobreMiTarget)} (${sobreMiApp.length} bytes, base ${base})`);
+    // /sobre-mi/ ya no se prerenderiza: es un redirect estático a https://ro.vientonorte.io/
+    // (sobre-mi/index.html). La ficha vive en vientonorte/ro-portafolio.
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');

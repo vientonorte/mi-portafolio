@@ -20,19 +20,17 @@ describe("navigateFeaturedPath", () => {
     const fromDeep = "/proyectos";
 
     navigateFeaturedPath(navigate, "route/proyectos", fromDeep);
-    navigateFeaturedPath(navigate, "route/sobre-mi", fromDeep);
     navigateFeaturedPath(navigate, "path/proyectos/autosuggest-fondos", fromDeep);
     navigateFeaturedPath(navigate, "path/consultoria#consultoria-demo", fromDeep);
     navigateFeaturedPath(navigate, "section/consultoria/consultoria-demo", fromDeep);
 
     expect(navigate).toHaveBeenNthCalledWith(1, "/proyectos");
-    expect(navigate).toHaveBeenNthCalledWith(2, "/sobre-mi");
-    expect(navigate).toHaveBeenNthCalledWith(3, "/proyectos/autosuggest-fondos");
+    expect(navigate).toHaveBeenNthCalledWith(2, "/proyectos/autosuggest-fondos");
     // Embudo FO = home (/)
-    expect(navigate).toHaveBeenNthCalledWith(4, "/", {
+    expect(navigate).toHaveBeenNthCalledWith(3, "/", {
       state: { scrollTo: "consultoria-demo" },
     });
-    expect(navigate).toHaveBeenNthCalledWith(5, "/", {
+    expect(navigate).toHaveBeenNthCalledWith(4, "/", {
       state: { scrollTo: "consultoria-demo" },
     });
   });
