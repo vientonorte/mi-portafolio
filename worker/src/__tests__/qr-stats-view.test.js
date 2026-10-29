@@ -28,13 +28,13 @@ function expectStatsHeaders(res) {
 }
 
 describe('QR stats vista ?k=', () => {
-  it('qr-points: 12 puntos con comuna', () => {
-    expect(QR_POINTS).toHaveLength(12);
+  it('qr-points: 20 puntos con comuna', () => {
+    expect(QR_POINTS).toHaveLength(20);
     for (const p of QR_POINT_DEFS) expect(p.comuna).toBeTruthy();
     expect(QR_POINT_DEFS[0]).toEqual({ slug: 'general', label: 'General', comuna: '—' });
   });
 
-  it('key válida → 200 HTML con los 12 puntos en orden, comuna y hora CL', async () => {
+  it('key válida → 200 HTML con los 20 puntos en orden, comuna y hora CL', async () => {
     const env = { ADMIN_KV: makeKv(), QR_VIEW_KEY: VIEW };
     const c = ctx();
     await worker.fetch(new Request(BASE + '/q/baquedano'), env, c);

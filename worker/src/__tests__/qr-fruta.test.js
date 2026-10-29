@@ -34,6 +34,22 @@ describe('QR FRUTA /q/:punto', () => {
     expect(env.ADMIN_KV.store.get(`qr:${punto}:${santiagoDate()}`)).toBe('1');
   });
 
+  it('facebook → mismo destino que los-leones, contadores separados; los-leones intacto', async () => {
+    expect(QR_PUNTOS).toContain('facebook');
+    expect(QR_PUNTOS).toContain('los-leones');
+    const env = { ADMIN_KV: makeKv() };
+    const ctx = makeCtx();
+    const fb = await worker.fetch(new Request('https://contact.vientonorte.io/q/facebook'), env, ctx);
+    const ll = await worker.fetch(new Request('https://contact.vientonorte.io/q/los-leones'), env, ctx);
+    expect(fb.status).toBe(302);
+    expect(ll.status).toBe(302);
+    expect(fb.headers.get('Location')).toBe(ll.headers.get('Location'));
+    expect(ll.headers.get('Location')).toBe(QR_FORM_URL);
+    await Promise.all(ctx.pending);
+    expect(env.ADMIN_KV.store.get('qr:facebook:total')).toBe('1');
+    expect(env.ADMIN_KV.store.get('qr:los-leones:total')).toBe('1');
+  });
+
   it('punto desconocido → 404 y no cuenta', async () => {
     const env = { ADMIN_KV: makeKv() };
     const res = await worker.fetch(new Request('https://contact.vientonorte.io/q/otro'), env, makeCtx());
