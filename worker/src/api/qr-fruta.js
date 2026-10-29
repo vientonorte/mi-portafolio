@@ -143,7 +143,22 @@ export async function readQrStats(env) {
       cursor = res.list_complete ? undefined : res.cursor;
     } while (cursor);
   }
-  return QR_POINT_DEFS.map((p) => ({ slug: p.slug, label: p.label, comuna: p.comuna, ...stats[p.slug] }));
+  // KV no es atómico (get+put, lecturas cacheadas en el edge hasta ~60 s): un hit concurrente
+  // puede perder el incremento de la clave día o de la total por separado (caso facebook 29-oct:
+  // total 5, día 4). Ambas solo pueden quedar cortas, así que el valor más cercano al real es el
+  // máximo entre la total guardada y la suma de días. Se expone el desfase en `drift`.
+  return QR_POINT_DEFS.map((p) => {
+    const s = stats[p.slug];
+    const sumDays = Object.values(s.days).reduce((a, n) => a + n, 0);
+    return {
+      slug: p.slug,
+      label: p.label,
+      comuna: p.comuna,
+      total: Math.max(s.total, sumDays),
+      days: s.days,
+      drift: s.total - sumDays,
+    };
+  });
 }
 
 export function renderStatsHtml(puntos, now = new Date()) {
