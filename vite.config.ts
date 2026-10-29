@@ -160,6 +160,8 @@
               nosotros: path.resolve(__dirname, 'nosotros/index.html'),
               // /sobre-mi/ : ficha HTTP (el HashRouter /#/sobre-mi no existe como path en Pages).
               sobreMi: path.resolve(__dirname, 'sobre-mi/index.html'),
+              // /privacidad/ (13-oct): política prerenderizada; #/privacy redirige aquí.
+              privacidad: path.resolve(__dirname, 'privacidad/index.html'),
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
               rubros: path.resolve(__dirname, 'rubros/index.html'),
