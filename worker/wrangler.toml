@@ -95,7 +95,7 @@ GA4_MEASUREMENT_ID = "G-G7JXJKGCDV"
 # `wrangler kv namespace create ADMIN_KV_QA` (ver docs/QA-ENV.md).
 [[env.qa.kv_namespaces]]
 binding = "ADMIN_KV"
-id = "REPLACE_WITH_QA_KV_ID"
+id = "9df16ed9376d45bfa1ad01071b9db633"
 
 [env.qa.observability]
 enabled = true
