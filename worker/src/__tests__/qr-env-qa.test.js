@@ -28,6 +28,6 @@ describe('env.qa: /q/* sin EMAIL ni R2', () => {
     expect(qa).toMatch(/name = "mi-portafolio-contact-qa"/);
     expect(qa).toMatch(/routes = \[\]/);
     expect(qa).not.toMatch(/send_email|r2_buckets|custom_domain|169497b8/);
-    expect(qa).toMatch(/binding = "ADMIN_KV"\nid = "REPLACE_WITH_QA_KV_ID"/);
+    expect(qa).toMatch(/binding = "ADMIN_KV"\nid = "[0-9a-f]{32}"/);
   });
 });
