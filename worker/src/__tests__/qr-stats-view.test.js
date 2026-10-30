@@ -115,15 +115,16 @@ describe('QR stats vista · tabla transpuesta y grupos', () => {
     expect(html).toContain('<th scope="row">baquedano');
     expect(html).toContain('<th scope="col" class="n">2026-10-28</th>');
     expect(html).toContain('<caption>');
-    expect(html).toContain('<td class="n tot">3</td>');
+    // baquedano: 2 prueba (27-oct) + 1 por confirmar (29-oct) → real 0, con pruebas 3
+    expect(html).toContain('<td class="n tot">0</td><td class="n">3</td>');
     expect(html).toMatch(/overflow-x:auto/);
     expect(html).toMatch(/position:sticky/);
     expect(html).toContain('#FF931E');
   });
   it('nota visible del 27-oct como pruebas de lanzamiento', () => {
     expect(LAUNCH_TEST_DAY).toBe('2026-10-27');
-    expect(html).toContain('2026-10-27*');
-    expect(html).toMatch(/pruebas de lanzamiento/);
+    expect(html).toContain('2026-10-27 (prueba)');
+    expect(html).toMatch(/prueba de lanzamiento/);
   });
   it('puntos asignados según points.json', async () => {
     const { QR_POINT_DEFS } = await import('../qr-points.ts');
