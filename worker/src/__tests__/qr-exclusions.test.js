@@ -6,11 +6,13 @@ import { renderStatsHtml, renderHome } from '../api/qr-fruta.js';
 describe('QR exclusiones', () => {
   it('27-oct completo es prueba en cualquier punto', () => {
     expect(exclusionFor('los-leones', '2026-10-27').status).toBe('prueba');
-    expect(exclusionFor('general', '2026-10-28')).toBeNull();
+    expect(exclusionFor('general', '2026-10-28').status).toBe('prueba');
   });
-  it('29-oct en los 7 nuevos + facebook queda por confirmar; puntos de Jhordan no', () => {
+  it('29-oct en los 7 nuevos + facebook queda por confirmar; los-leones por confirmar', () => {
     for (const s of ['av-matta', 'compania-morande', 'irarrazaval', 'facebook']) expect(exclusionFor(s, '2026-10-29').status).toBe('por-confirmar');
-    expect(exclusionFor('los-leones', '2026-10-29')).toBeNull();
+    expect(exclusionFor('los-leones', '2026-10-29').status).toBe('por-confirmar');
+    expect(exclusionFor('san-pablo', '2026-10-29').status).toBe('prueba');
+    expect(exclusionFor('los-leones', '2026-10-28')).toBeNull();
     expect(exclusionFor('baquedano', '2026-10-29')).toBeNull();
   });
   it('cada exclusión tiene slug, fecha y motivo', () => {

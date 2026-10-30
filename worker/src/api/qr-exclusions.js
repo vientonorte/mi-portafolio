@@ -21,6 +21,18 @@ export const QR_EXCLUSIONS = Object.freeze([
     status: 'por-confirmar',
     reason: 'Pruebas en Facebook: no hay registro de cuántas ni del slug exacto.',
   },
+  ...['san-pablo', 'general'].flatMap((slug) => ['2026-10-28', '2026-10-29'].map((date) => ({
+    slug,
+    date,
+    status: 'prueba',
+    reason: 'Rö vía I15, 30-oct 00:10: chequeos al pegar afiches, la cámara leyó el link sin tocarlo (Figma 487:179, 7 escaneos).',
+  }))),
+  {
+    slug: 'los-leones',
+    date: '2026-10-29',
+    status: 'por-confirmar',
+    reason: 'Punto de Jhordan: los chequeos de Rö al pegar afiches quizá no lo explican (Figma 487:39).',
+  },
 ]);
 
 export function exclusionFor(slug, date, list = QR_EXCLUSIONS) {

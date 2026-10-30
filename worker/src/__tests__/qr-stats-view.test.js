@@ -103,21 +103,21 @@ import { renderStatsHtml, LAUNCH_TEST_DAY } from '../api/qr-fruta.js';
 describe('QR stats vista · tabla transpuesta y grupos', () => {
   const mk = (slug, who, days) => ({ slug, label: slug, comuna: 'x', who, days, total: Object.values(days).reduce((a, n) => a + n, 0) });
   const html = renderStatsHtml([
-    mk('baquedano', 'Rö', { '2026-10-27': 2, '2026-10-29': 1 }),
+    mk('fixture-ro', 'Rö', { '2026-10-27': 2, '2026-10-29': 1 }),
     mk('los-leones', 'Jhordan', { '2026-10-28': 4 }),
     mk('facebook', null, { '2026-10-29': 5 }),
   ]);
   it('tres grupos en orden Rö, Jhordan, Otros', () => {
     const r = html.indexOf('Puntos de Rö'), j = html.indexOf('Puntos de Jhordan'), o = html.indexOf('>Otros');
     expect(r).toBeGreaterThan(0); expect(j).toBeGreaterThan(r); expect(o).toBeGreaterThan(j);
-    expect(html.indexOf('baquedano')).toBeLessThan(j);
+    expect(html.indexOf('fixture-ro')).toBeLessThan(j);
     expect(html.indexOf('facebook')).toBeGreaterThan(o);
   });
   it('filas = puntos con th scope=row, días como columnas, total y caption', () => {
-    expect(html).toContain('<th scope="row">baquedano');
+    expect(html).toContain('<th scope="row">fixture-ro');
     expect(html).toContain('<th scope="col" class="n">2026-10-28</th>');
     expect(html).toContain('<caption>');
-    // baquedano (punto antiguo, no smokeado 29-oct): 2 prueba (27-oct) + 1 real (29-oct) → real 1, con pruebas 3
+    // fixture ficticio (no es dato de terreno): 2 prueba (27-oct) + 1 sin exclusión (29-oct) → real 1, con pruebas 3
     expect(html).toContain('<td class="n tot">1</td><td class="n">3</td>');
     expect(html).toMatch(/overflow-x:auto/);
     expect(html).toMatch(/position:sticky/);

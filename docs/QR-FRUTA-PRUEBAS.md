@@ -7,6 +7,8 @@ El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso la
 | todos | 2026-10-27 | prueba | Lanzamiento. |
 | av-matta, compania-morande, plaza-de-armas, parque-bustamante, bellas-artes, santa-isabel, irarrazaval | 2026-10-29 | por confirmar | Smoke del TL 17:58 + aperturas de Rö al pegar afiches (vista previa del link). Rö: solo el primer QR llegó a la encuesta; no se sabe cuál. |
 | facebook | 2026-10-29 | por confirmar | Pruebas en Facebook: sin registro de cuántas ni del slug exacto. |
+| san-pablo, general | 2026-10-28, 2026-10-29 | prueba | Fuente: Rö vía I15, 30-oct 00:10. Chequeos al pegar afiches: la cámara leyó el link sin tocarlo (Figma 487:179, 7 escaneos). |
+| los-leones | 2026-10-29 | por confirmar | Punto de Jhordan: los chequeos de Rö al pegar afiches quizá no lo explican (Figma 487:39). |
 
 - **Total real** = total − prueba − por confirmar.
 - **Total con pruebas** = todo lo contado.
