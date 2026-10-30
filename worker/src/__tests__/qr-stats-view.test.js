@@ -115,8 +115,8 @@ describe('QR stats vista · tabla transpuesta y grupos', () => {
     expect(html).toContain('<th scope="row">baquedano');
     expect(html).toContain('<th scope="col" class="n">2026-10-28</th>');
     expect(html).toContain('<caption>');
-    // baquedano: 2 prueba (27-oct) + 1 por confirmar (29-oct) → real 0, con pruebas 3
-    expect(html).toContain('<td class="n tot">0</td><td class="n">3</td>');
+    // baquedano (punto antiguo, no smokeado 29-oct): 2 prueba (27-oct) + 1 real (29-oct) → real 1, con pruebas 3
+    expect(html).toContain('<td class="n tot">1</td><td class="n">3</td>');
     expect(html).toMatch(/overflow-x:auto/);
     expect(html).toMatch(/position:sticky/);
     expect(html).toContain('#FF931E');

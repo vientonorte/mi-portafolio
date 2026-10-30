@@ -2,7 +2,7 @@
 // KV guarda conteos por día (qr:<slug>:<fecha>), así que la exclusión es por slug + fecha.
 // status 'prueba' = seguro que es prueba · 'por-confirmar' = mezcla o sin fuente; nunca se adivina.
 export const QR_SMOKE_SLUGS_29OCT = Object.freeze([
-  'baquedano', 'av-matta', 'compania-morande', 'plaza-de-armas',
+  'av-matta', 'compania-morande', 'plaza-de-armas',
   'parque-bustamante', 'bellas-artes', 'santa-isabel', 'irarrazaval',
 ]);
 
@@ -47,7 +47,8 @@ export function splitCounts(p, list = QR_EXCLUSIONS) {
 // Desde el 30-oct los códigos impresos marcan el lugar donde se pegan (decisión de Rö, 29-oct).
 export const QR_RELABEL_FROM = '2026-10-30';
 export const QR_RELABELS = Object.freeze({
-  baquedano: 'Baquedano',
+  // MAT: lugar de pegado aún sin definir (por confirmar).
+  'av-matta': '—',
   'compania-morande': 'Pajaritos · acceso/boletería',
   'plaza-de-armas': 'Pajaritos · andén',
   'parque-bustamante': 'Pajaritos · salida a buses',

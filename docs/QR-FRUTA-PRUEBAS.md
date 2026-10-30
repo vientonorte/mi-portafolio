@@ -5,12 +5,12 @@ El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso la
 | Slug | Fecha | Estado | Motivo |
 |---|---|---|---|
 | todos | 2026-10-27 | prueba | Lanzamiento. |
-| baquedano, av-matta, compania-morande, plaza-de-armas, parque-bustamante, bellas-artes, santa-isabel, irarrazaval | 2026-10-29 | por confirmar | Smoke del TL 17:58 + aperturas de Rö al pegar afiches (vista previa del link). Rö: solo el primer QR llegó a la encuesta; no se sabe cuál. |
+| av-matta, compania-morande, plaza-de-armas, parque-bustamante, bellas-artes, santa-isabel, irarrazaval | 2026-10-29 | por confirmar | Smoke del TL 17:58 + aperturas de Rö al pegar afiches (vista previa del link). Rö: solo el primer QR llegó a la encuesta; no se sabe cuál. |
 | facebook | 2026-10-29 | por confirmar | Pruebas en Facebook: sin registro de cuántas ni del slug exacto. |
 
 - **Total real** = total − prueba − por confirmar.
 - **Total con pruebas** = todo lo contado.
 - Nada se adivina. Si Rö confirma un dato, se cambia la fila (PR).
 - Grupos iguales al SSOT Figma 487:2: «Puntos de Rö», «Puntos de Jhordan», «Otros».
-- Desde 2026-10-30 los códigos marcan el lugar donde se pegan: BAQ Baquedano · CMO Pajaritos acceso/boletería · PZA Pajaritos andén · PBU Pajaritos salida a buses · BEA Plaza de Maipú acceso/boletería · SIS Plaza de Maipú andén · IRZ Plaza de Maipú salida a la plaza.
+- Desde 2026-10-30 los códigos marcan el lugar donde se pegan: MAT — (lugar por confirmar) · CMO Pajaritos acceso/boletería · PZA Pajaritos andén · PBU Pajaritos salida a buses · BEA Plaza de Maipú acceso/boletería · SIS Plaza de Maipú andén · IRZ Plaza de Maipú salida a la plaza.
 - Acceso: portada `contact.vientonorte.io/` enlaza a `/q/stats` (pide clave). Atajo `/stats` → `/q/stats` (no reenvía la clave).

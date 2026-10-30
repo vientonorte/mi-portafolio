@@ -9,20 +9,38 @@ describe('QR exclusiones', () => {
     expect(exclusionFor('general', '2026-10-28')).toBeNull();
   });
   it('29-oct en los 7 nuevos + facebook queda por confirmar; puntos de Jhordan no', () => {
-    for (const s of ['baquedano', 'compania-morande', 'irarrazaval', 'facebook']) expect(exclusionFor(s, '2026-10-29').status).toBe('por-confirmar');
+    for (const s of ['av-matta', 'compania-morande', 'irarrazaval', 'facebook']) expect(exclusionFor(s, '2026-10-29').status).toBe('por-confirmar');
     expect(exclusionFor('los-leones', '2026-10-29')).toBeNull();
+    expect(exclusionFor('baquedano', '2026-10-29')).toBeNull();
   });
   it('cada exclusión tiene slug, fecha y motivo', () => {
     for (const e of QR_EXCLUSIONS) expect(e.slug && /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.reason).toBeTruthy();
   });
   it('splitCounts separa real / prueba / por confirmar', () => {
-    const r = splitCounts({ slug: 'baquedano', total: 10, days: { '2026-10-27': 3, '2026-10-29': 4, '2026-10-30': 3 } });
+    const r = splitCounts({ slug: 'av-matta', total: 10, days: { '2026-10-27': 3, '2026-10-29': 4, '2026-10-30': 3 } });
     expect(r).toEqual({ real: 3, prueba: 3, porConfirmar: 4, conPruebas: 10 });
   });
   it('etiquetas nuevas solo desde 30-oct', () => {
     const p = { slug: 'compania-morande', label: 'Compañía de Jesús con Morandé' };
     expect(labelFor(p, '2026-10-29').label).toBe(p.label);
     expect(labelFor(p, '2026-10-30')).toEqual({ label: 'Pajaritos · acceso/boletería', before: p.label });
+  });
+});
+
+describe('QR 7 códigos nuevos (desde 30-oct)', () => {
+  it('MAT CMO PZA PBU BEA SIS IRZ con su lugar; baquedano mantiene nombre', async () => {
+    const { QR_RELABELS } = await import('../api/qr-exclusions.js');
+    expect(QR_RELABELS).toEqual({
+      'av-matta': '—',
+      'compania-morande': 'Pajaritos · acceso/boletería',
+      'plaza-de-armas': 'Pajaritos · andén',
+      'parque-bustamante': 'Pajaritos · salida a buses',
+      'bellas-artes': 'Plaza de Maipú · acceso/boletería',
+      'santa-isabel': 'Plaza de Maipú · andén',
+      irarrazaval: 'Plaza de Maipú · salida a la plaza',
+    });
+    expect(labelFor({ slug: 'av-matta', label: 'Av. Matta' }, '2026-10-30')).toEqual({ label: '—', before: 'Av. Matta' });
+    expect(labelFor({ slug: 'baquedano', label: 'Baquedano' }, '2026-10-30')).toEqual({ label: 'Baquedano', before: null });
   });
 });
 
