@@ -87,7 +87,7 @@ const STATS_HEADERS = {
   'Cache-Control': 'no-store',
   'Referrer-Policy': 'no-referrer',
   'X-Robots-Tag': 'noindex',
-  'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'",
+  'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
 };
 
 // Valores de src/styles/vn-tokens.css (el worker no importa CSS del sitio).
@@ -113,12 +113,44 @@ export const QR_GROUPS = Object.freeze([
 
 export const LAUNCH_TEST_DAY = '2026-10-27';
 
-function unauthorized() {
-  const html = `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>401</title><style>${PAGE_CSS}</style><h1>No autorizado</h1>`;
-  return new Response(html, {
+/** Cliente API (Bearer o Accept JSON) → JSON 401. Navegador → formulario de clave (GET ?k=), status 401. Nunca se guarda ni se registra k. */
+function unauthorized(request) {
+  const accept = request.headers.get('Accept') || '';
+  const isApi =
+    request.headers.has('Authorization') || (accept.includes('application/json') && !accept.includes('text/html'));
+  if (isApi) {
+    return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
+      status: 401,
+      headers: { ...STATS_HEADERS, 'Content-Type': 'application/json', 'WWW-Authenticate': 'Bearer' },
+    });
+  }
+  return new Response(renderKeyForm(new URL(request.url).searchParams.has('k')), {
     status: 401,
     headers: { ...STATS_HEADERS, 'Content-Type': 'text/html; charset=utf-8', 'WWW-Authenticate': 'Bearer' },
   });
+}
+
+const FORM_CSS =
+  'form{display:grid;gap:8px;max-width:360px}label{font-weight:600}' +
+  'input{font:inherit;min-height:48px;padding:0 12px;border:1px solid var(--vn-pizarra);border-radius:12px;box-sizing:border-box;width:100%}' +
+  'button{font:inherit;font-weight:700;min-height:48px;border:0;border-radius:100px;background:var(--vn-naranja);color:var(--vn-azul-noche);cursor:pointer}' +
+  'input:focus-visible,button:focus-visible{outline:3px solid var(--vn-naranja-700);outline-offset:2px}' +
+  '.err{color:#c2330f;font-weight:600;margin:0}';
+
+export function renderKeyForm(wrongKey = false) {
+  const err = wrongKey
+    ? '<p id="qr-err" class="err" role="alert">⚠ Esa clave no sirve. Revisa y vuelve a intentar.</p>'
+    : '';
+  const described = wrongKey ? 'qr-help qr-err' : 'qr-help';
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><title>QR FRUTA · clave</title><style>${PAGE_CSS}${FORM_CSS}</style></head><body>
+<main><h1>Contador QR</h1>
+<p id="qr-help" class="meta">Escribe la clave del contador. Solo lectura.</p>
+${err}<form method="get" action="/q/stats">
+<label for="k">Clave del contador</label>
+<input id="k" name="k" type="password" autocomplete="current-password" required autofocus aria-describedby="${described}"${wrongKey ? ' aria-invalid="true"' : ''}>
+<button type="submit">Ver conteo</button>
+</form></main>
+</body></html>`;
 }
 
 function santiagoTime(now = new Date()) {
@@ -218,7 +250,7 @@ ${sections}
 
 export async function handleQrStats(request, env) {
   const who = statsAuth(request, env);
-  if (!who) return unauthorized();
+  if (!who) return unauthorized(request);
   const puntos = await readQrStats(env);
   const url = new URL(request.url);
   const format = url.searchParams.get('format');
