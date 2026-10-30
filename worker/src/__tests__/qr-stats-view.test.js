@@ -1,7 +1,7 @@
-import { labelFor } from '../api/qr-exclusions.js';
 import { describe, expect, it } from 'vitest';
-import worker from '../index.js';
+import { labelFor } from '../api/qr-exclusions.js';
 import { QR_FORM_URL, santiagoDate } from '../api/qr-fruta.js';
+import worker from '../index.js';
 import { QR_POINT_DEFS, QR_POINTS } from '../qr-points.ts';
 
 function makeKv() {
