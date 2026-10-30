@@ -34,7 +34,7 @@ describe('QR stats vista ?k=', () => {
     expect(QR_POINT_DEFS[0]).toEqual({ slug: 'general', label: 'General', comuna: '—' });
   });
 
-  it('key válida → 200 HTML con los 20 puntos en orden, comuna y hora CL', async () => {
+  it('key válida → 200 HTML con los 20 puntos en orden de grupo, comuna y hora CL', async () => {
     const env = { ADMIN_KV: makeKv(), QR_VIEW_KEY: VIEW };
     const c = ctx();
     await worker.fetch(new Request(BASE + '/q/baquedano'), env, c);
@@ -44,9 +44,10 @@ describe('QR stats vista ?k=', () => {
     expect(res.headers.get('Content-Type')).toContain('text/html');
     expectStatsHeaders(res);
     const html = await res.text();
+    const order = [...QR_POINT_DEFS.filter((p) => p.who === 'Rö'), ...QR_POINT_DEFS.filter((p) => p.who === 'Jhordan'), ...QR_POINT_DEFS.filter((p) => !p.who)];
     let last = -1;
-    for (const p of QR_POINT_DEFS) {
-      const i = html.indexOf(p.label.replace('—', ''));
+    for (const p of order) {
+      const i = html.indexOf(`<th scope="row">${p.label}<`);
       expect(i).toBeGreaterThan(last);
       last = i;
       expect(html).toContain(p.comuna);
@@ -93,5 +94,42 @@ describe('QR stats vista ?k=', () => {
     const res = await get(`/q/${slug}`, { ADMIN_KV: makeKv() });
     expect(res.status).toBe(302);
     expect(res.headers.get('Location')).toBe(QR_FORM_URL);
+  });
+});
+
+import { renderStatsHtml, LAUNCH_TEST_DAY } from '../api/qr-fruta.js';
+describe('QR stats vista · tabla transpuesta y grupos', () => {
+  const mk = (slug, who, days) => ({ slug, label: slug, comuna: 'x', who, days, total: Object.values(days).reduce((a, n) => a + n, 0) });
+  const html = renderStatsHtml([
+    mk('baquedano', 'Rö', { '2026-10-27': 2, '2026-10-29': 1 }),
+    mk('los-leones', 'Jhordan', { '2026-10-28': 4 }),
+    mk('facebook', null, { '2026-10-29': 5 }),
+  ]);
+  it('tres grupos en orden Rö, Jhordan, Otros', () => {
+    const r = html.indexOf('Puntos de Rö'), j = html.indexOf('Puntos de Jhordan'), o = html.indexOf('>Otros');
+    expect(r).toBeGreaterThan(0); expect(j).toBeGreaterThan(r); expect(o).toBeGreaterThan(j);
+    expect(html.indexOf('baquedano')).toBeLessThan(j);
+    expect(html.indexOf('facebook')).toBeGreaterThan(o);
+  });
+  it('filas = puntos con th scope=row, días como columnas, total y caption', () => {
+    expect(html).toContain('<th scope="row">baquedano');
+    expect(html).toContain('<th scope="col" class="n">2026-10-28</th>');
+    expect(html).toContain('<caption>');
+    expect(html).toContain('<td class="n tot">3</td>');
+    expect(html).toMatch(/overflow-x:auto/);
+    expect(html).toMatch(/position:sticky/);
+    expect(html).toContain('#FF931E');
+  });
+  it('nota visible del 27-oct como pruebas de lanzamiento', () => {
+    expect(LAUNCH_TEST_DAY).toBe('2026-10-27');
+    expect(html).toContain('2026-10-27*');
+    expect(html).toMatch(/pruebas de lanzamiento/);
+  });
+  it('puntos asignados según points.json', async () => {
+    const { QR_POINT_DEFS } = await import('../qr-points.ts');
+    const by = (w) => QR_POINT_DEFS.filter((p) => p.who === w).map((p) => p.slug);
+    expect(by('Jhordan')).toEqual(['los-leones', 'u-catolica', 'u-de-chile', 'los-heroes', 'estacion-central']);
+    expect(by('Rö')).toHaveLength(13);
+    expect(QR_POINT_DEFS.find((p) => p.slug === 'facebook').who).toBeUndefined();
   });
 });
