@@ -1,26 +1,32 @@
 import { describe, it, expect } from 'vitest';
 import worker from '../index.js';
-import { splitCounts, exclusionFor, labelFor, QR_EXCLUSIONS } from '../api/qr-exclusions.js';
+import { splitCounts, exclusionFor, labelFor, globalTestHits, QR_EXCLUSIONS } from '../api/qr-exclusions.js';
 import { renderStatsHtml, renderHome } from '../api/qr-fruta.js';
 
 describe('QR exclusiones', () => {
-  it('27-oct completo es prueba en cualquier punto', () => {
-    expect(exclusionFor('los-leones', '2026-10-27').status).toBe('prueba');
-    expect(exclusionFor('general', '2026-10-28').status).toBe('prueba');
+  it('ningún día ni slug completo queda excluido', () => {
+    for (const s of ['los-leones', 'general', 'san-pablo', 'av-matta', 'facebook'])
+      for (const d of ['2026-10-27', '2026-10-28', '2026-10-29']) expect(exclusionFor(s, d)).toBeNull();
   });
-  it('29-oct en los 7 nuevos + facebook queda por confirmar; los-leones por confirmar', () => {
-    for (const s of ['av-matta', 'compania-morande', 'irarrazaval', 'facebook']) expect(exclusionFor(s, '2026-10-29').status).toBe('por-confirmar');
-    expect(exclusionFor('los-leones', '2026-10-29').status).toBe('por-confirmar');
-    expect(exclusionFor('san-pablo', '2026-10-29').status).toBe('prueba');
-    expect(exclusionFor('los-leones', '2026-10-28')).toBeNull();
-    expect(exclusionFor('baquedano', '2026-10-29')).toBeNull();
+  it('única exclusión: 1 unidad del 27-oct', () => {
+    expect(QR_EXCLUSIONS).toHaveLength(1);
+    expect(QR_EXCLUSIONS[0]).toMatchObject({ slug: '*', date: '2026-10-27', count: 1, status: 'prueba' });
   });
-  it('cada exclusión tiene slug, fecha y motivo', () => {
-    for (const e of QR_EXCLUSIONS) expect(e.slug && /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.reason).toBeTruthy();
-  });
-  it('splitCounts separa real / prueba / por confirmar', () => {
+  it('splitCounts deja todo real por punto', () => {
     const r = splitCounts({ slug: 'av-matta', total: 10, days: { '2026-10-27': 3, '2026-10-29': 4, '2026-10-30': 3 } });
-    expect(r).toEqual({ real: 3, prueba: 3, porConfirmar: 4, conPruebas: 10 });
+    expect(r).toEqual({ real: 10, prueba: 0, porConfirmar: 0, conPruebas: 10 });
+  });
+  it('splitCounts con slug exacto resta solo count', () => {
+    const list = [{ slug: 'x', date: '2026-10-27', count: 1, status: 'prueba', reason: 't' }];
+    expect(splitCounts({ slug: 'x', total: 5, days: { '2026-10-27': 3, '2026-10-28': 2 } }, list).real).toBe(4);
+  });
+  it('total general resta 1 solo si hubo conteo el 27-oct', () => {
+    const pts = [{ slug: 'a', total: 4, days: { '2026-10-27': 2, '2026-10-29': 2 } }, { slug: 'b', total: 3, days: { '2026-10-28': 3 } }];
+    expect(globalTestHits(pts)).toBe(1);
+    expect(globalTestHits([{ slug: 'b', total: 3, days: { '2026-10-28': 3 } }])).toBe(0);
+    const html = renderStatsHtml(pts.map((p) => ({ ...p, label: p.slug, comuna: '—' })));
+    expect(html).toMatch(/id="total-real">6</);
+    expect(html).toMatch(/id="total-con-pruebas">7</);
   });
   it('etiquetas nuevas solo desde 30-oct', () => {
     const p = { slug: 'compania-morande', label: 'Compañía de Jesús con Morandé' };

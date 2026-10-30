@@ -1,5 +1,5 @@
 import { QR_POINTS, QR_POINT_DEFS } from '../qr-points.ts';
-import { splitCounts, exclusionFor, labelFor, QR_RELABEL_FROM } from './qr-exclusions.js';
+import { splitCounts, exclusionFor, globalTestHits, labelFor, QR_RELABEL_FROM } from './qr-exclusions.js';
 // Contador QR FRUTA · GET /q/:punto → 302 al Google Form, GET /q/stats (Bearer QR_STATS_TOKEN).
 // Privacidad: no se guarda IP, UA, cookies ni se loguea el request. Conteo en ADMIN_KV
 // (aproximado: KV no es atómico, escrituras simultáneas pueden perder incrementos).
@@ -235,7 +235,7 @@ function cellMark(slug, d) {
 }
 
 function dayLabel(d) {
-  return d === LAUNCH_TEST_DAY ? `${d} (prueba)` : d;
+  return d;
 }
 
 function groupTable(group, pts, days, today) {
@@ -265,8 +265,9 @@ export function renderStatsHtml(input, now = new Date()) {
   const today = santiagoDate(now);
   const days = [...new Set(puntos.flatMap((p) => Object.keys(p.days)))].sort();
   const totalAll = puntos.reduce((a, p) => a + p.total, 0);
-  const totalReal = puntos.reduce((a, p) => a + p.real, 0);
-  const totalPrueba = puntos.reduce((a, p) => a + p.prueba, 0);
+  const globalP = globalTestHits(puntos);
+  const totalReal = Math.max(0, puntos.reduce((a, p) => a + p.real, 0) - globalP);
+  const totalPrueba = puntos.reduce((a, p) => a + p.prueba, 0) + globalP;
   const totalPc = puntos.reduce((a, p) => a + p.porConfirmar, 0);
   const sections = QR_GROUPS.map((g) => [g, puntos.filter(g.match)])
     .filter(([, pts]) => pts.length)
@@ -283,7 +284,7 @@ export function renderStatsHtml(input, now = new Date()) {
 <div><dt>Pruebas</dt><dd>${totalPrueba}</dd></div>
 <div><dt>Por confirmar</dt><dd id="total-por-confirmar">${totalPc}</dd></div>
 </dl>
-<p class="nota" id="nota-27"><strong>Nota:</strong> el ${LAUNCH_TEST_DAY} completo es prueba de lanzamiento (P). San Pablo y General del 28 y 29-oct también son prueba (P): Rö solo revisó que la cámara leyera el QR al pegar afiches. Los Leones del 29-oct queda «por confirmar» (?). El 29-oct en los puntos nuevos y en Facebook queda «por confirmar» (?): mezcla el smoke del TL y pruebas. Nada de esto entra al total real.</p>
+<p class="nota" id="nota-27"><strong>Nota:</strong> solo el primer escaneo del ${LAUNCH_TEST_DAY} fue prueba de lanzamiento. Se resta 1 del total real; todo lo demás cuenta como real.</p>
 <p class="meta">Desde el ${QR_RELABEL_FROM}, los códigos nuevos marcan el lugar donde se pegan (debajo dice el nombre anterior).</p>
 <p class="meta">Filas = puntos, columnas = días. En celular, desliza la tabla hacia el lado.</p>
 ${sections}
