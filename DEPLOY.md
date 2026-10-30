@@ -120,3 +120,14 @@ Detalle y riesgos: hub `DEPLOY.md` § Migración CNAME.
 - [ ] Contact OPTIONS 204 desde origen `.io`  
 - [ ] Sitemap en vivo: Actions → «Sitemap live (200 por loc)» verde (corre solo tras Deploy QA; manual con `target=prod`)  
 - [ ] Search Console: reenviar el sitemap (Rö, HU3)
+
+## Reporte diario QR FRUTA a Slack (solo QA)
+
+- El worker de QA (`[env.qa]`) corre un cron diario a las 09:00 Chile (`0 12 * * *` UTC; en horario de invierno serían las 08:00).
+- Postea a Slack los escaneos reales (sin pruebas) por punto y por día.
+- Sin `SLACK_WEBHOOK_URL` no hace nada.
+- Prod no tiene cron hasta que lo ordene el TL.
+
+Pasos de Rö (la URL del webhook nunca va al chat ni a git):
+1. En Slack: api.slack.com/apps → Create New App → Incoming Webhooks → activar → Add New Webhook to Workspace → elegir canal → copiar la URL.
+2. En el Mac, dentro de `worker/`: `npx --no-install wrangler secret put SLACK_WEBHOOK_URL --env qa` y pegar la URL cuando la pida.
