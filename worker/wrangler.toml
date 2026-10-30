@@ -64,3 +64,41 @@ enabled = true
 # console.log del código seguiría registrándose; el worker no loguea PII.
 [observability.logs]
 invocation_logs = false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Ambiente QA (docs/QA-ENV.md § Worker QA). Worker aparte, sin tráfico de prod:
+# sin rutas ni custom domain (solo workers.dev), KV propio, secrets propios,
+# sin send_email (no manda correos) y sin R2. /q/* solo usa ADMIN_KV + QR_*.
+# Deploy: npx --no-install wrangler deploy --env qa   (solo con orden del TL)
+[env.qa]
+name = "mi-portafolio-contact-qa"
+workers_dev = true
+routes = []
+
+# [vars] no se heredan entre ambientes: copia de prod; ALLOWED_ORIGIN acotado a QA.
+[env.qa.vars]
+ALLOWED_ORIGIN = "https://vientonorte.io,http://localhost:5173,http://127.0.0.1:5173"
+CONTACT_FROM = "contacto@vientonorte.io"
+CONTACT_FROM_NAME = "Viento Norte"
+CONTACT_RATE_LIMIT = "5"
+CONTACT_RATE_WINDOW_SEC = "600"
+CONTACT_MIN_FILL_MS = "3000"
+CONTACT_INBOX = "gaete.gaona@gmail.com"
+ADMIN_GITHUB_USER = "vientonorte"
+STATIC_IMAGE_BASE = "https://vientonorte.io/mi-portafolio"
+WEBAUTHN_RP_ID = "vientonorte.io"
+CALENDAR_BOOKING_URL = "https://calendar.app.google/NvXgpHrpSnJ2186X7"
+
+GA4_MEASUREMENT_ID = "G-G7JXJKGCDV"
+
+# KV propio de QA. NUNCA el id de prod. Reemplazar con el id que da
+# `wrangler kv namespace create ADMIN_KV_QA` (ver docs/QA-ENV.md).
+[[env.qa.kv_namespaces]]
+binding = "ADMIN_KV"
+id = "REPLACE_WITH_QA_KV_ID"
+
+[env.qa.observability]
+enabled = true
+
+[env.qa.observability.logs]
+invocation_logs = false
