@@ -116,16 +116,16 @@ describe('QR stats vista · tabla transpuesta y grupos', () => {
     expect(html).toContain('<th scope="row">fixture-ro');
     expect(html).toContain('<th scope="col" class="n">2026-10-28</th>');
     expect(html).toContain('<caption>');
-    // fixture ficticio (no es dato de terreno): 2 prueba (27-oct) + 1 sin exclusión (29-oct) → real 1, con pruebas 3
-    expect(html).toContain('<td class="n tot">1</td><td class="n">3</td>');
+    // fixture ficticio: por fila todo es real (la prueba del 27-oct se resta solo del total general)
+    expect(html).toContain('<td class="n tot">3</td><td class="n">3</td>');
     expect(html).toMatch(/overflow-x:auto/);
     expect(html).toMatch(/position:sticky/);
     expect(html).toContain('#FF931E');
   });
   it('nota visible del 27-oct como pruebas de lanzamiento', () => {
     expect(LAUNCH_TEST_DAY).toBe('2026-10-27');
-    expect(html).toContain('2026-10-27 (prueba)');
-    expect(html).toMatch(/prueba de lanzamiento/);
+    expect(html).not.toContain('2026-10-27 (prueba)');
+    expect(html).toMatch(/solo el primer escaneo/);
   });
   it('puntos asignados según points.json', async () => {
     const by = (w) => QR_POINT_DEFS.filter((p) => p.who === w).map((p) => p.slug);
