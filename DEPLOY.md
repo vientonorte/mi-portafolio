@@ -127,6 +127,9 @@ Detalle y riesgos: hub `DEPLOY.md` § Migración CNAME.
 - Postea a Slack los escaneos reales (sin pruebas) por punto y por día.
 - Sin `SLACK_WEBHOOK_URL` no hace nada.
 - Prod no tiene cron hasta que lo ordene el TL.
+- El mensaje lleva solo totales reales: sin URLs, sin claves, sin PII.
+- La primera prueba va a un canal de prueba sin clientes (por ejemplo `#qr-pruebas`).
+- Enviar desde prod cuenta como publicar: necesita el OK de Rö después de su QA.
 
 Pasos de Rö (la URL del webhook nunca va al chat ni a git):
 1. En Slack: api.slack.com/apps → Create New App → Incoming Webhooks → activar → Add New Webhook to Workspace → elegir canal → copiar la URL.
