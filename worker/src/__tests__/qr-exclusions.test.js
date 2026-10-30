@@ -83,12 +83,13 @@ describe('QR vista accesible', () => {
   });
 });
 
-describe('QR lógica de exclusiones con fixture ficticio', () => {
+describe('QR lógica: fixture ficticio 46/59 (fixtureReal/fixtureWithTests)', () => {
   // DATOS FICTICIOS: no son el conteo real ni se leen de prod. Solo prueban la lógica
   // (resta por slug + fecha, '*' en el total general, desfase total/día de facebook).
   const fixtureReal = 46;
   const fixtureWithTests = 59;
   const s29 = { 'av-matta': 2, 'compania-morande': 2, 'plaza-de-armas': 2, 'parque-bustamante': 2, 'bellas-artes': 2, 'santa-isabel': 2, irarrazaval: 2, 'los-leones': 5 };
+  // Fixture lógico 46/59 (no 'guardados' de prod).
   const pts = [
     { slug: 'f27', total: 31, days: { '2026-10-27': 31 } },
     { slug: 'f28', total: 4, days: { '2026-10-28': 4 } },
@@ -99,5 +100,24 @@ describe('QR lógica de exclusiones con fixture ficticio', () => {
     const html = renderStatsHtml(pts);
     expect(html).toContain(`id="total-real">${fixtureReal}<`);
     expect(html).toContain(`id="total-con-pruebas">${fixtureWithTests}<`);
+  });
+});
+
+describe('QR regresión con la forma de prod (50 guardados → 37 reales)', () => {
+  // Forma de prod: 50 guardados − 13 pruebas confirmadas = 37. Facebook: total 5, día 4 → 1 real.
+  // Montos por punto inventados; solo se respetan los totales y el desfase de facebook.
+  const s29 = { 'av-matta': 2, 'compania-morande': 2, 'plaza-de-armas': 2, 'parque-bustamante': 2, 'bellas-artes': 2, 'santa-isabel': 2, irarrazaval: 2, 'los-leones': 2 };
+  const pts = [
+    { slug: 'general', total: 25, days: { '2026-10-27': 25 } },
+    { slug: 'pajaritos', total: 4, days: { '2026-10-28': 4 } },
+    ...Object.entries(s29).map(([slug, n]) => ({ slug, total: n, days: { '2026-10-29': n } })),
+    { slug: 'facebook', total: 5, days: { '2026-10-29': 4 } },
+  ].map((p) => ({ ...p, label: p.slug, comuna: '—' }));
+  it('50 guardados dan 37 reales y facebook 1 real', () => {
+    expect(pts.reduce((a, p) => a + p.total, 0)).toBe(50);
+    const html = renderStatsHtml(pts);
+    expect(html).toContain('id="total-real">37<');
+    expect(html).toContain('id="total-con-pruebas">50<');
+    expect(splitCounts(pts.find((p) => p.slug === 'facebook'))).toMatchObject({ real: 1, prueba: 4, conPruebas: 5 });
   });
 });

@@ -2,7 +2,7 @@
 
 El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso las pruebas se separan con una lista fija en `worker/src/api/qr-exclusions.js` (slug + fecha + motivo).
 
-Pruebas confirmadas (30-oct): **13**. 1 de Rö (27-oct), 3 de M5 en facebook (29-oct 17:55–18:00 CL) y 9 del TL (29-oct 17:58 CL, 1 por slug). Real = 59 − 13 = **46**.
+Pruebas confirmadas (30-oct): **13**. 1 de Rö (27-oct), 3 de M5 en facebook (29-oct 17:55–18:00 CL) y 9 del TL (29-oct 17:58 CL, 1 por slug). Real = 50 − 13 = **37** (50 guardados en prod). El 59/46 era solo el fixture del test, nunca prod.
 
 | Slug | Fecha | Unidades | Estado | Motivo |
 |---|---|---|---|---|
