@@ -76,6 +76,10 @@ workers_dev = true
 routes = []
 
 # [vars] no se heredan entre ambientes: copia de prod; ALLOWED_ORIGIN acotado a QA.
+# Reporte QR a Slack: 09:00 Chile (UTC-3) = 12:00 UTC. Prod sin cron hasta orden del TL.
+[env.qa.triggers]
+crons = ["0 12 * * *"]
+
 [env.qa.vars]
 ALLOWED_ORIGIN = "https://vientonorte.io,http://localhost:5173,http://127.0.0.1:5173"
 CONTACT_FROM = "contacto@vientonorte.io"
