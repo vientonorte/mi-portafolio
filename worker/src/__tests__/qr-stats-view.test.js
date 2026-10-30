@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { labelFor } from '../api/qr-exclusions.js';
-import { QR_FORM_URL, santiagoDate } from '../api/qr-fruta.js';
+import { LAUNCH_TEST_DAY, QR_FORM_URL, renderStatsHtml, santiagoDate } from '../api/qr-fruta.js';
 import worker from '../index.js';
 import { QR_POINT_DEFS, QR_POINTS } from '../qr-points.ts';
 
@@ -99,7 +99,6 @@ describe('QR stats vista ?k=', () => {
   });
 });
 
-import { renderStatsHtml, LAUNCH_TEST_DAY } from '../api/qr-fruta.js';
 describe('QR stats vista · tabla transpuesta y grupos', () => {
   const mk = (slug, who, days) => ({ slug, label: slug, comuna: 'x', who, days, total: Object.values(days).reduce((a, n) => a + n, 0) });
   const html = renderStatsHtml([
@@ -129,7 +128,6 @@ describe('QR stats vista · tabla transpuesta y grupos', () => {
     expect(html).toMatch(/prueba de lanzamiento/);
   });
   it('puntos asignados según points.json', async () => {
-    const { QR_POINT_DEFS } = await import('../qr-points.ts');
     const by = (w) => QR_POINT_DEFS.filter((p) => p.who === w).map((p) => p.slug);
     expect(by('Jhordan')).toEqual(['los-leones', 'u-catolica', 'u-de-chile', 'los-heroes', 'estacion-central']);
     expect(by('Rö')).toHaveLength(13);
