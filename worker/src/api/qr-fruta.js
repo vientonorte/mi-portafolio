@@ -283,7 +283,7 @@ export function renderStatsHtml(input, now = new Date()) {
 <div><dt>Pruebas</dt><dd>${totalPrueba}</dd></div>
 <div><dt>Por confirmar</dt><dd id="total-por-confirmar">${totalPc}</dd></div>
 </dl>
-<p class="nota" id="nota-27"><strong>Nota:</strong> el ${LAUNCH_TEST_DAY} completo es prueba de lanzamiento (P). El 29-oct en los puntos nuevos y en Facebook queda «por confirmar» (?): mezcla el smoke del TL, las aperturas al pegar afiches y pruebas. No entra al total real.</p>
+<p class="nota" id="nota-27"><strong>Nota:</strong> el ${LAUNCH_TEST_DAY} completo es prueba de lanzamiento (P). San Pablo y General del 28 y 29-oct también son prueba (P): Rö solo revisó que la cámara leyera el QR al pegar afiches. Los Leones del 29-oct queda «por confirmar» (?). El 29-oct en los puntos nuevos y en Facebook queda «por confirmar» (?): mezcla el smoke del TL y pruebas. Nada de esto entra al total real.</p>
 <p class="meta">Desde el ${QR_RELABEL_FROM}, los códigos nuevos marcan el lugar donde se pegan (debajo dice el nombre anterior).</p>
 <p class="meta">Filas = puntos, columnas = días. En celular, desliza la tabla hacia el lado.</p>
 ${sections}
