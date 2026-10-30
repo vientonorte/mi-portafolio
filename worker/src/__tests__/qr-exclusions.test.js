@@ -83,8 +83,11 @@ describe('QR vista accesible', () => {
   });
 });
 
-describe('QR fixture ficticio que imita el KV del 30-oct (59 guardados)', () => {
-  // Ficticio: replica sumas por día (27: 31, 28: 4, 29: 23) y el desfase de facebook (total 5, día 4).
+describe('QR lógica de exclusiones con fixture ficticio', () => {
+  // DATOS FICTICIOS: no son el conteo real ni se leen de prod. Solo prueban la lógica
+  // (resta por slug + fecha, '*' en el total general, desfase total/día de facebook).
+  const fixtureReal = 46;
+  const fixtureWithTests = 59;
   const s29 = { 'av-matta': 2, 'compania-morande': 2, 'plaza-de-armas': 2, 'parque-bustamante': 2, 'bellas-artes': 2, 'santa-isabel': 2, irarrazaval: 2, 'los-leones': 5 };
   const pts = [
     { slug: 'f27', total: 31, days: { '2026-10-27': 31 } },
@@ -92,9 +95,9 @@ describe('QR fixture ficticio que imita el KV del 30-oct (59 guardados)', () => 
     ...Object.entries(s29).map(([slug, n]) => ({ slug, total: n, days: { '2026-10-29': n } })),
     { slug: 'facebook', total: 5, days: { '2026-10-29': 4 } },
   ].map((p) => ({ ...p, label: p.slug, comuna: '—' }));
-  it('Total real 46 y con pruebas 59', () => {
+  it('fixtureReal y fixtureWithTests salen de las exclusiones', () => {
     const html = renderStatsHtml(pts);
-    expect(html).toMatch(/id="total-real">46</);
-    expect(html).toMatch(/id="total-con-pruebas">59</);
+    expect(html).toContain(`id="total-real">${fixtureReal}<`);
+    expect(html).toContain(`id="total-con-pruebas">${fixtureWithTests}<`);
   });
 });
