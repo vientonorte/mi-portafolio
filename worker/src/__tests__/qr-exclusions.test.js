@@ -6,14 +6,17 @@ import { renderStatsHtml, renderHome } from '../api/qr-fruta.js';
 describe('QR exclusiones', () => {
   it('ningún día ni slug completo queda excluido', () => {
     for (const s of ['los-leones', 'general', 'san-pablo', 'av-matta', 'facebook'])
-      for (const d of ['2026-10-27', '2026-10-28', '2026-10-29']) expect(exclusionFor(s, d)).toBeNull();
+      for (const d of ['2026-10-27', '2026-10-28', '2026-10-30']) expect(exclusionFor(s, d)).toBeNull();
+    expect(exclusionFor('general', '2026-10-29')).toBeNull();
   });
-  it('única exclusión: 1 unidad del 27-oct', () => {
-    expect(QR_EXCLUSIONS).toHaveLength(1);
+  it('13 pruebas confirmadas: 1 (27-oct) + 4 facebook + 8 slugs (29-oct)', () => {
+    expect(QR_EXCLUSIONS).toHaveLength(10);
     expect(QR_EXCLUSIONS[0]).toMatchObject({ slug: '*', date: '2026-10-27', count: 1, status: 'prueba' });
+    expect(QR_EXCLUSIONS.reduce((a, e) => a + e.count, 0)).toBe(13);
+    expect(exclusionFor('facebook', '2026-10-29').count).toBe(4);
   });
   it('splitCounts deja todo real por punto', () => {
-    const r = splitCounts({ slug: 'av-matta', total: 10, days: { '2026-10-27': 3, '2026-10-29': 4, '2026-10-30': 3 } });
+    const r = splitCounts({ slug: 'general', total: 10, days: { '2026-10-27': 3, '2026-10-29': 4, '2026-10-30': 3 } });
     expect(r).toEqual({ real: 10, prueba: 0, porConfirmar: 0, conPruebas: 10 });
   });
   it('splitCounts con slug exacto resta solo count', () => {
@@ -81,16 +84,17 @@ describe('QR vista accesible', () => {
 });
 
 describe('QR fixture ficticio que imita el KV del 30-oct (59 guardados)', () => {
-  // Ficticio: solo replica las sumas por día (27: 31, 28: 4, 29: 23) y el desfase de facebook (total 5, día 4).
+  // Ficticio: replica sumas por día (27: 31, 28: 4, 29: 23) y el desfase de facebook (total 5, día 4).
+  const s29 = { 'av-matta': 2, 'compania-morande': 2, 'plaza-de-armas': 2, 'parque-bustamante': 2, 'bellas-artes': 2, 'santa-isabel': 2, irarrazaval: 2, 'los-leones': 5 };
   const pts = [
     { slug: 'f27', total: 31, days: { '2026-10-27': 31 } },
     { slug: 'f28', total: 4, days: { '2026-10-28': 4 } },
-    { slug: 'f29', total: 19, days: { '2026-10-29': 19 } },
-    { slug: 'facebook', total: Math.max(5, 4), days: { '2026-10-29': 4 } },
+    ...Object.entries(s29).map(([slug, n]) => ({ slug, total: n, days: { '2026-10-29': n } })),
+    { slug: 'facebook', total: 5, days: { '2026-10-29': 4 } },
   ].map((p) => ({ ...p, label: p.slug, comuna: '—' }));
-  it('Total real 58 y con pruebas 59', () => {
+  it('Total real 46 y con pruebas 59', () => {
     const html = renderStatsHtml(pts);
-    expect(html).toMatch(/id="total-real">58</);
+    expect(html).toMatch(/id="total-real">46</);
     expect(html).toMatch(/id="total-con-pruebas">59</);
   });
 });

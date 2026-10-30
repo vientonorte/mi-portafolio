@@ -6,11 +6,16 @@ export const QR_SMOKE_SLUGS_29OCT = Object.freeze([
   'parque-bustamante', 'bellas-artes', 'santa-isabel', 'irarrazaval',
 ]);
 
-// Rö, 30-oct 11:41: la ÚNICA prueba fue el primer escaneo del 27-oct. Todo lo demás es real.
+// Pruebas confirmadas (30-oct): 1 de Rö (27-oct), 3 de M5 y 9 del TL (29-oct). Total 13.
 // Se excluye 1 unidad (count), nunca un día ni un slug completo.
 // slug '*' = no se sabe en qué punto cayó: se descuenta solo del total general, no de una fila.
 export const QR_EXCLUSIONS = Object.freeze([
   { slug: '*', date: '2026-10-27', count: 1, status: 'prueba', reason: 'Primer escaneo de lanzamiento (Rö, 30-oct).' },
+  // 29-oct: 3 de M5 en facebook (17:55–18:00 CL) + 1 del TL (17:58 CL) = 4.
+  { slug: 'facebook', date: '2026-10-29', count: 4, status: 'prueba', reason: 'Smoke M5 (3) + smoke TL (1), 29-oct.' },
+  // 29-oct 17:58 CL: smoke del TL, 1 hit por slug.
+  ...['av-matta', 'compania-morande', 'plaza-de-armas', 'parque-bustamante', 'bellas-artes', 'santa-isabel', 'irarrazaval', 'los-leones']
+    .map((slug) => ({ slug, date: '2026-10-29', count: 1, status: 'prueba', reason: 'Smoke TL 29-oct 17:58 CL (1 hit).' })),
 ]);
 
 export function exclusionFor(slug, date, list = QR_EXCLUSIONS) {

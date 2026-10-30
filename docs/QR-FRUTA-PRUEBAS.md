@@ -2,11 +2,20 @@
 
 El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso las pruebas se separan con una lista fija en `worker/src/api/qr-exclusions.js` (slug + fecha + motivo).
 
-Rö, 30-oct 11:41: **la única prueba fue el primer escaneo del 27-oct. Todo lo demás es real.**
+Pruebas confirmadas (30-oct): **13**. 1 de Rö (27-oct), 3 de M5 en facebook (29-oct 17:55–18:00 CL) y 9 del TL (29-oct 17:58 CL, 1 por slug). Real = 59 − 13 = **46**.
 
 | Slug | Fecha | Unidades | Estado | Motivo |
 |---|---|---|---|---|
 | `*` (punto sin registrar) | 2026-10-27 | 1 | prueba | Primer escaneo de lanzamiento. |
+| `facebook` | 2026-10-29 | 4 | prueba | 3 smoke M5 + 1 smoke TL. |
+| `av-matta` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `compania-morande` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `plaza-de-armas` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `parque-bustamante` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `bellas-artes` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `santa-isabel` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `irarrazaval` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
+| `los-leones` | 2026-10-29 | 1 | prueba | Smoke TL 17:58 CL. |
 
 - Se excluyen unidades (`count`), nunca un día ni un slug completo.
 - `*` se resta solo del **Total real** general, no de una fila.
