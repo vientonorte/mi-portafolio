@@ -40,9 +40,15 @@ import {
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
 import { handleQrRedirect, handleQrStats, renderHome } from './api/qr-fruta.js';
+import { sendQrSlackReport } from './api/qr-slack.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
 
 export default {
+  // Cron diario (solo [env.qa]): reporte QR FRUTA a Slack. Sin SLACK_WEBHOOK_URL no hace nada.
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(sendQrSlackReport(env));
+  },
+
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
