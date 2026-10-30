@@ -1,4 +1,5 @@
 import { QR_POINTS, QR_POINT_DEFS } from '../qr-points.ts';
+import { splitCounts, exclusionFor, labelFor, QR_RELABEL_FROM } from './qr-exclusions.js';
 // Contador QR FRUTA · GET /q/:punto → 302 al Google Form, GET /q/stats (Bearer QR_STATS_TOKEN).
 // Privacidad: no se guarda IP, UA, cookies ni se loguea el request. Conteo en ADMIN_KV
 // (aproximado: KV no es atómico, escrituras simultáneas pueden perder incrementos).
@@ -105,6 +106,21 @@ const PAGE_CSS =
   '.wrap th:first-child,.wrap td:first-child{position:sticky;left:0;background:var(--bg);z-index:1;box-shadow:1px 0 0 var(--line)}.wrap thead th:first-child{background:var(--head);z-index:2}' +
   '@media(prefers-color-scheme:dark){:root{--bg:#0d1b3d;--fg:#f7f2e7;--muted:#c9c3b5;--line:#2c3b60;--head:#16264d}.wrap:focus{outline-color:var(--vn-naranja)}}';
 
+export const NAV_CSS =
+  '.skip{position:absolute;left:-9999px;top:0;background:var(--vn-azul-noche);color:#fff;padding:12px 16px;z-index:9}.skip:focus{left:8px;top:8px}' +
+  'a{color:inherit;text-decoration:underline;text-underline-offset:3px}a:focus-visible,main:focus-visible{outline:3px solid var(--vn-naranja-700);outline-offset:2px}' +
+  'header nav{font-size:.9rem;padding:4px 0}dl.tot{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 12px}dl.tot div{border:1px solid var(--line);padding:6px 10px}dt{font-size:.8rem;color:var(--muted)}dd{margin:0;font-weight:700;font-size:1.1rem}';
+
+export function renderHome() {
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Viento Norte · contacto</title><style>${PAGE_CSS}${NAV_CSS}</style></head><body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header><nav aria-label="Principal"><a href="https://vientonorte.io/">vientonorte.io</a> · <a href="/q/stats">Contador QR FRUTA</a></nav></header>
+<main id="contenido" tabindex="-1"><h1>Viento Norte · servicio de contacto</h1>
+<p>Este dominio recibe formularios y QR de Viento Norte.</p>
+<p><a href="/q/stats">Ver el contador QR FRUTA</a> <span class="meta">(pide clave, solo lectura)</span></p></main>
+</body></html>`;
+}
+
 export const QR_GROUPS = Object.freeze([
   { id: 'ro', title: 'Puntos de Rö', match: (p) => p.who === 'Rö' },
   { id: 'jhordan', title: 'Puntos de Jhordan', match: (p) => p.who === 'Jhordan' },
@@ -207,44 +223,71 @@ export async function readQrStats(env) {
       days: s.days,
       drift: s.total - sumDays,
     };
-  });
+  }).map((p) => ({ ...p, ...splitCounts(p) }));
+}
+
+
+
+function cellMark(slug, d) {
+  const e = exclusionFor(slug, d);
+  if (!e) return '';
+  return e.status === 'prueba' ? ' <abbr title="prueba">P</abbr>' : ' <abbr title="por confirmar">?</abbr>';
 }
 
 function dayLabel(d) {
-  return d === LAUNCH_TEST_DAY ? `${d}*` : d;
+  return d === LAUNCH_TEST_DAY ? `${d} (prueba)` : d;
 }
 
-function groupTable(group, pts, days) {
+function groupTable(group, pts, days, today) {
   const head = days.map((d) => `<th scope="col" class="n">${escapeHtml(dayLabel(d))}</th>`).join('');
   const rows = pts
     .map(
       (p) =>
-        `<tr><th scope="row">${escapeHtml(p.label)}<span class="c">${escapeHtml(p.comuna)}</span></th>${days
-          .map((d) => `<td class="n">${p.days[d] || 0}</td>`)
-          .join('')}<td class="n tot">${p.total}</td></tr>`
+        `<tr><th scope="row">${escapeHtml(labelFor(p, today).label)}<span class="c">${escapeHtml(
+          labelFor(p, today).before ? `antes: ${labelFor(p, today).before}` : p.comuna
+        )}</span></th>${days
+          .map((d) => `<td class="n">${p.days[d] || 0}${p.days[d] ? cellMark(p.slug, d) : ''}</td>`)
+          .join('')}<td class="n tot">${p.real}</td><td class="n">${p.total}</td></tr>`
     )
     .join('');
-  const sum = pts.reduce((a, p) => a + p.total, 0);
+  const sum = pts.reduce((a, p) => a + p.real, 0);
+  const sumAll = pts.reduce((a, p) => a + p.total, 0);
   const foot = `<tr><th scope="row">Subtotal</th>${days
     .map((d) => `<td class="n">${pts.reduce((a, p) => a + (p.days[d] || 0), 0)}</td>`)
-    .join('')}<td class="n tot">${sum}</td></tr>`;
-  return `<section aria-labelledby="g-${group.id}"><h2 id="g-${group.id}">${escapeHtml(group.title)} · ${sum}</h2>
+    .join('')}<td class="n tot">${sum}</td><td class="n">${sumAll}</td></tr>`;
+  return `<section aria-labelledby="g-${group.id}"><h2 id="g-${group.id}">${escapeHtml(group.title)} · real ${sum} · con pruebas ${sumAll}</h2>
 <div class="wrap" role="region" aria-labelledby="g-${group.id}" tabindex="0"><table><caption>${escapeHtml(group.title)}: escaneos por día (fecha Chile) y total</caption>
-<thead><tr><th scope="col">Punto · comuna</th>${head}<th scope="col" class="n tot">Total</th></tr></thead><tbody>${rows}</tbody><tfoot>${foot}</tfoot></table></div></section>`;
+<thead><tr><th scope="col">Punto · comuna</th>${head}<th scope="col" class="n tot">Total real</th><th scope="col" class="n">Total con pruebas</th></tr></thead><tbody>${rows}</tbody><tfoot>${foot}</tfoot></table></div></section>`;
 }
 
-export function renderStatsHtml(puntos, now = new Date()) {
+export function renderStatsHtml(input, now = new Date()) {
+  const puntos = input.map((p) => (p.real === undefined ? { ...p, ...splitCounts(p) } : p));
+  const today = santiagoDate(now);
   const days = [...new Set(puntos.flatMap((p) => Object.keys(p.days)))].sort();
   const totalAll = puntos.reduce((a, p) => a + p.total, 0);
+  const totalReal = puntos.reduce((a, p) => a + p.real, 0);
+  const totalPrueba = puntos.reduce((a, p) => a + p.prueba, 0);
+  const totalPc = puntos.reduce((a, p) => a + p.porConfirmar, 0);
   const sections = QR_GROUPS.map((g) => [g, puntos.filter(g.match)])
     .filter(([, pts]) => pts.length)
-    .map(([g, pts]) => groupTable(g, pts, days))
+    .map(([g, pts]) => groupTable(g, pts, days, today))
     .join('\n');
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>QR FRUTA · conteo</title><style>${PAGE_CSS}</style></head><body>
-<h1>QR FRUTA · escaneos</h1><p class="meta">actualizado a las ${santiagoTime(now)} CL · conteo aproximado · total ${totalAll}</p>
-<p class="nota" id="nota-27"><strong>Nota:</strong> los conteos del ${LAUNCH_TEST_DAY} (marcado con *) son pruebas de lanzamiento, no escaneos de terreno.</p>
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>QR FRUTA · conteo</title><style>${PAGE_CSS}${NAV_CSS}</style></head><body>
+<a class="skip" href="#contenido">Saltar al conteo</a>
+<header><nav aria-label="Principal"><a href="/">Inicio</a> · <a href="/q/stats" aria-current="page">Contador QR</a></nav></header>
+<main id="contenido" tabindex="-1">
+<h1>QR FRUTA · escaneos</h1><p class="meta">actualizado a las ${santiagoTime(now)} CL · conteo aproximado</p>
+<dl class="tot" aria-label="Totales">
+<div><dt>Total real</dt><dd id="total-real">${totalReal}</dd></div>
+<div><dt>Total con pruebas</dt><dd id="total-con-pruebas">${totalAll}</dd></div>
+<div><dt>Pruebas</dt><dd>${totalPrueba}</dd></div>
+<div><dt>Por confirmar</dt><dd id="total-por-confirmar">${totalPc}</dd></div>
+</dl>
+<p class="nota" id="nota-27"><strong>Nota:</strong> el ${LAUNCH_TEST_DAY} completo es prueba de lanzamiento (P). San Pablo y General del 28 y 29-oct también son prueba (P): Rö solo revisó que la cámara leyera el QR al pegar afiches. Los Leones del 29-oct queda «por confirmar» (?). El 29-oct en los puntos nuevos y en Facebook queda «por confirmar» (?): mezcla el smoke del TL y pruebas. Nada de esto entra al total real.</p>
+<p class="meta">Desde el ${QR_RELABEL_FROM}, los códigos nuevos marcan el lugar donde se pegan (debajo dice el nombre anterior).</p>
 <p class="meta">Filas = puntos, columnas = días. En celular, desliza la tabla hacia el lado.</p>
 ${sections}
+</main>
 </body></html>`;
 }
 

@@ -39,7 +39,7 @@ import {
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
-import { handleQrRedirect, handleQrStats } from './api/qr-fruta.js';
+import { handleQrRedirect, handleQrStats, renderHome } from './api/qr-fruta.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
 
 export default {
@@ -54,6 +54,15 @@ export default {
     }
 
     // QR FRUTA: público, sin CORS (escaneo directo desde el celular).
+    if (path === '/' && request.method === 'GET') {
+      return new Response(renderHome(), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex', 'Referrer-Policy': 'no-referrer', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'" },
+      });
+    }
+    if ((path === '/stats' || path === '/stats/' || path === '/q/stats/') && request.method === 'GET') {
+      // Atajo sin clave: nunca reenvía query (k) para no filtrarla en logs/links.
+      return new Response(null, { status: 302, headers: { Location: '/q/stats', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' } });
+    }
     if (path === '/q/stats' && request.method === 'GET') {
       return handleQrStats(request, env);
     }
