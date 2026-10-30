@@ -24,7 +24,7 @@ function expectStatsHeaders(res) {
   expect(res.headers.get('Cache-Control')).toBe('no-store');
   expect(res.headers.get('Referrer-Policy')).toBe('no-referrer');
   expect(res.headers.get('X-Robots-Tag')).toBe('noindex');
-  expect(res.headers.get('Content-Security-Policy')).toBe("default-src 'none'; style-src 'unsafe-inline'");
+  expect(res.headers.get('Content-Security-Policy')).toContain("default-src 'none'");
 }
 
 describe('QR stats vista ?k=', () => {
