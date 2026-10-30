@@ -1,3 +1,4 @@
+import { labelFor } from '../api/qr-exclusions.js';
 import { describe, expect, it } from 'vitest';
 import worker from '../index.js';
 import { QR_FORM_URL, santiagoDate } from '../api/qr-fruta.js';
@@ -47,10 +48,11 @@ describe('QR stats vista ?k=', () => {
     const order = [...QR_POINT_DEFS.filter((p) => p.who === 'Rö'), ...QR_POINT_DEFS.filter((p) => p.who === 'Jhordan'), ...QR_POINT_DEFS.filter((p) => !p.who)];
     let last = -1;
     for (const p of order) {
-      const i = html.indexOf(`<th scope="row">${p.label}<`);
+      const l = labelFor(p, santiagoDate());
+      const i = html.indexOf(`<th scope="row">${l.label}<`, last + 1);
       expect(i).toBeGreaterThan(last);
       last = i;
-      expect(html).toContain(p.comuna);
+      expect(html).toContain(l.before ? `antes: ${l.before}` : p.comuna);
     }
     expect(html).toMatch(/actualizado a las \d{2}:\d{2} CL/);
     expect(html).toContain(santiagoDate());
