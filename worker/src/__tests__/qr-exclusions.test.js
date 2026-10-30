@@ -79,3 +79,18 @@ describe('QR vista accesible', () => {
     expect(res.headers.get('Location')).toBe('/q/stats');
   });
 });
+
+describe('QR fixture ficticio que imita el KV del 30-oct (59 guardados)', () => {
+  // Ficticio: solo replica las sumas por día (27: 31, 28: 4, 29: 23) y el desfase de facebook (total 5, día 4).
+  const pts = [
+    { slug: 'f27', total: 31, days: { '2026-10-27': 31 } },
+    { slug: 'f28', total: 4, days: { '2026-10-28': 4 } },
+    { slug: 'f29', total: 19, days: { '2026-10-29': 19 } },
+    { slug: 'facebook', total: Math.max(5, 4), days: { '2026-10-29': 4 } },
+  ].map((p) => ({ ...p, label: p.slug, comuna: '—' }));
+  it('Total real 58 y con pruebas 59', () => {
+    const html = renderStatsHtml(pts);
+    expect(html).toMatch(/id="total-real">58</);
+    expect(html).toMatch(/id="total-con-pruebas">59</);
+  });
+});
