@@ -7,7 +7,6 @@ import { checkContactRateLimit, checkFillTime } from './lib/antibot.js';
 const MAX_NAME = 120;
 const MAX_EMAIL = 254;
 const MAX_MESSAGE = 4000;
-const DEFAULT_INBOX = 'gaete.gaona@gmail.com';
 const MAX_UTM = 100;
 const MAX_LANDING_PATH = 200;
 const UTM_UNSAFE = /[^A-Za-z0-9._~-]/g;
@@ -57,6 +56,10 @@ async function deliverEmail(env, message) {
 }
 
 async function sendContactEmail(env, payload) {
+  if (!payload.inbox) {
+    console.error("[contact] CONTACT_INBOX secret missing; email skipped, lead kept in KV");
+    return { ok: false };
+  }
   const adminMessage = {
     to: payload.inbox,
     from: { email: payload.fromEmail, name: payload.fromName },
@@ -169,7 +172,7 @@ export async function handleContact(request, env, cors) {
     landing_path: cleanLandingPath(landing_path),
   };
 
-  const inbox = env.CONTACT_INBOX || DEFAULT_INBOX;
+  const inbox = env.CONTACT_INBOX || "";
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.cl';
   const fromName = env.CONTACT_FROM_NAME || 'Viento Norte';
   const subject = safeIntent
