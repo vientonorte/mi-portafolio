@@ -69,7 +69,6 @@ El **front** (formulario + asistente) no cambia; solo el destino del POST.
 | `src/pages/Privacy.tsx` | Política de privacidad (i18n) |
 | `src/pages/Contacto.tsx` | Parse `state` + `?intent=`; toast `?sent=1` |
 | `worker/src/contact.js` | Relay server-side (backup) |
-| `worker/wrangler.contact.toml` | Deploy del Worker sin R2/KV |
 
 ### Abrir el asistente desde cualquier CTA
 
@@ -182,11 +181,7 @@ Permite que `mailto:contacto@vientonorte.cl` y el alias público funcionen sin m
 
 ### 4. Worker de respaldo (opcional)
 
-```bash
-cd worker
-npm install
-npm run deploy:contact
-```
+Se despliega con el comando canónico (ver Deploy abajo y `DEPLOY.md`).
 
 URL: `https://mi-portafolio-contact.vientonorte.workers.dev/api/contact`
 
@@ -274,8 +269,8 @@ Copia `.env.example` → `.env.local` para desarrollo. **No commitear** valores 
 
 **Worker contacto:**
 
-```bash
-cd worker && npm run deploy:contact
-```
+Solo humano, por orden del TL, con `worker/wrangler.toml` (nunca `-c`):
 
-No usar `wrangler deploy` completo sin R2/KV configurados (ver `worker/README.md`).
+```bash
+cd worker && npm ci && npx --no-install wrangler deploy --keep-vars
+```

@@ -74,12 +74,14 @@ Checklist largo: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md).
 | Form / schedule URLs | Contacto y free a11y |
 | `NODE_AUTH_TOKEN` / packages | `@vientonorte/*` en GitHub Packages |
 
-Worker contacto (aparte de Pages):
+Worker (aparte de Pages). Único comando canónico, **solo humano, por orden del TL**:
 
 ```sh
-cd worker && npx wrangler deploy --config wrangler.contact.toml
-# canónico: https://contact.vientonorte.io
+cd worker && npm ci && npx --no-install wrangler deploy --keep-vars
+# config: worker/wrangler.toml (nunca -c / --config; wrangler.contact.toml fue eliminado)
 ```
+
+- [ ] TODO (Rö): mover CONTACT_INBOX a secret (wrangler secret put, Rö lo escribe) y luego quitarlo del toml.
 
 ---
 
