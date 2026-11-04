@@ -128,7 +128,7 @@
       "month": "2026-11",
       "published": null,
       "company": "Viento Norte",
-      "hubPath": "/privacy",
+      "hubPath": "/privacidad/",
       "source": "Writing/Voice · Resources ALGONOVA no · ficha-contra-archivo método · Ley 21.719",
       "title": {
         "es": "Privacidad por diseño, no por banner",
@@ -139,7 +139,7 @@
         "en": "Chilean Law 21.719 in the flow. Contra-archivo method (transparency) vs VN skills (WCAG, minimization). No case names."
       },
       "evidence": [
-        "Ley 21.719: minimización, finalidad, ARSOPL — página /privacy",
+        "Ley 21.719: minimización, finalidad, ARSOPL — página /privacidad/",
         "Método ficha-contra-archivo: Grounded Theory D1–D7 (skill, no expediente público)"
       ],
       "paragraphs": {

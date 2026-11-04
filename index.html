@@ -29,6 +29,14 @@
           location.replace("%BASE_URL%noticias/" + qs);
           return;
         }
+        // #/privacy → /privacidad/ (página estática). Conserva la query.
+        if (/^#\/privacy(\/|\?|$)/.test(hn)) {
+          var pq = hn.indexOf("?") >= 0 ? hn.slice(hn.indexOf("?")) : "";
+          var pqs = q || pq;
+          if (q && pq) pqs = q + "&" + pq.slice(1);
+          location.replace("%BASE_URL%privacidad/" + pqs);
+          return;
+        }
         // Definición: la ruta hash de una ficha HTTP redirige a la URL con barra.
         // #/sobre-mi, #/sobre-mi/ y #/sobre-mi?utm → /sobre-mi/. Ancla de sección (#experiencia) no entra.
         if (/^#\/sobre-mi(\/|\?|$)/.test(hn)) {

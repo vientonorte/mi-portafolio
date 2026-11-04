@@ -134,6 +134,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
             nosotros: path.join(root, 'src/nosotros/entry-server.tsx'),
             sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
+            privacidad: path.join(root, 'src/privacidad/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -180,6 +181,17 @@ export async function prerenderServicios({ root, outDir, base }) {
     const nosotrosApp = (await load('nosotros')).render();
     fs.writeFileSync(nosotrosTarget, nosotrosHtml.replace(OUTLET, nosotrosApp), 'utf8');
     console.log(`[prerender-servicios] ${path.relative(root, nosotrosTarget)} (${nosotrosApp.length} bytes, base ${base})`);
+
+    // /privacidad/ (política)
+    const privTarget = path.join(outDir, 'privacidad', 'index.html');
+    if (!fs.existsSync(privTarget)) throw new Error(`[prerender-servicios] falta ${privTarget}`);
+    const privHtml = fs.readFileSync(privTarget, 'utf8');
+    if (!privHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/privacidad/index.html sin <!--ssr-outlet-->');
+    }
+    const privApp = (await load('privacidad')).render();
+    fs.writeFileSync(privTarget, privHtml.replace(OUTLET, privApp), 'utf8');
+    console.log(`[prerender-servicios] ${path.relative(root, privTarget)} (${privApp.length} bytes, base ${base})`);
 
     // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
     const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');

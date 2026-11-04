@@ -30,7 +30,7 @@ import {
   MOBILE_HEADER_CONTROL_CLASS,
 } from "../molecules/mobile-header-classes";
 import { cn } from "../../lib/utils";
-import { staticMobileDrawerLinks, type SiteNavLink } from "../../lib/site-nav";
+import { sitePrivacyHref, staticMobileDrawerLinks, type SiteNavLink } from "../../lib/site-nav";
 import { footer as esFooter } from "../../lib/i18n/locales/es/portfolio";
 import { SITE_CONTACT, getContactMailtoUrl } from "../../lib/site-contact";
 import { VIENTO_NORTE_LINKS } from "../../lib/viento-norte-links";
@@ -289,13 +289,11 @@ function StaticNavigation({
         footerItems={[
           { id: "contact", label: esFooter.contact, href: getContactMailtoUrl(), kind: "href" },
           { id: "linkedin", label: esFooter.linkedin, href: SITE_CONTACT.linkedin, kind: "external" },
-          { id: "privacy", label: esFooter.privacy, kind: "spa" },
+          { id: "privacy", label: esFooter.privacy, href: sitePrivacyHref(), kind: "href" },
           { id: "uxtools", label: esFooter.uxtools, href: VIENTO_NORTE_LINKS.uxtools, kind: "external" },
         ]}
         onSpa={() => {
           setIsMenuOpen(false);
-          const base = homeHref.endsWith("/") ? homeHref : `${homeHref}/`;
-          window.location.assign(`${base}#/privacy`);
         }}
         dialogLabel="Menú de navegación móvil"
         menuLabel="Menú móvil"
