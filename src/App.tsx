@@ -10,6 +10,7 @@ import { DeepPageNav } from './components/molecules/DeepPageNav';
 import { PageSkeleton } from './components/molecules/SkeletonLoaders';
 import { ImageManifestProvider } from './lib/ImageManifestProvider';
 import { PortfolioChrome } from './components/layout/PortfolioChrome';
+import { PrivacyRedirect } from './components/layout/PrivacyRedirect';
 import { ScrollManager } from './components/layout/ScrollManager';
 import { NotFoundPage } from './components/layout/NotFoundPage';
 import { NoticiasRedirect } from './components/layout/NoticiasRedirect';
@@ -29,7 +30,6 @@ const LandingsHub = lazyWithRetry(() => import('./pages/LandingsHub'));
 const Proyectos = lazyWithRetry(() => import('./pages/Proyectos'));
 const AutosuggestFondos = lazyWithRetry(() => import('./pages/AutosuggestFondos'));
 const Contacto = lazyWithRetry(() => import('./pages/Contacto'));
-const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
 const Grafo = lazyWithRetry(() => import('./pages/Grafo'));
 const DesignSystem = lazyWithRetry(() => import('./pages/DesignSystem'));
 const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'));
@@ -167,7 +167,8 @@ function AppRoutes() {
             {/* #/sobre-mi → /sobre-mi/. El hash no es la ficha. */}
             <Route path="/sobre-mi" element={<SobreMiRedirect />} />
             <Route path="/contacto" element={<Contacto />} />
-            <Route path="/privacy" element={<Privacy />} />
+            {/* #/privacy → /privacidad/ (página estática). */}
+            <Route path="/privacy" element={<PrivacyRedirect />} />
             {/* S42 v3: #/news y #/news/<slug> → /noticias/ (página estática; replace, respeta /qa/). */}
             <Route path="/news/:slug" element={<NoticiasRedirect />} />
             <Route path={ROUTES.news} element={<NoticiasRedirect />} />

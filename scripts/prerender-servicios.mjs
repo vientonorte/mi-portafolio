@@ -197,6 +197,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             nosotros: path.join(root, 'src/nosotros/entry-server.tsx'),
             sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
             contacto: path.join(root, 'src/contacto/entry-server.tsx'),
+            privacidad: path.join(root, 'src/privacidad/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -247,6 +248,16 @@ export async function prerenderServicios({ root, outDir, base }) {
     }
     const nosotrosApp = (await load('nosotros')).render();
     publish(nosotrosTarget, nosotrosHtml, nosotrosApp);
+
+    // /privacidad/ (política)
+    const privTarget = path.join(outDir, 'privacidad', 'index.html');
+    if (!fs.existsSync(privTarget)) throw new Error(`[prerender-servicios] falta ${privTarget}`);
+    const privHtml = fs.readFileSync(privTarget, 'utf8');
+    if (!privHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/privacidad/index.html sin <!--ssr-outlet-->');
+    }
+    const privApp = (await load('privacidad')).render();
+    publish(privTarget, privHtml, privApp);
 
     // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
     const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');

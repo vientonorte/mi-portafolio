@@ -162,6 +162,8 @@
               sobreMi: path.resolve(__dirname, 'sobre-mi/index.html'),
               // /contacto/ : ficha HTTP. Sin esta entrada, /contacto/ cae en 404.html (copia de la home).
               contacto: path.resolve(__dirname, 'contacto/index.html'),
+              // /privacidad/: política prerenderizada; #/privacy redirige aquí.
+              privacidad: path.resolve(__dirname, 'privacidad/index.html'),
               // Plantilla de rubros (P4): no se publica tal cual. scripts/prerender-servicios.mjs genera
               // dist/servicios/<slug>/index.html por entrada de src/data/rubros.json y borra dist/rubros/.
               rubros: path.resolve(__dirname, 'rubros/index.html'),

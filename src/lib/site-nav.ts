@@ -40,6 +40,12 @@ export function siteServiciosHref(fragment?: string): string {
   return serviciosHref(fragment);
 }
 
+/** /privacidad/ (política, página estática prerenderizada) respetando base de Vite. */
+export function sitePrivacyHref(): string {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.endsWith("/") ? base : `${base}/`}privacidad/`;
+}
+
 /** /noticias/ (página estática prerenderizada) respetando base de Vite. */
 export function siteNoticiasHref(): string {
   const base = import.meta.env.BASE_URL || "/";
