@@ -76,8 +76,8 @@ describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
     expect([...locs].sort()).toEqual([
       "https://vientonorte.io/",
       "https://vientonorte.io/contacto/",
-      "https://vientonorte.io/noticias/",
       "https://vientonorte.io/nosotros/",
+      "https://vientonorte.io/noticias/",
       "https://vientonorte.io/privacidad/",
       "https://vientonorte.io/s/polijuego-privacy/",
       "https://vientonorte.io/servicios/",
