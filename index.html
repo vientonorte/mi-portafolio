@@ -54,6 +54,11 @@
           location.replace(basePath + "sobre-mi/" + q);
           return;
         }
+        // /contacto (sin barra) no es archivo. La ficha es /contacto/.
+        if (p === basePath + "contacto") {
+          location.replace(basePath + "contacto/" + q);
+          return;
+        }
         // Deprecated: /poc (y /poc#/auditoria) → /servicios/ (canon 2026-09-27). Conserva UTMs.
         if (p === "/poc" || p.indexOf("/poc/") === 0) {
           location.replace(location.origin + "/servicios/" + q);

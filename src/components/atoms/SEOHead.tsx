@@ -35,16 +35,26 @@ export function SEOHead({
   const finalUrl = sanitizeCanonicalUrl(url);
   const finalImage = image || SEO_SITE.ogImage;
 
+  // La ficha HTTP (sobre-mi, contacto, …) ya publica title y canonical en el shell.
+  // Helmet/React 19 hoistean otro par al head. Si el canonical del documento ya es este, no se emite.
+  const shellOwnsCanonical =
+    typeof document !== "undefined" &&
+    document.querySelector('link[rel="canonical"]')?.getAttribute("href") === finalUrl;
+
   // robots NO va por Helmet: Helmet agregaría un segundo meta robots encima del del HTML
   // (noindex en QA). Se actualiza el existente; noindex gana (página, build QA o HTML). Ver lib/robots-meta.
   useLayoutEffect(() => {
     applyRobotsMeta(document, { noIndex });
+    if (shellOwnsCanonical) {
+      const titleEl = document.querySelector("head title");
+      if (titleEl && titleEl.textContent !== documentTitle) titleEl.textContent = documentTitle;
+    }
     return () => restoreRobotsMeta(document);
-  }, [noIndex]);
+  }, [noIndex, shellOwnsCanonical, documentTitle]);
 
   return (
     <Helmet>
-      <title>{documentTitle}</title>
+      {shellOwnsCanonical ? null : <title>{documentTitle}</title>}
       <meta name="description" content={metaDescription} />
       {keywords && <meta name="keywords" content={keywords} />}
 
@@ -65,7 +75,7 @@ export function SEOHead({
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={finalImage} />
 
-      <link rel="canonical" href={finalUrl} />
+      {shellOwnsCanonical ? null : <link rel="canonical" href={finalUrl} />}
     </Helmet>
   );
 }

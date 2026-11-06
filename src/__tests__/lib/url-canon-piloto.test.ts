@@ -41,10 +41,14 @@ describe("URL canon 2026-09-27 · canonicals sin '#'", () => {
       (v): v is string => typeof v === "string"
     );
     expect(routePaths.length).toBeGreaterThan(5);
+    const httpFicha: Record<string, string> = {
+      "/contacto": "https://vientonorte.io/contacto/",
+    };
     for (const p of [...routePaths, ...SAMPLE_PATHS]) {
       const c = canonicalFromPath(p);
       expect(c, p).not.toContain("#");
-      expect(c, p).toBe("https://vientonorte.io/");
+      const key = p.replace(/\/+$/, "") || "/";
+      expect(c, p).toBe(httpFicha[key] ?? "https://vientonorte.io/");
     }
   });
 
