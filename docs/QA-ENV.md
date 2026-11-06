@@ -36,3 +36,19 @@ Hoy el apex es GitHub Pages. Para el subdominio:
 ## Checklist VB
 
 Ver [docs/VB-SOBRE-MI.md](./VB-SOBRE-MI.md).
+
+## Worker QA (`env.qa`, contador QR)
+
+Worker `mi-portafolio-contact-qa`, solo en workers.dev: sin rutas, sin contact.vientonorte.io, KV propio, secrets propios, sin correo ni R2. No toca tráfico, KV ni secrets de prod.
+
+Todo desde `worker/`, con `npm ci` antes (wrangler fijado en el lock). Cada paso con orden del TL.
+
+1. **KV QA:** `npx --no-install wrangler kv namespace create ADMIN_KV_QA` → poner el id en `[[env.qa.kv_namespaces]]` (reemplaza `REPLACE_WITH_QA_KV_ID`) por PR.
+2. **Secrets (los tipea Rö, nunca un bot; valores distintos a prod):** `npx --no-install wrangler secret put QR_VIEW_KEY --env qa` y, si hace falta, `QR_STATS_TOKEN --env qa`.
+3. **Deploy QA:** `npx --no-install wrangler deploy --env qa` → `https://mi-portafolio-contact-qa.<subdominio>.workers.dev`.
+4. **Datos ficticios (solo en el KV QA, nunca con el id de prod):**
+   `npx --no-install wrangler kv key put --remote --namespace-id <ID_QA> "qr:<slug>:2026-10-30" "3"` y `"qr:<slug>:total" "3"`, o escanear `<url-qa>/q/<slug>`. Usar slugs/conteos obviamente ficticios.
+5. **QA:** `<url-qa>/q/stats`.
+6. **Limpieza (con OK de Rö):** `npx --no-install wrangler delete --env qa` y `npx --no-install wrangler kv namespace delete --namespace-id <ID_QA>`.
+
+Prod (`wrangler deploy` sin `--env`) solo con OK escrito de Rö + orden del TL.

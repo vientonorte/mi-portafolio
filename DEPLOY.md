@@ -60,8 +60,8 @@ Checklist largo: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md).
 
 ### Checklist obligatorio de ship
 
-- [ ] **Ship a `/qa/`:** bloque de QA humano de Rö reservado en su calendario, con la URL de QA, los PRs incluidos y sus hashes. Sin ese bloque, el ship no está completo.
-- [ ] **Ship a `main`:** bloque de QA humano de Rö reservado en su calendario, con la URL de producción, los PRs incluidos y sus hashes; además, ejecutar y registrar el QA en producción. Sin ese bloque, el ship no está completo.
+- [ ] **QA:** se prueba solo en ambientes QA: `env.qa` del worker (ver [docs/QA-ENV.md](docs/QA-ENV.md)) o previews `/qa/`. Nunca en prod.
+- [ ] **Prod:** requiere OK escrito de Rö y la orden del TL.
 
 ---
 
@@ -120,3 +120,17 @@ Detalle y riesgos: hub `DEPLOY.md` § Migración CNAME.
 - [ ] Contact OPTIONS 204 desde origen `.io`  
 - [ ] Sitemap en vivo: Actions → «Sitemap live (200 por loc)» verde (corre solo tras Deploy QA; manual con `target=prod`)  
 - [ ] Search Console: reenviar el sitemap (Rö, HU3)
+
+## Reporte diario QR FRUTA a Slack (solo QA)
+
+- El worker de QA (`[env.qa]`) corre un cron diario a las 09:00 Chile (`0 12 * * *` UTC; en horario de invierno serían las 08:00).
+- Postea a Slack los escaneos reales (sin pruebas) por punto y por día.
+- Sin `SLACK_WEBHOOK_URL` no hace nada.
+- Prod no tiene cron hasta que lo ordene el TL.
+- El mensaje lleva solo totales reales: sin URLs, sin claves, sin PII.
+- La primera prueba va a un canal de prueba sin clientes (por ejemplo `#qr-pruebas`).
+- Enviar desde prod cuenta como publicar: necesita el OK de Rö después de su QA.
+
+Pasos de Rö (la URL del webhook nunca va al chat ni a git):
+1. En Slack: api.slack.com/apps → Create New App → Incoming Webhooks → activar → Add New Webhook to Workspace → elegir canal → copiar la URL.
+2. En el Mac, dentro de `worker/`: `npx --no-install wrangler secret put SLACK_WEBHOOK_URL --env qa` y pegar la URL cuando la pida.

@@ -6,54 +6,37 @@ export const QR_SMOKE_SLUGS_29OCT = Object.freeze([
   'parque-bustamante', 'bellas-artes', 'santa-isabel', 'irarrazaval',
 ]);
 
+// Pruebas confirmadas (30-oct): 1 de Rö (27-oct), 3 de M5 y 9 del TL (29-oct). Total 13.
+// Se excluye 1 unidad (count), nunca un día ni un slug completo.
+// slug '*' = no se sabe en qué punto cayó: se descuenta solo del total general, no de una fila.
 export const QR_EXCLUSIONS = Object.freeze([
-  { slug: '*', date: '2026-10-27', status: 'prueba', reason: 'Lanzamiento: todo el 27-oct son pruebas.' },
-  ...QR_SMOKE_SLUGS_29OCT.map((slug) => ({
-    slug,
-    date: '2026-10-29',
-    status: 'por-confirmar',
-    reason:
-      'Smoke del TL 17:58 + aperturas de Rö al pegar afiches (vista previa del link). Rö: solo el primer QR llegó a la encuesta; no se sabe cuál. KV no separa por hora.',
-  })),
-  {
-    slug: 'facebook',
-    date: '2026-10-29',
-    status: 'por-confirmar',
-    reason: 'Pruebas en Facebook: no hay registro de cuántas ni del slug exacto.',
-  },
-  ...['san-pablo', 'general'].flatMap((slug) => ['2026-10-28', '2026-10-29'].map((date) => ({
-    slug,
-    date,
-    status: 'prueba',
-    reason: 'Rö vía I15, 30-oct 00:10: chequeos al pegar afiches, la cámara leyó el link sin tocarlo (Figma 487:179, 7 escaneos).',
-  }))),
-  {
-    slug: 'los-leones',
-    date: '2026-10-29',
-    status: 'por-confirmar',
-    reason: 'Punto de Jhordan: los chequeos de Rö al pegar afiches quizá no lo explican (Figma 487:39).',
-  },
+  { slug: '*', date: '2026-10-27', count: 1, status: 'prueba', reason: 'Primer escaneo de lanzamiento (Rö, 30-oct).' },
+  // 29-oct: 3 de M5 en facebook (17:55–18:00 CL) + 1 del TL (17:58 CL) = 4.
+  { slug: 'facebook', date: '2026-10-29', count: 4, status: 'prueba', reason: 'Smoke M5 (3) + smoke TL (1), 29-oct.' },
+  // 29-oct 17:58 CL: smoke del TL, 1 hit por slug.
+  ...['av-matta', 'compania-morande', 'plaza-de-armas', 'parque-bustamante', 'bellas-artes', 'santa-isabel', 'irarrazaval', 'los-leones']
+    .map((slug) => ({ slug, date: '2026-10-29', count: 1, status: 'prueba', reason: 'Smoke TL 29-oct 17:58 CL (1 hit).' })),
 ]);
 
 export function exclusionFor(slug, date, list = QR_EXCLUSIONS) {
-  return list.find((e) => (e.slug === slug || e.slug === '*') && e.date === date) || null;
+  return list.find((e) => e.slug === slug && e.date === date) || null;
 }
 
-/** Separa un punto en real / prueba / por confirmar. conPruebas = total contado. */
+/** Real / prueba de un punto. Solo resta unidades (count) de exclusiones con slug exacto. */
 export function splitCounts(p, list = QR_EXCLUSIONS) {
   let prueba = 0;
-  let porConfirmar = 0;
   for (const [d, n] of Object.entries(p.days || {})) {
     const e = exclusionFor(p.slug, d, list);
-    if (!e) continue;
-    if (e.status === 'prueba') prueba += n;
-    else porConfirmar += n;
+    if (e) prueba += Math.min(n, e.count ?? 0);
   }
-  // Desfase (total guardado > suma de días): no se sabe de qué día es → por confirmar.
-  const sumDays = Object.values(p.days || {}).reduce((a, n) => a + n, 0);
-  porConfirmar += Math.max(0, p.total - sumDays);
-  const real = Math.max(0, p.total - prueba - porConfirmar);
-  return { real, prueba, porConfirmar, conPruebas: p.total };
+  return { real: Math.max(0, p.total - prueba), prueba, porConfirmar: 0, conPruebas: p.total };
+}
+
+/** Pruebas sin punto conocido (slug '*'): se restan del total general, acotadas a lo contado ese día. */
+export function globalTestHits(puntos, list = QR_EXCLUSIONS) {
+  return list
+    .filter((e) => e.slug === '*')
+    .reduce((a, e) => a + Math.min(e.count ?? 0, puntos.reduce((s, p) => s + ((p.days || {})[e.date] || 0), 0)), 0);
 }
 
 // Desde el 30-oct los códigos impresos marcan el lugar donde se pegan (decisión de Rö, 29-oct).
