@@ -23,6 +23,68 @@ import { pathToFileURL } from 'node:url';
 export const OUTLET = '<!--ssr-outlet-->';
 export const HEAD_OUTLET = '<!--rubro-head-->';
 export const SLUG_ATTR = 'data-slug=""';
+
+const canonicalLinkRe = () => /<link\b[^>]*\brel\s*=\s*["']canonical["'][^>]*>/gi;
+
+/**
+ * El shell ya trae <title> y canonical. renderToString (React 19 / Helmet) los
+ * repite dentro del fragmento; el parser del browser los sube al head y quedan dos.
+ * Se quitan del fragmento. Un <title> dentro de <svg> es el nombre accesible del gráfico.
+ */
+export function stripDocumentHeadFromFragment(html) {
+  let svg = 0;
+  let out = '';
+  const re = /<\/?svg\b[^>]*>|<title\b[^>]*>[\s\S]*?<\/title>/gi;
+  let last = 0;
+  for (const match of html.matchAll(re)) {
+    out += html.slice(last, match.index);
+    const tag = match[0];
+    if (/^<svg\b/i.test(tag)) {
+      svg += 1;
+      out += tag;
+    } else if (/^<\/svg\b/i.test(tag)) {
+      svg = Math.max(0, svg - 1);
+      out += tag;
+    } else if (svg > 0) {
+      out += tag;
+    }
+    last = match.index + tag.length;
+  }
+  out += html.slice(last);
+  return out.replace(canonicalLinkRe(), '');
+}
+
+/** Sustituye <!--ssr-outlet--> por el HTML de renderToString, sin segundo title/canonical. */
+export function injectOutlet(template, app) {
+  if (!template.includes(OUTLET)) {
+    throw new Error(`[prerender-servicios] plantilla sin ${OUTLET}`);
+  }
+  return template.replace(OUTLET, stripDocumentHeadFromFragment(app));
+}
+
+function countTitlesOutsideSvg(html) {
+  let svg = 0;
+  let count = 0;
+  const re = /<\/?svg\b[^>]*>|<title\b/gi;
+  for (const match of html.matchAll(re)) {
+    const tag = match[0];
+    if (/^<svg\b/i.test(tag)) svg += 1;
+    else if (/^<\/svg\b/i.test(tag)) svg = Math.max(0, svg - 1);
+    else if (svg === 0) count += 1;
+  }
+  return count;
+}
+
+/** El HTML publicado de una ficha tiene un title de documento y un canonical. */
+export function assertSingleDocumentHead(html, label) {
+  const titles = countTitlesOutsideSvg(html);
+  const canonicals = [...html.matchAll(canonicalLinkRe())].length;
+  if (titles !== 1 || canonicals !== 1) {
+    throw new Error(
+      `[prerender-servicios] ${label}: ${titles} title y ${canonicals} canonical (se espera 1 y 1)`,
+    );
+  }
+}
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Slugs de src/data/rubros.json (validados). */
@@ -134,6 +196,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             noticias: path.join(root, 'src/noticias/entry-server.tsx'),
             nosotros: path.join(root, 'src/nosotros/entry-server.tsx'),
             sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
+            contacto: path.join(root, 'src/contacto/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -148,6 +211,13 @@ export async function prerenderServicios({ root, outDir, base }) {
     const load = async (name) =>
       import(`${pathToFileURL(path.join(ssrOutDir, `${name}.mjs`)).href}?t=${Date.now()}`);
 
+    const publish = (targetPath, shell, app) => {
+      const out = injectOutlet(shell, app);
+      assertSingleDocumentHead(out, `/${path.relative(outDir, targetPath)}`);
+      fs.writeFileSync(targetPath, out, 'utf8');
+      console.log(`[prerender-servicios] ${path.relative(root, targetPath)} (${app.length} bytes, base ${base})`);
+    };
+
     // /servicios/ (índice)
     const servicios = await load('servicios');
     const appHtml = servicios.render();
@@ -155,8 +225,7 @@ export async function prerenderServicios({ root, outDir, base }) {
     if (!html.includes(OUTLET)) {
       throw new Error('[prerender-servicios] dist/servicios/index.html sin <!--ssr-outlet-->');
     }
-    fs.writeFileSync(target, html.replace(OUTLET, appHtml), 'utf8');
-    console.log(`[prerender-servicios] ${path.relative(root, target)} (${appHtml.length} bytes, base ${base})`);
+    publish(target, html, appHtml);
 
     // /noticias/ (índice estático de ediciones existentes)
     const noticiasTarget = path.join(outDir, 'noticias', 'index.html');
@@ -167,8 +236,7 @@ export async function prerenderServicios({ root, outDir, base }) {
     }
     const noticias = await load('noticias');
     const noticiasApp = noticias.render();
-    fs.writeFileSync(noticiasTarget, noticiasHtml.replace(OUTLET, noticiasApp), 'utf8');
-    console.log(`[prerender-servicios] ${path.relative(root, noticiasTarget)} (${noticiasApp.length} bytes, base ${base})`);
+    publish(noticiasTarget, noticiasHtml, noticiasApp);
 
     // /nosotros/ (página de empresa)
     const nosotrosTarget = path.join(outDir, 'nosotros', 'index.html');
@@ -178,8 +246,7 @@ export async function prerenderServicios({ root, outDir, base }) {
       throw new Error('[prerender-servicios] dist/nosotros/index.html sin <!--ssr-outlet-->');
     }
     const nosotrosApp = (await load('nosotros')).render();
-    fs.writeFileSync(nosotrosTarget, nosotrosHtml.replace(OUTLET, nosotrosApp), 'utf8');
-    console.log(`[prerender-servicios] ${path.relative(root, nosotrosTarget)} (${nosotrosApp.length} bytes, base ${base})`);
+    publish(nosotrosTarget, nosotrosHtml, nosotrosApp);
 
     // /sobre-mi/ = la misma ficha que /#/sobre-mi (sin página paralela).
     const sobreMiTarget = path.join(outDir, 'sobre-mi', 'index.html');
@@ -196,8 +263,20 @@ export async function prerenderServicios({ root, outDir, base }) {
     if (sobreMiApp.includes('Prototipos en Figma')) {
       throw new Error('[prerender-servicios] /sobre-mi/ sigue con la ficha inventada');
     }
-    fs.writeFileSync(sobreMiTarget, sobreMiHtml.replace(OUTLET, sobreMiApp), 'utf8');
-    console.log(`[prerender-servicios] ${path.relative(root, sobreMiTarget)} (${sobreMiApp.length} bytes, base ${base})`);
+    publish(sobreMiTarget, sobreMiHtml, sobreMiApp);
+
+    // /contacto/ — ficha HTTP. Sin esto, Pages sirve 404.html (copia de la home).
+    const contactoTarget = path.join(outDir, 'contacto', 'index.html');
+    if (!fs.existsSync(contactoTarget)) throw new Error(`[prerender-servicios] falta ${contactoTarget}`);
+    const contactoHtml = fs.readFileSync(contactoTarget, 'utf8');
+    if (!contactoHtml.includes(OUTLET)) {
+      throw new Error('[prerender-servicios] dist/contacto/index.html sin <!--ssr-outlet-->');
+    }
+    const contactoApp = await (await load('contacto')).render();
+    if (!contactoApp.includes('id="contacto"') || !contactoApp.includes('Conversemos')) {
+      throw new Error('[prerender-servicios] /contacto/ no renderizó el formulario');
+    }
+    publish(contactoTarget, contactoHtml, contactoApp);
 
     // /servicios/<slug>/ (rubros)
     const rubros = await load('rubros');

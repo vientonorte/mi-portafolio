@@ -1,11 +1,16 @@
 import { UNSAFE_createMemoryHistory, type To } from "react-router";
 
-/** La ficha HTTP se queda en /sobre-mi. El resto de la SPA sigue en el hash del apex. */
-export function sobreMiHttpStays(to: To): boolean {
+/** La ficha HTTP se queda en su path. El resto de la SPA sigue en el hash del apex. */
+export function fichaHttpStays(fichaPath: string, to: To): boolean {
   const path = pathOf(to);
   if (path == null) return true;
   const norm = path.replace(/\/+$/, "") || "/";
-  return norm === "/sobre-mi";
+  const ficha = fichaPath.replace(/\/+$/, "") || "/";
+  return norm === ficha;
+}
+
+export function sobreMiHttpStays(to: To): boolean {
+  return fichaHttpStays("/sobre-mi", to);
 }
 
 function pathOf(to: To): string | null {
@@ -33,19 +38,19 @@ function spaHref(to: To): string {
   return `${root}#${path}${search}${hash}`;
 }
 
-function leave(to: To): boolean {
-  if (sobreMiHttpStays(to)) return false;
-  if (typeof window === "undefined") return false;
-  window.location.assign(spaHref(to));
-  return true;
-}
-
-/** History de la ficha. El primer paint es /sobre-mi, sin reescribir la barra a /#/sobre-mi. */
-export function createSobreMiHttpHistory() {
+/** History de una ficha HTTP. El primer paint es esa ruta, sin reescribir la barra a /#/… */
+export function createFichaHttpHistory(fichaPath: string) {
+  const ficha = fichaPath.replace(/\/+$/, "") || "/";
   const memory = UNSAFE_createMemoryHistory({
-    initialEntries: ["/sobre-mi"],
+    initialEntries: [ficha],
     v5Compat: true,
   });
+  const leave = (to: To): boolean => {
+    if (fichaHttpStays(ficha, to)) return false;
+    if (typeof window === "undefined") return false;
+    window.location.assign(spaHref(to));
+    return true;
+  };
   return {
     get action() {
       return memory.action;
@@ -53,18 +58,22 @@ export function createSobreMiHttpHistory() {
     get location() {
       return memory.location;
     },
-    createHref: (to) => memory.createHref(to),
-    createURL: (to) => memory.createURL(to),
-    encodeLocation: (to) => memory.encodeLocation(to),
-    listen: (fn) => memory.listen(fn),
-    go: (delta) => memory.go(delta),
-    push: (to, state) => {
+    createHref: (to: To) => memory.createHref(to),
+    createURL: (to: To) => memory.createURL(to),
+    encodeLocation: (to: To) => memory.encodeLocation(to),
+    listen: (fn: Parameters<typeof memory.listen>[0]) => memory.listen(fn),
+    go: (delta: number) => memory.go(delta),
+    push: (to: To, state?: unknown) => {
       if (leave(to)) return;
       memory.push(to, state);
     },
-    replace: (to, state) => {
+    replace: (to: To, state?: unknown) => {
       if (leave(to)) return;
       memory.replace(to, state);
     },
   };
+}
+
+export function createSobreMiHttpHistory() {
+  return createFichaHttpHistory("/sobre-mi");
 }
