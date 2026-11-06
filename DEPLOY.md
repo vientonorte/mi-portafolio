@@ -60,8 +60,8 @@ Checklist largo: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md).
 
 ### Checklist obligatorio de ship
 
-- [ ] **Ship a `/qa/`:** bloque de QA humano de Rö reservado en su calendario, con la URL de QA, los PRs incluidos y sus hashes. Sin ese bloque, el ship no está completo.
-- [ ] **Ship a `main`:** bloque de QA humano de Rö reservado en su calendario, con la URL de producción, los PRs incluidos y sus hashes; además, ejecutar y registrar el QA en producción. Sin ese bloque, el ship no está completo.
+- [ ] **QA:** se prueba solo en ambientes QA: `env.qa` del worker (ver [docs/QA-ENV.md](docs/QA-ENV.md)) o previews `/qa/`. Nunca en prod.
+- [ ] **Prod:** requiere OK escrito de Rö y la orden del TL.
 
 ---
 
