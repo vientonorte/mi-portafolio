@@ -20,6 +20,13 @@ concurrency:
 jobs:
   build-and-publish-qa:
     runs-on: ubuntu-latest
+    # Un push al hub vientonorte.github.io a la vez. Mismo nombre de grupo que deben usar los
+    # demás jobs que empujan al hub (deploy.yml de este repo, antropologia-corrupcion, workflows
+    # del repo hub). GitHub solo serializa grupos dentro de un mismo repo: entre repos el
+    # reintento push → pull --rebase de abajo cubre la carrera.
+    concurrency:
+      group: vientonorte-hub-push
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
 
@@ -78,9 +85,8 @@ jobs:
           rm -rf /tmp/vn-hub-qa
           git clone --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/vientonorte/vientonorte.github.io.git" /tmp/vn-hub-qa
           cd /tmp/vn-hub-qa
-          rm -rf qa
-          mkdir -p qa
-          cp -R "$GITHUB_WORKSPACE/dist/." qa/
+          # No borrar qa/ entero: preserva qa/antropologia-corrupcion/ y cualquier subcarpeta ajena.
+          node "$GITHUB_WORKSPACE/scripts/qa-hub-sync.mjs" "$GITHUB_WORKSPACE/dist" qa
           # Marker for ops
           echo "qa.vientonorte.io (optional CNAME) → serve /qa/ or CF redirect" > qa/README-QA.txt
           git add -A qa
@@ -88,5 +94,10 @@ jobs:
             echo "No QA hub changes"
           else
             git commit -m "deploy(qa): preview SPA at /qa/ from mi-portafolio ${GITHUB_SHA}"
-            git push origin HEAD:main
+            for i in 1 2 3 4 5; do
+              if git push origin HEAD:main; then break; fi
+              [ "$i" -eq 5 ] && exit 1
+              sleep $((i * 5))
+              git pull --rebase origin main
+            done
           fi
