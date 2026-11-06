@@ -307,6 +307,16 @@ export const privacyPage = {
       appTitle: 'The game',
       appBody: 'This page is the site policy. The game has its own.',
       appCta: 'R.A.D.A.R. El Polijuego',
+      campoTitle: 'Campo app (ethnography)',
+      campoLead: 'Field notebook at campo.vientonorte.io. Stance: no automatic analytics.',
+      campoItems: [
+        'Data is encrypted on the device (AES-GCM, key derived from your passphrase with PBKDF2). There is no unencrypted mode and no server copy.',
+        'Participant codes only (P1, P2…). It does not store names, national IDs or contacts of interviewees.',
+        'No analytics, tracking cookies or third parties: the app only loads files from its own domain.',
+        'noindex: it is not listed by search engines.',
+        'Clearing browser or device data deletes it; exports stay under your control.',
+      ],
+      campoCta: 'Open Campo',
       controllerTitle: 'Controller',
       controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     };
