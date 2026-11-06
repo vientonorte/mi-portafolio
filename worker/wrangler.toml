@@ -18,8 +18,7 @@ CONTACT_FROM_NAME = "Viento Norte"
 CONTACT_RATE_LIMIT = "5"
 CONTACT_RATE_WINDOW_SEC = "600"
 CONTACT_MIN_FILL_MS = "3000"
-# Inbox privado — override con secret si prefieres: wrangler secret put CONTACT_INBOX
-CONTACT_INBOX = "gaete.gaona@gmail.com"
+# CONTACT_INBOX: secret (wrangler secret put CONTACT_INBOX), no va en git
 ADMIN_GITHUB_USER = "vientonorte"
 STATIC_IMAGE_BASE = "https://vientonorte.io/mi-portafolio"
 WEBAUTHN_RP_ID = "vientonorte.io"

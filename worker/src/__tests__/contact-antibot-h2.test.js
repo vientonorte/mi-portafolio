@@ -120,7 +120,7 @@ describe('H2 · rate limit por IP (KV)', () => {
     expect((await handleContact(makeRequest(body()), env, CORS)).status).toBe(429);
   });
 
-  it('usa RATE_LIMIT_KV si existe (wrangler.contact.toml no tiene ADMIN_KV)', async () => {
+  it('usa RATE_LIMIT_KV si existe (sin ADMIN_KV)', async () => {
     const rl = makeKv();
     const env = makeEnv({ ADMIN_KV: undefined, RATE_LIMIT_KV: rl, CONTACT_RATE_LIMIT: '1' });
     expect((await handleContact(makeRequest(body()), env, CORS)).status).toBe(200);
@@ -192,7 +192,7 @@ describe('H2 · tiempo mínimo de llenado', () => {
 
 describe('H2 · config wrangler', () => {
   const here = dirname(fileURLToPath(import.meta.url));
-  for (const file of ['wrangler.toml', 'wrangler.contact.toml']) {
+  for (const file of ['wrangler.toml']) {
     it(`${file}: declara límite, ventana y tiempo mínimo`, () => {
       const toml = readFileSync(resolve(here, '../../', file), 'utf8');
       expect(toml).toMatch(/CONTACT_RATE_LIMIT\s*=\s*"\d+"/);
@@ -200,8 +200,8 @@ describe('H2 · config wrangler', () => {
       expect(toml).toMatch(/CONTACT_MIN_FILL_MS\s*=\s*"\d+"/);
     });
   }
-  it('wrangler.contact.toml tiene un KV para el rate limit', () => {
-    const toml = readFileSync(resolve(here, '../../wrangler.contact.toml'), 'utf8');
-    expect(toml).toMatch(/binding\s*=\s*"RATE_LIMIT_KV"/);
+  it('wrangler.toml tiene un KV para el rate limit (ADMIN_KV)', () => {
+    const toml = readFileSync(resolve(here, '../../wrangler.toml'), 'utf8');
+    expect(toml).toMatch(/binding\s*=\s*"ADMIN_KV"/);
   });
 });
