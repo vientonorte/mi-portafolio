@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { useLocationHash } from "../lib/use-location-hash";
+import { recordEntryAnchor } from "../lib/utm";
 import { Navigation } from "../components/organisms/Navigation";
 import { homeHref, serviciosNavLinks } from "./servicios-nav";
 import Footer from "../components/Footer";
@@ -108,7 +109,11 @@ export function ServiciosPage() {
             <ServiceCards
               cards={SERVICIOS_CARDS}
               ctaClassName={PRIMARY_CTA_CLASS}
-              onChoose={(e, card) => chooseIntent(e, card.intent as ServiciosIntent)}
+              onChoose={(e, card) => {
+                // landing_path del lead = /servicios/#<ancla de la tarjeta> (QA 13-oct).
+                recordEntryAnchor(`#${card.id}`);
+                chooseIntent(e, card.intent as ServiciosIntent);
+              }}
             />
           </div>
         </section>
