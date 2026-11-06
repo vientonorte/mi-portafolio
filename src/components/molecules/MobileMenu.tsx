@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { NavItem } from "../../lib/nav-types";
 import { ROUTES } from "../../lib/routes";
+import { sitePrivacyHref } from "../../lib/site-nav";
 import { scrollToSection } from "../../lib/scroll-to-section";
 import { useLanguage } from "../../lib/LanguageContext";
 import { useTranslation } from "../../lib/i18n";
@@ -345,7 +346,7 @@ export function MobileMenu({
       footerItems={[
         { id: "contact", label: footer.contact, href: getContactMailtoUrl(), kind: "href" },
         { id: "linkedin", label: footer.linkedin, href: SITE_CONTACT.linkedin, kind: "external" },
-        { id: "privacy", label: footer.privacy, href: ROUTES.privacy, kind: "spa" },
+        { id: "privacy", label: footer.privacy, href: sitePrivacyHref(), kind: "href" },
         { id: "uxtools", label: footer.uxtools, href: VIENTO_NORTE_LINKS.uxtools, kind: "external" },
       ]}
       onSpa={(href) => {

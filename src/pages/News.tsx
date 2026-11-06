@@ -176,7 +176,11 @@ function NewsEditionView({ slug }: { slug: string }) {
           {edition.hubPath ? (
             <>
               {" · "}
-              <Link to={edition.hubPath}>{edition.hubPath}</Link>
+              {edition.hubPath.endsWith("/") ? (
+                <a href={edition.hubPath}>{edition.hubPath}</a>
+              ) : (
+                <Link to={edition.hubPath}>{edition.hubPath}</Link>
+              )}
             </>
           ) : null}
         </p>

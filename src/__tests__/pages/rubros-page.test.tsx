@@ -233,7 +233,7 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     }
   });
 
-  it("el menú móvil abierto es el panel de la home: Inicio, Nosotros y Privacidad como botón", () => {
+  it("el menú móvil abierto es el panel de la home: Inicio, Nosotros y Privacidad como link real a /privacidad/", () => {
     const { getByRole, unmount } = rtlRender(<RubroPage slug={SLUG} />);
     fireEvent.click(getByRole("button", { name: "Abrir menú de navegación" }));
     const dialog = getByRole("dialog");
@@ -241,9 +241,8 @@ describe("/servicios/web-dental/ prerender (base '/')", () => {
     expect(getByRole("button", { name: "Inicio" })).toBeTruthy();
     expect(getByRole("button", { name: "Servicios" })).toBeTruthy();
     expect(getByRole("button", { name: "Nosotros" })).toBeTruthy();
-    const privacy = getByRole("button", { name: "Privacidad" });
-    expect(privacy.tagName).toBe("BUTTON");
-    expect(privacy.getAttribute("href")).toBeNull();
+    const privacy = getByRole("link", { name: "Privacidad" });
+    expect(privacy.getAttribute("href")).toMatch(/\/privacidad\/$/);
     expect(dialog.innerHTML).not.toContain("#/privacy");
     expect(dialog.innerHTML).not.toContain("/#/");
     unmount();

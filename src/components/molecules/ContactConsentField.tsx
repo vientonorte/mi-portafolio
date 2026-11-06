@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
 import { Checkbox } from '../ui/checkbox';
 import { Label } from '../ui/label';
-import { ROUTES } from '../../lib/routes';
+import { sitePrivacyHref } from '../../lib/site-nav';
 
 interface ContactConsentFieldProps {
   id: string;
@@ -20,6 +19,7 @@ export function ContactConsentField({
   privacyLinkLabel,
   error,
 }: ContactConsentFieldProps) {
+  const errorId = `${id}-error`;
   return (
     <div className="space-y-2">
       <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 p-3">
@@ -29,21 +29,26 @@ export function ContactConsentField({
           onCheckedChange={(v) => onCheckedChange(v === true)}
           aria-invalid={!!error}
           aria-label={consentText}
+          aria-describedby={error ? errorId : undefined}
         />
         <Label htmlFor={id} className="text-sm font-normal leading-snug cursor-pointer">
           {consentText}{' '}
-          {/* HashRouter: path real, no #named-anchor falso para pa11y/G1 */}
-          <Link
-            to={ROUTES.privacy}
+          {/* Página real prerenderizada /privacidad/ (antes #/privacy abría el home). */}
+          <a
+            href={sitePrivacyHref()}
             className="text-primary underline underline-offset-2 hover:opacity-90"
             onClick={(e) => e.stopPropagation()}
             data-privacy-link
           >
             {privacyLinkLabel}
-          </Link>
+          </a>
         </Label>
       </div>
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && (
+        <p id={errorId} className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

@@ -12,7 +12,7 @@ export const ROUTES = {
   project: (projectId: string) => `/proyecto/${projectId}`,
   company: (companyId: string) => `/empresa/${companyId}`,
   contact: "/contacto",
-  privacy: "/privacy",
+  privacy: "/privacidad/",
   /** Newsletter SPA (`/#/news`). Crawler `/s/news` removed 2026-09-09. */
   news: "/news",
   newsEdition: (slug: string) => `/news/${encodeURIComponent(slug)}`,

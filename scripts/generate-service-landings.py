@@ -311,7 +311,7 @@ def write_sitemap(locs: list[tuple[str, float]]) -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <!-- Generado por scripts/generate-service-landings.py · canon 2026-09-27. -->\n"
-        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /nosotros/ + /sobre-mi/. Sin share legacy ni rutas hash. -->\n"
+        "  <!-- Home + /servicios/ + landings por rubro (src/data/rubros.json) + /noticias/ + /nosotros/ + /sobre-mi/ + /privacidad/. Sin share legacy ni rutas hash. -->\n"
         + "\n".join(blocks)
         + "\n</urlset>\n"
     )
@@ -329,6 +329,8 @@ NOSOTROS_PATH = "/nosotros/"
 NOSOTROS_PRIORITY = 0.6
 SOBRE_MI_PATH = "/sobre-mi/"
 SOBRE_MI_PRIORITY = 0.5
+PRIVACIDAD_PATH = "/privacidad/"
+PRIVACIDAD_PRIORITY = 0.3
 # Ship 2026-10-13: la ficha HTTP es el loc. El hash #/sobre-mi no entra al sitemap.
 SOBRE_MI_LASTMOD = "2026-10-13"
 
@@ -394,6 +396,8 @@ def main() -> None:
     locs.append((ORIGIN + NOSOTROS_PATH, NOSOTROS_PRIORITY))
     print("sobre-mi (vite)", SOBRE_MI_PATH)
     locs.append((ORIGIN + SOBRE_MI_PATH, SOBRE_MI_PRIORITY))
+    print("privacidad (vite)", PRIVACIDAD_PATH)
+    locs.append((ORIGIN + PRIVACIDAD_PATH, PRIVACIDAD_PRIORITY))
     write_sitemap(locs)
 
 

@@ -39,16 +39,6 @@ vi.mock("motion/react", () => {
  */
 const OLD_SLUGS = ["/servicios/diagnostico-accesibilidad-wcag/", "/servicios/consultoria-ux-pymes/"];
 
-/**
- * Única excepción, acotada: el link «política de privacidad» del consentimiento del formulario
- * de contacto (ContactConsentField, `data-privacy-link` → #/privacy). No es nav: es el aviso
- * legal del consentimiento (Ley 21.719) y hoy no existe una página HTTP de privacidad a la que
- * apuntarlo. Pendiente de decisión (Rö/PO): publicar /privacidad/ y quitar esta excepción.
- */
-function isConsentPrivacyLink(el: Element): boolean {
-  return el.hasAttribute("data-privacy-link") && el.getAttribute("href") === "#/privacy";
-}
-
 function renderHome() {
   window.location.hash = "#/";
   return render(
@@ -66,7 +56,6 @@ function renderHome() {
 
 function offenders(container: HTMLElement): string[] {
   const hrefs = [...container.ownerDocument.querySelectorAll("[href]")]
-    .filter((el) => !isConsentPrivacyLink(el))
     .map((el) => el.getAttribute("href") ?? "")
     .filter((h) => !h.startsWith("data:"));
   const bad = hrefs.filter(
@@ -105,22 +94,21 @@ describe("home canon guard: sin /#/ ni slugs viejos en la home renderizada", () 
     expect(offenders(container)).toEqual([]);
   });
 
-  it("Privacidad cierra el overlay y no publica #/privacy", async () => {
+  it("Privacidad es un link real a /privacidad/, sin #/privacy", async () => {
     const { container } = renderHome();
     fireEvent.click(screen.getAllByRole("button", { name: /Abrir menú de navegación/ })[0]!);
     await act(async () => {
       await new Promise((r) => setTimeout(r, 50));
     });
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Privacidad" }));
+    const link = screen.getByRole("link", { name: "Privacidad" });
+    expect(link.getAttribute("href")).toMatch(/\/privacidad\/$/);
+    fireEvent.click(link);
     await act(async () => {
       await new Promise((r) => setTimeout(r, 50));
     });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(document.getElementById("mobile-menu")).toBeNull();
-    expect(document.body.style.overflow).not.toBe("hidden");
-    expect(document.body.hasAttribute("data-menu-open")).toBe(false);
-    expect(window.location.hash).toBe("#/privacy");
+    expect(window.location.hash).not.toBe("#/privacy");
     expect(offenders(container)).toEqual([]);
   });
 
