@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Curvas en la cámara · Viento Norte</title>
+    <meta
+      name="description"
+      content="Prototipo de realidad aumentada. Tres blancos impresos: Lissajous 3:4, nudo trébol y el diagrama de Penrose de Veritasium."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0d1b3d" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ar/ar.css" />
+    <!-- A-Frame compila componentes con eval. Los scripts son de este origen. -->
+    <script src="/ar/vendor/aframe-1.5.0.min.js"></script>
+    <script src="/ar/vendor/mindar-image-aframe.prod.js"></script>
+    <script src="/ar/ar.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#intro">Saltar al contenido</a>
+    <div id="viewport" aria-hidden="true">
+      <section id="sheet" class="sheet" aria-live="polite" aria-atomic="true"></section>
+    </div>
+
+    <main id="intro">
+      <header class="top">
+        <p class="mark">Viento Norte</p>
+        <h1>Curvas en la cámara</h1>
+        <p class="lead">
+          Imprime un blanco, apúntale con el teléfono y el trazo naranja lo vuelve a dibujar encima del papel.
+        </p>
+      </header>
+
+      <ol class="plates">
+        <li>
+          <figure class="plate" data-curve="lissajous">
+            <a href="/ar/targets/lissajous-3-4.png">
+              <img
+                src="/ar/targets/lissajous-3-4.png"
+                width="1024"
+                height="1024"
+                alt="Blanco para imprimir: curva de Lissajous 3:4, x igual a seno de 3t, y igual a seno de 4t."
+              />
+              <canvas aria-hidden="true"></canvas>
+            </a>
+            <figcaption>
+              <span class="num">1</span>
+              Lissajous 3:4
+            </figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="plate" data-curve="trebol">
+            <a href="/ar/targets/nudo-trebol.png">
+              <img
+                src="/ar/targets/nudo-trebol.png"
+                width="1024"
+                height="1024"
+                alt="Blanco para imprimir: nudo trébol, x igual a seno de t más 2 seno de 2t, y igual a coseno de t menos 2 coseno de 2t."
+              />
+              <canvas aria-hidden="true"></canvas>
+            </a>
+            <figcaption>
+              <span class="num">2</span>
+              Nudo trébol
+            </figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="plate" data-curve="penrose">
+            <a href="/ar/targets/penrose-veritasium.png">
+              <img
+                src="/ar/targets/penrose-veritasium.png"
+                width="1181"
+                height="829"
+                alt="Blanco para imprimir: diagrama de Penrose de un agujero negro, crédito Veritasium."
+              />
+              <canvas aria-hidden="true"></canvas>
+            </a>
+            <figcaption>
+              <span class="num">3</span>
+              Diagrama de Penrose
+            </figcaption>
+          </figure>
+        </li>
+      </ol>
+
+      <section class="how" aria-labelledby="como">
+        <h2 id="como">Cómo probarlo</h2>
+        <ol>
+          <li>Abre la <a href="/ar/imprimir.html">hoja de impresión</a> y saca cada figura a unos 10 cm de ancho, al 100%, sin brillo.</li>
+          <li>Pulsa Activar cámara y acepta el permiso. La cámara trasera encuadra mejor.</li>
+          <li>Llena la pantalla con un blanco, paralelo al teléfono y con luz pareja.</li>
+        </ol>
+      </section>
+
+      <div class="actions">
+        <button id="start" type="button" disabled aria-describedby="ayuda">Activar cámara</button>
+        <p id="ayuda" class="ayuda">
+          El botón pide permiso de cámara. Nada se graba ni se envía.
+        </p>
+        <p id="fallback" class="fallback" role="status" hidden></p>
+      </div>
+
+      <footer class="colophon">
+        <p>
+          Prototipo estático. Rastreo de imagen con
+          <a href="https://github.com/hiukim/mind-ar-js">MindAR</a> y
+          <a href="https://aframe.io">A-Frame</a>, servidos desde este sitio.
+          El diagrama de Penrose es de Veritasium.
+        </p>
+        <p><a href="/">Volver al sitio</a></p>
+      </footer>
+    </main>
+
+  </body>
+</html>
