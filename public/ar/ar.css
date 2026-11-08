@@ -1,0 +1,334 @@
+/* Prototipo /ar. Tokens de src/styles/vn-tokens.css, copiados aquí para no arrastrar la SPA. */
+@font-face {
+  font-family: Chillax;
+  src: url("/fonts/chillax/chillax-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Chillax;
+  src: url("/fonts/chillax/chillax-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --vn-noche: #0d1b3d;
+  --vn-marfil: #f7f2e7;
+  --vn-pizarra: #4a5568;
+  --vn-naranja: #ff931e;
+  --vn-naranja-700: #9e4f00;
+  --vn-paper: #fffdf8;
+  --vn-font-display: Chillax, Georgia, "Times New Roman", serif;
+  --vn-font-ui: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --vn-font-mono: "DM Mono", ui-monospace, "Cascadia Code", monospace;
+  --shadow: 0 12px 40px rgba(13, 27, 61, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--vn-marfil);
+  color: var(--vn-noche);
+  font-family: var(--vn-font-ui);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  transform: translateY(-160%);
+  background: var(--vn-noche);
+  color: var(--vn-marfil);
+  padding: 8px 12px;
+  z-index: 20;
+}
+.skip:focus { transform: none; }
+
+a {
+  color: var(--vn-naranja-700);
+  text-underline-offset: 3px;
+}
+a:hover { color: var(--vn-noche); }
+
+:focus-visible {
+  outline: 3px solid var(--vn-naranja-700);
+  outline-offset: 3px;
+}
+
+#intro {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  background: var(--vn-marfil);
+  padding: 28px 20px 64px;
+}
+
+.top, .how, .actions, .colophon, .plates {
+  width: min(920px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mark {
+  margin: 0 0 8px;
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+h1, h2, .sheet h2 {
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+h2 { margin: 0 0 8px; font-size: 1.35rem; }
+
+.lead { margin: 0; max-width: 38rem; font-size: 1.125rem; }
+
+.plates {
+  list-style: none;
+  padding: 28px 0 8px;
+  margin: 0 auto;
+  display: grid;
+  gap: 22px;
+}
+
+@media (min-width: 800px) {
+  .plates { grid-template-columns: repeat(3, 1fr); align-items: start; }
+}
+
+.plate { margin: 0; }
+
+.plate a {
+  position: relative;
+  display: block;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  color: inherit;
+}
+
+.plate img, .plate canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plate canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.plate figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.num {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--vn-naranja);
+  color: var(--vn-noche);
+  font-family: var(--vn-font-display);
+  font-weight: 700;
+}
+
+.how { margin-top: 12px; }
+.how ol { margin: 0; padding-left: 1.2rem; }
+.how li { margin: 6px 0; }
+
+.actions { margin-top: 28px; }
+
+button, .print-page .actions a {
+  font: inherit;
+}
+
+#start, .print-page button, #stop {
+  appearance: none;
+  border: 0;
+  background: var(--vn-naranja);
+  color: var(--vn-noche);
+  font-weight: 700;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+#start:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+#start:hover:not(:disabled), .print-page button:hover, #stop:hover {
+  background: #e8861b;
+}
+
+.ayuda, .fallback, .colophon {
+  color: var(--vn-pizarra);
+  max-width: 38rem;
+}
+
+.fallback {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--vn-naranja);
+  background: white;
+  color: var(--vn-noche);
+}
+
+.colophon { margin-top: 36px; font-size: 0.95rem; }
+.colophon p { margin: 8px 0; }
+
+#viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+#viewport a-scene,
+#viewport .a-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#viewport .a-canvas,
+#viewport a-scene {
+  background: transparent !important;
+}
+
+/* A-Frame pinta un botón de visor VR. Este prototipo es solo cámara. */
+#viewport .a-enter-vr,
+#viewport .a-enter-vr-button,
+#viewport .a-orientation-modal {
+  display: none !important;
+}
+
+body.is-live {
+  overflow: hidden;
+  background: #050a14;
+}
+
+body.is-live #intro { display: none; }
+
+.sheet {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 3;
+  background: rgba(247, 242, 231, 0.96);
+  color: var(--vn-noche);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 16px 16px 14px;
+  border-top: 6px solid var(--vn-naranja);
+  max-width: 560px;
+}
+
+.sheet .kicker {
+  margin: 0 0 4px;
+  color: var(--vn-naranja-700);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sheet h2 { margin: 0 0 6px; font-size: 1.6rem; }
+
+.sheet .eq {
+  margin: 0 0 8px;
+  font-family: var(--vn-font-mono);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.sheet p { margin: 0 0 6px; }
+
+.sheet-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+#stop {
+  background: transparent;
+  color: var(--vn-noche);
+  border: 2px solid var(--vn-noche);
+  min-height: 44px;
+}
+
+#stop:hover { background: var(--vn-noche); color: var(--vn-marfil); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.print-page .print-sheets {
+  list-style: none;
+  padding: 0;
+  margin: 24px auto;
+  width: min(920px, 100%);
+}
+
+.print-page .print-sheets li { margin: 0 0 28px; break-inside: avoid; }
+
+.print-page .print-sheets img {
+  width: 10cm;
+  max-width: 100%;
+  height: auto;
+  background: white;
+}
+
+.print-page .actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+@media print {
+  .print-page .actions, .print-page .lead, .print-page .mark { display: none; }
+  .print-page { background: white; }
+  .print-page h1 { font-size: 16pt; }
+  .print-page .print-sheets img { width: 10cm; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
