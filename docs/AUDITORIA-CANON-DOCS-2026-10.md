@@ -381,7 +381,7 @@ Estos archivos versionados también contienen alguno de los patrones (`rg`). Muc
 - `worker/src/data/image-roles.js`
 - `worker/src/lib/public-paths.js`
 - `worker/src/mcp/server.js`
-- `worker/wrangler.contact.toml`
+- ~~`worker/wrangler.contact.toml`~~ (eliminado 2026-11-02, orden TL)
 - `worker/wrangler.toml`
 
 **Puntos concretos que vale la pena mirar primero:**
@@ -393,7 +393,7 @@ Estos archivos versionados también contienen alguno de los patrones (`rg`). Muc
 
 ## 5. Otros hallazgos del brief 2026-10-01 que siguen abiertos (no son de URL; no se corrigieron)
 
-- `DEPLOY.md:75` y varios docs: recomiendan `wrangler deploy --config wrangler.contact.toml` o `npm run deploy` sin `--keep-vars`. Es una regla de prod que decide Rö o el TL; acá no se toca nada de wrangler.
+- `DEPLOY.md:75` y varios docs: recomendaban `wrangler deploy --config wrangler.contact.toml` o `npm run deploy` sin `--keep-vars`. Resuelto 2026-11-02 (orden TL): contact.toml eliminado; único comando `cd worker && npm ci && npx --no-install wrangler deploy --keep-vars`, solo humano.
 - `DEPLOY.md` y `docs/RUNBOOK-APIS-MCP-BD.md` siguen describiendo `/ops/`, que da 404 desde #278.
 - `src/DEPLOYMENT.md` (y otras guías en `src/`) recomiendan Vercel, que no aplica.
 - El `README.md` de la raíz es la plantilla «Vertex AI Studio», que no describe el repo.

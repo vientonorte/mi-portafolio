@@ -88,7 +88,7 @@ Cliente de ejemplo (Claude / Cursor / Grok): URL `https://contact.vientonorte.io
 
 ## Deploy
 
-El worker completo (`wrangler.toml`) necesita KV. El deploy `wrangler.contact.toml` es solo relay de mail y **no** persiste tablas.
+El worker (`worker/wrangler.toml`, único config canónico) necesita KV. Ya no existe un deploy aparte de solo relay (`wrangler.contact.toml` se eliminó).
 
 ```bash
 cd worker

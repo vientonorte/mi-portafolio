@@ -3,7 +3,11 @@ import { escapeHtml } from './email-templates.js';
 /** Aviso inbox VN: solo Cloudflare Email (binding EMAIL). FormSubmit salió el 13-oct. */
 
 export async function notifyInbox(env, { subject, text, html, replyTo, replyName }) {
-  const inbox = env.CONTACT_INBOX || 'gaete.gaona@gmail.com';
+  const inbox = env.CONTACT_INBOX;
+  if (!inbox) {
+    console.error('[notify] CONTACT_INBOX secret missing; email skipped');
+    return { ok: false };
+  }
   const fromEmail = env.CONTACT_FROM || 'contacto@vientonorte.io';
   const fromName = env.CONTACT_FROM_NAME || 'Viento Norte';
 

@@ -47,11 +47,8 @@ npm install
 npx wrangler secret put CONTACT_INBOX
 # Pegar: gaete.gaona@gmail.com
 
-# Relay de contacto (sin bindings R2/KV admin):
-npm run deploy:contact
-
-# Worker completo (requiere R2 habilitado en la cuenta):
-npx wrangler deploy
+# Único deploy canónico — solo humano, por orden del TL (nunca -c):
+npm ci && npx --no-install wrangler deploy --keep-vars
 ```
 
 URL prod: `https://mi-portafolio-contact.vientonorte.workers.dev/api/contact`
