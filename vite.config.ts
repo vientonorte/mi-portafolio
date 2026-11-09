@@ -5,6 +5,31 @@
   import fs from 'fs';
   import path from 'path';
 
+  /** /ar (sin barra) sirve el mismo index que /ar/. Vite no lo hace solo. */
+  function vnArSlash() {
+    const redirect = (req: { url?: string }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: () => void }, next: () => void) => {
+      const url = req.url || '';
+      const path = url.split('?')[0];
+      if (path === '/ar') {
+        const q = url.includes('?') ? url.slice(url.indexOf('?')) : '';
+        res.statusCode = 308;
+        res.setHeader('Location', `/ar/${q}`);
+        res.end();
+        return;
+      }
+      next();
+    };
+    return {
+      name: 'vn-ar-slash',
+      configureServer(server: { middlewares: { use: (fn: unknown) => void } }) {
+        server.middlewares.use(redirect);
+      },
+      configurePreviewServer(server: { middlewares: { use: (fn: unknown) => void } }) {
+        server.middlewares.use(redirect);
+      },
+    };
+  }
+
   function vnPublicDirIndex() {
     const rewrite = (root: string) => (req: { url?: string }, _res: unknown, next: () => void) => {
       const raw = (req.url || '').split('?')[0];
@@ -57,7 +82,7 @@
   const isSsrChild = Boolean(process.env.VN_SSR_CHILD);
 
   export default defineConfig({
-    plugins: [vnPublicDirIndex(), react(), tailwindcss(), vnPrerenderServicios()],
+    plugins: [vnArSlash(), vnPublicDirIndex(), react(), tailwindcss(), vnPrerenderServicios()],
     resolve: {
       dedupe: ['react', 'react-dom'],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
