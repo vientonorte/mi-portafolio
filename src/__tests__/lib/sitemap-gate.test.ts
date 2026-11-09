@@ -169,6 +169,7 @@ describe("sitemap-canon · derivación desde el build", () => {
       page("/news/"),
       page("/s/polijuego-privacy/"),
       page("/otra/", `<link rel="canonical" href="${O}/servicios/" />`),
+      page("/sin-canonical/", ""),
       noindex("/poc/"),
       redirect("/servicios/asistente-ia/"),
     ]);

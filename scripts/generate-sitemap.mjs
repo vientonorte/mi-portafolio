@@ -54,7 +54,8 @@ export function isPublicPage(route, html) {
   if (robots && /\bnoindex\b|\bnone\b/i.test(robots)) return false;
   if (meta(html, "refresh") !== null) return false;
   const c = canonical(html);
-  return c === null || c === ORIGIN + route;
+  // Sin canonical propio la página no es pública.
+  return c === ORIGIN + route;
 }
 
 function walk(dir, out = []) {

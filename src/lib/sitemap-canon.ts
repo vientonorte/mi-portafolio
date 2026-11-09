@@ -76,14 +76,13 @@ function canonicalHref(html: string): string | null {
   return null;
 }
 
-/** Pública = indexable, sin redirección (meta refresh) y canonical propio (o ausente). */
+/** Pública = indexable, sin redirección (meta refresh) y con canonical propio. */
 export function isPublicPage(page: BuildPage, origin = SITEMAP_ORIGIN): boolean {
   const robots = metaContent(page.html, "robots");
   if (robots && /\bnoindex\b|\bnone\b/i.test(robots)) return false;
   if (metaContent(page.html, "refresh") !== null) return false;
   const canonical = canonicalHref(page.html);
-  if (canonical !== null && canonical !== origin + page.route) return false;
-  return true;
+  return canonical === origin + page.route;
 }
 
 /** Rutas canónicas del sitemap derivadas de las páginas del build. Ordenadas. */
