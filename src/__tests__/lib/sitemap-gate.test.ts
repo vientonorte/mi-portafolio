@@ -6,6 +6,7 @@ import {
   isDeniedPath,
   isDeniedUrl,
   normalizeDenyUrl,
+  parseSitemap,
   isW3cDatetime,
   routeFromIndexHtml,
   SITEMAP_ORIGIN,
@@ -171,7 +172,7 @@ describe("sitemap-canon · derivación desde el build", () => {
       noindex("/poc/"),
       redirect("/servicios/asistente-ia/"),
     ]);
-    expect(routes).toEqual(["/", "/servicios/", "/servicios/web-dental/"]);
+    expect(routes).toEqual(["/", "/s/polijuego-privacy/", "/servicios/", "/servicios/web-dental/"]);
   });
 
   it("W3C datetime", () => {
@@ -258,5 +259,21 @@ describe("sitemap-gate · repo", () => {
     const canonical = deriveCanonicalRoutes(collectDistPages(dist));
     const errs = validateSitemap(readFileSync(resolve(dist, "sitemap.xml"), "utf8"), canonical);
     expect(errs, `canon derivado de dist/: ${canonical.join(", ")}`).toEqual([]);
+  });
+
+  it.runIf(requireDist)("rutas públicas del build = generador = dist/sitemap.xml, lastmod = git log de las fuentes", async () => {
+    // @ts-expect-error módulo .mjs sin tipos
+    const gen = await import("../../../scripts/generate-sitemap.mjs");
+    const dist = resolve(root, "dist");
+    const canonical = deriveCanonicalRoutes(collectDistPages(dist));
+    expect(gen.publicRoutes(dist)).toEqual(canonical);
+    const entries = parseSitemap(readFileSync(resolve(dist, "sitemap.xml"), "utf8"));
+    expect(entries.map((e) => new URL(e.loc).pathname).sort()).toEqual(canonical);
+    for (const e of entries) expect(e.lastmod, e.loc).toBe(gen.lastmodFor(new URL(e.loc).pathname));
+  });
+
+  it("public/sitemap.xml no tiene lastmod hardcodeado heredado (2026-09-27 en todas)", () => {
+    const entries = parseSitemap(readFileSync(resolve(root, "public/sitemap.xml"), "utf8"));
+    expect(entries.every((e) => e.lastmod === "2026-09-27")).toBe(false);
   });
 });
