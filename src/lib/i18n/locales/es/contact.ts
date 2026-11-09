@@ -54,8 +54,8 @@ export const contact = {
         consentPrivacyLink: 'política de privacidad',
         consentRequired: 'Debes aceptar el tratamiento de datos para enviar',
         validationError: 'Por favor corrige los errores en el formulario',
-        success: '¡Mensaje enviado! Revisa tu email por la copia — respuesta en menos de 24 h.',
-        successFallback: '¡Mensaje enviado! Revisa tu email por la copia — respuesta en menos de 24 h.',
+        success: 'Recibimos tu mensaje. Te respondemos en 2 días hábiles.',
+        successFallback: 'Recibimos tu mensaje. Te respondemos en 2 días hábiles.',
         mailtoFallback: 'No pudimos enviar por el formulario',
         mailtoFallbackDesc: 'Abre tu cliente de correo con el mensaje listo para enviar.',
         mailtoAction: 'Abrir correo',
@@ -123,9 +123,7 @@ export const contact = {
         send: 'Enviar mensaje',
         sending: 'Enviando…',
         editMessage: 'Puedes editar el mensaje antes de enviar',
-        privacyNote:
-          'Tus datos van al relay de Viento Norte. Recibes copia por email; nos llega a contacto@vientonorte.io — sin marketing.',
-        success: '¡Listo! Te responderé en menos de 24 horas.',
+        success: "Recibimos tu mensaje. Te respondemos en 2 días hábiles.",
       },
       social: {
         title: 'O escríbeme directamente',

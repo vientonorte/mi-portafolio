@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { ArrowLeft, Bot, CheckCircle2, Send, Shield, User } from "lucide-react";
+import { ArrowLeft, Bot, CheckCircle2, Send, User } from "lucide-react";
+import { PrivacyNotice } from "../molecules/PrivacyNotice";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -739,11 +740,6 @@ export function ContactAssistant({
                 error={errors.consent}
               />
 
-              <p className="flex items-start gap-2 text-xs text-muted-foreground">
-                <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                {a.privacyNote}
-              </p>
-
               <input
                 type="text"
                 name="_gotcha"
@@ -765,6 +761,7 @@ export function ContactAssistant({
                 {isSubmitting ? a.sending : a.send}
                 <Send className="ml-2 h-4 w-4" />
               </Button>
+              <PrivacyNotice />
             </div>
           )}
         </motion.div>

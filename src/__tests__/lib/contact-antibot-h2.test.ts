@@ -87,7 +87,7 @@ describe("H2 · conversiones del formulario solo tras 200 del worker", () => {
   it("sin confirmación del worker no dispara submit_contact_form success ni generate_lead", async () => {
     const { trackContactSubmitted } = await loadConversion();
     const fired = trackContactSubmitted(
-      { ok: true, channel: "google_forms", workerConfirmed: false },
+      { ok: true, channel: "worker", workerConfirmed: false },
       { lead_type: "free_a11y", channel: "contact_form", origin: "contact_assistant" }
     );
     expect(fired).toBe(false);
