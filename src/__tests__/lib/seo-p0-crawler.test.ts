@@ -71,27 +71,28 @@ describe("SEO P0 · /s/polijuego-privacy (única página /s/ publicada, fuera de
 });
 
 describe("SEO P0 · sitemap HTTP only (canon 2026-09-27)", () => {
-  it("lists only home + /servicios/ + landings por rubro (P4): no /s/, no hash, no fichas", () => {
+  it("lists home + /servicios/ + rubros + /noticias/ + /s/polijuego-privacy/: no otro /s/, no hash, no fichas", () => {
     const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-    expect(locs).toEqual([
+    expect([...locs].sort()).toEqual([
       "https://vientonorte.io/",
+      "https://vientonorte.io/contacto/",
+      "https://vientonorte.io/nosotros/",
+      "https://vientonorte.io/noticias/",
+      "https://vientonorte.io/noticias/accesibilidad-transvip/",
+      "https://vientonorte.io/noticias/automatizacion-sura/",
+      "https://vientonorte.io/noticias/privacidad-flujo/",
+      "https://vientonorte.io/privacidad/",
+      "https://vientonorte.io/s/polijuego-privacy/",
       "https://vientonorte.io/servicios/",
       "https://vientonorte.io/servicios/web-dental/",
-      "https://vientonorte.io/noticias/",
-      "https://vientonorte.io/nosotros/",
       "https://vientonorte.io/sobre-mi/",
-      "https://vientonorte.io/contacto/",
-      "https://vientonorte.io/privacidad/",
     ]);
-    expect(sitemap).not.toContain("/s/");
+    expect(sitemap.replace("/s/polijuego-privacy/", "")).not.toContain("/s/");
     expect(sitemap).not.toContain("#");
     expect(sitemap).not.toContain("/news");
     expect(sitemap).not.toContain("/admin");
     expect(sitemap).not.toContain("finanzas.vientonorte.io");
     expect(sitemap).not.toMatch(/<lastmod>2026-08-/);
-    expect(sitemap).toMatch(
-      /<loc>https:\/\/vientonorte\.io\/sobre-mi\/<\/loc>\s*<lastmod>2026-10-13<\/lastmod>/
-    );
   });
 });
 

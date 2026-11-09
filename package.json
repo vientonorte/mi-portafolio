@@ -91,7 +91,9 @@
   "scripts": {
     "dev": "vite",
     "sync:images": "bash scripts/sync-semantic-images.sh",
-    "build": "npm run sync:images && vite build",
+    "build": "npm run sync:images && vite build && node scripts/generate-sitemap.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs --public",
+    "qa:sitemap-200": "node scripts/sitemap-200.mjs",
     "preview": "vite preview --port 4173",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint . --ext ts,tsx --fix",
