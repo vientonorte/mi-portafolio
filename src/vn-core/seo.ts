@@ -34,15 +34,15 @@ export function trimMetaDescription(text: string, max = 160): string {
  * Canonical para rutas del HashRouter (GitHub Pages). Canon 2026-09-27:
  * el fragmento (#/ruta) no llega al servidor ni lo indexa Google, así que las
  * rutas hash canonicalizan a la home. Nunca devuelve una URL con '#'.
- * /sobre-mi y /contacto tienen ficha HTTP: el hash y la ficha comparten ese canonical.
+ * /contacto tiene ficha HTTP. /sobre-mi se mudó: canonical https://ro.vientonorte.io/.
  */
 const HTTP_FICHA_CANONICAL: Record<string, string> = {
-  "/sobre-mi": `${SEO_SITE.baseUrl}/sobre-mi/`,
   "/contacto": `${SEO_SITE.baseUrl}/contacto/`,
 };
 
 export function canonicalFromPath(pathname: string): string {
   const path = (pathname || "/").split("?")[0].replace(/\/+$/, "") || "/";
+  if (path === "/sobre-mi") return "https://ro.vientonorte.io/";
   return HTTP_FICHA_CANONICAL[path] ?? SEO_SITE.seoHomeUrl;
 }
 

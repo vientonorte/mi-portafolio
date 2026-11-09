@@ -28,8 +28,13 @@ function walk(dir) {
 
 if (!existsSync(root)) { console.error(`❌ ${root}/ no existe (corre el build antes)`); process.exit(1); }
 walk(root);
-for (const re of REQUIRED_WORDING) if (!re.test(corpus)) hits.push(`falta la redacción exacta ${re}`);
-if (!existsSync(join(root, "sobre-mi", "index.html"))) hits.push("falta sobre-mi/index.html");
+// La ficha (y la redacción de certificados) se mudó a ro.vientonorte.io (repo ro-portafolio).
+// Aquí /sobre-mi/ es un redirect: se exige que exista y apunte allá.
+const sobreMi = join(root, "sobre-mi", "index.html");
+if (!existsSync(sobreMi)) hits.push("falta sobre-mi/index.html (redirect)");
+else if (!readFileSync(sobreMi, "utf8").includes('rel="canonical" href="https://ro.vientonorte.io/"')) {
+  for (const re of REQUIRED_WORDING) if (!re.test(corpus)) hits.push(`falta la redacción exacta ${re}`);
+}
 if (hits.length) {
   console.error(`❌ Afirmaciones retiradas en ${root}/ (${hits.length}):`);
   for (const h of hits) console.error(`  - ${h}`);

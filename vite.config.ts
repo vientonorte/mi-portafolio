@@ -183,7 +183,7 @@
               noticias: path.resolve(__dirname, 'noticias/index.html'),
               // /nosotros/ (página de empresa, prerenderizada).
               nosotros: path.resolve(__dirname, 'nosotros/index.html'),
-              // /sobre-mi/ : ficha HTTP (el HashRouter /#/sobre-mi no existe como path en Pages).
+              // /sobre-mi/ : redirect estático a https://ro.vientonorte.io/ (conserva el ancla).
               sobreMi: path.resolve(__dirname, 'sobre-mi/index.html'),
               // /contacto/ : ficha HTTP. Sin esta entrada, /contacto/ cae en 404.html (copia de la home).
               contacto: path.resolve(__dirname, 'contacto/index.html'),
