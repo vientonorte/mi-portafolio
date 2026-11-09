@@ -31,6 +31,7 @@ desktop.ini
 # Imágenes, videos y binarios pesados (no versionar assets grandes)
 *.png
 !public/images/**
+!public/ar/**/*.png
 !public/icon-192x192.png
 !public/icon-512x512.png
 *.jpg

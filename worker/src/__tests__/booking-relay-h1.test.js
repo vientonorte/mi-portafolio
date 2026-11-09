@@ -6,7 +6,7 @@
  * - Sin eventId (click del front) nunca se manda correo a la dirección del body.
  * - Todo valor interpolado en el HTML del correo va escapado.
  * - htmlLink solo se acepta si es https y de un host de Google Calendar.
- * - El binding EMAIL queda restringido en wrangler.toml / wrangler.contact.toml.
+ * - El binding EMAIL queda restringido en wrangler.toml (único config).
  */
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -253,7 +253,7 @@ describe('H1 · HTML escapado y htmlLink restringido', () => {
 
 describe('H1 · binding EMAIL restringido en wrangler', () => {
   const here = dirname(fileURLToPath(import.meta.url));
-  for (const file of ['wrangler.toml', 'wrangler.contact.toml']) {
+  for (const file of ['wrangler.toml']) {
     it(`${file}: [[send_email]] EMAIL tiene allowlist de destino y de remitente`, () => {
       const toml = readFileSync(resolve(here, '../../', file), 'utf8');
       const block = toml.split('[[send_email]]')[1]?.split(/\n\[/)[0] ?? '';
