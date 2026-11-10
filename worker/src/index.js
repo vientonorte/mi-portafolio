@@ -41,9 +41,27 @@ import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
 
-// QR FRUTA retirado. Estas rutas respondían 302/HTML y escribían qr:* en ADMIN_KV.
-function isRetiredQrPath(path) {
-  return path === '/q' || path.startsWith('/q/') || path === '/stats' || path === '/stats/';
+// QR FRUTA retirado. No cuenta, no lee ni escribe KV, no reenvía la query (claves).
+const QR_REDIRECT = 'https://vientonorte.io/contacto/';
+const ROOT_REDIRECT = 'https://vientonorte.io/';
+
+function isQrPath(path) {
+  return path === '/q' || path.startsWith('/q/');
+}
+
+function isStatsGone(path) {
+  return path === '/stats' || path === '/stats/';
+}
+
+function redirectExact(location) {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: location,
+      'Cache-Control': 'no-store',
+      'Referrer-Policy': 'no-referrer',
+    },
+  });
 }
 
 function qrGone() {
@@ -69,8 +87,14 @@ export default {
       return json({ ok: false, error: 'Not found' }, 404);
     }
 
-    // QR FRUTA retirado: 410 antes de CORS y sin tocar KV (ADMIN_KV sigue para el resto).
-    if (isRetiredQrPath(path)) {
+    // QR FRUTA retirado, antes de CORS y sin tocar env ni KV.
+    if (path === '/' && request.method === 'GET') {
+      return redirectExact(ROOT_REDIRECT);
+    }
+    if (isQrPath(path)) {
+      return redirectExact(QR_REDIRECT);
+    }
+    if (isStatsGone(path)) {
       return qrGone();
     }
 

@@ -5,7 +5,7 @@ export const P0_WRANGLER = "wrangler deploy --keep-vars";
 
 export const FINANZAS_URL = "https://finanzas.vientonorte.io/";
 export const FINANZAS_LEDGER_URL = "https://finanzas.vientonorte.io/ledger.json";
-export const CONTACT_URL = "https://contact.vientonorte.io/";
+export const CONTACT_URL = "https://contact.vientonorte.io/api/health";
 export const CONTACT_HEALTH_URL = "https://contact.vientonorte.io/api/health";
 
 export type FinanzasSurface = {

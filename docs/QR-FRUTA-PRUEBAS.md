@@ -1,6 +1,6 @@
 # QR FRUTA · conteos de prueba
 
-**Retirado.** El worker ya no lee esta lista ni escribe `qr:*`. Las rutas `/q/*` y `/stats` responden 410. `ADMIN_KV` y las claves viejas no se borran. La tabla queda como registro histórico.
+**Retirado.** El worker ya no lee esta lista ni escribe `qr:*`. `/q` y `/q/*` responden 301 a `https://vientonorte.io/contacto/`. `GET /` responde 301 a `https://vientonorte.io/`. `/stats` y `/stats/` responden 410. `ADMIN_KV` y las claves viejas no se borran. La tabla queda como registro histórico.
 
 El worker guardaba conteos por día (`qr:<slug>:<fecha>`), no por hora. Las pruebas se separaban con una lista fija en `worker/src/api/qr-exclusions.js` (slug + fecha + motivo), ya eliminada del código.
 

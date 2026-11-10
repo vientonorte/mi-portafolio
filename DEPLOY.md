@@ -81,7 +81,7 @@ cd worker && npm ci && npx --no-install wrangler deploy --keep-vars
 # config: worker/wrangler.toml (nunca -c / --config; wrangler.contact.toml fue eliminado)
 ```
 
-- [ ] Prerequisite: `CONTACT_INBOX` es secret (`wrangler secret put CONTACT_INBOX`, lo escribe Rö). No está en git ni en `[vars]`. Sin ese secret el aviso por email se omite.
+- [ ] Prerequisite: `CONTACT_INBOX` es secret (`npx --no-install wrangler secret put CONTACT_INBOX`, lo escribe Rö). No está en git ni en `[vars]`. El valor tiene que coincidir con `allowed_destination_addresses` (sin copiarlo aquí). Orden y el caso «binding name already in use»: [worker/DEPLOY.md](worker/DEPLOY.md). Sin ese secret el aviso por email se omite.
 
 ---
 

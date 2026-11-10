@@ -91,7 +91,7 @@ Guardar el secreto en Apps Script: **Project Settings → Script properties**
 
 ```bash
 cd worker
-npx wrangler secret put VN_BOOKING_WEBHOOK_KEY
+npx --no-install wrangler secret put VN_BOOKING_WEBHOOK_KEY
 npx wrangler deploy
 ```
 

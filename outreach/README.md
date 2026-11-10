@@ -7,7 +7,7 @@ Worker de Cloudflare **aparte** de `worker/` (el de contacto). Manda correos de 
 - Plantilla `prospeccion-v1`: HTML y texto, sin precios
 - `workers_dev = false` y `preview_urls = false`: no hay URL `*.workers.dev` ni preview
 
-Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano, con el comando de más abajo. No hay que correr `wrangler secret put` ni cambiar DNS desde el repo.
+Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano, con el comando de más abajo. No hay que correr `npx --no-install wrangler secret put` ni cambiar DNS desde el repo.
 
 ## Plan gratis de Resend y uso aceptable
 
@@ -128,9 +128,9 @@ Solo en el worker, nunca en git. No crear un `.env` con valores. `.dev.vars` y `
 
 ```bash
 cd outreach
-npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put RESEND_WEBHOOK_SECRET
-npx wrangler secret put TEST_ALLOWLIST
+npx --no-install wrangler secret put RESEND_API_KEY
+npx --no-install wrangler secret put RESEND_WEBHOOK_SECRET
+npx --no-install wrangler secret put TEST_ALLOWLIST
 ```
 
 `TEST_ALLOWLIST` es la única dirección que puede recibir correo mientras `OUTREACH_MODE` no sea `live`. No va en git. También se puede cargar como var del dashboard; el código lee `env.TEST_ALLOWLIST` en los dos casos. Vacía o ausente, el modo test responde 403.

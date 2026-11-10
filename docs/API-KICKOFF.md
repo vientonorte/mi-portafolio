@@ -80,7 +80,7 @@ Secret:
 
 ```bash
 cd worker
-npx wrangler secret put VN_API_KEY
+npx --no-install wrangler secret put VN_API_KEY
 npx wrangler deploy
 ```
 

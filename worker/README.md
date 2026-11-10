@@ -40,15 +40,13 @@ FormSubmit salió del worker y del navegador (13-oct-2026).
 
 ```bash
 cd worker
-npm install
-# Opción A — var en wrangler.toml (ya configurado):
-# CONTACT_INBOX = "gaete.gaona@gmail.com"
-# Opción B — secret (override):
-npx wrangler secret put CONTACT_INBOX
-# Pegar: gaete.gaona@gmail.com
+npm ci
+# CONTACT_INBOX es secret. El valor y el orden (var vieja vs secret) están en DEPLOY.md.
+# No pegar el inbox en el repo, en el chat ni en un PR.
+npx --no-install wrangler secret put CONTACT_INBOX
 
 # Único deploy canónico — solo humano, por orden del TL (nunca -c):
-npm ci && npx --no-install wrangler deploy --keep-vars
+npx --no-install wrangler deploy --keep-vars
 ```
 
 URL prod: `https://mi-portafolio-contact.vientonorte.workers.dev/api/contact`
@@ -109,9 +107,9 @@ npx wrangler r2 bucket create mi-portafolio-images
 3. Callback: `https://mi-portafolio-contact.vientonorte.workers.dev/api/admin/auth/github/callback`
 
 ```bash
-npx wrangler secret put SESSION_SECRET      # openssl rand -base64 32
-npx wrangler secret put GITHUB_CLIENT_ID
-npx wrangler secret put GITHUB_CLIENT_SECRET
+npx --no-install wrangler secret put SESSION_SECRET      # openssl rand -base64 32
+npx --no-install wrangler secret put GITHUB_CLIENT_ID
+npx --no-install wrangler secret put GITHUB_CLIENT_SECRET
 npx wrangler deploy
 ```
 

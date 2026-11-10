@@ -1,5 +1,5 @@
 /**
- * GA4 Measurement Protocol (server). Secret: wrangler secret put GA4_MP_API_SECRET
+ * GA4 Measurement Protocol (server). Secret: npx --no-install wrangler secret put GA4_MP_API_SECRET
  * Never log the secret. Skip if unset.
  */
 

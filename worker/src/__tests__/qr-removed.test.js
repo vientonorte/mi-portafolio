@@ -3,6 +3,9 @@ import worker from '../index.js';
 
 const BASE = 'https://contact.vientonorte.io';
 
+const CONTACTO = 'https://vientonorte.io/contacto/';
+const HOME = 'https://vientonorte.io/';
+
 const QR_PATHS = [
   '/q',
   '/q/',
@@ -18,10 +21,10 @@ const QR_PATHS = [
   '/q/stats?k=clave-de-vista',
   '/q/stats?k=clave-de-vista&format=json',
   '/q/stats?format=html',
-  '/stats',
-  '/stats/',
-  '/stats?k=clave-de-vista',
+  '/q/general?k=clave-de-vista&p=entry.1%3Dx',
 ];
+
+const STATS_PATHS = ['/stats', '/stats/', '/stats?k=clave-de-vista'];
 
 function makeKv() {
   const store = new Map();
@@ -70,23 +73,24 @@ function call(path, { method = 'GET', headers = {}, body } = {}, env) {
   );
 }
 
+function expectNoKv(kv) {
+  expect(kv.get).not.toHaveBeenCalled();
+  expect(kv.put).not.toHaveBeenCalled();
+  expect(kv.delete).not.toHaveBeenCalled();
+  expect(kv.list).not.toHaveBeenCalled();
+  expect([...kv.store.keys()]).toEqual([]);
+}
+
 describe('QR FRUTA retirado', () => {
-  it.each(QR_PATHS)('GET %s → 410 y no escribe KV', async (path) => {
+  it.each(QR_PATHS)('GET %s → 301 a /contacto/ sin query y sin KV', async (path) => {
     const { env, kv } = makeEnv();
     const res = await call(path, {}, env);
-    expect(res.status).toBe(410);
-    expect(res.headers.get('Location')).toBeNull();
-    expect(res.headers.get('Cache-Control')).toBe('no-store');
-    const text = await res.text();
-    expect(text).not.toMatch(/docs\.google\.com\/forms|\/q\/stats|QR FRUTA/i);
-    expect(kv.get).not.toHaveBeenCalled();
-    expect(kv.put).not.toHaveBeenCalled();
-    expect(kv.delete).not.toHaveBeenCalled();
-    expect(kv.list).not.toHaveBeenCalled();
-    expect([...kv.store.keys()]).toEqual([]);
+    expect(res.status).toBe(301);
+    expect(res.headers.get('Location')).toBe(CONTACTO);
+    expectNoKv(kv);
   });
 
-  it.each(['POST', 'OPTIONS', 'PUT'])('%s /q/stats → 410 sin KV', async (method) => {
+  it.each(['POST', 'OPTIONS', 'PUT'])('%s /q/stats → 301 sin reenviar la clave ni tocar KV', async (method) => {
     const { env, kv } = makeEnv();
     const res = await call(
       '/q/stats?k=clave-de-vista',
@@ -100,29 +104,36 @@ describe('QR FRUTA retirado', () => {
       },
       env
     );
-    expect(res.status).toBe(410);
-    expect(kv.put).not.toHaveBeenCalled();
-    expect(kv.get).not.toHaveBeenCalled();
-    expect(kv.list).not.toHaveBeenCalled();
+    expect(res.status).toBe(301);
+    expect(res.headers.get('Location')).toBe(CONTACTO);
+    expectNoKv(kv);
   });
 
-  it('POST /q/general no redirige ni cuenta', async () => {
+  it.each(STATS_PATHS)('GET %s → 410 y no escribe KV', async (path) => {
     const { env, kv } = makeEnv();
-    const res = await call('/q/general', { method: 'POST' }, env);
+    const res = await call(path, {}, env);
     expect(res.status).toBe(410);
     expect(res.headers.get('Location')).toBeNull();
-    expect([...kv.store.keys()].some((key) => key.startsWith('qr:'))).toBe(false);
+    expect(res.headers.get('Cache-Control')).toBe('no-store');
+    expectNoKv(kv);
   });
 
-  it('GET / ya no sirve la portada con enlace a /q/stats', async () => {
+  it('GET / → 301 al home público, sin reenviar la query', async () => {
+    const { env, kv } = makeEnv();
+    const res = await call('/?k=clave-de-vista', {}, env);
+    expect(res.status).toBe(301);
+    expect(res.headers.get('Location')).toBe(HOME);
+    expectNoKv(kv);
+  });
+
+  it('POST / no es el redirect de GET /', async () => {
     const { env } = makeEnv();
-    const res = await call('/', {}, env);
-    expect(res.status).toBe(404);
-    const text = await res.text();
-    expect(text).not.toMatch(/\/q\/stats|QR FRUTA|Contador QR/i);
+    const res = await call('/', { method: 'POST', headers: { Origin: 'https://vientonorte.io' } }, env);
+    expect(res.status).not.toBe(301);
+    expect(res.headers.get('Location')).toBeNull();
   });
 
-  it('rutas que no eran QR no caen en el 410', async () => {
+  it('rutas que no eran QR no caen en el 301 ni en el 410', async () => {
     const { env } = makeEnv();
     const queue = await call('/queue', { headers: { Origin: 'https://vientonorte.io' } }, env);
     expect(queue.status).toBe(404);

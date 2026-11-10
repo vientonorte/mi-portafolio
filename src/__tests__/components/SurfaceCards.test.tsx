@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { SurfaceCards } from "@/components/admin/SurfaceCards";
-import { FINANZAS_URL, P0_WRANGLER } from "@/lib/admin-surfaces";
+import { CONTACT_URL, FINANZAS_URL, P0_WRANGLER } from "@/lib/admin-surfaces";
 
 describe("SurfaceCards", () => {
   it("shows stale badge, updated, P0 wrangler, and opens a new tab (no iframe)", () => {
@@ -22,6 +22,9 @@ describe("SurfaceCards", () => {
 
     const finanzas = screen.getByRole("link", { name: /finanzas\.vientonorte\.io/i });
     expect(finanzas).toHaveAttribute("href", FINANZAS_URL);
+    const contact = screen.getByRole("link", { name: /contact\.vientonorte\.io/i });
+    expect(contact).toHaveAttribute("href", CONTACT_URL);
+    expect(contact).toHaveAttribute("href", "https://contact.vientonorte.io/api/health");
     expect(finanzas).toHaveAttribute("target", "_blank");
     expect(finanzas).toHaveAttribute("rel", expect.stringContaining("noopener"));
     expect(container.querySelector("iframe")).toBeNull();
