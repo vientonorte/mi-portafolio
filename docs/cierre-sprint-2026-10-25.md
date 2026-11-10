@@ -26,7 +26,7 @@
 ## Calendario 26–30 oct
 - Solo un bloque VN: mar 27 07:00 «Probar formularios». Lun/mié/jue/vie 07:00 sin bloque VN.
 - No existen bloques SEO/SEM/Comercial 11:00 (borrados 19-oct→30-nov con OK de Rö): en la fase 10:37 no hay nada que ajustar ahí; no crear nuevos.
-- Carga: lun Demanda Sura 09:00, Maas 13:30, Yoga 14:00, Get on Board 17:30; jue Status Maas 13:00; vie Mercor Odin 15:00 (hasta 3 h).
+- Carga: semana con compromisos externos fuera de VN (sin detalle en este repo público).
 
 ## Plan sprint 26-oct → 1-nov (propuesta PO, a validar orden técnico con TL)
 1. #352 forms: QA mar 27 → merge por TL (leads y canon de envío por worker).
