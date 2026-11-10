@@ -4,17 +4,18 @@ import { buildMessage } from "./render.js";
 import {
   allowlistHas,
   clearHalt,
-  decrementCap,
-  incrementCap,
   isLiveMode,
   isSuppressed,
   normalizeEmail,
-  readCap,
   readHalt,
+  reserveCap,
+  rollbackCap,
   suppressEmail,
   writeLog,
 } from "./store.js";
 import { handleWebhook } from "./webhook.js";
+
+export { OutreachCounter } from "./counter.js";
 
 export default {
   fetch(request, env) {
@@ -60,7 +61,12 @@ async function handleSend(request, env, fetchImpl) {
   const originalSubject = typeof payload.subject === "string" ? payload.subject.trim() : "";
   if (!originalSubject) return json({ error: "invalid" }, 400);
 
-  const live = isLiveMode(env.OUTREACH_MODE);
+  if (env.OUTREACH_MODE === "live" && !isLiveMode(env)) {
+    await logAttempt(env, to, "live_gate", null, null);
+    return json({ error: "live_gate" }, 503);
+  }
+
+  const live = isLiveMode(env);
   if (!live && !allowlistHas(env.TEST_ALLOWLIST, to)) {
     await logAttempt(env, to, "test_recipient", null, null);
     return json({ error: "test_recipient" }, 403);
@@ -93,21 +99,27 @@ async function handleSend(request, env, fetchImpl) {
     return json({ error: "unconfigured" }, 503);
   }
 
-  let reserved = false;
+  let reservation = null;
   try {
-    const sentToday = await readCap(env.OUTREACH_KV);
-    if (sentToday >= DAILY_CAP) {
+    const outcome = await reserveCap(env);
+    if (!outcome.ok) {
       await logAttempt(env, to, "cap", null, null);
       return json({ error: "cap" }, 429);
     }
-    await incrementCap(env.OUTREACH_KV);
-    reserved = true;
+    reservation = outcome;
   } catch (error) {
-    if (error instanceof Error && error.message === "cap-corrupt") {
+    if (error instanceof Error && (error.message === "cap-corrupt" || error.message === "cap-key")) {
       return json({ error: "cap" }, 503);
     }
     throw error;
   }
+
+  const releaseReservation = async () => {
+    if (!reservation) return;
+    const pending = reservation;
+    reservation = null;
+    await rollbackCap(env, pending.key, pending.store);
+  };
 
   const id = crypto.randomUUID();
   const resendBody = {
@@ -131,13 +143,13 @@ async function handleSend(request, env, fetchImpl) {
       body: JSON.stringify(resendBody),
     });
   } catch {
-    if (reserved) await decrementCap(env.OUTREACH_KV);
+    await releaseReservation();
     await logAttempt(env, to, "resend_error", null, "network", id);
     return json({ error: "resend_error" }, 502);
   }
 
   if (!response.ok) {
-    if (reserved) await decrementCap(env.OUTREACH_KV);
+    await releaseReservation();
     await logAttempt(env, to, "resend_error", null, `status_${response.status}`, id);
     console.log(JSON.stringify({ event: "outreach_send", id, template: TEMPLATE_ID, result: "resend_error" }));
     return json({ error: "resend_error" }, 502);

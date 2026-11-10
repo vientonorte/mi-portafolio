@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import { afterEach, before, describe, it } from "node:test";
-import { DAILY_CAP, FROM, REPLY_TO, TEMPLATE_ID, WEBHOOK_TOLERANCE_SEC } from "../src/constants.js";
+import { DatabaseSync } from "node:sqlite";
+import { DAILY_CAP, FROM, REPLY_TO, TEMPLATE_ID, WEBHOOK_DEDUPE_TTL_SEC, WEBHOOK_TOLERANCE_SEC } from "../src/constants.js";
+import { OutreachCounter } from "../src/counter.js";
 import { handleRequest } from "../src/index.js";
-import { capKey, LOG_TTL_SEC } from "../src/store.js";
+import { capKey, decrementCap, incrementCap, isLiveMode, LOG_TTL_SEC } from "../src/store.js";
 import { OPT_OUT_LINE } from "../src/templates.js";
 
 const ISSUER = "https://vn.cloudflareaccess.com";
@@ -56,6 +58,73 @@ class MemoryKV {
     this.meta.delete(key);
   }
 }
+
+function counterBinding() {
+  const caps = new Map();
+  const claims = new Map();
+  const calls = [];
+  const stub = {
+    reserve(key, cap) {
+      calls.push({ op: "reserve", key, cap });
+      const current = caps.get(key) ?? 0;
+      if (current >= cap) return { ok: false, key, count: current };
+      const count = current + 1;
+      caps.set(key, count);
+      return { ok: true, key, count };
+    },
+    rollback(key) {
+      calls.push({ op: "rollback", key });
+      const count = Math.max(0, (caps.get(key) ?? 0) - 1);
+      caps.set(key, count);
+      return { ok: true, key, count };
+    },
+    claimWebhook(id, ttlSec, now) {
+      calls.push({ op: "claim", id, ttlSec, now });
+      const expires = claims.get(id);
+      if (expires != null && expires > now) return { ok: false };
+      claims.set(id, now + ttlSec * 1000);
+      return { ok: true };
+    },
+  };
+  return {
+    idFromName(name) {
+      if (name !== "outreach") throw new Error("name");
+      return "outreach";
+    },
+    get(id) {
+      if (id !== "outreach") throw new Error("id");
+      return stub;
+    },
+    calls,
+    caps,
+    claims,
+  };
+}
+
+function installClock(startMs) {
+  const RealDate = Date;
+  let current = startMs;
+  function MockDate(...args) {
+    if (args.length === 0) return new RealDate(current);
+    return new RealDate(...args);
+  }
+  MockDate.now = () => current;
+  MockDate.parse = RealDate.parse;
+  MockDate.UTC = RealDate.UTC;
+  MockDate.prototype = RealDate.prototype;
+  globalThis.Date = MockDate;
+  return {
+    advance(ms) {
+      current += ms;
+    },
+    restore() {
+      globalThis.Date = RealDate;
+    },
+  };
+}
+
+const BEFORE_SANTIAGO_MIDNIGHT = Date.parse("2026-06-15T03:59:30.000Z");
+const AFTER_SANTIAGO_MIDNIGHT = Date.parse("2026-06-15T04:00:30.000Z");
 
 function makeEnv(overrides = {}) {
   return {
@@ -371,7 +440,7 @@ describe("test mode and Resend payload", () => {
   it("does not prefix the subject in live mode and allows another recipient", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const { response } = await send(makeEnv({ OUTREACH_MODE: "live" }), net.impl, token, {
+    const { response } = await send(makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() }), net.impl, token, {
       to: "lead@example.com",
       subject: "Contraste del botón",
       fields: fields(),
@@ -519,7 +588,7 @@ describe("suppression", () => {
   it("stores a suppression from POST /suppress and refuses the next send", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const env = makeEnv({ OUTREACH_MODE: "live" });
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() });
     const added = await handleRequest(
       request("/suppress", { token, body: { email: "Lead@Example.com", reason: "baja" } }),
       env,
@@ -632,7 +701,10 @@ describe("hard bounce halt", () => {
     };
     const first = await handleRequest(request("/webhook/resend", { body, headers }), env);
     assert.equal(first.status, 200);
-    assert.equal(env.OUTREACH_KV.meta.get("svix:msg_multi").expirationTtl, WEBHOOK_TOLERANCE_SEC);
+    assert.equal(env.OUTREACH_KV.meta.get("svix:msg_multi").expirationTtl, WEBHOOK_DEDUPE_TTL_SEC);
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= 600);
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= WEBHOOK_TOLERANCE_SEC * 2);
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC > WEBHOOK_TOLERANCE_SEC);
     const replay = await handleRequest(request("/webhook/resend", { body, headers }), env);
     assert.equal(replay.status, 403);
     assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
@@ -659,7 +731,7 @@ describe("hard bounce halt", () => {
   it("suppresses and halts on a signed permanent bounce until /resume", async () => {
     const net = mockFetch();
     const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_COUNTER: counterBinding() });
     const token = await signToken();
     const event = {
       type: "email.bounced",
@@ -714,7 +786,7 @@ describe("hard bounce halt", () => {
 
   it("suppresses and halts on a signed complaint", async () => {
     const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_MODE: "live" });
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() });
     const token = await signToken();
     const net = mockFetch();
     const event = {
@@ -771,6 +843,172 @@ describe("hard bounce halt", () => {
   });
 });
 
+describe("live gate", () => {
+  it("returns false from isLiveMode unless mode is live and the counter binding is present", () => {
+    const binding = counterBinding();
+    assert.equal(isLiveMode({ OUTREACH_MODE: "live" }), false);
+    assert.equal(isLiveMode({ OUTREACH_MODE: "test", OUTREACH_COUNTER: binding }), false);
+    assert.equal(isLiveMode({ OUTREACH_MODE: "live", OUTREACH_COUNTER: {} }), false);
+    assert.equal(isLiveMode({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding }), true);
+  });
+
+  it("refuses live mode without the durable object binding and does not call Resend", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv({ OUTREACH_MODE: "live" });
+    const { response, json } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sin contador",
+      fields: fields(),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(json.error, "live_gate");
+    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.calls.length, 1);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+  });
+
+  it("sends in live mode when the durable object binding is present and leaves the KV cap untouched", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    const { response, json } = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Con contador",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(json.template, TEMPLATE_ID);
+    assert.equal(net.resendCalls().length, 1);
+    const payload = JSON.parse(net.resendCalls()[0].init.body);
+    assert.equal(payload.subject, "Con contador");
+    assert.deepEqual(payload.to, ["lead@example.com"]);
+    const reserves = binding.calls.filter((call) => call.op === "reserve");
+    assert.equal(reserves.length, 1);
+    assert.match(reserves[0].key, /^cap:\d{4}-\d{2}-\d{2}$/);
+    assert.equal(reserves[0].cap, DAILY_CAP);
+    assert.equal(binding.caps.get(reserves[0].key), 1);
+    assert.equal(await env.OUTREACH_KV.get(reserves[0].key), null);
+  });
+
+  it("keeps the test-mode cap on KV when the durable object binding exists", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    const { response } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sigue en KV",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), "1");
+  });
+
+  it("returns 429 from the durable object cap without calling Resend", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const key = capKey();
+    binding.caps.set(key, DAILY_CAP);
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    const { response, json } = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Tope",
+      fields: fields(),
+    });
+    assert.equal(response.status, 429);
+    assert.equal(json.error, "cap");
+    assert.equal(net.resendCalls().length, 0);
+    assert.equal(binding.caps.get(key), DAILY_CAP);
+  });
+});
+
+describe("midnight cap rollback", () => {
+  it("decrementCap writes the reserved key and not the following Santiago day", async () => {
+    const kv = new MemoryKV();
+    const reservedAt = new Date(BEFORE_SANTIAGO_MIDNIGHT);
+    const later = new Date(AFTER_SANTIAGO_MIDNIGHT);
+    const reserved = await incrementCap(kv, reservedAt);
+    assert.equal(reserved.key, capKey(reservedAt));
+    assert.notEqual(reserved.key, capKey(later));
+    await decrementCap(kv, reserved.key);
+    assert.equal(await kv.get(reserved.key), "0");
+    assert.equal(await kv.get(capKey(later)), null);
+  });
+
+  it("rolls the KV cap back onto the reserved key when Resend fails after midnight", async () => {
+    const { env, reservedKey, laterKey, net } = await sendAcrossMidnight({ live: false });
+    assert.equal(net.resendCalls().length, 1);
+    assert.equal(await env.OUTREACH_KV.get(reservedKey), "0");
+    assert.equal(await env.OUTREACH_KV.get(laterKey), null);
+  });
+
+  it("rolls the durable object cap back onto the reserved key when Resend fails after midnight", async () => {
+    const { binding, reservedKey, laterKey, net } = await sendAcrossMidnight({ live: true });
+    assert.equal(net.resendCalls().length, 1);
+    assert.deepEqual(
+      binding.calls.filter((call) => call.op === "reserve").map((call) => call.key),
+      [reservedKey],
+    );
+    assert.deepEqual(
+      binding.calls.filter((call) => call.op === "rollback").map((call) => call.key),
+      [reservedKey],
+    );
+    assert.equal(binding.caps.get(reservedKey), 0);
+    assert.equal(binding.caps.has(laterKey), false);
+  });
+});
+
+describe("webhook dedupe", () => {
+  it("keeps the dedupe TTL at least twice the signature tolerance", () => {
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= 600);
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= WEBHOOK_TOLERANCE_SEC * 2);
+    assert.ok(WEBHOOK_DEDUPE_TTL_SEC > WEBHOOK_TOLERANCE_SEC);
+  });
+
+  it("rejects a replay inside the signature window on the durable object and does not write KV", async () => {
+    const secret = webhookSecret();
+    const binding = counterBinding();
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_COUNTER: binding });
+    const body = JSON.stringify({ type: "email.delivered", data: { to: ["ok@example.com"] } });
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    const signature = await signWebhook(secret, "msg_do", timestamp, body);
+    const headers = { "svix-id": "msg_do", "svix-timestamp": timestamp, "svix-signature": signature };
+    const first = await handleRequest(request("/webhook/resend", { body, headers }), env);
+    assert.equal(first.status, 200);
+    const replay = await handleRequest(request("/webhook/resend", { body, headers }), env);
+    assert.equal(replay.status, 403);
+    assert.equal(await env.OUTREACH_KV.get("svix:msg_do"), null);
+    const claims = binding.calls.filter((call) => call.op === "claim");
+    assert.equal(claims.length, 2);
+    assert.equal(claims[0].id, "msg_do");
+    assert.equal(claims[0].ttlSec, WEBHOOK_DEDUPE_TTL_SEC);
+    assert.ok(claims[0].ttlSec > WEBHOOK_TOLERANCE_SEC);
+    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
+  });
+
+  it("rejects a second durable object claim inside the signature window and rolls back only the reserved day", () => {
+    const counter = openCounter();
+    const reserved = "cap:2026-06-14";
+    const later = "cap:2026-06-15";
+    assert.equal(counter.reserve(reserved, DAILY_CAP).ok, true);
+    assert.deepEqual(counter.rollback(reserved), { ok: true, key: reserved, count: 0 });
+    assert.equal(counter.reserve(reserved, DAILY_CAP).count, 1);
+    assert.deepEqual(counter.rollback(later), { ok: true, key: later, count: 0 });
+    assert.equal(counter.reserve(reserved, DAILY_CAP).count, 2);
+    assert.equal(counter.reserve(later, DAILY_CAP).count, 1);
+
+    const now = 1_700_000_000_000;
+    assert.equal(counter.claimWebhook("msg_window", WEBHOOK_DEDUPE_TTL_SEC, now).ok, true);
+    const stillInside = now + WEBHOOK_TOLERANCE_SEC * 1000;
+    assert.ok(stillInside < now + WEBHOOK_DEDUPE_TTL_SEC * 1000);
+    assert.equal(counter.claimWebhook("msg_window", WEBHOOK_DEDUPE_TTL_SEC, stillInside).ok, false);
+  });
+});
+
 describe("browser surface", () => {
   it("answers OPTIONS with 405 and no CORS header", async () => {
     const response = await handleRequest(
@@ -782,6 +1020,59 @@ describe("browser surface", () => {
     assert.equal(response.headers.get("access-control-allow-headers"), null);
   });
 });
+
+function openCounter() {
+  const db = new DatabaseSync(":memory:");
+  const sql = {
+    exec(query, ...params) {
+      const stmt = db.prepare(query);
+      if (/^\s*(SELECT|WITH)\b/i.test(query)) {
+        const rows = stmt.all(...params);
+        return { toArray() { return rows; } };
+      }
+      stmt.run(...params);
+      return { toArray() { return []; } };
+    },
+  };
+  return new OutreachCounter({
+    storage: { sql },
+    blockConcurrencyWhile(fn) {
+      return fn();
+    },
+  }, {});
+}
+
+async function sendAcrossMidnight({ live }) {
+  const reservedAt = new Date(BEFORE_SANTIAGO_MIDNIGHT);
+  const laterAt = new Date(AFTER_SANTIAGO_MIDNIGHT);
+  const reservedKey = capKey(reservedAt);
+  const laterKey = capKey(laterAt);
+  assert.notEqual(reservedKey, laterKey);
+  const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+  const token = await signToken({
+    exp: Math.floor(BEFORE_SANTIAGO_MIDNIGHT / 1000) + 3600,
+  });
+  const binding = live ? counterBinding() : null;
+  const env = makeEnv(live ? { OUTREACH_MODE: "live", OUTREACH_COUNTER: binding } : {});
+  const clock = installClock(BEFORE_SANTIAGO_MIDNIGHT);
+  try {
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === "https://api.resend.com/emails") clock.advance(60_000);
+      return net.impl(input, init);
+    };
+    const { response } = await send(env, impl, token, {
+      to: live ? "lead@example.com" : ALLOWED,
+      subject: "Cruza medianoche",
+      fields: fields(),
+    });
+    assert.equal(response.status, 502);
+    assert.equal(Date.now(), AFTER_SANTIAGO_MIDNIGHT);
+    return { env, binding, reservedKey, laterKey, net };
+  } finally {
+    clock.restore();
+  }
+}
 
 function webhookSecret() {
   const bytes = crypto.getRandomValues(new Uint8Array(24));

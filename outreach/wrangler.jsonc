@@ -28,6 +28,22 @@
       "id": "00000000000000000000000000000000"
     }
   ],
+  // Tope atómico en live y dedupe del webhook. Sin este binding, OUTREACH_MODE=live
+  // responde 503 y no llama a Resend. El modo test sigue contando en KV.
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "OUTREACH_COUNTER",
+        "class_name": "OutreachCounter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["OutreachCounter"]
+    }
+  ],
   "vars": {
     "OUTREACH_MODE": "test"
     // TEST_ALLOWLIST no va en el repo. Var o secreto del dashboard.
