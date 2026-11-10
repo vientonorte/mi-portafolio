@@ -39,8 +39,24 @@ import {
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
-import { handleQrRedirect, handleQrStats, renderHome } from './api/qr-fruta.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
+
+// QR FRUTA retirado. Estas rutas respondían 302/HTML y escribían qr:* en ADMIN_KV.
+function isRetiredQrPath(path) {
+  return path === '/q' || path.startsWith('/q/') || path === '/stats' || path === '/stats/';
+}
+
+function qrGone() {
+  return new Response('Gone', {
+    status: 410,
+    headers: {
+      'Cache-Control': 'no-store',
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Referrer-Policy': 'no-referrer',
+      'X-Robots-Tag': 'noindex',
+    },
+  });
+}
 
 export default {
   async fetch(request, env, ctx) {
@@ -53,21 +69,9 @@ export default {
       return json({ ok: false, error: 'Not found' }, 404);
     }
 
-    // QR FRUTA: público, sin CORS (escaneo directo desde el celular).
-    if (path === '/' && request.method === 'GET') {
-      return new Response(renderHome(), {
-        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex', 'Referrer-Policy': 'no-referrer', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'" },
-      });
-    }
-    if ((path === '/stats' || path === '/stats/' || path === '/q/stats/') && request.method === 'GET') {
-      // Atajo sin clave: nunca reenvía query (k) para no filtrarla en logs/links.
-      return new Response(null, { status: 302, headers: { Location: '/q/stats', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' } });
-    }
-    if (path === '/q/stats' && request.method === 'GET') {
-      return handleQrStats(request, env);
-    }
-    if (path.startsWith('/q/') && request.method === 'GET') {
-      return handleQrRedirect(request, env, ctx, path.slice(3).replace(/\/$/, ''));
+    // QR FRUTA retirado: 410 antes de CORS y sin tocar KV (ADMIN_KV sigue para el resto).
+    if (isRetiredQrPath(path)) {
+      return qrGone();
     }
 
     if (path === '/admin-gate' && request.method === 'GET') {

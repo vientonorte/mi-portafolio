@@ -74,14 +74,14 @@ Checklist largo: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md).
 | Form / schedule URLs | Contacto y free a11y |
 | `NODE_AUTH_TOKEN` / packages | `@vientonorte/*` en GitHub Packages |
 
-Worker (aparte de Pages). Único comando canónico, **solo humano, por orden del TL**:
+Worker (aparte de Pages). Runbook: [worker/DEPLOY.md](worker/DEPLOY.md). Único comando canónico, **solo humano, por orden del TL**:
 
 ```sh
 cd worker && npm ci && npx --no-install wrangler deploy --keep-vars
 # config: worker/wrangler.toml (nunca -c / --config; wrangler.contact.toml fue eliminado)
 ```
 
-- [ ] TODO (Rö): mover CONTACT_INBOX a secret (wrangler secret put, Rö lo escribe) y luego quitarlo del toml.
+- [ ] Prerequisite: `CONTACT_INBOX` es secret (`wrangler secret put CONTACT_INBOX`, lo escribe Rö). No está en git ni en `[vars]`. Sin ese secret el aviso por email se omite.
 
 ---
 

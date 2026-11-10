@@ -1,6 +1,8 @@
 # QR FRUTA · conteos de prueba
 
-El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso las pruebas se separan con una lista fija en `worker/src/api/qr-exclusions.js` (slug + fecha + motivo).
+**Retirado.** El worker ya no lee esta lista ni escribe `qr:*`. Las rutas `/q/*` y `/stats` responden 410. `ADMIN_KV` y las claves viejas no se borran. La tabla queda como registro histórico.
+
+El worker guardaba conteos por día (`qr:<slug>:<fecha>`), no por hora. Las pruebas se separaban con una lista fija en `worker/src/api/qr-exclusions.js` (slug + fecha + motivo), ya eliminada del código.
 
 | Slug | Fecha | Estado | Motivo |
 |---|---|---|---|
@@ -15,4 +17,3 @@ El worker guarda conteos por día (`qr:<slug>:<fecha>`), no por hora. Por eso la
 - Nada se adivina. Si Rö confirma un dato, se cambia la fila (PR).
 - Grupos iguales al SSOT Figma 487:2: «Puntos de Rö», «Puntos de Jhordan», «Otros».
 - Desde 2026-10-30 los códigos marcan el lugar donde se pegan: MAT — (lugar por confirmar) · CMO Pajaritos acceso/boletería · PZA Pajaritos andén · PBU Pajaritos salida a buses · BEA Plaza de Maipú acceso/boletería · SIS Plaza de Maipú andén · IRZ Plaza de Maipú salida a la plaza.
-- Acceso: portada `contact.vientonorte.io/` enlaza a `/q/stats` (pide clave). Atajo `/stats` → `/q/stats` (no reenvía la clave).
