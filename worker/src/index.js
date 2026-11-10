@@ -39,8 +39,42 @@ import {
 } from './api/admin-data.js';
 import { handleMcp } from './mcp/server.js';
 import { handleShare } from './api/share.js';
-import { handleQrRedirect, handleQrStats, renderHome } from './api/qr-fruta.js';
 import { handleDemoHeatIngest, handleDemoHeatRead } from './api/demo-heat.js';
+
+// QR FRUTA retirado. No cuenta, no lee ni escribe KV, no reenvía la query (claves).
+const QR_REDIRECT = 'https://vientonorte.io/contacto/';
+const ROOT_REDIRECT = 'https://vientonorte.io/';
+
+function isQrPath(path) {
+  return path === '/q' || path.startsWith('/q/');
+}
+
+function isStatsGone(path) {
+  return path === '/stats' || path === '/stats/';
+}
+
+function redirectExact(location) {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: location,
+      'Cache-Control': 'no-store',
+      'Referrer-Policy': 'no-referrer',
+    },
+  });
+}
+
+function qrGone() {
+  return new Response('Gone', {
+    status: 410,
+    headers: {
+      'Cache-Control': 'no-store',
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Referrer-Policy': 'no-referrer',
+      'X-Robots-Tag': 'noindex',
+    },
+  });
+}
 
 export default {
   async fetch(request, env, ctx) {
@@ -53,21 +87,15 @@ export default {
       return json({ ok: false, error: 'Not found' }, 404);
     }
 
-    // QR FRUTA: público, sin CORS (escaneo directo desde el celular).
+    // QR FRUTA retirado, antes de CORS y sin tocar env ni KV.
     if (path === '/' && request.method === 'GET') {
-      return new Response(renderHome(), {
-        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex', 'Referrer-Policy': 'no-referrer', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'" },
-      });
+      return redirectExact(ROOT_REDIRECT);
     }
-    if ((path === '/stats' || path === '/stats/' || path === '/q/stats/') && request.method === 'GET') {
-      // Atajo sin clave: nunca reenvía query (k) para no filtrarla en logs/links.
-      return new Response(null, { status: 302, headers: { Location: '/q/stats', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' } });
+    if (isQrPath(path)) {
+      return redirectExact(QR_REDIRECT);
     }
-    if (path === '/q/stats' && request.method === 'GET') {
-      return handleQrStats(request, env);
-    }
-    if (path.startsWith('/q/') && request.method === 'GET') {
-      return handleQrRedirect(request, env, ctx, path.slice(3).replace(/\/$/, ''));
+    if (isStatsGone(path)) {
+      return qrGone();
     }
 
     if (path === '/admin-gate' && request.method === 'GET') {
