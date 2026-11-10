@@ -5,6 +5,9 @@ export const DAILY_CAP = 10;
 export const SANTIAGO_TZ = "America/Santiago";
 export const RESEND_EMAILS_URL = "https://api.resend.com/emails";
 export const WEBHOOK_TOLERANCE_SEC = 300;
+// The dedupe mark has to outlive the signature window. A replay that is
+// still inside the tolerance must not be accepted because the mark expired.
+export const WEBHOOK_DEDUPE_TTL_SEC = Math.max(600, WEBHOOK_TOLERANCE_SEC * 2);
 
 export const ANCHORS = {
   "revision-gratis": {

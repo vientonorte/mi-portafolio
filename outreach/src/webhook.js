@@ -97,9 +97,13 @@ export async function handleWebhook(request, env) {
     body,
   });
   if (!ok) return json({ error: "forbidden" }, 403);
-  if (!(await claimWebhookId(env.OUTREACH_KV, svixId))) {
-    return json({ error: "forbidden" }, 403);
+  let fresh = false;
+  try {
+    fresh = await claimWebhookId(env, svixId);
+  } catch {
+    return json({ error: "unavailable" }, 503);
   }
+  if (!fresh) return json({ error: "forbidden" }, 403);
 
   let event;
   try {

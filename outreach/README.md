@@ -42,11 +42,13 @@ No hay CORS. `OPTIONS` responde 405. El worker no acepta el service token como c
 
 Si `TEAM_DOMAIN` o `POLICY_AUD` faltan o no son válidos, `/send`, `/suppress` y `/resume` responden 403 y no llaman a Resend. `TEAM_DOMAIN` tiene que ser `https://<equipo>.cloudflareaccess.com`. `POLICY_AUD` es el AUD de la aplicación de Access.
 
-Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`, incluido vacío). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. Si `TEST_ALLOWLIST` falta o está vacía, `/send` responde 403 y no llama a Resend. `live` es un cambio explícito de esa var, y además exige el live gate del tope (Durable Object). El JWT de Access tiene que ser de aplicación: `type` exactamente `app`.
+Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`, incluido vacío). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. Si `TEST_ALLOWLIST` falta o está vacía, `/send` responde 403 y no llama a Resend. El modo test cuenta el tope en KV aunque el Durable Object esté ligado. El JWT de Access tiene que ser de aplicación: `type` exactamente `app`.
 
-Tope: 10 envíos en el día de `America/Santiago`. El worker reserva el cupo en KV antes de llamar a Resend y lo devuelve si Resend no acepta el envío. Con el contador en 10, el siguiente responde 429.
+`isLiveMode` es live solo si `OUTREACH_MODE` es exactamente `live` y el binding `OUTREACH_COUNTER` está presente. Si la var es `live` y el binding no está, `POST /send` responde 503 `live_gate` y no llama a Resend: no cae al allowlist ni manda el correo.
 
-Limitación conocida: KV no tiene incremento atómico. Dos `/send` a la vez pueden leer el mismo número y los dos pasar. La atomicidad de verdad es un Durable Object. **Live gate:** no pasar `OUTREACH_MODE` a `live` hasta que ese contador atómico exista. El modo test puede usar el contador de KV.
+Tope: 10 envíos en el día de `America/Santiago`. La clave es `cap:YYYY-MM-DD`, calculada una vez al reservar. Si Resend no acepta el envío, la devolución usa esa misma clave: no se recalcula el día. Un fallo que cruza la medianoche de Santiago devuelve el cupo del día que se reservó. Con el contador en 10, el siguiente responde 429.
+
+En test la reserva sigue siendo read-modify-write de KV y no es atómica: dos `/send` a la vez pueden leer el mismo número. En live la reserva y la devolución las hace el Durable Object `OutreachCounter` (una sola instancia, porque el tope es global). El objeto no calcula el día: opera sobre la clave que le pasa el worker.
 
 Lista de baja: `/send` no escribe a una dirección suprimida (409). Un rebote permanente (`email.bounced` con `bounce.type = Permanent`) o una queja (`email.complained`) suprime esas direcciones y deja un corte global: todo `/send` responde 409 `halted` hasta `POST /resume`. El resume no saca a nadie de la lista de baja. Un rebote transitorio solo queda en el log.
 
@@ -87,7 +89,13 @@ npx wrangler kv namespace create OUTREACH_KV
 
 Copiar el id a `kv_namespaces[0].id`.
 
-### 4. Access y hostname
+### 4. Durable Object
+
+`wrangler.jsonc` declara el binding `OUTREACH_COUNTER` y la migración `v1` (`new_sqlite_classes`: `OutreachCounter`, SQLite). El namespace se crea en el próximo deploy manual. Los tests y el dry-run de CI no lo crean ni despliegan el worker.
+
+Sin ese binding en runtime, `OUTREACH_MODE=live` responde 503 `live_gate` y no llama a Resend. Con el binding, live usa el objeto para el tope y el dedupe del webhook. El modo test sigue en KV para el tope.
+
+### 5. Access y hostname
 
 Hoy el worker no tiene ruta. Con `workers_dev` y `preview_urls` en false, un deploy no abre una URL pública. La ruta se agrega cuando la aplicación de Access ya existe. Hostname sugerido, a confirmar por Rö: `outreach.vientonorte.io`.
 
@@ -110,11 +118,11 @@ En Zero Trust:
 "POLICY_AUD": "<aud de la aplicación>"
 ```
 
-6. Resend no puede presentar el service token. El Bypass de Access tiene que ser el path exacto `/webhook/resend`: sin comodín, sin barra final y, si el panel deja elegir el método, solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto dentro de los 300 s se rechaza. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
+6. Resend no puede presentar el service token. El Bypass de Access tiene que ser el path exacto `/webhook/resend`: sin comodín, sin barra final y, si el panel deja elegir el método, solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto se rechaza. La firma sigue valiendo 300 s. La marca de deduplicación dura 600 s (el doble, nunca menos), así que un replay que todavía entra en esa tolerancia no encuentra la marca vencida. Con `OUTREACH_COUNTER` ligado, la marca es un claim atómico en el Durable Object. Sin ese binding el camino es KV y no es atómico: dos entregas a la vez pueden pasar las dos. `wrangler.jsonc` liga el objeto. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
 
 Hasta que `TEAM_DOMAIN` y `POLICY_AUD` sean válidos, el worker responde 403 sin llamar a Resend.
 
-### 5. Secretos
+### 6. Secretos
 
 Solo en el worker, nunca en git. No crear un `.env` con valores. `.dev.vars` y `.env*` están ignorados.
 
@@ -131,7 +139,7 @@ npx wrangler secret put TEST_ALLOWLIST
 
 El webhook, cuando el hostname y el Bypass ya existen, apunta a `https://<hostname>/webhook/resend` y escucha `email.bounced` y `email.complained`. La firma se calcula sobre el body crudo.
 
-### 6. Deploy
+### 7. Deploy
 
 Solo humano, después de los pasos de arriba. Comando:
 
@@ -200,4 +208,4 @@ El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El lin
 cd outreach && npm ci && npm test
 ```
 
-Cubren auth fail-closed, tope 10 → 429, supresión, modo test (destinatario y prefijo `[PRUEBA] `), la forma del payload de Resend (`from`, `reply_to`, `html`, `text`) y que un rechazo no llame a Resend.
+Cubren auth fail-closed, el live gate (503 sin el Durable Object, envío con un mock del objeto), tope 10 → 429, rollback del cupo con la clave reservada aunque cambie el día de Santiago, supresión, modo test (destinatario y prefijo `[PRUEBA] `), la forma del payload de Resend (`from`, `reply_to`, `html`, `text`), replay de `svix-id` dentro de la ventana, TTL de dedupe mayor que la tolerancia de la firma, y que un rechazo no llame a Resend.
