@@ -144,21 +144,36 @@ export function buildMessage({ subject, fields }) {
 
   const html = renderMustache(PROSPECCION_HTML, data, { html: true });
   const text = renderMustache(PROSPECCION_TXT, data, { html: false });
-  validateBodies(html, text, data.link);
+  const supplied = [empresa, hallazgo, contactoNombre, contactoCargo, rubro, cta, asunto, data.preheader];
+  validateBodies(html, text, data.link, supplied);
   return { html, text, subject: asunto, link: data.link };
 }
 
-function validateBodies(html, text, link) {
+function maskSupplied(body, values) {
+  let out = body;
+  const sorted = values
+    .filter((value) => typeof value === "string" && value.length > 0)
+    .sort((a, b) => b.length - a.length);
+  for (const value of sorted) {
+    out = out.split(value).join(" ".repeat(value.length));
+    const escaped = escapeHtml(value);
+    if (escaped !== value) out = out.split(escaped).join(" ".repeat(escaped.length));
+  }
+  return out;
+}
+
+function validateBodies(html, text, link, supplied) {
   for (const body of [html, text]) {
-    if (body.includes("{{") || body.includes("}}")) throw new Error("leftover");
     if (hasPrice(body) || hasWebGratis(body)) throw new Error("copy");
     if (body.length > 100_000) throw new Error("size");
-    for (const forbidden of FORBIDDEN) {
-      if (body.includes(forbidden)) throw new Error("url");
-    }
     if (!body.includes(SIGNATURE) || !body.includes(OPT_OUT_LINE)) throw new Error("footer");
-    if (/\b(None|null|undefined)\b/.test(body)) throw new Error("empty-literal");
     if (body.includes("Hola, :")) throw new Error("gap");
+    const shell = maskSupplied(body, supplied);
+    if (shell.includes("{{") || shell.includes("}}")) throw new Error("leftover");
+    if (/\b(None|null|undefined)\b/.test(shell)) throw new Error("empty-literal");
+    for (const forbidden of FORBIDDEN) {
+      if (shell.includes(forbidden)) throw new Error("url");
+    }
   }
 
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
@@ -167,7 +182,7 @@ function validateBodies(html, text, link) {
   for (const href of hrefs) {
     if (href !== hrefLink && href !== "mailto:contacto@vientonorte.io") throw new Error("href");
   }
-  const urls = text.match(/https?:\/\/\S+/g) || [];
+  const urls = maskSupplied(text, supplied).match(/https?:\/\/\S+/g) || [];
   for (const url of urls) {
     if (url !== link) throw new Error("href");
   }

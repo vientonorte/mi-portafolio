@@ -331,6 +331,22 @@ describe("test mode and Resend payload", () => {
     assert.equal(typeof payload.text, "string");
   });
 
+  it("sends a finding that mentions null, mustache braces, or /news/", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const hallazgo = "El alt queda null, el template muestra {{nombre}} y la ruta /news/ no tiene título.";
+    const { response } = await send(makeEnv(), net.impl, token, {
+      to: ALLOWED,
+      subject: "Hallazgo con null",
+      fields: fields({ hallazgo }),
+    });
+    assert.equal(response.status, 200);
+    const payload = JSON.parse(net.resendCalls()[0].init.body);
+    assert.match(payload.text, /ruta \/news\//);
+    assert.match(payload.text, /\{\{nombre\}\}/);
+    assert.equal(net.resendCalls().length, 1);
+  });
+
   it("refuses a price or a missing hallazgo without calling Resend", async () => {
     const net = mockFetch();
     const token = await signToken();
@@ -395,6 +411,19 @@ describe("suppression", () => {
     assert.equal(response.status, 409);
     assert.equal(json.error, "suppressed");
     assert.equal(net.resendCalls().length, 0);
+  });
+
+  it("does not write any address when a later suppress entry is invalid", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const response = await handleRequest(
+      request("/suppress", { token, body: { emails: ["ok@example.com", "no-es-correo"] } }),
+      env,
+      net.impl,
+    );
+    assert.equal(response.status, 400);
+    assert.equal(await env.OUTREACH_KV.get("suppress:ok@example.com"), null);
   });
 
   it("does not suppress when /suppress has no valid JWT", async () => {

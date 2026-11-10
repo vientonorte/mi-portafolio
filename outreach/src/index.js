@@ -4,7 +4,6 @@ import { buildMessage } from "./render.js";
 import {
   allowlistHas,
   clearHalt,
-  emailKey,
   incrementCap,
   isLiveMode,
   isSuppressed,
@@ -168,15 +167,17 @@ async function handleSuppress(request, env, fetchImpl) {
   const reason = ["baja", "bounce", "complaint", "manual"].includes(payload.reason)
     ? payload.reason
     : "manual";
-  const added = [];
+  const emails = [];
   for (const item of rawList) {
     const email = normalizeEmail(item);
     if (!email) return json({ error: "invalid" }, 400);
-    await suppressEmail(env.OUTREACH_KV, email, reason);
-    added.push(emailKey(email));
+    emails.push(email);
   }
-  console.log(JSON.stringify({ event: "outreach_suppress", count: added.length, reason }));
-  return json({ ok: true, suppressed: added.length }, 200);
+  for (const email of emails) {
+    await suppressEmail(env.OUTREACH_KV, email, reason);
+  }
+  console.log(JSON.stringify({ event: "outreach_suppress", count: emails.length, reason }));
+  return json({ ok: true, suppressed: emails.length }, 200);
 }
 
 async function handleResume(request, env, fetchImpl) {
