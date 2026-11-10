@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "vn-outreach",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-10",
+  "account_id": "6e96c77c41a11e043c84a7802c6108b8",
+  // Sin hostname público hasta que Rö cree la app de Access y pegue la ruta.
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      // Los invocation logs pueden guardar el header del JWT. El rastro útil
+      // es el console.log estructurado, que no incluye destinatario ni token.
+      "invocation_logs": false,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "OUTREACH_KV",
+      // Reemplazar con el id de `npx wrangler kv namespace create OUTREACH_KV` antes del deploy.
+      "id": "00000000000000000000000000000000"
+    }
+  ],
+  "vars": {
+    "OUTREACH_MODE": "test",
+    // Única dirección personal permitida, y solo como default del allowlist de prueba.
+    "TEST_ALLOWLIST": "gaete.gaona@gmail.com"
+  }
+}

@@ -1,0 +1,176 @@
+import { ANCHORS } from "./constants.js";
+import { OPT_OUT_LINE, PROSPECCION_HTML, PROSPECCION_TXT } from "./templates.js";
+
+const SIGNATURE = "Rodrigo Gaete · UX Manager · Viento Norte";
+const FORBIDDEN = [
+  "/s/",
+  "/#/",
+  "/news/",
+  "/servicios/diagnostico-accesibilidad-wcag/",
+  "/servicios/consultoria-ux-pymes/",
+];
+
+export function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function isFilled(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function findSectionEnd(src, from, name) {
+  let depth = 1;
+  let i = from;
+  while (i < src.length) {
+    const next = src.indexOf("{{", i);
+    if (next === -1) break;
+    const end = src.indexOf("}}", next + 2);
+    if (end === -1) break;
+    const tag = src.slice(next + 2, end).trim();
+    const section = tag.slice(1).trim();
+    if ((tag.startsWith("#") || tag.startsWith("^")) && section === name) depth += 1;
+    else if (tag.startsWith("/") && section === name) {
+      depth -= 1;
+      if (depth === 0) return next;
+    }
+    i = end + 2;
+  }
+  throw new Error(`unclosed:${name}`);
+}
+
+export function renderMustache(src, data, { html = false } = {}) {
+  let i = 0;
+  let out = "";
+  while (i < src.length) {
+    const open = src.indexOf("{{", i);
+    if (open === -1) {
+      out += src.slice(i);
+      break;
+    }
+    out += src.slice(i, open);
+    const close = src.indexOf("}}", open + 2);
+    if (close === -1) throw new Error("unclosed-tag");
+    const tag = src.slice(open + 2, close).trim();
+    if (tag.startsWith("#") || tag.startsWith("^")) {
+      const name = tag.slice(1).trim();
+      const end = findSectionEnd(src, close + 2, name);
+      const inner = src.slice(close + 2, end);
+      const show = tag.startsWith("#") ? isFilled(data[name]) : !isFilled(data[name]);
+      if (show) out += renderMustache(inner, data, { html });
+      const closeTag = src.indexOf("}}", end);
+      i = closeTag + 2;
+    } else if (tag.startsWith("/") || tag.startsWith("!") || tag.startsWith(">")) {
+      throw new Error(`bad-tag:${tag}`);
+    } else {
+      if (!isFilled(data[tag])) throw new Error(`empty:${tag}`);
+      const value = String(data[tag]);
+      out += html ? escapeHtml(value) : value;
+      i = close + 2;
+    }
+  }
+  return out;
+}
+
+export function rubroSlug(rubro) {
+  if (!isFilled(rubro)) return "general";
+  const slug = rubro
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return slug || "general";
+}
+
+export function hasPrice(value) {
+  return /\$\s*\d/.test(value);
+}
+
+export function hasWebGratis(value) {
+  const withoutUrls = value.replace(/https?:\/\/\S+/g, "");
+  const withoutAllowed = withoutUrls.replace(/revisi[oó]n gratis/gi, "");
+  // «gratuita» contiene el prefijo «gratis» y no es un precio ni «web gratis».
+  return /web[\s\S]{0,40}gratis(?!a)|gratis(?!a)[\s\S]{0,40}web/i.test(withoutAllowed);
+}
+
+function clip(value, max) {
+  if (typeof value !== "string") return "";
+  const trimmed = value.replace(/[\r\n]+/g, " ").trim();
+  if (trimmed.length > max) throw new Error("too-long");
+  return trimmed;
+}
+
+export function buildMessage({ subject, fields }) {
+  const input = fields && typeof fields === "object" ? fields : {};
+  const anchorId = clip(input.servicio_ancla, 40);
+  const anchor = ANCHORS[anchorId];
+  if (!anchor) throw new Error("anchor");
+
+  const empresa = clip(input.empresa, 200);
+  const hallazgo = clip(input.hallazgo, 2000);
+  if (!empresa || !hallazgo) throw new Error("required");
+
+  const contactoNombre = clip(input.contacto_nombre, 200);
+  const contactoCargo = clip(input.contacto_cargo, 200);
+  const rubro = clip(input.rubro, 80);
+  const cta = clip(input.cta_texto, 80) || anchor.cta;
+  const asunto = clip(subject, 200);
+  if (!asunto) throw new Error("subject");
+
+  const data = {
+    contacto_nombre: contactoNombre,
+    contacto_cargo: contactoCargo,
+    empresa,
+    rubro,
+    hallazgo,
+    servicio_ancla: anchorId,
+    cta_texto: cta,
+    asunto,
+    rubro_slug: rubroSlug(rubro),
+    kicker: anchor.kicker,
+    oferta: anchor.oferta,
+    preheader: hallazgo.slice(0, 110),
+  };
+  data.link =
+    `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=${data.rubro_slug}#${anchorId}`;
+
+  const prose = [empresa, hallazgo, contactoNombre, contactoCargo, rubro, cta, asunto, anchor.oferta, anchor.kicker].join("\n");
+  if (hasPrice(prose) || hasWebGratis(prose)) throw new Error("copy");
+
+  const html = renderMustache(PROSPECCION_HTML, data, { html: true });
+  const text = renderMustache(PROSPECCION_TXT, data, { html: false });
+  validateBodies(html, text, data.link);
+  return { html, text, subject: asunto, link: data.link };
+}
+
+function validateBodies(html, text, link) {
+  for (const body of [html, text]) {
+    if (body.includes("{{") || body.includes("}}")) throw new Error("leftover");
+    if (hasPrice(body) || hasWebGratis(body)) throw new Error("copy");
+    if (body.length > 100_000) throw new Error("size");
+    for (const forbidden of FORBIDDEN) {
+      if (body.includes(forbidden)) throw new Error("url");
+    }
+    if (!body.includes(SIGNATURE) || !body.includes(OPT_OUT_LINE)) throw new Error("footer");
+    if (/\b(None|null|undefined)\b/.test(body)) throw new Error("empty-literal");
+    if (body.includes("Hola, :")) throw new Error("gap");
+  }
+
+  const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
+  if (hrefs.length === 0) throw new Error("href");
+  const hrefLink = escapeHtml(link);
+  for (const href of hrefs) {
+    if (href !== hrefLink && href !== "mailto:contacto@vientonorte.io") throw new Error("href");
+  }
+  const urls = text.match(/https?:\/\/\S+/g) || [];
+  for (const url of urls) {
+    if (url !== link) throw new Error("href");
+  }
+}
+
+export { SIGNATURE };
