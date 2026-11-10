@@ -149,7 +149,24 @@ export function buildMessage({ subject, fields }) {
   return { html, text, subject: asunto, link: data.link };
 }
 
-function maskSupplied(body, values) {
+function splitKeep(text, token) {
+  if (!token || !text.includes(token)) return [text];
+  const parts = [];
+  let rest = text;
+  while (rest.length > 0) {
+    const at = rest.indexOf(token);
+    if (at === -1) {
+      parts.push(rest);
+      break;
+    }
+    if (at > 0) parts.push(rest.slice(0, at));
+    parts.push(token);
+    rest = rest.slice(at + token.length);
+  }
+  return parts;
+}
+
+function maskValues(body, values) {
   let out = body;
   const sorted = values
     .filter((value) => typeof value === "string" && value.length > 0)
@@ -162,13 +179,24 @@ function maskSupplied(body, values) {
   return out;
 }
 
+function maskSupplied(body, values, protectedStrings = []) {
+  const guards = protectedStrings
+    .filter((value) => typeof value === "string" && value.length > 0)
+    .sort((a, b) => b.length - a.length);
+  let parts = [body];
+  for (const guard of guards) {
+    parts = parts.flatMap((part) => (guards.includes(part) ? [part] : splitKeep(part, guard)));
+  }
+  return parts.map((part) => (guards.includes(part) ? part : maskValues(part, values))).join("");
+}
+
 function validateBodies(html, text, link, supplied) {
   for (const body of [html, text]) {
     if (hasPrice(body) || hasWebGratis(body)) throw new Error("copy");
     if (body.length > 100_000) throw new Error("size");
     if (!body.includes(SIGNATURE) || !body.includes(OPT_OUT_LINE)) throw new Error("footer");
     if (body.includes("Hola, :")) throw new Error("gap");
-    const shell = maskSupplied(body, supplied);
+    const shell = maskSupplied(body, supplied, [link, escapeHtml(link), "mailto:contacto@vientonorte.io"]);
     if (shell.includes("{{") || shell.includes("}}")) throw new Error("leftover");
     if (/\b(None|null|undefined)\b/.test(shell)) throw new Error("empty-literal");
     for (const forbidden of FORBIDDEN) {
@@ -182,7 +210,7 @@ function validateBodies(html, text, link, supplied) {
   for (const href of hrefs) {
     if (href !== hrefLink && href !== "mailto:contacto@vientonorte.io") throw new Error("href");
   }
-  const urls = maskSupplied(text, supplied).match(/https?:\/\/\S+/g) || [];
+  const urls = maskSupplied(text, supplied, [link]).match(/https?:\/\/\S+/g) || [];
   for (const url of urls) {
     if (url !== link) throw new Error("href");
   }

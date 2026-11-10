@@ -331,6 +331,20 @@ describe("test mode and Resend payload", () => {
     assert.equal(typeof payload.text, "string");
   });
 
+  it("sends when empresa and rubro are substrings of the canonical URL", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const { response } = await send(makeEnv(), net.impl, token, {
+      to: ALLOWED,
+      subject: "Servicios",
+      fields: fields({ empresa: "servicios", rubro: "email" }),
+    });
+    assert.equal(response.status, 200);
+    const payload = JSON.parse(net.resendCalls()[0].init.body);
+    assert.match(payload.text, /utm_source=email&utm_medium=prospeccion&utm_campaign=email#revision-gratis/);
+    assert.match(payload.text, /sitio de servicios/);
+  });
+
   it("sends a finding that mentions null, mustache braces, or /news/", async () => {
     const net = mockFetch();
     const token = await signToken();
