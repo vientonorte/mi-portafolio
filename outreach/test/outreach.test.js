@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { afterEach, before, describe, it } from "node:test";
-import { DAILY_CAP, FROM, REPLY_TO, TEMPLATE_ID } from "../src/constants.js";
+import { DAILY_CAP, FROM, REPLY_TO, TEMPLATE_ID, WEBHOOK_TOLERANCE_SEC } from "../src/constants.js";
 import { handleRequest } from "../src/index.js";
+import { capKey, LOG_TTL_SEC } from "../src/store.js";
 import { OPT_OUT_LINE } from "../src/templates.js";
 
 const ISSUER = "https://vn.cloudflareaccess.com";
@@ -38,18 +39,21 @@ const originalFetch = globalThis.fetch;
 class MemoryKV {
   constructor() {
     this.map = new Map();
+    this.meta = new Map();
   }
 
   async get(key) {
     return this.map.has(key) ? this.map.get(key) : null;
   }
 
-  async put(key, value) {
+  async put(key, value, options) {
     this.map.set(key, String(value));
+    this.meta.set(key, options || {});
   }
 
   async delete(key) {
     this.map.delete(key);
+    this.meta.delete(key);
   }
 }
 
@@ -100,6 +104,7 @@ async function signToken(claims = {}, { alg = "RS256", kid = "test-key" } = {}) 
     exp: Math.floor(Date.now() / 1000) + 600,
     iat: Math.floor(Date.now() / 1000),
     sub: "",
+    type: "app",
     ...claims,
   }));
   const input = `${header}.${payload}`;
@@ -236,6 +241,54 @@ describe("access fail-closed", () => {
     assert.equal(net.resendCalls().length, 1);
   });
 
+  it("returns 403 when the Access token type is not app", async () => {
+    const net = mockFetch();
+    const token = await signToken({ type: "org" });
+    const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
+    assert.equal(response.status, 403);
+    assert.equal(net.resendCalls().length, 0);
+  });
+
+  it("returns 403 for an HS256 token without calling Resend", async () => {
+    const net = mockFetch();
+    const header = b64url(JSON.stringify({ alg: "HS256", kid: "test-key", typ: "JWT" }));
+    const payload = b64url(JSON.stringify({
+      iss: ISSUER,
+      aud: AUD,
+      exp: Math.floor(Date.now() / 1000) + 600,
+      type: "app",
+    }));
+    const { response } = await send(makeEnv(), net.impl, `${header}.${payload}.not-rs256`, {
+      to: ALLOWED,
+      subject: "Hola",
+      fields: fields(),
+    });
+    assert.equal(response.status, 403);
+    assert.equal(net.calls.length, 0);
+  });
+
+  it("returns 403 when the JWKS fetch fails", async () => {
+    const token = await signToken();
+    const calls = [];
+    const impl = async (input) => {
+      const url = typeof input === "string" ? input : input.url;
+      calls.push(url);
+      if (url.endsWith("/cdn-cgi/access/certs")) return new Response("down", { status: 500 });
+      throw new Error(`unexpected fetch ${url}`);
+    };
+    const { response } = await send(makeEnv(), impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
+    assert.equal(response.status, 403);
+    assert.equal(calls.some((url) => url === "https://api.resend.com/emails"), false);
+  });
+
+  it("returns 403 when nbf is in the future", async () => {
+    const net = mockFetch();
+    const token = await signToken({ nbf: Math.floor(Date.now() / 1000) + 600 });
+    const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
+    assert.equal(response.status, 403);
+    assert.equal(net.resendCalls().length, 0);
+  });
+
   it("returns 403 when exp is in the past", async () => {
     const net = mockFetch();
     const token = await signToken({ exp: Math.floor(Date.now() / 1000) - 30 });
@@ -312,6 +365,7 @@ describe("test mode and Resend payload", () => {
     assert.equal(log.result, "sent");
     assert.equal(log.empresa, undefined);
     assert.equal(log.hallazgo, undefined);
+    assert.equal(env.OUTREACH_KV.meta.get(`log:${json.id}`).expirationTtl, LOG_TTL_SEC);
   });
 
   it("does not prefix the subject in live mode and allows another recipient", async () => {
@@ -361,6 +415,31 @@ describe("test mode and Resend payload", () => {
     assert.equal(net.resendCalls().length, 1);
   });
 
+  it("returns 403 when the test allowlist is empty", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const { response, json } = await send(makeEnv({ TEST_ALLOWLIST: "  " }), net.impl, token, {
+      to: ALLOWED,
+      subject: "Hola",
+      fields: fields(),
+    });
+    assert.equal(response.status, 403);
+    assert.equal(json.error, "test_recipient");
+    assert.equal(net.resendCalls().length, 0);
+  });
+
+  it("rejects a recipient with CR or LF and does not call Resend", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const { response } = await send(makeEnv(), net.impl, token, {
+      to: `${ALLOWED}\r\nBcc: otro@example.com`,
+      subject: "Hola",
+      fields: fields(),
+    });
+    assert.equal(response.status, 400);
+    assert.equal(net.resendCalls().length, 0);
+  });
+
   it("refuses a price or a missing hallazgo without calling Resend", async () => {
     const net = mockFetch();
     const token = await signToken();
@@ -403,6 +482,36 @@ describe("daily cap", () => {
     assert.equal(blocked.response.status, 429);
     assert.equal(blocked.json.error, "cap");
     assert.equal(net.resendCalls().length, DAILY_CAP);
+  });
+
+  it("returns 503 when the cap value is corrupt and does not call Resend", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    await env.OUTREACH_KV.put(capKey(), "nope");
+    const { response, json } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Hola",
+      fields: fields(),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(json.error, "cap");
+    assert.equal(net.resendCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), "nope");
+  });
+
+  it("reserves a cap slot before Resend and rolls it back when Resend fails", async () => {
+    const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+    const token = await signToken();
+    const env = makeEnv();
+    const { response } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Falla",
+      fields: fields(),
+    });
+    assert.equal(response.status, 502);
+    assert.equal(net.resendCalls().length, 1);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), "0");
   });
 });
 
@@ -487,6 +596,64 @@ describe("hard bounce halt", () => {
     );
     assert.equal(response.status, 403);
     assert.equal(await env.OUTREACH_KV.get("suppress:lead@example.com"), null);
+  });
+
+  it("rejects a Svix timestamp skewed by more than 5 minutes", async () => {
+    const secret = webhookSecret();
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
+    const body = JSON.stringify({
+      type: "email.bounced",
+      data: { to: ["viejo@example.com"], bounce: { type: "Permanent" } },
+    });
+    const timestamp = String(Math.floor(Date.now() / 1000) - (WEBHOOK_TOLERANCE_SEC + 1));
+    const signature = await signWebhook(secret, "msg_old", timestamp, body);
+    const response = await handleRequest(
+      request("/webhook/resend", {
+        body,
+        headers: { "svix-id": "msg_old", "svix-timestamp": timestamp, "svix-signature": signature },
+      }),
+      env,
+    );
+    assert.equal(response.status, 403);
+    assert.equal(await env.OUTREACH_KV.get("suppress:viejo@example.com"), null);
+    assert.equal(await env.OUTREACH_KV.get("svix:msg_old"), null);
+  });
+
+  it("accepts a valid v1 signature among several and rejects a replay of the same svix-id", async () => {
+    const secret = webhookSecret();
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
+    const body = JSON.stringify({ type: "email.delivered", data: { to: ["ok@example.com"] } });
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    const good = await signWebhook(secret, "msg_multi", timestamp, body);
+    const headers = {
+      "svix-id": "msg_multi",
+      "svix-timestamp": timestamp,
+      "svix-signature": `v1,${"a".repeat(44)} ${good}`,
+    };
+    const first = await handleRequest(request("/webhook/resend", { body, headers }), env);
+    assert.equal(first.status, 200);
+    assert.equal(env.OUTREACH_KV.meta.get("svix:msg_multi").expirationTtl, WEBHOOK_TOLERANCE_SEC);
+    const replay = await handleRequest(request("/webhook/resend", { body, headers }), env);
+    assert.equal(replay.status, 403);
+    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
+  });
+
+  it("does not treat a trailing slash or an extra segment as the webhook", async () => {
+    const secret = webhookSecret();
+    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
+    const body = JSON.stringify({
+      type: "email.bounced",
+      data: { email_id: "re_path", to: ["ruta@example.com"], bounce: { type: "Permanent" } },
+    });
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    const signature = await signWebhook(secret, "msg_path", timestamp, body);
+    const headers = { "svix-id": "msg_path", "svix-timestamp": timestamp, "svix-signature": signature };
+    for (const path of ["/webhook/resend/", "/webhook/resend/x"]) {
+      const response = await handleRequest(request(path, { body, headers }), env);
+      assert.equal(response.status, 404);
+    }
+    assert.equal(await env.OUTREACH_KV.get("suppress:ruta@example.com"), null);
+    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
   });
 
   it("suppresses and halts on a signed permanent bounce until /resume", async () => {

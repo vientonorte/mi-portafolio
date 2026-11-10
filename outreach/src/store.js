@@ -1,4 +1,4 @@
-import { DAILY_CAP, SANTIAGO_TZ } from "./constants.js";
+import { DAILY_CAP, SANTIAGO_TZ, WEBHOOK_TOLERANCE_SEC } from "./constants.js";
 
 export function santiagoDay(date = new Date()) {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -49,6 +49,19 @@ export async function incrementCap(kv, date = new Date()) {
   return next;
 }
 
+export async function decrementCap(kv, date = new Date()) {
+  const next = Math.max(0, (await readCap(kv, date)) - 1);
+  await kv.put(capKey(date), String(next), { expirationTtl: 60 * 60 * 72 });
+  return next;
+}
+
+export async function claimWebhookId(kv, id) {
+  const key = `svix:${id}`;
+  if (await kv.get(key) != null) return false;
+  await kv.put(key, "1", { expirationTtl: WEBHOOK_TOLERANCE_SEC });
+  return true;
+}
+
 export async function isSuppressed(kv, email) {
   const raw = await kv.get(suppressKey(email));
   return raw != null;
@@ -85,6 +98,8 @@ export async function clearHalt(kv) {
   await kv.delete(HALT_KEY);
 }
 
+const LOG_TTL_SEC = 90 * 24 * 60 * 60;
+
 export async function writeLog(kv, entry) {
   const record = {
     id: entry.id,
@@ -95,7 +110,7 @@ export async function writeLog(kv, entry) {
     result: entry.result,
     error: entry.error ?? null,
   };
-  await kv.put(`log:${entry.id}`, JSON.stringify(record));
+  await kv.put(`log:${entry.id}`, JSON.stringify(record), { expirationTtl: LOG_TTL_SEC });
   return record;
 }
 
@@ -113,4 +128,4 @@ export function isLiveMode(mode) {
   return mode === "live";
 }
 
-export { DAILY_CAP, HALT_KEY };
+export { DAILY_CAP, HALT_KEY, LOG_TTL_SEC };

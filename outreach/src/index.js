@@ -4,6 +4,7 @@ import { buildMessage } from "./render.js";
 import {
   allowlistHas,
   clearHalt,
+  decrementCap,
   incrementCap,
   isLiveMode,
   isSuppressed,
@@ -87,15 +88,25 @@ async function handleSend(request, env, fetchImpl) {
     return json({ error: "halted" }, 409);
   }
 
-  const sentToday = await readCap(env.OUTREACH_KV);
-  if (sentToday >= DAILY_CAP) {
-    await logAttempt(env, to, "cap", null, null);
-    return json({ error: "cap" }, 429);
-  }
-
   if (typeof env.RESEND_API_KEY !== "string" || env.RESEND_API_KEY.trim().length < 8) {
     await logAttempt(env, to, "unconfigured", null, "resend_key");
     return json({ error: "unconfigured" }, 503);
+  }
+
+  let reserved = false;
+  try {
+    const sentToday = await readCap(env.OUTREACH_KV);
+    if (sentToday >= DAILY_CAP) {
+      await logAttempt(env, to, "cap", null, null);
+      return json({ error: "cap" }, 429);
+    }
+    await incrementCap(env.OUTREACH_KV);
+    reserved = true;
+  } catch (error) {
+    if (error instanceof Error && error.message === "cap-corrupt") {
+      return json({ error: "cap" }, 503);
+    }
+    throw error;
   }
 
   const id = crypto.randomUUID();
@@ -120,11 +131,13 @@ async function handleSend(request, env, fetchImpl) {
       body: JSON.stringify(resendBody),
     });
   } catch {
+    if (reserved) await decrementCap(env.OUTREACH_KV);
     await logAttempt(env, to, "resend_error", null, "network", id);
     return json({ error: "resend_error" }, 502);
   }
 
   if (!response.ok) {
+    if (reserved) await decrementCap(env.OUTREACH_KV);
     await logAttempt(env, to, "resend_error", null, `status_${response.status}`, id);
     console.log(JSON.stringify({ event: "outreach_send", id, template: TEMPLATE_ID, result: "resend_error" }));
     return json({ error: "resend_error" }, 502);
@@ -138,7 +151,6 @@ async function handleSend(request, env, fetchImpl) {
     resendId = null;
   }
 
-  await incrementCap(env.OUTREACH_KV);
   await logAttempt(env, to, "sent", resendId, null, id);
   console.log(JSON.stringify({
     event: "outreach_send",

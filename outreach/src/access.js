@@ -123,6 +123,7 @@ export async function verifyAccessJwt(request, env, fetchImpl = globalThis.fetch
   if (!valid) return { ok: false };
 
   const now = Math.floor(Date.now() / 1000);
+  if (payload.type !== "app") return { ok: false };
   if (payload.iss !== issuer) return { ok: false };
   if (!audienceMatches(payload.aud, aud)) return { ok: false };
   if (typeof payload.exp !== "number" || !Number.isFinite(payload.exp) || payload.exp <= now) {

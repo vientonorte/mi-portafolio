@@ -149,6 +149,7 @@ jobs:
           cache-dependency-path: outreach/package-lock.json
       - run: npm ci
       - run: npm test
+      - run: npx --no-install wrangler deploy --dry-run
 
   typecheck:
     name: TypeScript

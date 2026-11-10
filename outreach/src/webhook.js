@@ -1,5 +1,5 @@
 import { WEBHOOK_TOLERANCE_SEC } from "./constants.js";
-import { normalizeEmail, setHalt, suppressEmail, writeLog } from "./store.js";
+import { claimWebhookId, normalizeEmail, setHalt, suppressEmail, writeLog } from "./store.js";
 
 function decodeWebhookSecret(secret) {
   if (typeof secret !== "string") return null;
@@ -88,14 +88,18 @@ export async function handleWebhook(request, env) {
   const body = await request.text();
   if (body.length > 256 * 1024) return json({ error: "invalid" }, 400);
 
+  const svixId = request.headers.get("svix-id") || "";
   const ok = await verifySvixSignature({
     secret,
-    id: request.headers.get("svix-id") || "",
+    id: svixId,
     timestamp: request.headers.get("svix-timestamp") || "",
     signature: request.headers.get("svix-signature") || "",
     body,
   });
   if (!ok) return json({ error: "forbidden" }, 403);
+  if (!(await claimWebhookId(env.OUTREACH_KV, svixId))) {
+    return json({ error: "forbidden" }, 403);
+  }
 
   let event;
   try {

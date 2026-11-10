@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node --test",
     "dry-run": "wrangler deploy --dry-run",
-    "deploy": "wrangler deploy --keep-vars",
+    "deploy": "npm ci && npx --no-install wrangler deploy --keep-vars",
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {

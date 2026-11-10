@@ -17,8 +17,8 @@
       "head_sampling_rate": 1
     },
     "traces": {
-      "enabled": true,
-      "head_sampling_rate": 1
+      // Apagado: un trace puede guardar headers (JWT de Access, Svix).
+      "enabled": false
     }
   },
   "kv_namespaces": [
@@ -29,8 +29,8 @@
     }
   ],
   "vars": {
-    "OUTREACH_MODE": "test",
-    // Única dirección personal permitida, y solo como default del allowlist de prueba.
-    "TEST_ALLOWLIST": "gaete.gaona@gmail.com"
+    "OUTREACH_MODE": "test"
+    // TEST_ALLOWLIST no va en el repo. Var o secreto del dashboard.
+    // Si falta o está vacía, /send en modo test responde 403.
   }
 }

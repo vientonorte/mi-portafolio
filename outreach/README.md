@@ -42,13 +42,17 @@ No hay CORS. `OPTIONS` responde 405. El worker no acepta el service token como c
 
 Si `TEAM_DOMAIN` o `POLICY_AUD` faltan o no son válidos, `/send`, `/suppress` y `/resume` responden 403 y no llaman a Resend. `TEAM_DOMAIN` tiene que ser `https://<equipo>.cloudflareaccess.com`. `POLICY_AUD` es el AUD de la aplicación de Access.
 
-Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`, incluido vacío). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. `live` es un cambio explícito de esa var.
+Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`, incluido vacío). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. Si `TEST_ALLOWLIST` falta o está vacía, `/send` responde 403 y no llama a Resend. `live` es un cambio explícito de esa var, y además exige el live gate del tope (Durable Object). El JWT de Access tiene que ser de aplicación: `type` exactamente `app`.
 
-Tope: 10 envíos aceptados por Resend en el día de `America/Santiago`. El siguiente responde 429. El contador vive en KV (lectura y escritura; no es un candado).
+Tope: 10 envíos en el día de `America/Santiago`. El worker reserva el cupo en KV antes de llamar a Resend y lo devuelve si Resend no acepta el envío. Con el contador en 10, el siguiente responde 429.
+
+Limitación conocida: KV no tiene incremento atómico. Dos `/send` a la vez pueden leer el mismo número y los dos pasar. La atomicidad de verdad es un Durable Object. **Live gate:** no pasar `OUTREACH_MODE` a `live` hasta que ese contador atómico exista. El modo test puede usar el contador de KV.
 
 Lista de baja: `/send` no escribe a una dirección suprimida (409). Un rebote permanente (`email.bounced` con `bounce.type = Permanent`) o una queja (`email.complained`) suprime esas direcciones y deja un corte global: todo `/send` responde 409 `halted` hasta `POST /resume`. El resume no saca a nadie de la lista de baja. Un rebote transitorio solo queda en el log.
 
-Cada intento de envío deja en KV `log:<id>` con `id`, `to` (tal como llegó, ya validado), `template`, `timestamp`, `resend_id`, `result` y `error`. No se guarda nombre, empresa ni hallazgo. El `console.log` tampoco lleva destinatario ni JWT.
+Cada intento de envío deja en KV `log:<id>` con `id`, `to` (tal como llegó, ya validado), `template`, `timestamp`, `resend_id`, `result` y `error`. El registro vence a los 90 días. No se guarda nombre, empresa ni hallazgo. El `console.log` tampoco lleva destinatario ni JWT.
+
+Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace o un invocation log puede guardar headers, incluido el JWT de Access y los de Svix. No se almacenan.
 
 ## Setup para Rö
 
@@ -106,7 +110,7 @@ En Zero Trust:
 "POLICY_AUD": "<aud de la aplicación>"
 ```
 
-6. Resend no puede presentar el service token. Agregar una política Bypass solo para el path `/webhook/resend`. El worker igual rechaza esa ruta si falta `RESEND_WEBHOOK_SECRET` o si la firma Svix no cierra.
+6. Resend no puede presentar el service token. El Bypass de Access tiene que ser el path exacto `/webhook/resend`: sin comodín, sin barra final y, si el panel deja elegir el método, solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto dentro de los 300 s se rechaza. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
 
 Hasta que `TEAM_DOMAIN` y `POLICY_AUD` sean válidos, el worker responde 403 sin llamar a Resend.
 
@@ -118,7 +122,10 @@ Solo en el worker, nunca en git. No crear un `.env` con valores. `.dev.vars` y `
 cd outreach
 npx wrangler secret put RESEND_API_KEY
 npx wrangler secret put RESEND_WEBHOOK_SECRET
+npx wrangler secret put TEST_ALLOWLIST
 ```
+
+`TEST_ALLOWLIST` es la única dirección que puede recibir correo mientras `OUTREACH_MODE` no sea `live`. No va en git. También se puede cargar como var del dashboard; el código lee `env.TEST_ALLOWLIST` en los dos casos. Vacía o ausente, el modo test responde 403.
 
 `RESEND_API_KEY` es la API key de Resend. `RESEND_WEBHOOK_SECRET` es el signing secret del webhook (`whsec_...`), en el detalle del webhook en Resend. Sin ese secreto, `POST /webhook/resend` responde 403.
 
@@ -142,7 +149,7 @@ cd outreach && npx --no-install wrangler deploy --dry-run
 
 ## Prueba de humo (un solo `[PRUEBA]`)
 
-1. Confirmar que `OUTREACH_MODE` es `test` y que `TEST_ALLOWLIST` tiene una sola dirección: la que debe recibir la prueba (el default está en `wrangler.jsonc`).
+1. Confirmar que `OUTREACH_MODE` es `test` y que `TEST_ALLOWLIST` (secreto o var del dashboard, no el archivo de config) tiene una sola dirección: la que debe recibir la prueba.
 2. Mandar un solo `POST /send` a esa dirección. El asunto tiene que salir con el prefijo `[PRUEBA] `.
 3. Cualquier otro destinatario responde 403 y Resend no se llama.
 
