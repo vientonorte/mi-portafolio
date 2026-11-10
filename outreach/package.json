@@ -1,0 +1,15 @@
+{
+  "name": "vn-outreach",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "dry-run": "wrangler deploy --dry-run",
+    "deploy": "npm ci && npx --no-install wrangler deploy --keep-vars",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "wrangler": "4.86.0"
+  }
+}

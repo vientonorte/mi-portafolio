@@ -132,6 +132,25 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  outreach:
+    name: vn-outreach
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: outreach
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: outreach/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npx --no-install wrangler deploy --dry-run
+
   typecheck:
     name: TypeScript
     runs-on: ubuntu-latest
