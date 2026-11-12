@@ -105,6 +105,24 @@ function clip(value, max) {
   return trimmed;
 }
 
+const PREHEADER_MAX = 110;
+
+function preheaderFrom(hallazgo) {
+  if (hallazgo.length <= PREHEADER_MAX) return hallazgo;
+  const ellipsis = "…";
+  const room = PREHEADER_MAX - ellipsis.length;
+  let cut = -1;
+  const last = Math.min(hallazgo.length - 1, room);
+  for (let i = last; i >= 0; i -= 1) {
+    if (/\s/.test(hallazgo[i])) {
+      cut = i;
+      break;
+    }
+  }
+  const base = (cut === -1 ? hallazgo.slice(0, room) : hallazgo.slice(0, cut)).trimEnd();
+  return `${base}${ellipsis}`;
+}
+
 export function buildMessage({ subject, fields }) {
   const input = fields && typeof fields === "object" ? fields : {};
   const anchorId = clip(input.servicio_ancla, 40);
@@ -134,7 +152,7 @@ export function buildMessage({ subject, fields }) {
     rubro_slug: rubroSlug(rubro),
     kicker: anchor.kicker,
     oferta: anchor.oferta,
-    preheader: hallazgo.slice(0, 110),
+    preheader: preheaderFrom(hallazgo),
   };
   data.link =
     `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=${data.rubro_slug}#${anchorId}`;

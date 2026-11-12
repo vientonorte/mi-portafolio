@@ -20,3 +20,27 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+
+  # wrangler queda pinneado a propósito (outreach: 4.86.0). Un bump va en un PR
+  # de TL con tests, no por Dependabot. miniflare viaja con ese pin.
+  # El ignore es solo de esos dos nombres: el resto de cada directorio sigue
+  # recibiendo security updates.
+  - package-ecosystem: npm
+    directory: /outreach
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: "wrangler"
+      - dependency-name: "miniflare"
+
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: "wrangler"
+      - dependency-name: "miniflare"

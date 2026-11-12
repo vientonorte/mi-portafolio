@@ -425,6 +425,9 @@ describe("test mode and Resend payload", () => {
     assert.equal(/\$\s*\d/.test(payload.text), false);
     assert.match(init.headers.authorization, /^Bearer re_test_key_value$/);
     assert.equal(init.headers["content-type"], "application/json");
+    assert.deepEqual(payload.headers, {
+      "List-Unsubscribe": "<mailto:contacto@vientonorte.io?subject=baja>",
+    });
 
     const log = JSON.parse(await env.OUTREACH_KV.get(`log:${json.id}`));
     assert.deepEqual(Object.keys(log).sort(), ["error", "id", "resend_id", "result", "template", "timestamp", "to"]);
@@ -452,6 +455,9 @@ describe("test mode and Resend payload", () => {
     assert.equal(payload.reply_to, REPLY_TO);
     assert.equal(typeof payload.html, "string");
     assert.equal(typeof payload.text, "string");
+    assert.deepEqual(payload.headers, {
+      "List-Unsubscribe": "<mailto:contacto@vientonorte.io?subject=baja>",
+    });
   });
 
   it("sends when empresa and rubro are substrings of the canonical URL", async () => {
@@ -573,6 +579,7 @@ describe("daily cap", () => {
     const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
     const token = await signToken();
     const env = makeEnv();
+    const reserved = capKey();
     const { response } = await send(env, net.impl, token, {
       to: ALLOWED,
       subject: "Falla",
@@ -580,7 +587,184 @@ describe("daily cap", () => {
     });
     assert.equal(response.status, 502);
     assert.equal(net.resendCalls().length, 1);
-    assert.equal(await env.OUTREACH_KV.get(capKey()), "0");
+    assert.equal(await env.OUTREACH_KV.get(reserved), "0");
+  });
+
+  it("returns 503 unconfigured without a Resend key and does not reserve or fetch the provider", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    delete env.RESEND_API_KEY;
+    const { response, json } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sin clave",
+      fields: fields(),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(json.error, "unconfigured");
+    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.calls.filter((call) => call.url === "https://api.resend.com/emails").length, 0);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+  });
+
+  it("returns 5xx when the durable object reserve throws and does not call Resend", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const stub = binding.get(binding.idFromName("outreach"));
+    stub.reserve = () => {
+      throw new Error("reserve-down");
+    };
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    const { response, json } = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Reserva rota",
+      fields: fields(),
+    });
+    assert.ok(response.status >= 500 && response.status < 600);
+    assert.equal(json.error, "cap");
+    assert.equal(net.resendCalls().length, 0);
+  });
+
+  it("logs a thrown rollback and still returns the Resend error", async () => {
+    const net = mockFetch({ resendStatus: 422, resendBody: "{}" });
+    const token = await signToken();
+    const binding = counterBinding();
+    const stub = binding.get(binding.idFromName("outreach"));
+    stub.rollback = () => {
+      throw new Error("rollback-down");
+    };
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    const lines = [];
+    const original = console.log;
+    console.log = (...args) => {
+      lines.push(args.map(String).join(" "));
+    };
+    try {
+      const { response, json } = await send(env, net.impl, token, {
+        to: "lead@example.com",
+        subject: "Devolución rota",
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(json.error, "resend_error");
+      const logged = lines.find((line) => line.includes("outreach_cap_rollback"));
+      assert.ok(logged);
+      const event = JSON.parse(logged);
+      assert.equal(event.event, "outreach_cap_rollback");
+      assert.equal(event.result, "failed");
+      assert.equal(event.store, "do");
+      assert.equal(event.key, capKey());
+      assert.equal(logged.includes("lead@example.com"), false);
+      assert.equal(logged.includes(token), false);
+      assert.equal(binding.caps.get(event.key), 1);
+    } finally {
+      console.log = original;
+    }
+  });
+
+  it("logs a thrown KV rollback and still returns the Resend error", async () => {
+    const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+    const token = await signToken();
+    const env = makeEnv();
+    const put = env.OUTREACH_KV.put.bind(env.OUTREACH_KV);
+    env.OUTREACH_KV.put = async (key, value, options) => {
+      if (String(key).startsWith("cap:") && value === "0") throw new Error("kv-down");
+      return put(key, value, options);
+    };
+    const lines = [];
+    const original = console.log;
+    console.log = (...args) => {
+      lines.push(args.map(String).join(" "));
+    };
+    try {
+      const { response, json } = await send(env, net.impl, token, {
+        to: ALLOWED,
+        subject: "Devolución KV rota",
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(json.error, "resend_error");
+      const event = JSON.parse(lines.find((line) => line.includes("outreach_cap_rollback")));
+      assert.equal(event.result, "failed");
+      assert.equal(event.store, "kv");
+      assert.equal(event.key, capKey());
+      assert.equal(lines.join("\n").includes(ALLOWED), false);
+      assert.equal(lines.join("\n").includes(token), false);
+      assert.equal(await env.OUTREACH_KV.get(capKey()), "1");
+    } finally {
+      console.log = original;
+    }
+  });
+
+  it("does not refund the cap when the provider call times out or aborts", async () => {
+    for (const error of [new DOMException("timed out", "TimeoutError"), new DOMException("aborted", "AbortError")]) {
+      const net = mockFetch();
+      const token = await signToken();
+      const binding = counterBinding();
+      const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+      const impl = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url === "https://api.resend.com/emails") {
+          net.calls.push({ url, init });
+          throw error;
+        }
+        return net.impl(input, init);
+      };
+      const reserved = capKey();
+      const { response, json } = await send(env, impl, token, {
+        to: "lead@example.com",
+        subject: "Sin confirmación",
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(json.error, "resend_error");
+      assert.equal(net.resendCalls().length, 1);
+      assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
+      assert.equal(binding.caps.get(reserved), 1);
+    }
+  });
+
+  it("does not refund the KV cap when the provider call fails on the network", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === "https://api.resend.com/emails") throw new TypeError("network");
+      return net.impl(input, init);
+    };
+    const reserved = capKey();
+    const { response } = await send(env, impl, token, {
+      to: ALLOWED,
+      subject: "Red",
+      fields: fields(),
+    });
+    assert.equal(response.status, 502);
+    assert.equal(await env.OUTREACH_KV.get(reserved), "1");
+  });
+
+  it("refunds a definite 4xx and 5xx onto the reserved day key", async () => {
+    for (const status of [422, 503]) {
+      const net = mockFetch({ resendStatus: status, resendBody: "{}" });
+      const token = await signToken();
+      const binding = counterBinding();
+      const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+      const reserved = capKey();
+      const { response } = await send(env, net.impl, token, {
+        to: "lead@example.com",
+        subject: `Status ${status}`,
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.deepEqual(
+        binding.calls.filter((call) => call.op === "rollback").map((call) => call.key),
+        [reserved],
+      );
+      assert.equal(binding.caps.get(reserved), 0);
+    }
   });
 });
 
