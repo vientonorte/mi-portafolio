@@ -43,15 +43,18 @@ function providerFetch(publicJwk) {
     if (url === `${ISSUER}/cdn-cgi/access/certs`) {
       return Response.json({ keys: [publicJwk] });
     }
-    if (url === "https://api.resend.com/emails") {
-      return Response.json({ id: "re_msg_smoke" });
+    if (url === "https://oauth2.googleapis.com/token") {
+      return Response.json({ access_token: "ya29.smoke-token", expires_in: 3600, token_type: "Bearer" });
+    }
+    if (url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send") {
+      return Response.json({ id: "gmail_msg_smoke" });
     }
     return new Response("blocked", { status: 599 });
   };
   return {
     impl,
-    resend() {
-      return calls.filter((url) => url === "https://api.resend.com/emails").length;
+    gmail() {
+      return calls.filter((url) => url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send").length;
     },
   };
 }
@@ -66,6 +69,8 @@ function sendRequest(token) {
     body: JSON.stringify({
       to: "prueba@example.com",
       subject: "Humo",
+      fuente: "https://ejemplo.cl/equipo",
+      base: "fuente_publica",
       fields: {
         empresa: "Optica Sur",
         hallazgo: "El boton de contacto tiene contraste bajo.",
@@ -102,22 +107,29 @@ export default {
       OUTREACH_MODE: "live",
       TEAM_DOMAIN: ISSUER,
       POLICY_AUD: AUD,
-      RESEND_API_KEY: "re_test_key_value",
+      GMAIL_CLIENT_ID: "test-client-id",
+      GMAIL_CLIENT_SECRET: "test-client-secret",
+      GMAIL_REFRESH_TOKEN: "test-refresh-token",
+      SENDER_NAME: "Viento Norte",
+      SENDER_EMAIL: "dedicated-vn@gmail.com",
       TEST_ALLOWLIST: "prueba@example.com",
     };
+    const inWindow = new Date("2026-07-13T21:20:00.000Z");
 
     const gated = await handleRequest(
       sendRequest(token),
       shared,
       net.impl,
+      inWindow,
     );
     const gatedBody = await gated.json();
-    const resendAfterGate = net.resend();
+    const gmailAfterGate = net.gmail();
 
     const opened = await handleRequest(
       sendRequest(token),
       { ...shared, OUTREACH_COUNTER: env.OUTREACH_COUNTER },
       net.impl,
+      inWindow,
     );
     const openedBody = await opened.json();
 
@@ -130,12 +142,12 @@ export default {
       gate: {
         status: gated.status,
         error: gatedBody.error ?? null,
-        resend: resendAfterGate,
+        gmail: gmailAfterGate,
       },
       open: {
         status: opened.status,
         error: openedBody.error ?? null,
-        resend: net.resend() - resendAfterGate,
+        gmail: net.gmail() - gmailAfterGate,
       },
     });
   },

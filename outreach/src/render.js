@@ -1,5 +1,5 @@
 import { ANCHORS } from "./constants.js";
-import { OPT_OUT_LINE, PROSPECCION_HTML, PROSPECCION_TXT } from "./templates.js";
+import { OPT_OUT_LINE, PRIVACY_URL, PROSPECCION_HTML, PROSPECCION_TXT } from "./templates.js";
 
 const SIGNATURE = "Rodrigo Gaete · UX Manager · Viento Norte";
 const FORBIDDEN = [
@@ -108,18 +108,19 @@ function clip(value, max) {
 const PREHEADER_MAX = 110;
 
 function preheaderFrom(hallazgo) {
-  if (hallazgo.length <= PREHEADER_MAX) return hallazgo;
+  const chars = Array.from(hallazgo);
+  if (chars.length <= PREHEADER_MAX) return hallazgo;
   const ellipsis = "…";
-  const room = PREHEADER_MAX - ellipsis.length;
+  const room = PREHEADER_MAX - Array.from(ellipsis).length;
   let cut = -1;
-  const last = Math.min(hallazgo.length - 1, room);
+  const last = Math.min(chars.length - 1, room);
   for (let i = last; i >= 0; i -= 1) {
-    if (/\s/.test(hallazgo[i])) {
+    if (/\s/u.test(chars[i])) {
       cut = i;
       break;
     }
   }
-  const base = (cut === -1 ? hallazgo.slice(0, room) : hallazgo.slice(0, cut)).trimEnd();
+  const base = (cut === -1 ? chars.slice(0, room) : chars.slice(0, cut)).join("").trimEnd();
   return `${base}${ellipsis}`;
 }
 
@@ -213,6 +214,7 @@ function validateBodies(html, text, link, supplied) {
     if (hasPrice(body) || hasWebGratis(body)) throw new Error("copy");
     if (body.length > 100_000) throw new Error("size");
     if (!body.includes(SIGNATURE) || !body.includes(OPT_OUT_LINE)) throw new Error("footer");
+    if (!body.includes(PRIVACY_URL)) throw new Error("privacy");
     if (body.includes("Hola, :")) throw new Error("gap");
     const shell = maskSupplied(body, supplied, [link, escapeHtml(link), "mailto:contacto@vientonorte.io"]);
     if (shell.includes("{{") || shell.includes("}}")) throw new Error("leftover");
@@ -225,12 +227,13 @@ function validateBodies(html, text, link, supplied) {
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
   if (hrefs.length === 0) throw new Error("href");
   const hrefLink = escapeHtml(link);
+  const allowedHrefs = new Set([hrefLink, "mailto:contacto@vientonorte.io", PRIVACY_URL]);
   for (const href of hrefs) {
-    if (href !== hrefLink && href !== "mailto:contacto@vientonorte.io") throw new Error("href");
+    if (!allowedHrefs.has(href)) throw new Error("href");
   }
-  const urls = maskSupplied(text, supplied, [link]).match(/https?:\/\/\S+/g) || [];
+  const urls = maskSupplied(text, supplied, [link, PRIVACY_URL]).match(/https?:\/\/\S+/g) || [];
   for (const url of urls) {
-    if (url !== link) throw new Error("href");
+    if (url !== link && url !== PRIVACY_URL) throw new Error("href");
   }
 }
 

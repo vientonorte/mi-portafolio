@@ -1,21 +1,25 @@
 import { verifyAccessJwt } from "./access.js";
-import { DAILY_CAP, FROM, REPLY_TO, RESEND_EMAILS_URL, TEMPLATE_ID } from "./constants.js";
+import { DAILY_CAP, TEMPLATE_ID } from "./constants.js";
+import { getAccessToken, gmailReady, postGmailSend } from "./gmail.js";
 import { buildMessage } from "./render.js";
 import {
   allowlistHas,
   clearHalt,
+  isInsideSendWindow,
   isLiveMode,
   isSuppressed,
   normalizeEmail,
   readHalt,
   reserveCap,
+  resolveLiveCap,
   rollbackCap,
   suppressEmail,
   writeLog,
 } from "./store.js";
-import { handleWebhook } from "./webhook.js";
 
 export { OutreachCounter } from "./counter.js";
+
+const BASES = new Set(["interes_legitimo", "fuente_publica"]);
 
 export default {
   fetch(request, env) {
@@ -23,13 +27,13 @@ export default {
   },
 };
 
-export async function handleRequest(request, env, fetchImpl = globalThis.fetch) {
+export async function handleRequest(request, env, fetchImpl = globalThis.fetch, now) {
+  const clock = now instanceof Date ? now : new Date();
   const url = new URL(request.url);
   if (request.method === "OPTIONS") return json({ error: "method" }, 405);
   if (request.method !== "POST") return json({ error: "not_found" }, 404);
 
-  if (url.pathname === "/webhook/resend") return handleWebhook(request, env);
-  if (url.pathname === "/send") return handleSend(request, env, fetchImpl);
+  if (url.pathname === "/send") return handleSend(request, env, fetchImpl, clock);
   if (url.pathname === "/suppress") return handleSuppress(request, env, fetchImpl);
   if (url.pathname === "/resume") return handleResume(request, env, fetchImpl);
   return json({ error: "not_found" }, 404);
@@ -44,31 +48,46 @@ async function authorize(request, env, fetchImpl) {
   return null;
 }
 
-async function handleSend(request, env, fetchImpl) {
+function readCompliance(payload) {
+  if (!payload || typeof payload !== "object") return null;
+  if (typeof payload.fuente !== "string" || /[\r\n]/.test(payload.fuente)) return null;
+  const fuente = payload.fuente.trim();
+  if (!fuente || fuente.length > 200) return null;
+  if (typeof payload.base !== "string" || !BASES.has(payload.base)) return null;
+  return { fuente, base: payload.base };
+}
+
+async function handleSend(request, env, fetchImpl, clock) {
   const denied = await authorize(request, env, fetchImpl);
   if (denied) return denied;
 
   let payload;
   try {
     payload = await readJson(request);
-  } catch (error) {
-    return json({ error: error.message === "too-large" ? "invalid" : "invalid" }, 400);
+  } catch {
+    return json({ error: "invalid" }, 400);
   }
 
   const to = normalizeEmail(payload.to);
   if (!to || Array.isArray(payload.to)) return json({ error: "invalid" }, 400);
 
-  const originalSubject = typeof payload.subject === "string" ? payload.subject.trim() : "";
+  if (typeof payload.subject !== "string" || /[\r\n]/.test(payload.subject)) {
+    return json({ error: "invalid" }, 400);
+  }
+  const originalSubject = payload.subject.trim();
   if (!originalSubject) return json({ error: "invalid" }, 400);
 
+  const compliance = readCompliance(payload);
+  if (!compliance) return json({ error: "invalid" }, 400);
+
   if (env.OUTREACH_MODE === "live" && !isLiveMode(env)) {
-    await logAttempt(env, to, "live_gate", null, null);
+    await logAttempt(env, to, "live_gate", null, null, compliance, undefined, clock);
     return json({ error: "live_gate" }, 503);
   }
 
   const live = isLiveMode(env);
   if (!live && !allowlistHas(env.TEST_ALLOWLIST, to)) {
-    await logAttempt(env, to, "test_recipient", null, null);
+    await logAttempt(env, to, "test_recipient", null, null, compliance, undefined, clock);
     return json({ error: "test_recipient" }, 403);
   }
 
@@ -80,30 +99,41 @@ async function handleSend(request, env, fetchImpl) {
   try {
     message = buildMessage({ subject, fields: payload.fields });
   } catch {
-    await logAttempt(env, to, "invalid", null, "render");
+    await logAttempt(env, to, "invalid", null, "render", compliance, undefined, clock);
     return json({ error: "invalid" }, 400);
   }
 
   if (await isSuppressed(env.OUTREACH_KV, to)) {
-    await logAttempt(env, to, "suppressed", null, null);
+    await logAttempt(env, to, "suppressed", null, null, compliance, undefined, clock);
     return json({ error: "suppressed" }, 409);
   }
 
   if (await readHalt(env.OUTREACH_KV)) {
-    await logAttempt(env, to, "halted", null, null);
+    await logAttempt(env, to, "halted", null, null, compliance, undefined, clock);
     return json({ error: "halted" }, 409);
   }
 
-  if (typeof env.RESEND_API_KEY !== "string" || env.RESEND_API_KEY.trim().length < 8) {
-    await logAttempt(env, to, "unconfigured", null, "resend_key");
+  if (live && !isInsideSendWindow(clock)) {
+    await logAttempt(env, to, "outside_window", null, null, compliance, undefined, clock);
+    return json({ error: "outside_window" }, 403);
+  }
+
+  if (!gmailReady(env)) {
+    await logAttempt(env, to, "unconfigured", null, "gmail", compliance, undefined, clock);
     return json({ error: "unconfigured" }, 503);
+  }
+
+  const cap = live ? resolveLiveCap(env) : DAILY_CAP;
+  if (cap == null) {
+    await logAttempt(env, to, "cap", null, "cap_config", compliance, undefined, clock);
+    return json({ error: "cap" }, 503);
   }
 
   let reservation = null;
   try {
-    const outcome = await reserveCap(env);
+    const outcome = await reserveCap(env, clock, cap);
     if (!outcome.ok) {
-      await logAttempt(env, to, "cap", null, null);
+      await logAttempt(env, to, "cap", null, null, compliance, undefined, clock);
       return json({ error: "cap" }, 429);
     }
     reservation = outcome;
@@ -133,66 +163,84 @@ async function handleSend(request, env, fetchImpl) {
   };
 
   const id = crypto.randomUUID();
-  const resendBody = {
-    from: FROM,
-    to: [to],
-    reply_to: REPLY_TO,
-    subject: message.subject,
-    html: message.html,
-    text: message.text,
-    headers: {
-      "List-Unsubscribe": `<mailto:${REPLY_TO}?subject=baja>`,
-    },
-  };
 
-  let response;
+  let accessToken;
   try {
-    response = await fetchImpl(RESEND_EMAILS_URL, {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${env.RESEND_API_KEY.trim()}`,
-        "content-type": "application/json",
-        "Idempotency-Key": id,
-      },
-      body: JSON.stringify(resendBody),
-    });
-  } catch {
-    // Unknown outcome: a timeout, abort, or network error may still have sent.
-    await logAttempt(env, to, "resend_error", null, "network", id);
+    accessToken = await getAccessToken(env, fetchImpl, clock.getTime());
+  } catch (error) {
+    // The Gmail send was not called. A token failure is a definite miss.
+    await releaseReservation();
+    const reason = error?.kind === "network" ? "token_network" : "token_status";
+    await logAttempt(env, to, "gmail_error", null, reason, compliance, id, clock);
     console.log(JSON.stringify({
       event: "outreach_send",
       id,
       template: TEMPLATE_ID,
-      result: "resend_error",
-      reason: "network",
+      result: "gmail_error",
+      reason,
     }));
-    return json({ error: "resend_error" }, 502);
+    return json({ error: "gmail_error" }, 502);
+  }
+
+  let response;
+  try {
+    response = await postGmailSend({
+      env,
+      fetchImpl,
+      accessToken,
+      to,
+      subject: message.subject,
+      html: message.html,
+      text: message.text,
+    });
+  } catch (error) {
+    // A timeout, abort, or network error on messages.send may still have sent.
+    // A MIME build failure happens before that call and is refunded.
+    const refund = error?.step === "mime";
+    if (refund) await releaseReservation();
+    const reason = refund ? "mime" : "network";
+    await logAttempt(env, to, "gmail_error", null, reason, compliance, id, clock);
+    console.log(JSON.stringify({
+      event: "outreach_send",
+      id,
+      template: TEMPLATE_ID,
+      result: "gmail_error",
+      reason,
+    }));
+    return json({ error: "gmail_error" }, 502);
   }
 
   if (!response.ok) {
     await releaseReservation();
-    await logAttempt(env, to, "resend_error", null, `status_${response.status}`, id);
-    console.log(JSON.stringify({ event: "outreach_send", id, template: TEMPLATE_ID, result: "resend_error" }));
-    return json({ error: "resend_error" }, 502);
+    await logAttempt(env, to, "gmail_error", null, `status_${response.status}`, compliance, id, clock);
+    console.log(JSON.stringify({
+      event: "outreach_send",
+      id,
+      template: TEMPLATE_ID,
+      result: "gmail_error",
+    }));
+    return json({ error: "gmail_error" }, 502);
   }
 
-  let resendId = null;
+  let gmailId = null;
   try {
     const data = await response.json();
-    if (typeof data?.id === "string") resendId = data.id;
+    if (typeof data?.id === "string" && data.id.length > 0 && data.id.length <= 256 && !/[\r\n]/.test(data.id)) {
+      gmailId = data.id;
+    }
   } catch {
-    resendId = null;
+    gmailId = null;
   }
 
-  await logAttempt(env, to, "sent", resendId, null, id);
+  await logAttempt(env, to, "sent", gmailId, null, compliance, id, clock);
   console.log(JSON.stringify({
     event: "outreach_send",
     id,
     template: TEMPLATE_ID,
     result: "sent",
-    resend_id: resendId,
+    gmail_id: gmailId,
   }));
-  return json({ id, resend_id: resendId, template: TEMPLATE_ID }, 200);
+  return json({ id, gmail_id: gmailId, template: TEMPLATE_ID }, 200);
 }
 
 async function handleSuppress(request, env, fetchImpl) {
@@ -204,25 +252,17 @@ async function handleSuppress(request, env, fetchImpl) {
   } catch {
     return json({ error: "invalid" }, 400);
   }
-  const rawList = [];
-  if (typeof payload.email === "string") rawList.push(payload.email);
-  if (Array.isArray(payload.emails)) rawList.push(...payload.emails);
-  if (rawList.length === 0 || rawList.length > 20) return json({ error: "invalid" }, 400);
-
-  const reason = ["baja", "bounce", "complaint", "manual"].includes(payload.reason)
-    ? payload.reason
-    : "manual";
-  const emails = [];
-  for (const item of rawList) {
-    const email = normalizeEmail(item);
-    if (!email) return json({ error: "invalid" }, 400);
-    emails.push(email);
+  if (!payload || typeof payload !== "object" || payload.emails != null) {
+    return json({ error: "invalid" }, 400);
   }
-  for (const email of emails) {
-    await suppressEmail(env.OUTREACH_KV, email, reason);
+  const email = normalizeEmail(payload.email);
+  if (!email) return json({ error: "invalid" }, 400);
+  if (payload.reason !== "bounce" && payload.reason !== "baja") {
+    return json({ error: "invalid" }, 400);
   }
-  console.log(JSON.stringify({ event: "outreach_suppress", count: emails.length, reason }));
-  return json({ ok: true, suppressed: emails.length }, 200);
+  await suppressEmail(env.OUTREACH_KV, email, payload.reason);
+  console.log(JSON.stringify({ event: "outreach_suppress", reason: payload.reason }));
+  return json({ ok: true, suppressed: 1 }, 200);
 }
 
 async function handleResume(request, env, fetchImpl) {
@@ -233,15 +273,17 @@ async function handleResume(request, env, fetchImpl) {
   return json({ ok: true, halted: false }, 200);
 }
 
-async function logAttempt(env, to, result, resendId, error, id = crypto.randomUUID()) {
+async function logAttempt(env, to, result, gmailId, error, compliance, id = crypto.randomUUID(), clock = new Date()) {
   await writeLog(env.OUTREACH_KV, {
     id,
     to,
     template: TEMPLATE_ID,
-    timestamp: new Date().toISOString(),
-    resend_id: resendId,
+    timestamp: clock.toISOString(),
+    gmail_id: gmailId,
     result,
     error,
+    fuente: compliance?.fuente ?? null,
+    base: compliance?.base ?? null,
   });
   return id;
 }

@@ -1,4 +1,4 @@
-import { DAILY_CAP, SANTIAGO_TZ, WEBHOOK_DEDUPE_TTL_SEC } from "./constants.js";
+import { DAILY_CAP, DAILY_CAP_MAX, SANTIAGO_TZ } from "./constants.js";
 
 export const CAP_KEY_PATTERN = /^cap:\d{4}-\d{2}-\d{2}$/;
 const CAP_TTL_SEC = 60 * 60 * 72;
@@ -30,6 +30,42 @@ export function normalizeEmail(value) {
 
 export function emailKey(email) {
   return email.trim().toLowerCase();
+}
+
+const SEND_WEEKDAYS = new Set(["Mon", "Tue", "Wed", "Thu", "Fri"]);
+const WINDOW_START = 17 * 60 + 15;
+const WINDOW_END = 17 * 60 + 35;
+
+export function santiagoClock(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SANTIAGO_TZ,
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const pick = (type) => parts.find((part) => part.type === type)?.value;
+  const weekday = pick("weekday");
+  const hour = Number(pick("hour"));
+  const minute = Number(pick("minute"));
+  if (!weekday || !Number.isInteger(hour) || !Number.isInteger(minute)) throw new Error("clock");
+  return { weekday, hour, minute };
+}
+
+// Inclusive minute window. Intl supplies the Santiago civil time, DST included.
+export function isInsideSendWindow(date = new Date()) {
+  const { weekday, hour, minute } = santiagoClock(date);
+  if (!SEND_WEEKDAYS.has(weekday)) return false;
+  const minutes = hour * 60 + minute;
+  return minutes >= WINDOW_START && minutes <= WINDOW_END;
+}
+
+export function resolveLiveCap(env) {
+  const raw = env?.DAILY_CAP;
+  if (raw == null || (typeof raw === "string" && raw.trim() === "")) return DAILY_CAP;
+  const value = typeof raw === "number" ? raw : Number(String(raw).trim());
+  if (!Number.isInteger(value) || value < 1 || value > DAILY_CAP_MAX) return null;
+  return value;
 }
 
 export function capKey(date = new Date()) {
@@ -82,11 +118,12 @@ export function isLiveMode(env) {
   return !!env && env.OUTREACH_MODE === "live" && hasAtomicCounter(env);
 }
 
-export async function reserveCap(env, now = new Date()) {
+export async function reserveCap(env, now = new Date(), cap = DAILY_CAP) {
+  if (!Number.isInteger(cap) || cap < 1 || cap > DAILY_CAP_MAX) throw new Error("cap");
   const key = capKey(now);
   if (isLiveMode(env)) {
     const stub = counterStub(env);
-    const result = await stub.reserve(key, DAILY_CAP);
+    const result = await stub.reserve(key, cap);
     if (!result || result.key !== key || typeof result.count !== "number" || typeof result.ok !== "boolean") {
       if (result?.ok === true) {
         const rollbackKey = typeof result?.key === "string" ? result.key : key;
@@ -97,7 +134,7 @@ export async function reserveCap(env, now = new Date()) {
     return { ok: result.ok, key, count: result.count, store: "do" };
   }
   const current = await readCapKey(env.OUTREACH_KV, key);
-  if (current >= DAILY_CAP) return { ok: false, key, count: current, store: "kv" };
+  if (current >= cap) return { ok: false, key, count: current, store: "kv" };
   const reserved = await incrementCap(env.OUTREACH_KV, now);
   if (reserved.key !== key) throw new Error("cap-key");
   return { ok: true, key, count: reserved.count, store: "kv" };
@@ -112,19 +149,6 @@ export async function rollbackCap(env, key, store) {
   }
   if (store !== "kv") throw new Error("cap-key");
   return decrementCap(env.OUTREACH_KV, key);
-}
-
-export async function claimWebhookId(env, id, now = Date.now()) {
-  if (hasAtomicCounter(env)) {
-    const result = await counterStub(env).claimWebhook(id, WEBHOOK_DEDUPE_TTL_SEC, now);
-    return result?.ok === true;
-  }
-  // Residual race: without the Durable Object, two deliveries can both see
-  // a missing key and both be accepted. The bound counter claims atomically.
-  const key = `svix:${id}`;
-  if (await env.OUTREACH_KV.get(key) != null) return false;
-  await env.OUTREACH_KV.put(key, "1", { expirationTtl: WEBHOOK_DEDUPE_TTL_SEC });
-  return true;
 }
 
 export async function isSuppressed(kv, email) {
@@ -171,9 +195,11 @@ export async function writeLog(kv, entry) {
     to: entry.to,
     template: entry.template,
     timestamp: entry.timestamp,
-    resend_id: entry.resend_id ?? null,
+    gmail_id: entry.gmail_id ?? null,
     result: entry.result,
     error: entry.error ?? null,
+    fuente: entry.fuente ?? null,
+    base: entry.base ?? null,
   };
   await kv.put(`log:${entry.id}`, JSON.stringify(record), { expirationTtl: LOG_TTL_SEC });
   return record;
