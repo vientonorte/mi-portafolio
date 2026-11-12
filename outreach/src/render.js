@@ -109,16 +109,18 @@ const PREHEADER_MAX = 110;
 
 function preheaderFrom(hallazgo) {
   if (hallazgo.length <= PREHEADER_MAX) return hallazgo;
+  const ellipsis = "…";
+  const room = PREHEADER_MAX - ellipsis.length;
   let cut = -1;
-  const last = Math.min(hallazgo.length - 1, PREHEADER_MAX);
+  const last = Math.min(hallazgo.length - 1, room);
   for (let i = last; i >= 0; i -= 1) {
     if (/\s/.test(hallazgo[i])) {
       cut = i;
       break;
     }
   }
-  const base = (cut === -1 ? hallazgo.slice(0, PREHEADER_MAX) : hallazgo.slice(0, cut)).trimEnd();
-  return `${base}…`;
+  const base = (cut === -1 ? hallazgo.slice(0, room) : hallazgo.slice(0, cut)).trimEnd();
+  return `${base}${ellipsis}`;
 }
 
 export function buildMessage({ subject, fields }) {

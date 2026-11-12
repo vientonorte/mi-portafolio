@@ -590,6 +590,25 @@ describe("daily cap", () => {
     assert.equal(await env.OUTREACH_KV.get(reserved), "0");
   });
 
+  it("returns 503 unconfigured without a Resend key and does not reserve or fetch the provider", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    delete env.RESEND_API_KEY;
+    const { response, json } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sin clave",
+      fields: fields(),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(json.error, "unconfigured");
+    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.calls.filter((call) => call.url === "https://api.resend.com/emails").length, 0);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+  });
+
   it("returns 5xx when the durable object reserve throws and does not call Resend", async () => {
     const net = mockFetch();
     const token = await signToken();

@@ -28,7 +28,9 @@ npx --no-install wrangler kv namespace create OUTREACH_KV
 
 ## 5. Access — hecho
 
-Ya están la aplicación self-hosted de `outreach.vientonorte.io`, el service token y el Bypass del path exacto `POST /webhook/resend` (sin comodín, sin barra final, solo POST).
+Ya están la aplicación self-hosted de `outreach.vientonorte.io` y el service token.
+
+Bypass webhook: creado (cf76fb24), PENDIENTE de decisión con el proveedor. Si el proveedor elegido no usa webhook firmado, se elimina y Access cubre todo el hostname (eliminarlo requiere OK de Rö).
 
 `TEAM_DOMAIN` y `POLICY_AUD` ya están en `vars` de `wrangler.jsonc`. La ruta está activa:
 
