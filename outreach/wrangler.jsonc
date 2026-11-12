@@ -24,7 +24,8 @@
       "head_sampling_rate": 1
     },
     "traces": {
-      // Apagado: un trace puede guardar headers (JWT de Access, Svix).
+      // Apagado: un trace puede guardar headers (JWT de Access) y el
+      // Authorization de la llamada a Gmail.
       "enabled": false
     }
   },
@@ -35,8 +36,8 @@
       "id": "b9c225a287124b36a953ad8747664c30"
     }
   ],
-  // Tope atómico en live y dedupe del webhook. Sin este binding, OUTREACH_MODE=live
-  // responde 503 y no llama a Resend. El modo test sigue contando en KV.
+  // Tope atómico en live. Sin este binding, OUTREACH_MODE=live responde 503
+  // y no llama a Gmail. El modo test sigue contando en KV.
   "durable_objects": {
     "bindings": [
       {
@@ -55,8 +56,13 @@
     "OUTREACH_MODE": "test",
     // App de Access ya creada. No son secretos. El service token lo tiene TL, fuera del repo.
     "TEAM_DOMAIN": "https://old-sunset-2770.cloudflareaccess.com",
-    "POLICY_AUD": "95e52bc6310bdd2b20a2ccc65d4985aab817f21584649e35c7091d72a07ad61a"
-    // TEST_ALLOWLIST no va en el repo. Var o secreto del dashboard.
-    // Si falta o está vacía, /send en modo test responde 403.
+    "POLICY_AUD": "95e52bc6310bdd2b20a2ccc65d4985aab817f21584649e35c7091d72a07ad61a",
+    // Tope de /send en live. El modo test no lee esta var.
+    "DAILY_CAP": "10"
+    // TEST_ALLOWLIST, SENDER_EMAIL y SENDER_NAME no van en el repo.
+    // Los carga Rö en el dashboard. SENDER_EMAIL es la cuenta Gmail dedicada
+    // de Viento Norte. Sin SENDER_EMAIL, SENDER_NAME o los secretos GMAIL_*,
+    // /send responde 503 y no reserva cupo.
+    // Si TEST_ALLOWLIST falta o está vacía, /send en modo test responde 403.
   }
 }

@@ -1,13 +1,12 @@
-export const FROM = "Viento Norte <contacto@vientonorte.io>";
-export const REPLY_TO = "contacto@vientonorte.io";
 export const TEMPLATE_ID = "prospeccion-v1";
 export const DAILY_CAP = 10;
+// Live mode reads env.DAILY_CAP. Anything above this needs a PR that changes
+// this constant. The durable object refuses a larger cap.
+export const DAILY_CAP_MAX = 10;
 export const SANTIAGO_TZ = "America/Santiago";
-export const RESEND_EMAILS_URL = "https://api.resend.com/emails";
-export const WEBHOOK_TOLERANCE_SEC = 300;
-// The dedupe mark has to outlive the signature window. A replay that is
-// still inside the tolerance must not be accepted because the mark expired.
-export const WEBHOOK_DEDUPE_TTL_SEC = Math.max(600, WEBHOOK_TOLERANCE_SEC * 2);
+export const GMAIL_TOKEN_URL = "https://oauth2.googleapis.com/token";
+export const GMAIL_SEND_URL = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
+export const GMAIL_SEND_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 
 export const ANCHORS = {
   "revision-gratis": {

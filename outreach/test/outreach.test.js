@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import { afterEach, before, describe, it } from "node:test";
 import { DatabaseSync } from "node:sqlite";
-import { DAILY_CAP, FROM, REPLY_TO, TEMPLATE_ID, WEBHOOK_DEDUPE_TTL_SEC, WEBHOOK_TOLERANCE_SEC } from "../src/constants.js";
+import { DAILY_CAP, DAILY_CAP_MAX, GMAIL_SEND_URL, GMAIL_TOKEN_URL, TEMPLATE_ID } from "../src/constants.js";
 import { OutreachCounter } from "../src/counter.js";
+import { buildRawMessage, encodeRfc2047, gmailReady, refreshTokenCacheKey, resetGmailTokenCache } from "../src/gmail.js";
 import { handleRequest } from "../src/index.js";
-import { capKey, decrementCap, incrementCap, isLiveMode, LOG_TTL_SEC } from "../src/store.js";
-import { OPT_OUT_LINE } from "../src/templates.js";
+import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, normalizeEmail } from "../src/store.js";
+import { optOutLine, PRIVACY_URL } from "../src/templates.js";
 
 const ISSUER = "https://vn.cloudflareaccess.com";
 const AUD = "aud-tag-0123456789";
@@ -34,6 +35,7 @@ before(async () => {
 
 afterEach(() => {
   globalThis.fetch = originalFetch;
+  resetGmailTokenCache();
 });
 
 const originalFetch = globalThis.fetch;
@@ -61,12 +63,22 @@ class MemoryKV {
 
 function counterBinding() {
   const caps = new Map();
-  const claims = new Map();
   const calls = [];
+  let halted = false;
   const stub = {
+    readHalt() {
+      return { halted };
+    },
+    setHalt(on) {
+      if (typeof on !== "boolean") throw new Error("halt");
+      calls.push({ op: "halt", on });
+      halted = on;
+      return { ok: true, halted: on };
+    },
     reserve(key, cap) {
       calls.push({ op: "reserve", key, cap });
       const current = caps.get(key) ?? 0;
+      if (halted) return { ok: false, halted: true, key, count: current };
       if (current >= cap) return { ok: false, key, count: current };
       const count = current + 1;
       caps.set(key, count);
@@ -77,13 +89,6 @@ function counterBinding() {
       const count = Math.max(0, (caps.get(key) ?? 0) - 1);
       caps.set(key, count);
       return { ok: true, key, count };
-    },
-    claimWebhook(id, ttlSec, now) {
-      calls.push({ op: "claim", id, ttlSec, now });
-      const expires = claims.get(id);
-      if (expires != null && expires > now) return { ok: false };
-      claims.set(id, now + ttlSec * 1000);
-      return { ok: true };
     },
   };
   return {
@@ -97,7 +102,6 @@ function counterBinding() {
     },
     calls,
     caps,
-    claims,
   };
 }
 
@@ -125,6 +129,11 @@ function installClock(startMs) {
 
 const BEFORE_SANTIAGO_MIDNIGHT = Date.parse("2026-06-15T03:59:30.000Z");
 const AFTER_SANTIAGO_MIDNIGHT = Date.parse("2026-06-15T04:00:30.000Z");
+const LIVE_AT = new Date("2026-07-13T21:20:00.000Z");
+const FUENTE = "https://ejemplo.cl/equipo";
+const BASE = "fuente_publica";
+const SENDER_EMAIL = "dedicated-vn@gmail.com";
+const SENDER_NAME = "Viento Norte";
 
 function makeEnv(overrides = {}) {
   return {
@@ -133,7 +142,11 @@ function makeEnv(overrides = {}) {
     TEST_ALLOWLIST: ALLOWED,
     TEAM_DOMAIN: ISSUER,
     POLICY_AUD: AUD,
-    RESEND_API_KEY: "re_test_key_value",
+    GMAIL_CLIENT_ID: "test-client-id",
+    GMAIL_CLIENT_SECRET: "test-client-secret",
+    GMAIL_REFRESH_TOKEN: "test-refresh-token",
+    SENDER_NAME,
+    SENDER_EMAIL,
     ...overrides,
   };
 }
@@ -185,7 +198,7 @@ async function signToken(claims = {}, { alg = "RS256", kid = "test-key" } = {}) 
   return `${input}.${b64url(new Uint8Array(signature))}`;
 }
 
-function mockFetch({ resendStatus = 200, resendId = "re_msg_1", resendBody } = {}) {
+function mockFetch({ gmailStatus = 200, gmailId = "gmail_msg_1", gmailBody, tokenStatus = 200, expiresIn = 3600 } = {}) {
   const calls = [];
   const impl = async (input, init) => {
     const url = typeof input === "string" ? input : input.url;
@@ -196,10 +209,21 @@ function mockFetch({ resendStatus = 200, resendId = "re_msg_1", resendBody } = {
         headers: { "content-type": "application/json" },
       });
     }
-    if (url === "https://api.resend.com/emails") {
-      const body = resendBody || JSON.stringify({ id: resendId });
+    if (url === GMAIL_TOKEN_URL) {
+      if (tokenStatus !== 200) return new Response("no", { status: tokenStatus });
+      return new Response(JSON.stringify({
+        access_token: "ya29.test-token",
+        expires_in: expiresIn,
+        token_type: "Bearer",
+      }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    }
+    if (url === GMAIL_SEND_URL) {
+      const body = gmailBody || JSON.stringify({ id: gmailId });
       return new Response(body, {
-        status: resendStatus,
+        status: gmailStatus,
         headers: { "content-type": "application/json" },
       });
     }
@@ -208,21 +232,82 @@ function mockFetch({ resendStatus = 200, resendId = "re_msg_1", resendBody } = {
   globalThis.fetch = () => {
     throw new Error("global fetch should not be used");
   };
-  return { impl, calls, resendCalls: () => calls.filter((call) => call.url === "https://api.resend.com/emails") };
+  return {
+    impl,
+    calls,
+    gmailCalls: () => calls.filter((call) => call.url === GMAIL_SEND_URL),
+    tokenCalls: () => calls.filter((call) => call.url === GMAIL_TOKEN_URL),
+  };
 }
 
-async function send(env, fetchImpl, token, body) {
+function rfcUnfoldedFields(header) {
+  const unfolded = header.replace(/\r\n(?=[ \t])/g, "");
+  const fields = {};
+  for (const line of unfolded.split("\r\n")) {
+    const idx = line.indexOf(":");
+    fields[line.slice(0, idx).toLowerCase()] = line.slice(idx + 1).trim();
+  }
+  return fields;
+}
+
+function decodeRfc2047(value) {
+  const unfolded = value.replace(/\r\n[ \t]+/g, " ");
+  const collapsed = unfolded.replace(/(\?=)\s+(=\?)/g, "$1$2");
+  return collapsed.replace(/=\?UTF-8\?B\?([A-Za-z0-9+/=]+)\?=/gi, (_, b64) => Buffer.from(b64, "base64").toString("utf8"));
+}
+
+function gmailMessage(net) {
+  const calls = net.gmailCalls();
+  assert.equal(calls.length, 1);
+  const init = calls[0].init;
+  const payload = JSON.parse(init.body);
+  const pad = payload.raw.length % 4 === 0 ? "" : "=".repeat(4 - (payload.raw.length % 4));
+  const mime = Buffer.from(payload.raw.replaceAll("-", "+").replaceAll("_", "/") + pad, "base64").toString("utf8");
+  const headerEnd = mime.indexOf("\r\n\r\n");
+  const unfolded = mime.slice(0, headerEnd).replace(/\r\n[ \t]+/g, " ");
+  const headers = {};
+  for (const line of unfolded.split("\r\n")) {
+    const idx = line.indexOf(":");
+    headers[line.slice(0, idx).toLowerCase()] = line.slice(idx + 1).trim();
+  }
+  const boundary = /boundary="([^"]+)"/.exec(headers["content-type"])[1];
+  const parts = mime.split(`--${boundary}`).slice(1, -1);
+  const decodePart = (part) => {
+    const body = part.split("\r\n\r\n").slice(1).join("\r\n\r\n").replace(/\s/g, "");
+    return Buffer.from(body, "base64").toString("utf8");
+  };
+  return {
+    init,
+    headers,
+    mime,
+    text: decodePart(parts[0]),
+    html: decodePart(parts[1]),
+    subject: decodeRfc2047(headers.subject),
+    from: decodeRfc2047(headers.from),
+  };
+}
+
+async function send(env, fetchImpl, token, body, now) {
+  const clock = now !== undefined ? now : env?.OUTREACH_MODE === "live" ? LIVE_AT : undefined;
   const response = await handleRequest(
-    request("/send", { token, body }),
+    request("/send", {
+      token,
+      body: {
+        fuente: FUENTE,
+        base: BASE,
+        ...body,
+      },
+    }),
     env,
     fetchImpl,
+    clock,
   );
   const json = await response.json();
   return { response, json };
 }
 
 describe("access fail-closed", () => {
-  it("returns 403 when TEAM_DOMAIN is unset and does not call Resend", async () => {
+  it("returns 403 when TEAM_DOMAIN is unset and does not call Gmail", async () => {
     const net = mockFetch();
     const env = makeEnv({ TEAM_DOMAIN: "" });
     const token = await signToken();
@@ -232,13 +317,13 @@ describe("access fail-closed", () => {
     assert.equal(response.headers.get("access-control-allow-origin"), null);
   });
 
-  it("returns 403 when POLICY_AUD is unset and does not call Resend", async () => {
+  it("returns 403 when POLICY_AUD is unset and does not call Gmail", async () => {
     const net = mockFetch();
     const env = makeEnv({ POLICY_AUD: "   " });
     const token = await signToken();
     const { response } = await send(env, net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
     assert.equal(net.calls.length, 0);
   });
 
@@ -258,7 +343,7 @@ describe("access fail-closed", () => {
     assert.equal(net.calls.length, 0);
   });
 
-  it("returns 403 for alg none without calling Resend", async () => {
+  it("returns 403 for alg none without calling Gmail", async () => {
     const net = mockFetch();
     const header = b64url(JSON.stringify({ alg: "none", typ: "JWT" }));
     const payload = b64url(JSON.stringify({ iss: ISSUER, aud: AUD, exp: Math.floor(Date.now() / 1000) + 60 }));
@@ -274,10 +359,17 @@ describe("access fail-closed", () => {
   it("returns 403 when the signature does not match the JWKS", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const broken = `${token.slice(0, -2)}aa`;
+    const [header, payload, signature] = token.split(".");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    const at = 10;
+    const current = signature[at];
+    const next = alphabet[(alphabet.indexOf(current) + 1) % alphabet.length];
+    const flipped = `${signature.slice(0, at)}${next}${signature.slice(at + 1)}`;
+    assert.notEqual(flipped[at], current);
+    const broken = `${header}.${payload}.${flipped}`;
     const { response } = await send(makeEnv(), net.impl, broken, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
     assert.equal(net.calls.length, 1);
     assert.match(net.calls[0].url, /\/cdn-cgi\/access\/certs$/);
   });
@@ -287,7 +379,7 @@ describe("access fail-closed", () => {
     const token = await signToken({ aud: "otro-aud-0123456789" });
     const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("returns 403 when iss does not equal the team domain", async () => {
@@ -295,7 +387,7 @@ describe("access fail-closed", () => {
     const token = await signToken({ iss: "https://otra.cloudflareaccess.com" });
     const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("accepts aud as an array that includes POLICY_AUD", async () => {
@@ -307,7 +399,7 @@ describe("access fail-closed", () => {
       fields: fields(),
     });
     assert.equal(response.status, 200);
-    assert.equal(net.resendCalls().length, 1);
+    assert.equal(net.gmailCalls().length, 1);
   });
 
   it("returns 403 when the Access token type is not app", async () => {
@@ -315,10 +407,10 @@ describe("access fail-closed", () => {
     const token = await signToken({ type: "org" });
     const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
-  it("returns 403 for an HS256 token without calling Resend", async () => {
+  it("returns 403 for an HS256 token without calling Gmail", async () => {
     const net = mockFetch();
     const header = b64url(JSON.stringify({ alg: "HS256", kid: "test-key", typ: "JWT" }));
     const payload = b64url(JSON.stringify({
@@ -347,7 +439,7 @@ describe("access fail-closed", () => {
     };
     const { response } = await send(makeEnv(), impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(calls.some((url) => url === "https://api.resend.com/emails"), false);
+    assert.equal(calls.some((url) => url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"), false);
   });
 
   it("returns 403 when nbf is in the future", async () => {
@@ -355,7 +447,7 @@ describe("access fail-closed", () => {
     const token = await signToken({ nbf: Math.floor(Date.now() / 1000) + 600 });
     const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("returns 403 when exp is in the past", async () => {
@@ -363,12 +455,12 @@ describe("access fail-closed", () => {
     const token = await signToken({ exp: Math.floor(Date.now() / 1000) - 30 });
     const { response } = await send(makeEnv(), net.impl, token, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 });
 
-describe("test mode and Resend payload", () => {
-  it("rejects a recipient outside the allowlist and does not call Resend", async () => {
+describe("test mode and Gmail payload", () => {
+  it("rejects a recipient outside the allowlist and does not call Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const { response, json } = await send(makeEnv(), net.impl, token, {
@@ -378,7 +470,7 @@ describe("test mode and Resend payload", () => {
     });
     assert.equal(response.status, 403);
     assert.equal(json.error, "test_recipient");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("treats a missing OUTREACH_MODE as test", async () => {
@@ -392,7 +484,7 @@ describe("test mode and Resend payload", () => {
       fields: fields(),
     });
     assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("sends only the allowlisted recipient and prefixes [PRUEBA]", async () => {
@@ -406,34 +498,44 @@ describe("test mode and Resend payload", () => {
     });
     assert.equal(response.status, 200);
     assert.equal(json.template, TEMPLATE_ID);
-    assert.equal(net.resendCalls().length, 1);
-    const init = net.resendCalls()[0].init;
-    const payload = JSON.parse(init.body);
-    assert.equal(payload.from, FROM);
-    assert.equal(payload.reply_to, REPLY_TO);
-    assert.deepEqual(payload.to, [ALLOWED]);
-    assert.equal(payload.subject, "[PRUEBA] Contraste del botón");
-    assert.match(payload.html, /El botón de contacto tiene contraste 2\.1:1\./);
-    assert.match(payload.text, /El botón de contacto tiene contraste 2\.1:1\./);
-    assert.ok(payload.html.includes(OPT_OUT_LINE));
-    assert.ok(payload.text.includes(OPT_OUT_LINE));
-    assert.ok(payload.html.includes("Ana &lt;Legal&gt;"));
-    assert.ok(!payload.html.includes("Ana <Legal>"));
-    assert.match(payload.html, /utm_source=email&amp;utm_medium=prospeccion&amp;utm_campaign=optica#revision-gratis/);
-    assert.match(payload.text, /utm_source=email&utm_medium=prospeccion&utm_campaign=optica#revision-gratis/);
-    assert.equal(/\$\s*\d/.test(payload.html), false);
-    assert.equal(/\$\s*\d/.test(payload.text), false);
-    assert.match(init.headers.authorization, /^Bearer re_test_key_value$/);
-    assert.equal(init.headers["content-type"], "application/json");
-    assert.deepEqual(payload.headers, {
-      "List-Unsubscribe": "<mailto:contacto@vientonorte.io?subject=baja>",
-    });
+    assert.equal(json.gmail_id, "gmail_msg_1");
+    assert.equal(net.gmailCalls().length, 1);
+    assert.equal(net.tokenCalls().length, 1);
+    const message = gmailMessage(net);
+    const tokenBody = new URLSearchParams(message.init && net.tokenCalls()[0].init.body);
+    assert.equal(tokenBody.get("grant_type"), "refresh_token");
+    assert.equal(tokenBody.get("client_id"), env.GMAIL_CLIENT_ID);
+    assert.equal(tokenBody.get("client_secret"), env.GMAIL_CLIENT_SECRET);
+    assert.equal(tokenBody.get("refresh_token"), env.GMAIL_REFRESH_TOKEN);
+    assert.equal(message.from, `${SENDER_NAME} <${SENDER_EMAIL}>`);
+    assert.equal(message.headers["reply-to"], SENDER_EMAIL);
+    assert.equal(message.headers.to, ALLOWED);
+    assert.equal(message.subject, "[PRUEBA] Contraste del botón");
+    assert.equal(message.headers["list-unsubscribe"], `<mailto:${SENDER_EMAIL}?subject=baja>`);
+    assert.match(message.headers["content-type"], /multipart\/alternative/);
+    assert.match(message.html, /El botón de contacto tiene contraste 2\.1:1\./);
+    assert.match(message.text, /El botón de contacto tiene contraste 2\.1:1\./);
+    assert.ok(message.html.includes(optOutLine(SENDER_EMAIL)));
+    assert.ok(message.text.includes(optOutLine(SENDER_EMAIL)));
+    assert.ok(message.html.includes(PRIVACY_URL));
+    assert.ok(message.text.includes(PRIVACY_URL));
+    assert.ok(message.html.includes("Ana &lt;Legal&gt;"));
+    assert.ok(!message.html.includes("Ana <Legal>"));
+    assert.match(message.html, /utm_source=email&amp;utm_medium=prospeccion&amp;utm_campaign=optica#revision-gratis/);
+    assert.match(message.text, /utm_source=email&utm_medium=prospeccion&utm_campaign=optica#revision-gratis/);
+    assert.equal(/\$\s*\d/.test(message.html), false);
+    assert.equal(/\$\s*\d/.test(message.text), false);
+    assert.equal(/^bcc:/im.test(message.mime), false);
+    assert.match(message.init.headers.authorization, /^Bearer ya29\.test-token$/);
+    assert.equal(message.init.headers["content-type"], "application/json");
 
     const log = JSON.parse(await env.OUTREACH_KV.get(`log:${json.id}`));
-    assert.deepEqual(Object.keys(log).sort(), ["error", "id", "resend_id", "result", "template", "timestamp", "to"]);
+    assert.deepEqual(Object.keys(log).sort(), ["base", "error", "fuente", "gmail_id", "id", "result", "template", "timestamp", "to"]);
     assert.equal(log.to, ALLOWED);
     assert.equal(log.template, TEMPLATE_ID);
-    assert.equal(log.resend_id, "re_msg_1");
+    assert.equal(log.gmail_id, "gmail_msg_1");
+    assert.equal(log.fuente, FUENTE);
+    assert.equal(log.base, BASE);
     assert.equal(log.result, "sent");
     assert.equal(log.empresa, undefined);
     assert.equal(log.hallazgo, undefined);
@@ -449,15 +551,14 @@ describe("test mode and Resend payload", () => {
       fields: fields(),
     });
     assert.equal(response.status, 200);
-    const payload = JSON.parse(net.resendCalls()[0].init.body);
-    assert.equal(payload.subject, "Contraste del botón");
-    assert.equal(payload.from, FROM);
-    assert.equal(payload.reply_to, REPLY_TO);
-    assert.equal(typeof payload.html, "string");
-    assert.equal(typeof payload.text, "string");
-    assert.deepEqual(payload.headers, {
-      "List-Unsubscribe": "<mailto:contacto@vientonorte.io?subject=baja>",
-    });
+    const message = gmailMessage(net);
+    assert.equal(message.subject, "Contraste del botón");
+    assert.equal(message.from, `${SENDER_NAME} <${SENDER_EMAIL}>`);
+    assert.equal(message.headers["reply-to"], SENDER_EMAIL);
+    assert.equal(message.headers.to, "lead@example.com");
+    assert.equal(message.headers["list-unsubscribe"], `<mailto:${SENDER_EMAIL}?subject=baja>`);
+    assert.equal(typeof message.html, "string");
+    assert.equal(typeof message.text, "string");
   });
 
   it("sends when empresa and rubro are substrings of the canonical URL", async () => {
@@ -469,9 +570,9 @@ describe("test mode and Resend payload", () => {
       fields: fields({ empresa: "servicios", rubro: "email" }),
     });
     assert.equal(response.status, 200);
-    const payload = JSON.parse(net.resendCalls()[0].init.body);
-    assert.match(payload.text, /utm_source=email&utm_medium=prospeccion&utm_campaign=email#revision-gratis/);
-    assert.match(payload.text, /sitio de servicios/);
+    const message = gmailMessage(net);
+    assert.match(message.text, /utm_source=email&utm_medium=prospeccion&utm_campaign=email#revision-gratis/);
+    assert.match(message.text, /sitio de servicios/);
   });
 
   it("sends a finding that mentions null, mustache braces, or /news/", async () => {
@@ -484,10 +585,10 @@ describe("test mode and Resend payload", () => {
       fields: fields({ hallazgo }),
     });
     assert.equal(response.status, 200);
-    const payload = JSON.parse(net.resendCalls()[0].init.body);
-    assert.match(payload.text, /ruta \/news\//);
-    assert.match(payload.text, /\{\{nombre\}\}/);
-    assert.equal(net.resendCalls().length, 1);
+    const message = gmailMessage(net);
+    assert.match(message.text, /ruta \/news\//);
+    assert.match(message.text, /\{\{nombre\}\}/);
+    assert.equal(net.gmailCalls().length, 1);
   });
 
   it("returns 403 when the test allowlist is empty", async () => {
@@ -500,10 +601,10 @@ describe("test mode and Resend payload", () => {
     });
     assert.equal(response.status, 403);
     assert.equal(json.error, "test_recipient");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
-  it("rejects a recipient with CR or LF and does not call Resend", async () => {
+  it("rejects a recipient with CR or LF and does not call Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const { response } = await send(makeEnv(), net.impl, token, {
@@ -512,10 +613,10 @@ describe("test mode and Resend payload", () => {
       fields: fields(),
     });
     assert.equal(response.status, 400);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
-  it("refuses a price or a missing hallazgo without calling Resend", async () => {
+  it("refuses a price or a missing hallazgo without calling Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const env = makeEnv();
@@ -531,12 +632,12 @@ describe("test mode and Resend payload", () => {
       fields: fields({ hallazgo: "   " }),
     });
     assert.equal(missing.response.status, 400);
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 });
 
 describe("daily cap", () => {
-  it("allows 10 sends in the Santiago day and returns 429 on the next without calling Resend", async () => {
+  it("allows 10 sends in the Santiago day and returns 429 on the next without calling Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const env = makeEnv();
@@ -548,7 +649,7 @@ describe("daily cap", () => {
       });
       assert.equal(response.status, 200);
     }
-    assert.equal(net.resendCalls().length, DAILY_CAP);
+    assert.equal(net.gmailCalls().length, DAILY_CAP);
     const blocked = await send(env, net.impl, token, {
       to: ALLOWED,
       subject: "De más",
@@ -556,10 +657,10 @@ describe("daily cap", () => {
     });
     assert.equal(blocked.response.status, 429);
     assert.equal(blocked.json.error, "cap");
-    assert.equal(net.resendCalls().length, DAILY_CAP);
+    assert.equal(net.gmailCalls().length, DAILY_CAP);
   });
 
-  it("returns 503 when the cap value is corrupt and does not call Resend", async () => {
+  it("returns 503 when the cap value is corrupt and does not call Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const env = makeEnv();
@@ -571,12 +672,12 @@ describe("daily cap", () => {
     });
     assert.equal(response.status, 503);
     assert.equal(json.error, "cap");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
     assert.equal(await env.OUTREACH_KV.get(capKey()), "nope");
   });
 
-  it("reserves a cap slot before Resend and rolls it back when Resend fails", async () => {
-    const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+  it("reserves a cap slot before Gmail and rolls it back when Gmail fails", async () => {
+    const net = mockFetch({ gmailStatus: 500, gmailBody: "{}" });
     const token = await signToken();
     const env = makeEnv();
     const reserved = capKey();
@@ -586,16 +687,16 @@ describe("daily cap", () => {
       fields: fields(),
     });
     assert.equal(response.status, 502);
-    assert.equal(net.resendCalls().length, 1);
+    assert.equal(net.gmailCalls().length, 1);
     assert.equal(await env.OUTREACH_KV.get(reserved), "0");
   });
 
-  it("returns 503 unconfigured without a Resend key and does not reserve or fetch the provider", async () => {
+  it("returns 503 unconfigured without a Gmail key and does not reserve or fetch the provider", async () => {
     const net = mockFetch();
     const token = await signToken();
     const binding = counterBinding();
     const env = makeEnv({ OUTREACH_COUNTER: binding });
-    delete env.RESEND_API_KEY;
+    delete env.GMAIL_REFRESH_TOKEN;
     const { response, json } = await send(env, net.impl, token, {
       to: ALLOWED,
       subject: "Sin clave",
@@ -603,13 +704,13 @@ describe("daily cap", () => {
     });
     assert.equal(response.status, 503);
     assert.equal(json.error, "unconfigured");
-    assert.equal(net.resendCalls().length, 0);
-    assert.equal(net.calls.filter((call) => call.url === "https://api.resend.com/emails").length, 0);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(net.calls.filter((call) => call.url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send").length, 0);
     assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 0);
     assert.equal(await env.OUTREACH_KV.get(capKey()), null);
   });
 
-  it("returns 5xx when the durable object reserve throws and does not call Resend", async () => {
+  it("returns 5xx when the durable object reserve throws and does not call Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const binding = counterBinding();
@@ -625,11 +726,11 @@ describe("daily cap", () => {
     });
     assert.ok(response.status >= 500 && response.status < 600);
     assert.equal(json.error, "cap");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
-  it("logs a thrown rollback and still returns the Resend error", async () => {
-    const net = mockFetch({ resendStatus: 422, resendBody: "{}" });
+  it("logs a thrown rollback and still returns the Gmail error", async () => {
+    const net = mockFetch({ gmailStatus: 422, gmailBody: "{}" });
     const token = await signToken();
     const binding = counterBinding();
     const stub = binding.get(binding.idFromName("outreach"));
@@ -649,14 +750,14 @@ describe("daily cap", () => {
         fields: fields(),
       });
       assert.equal(response.status, 502);
-      assert.equal(json.error, "resend_error");
+      assert.equal(json.error, "gmail_error");
       const logged = lines.find((line) => line.includes("outreach_cap_rollback"));
       assert.ok(logged);
       const event = JSON.parse(logged);
       assert.equal(event.event, "outreach_cap_rollback");
       assert.equal(event.result, "failed");
       assert.equal(event.store, "do");
-      assert.equal(event.key, capKey());
+      assert.equal(event.key, capKey(LIVE_AT));
       assert.equal(logged.includes("lead@example.com"), false);
       assert.equal(logged.includes(token), false);
       assert.equal(binding.caps.get(event.key), 1);
@@ -665,8 +766,8 @@ describe("daily cap", () => {
     }
   });
 
-  it("logs a thrown KV rollback and still returns the Resend error", async () => {
-    const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+  it("logs a thrown KV rollback and still returns the Gmail error", async () => {
+    const net = mockFetch({ gmailStatus: 500, gmailBody: "{}" });
     const token = await signToken();
     const env = makeEnv();
     const put = env.OUTREACH_KV.put.bind(env.OUTREACH_KV);
@@ -686,7 +787,7 @@ describe("daily cap", () => {
         fields: fields(),
       });
       assert.equal(response.status, 502);
-      assert.equal(json.error, "resend_error");
+      assert.equal(json.error, "gmail_error");
       const event = JSON.parse(lines.find((line) => line.includes("outreach_cap_rollback")));
       assert.equal(event.result, "failed");
       assert.equal(event.store, "kv");
@@ -707,21 +808,21 @@ describe("daily cap", () => {
       const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
       const impl = async (input, init) => {
         const url = typeof input === "string" ? input : input.url;
-        if (url === "https://api.resend.com/emails") {
+        if (url === GMAIL_SEND_URL) {
           net.calls.push({ url, init });
           throw error;
         }
         return net.impl(input, init);
       };
-      const reserved = capKey();
+      const reserved = capKey(LIVE_AT);
       const { response, json } = await send(env, impl, token, {
         to: "lead@example.com",
         subject: "Sin confirmación",
         fields: fields(),
       });
       assert.equal(response.status, 502);
-      assert.equal(json.error, "resend_error");
-      assert.equal(net.resendCalls().length, 1);
+      assert.equal(json.error, "gmail_error");
+      assert.equal(net.gmailCalls().length, 1);
       assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
       assert.equal(binding.caps.get(reserved), 1);
     }
@@ -733,7 +834,7 @@ describe("daily cap", () => {
     const env = makeEnv();
     const impl = async (input, init) => {
       const url = typeof input === "string" ? input : input.url;
-      if (url === "https://api.resend.com/emails") throw new TypeError("network");
+      if (url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send") throw new TypeError("network");
       return net.impl(input, init);
     };
     const reserved = capKey();
@@ -748,11 +849,11 @@ describe("daily cap", () => {
 
   it("refunds a definite 4xx and 5xx onto the reserved day key", async () => {
     for (const status of [422, 503]) {
-      const net = mockFetch({ resendStatus: status, resendBody: "{}" });
+      const net = mockFetch({ gmailStatus: status, gmailBody: "{}" });
       const token = await signToken();
       const binding = counterBinding();
       const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
-      const reserved = capKey();
+      const reserved = capKey(LIVE_AT);
       const { response } = await send(env, net.impl, token, {
         to: "lead@example.com",
         subject: `Status ${status}`,
@@ -786,7 +887,7 @@ describe("suppression", () => {
     });
     assert.equal(response.status, 409);
     assert.equal(json.error, "suppressed");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
   });
 
   it("does not write any address when a later suppress entry is invalid", async () => {
@@ -816,140 +917,46 @@ describe("suppression", () => {
   });
 });
 
-describe("hard bounce halt", () => {
-  it("fail-closes the webhook when the signing secret is unset", async () => {
+describe("halt", () => {
+  it("blocks /send while the counter is halted and /resume clears it", async () => {
     const net = mockFetch();
-    const env = makeEnv();
-    const response = await handleRequest(
-      request("/webhook/resend", { body: { type: "email.bounced" } }),
-      env,
-      net.impl,
-    );
-    assert.equal(response.status, 403);
-    assert.equal(net.resendCalls().length, 0);
-    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
-  });
-
-  it("rejects a bad signature and does not suppress", async () => {
-    const net = mockFetch();
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
-    const body = JSON.stringify({ type: "email.bounced", data: { to: ["lead@example.com"], bounce: { type: "Permanent" } } });
-    const response = await handleRequest(
-      request("/webhook/resend", {
-        body,
-        headers: {
-          "svix-id": "msg_test",
-          "svix-timestamp": String(Math.floor(Date.now() / 1000)),
-          "svix-signature": "v1,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        },
-      }),
-      env,
-      net.impl,
-    );
-    assert.equal(response.status, 403);
-    assert.equal(await env.OUTREACH_KV.get("suppress:lead@example.com"), null);
-  });
-
-  it("rejects a Svix timestamp skewed by more than 5 minutes", async () => {
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
-    const body = JSON.stringify({
-      type: "email.bounced",
-      data: { to: ["viejo@example.com"], bounce: { type: "Permanent" } },
-    });
-    const timestamp = String(Math.floor(Date.now() / 1000) - (WEBHOOK_TOLERANCE_SEC + 1));
-    const signature = await signWebhook(secret, "msg_old", timestamp, body);
-    const response = await handleRequest(
-      request("/webhook/resend", {
-        body,
-        headers: { "svix-id": "msg_old", "svix-timestamp": timestamp, "svix-signature": signature },
-      }),
-      env,
-    );
-    assert.equal(response.status, 403);
-    assert.equal(await env.OUTREACH_KV.get("suppress:viejo@example.com"), null);
-    assert.equal(await env.OUTREACH_KV.get("svix:msg_old"), null);
-  });
-
-  it("accepts a valid v1 signature among several and rejects a replay of the same svix-id", async () => {
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
-    const body = JSON.stringify({ type: "email.delivered", data: { to: ["ok@example.com"] } });
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const good = await signWebhook(secret, "msg_multi", timestamp, body);
-    const headers = {
-      "svix-id": "msg_multi",
-      "svix-timestamp": timestamp,
-      "svix-signature": `v1,${"a".repeat(44)} ${good}`,
-    };
-    const first = await handleRequest(request("/webhook/resend", { body, headers }), env);
-    assert.equal(first.status, 200);
-    assert.equal(env.OUTREACH_KV.meta.get("svix:msg_multi").expirationTtl, WEBHOOK_DEDUPE_TTL_SEC);
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= 600);
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= WEBHOOK_TOLERANCE_SEC * 2);
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC > WEBHOOK_TOLERANCE_SEC);
-    const replay = await handleRequest(request("/webhook/resend", { body, headers }), env);
-    assert.equal(replay.status, 403);
-    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
-  });
-
-  it("does not treat a trailing slash or an extra segment as the webhook", async () => {
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
-    const body = JSON.stringify({
-      type: "email.bounced",
-      data: { email_id: "re_path", to: ["ruta@example.com"], bounce: { type: "Permanent" } },
-    });
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = await signWebhook(secret, "msg_path", timestamp, body);
-    const headers = { "svix-id": "msg_path", "svix-timestamp": timestamp, "svix-signature": signature };
-    for (const path of ["/webhook/resend/", "/webhook/resend/x"]) {
-      const response = await handleRequest(request(path, { body, headers }), env);
-      assert.equal(response.status, 404);
-    }
-    assert.equal(await env.OUTREACH_KV.get("suppress:ruta@example.com"), null);
-    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
-  });
-
-  it("suppresses and halts on a signed permanent bounce until /resume", async () => {
-    const net = mockFetch();
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_COUNTER: counterBinding() });
     const token = await signToken();
-    const event = {
-      type: "email.bounced",
-      data: {
-        email_id: "re_bounce_1",
-        to: ["rebote@example.com"],
-        bounce: { type: "Permanent", subType: "General" },
-      },
-    };
-    const body = JSON.stringify(event);
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = await signWebhook(secret, "msg_bounce", timestamp, body);
-    const hooked = await handleRequest(
-      request("/webhook/resend", {
-        body,
-        headers: { "svix-id": "msg_bounce", "svix-timestamp": timestamp, "svix-signature": signature },
-      }),
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    const halted = await handleRequest(
+      request("/halt", { token, body: { on: true } }),
       env,
       net.impl,
     );
-    assert.equal(hooked.status, 200);
-    assert.notEqual(await env.OUTREACH_KV.get("suppress:rebote@example.com"), null);
-    assert.notEqual(await env.OUTREACH_KV.get("state:halt"), null);
-
+    assert.equal(halted.status, 200);
     const blocked = await send(env, net.impl, token, {
       to: ALLOWED,
-      subject: "Después del rebote",
+      subject: "Durante el corte",
       fields: fields(),
     });
     assert.equal(blocked.response.status, 409);
     assert.equal(blocked.json.error, "halted");
-    assert.equal(net.resendCalls().length, 0);
-
-    const resumed = await handleRequest(request("/resume", { token, body: {} }), env, net.impl);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
+    const empty = await handleRequest(request("/resume", { token, body: {} }), env, net.impl);
+    assert.equal(empty.status, 400);
+    const unconfirmed = await handleRequest(
+      request("/resume", { token, body: { confirm: false } }),
+      env,
+      net.impl,
+    );
+    assert.equal(unconfirmed.status, 400);
+    const still = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sigue cortado",
+      fields: fields(),
+    });
+    assert.equal(still.response.status, 409);
+    const resumed = await handleRequest(
+      request("/resume", { token, body: { confirm: true } }),
+      env,
+      net.impl,
+    );
     assert.equal(resumed.status, 200);
     const again = await send(env, net.impl, token, {
       to: ALLOWED,
@@ -957,73 +964,7 @@ describe("hard bounce halt", () => {
       fields: fields(),
     });
     assert.equal(again.response.status, 200);
-    env.OUTREACH_MODE = "live";
-    const still = await send(env, net.impl, token, {
-      to: "rebote@example.com",
-      subject: "Otra vez",
-      fields: fields(),
-    });
-    assert.equal(still.response.status, 409);
-    assert.equal(still.json.error, "suppressed");
-    assert.equal(net.resendCalls().length, 1);
-  });
-
-  it("suppresses and halts on a signed complaint", async () => {
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() });
-    const token = await signToken();
-    const net = mockFetch();
-    const event = {
-      type: "email.complained",
-      data: { email_id: "re_complaint", to: ["queja@example.com"] },
-    };
-    const body = JSON.stringify(event);
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = await signWebhook(secret, "msg_complaint", timestamp, body);
-    const hooked = await handleRequest(
-      request("/webhook/resend", {
-        body,
-        headers: {
-          "svix-id": "msg_complaint",
-          "svix-timestamp": timestamp,
-          "svix-signature": signature,
-        },
-      }),
-      env,
-      net.impl,
-    );
-    assert.equal(hooked.status, 200);
-    const blocked = await send(env, net.impl, token, {
-      to: "otra@example.com",
-      subject: "Después de la queja",
-      fields: fields(),
-    });
-    assert.equal(blocked.response.status, 409);
-    assert.equal(blocked.json.error, "halted");
-    assert.equal(net.resendCalls().length, 0);
-    assert.notEqual(await env.OUTREACH_KV.get("suppress:queja@example.com"), null);
-  });
-
-  it("logs a transient bounce without suppressing or halting", async () => {
-    const secret = webhookSecret();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret });
-    const event = {
-      type: "email.bounced",
-      data: { email_id: "re_soft", to: ["lleno@example.com"], bounce: { type: "Transient" } },
-    };
-    const body = JSON.stringify(event);
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = await signWebhook(secret, "msg_soft", timestamp, body);
-    const response = await handleRequest(
-      request("/webhook/resend", {
-        body,
-        headers: { "svix-id": "msg_soft", "svix-timestamp": timestamp, "svix-signature": signature },
-      }),
-      env,
-    );
-    assert.equal(response.status, 200);
-    assert.equal(await env.OUTREACH_KV.get("suppress:lleno@example.com"), null);
-    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
+    assert.equal(net.gmailCalls().length, 1);
   });
 });
 
@@ -1036,7 +977,7 @@ describe("live gate", () => {
     assert.equal(isLiveMode({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding }), true);
   });
 
-  it("refuses live mode without the durable object binding and does not call Resend", async () => {
+  it("refuses live mode without the durable object binding and does not call Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const env = makeEnv({ OUTREACH_MODE: "live" });
@@ -1047,7 +988,7 @@ describe("live gate", () => {
     });
     assert.equal(response.status, 503);
     assert.equal(json.error, "live_gate");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
     assert.equal(net.calls.length, 1);
     assert.equal(await env.OUTREACH_KV.get(capKey()), null);
   });
@@ -1064,10 +1005,10 @@ describe("live gate", () => {
     });
     assert.equal(response.status, 200);
     assert.equal(json.template, TEMPLATE_ID);
-    assert.equal(net.resendCalls().length, 1);
-    const payload = JSON.parse(net.resendCalls()[0].init.body);
-    assert.equal(payload.subject, "Con contador");
-    assert.deepEqual(payload.to, ["lead@example.com"]);
+    assert.equal(net.gmailCalls().length, 1);
+    const message = gmailMessage(net);
+    assert.equal(message.subject, "Con contador");
+    assert.equal(message.headers.to, "lead@example.com");
     const reserves = binding.calls.filter((call) => call.op === "reserve");
     assert.equal(reserves.length, 1);
     assert.match(reserves[0].key, /^cap:\d{4}-\d{2}-\d{2}$/);
@@ -1091,11 +1032,11 @@ describe("live gate", () => {
     assert.equal(await env.OUTREACH_KV.get(capKey()), "1");
   });
 
-  it("returns 429 from the durable object cap without calling Resend", async () => {
+  it("returns 429 from the durable object cap without calling Gmail", async () => {
     const net = mockFetch();
     const token = await signToken();
     const binding = counterBinding();
-    const key = capKey();
+    const key = capKey(LIVE_AT);
     binding.caps.set(key, DAILY_CAP);
     const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
     const { response, json } = await send(env, net.impl, token, {
@@ -1105,7 +1046,7 @@ describe("live gate", () => {
     });
     assert.equal(response.status, 429);
     assert.equal(json.error, "cap");
-    assert.equal(net.resendCalls().length, 0);
+    assert.equal(net.gmailCalls().length, 0);
     assert.equal(binding.caps.get(key), DAILY_CAP);
   });
 });
@@ -1123,16 +1064,16 @@ describe("midnight cap rollback", () => {
     assert.equal(await kv.get(capKey(later)), null);
   });
 
-  it("rolls the KV cap back onto the reserved key when Resend fails after midnight", async () => {
+  it("rolls the KV cap back onto the reserved key when Gmail fails after midnight", async () => {
     const { env, reservedKey, laterKey, net } = await sendAcrossMidnight({ live: false });
-    assert.equal(net.resendCalls().length, 1);
+    assert.equal(net.gmailCalls().length, 1);
     assert.equal(await env.OUTREACH_KV.get(reservedKey), "0");
     assert.equal(await env.OUTREACH_KV.get(laterKey), null);
   });
 
-  it("rolls the durable object cap back onto the reserved key when Resend fails after midnight", async () => {
+  it("rolls the durable object cap back onto the reserved key when Gmail fails after midnight", async () => {
     const { binding, reservedKey, laterKey, net } = await sendAcrossMidnight({ live: true });
-    assert.equal(net.resendCalls().length, 1);
+    assert.equal(net.gmailCalls().length, 1);
     assert.deepEqual(
       binding.calls.filter((call) => call.op === "reserve").map((call) => call.key),
       [reservedKey],
@@ -1146,35 +1087,8 @@ describe("midnight cap rollback", () => {
   });
 });
 
-describe("webhook dedupe", () => {
-  it("keeps the dedupe TTL at least twice the signature tolerance", () => {
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= 600);
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC >= WEBHOOK_TOLERANCE_SEC * 2);
-    assert.ok(WEBHOOK_DEDUPE_TTL_SEC > WEBHOOK_TOLERANCE_SEC);
-  });
-
-  it("rejects a replay inside the signature window on the durable object and does not write KV", async () => {
-    const secret = webhookSecret();
-    const binding = counterBinding();
-    const env = makeEnv({ RESEND_WEBHOOK_SECRET: secret, OUTREACH_COUNTER: binding });
-    const body = JSON.stringify({ type: "email.delivered", data: { to: ["ok@example.com"] } });
-    const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = await signWebhook(secret, "msg_do", timestamp, body);
-    const headers = { "svix-id": "msg_do", "svix-timestamp": timestamp, "svix-signature": signature };
-    const first = await handleRequest(request("/webhook/resend", { body, headers }), env);
-    assert.equal(first.status, 200);
-    const replay = await handleRequest(request("/webhook/resend", { body, headers }), env);
-    assert.equal(replay.status, 403);
-    assert.equal(await env.OUTREACH_KV.get("svix:msg_do"), null);
-    const claims = binding.calls.filter((call) => call.op === "claim");
-    assert.equal(claims.length, 2);
-    assert.equal(claims[0].id, "msg_do");
-    assert.equal(claims[0].ttlSec, WEBHOOK_DEDUPE_TTL_SEC);
-    assert.ok(claims[0].ttlSec > WEBHOOK_TOLERANCE_SEC);
-    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
-  });
-
-  it("rejects a second durable object claim inside the signature window and rolls back only the reserved day", () => {
+describe("durable object cap", () => {
+  it("rolls back only the reserved day and refuses a cap above 10", () => {
     const counter = openCounter();
     const reserved = "cap:2026-06-14";
     const later = "cap:2026-06-15";
@@ -1183,13 +1097,650 @@ describe("webhook dedupe", () => {
     assert.equal(counter.reserve(reserved, DAILY_CAP).count, 1);
     assert.deepEqual(counter.rollback(later), { ok: true, key: later, count: 0 });
     assert.equal(counter.reserve(reserved, DAILY_CAP).count, 2);
-    assert.equal(counter.reserve(later, DAILY_CAP).count, 1);
+    assert.equal(counter.reserve(later, 2).count, 1);
+    assert.equal(counter.reserve(later, 2).count, 2);
+    assert.equal(counter.reserve(later, 2).ok, false);
+    assert.equal(counter.reserve("cap:2026-06-16", DAILY_CAP_MAX).ok, true);
+    assert.throws(() => counter.reserve(reserved, 0), /cap/);
+    assert.throws(() => counter.reserve("cap:2026-06-17", DAILY_CAP_MAX + 1), /cap/);
+    assert.equal(counter.setHalt(true).halted, true);
+    const refused = counter.reserve("cap:2026-06-18", DAILY_CAP);
+    assert.equal(refused.ok, false);
+    assert.equal(refused.halted, true);
+    assert.equal(refused.count, 0);
+    assert.equal(counter.setHalt(false).halted, false);
+    assert.equal(counter.reserve("cap:2026-06-18", DAILY_CAP).count, 1);
+    assert.equal(counter.setHalt(true).halted, true);
+    assert.equal(counter.reserve("cap:2026-06-18", DAILY_CAP).count, 1);
+  });
+});
 
-    const now = 1_700_000_000_000;
-    assert.equal(counter.claimWebhook("msg_window", WEBHOOK_DEDUPE_TTL_SEC, now).ok, true);
-    const stillInside = now + WEBHOOK_TOLERANCE_SEC * 1000;
-    assert.ok(stillInside < now + WEBHOOK_DEDUPE_TTL_SEC * 1000);
-    assert.equal(counter.claimWebhook("msg_window", WEBHOOK_DEDUPE_TTL_SEC, stillInside).ok, false);
+describe("compliance, window, and Gmail auth", () => {
+  it("returns 400 when fuente or base is missing and does not call Gmail", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const missingFuente = await handleRequest(
+      request("/send", {
+        token,
+        body: { to: ALLOWED, subject: "Hola", base: BASE, fields: fields() },
+      }),
+      env,
+      net.impl,
+    );
+    assert.equal(missingFuente.status, 400);
+    const badBase = await handleRequest(
+      request("/send", {
+        token,
+        body: { to: ALLOWED, subject: "Hola", fuente: FUENTE, base: "manual", fields: fields() },
+      }),
+      env,
+      net.impl,
+    );
+    assert.equal(badBase.status, 400);
+    const tooLong = await handleRequest(
+      request("/send", {
+        token,
+        body: { to: ALLOWED, subject: "Hola", fuente: "x".repeat(201), base: "interes_legitimo", fields: fields() },
+      }),
+      env,
+      net.impl,
+    );
+    assert.equal(tooLong.status, 400);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(net.tokenCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+  });
+
+  it("stores fuente and base on the send record", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const fuente = "Directorio público de la cámara, ficha 2026";
+    const { response, json } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Fuente",
+      fuente,
+      base: "interes_legitimo",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    const log = JSON.parse(await env.OUTREACH_KV.get(`log:${json.id}`));
+    assert.equal(log.fuente, fuente);
+    assert.equal(log.base, "interes_legitimo");
+    assert.equal(log.to, ALLOWED);
+  });
+
+  it("rejects a subject with CR or LF before reserving", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const { response } = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Hola\r\nBcc: otro@example.com",
+      fields: fields(),
+    });
+    assert.equal(response.status, 400);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(net.tokenCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+  });
+
+  it("returns 503 when the From name contains CR or LF and does not reserve", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({
+      OUTREACH_MODE: "live",
+      OUTREACH_COUNTER: binding,
+      SENDER_NAME: "Viento\r\nBcc: otro@example.com",
+    });
+    const { response, json } = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Nombre",
+      fields: fields(),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(json.error, "unconfigured");
+    assert.equal(net.tokenCalls().length, 0);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 0);
+  });
+
+  it("keeps test mode open on Sunday and refuses live mode outside the Santiago window", async () => {
+    const sunday = new Date("2026-07-12T21:20:00.000Z");
+    assert.equal(isInsideSendWindow(sunday), false);
+    const net = mockFetch();
+    const token = await signToken();
+    const testSend = await send(makeEnv(), net.impl, token, {
+      to: ALLOWED,
+      subject: "Domingo",
+      fields: fields(),
+    }, sunday);
+    assert.equal(testSend.response.status, 200);
+
+    const liveNet = mockFetch();
+    const live = await send(makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() }), liveNet.impl, token, {
+      to: "lead@example.com",
+      subject: "Domingo",
+      fields: fields(),
+    }, sunday);
+    assert.equal(live.response.status, 403);
+    assert.equal(live.json.error, "outside_window");
+    assert.equal(liveNet.gmailCalls().length, 0);
+    assert.equal(liveNet.tokenCalls().length, 0);
+  });
+
+  it("applies the Monday window in both Santiago offsets", async () => {
+    const winterInside = new Date("2026-07-13T21:20:00.000Z");
+    const winterOutside = new Date("2026-07-13T20:20:00.000Z");
+    const summerInside = new Date("2026-11-09T20:20:00.000Z");
+    const summerOutside = new Date("2026-11-09T21:20:00.000Z");
+    assert.equal(isInsideSendWindow(winterInside), true);
+    assert.equal(isInsideSendWindow(winterOutside), false);
+    assert.equal(isInsideSendWindow(summerInside), true);
+    assert.equal(isInsideSendWindow(summerOutside), false);
+    assert.equal(isInsideSendWindow(new Date("2026-07-13T21:14:00.000Z")), false);
+    assert.equal(isInsideSendWindow(new Date("2026-07-13T21:15:00.000Z")), true);
+    assert.equal(isInsideSendWindow(new Date("2026-07-13T21:35:59.000Z")), true);
+    assert.equal(isInsideSendWindow(new Date("2026-07-13T21:36:00.000Z")), false);
+    assert.equal(isInsideSendWindow(new Date("2026-07-11T21:20:00.000Z")), false);
+
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() });
+    const opened = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Dentro",
+      fields: fields(),
+    }, summerInside);
+    assert.equal(opened.response.status, 200);
+    const closed = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "Fuera",
+      fields: fields(),
+    }, summerOutside);
+    assert.equal(closed.response.status, 403);
+    assert.equal(closed.json.error, "outside_window");
+  });
+
+  it("honors DAILY_CAP in live mode and ignores it in test mode", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding, DAILY_CAP: "2" });
+    for (let i = 0; i < 2; i += 1) {
+      const { response } = await send(env, net.impl, token, {
+        to: "lead@example.com",
+        subject: `Cupo ${i}`,
+        fields: fields(),
+      });
+      assert.equal(response.status, 200);
+    }
+    const blocked = await send(env, net.impl, token, {
+      to: "lead@example.com",
+      subject: "De más",
+      fields: fields(),
+    });
+    assert.equal(blocked.response.status, 429);
+    assert.equal(net.gmailCalls().length, 2);
+
+    const bad = mockFetch();
+    const invalid = await send(makeEnv({
+      OUTREACH_MODE: "live",
+      OUTREACH_COUNTER: counterBinding(),
+      DAILY_CAP: "0",
+    }), bad.impl, token, {
+      to: "lead@example.com",
+      subject: "Tope inválido",
+      fields: fields(),
+    });
+    assert.equal(invalid.response.status, 503);
+    assert.equal(invalid.json.error, "cap");
+    assert.equal(bad.gmailCalls().length, 0);
+
+    const overBinding = counterBinding();
+    const over = mockFetch();
+    const overSend = await send(makeEnv({
+      OUTREACH_MODE: "live",
+      OUTREACH_COUNTER: overBinding,
+      DAILY_CAP: "11",
+    }), over.impl, token, {
+      to: "lead@example.com",
+      subject: "Tope alto",
+      fields: fields(),
+    });
+    assert.equal(overSend.response.status, 503);
+    assert.equal(overSend.json.error, "cap");
+    assert.equal(over.gmailCalls().length, 0);
+    assert.equal(overBinding.calls.filter((call) => call.op === "reserve").length, 0);
+
+    const testNet = mockFetch();
+    const testEnv = makeEnv({ DAILY_CAP: "1" });
+    const first = await send(testEnv, testNet.impl, token, {
+      to: ALLOWED,
+      subject: "Test uno",
+      fields: fields(),
+    });
+    const second = await send(testEnv, testNet.impl, token, {
+      to: ALLOWED,
+      subject: "Test dos",
+      fields: fields(),
+    });
+    assert.equal(first.response.status, 200);
+    assert.equal(second.response.status, 200);
+  });
+
+  it("reuses the access token until it expires", async () => {
+    const net = mockFetch({ expiresIn: 3600 });
+    const token = await signToken();
+    const env = makeEnv();
+    const firstAt = new Date("2026-07-13T21:20:00.000Z");
+    const first = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Uno",
+      fields: fields(),
+    }, firstAt);
+    assert.equal(first.response.status, 200);
+    const second = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Dos",
+      fields: fields(),
+    }, new Date(firstAt.getTime() + 30 * 60 * 1000));
+    assert.equal(second.response.status, 200);
+    assert.equal(net.tokenCalls().length, 1);
+    const third = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Tres",
+      fields: fields(),
+    }, new Date(firstAt.getTime() + 2 * 60 * 60 * 1000));
+    assert.equal(third.response.status, 200);
+    assert.equal(net.tokenCalls().length, 2);
+  });
+
+  it("refunds a token failure and keeps the cap when the send call times out", async () => {
+    const tokenDown = mockFetch({ tokenStatus: 401 });
+    const token = await signToken();
+    const env = makeEnv();
+    const failed = await send(env, tokenDown.impl, token, {
+      to: ALLOWED,
+      subject: "Token",
+      fields: fields(),
+    });
+    assert.equal(failed.response.status, 502);
+    assert.equal(failed.json.error, "gmail_error");
+    assert.equal(tokenDown.gmailCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), "0");
+
+    const net = mockFetch();
+    const live = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: counterBinding() });
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_SEND_URL) throw new DOMException("timed out", "TimeoutError");
+      return net.impl(input, init);
+    };
+    const timed = await send(live, impl, token, {
+      to: "lead@example.com",
+      subject: "Timeout",
+      fields: fields(),
+    });
+    assert.equal(timed.response.status, 502);
+    assert.equal(live.OUTREACH_COUNTER.calls.filter((call) => call.op === "rollback").length, 0);
+    assert.equal(live.OUTREACH_COUNTER.caps.get(capKey(LIVE_AT)), 1);
+  });
+
+  it("is idempotent for bounce and baja and rejects any other reason", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const lines = [];
+    const original = console.log;
+    console.log = (...args) => {
+      lines.push(args.map(String).join(" "));
+    };
+    try {
+      for (const reason of ["baja", "baja"]) {
+        const response = await handleRequest(
+          request("/suppress", { token, body: { email: "Lead@Example.com", reason } }),
+          env,
+          net.impl,
+        );
+        assert.equal(response.status, 200);
+        const body = await response.json();
+        assert.equal(body.ok, true);
+        assert.equal(body.suppressed, 1);
+      }
+      const bounce = await handleRequest(
+        request("/suppress", { token, body: { email: "rebote@example.com", reason: "bounce" } }),
+        env,
+        net.impl,
+      );
+      assert.equal(bounce.status, 200);
+      const bad = await handleRequest(
+        request("/suppress", { token, body: { email: ALLOWED, reason: "complaint" } }),
+        env,
+        net.impl,
+      );
+      assert.equal(bad.status, 400);
+      const broken = await handleRequest(
+        request("/suppress", { token, body: { email: "no-es-correo", reason: "baja" } }),
+        env,
+        net.impl,
+      );
+      assert.equal(broken.status, 400);
+      assert.equal(await env.OUTREACH_KV.get("suppress:lead@example.com") != null, true);
+      assert.equal(await env.OUTREACH_KV.get("suppress:rebote@example.com") != null, true);
+      assert.equal(await env.OUTREACH_KV.get(`suppress:${ALLOWED}`), null);
+      assert.equal(lines.join("\n").includes("Lead@Example.com"), false);
+      assert.equal(lines.join("\n").includes("rebote@example.com"), false);
+    } finally {
+      console.log = original;
+    }
+  });
+
+  it("rejects a display-name address and does not send", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const { response } = await send(env, net.impl, token, {
+      to: "Bob<evil@x.cl>",
+      subject: "Inyección",
+      fields: fields(),
+    });
+    assert.equal(response.status, 400);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(net.tokenCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+    const suppressed = await handleRequest(
+      request("/suppress", { token, body: { email: "Bob<evil@x.cl>", reason: "baja" } }),
+      env,
+      net.impl,
+    );
+    assert.equal(suppressed.status, 400);
+    assert.equal(await env.OUTREACH_KV.get("suppress:bob<evil@x.cl>"), null);
+    for (const bad of [
+      "x,evil@x.cl",
+      "evil@x.cl,",
+      "=?utf-8?q?a?=@x.cl",
+      "a..b@x.cl",
+      "Bob<evil@x.cl>",
+      "ok@x.cl,not-an-at.cl",
+    ]) {
+      const rejected = mockFetch();
+      const { response: badResponse } = await send(makeEnv(), rejected.impl, token, {
+        to: bad,
+        subject: "Malo",
+        fields: fields(),
+      });
+      assert.equal(badResponse.status, 400, bad);
+      assert.equal(rejected.gmailCalls().length, 0, bad);
+      assert.equal(rejected.tokenCalls().length, 0, bad);
+      assert.equal(normalizeEmail(bad), null, bad);
+    }
+    assert.equal(normalizeEmail("User+Tag@Sub-Domain.CL"), "user+tag@sub-domain.cl");
+    assert.equal(normalizeEmail("a-b@x-y.cl"), "a-b@x-y.cl");
+    assert.equal(normalizeEmail("a@-bad.cl"), null);
+    assert.equal(normalizeEmail("a@bad-.cl"), null);
+    assert.equal(normalizeEmail(`a@${"b".repeat(64)}.cl`), null);
+    assert.equal(normalizeEmail(`a@${"b".repeat(63)}.cl`), `a@${"b".repeat(63)}.cl`);
+    assert.equal(gmailReady(makeEnv({ SENDER_EMAIL: "a@-bad.cl" })), false);
+    const goodNet = mockFetch();
+    const good = await send(makeEnv({ TEST_ALLOWLIST: "user+tag@sub-domain.cl,a-b@x-y.cl" }), goodNet.impl, token, {
+      to: "User+Tag@Sub-Domain.CL",
+      subject: "Valida",
+      fields: fields(),
+    });
+    assert.equal(good.response.status, 200);
+    assert.equal(gmailMessage(goodNet).headers.to, "user+tag@sub-domain.cl");
+  });
+
+  it("encodes RFC 2047 on code points and keeps Subject lines within 78", () => {
+    const subject = `${"a".repeat(44)}ñandú`;
+    const encoded = encodeRfc2047(subject, "Subject: ");
+    const lines = encoded.split("\r\n");
+    assert.ok(lines.length >= 2);
+    assert.ok(("Subject: " + lines[0]).length <= 78);
+    for (const line of lines.slice(1)) {
+      assert.equal(line.startsWith(" "), true);
+      assert.ok(line.length <= 78);
+    }
+    assert.equal(decodeEncodedWords(encoded), subject);
+
+    const name = `${"Ñandú ".repeat(12)}Árbol`;
+    assert.ok(new TextEncoder().encode(name).length > 45);
+    const fromEncoded = encodeRfc2047(name, "From: ");
+    const fromLines = fromEncoded.split("\r\n");
+    assert.ok(("From: " + fromLines[0]).length <= 78);
+    for (const line of fromLines.slice(1)) assert.ok(line.length <= 78);
+    assert.equal(decodeEncodedWords(fromEncoded), name);
+
+    const raw = buildRawMessage({
+      fromName: name,
+      fromEmail: SENDER_EMAIL,
+      replyTo: SENDER_EMAIL,
+      to: ALLOWED,
+      subject,
+      text: "hola",
+      html: "<p>hola</p>",
+    });
+    const pad = raw.length % 4 === 0 ? "" : "=".repeat(4 - (raw.length % 4));
+    const mime = Buffer.from(`${raw.replaceAll("-", "+").replaceAll("_", "/")}${pad}`, "base64").toString("utf8");
+    const physical = mime.slice(0, mime.indexOf("\r\n\r\n")).split("\r\n");
+    for (const line of physical) assert.ok(line.length <= 78, line);
+    const contentType = physical.find((line) => line.startsWith("Content-Type: multipart/alternative"));
+    assert.ok(contentType);
+    assert.match(contentType, /boundary="vn_[0-9a-f]{16}"/);
+
+    const sender = `${"a".repeat(55)}@x.cl`;
+    const longTo = `${"b".repeat(64)}@example.co`;
+    assert.equal(sender.length, 60);
+    assert.equal(longTo.length, 75);
+    assert.equal(gmailReady(makeEnv({ SENDER_EMAIL: sender })), true);
+    const longRaw = buildRawMessage({
+      fromName: "Viento Norte",
+      fromEmail: sender,
+      replyTo: sender,
+      to: longTo,
+      subject: "Asunto",
+      text: "hola",
+      html: "<p>hola</p>",
+    });
+    const longPad = longRaw.length % 4 === 0 ? "" : "=".repeat(4 - (longRaw.length % 4));
+    const longMime = Buffer.from(`${longRaw.replaceAll("-", "+").replaceAll("_", "/")}${longPad}`, "base64").toString("utf8");
+    const longHeader = longMime.slice(0, longMime.indexOf("\r\n\r\n"));
+    for (const line of longHeader.split("\r\n")) assert.ok(line.length <= 998, line);
+    const fields = rfcUnfoldedFields(longHeader);
+    assert.equal(fields["list-unsubscribe"], `<mailto:${sender}?subject=baja>`);
+    assert.equal(fields["reply-to"], sender);
+    assert.equal(fields.to, longTo);
+    assert.equal(decodeRfc2047(fields.from), `Viento Norte <${sender}>`);
+    assert.ok(longHeader.includes(`List-Unsubscribe:\r\n <mailto:${sender}?subject=baja>`));
+    assert.ok(longHeader.includes(`To:\r\n ${longTo}`));
+  });
+
+  it("hashes the refresh token for the cache key and retries a 401 without a second reserve", async () => {
+    const key = await refreshTokenCacheKey("test-refresh-token");
+    assert.equal(key.length, 64);
+    assert.equal(key.includes("test-refresh-token"), false);
+    assert.equal(await refreshTokenCacheKey("other-refresh-token") === key, false);
+
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let sends = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_SEND_URL) {
+        sends += 1;
+        net.calls.push({ url, init });
+        if (sends === 1) return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response, json } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Reintento",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(json.gmail_id, "gmail_msg_1");
+    assert.equal(sends, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
+    assert.equal(binding.caps.get(capKey(LIVE_AT)), 1);
+    assert.equal(net.tokenCalls().length, 2);
+
+    resetGmailTokenCache();
+    const other = mockFetch();
+    const rotated = makeEnv({ GMAIL_REFRESH_TOKEN: "other-refresh-token" });
+    const again = await send(rotated, other.impl, token, {
+      to: ALLOWED,
+      subject: "Otra clave",
+      fields: fields(),
+    });
+    assert.equal(again.response.status, 200);
+    assert.equal(other.tokenCalls().length, 1);
+  });
+
+  it("does not send a third time after two Gmail 401s", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let sends = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_SEND_URL) {
+        sends += 1;
+        net.calls.push({ url, init });
+        return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Dos 401",
+      fields: fields(),
+    });
+    assert.equal(response.status, 502);
+    assert.equal(sends, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 1);
+    assert.equal(binding.caps.get(capKey(LIVE_AT)), 0);
+  });
+
+  it("keeps the cap when the 401 retry send times out or aborts", async () => {
+    for (const error of [new DOMException("timed out", "TimeoutError"), new DOMException("aborted", "AbortError")]) {
+      resetGmailTokenCache();
+      const net = mockFetch();
+      const token = await signToken();
+      const binding = counterBinding();
+      const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+      let sends = 0;
+      const impl = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url === GMAIL_SEND_URL) {
+          sends += 1;
+          net.calls.push({ url, init });
+          if (sends === 1) return new Response("unauthorized", { status: 401 });
+          throw error;
+        }
+        return net.impl(input, init);
+      };
+      const { response, json } = await send(env, impl, token, {
+        to: "lead@example.com",
+        subject: "401 y corte",
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(json.error, "gmail_error");
+      assert.equal(sends, 2);
+      assert.equal(net.gmailCalls().length, 2);
+      assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+      assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
+      assert.equal(binding.caps.get(capKey(LIVE_AT)), 1);
+    }
+  });
+
+  it("retries a 401 from the token endpoint without reserving twice", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let tokens = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_TOKEN_URL) {
+        tokens += 1;
+        net.calls.push({ url, init });
+        if (tokens === 1) return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Token",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(tokens, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(net.gmailCalls().length, 1);
+  });
+
+  it("turns the global halt on and off through POST /halt", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    const missing = await handleRequest(
+      request("/halt", { body: { on: true } }),
+      env,
+      net.impl,
+    );
+    assert.equal(missing.status, 403);
+    const bad = await handleRequest(
+      request("/halt", { token, body: { on: "true" } }),
+      env,
+      net.impl,
+    );
+    assert.equal(bad.status, 400);
+    const halted = await handleRequest(
+      request("/halt", { token, body: { on: true } }),
+      env,
+      net.impl,
+    );
+    assert.equal(halted.status, 200);
+    assert.equal((await halted.json()).halted, true);
+    const blocked = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Cortado",
+      fields: fields(),
+    });
+    assert.equal(blocked.response.status, 409);
+    assert.equal(blocked.json.error, "halted");
+    assert.equal(net.gmailCalls().length, 0);
+    const cleared = await handleRequest(
+      request("/halt", { token, body: { on: false } }),
+      env,
+      net.impl,
+    );
+    assert.equal(cleared.status, 200);
+    assert.equal((await cleared.json()).halted, false);
+    const opened = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Otra vez",
+      fields: fields(),
+    });
+    assert.equal(opened.response.status, 200);
+  });
+
+  it("answers /webhook/resend with 404", async () => {
+    const response = await handleRequest(
+      request("/webhook/resend", { body: { type: "email.bounced" } }),
+      makeEnv(),
+    );
+    assert.equal(response.status, 404);
   });
 });
 
@@ -1204,6 +1755,16 @@ describe("browser surface", () => {
     assert.equal(response.headers.get("access-control-allow-headers"), null);
   });
 });
+
+function decodeEncodedWords(value) {
+  const collapsed = value.replace(/\r\n[ \t]+/g, " ").replace(/(\?=)\s+(=\?)/g, "$1$2");
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  let out = "";
+  for (const match of collapsed.matchAll(/=\?UTF-8\?B\?([A-Za-z0-9+/=]+)\?=/gi)) {
+    out += decoder.decode(Buffer.from(match[1], "base64"));
+  }
+  return out;
+}
 
 function openCounter() {
   const db = new DatabaseSync(":memory:");
@@ -1227,56 +1788,36 @@ function openCounter() {
 }
 
 async function sendAcrossMidnight({ live }) {
-  const reservedAt = new Date(BEFORE_SANTIAGO_MIDNIGHT);
-  const laterAt = new Date(AFTER_SANTIAGO_MIDNIGHT);
+  const startMs = live ? LIVE_AT.getTime() : BEFORE_SANTIAGO_MIDNIGHT;
+  const jumpMs = live ? 12 * 60 * 60 * 1000 : 60_000;
+  const reservedAt = new Date(startMs);
+  const laterAt = new Date(startMs + jumpMs);
   const reservedKey = capKey(reservedAt);
   const laterKey = capKey(laterAt);
   assert.notEqual(reservedKey, laterKey);
-  const net = mockFetch({ resendStatus: 500, resendBody: "{}" });
+  const net = mockFetch({ gmailStatus: 500, gmailBody: "{}" });
   const token = await signToken({
-    exp: Math.floor(BEFORE_SANTIAGO_MIDNIGHT / 1000) + 3600,
+    exp: Math.floor(startMs / 1000) + 48 * 3600,
   });
   const binding = live ? counterBinding() : null;
   const env = makeEnv(live ? { OUTREACH_MODE: "live", OUTREACH_COUNTER: binding } : {});
-  const clock = installClock(BEFORE_SANTIAGO_MIDNIGHT);
+  const clock = installClock(startMs);
   try {
     const impl = async (input, init) => {
       const url = typeof input === "string" ? input : input.url;
-      if (url === "https://api.resend.com/emails") clock.advance(60_000);
+      if (url === GMAIL_SEND_URL) clock.advance(jumpMs);
       return net.impl(input, init);
     };
     const { response } = await send(env, impl, token, {
       to: live ? "lead@example.com" : ALLOWED,
       subject: "Cruza medianoche",
       fields: fields(),
-    });
+    }, live ? reservedAt : undefined);
     assert.equal(response.status, 502);
-    assert.equal(Date.now(), AFTER_SANTIAGO_MIDNIGHT);
+    assert.equal(Date.now(), startMs + jumpMs);
     return { env, binding, reservedKey, laterKey, net };
   } finally {
     clock.restore();
   }
 }
 
-function webhookSecret() {
-  const bytes = crypto.getRandomValues(new Uint8Array(24));
-  return `whsec_${Buffer.from(bytes).toString("base64")}`;
-}
-
-async function signWebhook(secret, id, timestamp, body) {
-  const raw = secret.slice("whsec_".length);
-  const keyBytes = Uint8Array.from(Buffer.from(raw, "base64"));
-  const key = await crypto.subtle.importKey(
-    "raw",
-    keyBytes,
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const sig = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(`${id}.${timestamp}.${body}`),
-  );
-  return `v1,${Buffer.from(new Uint8Array(sig)).toString("base64")}`;
-}

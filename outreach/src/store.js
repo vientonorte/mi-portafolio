@@ -1,4 +1,4 @@
-import { DAILY_CAP, SANTIAGO_TZ, WEBHOOK_DEDUPE_TTL_SEC } from "./constants.js";
+import { DAILY_CAP, DAILY_CAP_MAX, SANTIAGO_TZ } from "./constants.js";
 
 export const CAP_KEY_PATTERN = /^cap:\d{4}-\d{2}-\d{2}$/;
 const CAP_TTL_SEC = 60 * 60 * 72;
@@ -19,17 +19,70 @@ export function santiagoDay(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+const LOCAL_PART = /^[A-Za-z0-9._%+-]{1,64}$/;
+const DOMAIN_LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+
+function domainOk(domain) {
+  const labels = domain.split(".");
+  if (labels.length < 2 || !labels.every((label) => DOMAIN_LABEL.test(label))) return false;
+  return /^[a-z]{2,}$/.test(labels[labels.length - 1]);
+}
+
+// Allowlisted addr-spec, returned in lowercase. A comma, a display name,
+// or an encoded-word cannot pass. Each domain label is 1–63 characters,
+// with no leading or trailing hyphen.
 export function normalizeEmail(value) {
   if (typeof value !== "string") return null;
-  const email = value.trim();
-  if (email.length < 3 || email.length > 320) return null;
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
-  if (email.includes(",") || email.includes(";") || /[\r\n]/.test(email)) return null;
+  const email = value.trim().toLowerCase();
+  if (email.length < 3 || email.length > 254) return null;
+  const at = email.indexOf("@");
+  if (at <= 0 || at !== email.lastIndexOf("@")) return null;
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  if (!LOCAL_PART.test(local)) return null;
+  if (local.startsWith(".") || local.endsWith(".") || local.includes("..")) return null;
+  if (!domainOk(domain)) return null;
   return email;
 }
 
 export function emailKey(email) {
   return email.trim().toLowerCase();
+}
+
+const SEND_WEEKDAYS = new Set(["Mon", "Tue", "Wed", "Thu", "Fri"]);
+const WINDOW_START = 17 * 60 + 15;
+const WINDOW_END = 17 * 60 + 35;
+
+export function santiagoClock(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SANTIAGO_TZ,
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const pick = (type) => parts.find((part) => part.type === type)?.value;
+  const weekday = pick("weekday");
+  const hour = Number(pick("hour"));
+  const minute = Number(pick("minute"));
+  if (!weekday || !Number.isInteger(hour) || !Number.isInteger(minute)) throw new Error("clock");
+  return { weekday, hour, minute };
+}
+
+// Inclusive minute window. Intl supplies the Santiago civil time, DST included.
+export function isInsideSendWindow(date = new Date()) {
+  const { weekday, hour, minute } = santiagoClock(date);
+  if (!SEND_WEEKDAYS.has(weekday)) return false;
+  const minutes = hour * 60 + minute;
+  return minutes >= WINDOW_START && minutes <= WINDOW_END;
+}
+
+export function resolveLiveCap(env) {
+  const raw = env?.DAILY_CAP;
+  if (raw == null || (typeof raw === "string" && raw.trim() === "")) return DAILY_CAP;
+  const value = typeof raw === "number" ? raw : Number(String(raw).trim());
+  if (!Number.isInteger(value) || value < 1 || value > DAILY_CAP_MAX) return null;
+  return value;
 }
 
 export function capKey(date = new Date()) {
@@ -82,11 +135,15 @@ export function isLiveMode(env) {
   return !!env && env.OUTREACH_MODE === "live" && hasAtomicCounter(env);
 }
 
-export async function reserveCap(env, now = new Date()) {
+export async function reserveCap(env, now = new Date(), cap = DAILY_CAP) {
+  if (!Number.isInteger(cap) || cap < 1 || cap > DAILY_CAP_MAX) throw new Error("cap");
   const key = capKey(now);
   if (isLiveMode(env)) {
     const stub = counterStub(env);
-    const result = await stub.reserve(key, DAILY_CAP);
+    const result = await stub.reserve(key, cap);
+    if (result?.halted === true && result.ok === false && result.key === key) {
+      return { ok: false, halted: true, key, count: result.count, store: "do" };
+    }
     if (!result || result.key !== key || typeof result.count !== "number" || typeof result.ok !== "boolean") {
       if (result?.ok === true) {
         const rollbackKey = typeof result?.key === "string" ? result.key : key;
@@ -96,8 +153,15 @@ export async function reserveCap(env, now = new Date()) {
     }
     return { ok: result.ok, key, count: result.count, store: "do" };
   }
+  if (hasAtomicCounter(env)) {
+    const halt = await counterStub(env).readHalt();
+    if (halt?.halted === true) {
+      const current = await readCapKey(env.OUTREACH_KV, key);
+      return { ok: false, halted: true, key, count: current, store: "kv" };
+    }
+  }
   const current = await readCapKey(env.OUTREACH_KV, key);
-  if (current >= DAILY_CAP) return { ok: false, key, count: current, store: "kv" };
+  if (current >= cap) return { ok: false, key, count: current, store: "kv" };
   const reserved = await incrementCap(env.OUTREACH_KV, now);
   if (reserved.key !== key) throw new Error("cap-key");
   return { ok: true, key, count: reserved.count, store: "kv" };
@@ -114,19 +178,6 @@ export async function rollbackCap(env, key, store) {
   return decrementCap(env.OUTREACH_KV, key);
 }
 
-export async function claimWebhookId(env, id, now = Date.now()) {
-  if (hasAtomicCounter(env)) {
-    const result = await counterStub(env).claimWebhook(id, WEBHOOK_DEDUPE_TTL_SEC, now);
-    return result?.ok === true;
-  }
-  // Residual race: without the Durable Object, two deliveries can both see
-  // a missing key and both be accepted. The bound counter claims atomically.
-  const key = `svix:${id}`;
-  if (await env.OUTREACH_KV.get(key) != null) return false;
-  await env.OUTREACH_KV.put(key, "1", { expirationTtl: WEBHOOK_DEDUPE_TTL_SEC });
-  return true;
-}
-
 export async function isSuppressed(kv, email) {
   const raw = await kv.get(suppressKey(email));
   return raw != null;
@@ -141,26 +192,20 @@ export async function suppressEmail(kv, email, reason) {
   return { email: emailKey(email), reason, at };
 }
 
-const HALT_KEY = "state:halt";
-
-export async function readHalt(kv) {
-  const raw = await kv.get(HALT_KEY);
-  if (raw == null) return null;
-  try {
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return { reason: "unknown" };
-    return parsed;
-  } catch {
-    return { reason: "unknown" };
-  }
+// Halt lives on the Durable Object. KV is not a second copy.
+export async function readHalt(env) {
+  if (!hasAtomicCounter(env)) return null;
+  const result = await counterStub(env).readHalt();
+  if (!result || result.halted !== true) return null;
+  return result;
 }
 
-export async function setHalt(kv, details) {
-  await kv.put(HALT_KEY, JSON.stringify(details));
-}
-
-export async function clearHalt(kv) {
-  await kv.delete(HALT_KEY);
+export async function setHalt(env, on) {
+  if (typeof on !== "boolean") throw new Error("halt");
+  if (!hasAtomicCounter(env)) throw new Error("halt-store");
+  const result = await counterStub(env).setHalt(on);
+  if (!result || result.halted !== on) throw new Error("halt-store");
+  return result;
 }
 
 const LOG_TTL_SEC = 90 * 24 * 60 * 60;
@@ -171,9 +216,11 @@ export async function writeLog(kv, entry) {
     to: entry.to,
     template: entry.template,
     timestamp: entry.timestamp,
-    resend_id: entry.resend_id ?? null,
+    gmail_id: entry.gmail_id ?? null,
     result: entry.result,
     error: entry.error ?? null,
+    fuente: entry.fuente ?? null,
+    base: entry.base ?? null,
   };
   await kv.put(`log:${entry.id}`, JSON.stringify(record), { expirationTtl: LOG_TTL_SEC });
   return record;
@@ -189,4 +236,4 @@ export function allowlistHas(rawList, email) {
     .includes(wanted);
 }
 
-export { DAILY_CAP, HALT_KEY, LOG_TTL_SEC };
+export { DAILY_CAP, LOG_TTL_SEC };
