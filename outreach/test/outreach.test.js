@@ -240,6 +240,16 @@ function mockFetch({ gmailStatus = 200, gmailId = "gmail_msg_1", gmailBody, toke
   };
 }
 
+function rfcUnfoldedFields(header) {
+  const unfolded = header.replace(/\r\n(?=[ \t])/g, "");
+  const fields = {};
+  for (const line of unfolded.split("\r\n")) {
+    const idx = line.indexOf(":");
+    fields[line.slice(0, idx).toLowerCase()] = line.slice(idx + 1).trim();
+  }
+  return fields;
+}
+
 function decodeRfc2047(value) {
   const unfolded = value.replace(/\r\n[ \t]+/g, " ");
   const collapsed = unfolded.replace(/(\?=)\s+(=\?)/g, "$1$2");
@@ -349,7 +359,14 @@ describe("access fail-closed", () => {
   it("returns 403 when the signature does not match the JWKS", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const broken = `${token.slice(0, -2)}aa`;
+    const [header, payload, signature] = token.split(".");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    const at = 10;
+    const current = signature[at];
+    const next = alphabet[(alphabet.indexOf(current) + 1) % alphabet.length];
+    const flipped = `${signature.slice(0, at)}${next}${signature.slice(at + 1)}`;
+    assert.notEqual(flipped[at], current);
+    const broken = `${header}.${payload}.${flipped}`;
     const { response } = await send(makeEnv(), net.impl, broken, { to: ALLOWED, subject: "Hola", fields: fields() });
     assert.equal(response.status, 403);
     assert.equal(net.gmailCalls().length, 0);
@@ -1514,13 +1531,15 @@ describe("compliance, window, and Gmail auth", () => {
     assert.match(contentType, /boundary="vn_[0-9a-f]{16}"/);
 
     const sender = `${"a".repeat(55)}@x.cl`;
+    const longTo = `${"b".repeat(64)}@example.co`;
     assert.equal(sender.length, 60);
+    assert.equal(longTo.length, 75);
     assert.equal(gmailReady(makeEnv({ SENDER_EMAIL: sender })), true);
     const longRaw = buildRawMessage({
       fromName: "Viento Norte",
       fromEmail: sender,
       replyTo: sender,
-      to: ALLOWED,
+      to: longTo,
       subject: "Asunto",
       text: "hola",
       html: "<p>hola</p>",
@@ -1528,12 +1547,14 @@ describe("compliance, window, and Gmail auth", () => {
     const longPad = longRaw.length % 4 === 0 ? "" : "=".repeat(4 - (longRaw.length % 4));
     const longMime = Buffer.from(`${longRaw.replaceAll("-", "+").replaceAll("_", "/")}${longPad}`, "base64").toString("utf8");
     const longHeader = longMime.slice(0, longMime.indexOf("\r\n\r\n"));
-    for (const line of longHeader.split("\r\n")) assert.ok(line.length <= 78, line);
-    assert.ok(longHeader.includes("\r\n "));
-    const unfolded = longHeader.replace(/\r\n /g, "");
-    assert.ok(unfolded.includes(`<mailto:${sender}?subject=baja>`));
-    assert.ok(unfolded.includes(`Reply-To: ${sender}`) || unfolded.includes(`Reply-To:${sender}`));
-    assert.ok(unfolded.includes(`<${sender}>`));
+    for (const line of longHeader.split("\r\n")) assert.ok(line.length <= 998, line);
+    const fields = rfcUnfoldedFields(longHeader);
+    assert.equal(fields["list-unsubscribe"], `<mailto:${sender}?subject=baja>`);
+    assert.equal(fields["reply-to"], sender);
+    assert.equal(fields.to, longTo);
+    assert.equal(decodeRfc2047(fields.from), `Viento Norte <${sender}>`);
+    assert.ok(longHeader.includes(`List-Unsubscribe:\r\n <mailto:${sender}?subject=baja>`));
+    assert.ok(longHeader.includes(`To:\r\n ${longTo}`));
   });
 
   it("hashes the refresh token for the cache key and retries a 401 without a second reserve", async () => {

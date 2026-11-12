@@ -4,6 +4,7 @@ import { normalizeEmail } from "./store.js";
 const SECRET_MIN = 8;
 const TOKEN_SKEW_MS = 60_000;
 const MAX_LINE = 78;
+const HARD_LINE = 998;
 const MAX_CHUNK_BYTES = 45;
 const WORD_PREFIX = "=?UTF-8?B?";
 const WORD_SUFFIX = "?=";
@@ -161,25 +162,53 @@ export function encodeRfc2047(value, firstPrefix) {
   return words.join("\r\n ");
 }
 
-// RFC 5322 folding: a line longer than 78 is broken with CRLF + SP.
-// Removing that CRLF+SP restores the header. The SP is only the fold.
+// RFC 5322 §2.2.3: unfolding deletes only the CRLF. The following WSP stays,
+// so a fold is legal only where a space or tab is already part of the header.
+// A token with no whitespace that is still over 78 characters stays on one
+// line. A line over 998 characters is rejected. Encoded-words are already
+// folded by encodeRfc2047 and are not split again.
 function foldHeaderLines(block) {
   const out = [];
-  for (const line of block.split("\r\n")) {
-    if (line.length <= MAX_LINE) {
-      out.push(line);
-      continue;
-    }
-    let rest = line;
-    out.push(rest.slice(0, MAX_LINE));
-    rest = rest.slice(MAX_LINE);
-    while (rest.length > 0) {
-      const room = MAX_LINE - 1;
-      out.push(` ${rest.slice(0, room)}`);
-      rest = rest.slice(room);
-    }
+  for (const line of block.split("\r\n")) out.push(...foldOneLine(line));
+  for (const line of out) {
+    if (line.length > HARD_LINE) throw gmailError("mime", "mime");
   }
   return out.join("\r\n");
+}
+
+function foldOneLine(line) {
+  if (line.length <= MAX_LINE) return [line];
+  const lines = [];
+  let rest = line;
+  while (rest.length > MAX_LINE) {
+    let breakAt = -1;
+    for (let i = Math.min(MAX_LINE, rest.length - 1); i >= 1; i -= 1) {
+      if (rest[i] === " " || rest[i] === "\t") {
+        breakAt = i;
+        break;
+      }
+    }
+    if (breakAt === -1) {
+      let nextWs = -1;
+      for (let i = MAX_LINE; i < rest.length; i += 1) {
+        if (rest[i] === " " || rest[i] === "\t") {
+          nextWs = i;
+          break;
+        }
+      }
+      if (nextWs === -1) {
+        lines.push(rest);
+        return lines;
+      }
+      lines.push(rest.slice(0, nextWs));
+      rest = rest.slice(nextWs);
+      continue;
+    }
+    lines.push(rest.slice(0, breakAt));
+    rest = rest.slice(breakAt);
+  }
+  if (rest.length > 0) lines.push(rest);
+  return lines;
 }
 
 function assertPlainHeader(value) {
@@ -200,7 +229,6 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
 
   const fromValue = encodeRfc2047(fromName.trim(), "From: ");
   const addressLine = ` <${fromEmail}>`;
-  if (addressLine.length > MAX_LINE) throw gmailError("mime", "mime");
   const boundaryBytes = crypto.getRandomValues(new Uint8Array(8));
   let boundaryHex = "";
   for (const byte of boundaryBytes) boundaryHex += byte.toString(16).padStart(2, "0");
@@ -216,7 +244,7 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
   ];
   const headerBlock = foldHeaderLines(headers.join("\r\n"));
   for (const line of headerBlock.split("\r\n")) {
-    if (line.length > MAX_LINE) throw gmailError("mime", "mime");
+    if (line.length > HARD_LINE) throw gmailError("mime", "mime");
   }
   const mime = [
     headerBlock,
