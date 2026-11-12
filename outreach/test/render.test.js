@@ -5,6 +5,7 @@ import { buildMessage } from "../src/render.js";
 function message(hallazgo) {
   return buildMessage({
     subject: "Asunto",
+    replyTo: "dedicated-vn@gmail.com",
     fields: {
       empresa: "Óptica Sur",
       hallazgo,
@@ -112,6 +113,6 @@ describe("html header", () => {
     assert.ok(html.includes(">Viento Norte</span>"));
     assert.ok(html.includes("UXtech · Front office"));
     assert.ok(html.includes("&#8203;"));
-    assert.ok(html.includes("mailto:contacto@vientonorte.io"));
+    assert.ok(html.includes("mailto:dedicated-vn@gmail.com"));
   });
 });

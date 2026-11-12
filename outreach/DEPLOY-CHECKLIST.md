@@ -25,23 +25,32 @@ No pegar el client secret en el repo, en un issue, en el chat ni en la bandeja d
 El script es local. No corre en CI. Pide el scope `gmail.send` y nada más, escucha solo en `127.0.0.1:8765` e imprime el refresh token en esa terminal. No lo escribe a un archivo.
 
 ```bash
-cd outreach && npm ci
-GMAIL_CLIENT_ID=... GMAIL_CLIENT_SECRET=... node scripts/gmail-refresh-token.mjs
+cd outreach
+npm ci
+read -rs GMAIL_CLIENT_ID
+export GMAIL_CLIENT_ID
+read -rs GMAIL_CLIENT_SECRET
+export GMAIL_CLIENT_SECRET
+node scripts/gmail-refresh-token.mjs
 ```
 
-Los dos valores van en el entorno del comando, no en la línea de argumentos. Si Google devuelve otro scope, el script no imprime el token. El refresh token se copia desde esa terminal al paso 4 y no se pega en otro lado.
+`read -rs` no muestra lo que se tipea y no lo deja en el historial del shell. El secreto no va en la línea de comandos. El script usa state y PKCE S256, acepta solo el path `/`, y no imprime el token si `scope` no es exactamente `gmail.send` (también si el campo falta o viene vacío). El refresh token se copia desde esa terminal al paso 4 y no se pega en otro lado.
 
 ## 4. Secretos
 
 Rö los tipea. El comando no lleva el valor: wrangler lo pide en la terminal.
 
 ```bash
-cd outreach && npm ci && npx --no-install wrangler secret put GMAIL_CLIENT_ID
-cd outreach && npm ci && npx --no-install wrangler secret put GMAIL_CLIENT_SECRET
-cd outreach && npm ci && npx --no-install wrangler secret put GMAIL_REFRESH_TOKEN
+cd outreach
+npm ci
+npx --no-install wrangler secret put GMAIL_CLIENT_ID
+npx --no-install wrangler secret put GMAIL_CLIENT_SECRET
+npx --no-install wrangler secret put GMAIL_REFRESH_TOKEN
+npx --no-install wrangler secret delete RESEND_API_KEY
+npx --no-install wrangler secret delete RESEND_WEBHOOK_SECRET
 ```
 
-Sin esos tres, `/send` responde 503 y no reserva cupo.
+Sin los tres `GMAIL_*`, `/send` responde 503 y no reserva cupo. Los dos `secret delete` los corre Rö solo si ese secreto existe.
 
 ## 5. Vars
 
@@ -50,7 +59,7 @@ En el dashboard, no en git:
 - `SENDER_EMAIL` — la cuenta Gmail dedicada del paso 1
 - `SENDER_NAME` — el nombre visible del From
 - `TEST_ALLOWLIST` — una sola dirección: `gaete-gaona-44xjac@mail.grokbot.com`. **PENDIENTE OK Rö.**
-- `DAILY_CAP` — ya está en `wrangler.jsonc` como `10`. Es el tope de live. El modo test no la lee.
+- `DAILY_CAP` — ya está en `wrangler.jsonc` como `10`. Es el tope de live. El código rechaza un entero mayor que 10; subirlo es un PR. El modo test no lee la var.
 
 `TEST_ALLOWLIST` solo recibe correos `[PRUEBA]` con datos ficticios. Nunca un prospecto real ni un secreto. La leen el bot de TL y Rö. La retiene la plataforma.
 
@@ -61,8 +70,10 @@ Vacía o ausente, `/send` en modo test responde 403.
 El primer `wrangler deploy` crea el DNS de `outreach.vientonorte.io`. Ese deploy no se corre sin el OK de Rö.
 
 ```bash
-cd outreach && npx --no-install wrangler deploy --dry-run
-cd outreach && npm ci && npx --no-install wrangler deploy --keep-vars
+cd outreach
+npx --no-install wrangler deploy --dry-run
+npm ci
+npx --no-install wrangler deploy --keep-vars
 ```
 
 `--keep-vars` no borra vars ni secretos que ya estén en el dashboard. `OUTREACH_MODE` queda en `test`. La migración `v1` del Durable Object (`new_sqlite_classes`: `OutreachCounter`) se aplica en el primer deploy. `workers_dev` y `preview_urls` siguen en false.
@@ -92,8 +103,9 @@ Con `OUTREACH_MODE=test` y la allowlist del paso 5:
 1. `POST /send` sin JWT → 403.
 2. `OPTIONS /send` → 405, sin header CORS.
 3. Un solo `POST /send` a `gaete-gaona-44xjac@mail.grokbot.com`, asunto con prefijo `[PRUEBA] `, datos ficticios, `fuente` y `base` de prueba. Cualquier otro destinatario responde 403.
+4. Desde esa bandeja, responder «BAJA». El bot de PR B corre `POST /suppress`. Verificar que existe la clave KV `suppress:gaete-gaona-44xjac@mail.grokbot.com`.
 
-Evidencia para dar por buena la prueba: `spf=pass`, `dkim=pass` y `dmarc=pass` con dominio `gmail.com`, el render del HTML y la línea para responder «BAJA». No poner secretos en ese correo. No usar datos de un prospecto real.
+`Reply-To` y `List-Unsubscribe` apuntan a `SENDER_EMAIL`, la cuenta dedicada que lee el bot. Evidencia para dar por buena la prueba: `spf=pass`, `dkim=pass` y `dmarc=pass` con dominio `gmail.com`, el render del HTML, la línea para responder «BAJA», y la clave de supresión del paso 4. No poner secretos en ese correo. No usar datos de un prospecto real.
 
 ```bash
 curl -sS -D - -o /dev/null -X POST "https://outreach.vientonorte.io/send" \
@@ -118,7 +130,18 @@ Hasta ese OK, `OUTREACH_MODE` sigue en `test`. En live, `/send` solo entra de lu
 ## 11. Rollback
 
 ```bash
-cd outreach && npx --no-install wrangler rollback
+cd outreach
+npx --no-install wrangler rollback
+```
+
+Corte manual, con el service token que tiene TL. `on` true frena todo `/send`. `on` false lo levanta.
+
+```bash
+curl -sS -X POST "https://outreach.vientonorte.io/halt" \
+  -H "Content-Type: application/json" \
+  -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+  -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
+  -d '{"on":true}'
 ```
 
 O quitar el bloque `routes` y volver a desplegar. `workers_dev` y `preview_urls` no se prenden. `OUTREACH_MODE` no pasa a `live` en un rollback.

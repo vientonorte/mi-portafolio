@@ -1,9 +1,12 @@
-import { GMAIL_SEND_URL, GMAIL_TOKEN_URL, REPLY_TO } from "./constants.js";
+import { GMAIL_SEND_URL, GMAIL_TOKEN_URL } from "./constants.js";
 import { normalizeEmail } from "./store.js";
 
 const SECRET_MIN = 8;
 const TOKEN_SKEW_MS = 60_000;
-const RFC2047_BYTES = 45;
+const MAX_LINE = 78;
+const MAX_CHUNK_BYTES = 45;
+const WORD_PREFIX = "=?UTF-8?B?";
+const WORD_SUFFIX = "?=";
 
 // Per-isolate only. A new isolate fetches again. The refresh token never lands in KV.
 let tokenCache = null;
@@ -33,8 +36,12 @@ export function gmailReady(env) {
   return normalizeEmail(trimmedEmail) === trimmedEmail;
 }
 
-function cacheId(env) {
-  return `${env.GMAIL_CLIENT_ID.trim()}\0${env.GMAIL_REFRESH_TOKEN.trim()}`;
+export async function refreshTokenCacheKey(refreshToken) {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(refreshToken),
+  );
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 function gmailError(kind, step) {
@@ -45,7 +52,7 @@ function gmailError(kind, step) {
 }
 
 export async function getAccessToken(env, fetchImpl, nowMs) {
-  const id = cacheId(env);
+  const id = await refreshTokenCacheKey(env.GMAIL_REFRESH_TOKEN.trim());
   if (tokenCache && tokenCache.id === id && tokenCache.expiresAt > nowMs + TOKEN_SKEW_MS) {
     return tokenCache.token;
   }
@@ -66,6 +73,12 @@ export async function getAccessToken(env, fetchImpl, nowMs) {
     throw gmailError("network", "token");
   }
 
+  if (response.status === 401) {
+    resetGmailTokenCache();
+    const error = gmailError("status", "token");
+    error.status = 401;
+    throw error;
+  }
   if (!response.ok) throw gmailError("status", "token");
 
   let data;
@@ -108,16 +121,44 @@ function wrapBase64(text) {
   return lines.join("\r\n");
 }
 
-function encodeRfc2047(value) {
-  const bytes = new TextEncoder().encode(value);
-  const words = [];
-  for (let i = 0; i < bytes.length; i += RFC2047_BYTES) {
-    const slice = bytes.subarray(i, Math.min(i + RFC2047_BYTES, bytes.length));
-    const word = `=?UTF-8?B?${bytesToBase64(slice)}?=`;
-    if (word.length > 75) throw gmailError("mime", "mime");
-    words.push(word);
+function chunkByteLimit(prefix) {
+  const room = MAX_LINE - prefix.length - WORD_PREFIX.length - WORD_SUFFIX.length;
+  const b64 = room - (room % 4);
+  if (b64 < 4) throw gmailError("mime", "mime");
+  return Math.min(MAX_CHUNK_BYTES, (b64 / 4) * 3);
+}
+
+// Encoded-words are split on code points, at most 45 UTF-8 bytes, and each
+// physical header line stays within 78 characters including `firstPrefix`.
+export function encodeRfc2047(value, firstPrefix) {
+  if (typeof value !== "string" || value.length === 0) throw gmailError("mime", "mime");
+  if (typeof firstPrefix !== "string" || firstPrefix.length === 0) throw gmailError("mime", "mime");
+  const encoder = new TextEncoder();
+  const chars = Array.from(value);
+  const chunks = [];
+  let buf = [];
+  let bufBytes = 0;
+  const limit = () => chunkByteLimit(chunks.length === 0 ? firstPrefix : " ");
+
+  for (const ch of chars) {
+    const size = encoder.encode(ch).length;
+    if (size > limit()) throw gmailError("mime", "mime");
+    if (buf.length > 0 && bufBytes + size > limit()) {
+      chunks.push(buf.join(""));
+      buf = [];
+      bufBytes = 0;
+      if (size > limit()) throw gmailError("mime", "mime");
+    }
+    buf.push(ch);
+    bufBytes += size;
   }
-  if (words.length === 0) throw gmailError("mime", "mime");
+  if (buf.length > 0) chunks.push(buf.join(""));
+
+  const words = chunks.map((chunk) => `${WORD_PREFIX}${bytesToBase64(encoder.encode(chunk))}${WORD_SUFFIX}`);
+  words.forEach((word, index) => {
+    const line = `${index === 0 ? firstPrefix : " "}${word}`;
+    if (line.length > MAX_LINE || word.length > 75) throw gmailError("mime", "mime");
+  });
   return words.join("\r\n ");
 }
 
@@ -127,7 +168,7 @@ function assertPlainHeader(value) {
   }
 }
 
-export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, replyTo = REPLY_TO }) {
+export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, replyTo }) {
   assertPlainHeader(fromName.trim());
   assertPlainHeader(fromEmail);
   assertPlainHeader(to);
@@ -137,12 +178,15 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
     throw gmailError("mime", "mime");
   }
 
+  const fromValue = encodeRfc2047(fromName.trim(), "From: ");
+  const addressLine = ` <${fromEmail}>`;
+  if (addressLine.length > MAX_LINE) throw gmailError("mime", "mime");
   const boundary = `vn_${crypto.randomUUID().replaceAll("-", "")}`;
   const headers = [
-    `From: ${encodeRfc2047(fromName.trim())} <${fromEmail}>`,
+    `From: ${fromValue}\r\n${addressLine}`,
     `Reply-To: ${replyTo}`,
     `To: ${to}`,
-    `Subject: ${encodeRfc2047(subject)}`,
+    `Subject: ${encodeRfc2047(subject, "Subject: ")}`,
     `List-Unsubscribe: <mailto:${replyTo}?subject=baja>`,
     "MIME-Version: 1.0",
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
@@ -169,9 +213,11 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
 export async function postGmailSend({ env, fetchImpl, accessToken, to, subject, html, text }) {
   let raw;
   try {
+    const fromEmail = env.SENDER_EMAIL.trim();
     raw = buildRawMessage({
       fromName: env.SENDER_NAME,
-      fromEmail: env.SENDER_EMAIL.trim(),
+      fromEmail,
+      replyTo: fromEmail,
       to,
       subject,
       text,

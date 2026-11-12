@@ -19,12 +19,23 @@ export function santiagoDay(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+function hasForbiddenAddrChar(email) {
+  if (/[<>()"\[\]:;\\]/.test(email) || /\s/.test(email)) return true;
+  for (let i = 0; i < email.length; i += 1) {
+    const code = email.charCodeAt(i);
+    if (code < 32 || code === 127) return true;
+  }
+  return false;
+}
+
+// One addr-spec. Display names, spaces, controls, and the characters
+// <>()"[]:;\ are rejected so a value cannot open another header.
 export function normalizeEmail(value) {
   if (typeof value !== "string") return null;
   const email = value.trim();
   if (email.length < 3 || email.length > 320) return null;
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
-  if (email.includes(",") || email.includes(";") || /[\r\n]/.test(email)) return null;
+  if (hasForbiddenAddrChar(email)) return null;
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) return null;
   return email;
 }
 

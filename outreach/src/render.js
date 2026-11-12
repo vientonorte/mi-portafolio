@@ -1,5 +1,6 @@
 import { ANCHORS } from "./constants.js";
-import { OPT_OUT_LINE, PRIVACY_URL, PROSPECCION_HTML, PROSPECCION_TXT } from "./templates.js";
+import { normalizeEmail } from "./store.js";
+import { optOutLine, PRIVACY_URL, PROSPECCION_HTML, PROSPECCION_TXT } from "./templates.js";
 
 const SIGNATURE = "Rodrigo Gaete · UX Manager · Viento Norte";
 const FORBIDDEN = [
@@ -124,7 +125,9 @@ function preheaderFrom(hallazgo) {
   return `${base}${ellipsis}`;
 }
 
-export function buildMessage({ subject, fields }) {
+export function buildMessage({ subject, fields, replyTo }) {
+  const baja = normalizeEmail(typeof replyTo === "string" ? replyTo.trim() : "");
+  if (!baja || baja !== (typeof replyTo === "string" ? replyTo.trim() : replyTo)) throw new Error("reply");
   const input = fields && typeof fields === "object" ? fields : {};
   const anchorId = clip(input.servicio_ancla, 40);
   const anchor = ANCHORS[anchorId];
@@ -154,6 +157,7 @@ export function buildMessage({ subject, fields }) {
     kicker: anchor.kicker,
     oferta: anchor.oferta,
     preheader: preheaderFrom(hallazgo),
+    baja_email: baja,
   };
   data.link =
     `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=${data.rubro_slug}#${anchorId}`;
@@ -164,7 +168,7 @@ export function buildMessage({ subject, fields }) {
   const html = renderMustache(PROSPECCION_HTML, data, { html: true });
   const text = renderMustache(PROSPECCION_TXT, data, { html: false });
   const supplied = [empresa, hallazgo, contactoNombre, contactoCargo, rubro, cta, asunto, data.preheader];
-  validateBodies(html, text, data.link, supplied);
+  validateBodies(html, text, data.link, supplied, baja);
   return { html, text, subject: asunto, link: data.link };
 }
 
@@ -209,14 +213,16 @@ function maskSupplied(body, values, protectedStrings = []) {
   return parts.map((part) => (guards.includes(part) ? part : maskValues(part, values))).join("");
 }
 
-function validateBodies(html, text, link, supplied) {
+function validateBodies(html, text, link, supplied, baja) {
+  const mailto = `mailto:${baja}`;
+  const line = optOutLine(baja);
   for (const body of [html, text]) {
     if (hasPrice(body) || hasWebGratis(body)) throw new Error("copy");
     if (body.length > 100_000) throw new Error("size");
-    if (!body.includes(SIGNATURE) || !body.includes(OPT_OUT_LINE)) throw new Error("footer");
+    if (!body.includes(SIGNATURE) || !body.includes(line)) throw new Error("footer");
     if (!body.includes(PRIVACY_URL)) throw new Error("privacy");
     if (body.includes("Hola, :")) throw new Error("gap");
-    const shell = maskSupplied(body, supplied, [link, escapeHtml(link), "mailto:contacto@vientonorte.io"]);
+    const shell = maskSupplied(body, supplied, [link, escapeHtml(link), mailto, escapeHtml(mailto), baja, escapeHtml(baja)]);
     if (shell.includes("{{") || shell.includes("}}")) throw new Error("leftover");
     if (/\b(None|null|undefined)\b/.test(shell)) throw new Error("empty-literal");
     for (const forbidden of FORBIDDEN) {
@@ -227,7 +233,7 @@ function validateBodies(html, text, link, supplied) {
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
   if (hrefs.length === 0) throw new Error("href");
   const hrefLink = escapeHtml(link);
-  const allowedHrefs = new Set([hrefLink, "mailto:contacto@vientonorte.io", PRIVACY_URL]);
+  const allowedHrefs = new Set([hrefLink, escapeHtml(mailto), PRIVACY_URL]);
   for (const href of hrefs) {
     if (!allowedHrefs.has(href)) throw new Error("href");
   }

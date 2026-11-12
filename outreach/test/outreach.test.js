@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { afterEach, before, describe, it } from "node:test";
 import { DatabaseSync } from "node:sqlite";
-import { DAILY_CAP, GMAIL_SEND_URL, GMAIL_TOKEN_URL, REPLY_TO, TEMPLATE_ID } from "../src/constants.js";
+import { DAILY_CAP, DAILY_CAP_MAX, GMAIL_SEND_URL, GMAIL_TOKEN_URL, TEMPLATE_ID } from "../src/constants.js";
 import { OutreachCounter } from "../src/counter.js";
-import { resetGmailTokenCache } from "../src/gmail.js";
+import { buildRawMessage, encodeRfc2047, refreshTokenCacheKey, resetGmailTokenCache } from "../src/gmail.js";
 import { handleRequest } from "../src/index.js";
-import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, setHalt } from "../src/store.js";
-import { OPT_OUT_LINE, PRIVACY_URL } from "../src/templates.js";
+import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, normalizeEmail, setHalt } from "../src/store.js";
+import { optOutLine, PRIVACY_URL } from "../src/templates.js";
 
 const ISSUER = "https://vn.cloudflareaccess.com";
 const AUD = "aud-tag-0123456789";
@@ -481,15 +481,15 @@ describe("test mode and Gmail payload", () => {
     assert.equal(tokenBody.get("client_secret"), env.GMAIL_CLIENT_SECRET);
     assert.equal(tokenBody.get("refresh_token"), env.GMAIL_REFRESH_TOKEN);
     assert.equal(message.from, `${SENDER_NAME} <${SENDER_EMAIL}>`);
-    assert.equal(message.headers["reply-to"], REPLY_TO);
+    assert.equal(message.headers["reply-to"], SENDER_EMAIL);
     assert.equal(message.headers.to, ALLOWED);
     assert.equal(message.subject, "[PRUEBA] Contraste del botón");
-    assert.equal(message.headers["list-unsubscribe"], "<mailto:contacto@vientonorte.io?subject=baja>");
+    assert.equal(message.headers["list-unsubscribe"], `<mailto:${SENDER_EMAIL}?subject=baja>`);
     assert.match(message.headers["content-type"], /multipart\/alternative/);
     assert.match(message.html, /El botón de contacto tiene contraste 2\.1:1\./);
     assert.match(message.text, /El botón de contacto tiene contraste 2\.1:1\./);
-    assert.ok(message.html.includes(OPT_OUT_LINE));
-    assert.ok(message.text.includes(OPT_OUT_LINE));
+    assert.ok(message.html.includes(optOutLine(SENDER_EMAIL)));
+    assert.ok(message.text.includes(optOutLine(SENDER_EMAIL)));
     assert.ok(message.html.includes(PRIVACY_URL));
     assert.ok(message.text.includes(PRIVACY_URL));
     assert.ok(message.html.includes("Ana &lt;Legal&gt;"));
@@ -527,9 +527,9 @@ describe("test mode and Gmail payload", () => {
     const message = gmailMessage(net);
     assert.equal(message.subject, "Contraste del botón");
     assert.equal(message.from, `${SENDER_NAME} <${SENDER_EMAIL}>`);
-    assert.equal(message.headers["reply-to"], REPLY_TO);
+    assert.equal(message.headers["reply-to"], SENDER_EMAIL);
     assert.equal(message.headers.to, "lead@example.com");
-    assert.equal(message.headers["list-unsubscribe"], "<mailto:contacto@vientonorte.io?subject=baja>");
+    assert.equal(message.headers["list-unsubscribe"], `<mailto:${SENDER_EMAIL}?subject=baja>`);
     assert.equal(typeof message.html, "string");
     assert.equal(typeof message.text, "string");
   });
@@ -1036,7 +1036,7 @@ describe("midnight cap rollback", () => {
 });
 
 describe("durable object cap", () => {
-  it("rolls back only the reserved day and refuses a cap outside 1..100", () => {
+  it("rolls back only the reserved day and refuses a cap above 10", () => {
     const counter = openCounter();
     const reserved = "cap:2026-06-14";
     const later = "cap:2026-06-15";
@@ -1048,8 +1048,9 @@ describe("durable object cap", () => {
     assert.equal(counter.reserve(later, 2).count, 1);
     assert.equal(counter.reserve(later, 2).count, 2);
     assert.equal(counter.reserve(later, 2).ok, false);
+    assert.equal(counter.reserve("cap:2026-06-16", DAILY_CAP_MAX).ok, true);
     assert.throws(() => counter.reserve(reserved, 0), /cap/);
-    assert.throws(() => counter.reserve(reserved, 101), /cap/);
+    assert.throws(() => counter.reserve("cap:2026-06-17", DAILY_CAP_MAX + 1), /cap/);
   });
 });
 
@@ -1236,6 +1237,22 @@ describe("compliance, window, and Gmail auth", () => {
     assert.equal(invalid.json.error, "cap");
     assert.equal(bad.gmailCalls().length, 0);
 
+    const overBinding = counterBinding();
+    const over = mockFetch();
+    const overSend = await send(makeEnv({
+      OUTREACH_MODE: "live",
+      OUTREACH_COUNTER: overBinding,
+      DAILY_CAP: "11",
+    }), over.impl, token, {
+      to: "lead@example.com",
+      subject: "Tope alto",
+      fields: fields(),
+    });
+    assert.equal(overSend.response.status, 503);
+    assert.equal(overSend.json.error, "cap");
+    assert.equal(over.gmailCalls().length, 0);
+    assert.equal(overBinding.calls.filter((call) => call.op === "reserve").length, 0);
+
     const testNet = mockFetch();
     const testEnv = makeEnv({ DAILY_CAP: "1" });
     const first = await send(testEnv, testNet.impl, token, {
@@ -1359,6 +1376,219 @@ describe("compliance, window, and Gmail auth", () => {
     }
   });
 
+  it("rejects a display-name address and does not send", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const { response } = await send(env, net.impl, token, {
+      to: "Bob<evil@x.cl>",
+      subject: "Inyección",
+      fields: fields(),
+    });
+    assert.equal(response.status, 400);
+    assert.equal(net.gmailCalls().length, 0);
+    assert.equal(net.tokenCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get(capKey()), null);
+    const suppressed = await handleRequest(
+      request("/suppress", { token, body: { email: "Bob<evil@x.cl>", reason: "baja" } }),
+      env,
+      net.impl,
+    );
+    assert.equal(suppressed.status, 400);
+    assert.equal(await env.OUTREACH_KV.get("suppress:bob<evil@x.cl>"), null);
+    assert.equal(normalizeEmail("Bob<evil@x.cl>"), null);
+    assert.equal(normalizeEmail("a b@x.cl"), null);
+    assert.equal(normalizeEmail("a@x.cl\u0001"), null);
+  });
+
+  it("encodes RFC 2047 on code points and keeps Subject lines within 78", () => {
+    const subject = `${"a".repeat(44)}ñandú`;
+    const encoded = encodeRfc2047(subject, "Subject: ");
+    const lines = encoded.split("\r\n");
+    assert.ok(lines.length >= 2);
+    assert.ok(("Subject: " + lines[0]).length <= 78);
+    for (const line of lines.slice(1)) {
+      assert.equal(line.startsWith(" "), true);
+      assert.ok(line.length <= 78);
+    }
+    assert.equal(decodeEncodedWords(encoded), subject);
+
+    const name = `${"Ñandú ".repeat(12)}Árbol`;
+    assert.ok(new TextEncoder().encode(name).length > 45);
+    const fromEncoded = encodeRfc2047(name, "From: ");
+    const fromLines = fromEncoded.split("\r\n");
+    assert.ok(("From: " + fromLines[0]).length <= 78);
+    for (const line of fromLines.slice(1)) assert.ok(line.length <= 78);
+    assert.equal(decodeEncodedWords(fromEncoded), name);
+
+    const raw = buildRawMessage({
+      fromName: name,
+      fromEmail: SENDER_EMAIL,
+      replyTo: SENDER_EMAIL,
+      to: ALLOWED,
+      subject,
+      text: "hola",
+      html: "<p>hola</p>",
+    });
+    const pad = raw.length % 4 === 0 ? "" : "=".repeat(4 - (raw.length % 4));
+    const mime = Buffer.from(`${raw.replaceAll("-", "+").replaceAll("_", "/")}${pad}`, "base64").toString("utf8");
+    const physical = mime.slice(0, mime.indexOf("\r\n\r\n")).split("\r\n");
+    let header = "";
+    for (const line of physical) {
+      if (line.startsWith(" ") || line.startsWith("\t")) {
+        if (header === "Subject" || header === "From") assert.ok(line.length <= 78);
+      } else {
+        const nameEnd = line.indexOf(":");
+        header = line.slice(0, nameEnd);
+        if (header === "Subject" || header === "From") assert.ok(line.length <= 78);
+      }
+    }
+  });
+
+  it("hashes the refresh token for the cache key and retries a 401 without a second reserve", async () => {
+    const key = await refreshTokenCacheKey("test-refresh-token");
+    assert.equal(key.length, 64);
+    assert.equal(key.includes("test-refresh-token"), false);
+    assert.equal(await refreshTokenCacheKey("other-refresh-token") === key, false);
+
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let sends = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_SEND_URL) {
+        sends += 1;
+        net.calls.push({ url, init });
+        if (sends === 1) return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response, json } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Reintento",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(json.gmail_id, "gmail_msg_1");
+    assert.equal(sends, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
+    assert.equal(binding.caps.get(capKey(LIVE_AT)), 1);
+    assert.equal(net.tokenCalls().length, 2);
+
+    resetGmailTokenCache();
+    const other = mockFetch();
+    const rotated = makeEnv({ GMAIL_REFRESH_TOKEN: "other-refresh-token" });
+    const again = await send(rotated, other.impl, token, {
+      to: ALLOWED,
+      subject: "Otra clave",
+      fields: fields(),
+    });
+    assert.equal(again.response.status, 200);
+    assert.equal(other.tokenCalls().length, 1);
+  });
+
+  it("does not send a third time after two Gmail 401s", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let sends = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_SEND_URL) {
+        sends += 1;
+        net.calls.push({ url, init });
+        return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Dos 401",
+      fields: fields(),
+    });
+    assert.equal(response.status, 502);
+    assert.equal(sends, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 1);
+    assert.equal(binding.caps.get(capKey(LIVE_AT)), 0);
+  });
+
+  it("retries a 401 from the token endpoint without reserving twice", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+    let tokens = 0;
+    const impl = async (input, init) => {
+      const url = typeof input === "string" ? input : input.url;
+      if (url === GMAIL_TOKEN_URL) {
+        tokens += 1;
+        net.calls.push({ url, init });
+        if (tokens === 1) return new Response("unauthorized", { status: 401 });
+      }
+      return net.impl(input, init);
+    };
+    const { response } = await send(env, impl, token, {
+      to: "lead@example.com",
+      subject: "Token",
+      fields: fields(),
+    });
+    assert.equal(response.status, 200);
+    assert.equal(tokens, 2);
+    assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+    assert.equal(net.gmailCalls().length, 1);
+  });
+
+  it("turns the global halt on and off through POST /halt", async () => {
+    const net = mockFetch();
+    const token = await signToken();
+    const env = makeEnv();
+    const missing = await handleRequest(
+      request("/halt", { body: { on: true } }),
+      env,
+      net.impl,
+    );
+    assert.equal(missing.status, 403);
+    const bad = await handleRequest(
+      request("/halt", { token, body: { on: "true" } }),
+      env,
+      net.impl,
+    );
+    assert.equal(bad.status, 400);
+    const halted = await handleRequest(
+      request("/halt", { token, body: { on: true } }),
+      env,
+      net.impl,
+    );
+    assert.equal(halted.status, 200);
+    assert.equal((await halted.json()).halted, true);
+    const blocked = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Cortado",
+      fields: fields(),
+    });
+    assert.equal(blocked.response.status, 409);
+    assert.equal(blocked.json.error, "halted");
+    assert.equal(net.gmailCalls().length, 0);
+    const cleared = await handleRequest(
+      request("/halt", { token, body: { on: false } }),
+      env,
+      net.impl,
+    );
+    assert.equal(cleared.status, 200);
+    assert.equal((await cleared.json()).halted, false);
+    const opened = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Otra vez",
+      fields: fields(),
+    });
+    assert.equal(opened.response.status, 200);
+  });
+
   it("answers /webhook/resend with 404", async () => {
     const response = await handleRequest(
       request("/webhook/resend", { body: { type: "email.bounced" } }),
@@ -1379,6 +1609,16 @@ describe("browser surface", () => {
     assert.equal(response.headers.get("access-control-allow-headers"), null);
   });
 });
+
+function decodeEncodedWords(value) {
+  const collapsed = value.replace(/\r\n[ \t]+/g, " ").replace(/(\?=)\s+(=\?)/g, "$1$2");
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  let out = "";
+  for (const match of collapsed.matchAll(/=\?UTF-8\?B\?([A-Za-z0-9+/=]+)\?=/gi)) {
+    out += decoder.decode(Buffer.from(match[1], "base64"));
+  }
+  return out;
+}
 
 function openCounter() {
   const db = new DatabaseSync(":memory:");

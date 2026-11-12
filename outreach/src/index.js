@@ -1,6 +1,6 @@
 import { verifyAccessJwt } from "./access.js";
 import { DAILY_CAP, TEMPLATE_ID } from "./constants.js";
-import { getAccessToken, gmailReady, postGmailSend } from "./gmail.js";
+import { getAccessToken, gmailReady, postGmailSend, resetGmailTokenCache } from "./gmail.js";
 import { buildMessage } from "./render.js";
 import {
   allowlistHas,
@@ -13,6 +13,7 @@ import {
   reserveCap,
   resolveLiveCap,
   rollbackCap,
+  setHalt,
   suppressEmail,
   writeLog,
 } from "./store.js";
@@ -35,6 +36,7 @@ export async function handleRequest(request, env, fetchImpl = globalThis.fetch, 
 
   if (url.pathname === "/send") return handleSend(request, env, fetchImpl, clock);
   if (url.pathname === "/suppress") return handleSuppress(request, env, fetchImpl);
+  if (url.pathname === "/halt") return handleHalt(request, env, fetchImpl);
   if (url.pathname === "/resume") return handleResume(request, env, fetchImpl);
   return json({ error: "not_found" }, 404);
 }
@@ -96,9 +98,15 @@ async function handleSend(request, env, fetchImpl, clock) {
     : originalSubject;
 
   let message;
+  const replyTo = typeof env.SENDER_EMAIL === "string" ? normalizeEmail(env.SENDER_EMAIL.trim()) : null;
   try {
-    message = buildMessage({ subject, fields: payload.fields });
-  } catch {
+    if (!replyTo) throw new Error("reply");
+    message = buildMessage({ subject, fields: payload.fields, replyTo });
+  } catch (error) {
+    if (error instanceof Error && error.message === "reply") {
+      await logAttempt(env, to, "unconfigured", null, "sender", compliance, undefined, clock);
+      return json({ error: "unconfigured" }, 503);
+    }
     await logAttempt(env, to, "invalid", null, "render", compliance, undefined, clock);
     return json({ error: "invalid" }, 400);
   }
@@ -166,7 +174,7 @@ async function handleSend(request, env, fetchImpl, clock) {
 
   let accessToken;
   try {
-    accessToken = await getAccessToken(env, fetchImpl, clock.getTime());
+    accessToken = await tokenForSend(env, fetchImpl, clock.getTime());
   } catch (error) {
     // The Gmail send was not called. A token failure is a definite miss.
     await releaseReservation();
@@ -193,12 +201,31 @@ async function handleSend(request, env, fetchImpl, clock) {
       html: message.html,
       text: message.text,
     });
+    // A 401 is a definite rejection, so one retry reuses this reservation.
+    if (response.status === 401) {
+      resetGmailTokenCache();
+      accessToken = await getAccessToken(env, fetchImpl, clock.getTime());
+      response = await postGmailSend({
+        env,
+        fetchImpl,
+        accessToken,
+        to,
+        subject: message.subject,
+        html: message.html,
+        text: message.text,
+      });
+      if (response.status === 401) resetGmailTokenCache();
+    }
   } catch (error) {
     // A timeout, abort, or network error on messages.send may still have sent.
-    // A MIME build failure happens before that call and is refunded.
-    const refund = error?.step === "mime";
+    // A MIME build failure, or a token fetch that never reached messages.send, is refunded.
+    const refund = error?.step === "mime" || error?.step === "token";
     if (refund) await releaseReservation();
-    const reason = refund ? "mime" : "network";
+    const reason = error?.step === "mime"
+      ? "mime"
+      : error?.step === "token"
+        ? (error.kind === "network" ? "token_network" : "token_status")
+        : "network";
     await logAttempt(env, to, "gmail_error", null, reason, compliance, id, clock);
     console.log(JSON.stringify({
       event: "outreach_send",
@@ -263,6 +290,38 @@ async function handleSuppress(request, env, fetchImpl) {
   await suppressEmail(env.OUTREACH_KV, email, payload.reason);
   console.log(JSON.stringify({ event: "outreach_suppress", reason: payload.reason }));
   return json({ ok: true, suppressed: 1 }, 200);
+}
+
+async function handleHalt(request, env, fetchImpl) {
+  const denied = await authorize(request, env, fetchImpl);
+  if (denied) return denied;
+  let payload;
+  try {
+    payload = await readJson(request);
+  } catch {
+    return json({ error: "invalid" }, 400);
+  }
+  if (!payload || typeof payload !== "object" || typeof payload.on !== "boolean") {
+    return json({ error: "invalid" }, 400);
+  }
+  if (payload.on) {
+    await setHalt(env.OUTREACH_KV, { reason: "manual", at: new Date().toISOString() });
+  } else {
+    await clearHalt(env.OUTREACH_KV);
+  }
+  console.log(JSON.stringify({ event: "outreach_halt", on: payload.on }));
+  return json({ ok: true, halted: payload.on }, 200);
+}
+
+async function tokenForSend(env, fetchImpl, nowMs) {
+  try {
+    return await getAccessToken(env, fetchImpl, nowMs);
+  } catch (error) {
+    if (error?.status !== 401) throw error;
+    // The cap is already reserved. A second token fetch does not reserve again.
+    resetGmailTokenCache();
+    return getAccessToken(env, fetchImpl, nowMs);
+  }
 }
 
 async function handleResume(request, env, fetchImpl) {
