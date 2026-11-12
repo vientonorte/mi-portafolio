@@ -14,13 +14,34 @@ export class OutreachCounter extends DurableObject {
           sent INTEGER NOT NULL
         )`,
       );
+      this.ctx.storage.sql.exec(
+        `CREATE TABLE IF NOT EXISTS flags (
+          name TEXT PRIMARY KEY,
+          value TEXT NOT NULL
+        )`,
+      );
     });
+  }
+
+  readHalt() {
+    const rows = this.ctx.storage.sql.exec("SELECT value FROM flags WHERE name = ?", "halt").toArray();
+    return { halted: rows.length > 0 && rows[0].value === "1" };
+  }
+
+  setHalt(on) {
+    if (typeof on !== "boolean") throw new Error("halt");
+    this.ctx.storage.sql.exec(
+      "INSERT INTO flags (name, value) VALUES ('halt', ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value",
+      on ? "1" : "0",
+    );
+    return { ok: true, halted: on };
   }
 
   reserve(key, cap) {
     assertDayKey(key);
     if (!Number.isInteger(cap) || cap < 1 || cap > DAILY_CAP_MAX) throw new Error("cap");
     const current = readCount(this.ctx.storage.sql, key);
+    if (this.readHalt().halted) return { ok: false, halted: true, key, count: current };
     if (current >= cap) return { ok: false, key, count: current };
     const count = current + 1;
     this.ctx.storage.sql.exec(

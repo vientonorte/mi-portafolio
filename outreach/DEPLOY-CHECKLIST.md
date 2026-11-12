@@ -134,7 +134,7 @@ cd outreach
 npx --no-install wrangler rollback
 ```
 
-Corte manual, con el service token que tiene TL. `on` true frena todo `/send`. `on` false lo levanta.
+Corte manual, con el service token que tiene TL. El flag queda en el Durable Object `OutreachCounter`, no en KV. Mientras está prendido, `reserve()` no cuenta el envío y `/send` responde 409. `on` true lo prende. `on` false lo levanta.
 
 ```bash
 curl -sS -X POST "https://outreach.vientonorte.io/halt" \

@@ -5,7 +5,7 @@ import { DAILY_CAP, DAILY_CAP_MAX, GMAIL_SEND_URL, GMAIL_TOKEN_URL, TEMPLATE_ID 
 import { OutreachCounter } from "../src/counter.js";
 import { buildRawMessage, encodeRfc2047, refreshTokenCacheKey, resetGmailTokenCache } from "../src/gmail.js";
 import { handleRequest } from "../src/index.js";
-import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, normalizeEmail, setHalt } from "../src/store.js";
+import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, normalizeEmail } from "../src/store.js";
 import { optOutLine, PRIVACY_URL } from "../src/templates.js";
 
 const ISSUER = "https://vn.cloudflareaccess.com";
@@ -63,12 +63,22 @@ class MemoryKV {
 
 function counterBinding() {
   const caps = new Map();
-  const claims = new Map();
   const calls = [];
+  let halted = false;
   const stub = {
+    readHalt() {
+      return { halted };
+    },
+    setHalt(on) {
+      if (typeof on !== "boolean") throw new Error("halt");
+      calls.push({ op: "halt", on });
+      halted = on;
+      return { ok: true, halted: on };
+    },
     reserve(key, cap) {
       calls.push({ op: "reserve", key, cap });
       const current = caps.get(key) ?? 0;
+      if (halted) return { ok: false, halted: true, key, count: current };
       if (current >= cap) return { ok: false, key, count: current };
       const count = current + 1;
       caps.set(key, count);
@@ -891,11 +901,17 @@ describe("suppression", () => {
 });
 
 describe("halt", () => {
-  it("blocks /send while state:halt is set and /resume clears it", async () => {
+  it("blocks /send while the counter is halted and /resume clears it", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const env = makeEnv();
-    await setHalt(env.OUTREACH_KV, { reason: "manual", at: "2026-07-13T21:20:00.000Z" });
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
+    const halted = await handleRequest(
+      request("/halt", { token, body: { on: true } }),
+      env,
+      net.impl,
+    );
+    assert.equal(halted.status, 200);
     const blocked = await send(env, net.impl, token, {
       to: ALLOWED,
       subject: "Durante el corte",
@@ -904,6 +920,7 @@ describe("halt", () => {
     assert.equal(blocked.response.status, 409);
     assert.equal(blocked.json.error, "halted");
     assert.equal(net.gmailCalls().length, 0);
+    assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
     const resumed = await handleRequest(request("/resume", { token, body: {} }), env, net.impl);
     assert.equal(resumed.status, 200);
     const again = await send(env, net.impl, token, {
@@ -1051,6 +1068,15 @@ describe("durable object cap", () => {
     assert.equal(counter.reserve("cap:2026-06-16", DAILY_CAP_MAX).ok, true);
     assert.throws(() => counter.reserve(reserved, 0), /cap/);
     assert.throws(() => counter.reserve("cap:2026-06-17", DAILY_CAP_MAX + 1), /cap/);
+    assert.equal(counter.setHalt(true).halted, true);
+    const refused = counter.reserve("cap:2026-06-18", DAILY_CAP);
+    assert.equal(refused.ok, false);
+    assert.equal(refused.halted, true);
+    assert.equal(refused.count, 0);
+    assert.equal(counter.setHalt(false).halted, false);
+    assert.equal(counter.reserve("cap:2026-06-18", DAILY_CAP).count, 1);
+    assert.equal(counter.setHalt(true).halted, true);
+    assert.equal(counter.reserve("cap:2026-06-18", DAILY_CAP).count, 1);
   });
 });
 
@@ -1396,9 +1422,35 @@ describe("compliance, window, and Gmail auth", () => {
     );
     assert.equal(suppressed.status, 400);
     assert.equal(await env.OUTREACH_KV.get("suppress:bob<evil@x.cl>"), null);
-    assert.equal(normalizeEmail("Bob<evil@x.cl>"), null);
-    assert.equal(normalizeEmail("a b@x.cl"), null);
-    assert.equal(normalizeEmail("a@x.cl\u0001"), null);
+    for (const bad of [
+      "x,evil@x.cl",
+      "evil@x.cl,",
+      "=?utf-8?q?a?=@x.cl",
+      "a..b@x.cl",
+      "Bob<evil@x.cl>",
+      "ok@x.cl,not-an-at.cl",
+    ]) {
+      const rejected = mockFetch();
+      const { response: badResponse } = await send(makeEnv(), rejected.impl, token, {
+        to: bad,
+        subject: "Malo",
+        fields: fields(),
+      });
+      assert.equal(badResponse.status, 400, bad);
+      assert.equal(rejected.gmailCalls().length, 0, bad);
+      assert.equal(rejected.tokenCalls().length, 0, bad);
+      assert.equal(normalizeEmail(bad), null, bad);
+    }
+    assert.equal(normalizeEmail("User+Tag@Sub-Domain.CL"), "user+tag@sub-domain.cl");
+    assert.equal(normalizeEmail("a-b@x-y.cl"), "a-b@x-y.cl");
+    const goodNet = mockFetch();
+    const good = await send(makeEnv({ TEST_ALLOWLIST: "user+tag@sub-domain.cl,a-b@x-y.cl" }), goodNet.impl, token, {
+      to: "User+Tag@Sub-Domain.CL",
+      subject: "Valida",
+      fields: fields(),
+    });
+    assert.equal(good.response.status, 200);
+    assert.equal(gmailMessage(goodNet).headers.to, "user+tag@sub-domain.cl");
   });
 
   it("encodes RFC 2047 on code points and keeps Subject lines within 78", () => {
@@ -1433,16 +1485,10 @@ describe("compliance, window, and Gmail auth", () => {
     const pad = raw.length % 4 === 0 ? "" : "=".repeat(4 - (raw.length % 4));
     const mime = Buffer.from(`${raw.replaceAll("-", "+").replaceAll("_", "/")}${pad}`, "base64").toString("utf8");
     const physical = mime.slice(0, mime.indexOf("\r\n\r\n")).split("\r\n");
-    let header = "";
-    for (const line of physical) {
-      if (line.startsWith(" ") || line.startsWith("\t")) {
-        if (header === "Subject" || header === "From") assert.ok(line.length <= 78);
-      } else {
-        const nameEnd = line.indexOf(":");
-        header = line.slice(0, nameEnd);
-        if (header === "Subject" || header === "From") assert.ok(line.length <= 78);
-      }
-    }
+    for (const line of physical) assert.ok(line.length <= 78, line);
+    const contentType = physical.find((line) => line.startsWith("Content-Type: multipart/alternative"));
+    assert.ok(contentType);
+    assert.match(contentType, /boundary="vn_[0-9a-f]{16}"/);
   });
 
   it("hashes the refresh token for the cache key and retries a 401 without a second reserve", async () => {
@@ -1517,6 +1563,39 @@ describe("compliance, window, and Gmail auth", () => {
     assert.equal(binding.caps.get(capKey(LIVE_AT)), 0);
   });
 
+  it("keeps the cap when the 401 retry send times out or aborts", async () => {
+    for (const error of [new DOMException("timed out", "TimeoutError"), new DOMException("aborted", "AbortError")]) {
+      resetGmailTokenCache();
+      const net = mockFetch();
+      const token = await signToken();
+      const binding = counterBinding();
+      const env = makeEnv({ OUTREACH_MODE: "live", OUTREACH_COUNTER: binding });
+      let sends = 0;
+      const impl = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url === GMAIL_SEND_URL) {
+          sends += 1;
+          net.calls.push({ url, init });
+          if (sends === 1) return new Response("unauthorized", { status: 401 });
+          throw error;
+        }
+        return net.impl(input, init);
+      };
+      const { response, json } = await send(env, impl, token, {
+        to: "lead@example.com",
+        subject: "401 y corte",
+        fields: fields(),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(json.error, "gmail_error");
+      assert.equal(sends, 2);
+      assert.equal(net.gmailCalls().length, 2);
+      assert.equal(binding.calls.filter((call) => call.op === "reserve").length, 1);
+      assert.equal(binding.calls.filter((call) => call.op === "rollback").length, 0);
+      assert.equal(binding.caps.get(capKey(LIVE_AT)), 1);
+    }
+  });
+
   it("retries a 401 from the token endpoint without reserving twice", async () => {
     const net = mockFetch();
     const token = await signToken();
@@ -1546,7 +1625,8 @@ describe("compliance, window, and Gmail auth", () => {
   it("turns the global halt on and off through POST /halt", async () => {
     const net = mockFetch();
     const token = await signToken();
-    const env = makeEnv();
+    const binding = counterBinding();
+    const env = makeEnv({ OUTREACH_COUNTER: binding });
     const missing = await handleRequest(
       request("/halt", { body: { on: true } }),
       env,

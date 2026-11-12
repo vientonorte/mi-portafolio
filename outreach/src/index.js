@@ -4,9 +4,9 @@ import { getAccessToken, gmailReady, postGmailSend, resetGmailTokenCache } from 
 import { buildMessage } from "./render.js";
 import {
   allowlistHas,
-  clearHalt,
   isInsideSendWindow,
   isLiveMode,
+  hasAtomicCounter,
   isSuppressed,
   normalizeEmail,
   readHalt,
@@ -116,7 +116,7 @@ async function handleSend(request, env, fetchImpl, clock) {
     return json({ error: "suppressed" }, 409);
   }
 
-  if (await readHalt(env.OUTREACH_KV)) {
+  if (await readHalt(env)) {
     await logAttempt(env, to, "halted", null, null, compliance, undefined, clock);
     return json({ error: "halted" }, 409);
   }
@@ -141,6 +141,10 @@ async function handleSend(request, env, fetchImpl, clock) {
   try {
     const outcome = await reserveCap(env, clock, cap);
     if (!outcome.ok) {
+      if (outcome.halted) {
+        await logAttempt(env, to, "halted", null, null, compliance, undefined, clock);
+        return json({ error: "halted" }, 409);
+      }
       await logAttempt(env, to, "cap", null, null, compliance, undefined, clock);
       return json({ error: "cap" }, 429);
     }
@@ -304,10 +308,11 @@ async function handleHalt(request, env, fetchImpl) {
   if (!payload || typeof payload !== "object" || typeof payload.on !== "boolean") {
     return json({ error: "invalid" }, 400);
   }
-  if (payload.on) {
-    await setHalt(env.OUTREACH_KV, { reason: "manual", at: new Date().toISOString() });
-  } else {
-    await clearHalt(env.OUTREACH_KV);
+  if (!hasAtomicCounter(env)) return json({ error: "unavailable" }, 503);
+  try {
+    await setHalt(env, payload.on);
+  } catch {
+    return json({ error: "unavailable" }, 503);
   }
   console.log(JSON.stringify({ event: "outreach_halt", on: payload.on }));
   return json({ ok: true, halted: payload.on }, 200);
@@ -327,7 +332,12 @@ async function tokenForSend(env, fetchImpl, nowMs) {
 async function handleResume(request, env, fetchImpl) {
   const denied = await authorize(request, env, fetchImpl);
   if (denied) return denied;
-  await clearHalt(env.OUTREACH_KV);
+  if (!hasAtomicCounter(env)) return json({ error: "unavailable" }, 503);
+  try {
+    await setHalt(env, false);
+  } catch {
+    return json({ error: "unavailable" }, 503);
+  }
   console.log(JSON.stringify({ event: "outreach_resume", result: "cleared" }));
   return json({ ok: true, halted: false }, 200);
 }

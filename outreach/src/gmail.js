@@ -32,8 +32,7 @@ export function gmailReady(env) {
   if (trimmedName.length < 1 || trimmedName.length > 200) return false;
   const email = env.SENDER_EMAIL;
   if (typeof email !== "string" || /[\r\n]/.test(email)) return false;
-  const trimmedEmail = email.trim();
-  return normalizeEmail(trimmedEmail) === trimmedEmail;
+  return normalizeEmail(typeof email === "string" ? email.trim() : "") != null;
 }
 
 export async function refreshTokenCacheKey(refreshToken) {
@@ -181,7 +180,10 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
   const fromValue = encodeRfc2047(fromName.trim(), "From: ");
   const addressLine = ` <${fromEmail}>`;
   if (addressLine.length > MAX_LINE) throw gmailError("mime", "mime");
-  const boundary = `vn_${crypto.randomUUID().replaceAll("-", "")}`;
+  const boundaryBytes = crypto.getRandomValues(new Uint8Array(8));
+  let boundaryHex = "";
+  for (const byte of boundaryBytes) boundaryHex += byte.toString(16).padStart(2, "0");
+  const boundary = `vn_${boundaryHex}`;
   const headers = [
     `From: ${fromValue}\r\n${addressLine}`,
     `Reply-To: ${replyTo}`,
@@ -191,8 +193,12 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
     "MIME-Version: 1.0",
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
   ];
+  const headerBlock = headers.join("\r\n");
+  for (const line of headerBlock.split("\r\n")) {
+    if (line.length > MAX_LINE) throw gmailError("mime", "mime");
+  }
   const mime = [
-    headers.join("\r\n"),
+    headerBlock,
     "",
     `--${boundary}`,
     "Content-Type: text/plain; charset=\"UTF-8\"",
@@ -213,7 +219,8 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
 export async function postGmailSend({ env, fetchImpl, accessToken, to, subject, html, text }) {
   let raw;
   try {
-    const fromEmail = env.SENDER_EMAIL.trim();
+    const fromEmail = normalizeEmail(typeof env.SENDER_EMAIL === "string" ? env.SENDER_EMAIL.trim() : "");
+    if (!fromEmail) throw gmailError("mime", "mime");
     raw = buildRawMessage({
       fromName: env.SENDER_NAME,
       fromEmail,

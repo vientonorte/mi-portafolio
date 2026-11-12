@@ -19,23 +19,24 @@ export function santiagoDay(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
-function hasForbiddenAddrChar(email) {
-  if (/[<>()"\[\]:;\\]/.test(email) || /\s/.test(email)) return true;
-  for (let i = 0; i < email.length; i += 1) {
-    const code = email.charCodeAt(i);
-    if (code < 32 || code === 127) return true;
-  }
-  return false;
-}
+const LOCAL_PART = /^[A-Za-z0-9._%+-]{1,64}$/;
+const DOMAIN_NAME = /^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/;
 
-// One addr-spec. Display names, spaces, controls, and the characters
-// <>()"[]:;\ are rejected so a value cannot open another header.
+// Allowlisted addr-spec, returned in lowercase. A comma, a display name,
+// or an encoded-word cannot pass.
 export function normalizeEmail(value) {
   if (typeof value !== "string") return null;
-  const email = value.trim();
-  if (email.length < 3 || email.length > 320) return null;
-  if (hasForbiddenAddrChar(email)) return null;
-  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) return null;
+  const email = value.trim().toLowerCase();
+  if (email.length < 3 || email.length > 254) return null;
+  const at = email.indexOf("@");
+  if (at <= 0 || at !== email.lastIndexOf("@")) return null;
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  if (!LOCAL_PART.test(local)) return null;
+  if (local.startsWith(".") || local.endsWith(".") || local.includes("..")) return null;
+  if (!DOMAIN_NAME.test(domain)) return null;
+  const tld = domain.slice(domain.lastIndexOf(".") + 1);
+  if (!/^[a-z]{2,}$/.test(tld)) return null;
   return email;
 }
 
@@ -135,6 +136,9 @@ export async function reserveCap(env, now = new Date(), cap = DAILY_CAP) {
   if (isLiveMode(env)) {
     const stub = counterStub(env);
     const result = await stub.reserve(key, cap);
+    if (result?.halted === true && result.ok === false && result.key === key) {
+      return { ok: false, halted: true, key, count: result.count, store: "do" };
+    }
     if (!result || result.key !== key || typeof result.count !== "number" || typeof result.ok !== "boolean") {
       if (result?.ok === true) {
         const rollbackKey = typeof result?.key === "string" ? result.key : key;
@@ -143,6 +147,13 @@ export async function reserveCap(env, now = new Date(), cap = DAILY_CAP) {
       throw new Error("cap-key");
     }
     return { ok: result.ok, key, count: result.count, store: "do" };
+  }
+  if (hasAtomicCounter(env)) {
+    const halt = await counterStub(env).readHalt();
+    if (halt?.halted === true) {
+      const current = await readCapKey(env.OUTREACH_KV, key);
+      return { ok: false, halted: true, key, count: current, store: "kv" };
+    }
   }
   const current = await readCapKey(env.OUTREACH_KV, key);
   if (current >= cap) return { ok: false, key, count: current, store: "kv" };
@@ -176,26 +187,20 @@ export async function suppressEmail(kv, email, reason) {
   return { email: emailKey(email), reason, at };
 }
 
-const HALT_KEY = "state:halt";
-
-export async function readHalt(kv) {
-  const raw = await kv.get(HALT_KEY);
-  if (raw == null) return null;
-  try {
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return { reason: "unknown" };
-    return parsed;
-  } catch {
-    return { reason: "unknown" };
-  }
+// Halt lives on the Durable Object. KV is not a second copy.
+export async function readHalt(env) {
+  if (!hasAtomicCounter(env)) return null;
+  const result = await counterStub(env).readHalt();
+  if (!result || result.halted !== true) return null;
+  return result;
 }
 
-export async function setHalt(kv, details) {
-  await kv.put(HALT_KEY, JSON.stringify(details));
-}
-
-export async function clearHalt(kv) {
-  await kv.delete(HALT_KEY);
+export async function setHalt(env, on) {
+  if (typeof on !== "boolean") throw new Error("halt");
+  if (!hasAtomicCounter(env)) throw new Error("halt-store");
+  const result = await counterStub(env).setHalt(on);
+  if (!result || result.halted !== on) throw new Error("halt-store");
+  return result;
 }
 
 const LOG_TTL_SEC = 90 * 24 * 60 * 60;
@@ -226,4 +231,4 @@ export function allowlistHas(rawList, email) {
     .includes(wanted);
 }
 
-export { DAILY_CAP, HALT_KEY, LOG_TTL_SEC };
+export { DAILY_CAP, LOG_TTL_SEC };

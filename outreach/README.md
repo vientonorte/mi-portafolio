@@ -20,7 +20,7 @@ Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano. E
 | `POST /send` | JWT de Access | Renderiza y manda un correo, o lo rechaza |
 | `POST /suppress` | JWT de Access | Agrega una dirección a la lista de baja. `reason` es `bounce` o `baja` |
 | `POST /halt` | JWT de Access | `{ "on": true }` corta todo `/send`. `{ "on": false }` lo levanta |
-| `POST /resume` | JWT de Access | Levanta `state:halt` si estaba puesto |
+| `POST /resume` | JWT de Access | Apaga el corte en el Durable Object |
 
 No hay CORS. `OPTIONS` responde 405. El worker no acepta el service token como credencial: Access lo valida y el worker verifica el JWT de `Cf-Access-Jwt-Assertion`.
 
@@ -54,7 +54,7 @@ Cada intento que ya pasó la validación deja en KV `log:<id>` con `id`, `to`, `
 
 `fuente` es la fuente pública del contacto: una URL o un texto de hasta 200 caracteres. `base` es `interes_legitimo` o `fuente_publica`. Si falta cualquiera de las dos, `/send` responde 400 y no llama a Gmail.
 
-Lista de baja: `/send` no escribe a una dirección suprimida (409). `POST /suppress` escribe en esa lista y no corta el envío global. `state:halt`, si alguien lo dejó puesto, hace que todo `/send` responda 409 `halted` hasta `POST /resume`. El resume no saca a nadie de la lista de baja.
+Lista de baja: `/send` no escribe a una dirección suprimida (409). `POST /suppress` escribe en esa lista y no corta el envío global. El corte global vive en el Durable Object `OutreachCounter`. `POST /halt` lo escribe ahí. `reserve()` no cuenta un envío mientras el corte está prendido, y `/send` responde 409 `halted`. `POST /resume` y `{ "on": false }` lo levantan. Sin el binding del objeto, `/halt` responde 503.
 
 Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace puede guardar el JWT de Access y el header `Authorization` de la llamada a Gmail.
 
