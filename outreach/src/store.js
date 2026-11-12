@@ -20,10 +20,17 @@ export function santiagoDay(date = new Date()) {
 }
 
 const LOCAL_PART = /^[A-Za-z0-9._%+-]{1,64}$/;
-const DOMAIN_NAME = /^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/;
+const DOMAIN_LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+
+function domainOk(domain) {
+  const labels = domain.split(".");
+  if (labels.length < 2 || !labels.every((label) => DOMAIN_LABEL.test(label))) return false;
+  return /^[a-z]{2,}$/.test(labels[labels.length - 1]);
+}
 
 // Allowlisted addr-spec, returned in lowercase. A comma, a display name,
-// or an encoded-word cannot pass.
+// or an encoded-word cannot pass. Each domain label is 1–63 characters,
+// with no leading or trailing hyphen.
 export function normalizeEmail(value) {
   if (typeof value !== "string") return null;
   const email = value.trim().toLowerCase();
@@ -34,9 +41,7 @@ export function normalizeEmail(value) {
   const domain = email.slice(at + 1);
   if (!LOCAL_PART.test(local)) return null;
   if (local.startsWith(".") || local.endsWith(".") || local.includes("..")) return null;
-  if (!DOMAIN_NAME.test(domain)) return null;
-  const tld = domain.slice(domain.lastIndexOf(".") + 1);
-  if (!/^[a-z]{2,}$/.test(tld)) return null;
+  if (!domainOk(domain)) return null;
   return email;
 }
 

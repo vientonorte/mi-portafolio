@@ -54,7 +54,7 @@ Cada intento que ya pasó la validación deja en KV `log:<id>` con `id`, `to`, `
 
 `fuente` es la fuente pública del contacto: una URL o un texto de hasta 200 caracteres. `base` es `interes_legitimo` o `fuente_publica`. Si falta cualquiera de las dos, `/send` responde 400 y no llama a Gmail.
 
-Lista de baja: `/send` no escribe a una dirección suprimida (409). `POST /suppress` escribe en esa lista y no corta el envío global. El corte global vive en el Durable Object `OutreachCounter`. `POST /halt` lo escribe ahí. `reserve()` no cuenta un envío mientras el corte está prendido, y `/send` responde 409 `halted`. `POST /resume` y `{ "on": false }` lo levantan. Sin el binding del objeto, `/halt` responde 503.
+Lista de baja: `/send` no escribe a una dirección suprimida (409). `POST /suppress` escribe en esa lista y no corta el envío global. El corte global vive en el Durable Object `OutreachCounter`. `POST /halt` lo escribe ahí. `reserve()` no cuenta un envío mientras el corte está prendido, y `/send` responde 409 `halted`. `POST /resume` con `{"confirm":true}`, y `{ "on": false }`, lo levantan. Sin el binding del objeto, `/halt` responde 503. `state:halt` en KV no se desplegó; el corte no tiene copia ahí.
 
 Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace puede guardar el JWT de Access y el header `Authorization` de la llamada a Gmail.
 

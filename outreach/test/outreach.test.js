@@ -3,7 +3,7 @@ import { afterEach, before, describe, it } from "node:test";
 import { DatabaseSync } from "node:sqlite";
 import { DAILY_CAP, DAILY_CAP_MAX, GMAIL_SEND_URL, GMAIL_TOKEN_URL, TEMPLATE_ID } from "../src/constants.js";
 import { OutreachCounter } from "../src/counter.js";
-import { buildRawMessage, encodeRfc2047, refreshTokenCacheKey, resetGmailTokenCache } from "../src/gmail.js";
+import { buildRawMessage, encodeRfc2047, gmailReady, refreshTokenCacheKey, resetGmailTokenCache } from "../src/gmail.js";
 import { handleRequest } from "../src/index.js";
 import { capKey, decrementCap, incrementCap, isInsideSendWindow, isLiveMode, LOG_TTL_SEC, normalizeEmail } from "../src/store.js";
 import { optOutLine, PRIVACY_URL } from "../src/templates.js";
@@ -921,7 +921,25 @@ describe("halt", () => {
     assert.equal(blocked.json.error, "halted");
     assert.equal(net.gmailCalls().length, 0);
     assert.equal(await env.OUTREACH_KV.get("state:halt"), null);
-    const resumed = await handleRequest(request("/resume", { token, body: {} }), env, net.impl);
+    const empty = await handleRequest(request("/resume", { token, body: {} }), env, net.impl);
+    assert.equal(empty.status, 400);
+    const unconfirmed = await handleRequest(
+      request("/resume", { token, body: { confirm: false } }),
+      env,
+      net.impl,
+    );
+    assert.equal(unconfirmed.status, 400);
+    const still = await send(env, net.impl, token, {
+      to: ALLOWED,
+      subject: "Sigue cortado",
+      fields: fields(),
+    });
+    assert.equal(still.response.status, 409);
+    const resumed = await handleRequest(
+      request("/resume", { token, body: { confirm: true } }),
+      env,
+      net.impl,
+    );
     assert.equal(resumed.status, 200);
     const again = await send(env, net.impl, token, {
       to: ALLOWED,
@@ -1443,6 +1461,11 @@ describe("compliance, window, and Gmail auth", () => {
     }
     assert.equal(normalizeEmail("User+Tag@Sub-Domain.CL"), "user+tag@sub-domain.cl");
     assert.equal(normalizeEmail("a-b@x-y.cl"), "a-b@x-y.cl");
+    assert.equal(normalizeEmail("a@-bad.cl"), null);
+    assert.equal(normalizeEmail("a@bad-.cl"), null);
+    assert.equal(normalizeEmail(`a@${"b".repeat(64)}.cl`), null);
+    assert.equal(normalizeEmail(`a@${"b".repeat(63)}.cl`), `a@${"b".repeat(63)}.cl`);
+    assert.equal(gmailReady(makeEnv({ SENDER_EMAIL: "a@-bad.cl" })), false);
     const goodNet = mockFetch();
     const good = await send(makeEnv({ TEST_ALLOWLIST: "user+tag@sub-domain.cl,a-b@x-y.cl" }), goodNet.impl, token, {
       to: "User+Tag@Sub-Domain.CL",
@@ -1489,6 +1512,28 @@ describe("compliance, window, and Gmail auth", () => {
     const contentType = physical.find((line) => line.startsWith("Content-Type: multipart/alternative"));
     assert.ok(contentType);
     assert.match(contentType, /boundary="vn_[0-9a-f]{16}"/);
+
+    const sender = `${"a".repeat(55)}@x.cl`;
+    assert.equal(sender.length, 60);
+    assert.equal(gmailReady(makeEnv({ SENDER_EMAIL: sender })), true);
+    const longRaw = buildRawMessage({
+      fromName: "Viento Norte",
+      fromEmail: sender,
+      replyTo: sender,
+      to: ALLOWED,
+      subject: "Asunto",
+      text: "hola",
+      html: "<p>hola</p>",
+    });
+    const longPad = longRaw.length % 4 === 0 ? "" : "=".repeat(4 - (longRaw.length % 4));
+    const longMime = Buffer.from(`${longRaw.replaceAll("-", "+").replaceAll("_", "/")}${longPad}`, "base64").toString("utf8");
+    const longHeader = longMime.slice(0, longMime.indexOf("\r\n\r\n"));
+    for (const line of longHeader.split("\r\n")) assert.ok(line.length <= 78, line);
+    assert.ok(longHeader.includes("\r\n "));
+    const unfolded = longHeader.replace(/\r\n /g, "");
+    assert.ok(unfolded.includes(`<mailto:${sender}?subject=baja>`));
+    assert.ok(unfolded.includes(`Reply-To: ${sender}`) || unfolded.includes(`Reply-To:${sender}`));
+    assert.ok(unfolded.includes(`<${sender}>`));
   });
 
   it("hashes the refresh token for the cache key and retries a 401 without a second reserve", async () => {

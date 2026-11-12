@@ -332,6 +332,13 @@ async function tokenForSend(env, fetchImpl, nowMs) {
 async function handleResume(request, env, fetchImpl) {
   const denied = await authorize(request, env, fetchImpl);
   if (denied) return denied;
+  let payload;
+  try {
+    payload = await readJson(request);
+  } catch {
+    return json({ error: "invalid" }, 400);
+  }
+  if (!payload || payload.confirm !== true) return json({ error: "invalid" }, 400);
   if (!hasAtomicCounter(env)) return json({ error: "unavailable" }, 503);
   try {
     await setHalt(env, false);

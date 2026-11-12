@@ -161,6 +161,27 @@ export function encodeRfc2047(value, firstPrefix) {
   return words.join("\r\n ");
 }
 
+// RFC 5322 folding: a line longer than 78 is broken with CRLF + SP.
+// Removing that CRLF+SP restores the header. The SP is only the fold.
+function foldHeaderLines(block) {
+  const out = [];
+  for (const line of block.split("\r\n")) {
+    if (line.length <= MAX_LINE) {
+      out.push(line);
+      continue;
+    }
+    let rest = line;
+    out.push(rest.slice(0, MAX_LINE));
+    rest = rest.slice(MAX_LINE);
+    while (rest.length > 0) {
+      const room = MAX_LINE - 1;
+      out.push(` ${rest.slice(0, room)}`);
+      rest = rest.slice(room);
+    }
+  }
+  return out.join("\r\n");
+}
+
 function assertPlainHeader(value) {
   if (typeof value !== "string" || value.length === 0 || /[\r\n]/.test(value)) {
     throw gmailError("mime", "mime");
@@ -193,7 +214,7 @@ export function buildRawMessage({ fromName, fromEmail, to, subject, text, html, 
     "MIME-Version: 1.0",
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
   ];
-  const headerBlock = headers.join("\r\n");
+  const headerBlock = foldHeaderLines(headers.join("\r\n"));
   for (const line of headerBlock.split("\r\n")) {
     if (line.length > MAX_LINE) throw gmailError("mime", "mime");
   }
