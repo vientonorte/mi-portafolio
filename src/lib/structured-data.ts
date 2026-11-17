@@ -1,4 +1,5 @@
 import { getFeaturedCaseStudies } from "../data/case-study-cards";
+import { CASOS, casoPublishesTodo, piecePublishesTodo } from "../data/casos";
 import type { Language } from "./i18n";
 import { getTranslationSync } from "./i18n";
 import { SITE_CONTACT } from "./site-contact";
@@ -11,6 +12,19 @@ const PROFILE_ID = `${SITE_URL}/#profile`;
 
 function projectUrl(projectId: string): string {
   return `${SITE_URL}/#/proyecto/${projectId}`;
+}
+
+/** Casos aún no publicados (p. ej. Transvip, con [TODO Rö]) no van en el JSON-LD. */
+function isUnpublishedFeaturedCase(id: string): boolean {
+  for (const caso of CASOS) {
+    if (caso.hashId === id) return casoPublishesTodo(caso);
+    for (const piece of caso.pieces) {
+      if (piece.hashId === id) {
+        return casoPublishesTodo(caso) || piecePublishesTodo(piece);
+      }
+    }
+  }
+  return false;
 }
 
 function absoluteImageUrl(image: string): string {
@@ -74,18 +88,20 @@ export function buildPortfolioStructuredData(language: Language) {
     genre: "UX Design Portfolio",
   };
 
-  const caseStudyWorks = caseStudies.map((study) => ({
-    "@type": "CreativeWork",
-    "@id": `${SITE_URL}/#/proyecto/${study.id}`,
-    name: study.title,
-    description: study.description,
-    url: projectUrl(study.id),
-    image: absoluteImageUrl(study.image),
-    creator: { "@id": PERSON_ID },
-    about: study.tags,
-    genre: "UX Case Study",
-    isPartOf: { "@id": `${SITE_URL}/#portfolio` },
-  }));
+  const caseStudyWorks = caseStudies
+    .filter((study) => !isUnpublishedFeaturedCase(study.id))
+    .map((study) => ({
+      "@type": "CreativeWork",
+      "@id": `${SITE_URL}/#/proyecto/${study.id}`,
+      name: study.title,
+      description: study.description,
+      url: projectUrl(study.id),
+      image: absoluteImageUrl(study.image),
+      creator: { "@id": PERSON_ID },
+      about: study.tags,
+      genre: "UX Case Study",
+      isPartOf: { "@id": `${SITE_URL}/#portfolio` },
+    }));
 
   return {
     "@context": "https://schema.org",

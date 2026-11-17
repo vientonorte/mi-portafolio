@@ -4,10 +4,6 @@ import { ROUTES } from "../lib/routes";
 import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
-/** Figma · System Design App Cliente Transvip (handoff navegable). */
-export const TRANSVIP_APP_FIGMA_URL =
-  "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip";
-
 /** Figma · prototipo interactivo App Cliente Transvip. */
 export const TRANSVIP_APP_PROTO_URL =
   "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu?node-id=0-1";
@@ -274,13 +270,13 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Prototipo interactivo",
         title: "Reserva premium · mobile-first",
-        outcome: "Proto navegable en Figma del flujo de reserva en mobile.",
+        outcome: "Ver láminas del flujo de reserva en mobile.",
         metric: "Proto",
       },
       en: {
         kindLabel: "Interactive prototype",
         title: "Premium booking · mobile-first",
-        outcome: "Navigable Figma proto of the mobile booking flow.",
+        outcome: "View plates of the mobile booking flow.",
         metric: "Proto",
       },
     },
@@ -295,13 +291,13 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
       es: {
         kindLabel: "Design System",
         title: "System Design · App Cliente Transvip",
-        outcome: "Figma navegable — componentes, patrones y handoff listo para desarrollo.",
+        outcome: "Ver láminas del System Design.",
         metric: "System Design",
       },
       en: {
         kindLabel: "Design System",
         title: "System Design · Transvip Client App",
-        outcome: "Navigable Figma — components, patterns, and dev-ready handoff.",
+        outcome: "View the System Design plates.",
         metric: "System Design",
       },
     },

@@ -10,6 +10,7 @@ import {
   hashProjectRedirects,
 } from "@/data/casos";
 import { VALUE_PROOF_ITEMS } from "@/data/value-content-arsenal";
+import { buildPortfolioStructuredData } from "@/lib/structured-data";
 import { SERVICIOS_VN_CASE_GROUPS } from "@/servicios/servicios-content";
 
 const BANNED = ["/servicios/diagnostico-accesibilidad-wcag/", "/servicios/consultoria-ux-pymes/"];
@@ -85,5 +86,17 @@ describe("casos nivel 3 · datos", () => {
     expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-design-system")?.href).toBe("/casos/transvip/system-design/");
     const home = SERVICIOS_VN_CASE_GROUPS.flatMap((group) => group.cases).find((item) => item.id === "mobiliario-edu");
     expect(home?.casoHref).toBe("/casos/mobiliario-edu/");
+    expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-mobile")?.copy.es.outcome).toBe(
+      "Ver láminas del flujo de reserva en mobile.",
+    );
+    expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-design-system")?.copy.es.outcome).toBe(
+      "Ver láminas del System Design.",
+    );
+  });
+
+  it("omite Transvip del JSON-LD mientras la publicación siga en TODO", () => {
+    const blob = JSON.stringify(buildPortfolioStructuredData("es"));
+    expect(blob).not.toContain("transvip-app-premium");
+    expect(blob).not.toContain("#/proyecto/transvip-app-premium");
   });
 });
