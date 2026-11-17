@@ -766,13 +766,13 @@ export const transvipHub: CompanyHub = {
     es: [
       "Design system web + app con mejora continua y accesibilidad",
       "Discovery: benchmarks, usabilidad, encuestas y métricas de producto",
-      "App Pasajeros: −40% tiempo de reserva, +25% conversión, NPS 82",
+      "App de pasajeros: flujo de reserva y prototipos de alta fidelidad",
       "Karri: calculadora +35% activación, onboarding −42% abandono",
     ],
     en: [
       "Web + app design system with continuous improvement and accessibility",
       "Discovery: benchmarks, usability, surveys, and product metrics",
-      "Passenger App: −40% booking time, +25% conversion, NPS 82",
+      "Passenger app: booking flow and high-fidelity prototypes",
       "Karri: calculator +35% activation, onboarding −42% drop-off",
     ],
   },
@@ -836,9 +836,9 @@ export const transvipHub: CompanyHub = {
         challenge: "Los usuarios premium reportaban fricción en el proceso de reserva y falta de información clara sobre el servicio ejecutivo.",
         solution: "Simplificación del flujo de reserva con énfasis en información de valor premium: tipo de vehículo, conductor asignado, y servicios adicionales.",
         metrics: [
-          "Reducción de 40% en tiempo de reserva",
-          "Aumento de 25% en conversión de reservas",
-          "NPS de usuarios premium: 82 puntos",
+          "Flujo de reserva simplificado en web y app",
+          "Design system App Cliente para el handoff a desarrollo",
+          "Prototipos de alta fidelidad del trámite de pasajeros",
         ],
         learnings: [
           "Usuarios premium valoran la información detallada del servicio",

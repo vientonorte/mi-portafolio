@@ -20,5 +20,8 @@ describe("casos nivel 3 · página", () => {
     expect(document.body.textContent).not.toMatch(/edu[ _-]?21/i);
     expect(renderCasoHead("mobiliario-edu", "pitch-ventas")).toContain('content="noindex"');
     expect(renderCasoHead("mobiliario-edu")).toContain("index, follow");
+    expect(renderCasoHead("transvip")).toContain('content="noindex"');
+    expect(renderCasoHead("transvip", "app-reserva")).toContain('content="noindex"');
+    expect(renderCasoHead("transvip", "system-design")).toContain('content="noindex"');
   });
 });

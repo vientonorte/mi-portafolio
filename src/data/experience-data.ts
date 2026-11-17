@@ -299,10 +299,10 @@ const experienceCatalog: LocalizedExperience[] = [
         "Producto mobility premium: reserva, app pasajeros y sistemas internos bajo presión de entrega.",
       role:
         "Liderazgo UX/UI en sprints con POs, stakeholders y gerencia de Tecnología y Producto.",
-      impact: "Reservas: −40% tiempo de reserva · +25% conversión · NPS 82",
+      impact: "Design system web + app, flujo de reserva y handoff a desarrollo",
       achievements: [
         "Design system de 130+ componentes propios sobre Material UI",
-        "Flujo de reservas con −40% de tiempo y +25% de conversión",
+        "Flujo de reserva de la app de pasajeros, de la selección de vehículo al pago",
         "Discovery: usabilidad, benchmarks, encuestas y análisis de métricas",
       ],
       detailGroups: [
@@ -310,7 +310,7 @@ const experienceCatalog: LocalizedExperience[] = [
           title: "Detalle",
           items: [
             "Design system «APP Cliente»: 130+ componentes propios construidos sobre Material UI, para web y aplicación.",
-            "Flujo de reservas: −40% en tiempo de reserva, +25% de conversión y NPS 82.",
+            "Flujo de reserva de la app de pasajeros, con prototipos de alta fidelidad y handoff a desarrollo.",
             "Accesibilidad y prototipos de alta fidelidad como handoff a desarrollo.",
           ],
         },
@@ -327,10 +327,10 @@ const experienceCatalog: LocalizedExperience[] = [
         "Premium mobility product: booking, passenger app, and internal systems under delivery pressure.",
       role:
         "UX/UI leadership in sprints with POs, stakeholders, and Technology & Product leadership.",
-      impact: "Booking: −40% booking time · +25% conversion · NPS 82",
+      impact: "Web + app design system, booking flow, and dev handoff",
       achievements: [
         "Design system with 130+ own components built on Material UI",
-        "Booking flow with −40% time and +25% conversion",
+        "Passenger-app booking flow, from vehicle selection to payment",
         "Discovery: usability, benchmarks, surveys, and metric analysis",
       ],
       detailGroups: [
@@ -338,7 +338,7 @@ const experienceCatalog: LocalizedExperience[] = [
           title: "Detail",
           items: [
             "«APP Cliente» design system: 130+ own components built on Material UI, for web and app.",
-            "Booking flow: −40% booking time, +25% conversion and NPS 82.",
+            "Passenger-app booking flow, with high-fidelity prototypes and dev handoff.",
             "Accessibility and high-fidelity prototypes as dev handoff.",
           ],
         },

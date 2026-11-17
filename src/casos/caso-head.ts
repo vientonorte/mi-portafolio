@@ -1,9 +1,9 @@
 /**
  * <head> por caso y por pieza. Lo inyecta scripts/prerender-servicios.mjs.
- * Una pieza con marcador TODO sale noindex y queda fuera del sitemap.
+ * Una pieza con marcador TODO, o un caso con TODO en su ficha, sale noindex y queda fuera del sitemap.
  * El build QA (/qa/) además fuerza noindex en deploy-qa.yml.
  */
-import { casoPath, getCaso, getPiece, piecePublishesTodo, piezaPath, type Caso, type CasoPiece } from "../data/casos";
+import { casoPath, casoPublishesTodo, getCaso, getPiece, piecePublishesTodo, piezaPath, type Caso, type CasoPiece } from "../data/casos";
 
 const ORIGIN = "https://vientonorte.io";
 
@@ -41,9 +41,10 @@ function pageMeta(casoSlug: string, pieceSlug: string): { title: string; descrip
 export function renderCasoHead(casoSlug: string, pieceSlug = ""): string {
   const meta = pageMeta(casoSlug, pieceSlug);
   const url = `${ORIGIN}${meta.path}`;
-  const robots = pieceSlug && piecePublishesTodo(getPiece(casoSlug, pieceSlug).piece)
-    ? "noindex"
-    : "index, follow";
+  const noindex = pieceSlug
+    ? piecePublishesTodo(getPiece(casoSlug, pieceSlug).piece)
+    : casoPublishesTodo(getCaso(casoSlug));
+  const robots = noindex ? "noindex" : "index, follow";
   const ld = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",

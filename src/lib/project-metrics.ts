@@ -102,12 +102,12 @@ const PROJECT_HEADLINE_METRICS: Record<string, LocalizedMetrics> = {
   },
   "transvip-app-premium": {
     es: [
-      { label: "Tiempo reserva", value: "-40%" },
-      { label: "Conversión", value: "+25%" },
+      { label: "Superficie", value: "Web + app" },
+      { label: "Foco", value: "Reserva" },
     ],
     en: [
-      { label: "Booking time", value: "-40%" },
-      { label: "Conversion", value: "+25%" },
+      { label: "Surface", value: "Web + app" },
+      { label: "Focus", value: "Booking" },
     ],
   },
   "karri-calculadora": {

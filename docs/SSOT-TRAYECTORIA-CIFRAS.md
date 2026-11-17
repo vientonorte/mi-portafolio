@@ -17,7 +17,6 @@ Toda cifra visible debe estar en esa SSOT. Si no está, no va. Gate: `npm run qa
 | 2 rondas de test moderado, 13–15 participantes (dic 2023 – ene 2024) | l.92 |
 | Metas (no logros): −30 % onboarding vs AS IS, −95 % errores normativos, NPS > 80 2026, OKR 100 % releases críticos | l.100–105 |
 | Transvip: 130+ componentes propios sobre Material UI | l.123 |
-| Transvip: −40 % tiempo de reserva, +25 % conversión, NPS 82 | l.124 |
 | Karri: +35 % activación, −42 % abandono del onboarding | l.125 |
 | Herramientas: Google Analytics, Figma Make, Figma vía MCP | l.133 |
 | Curso certificado de análisis de datos cualitativos (Academia Etnográfica, 2022) | l.176, l.223 |
@@ -45,3 +44,7 @@ porque la SSOT no los verifica ni les da año (salvo Coursera 2022-12).
 Retiradas en todo el sitio (2026-10-17, PO): SURA −40 % (onboarding, fricción, discovery), «5+ países»,
 «17 participantes», NPS 72, «etnógrafo certificado» y Karri «+58 % engagement» (no está en la SSOT;
 reemplazado por +35 % activación / −42 % abandono del onboarding, l.125, o retirado).
+
+Retiradas el 2026-11-17 (decisión Rö): Transvip −40 % tiempo de reserva, +25 % conversión y NPS 82.
+No volver a publicarlas. El caso de nivel 3 queda noindex hasta el OK de publicación, después de
+SURA RIA y SURA Tutoría CO.

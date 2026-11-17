@@ -42,6 +42,9 @@ describe("casos nivel 3 · datos", () => {
     const map = readFileSync("docs/staging/mobiliario-edu-pack/SOURCE_MAP.md", "utf8");
     expect(map).toContain("Mapa de nodos en SSOT privado de TL");
     expect(map).not.toMatch(/\b\d+:\d+\b/);
+    const transvipMap = readFileSync("docs/staging/transvip-pack/SOURCE_MAP.md", "utf8");
+    expect(transvipMap).toContain("Mapa de nodos en SSOT privado de TL");
+    expect(transvipMap).not.toMatch(/\b\d+:\d+\b/);
     expect(piece.slides.map((slide) => slide.src)).toEqual([
       "images/cases/mobiliario-edu/pitch-ventas/01-portada-guion-acting.png",
       "images/cases/mobiliario-edu/pitch-ventas/02-flujo-simulacion.png",
@@ -55,10 +58,16 @@ describe("casos nivel 3 · datos", () => {
     expect(casoRoutes().map((route) => route.path)).toEqual([
       "/casos/mobiliario-edu/",
       "/casos/mobiliario-edu/pitch-ventas/",
+      "/casos/transvip/",
+      "/casos/transvip/app-reserva/",
+      "/casos/transvip/system-design/",
     ]);
     for (const banned of BANNED) expect(casoRoutes().map((route) => route.path)).not.toContain(banned);
     expect(cleanUrlForHashProject("mobiliario-edu")).toBe("/casos/mobiliario-edu/");
     expect(cleanUrlForHashProject("mobiliario-edu-pitch-ventas")).toBe("/casos/mobiliario-edu/pitch-ventas/");
+    expect(cleanUrlForHashProject("transvip")).toBe("/casos/transvip/");
+    expect(cleanUrlForHashProject("transvip-app-premium")).toBe("/casos/transvip/app-reserva/");
+    expect(cleanUrlForHashProject("transvip-system-design")).toBe("/casos/transvip/system-design/");
     expect(cleanUrlForHashProject("sura-ria-us")).toBeNull();
     const html = readFileSync("index.html", "utf8");
     for (const [id, path] of Object.entries(hashProjectRedirects())) {
@@ -71,6 +80,9 @@ describe("casos nivel 3 · datos", () => {
     const card = VALUE_PROOF_ITEMS.find((item) => item.id === "mobiliario-edu-sales-pitch");
     expect(card?.href).toBe("/casos/mobiliario-edu/pitch-ventas/");
     expect(card?.copy.es.outcome).not.toContain("once preguntas");
+    expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-app-premium")?.href).toBe("/casos/transvip/app-reserva/");
+    expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-mobile")?.href).toBe("/casos/transvip/app-reserva/");
+    expect(VALUE_PROOF_ITEMS.find((item) => item.id === "transvip-design-system")?.href).toBe("/casos/transvip/system-design/");
     const home = SERVICIOS_VN_CASE_GROUPS.flatMap((group) => group.cases).find((item) => item.id === "mobiliario-edu");
     expect(home?.casoHref).toBe("/casos/mobiliario-edu/");
   });

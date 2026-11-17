@@ -202,7 +202,7 @@ export const featuredCaseStudies = {
         title: 'App Pasajeros Premium',
         company: 'Transvip',
         description:
-          'Design system + discovery activo: −40% tiempo de reserva, +25% conversión y NPS 82 en mobility premium.',
+          'Design system + discovery activo: flujo de reserva y handoff en movilidad premium.',
         tags: ['Mobility', 'Design System', 'Premium'],
       },
       'karri-calculadora': {

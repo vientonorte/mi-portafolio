@@ -195,7 +195,7 @@ V. Reflexiones como Product Designer
   - 0% downtime en migración
   - 50% reducción en pasos de reserva
   - 40% mejora en performance
-  - +25% conversión web
+  - Flujo de reserva web simplificado
 - **Aprendizajes:**
   - Migraciones requieren diseño modular
   - Testing continuo previene regresiones
