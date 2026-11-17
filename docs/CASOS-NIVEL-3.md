@@ -8,7 +8,7 @@ Cada pieza muestra una selección de 3 a 5 láminas con pie, nunca el archivo co
 
 1. Permiso escrito en `docs/staging/<slug>-pack/PERMISO.md` antes de publicar copy o imágenes. Sin ese archivo, el caso no entra.
 2. Datos en `src/data/casos.ts`: slug, ficha (etiqueta según PERMISO.md (anónimo o con nombre), año, rol, qué hice), contexto, proceso, 3–5 láminas (`src`, `alt`, `caption`) y hallazgos. `assertSlideCount` rechaza otra cantidad.
-3. Imágenes en `public/images/cases/<slug>/<pieza>/`, registradas en `src/lib/portfolio-image-urls.ts` y `src/data/image-registry.ts`. WebP hermano del PNG, y un WebP de 800 px para el `srcset`. Sin metadatos de terceros.
+3. Imágenes en `public/images/cases/<slug>/<pieza>/`, registradas en `src/lib/portfolio-image-urls.ts` y `src/data/image-registry.ts`. WebP hermano del PNG, y un WebP de 800 px para el `srcset`. Sin metadatos de terceros. Antes de publicar, revisión visual de cada lámina (con zoom). `npm run qa:no-leaks-ocr` no alcanza: una marca que no está en la lista de hashes no se detecta, y un logo que no es texto tampoco. Benchmarks de competidores retirados, no publicar.
 4. `SOURCE_MAP.md` del pack: número de lámina → archivo. El mapa de nodos queda en el SSOT privado de TL.
 5. Enlace desde la tarjeta que ya existe (arsenal o grilla de experiencias). No copies el cuerpo de la pieza en la tarjeta.
 6. El prerender (`scripts/prerender-servicios.mjs`, misma vía que `/servicios/<slug>/`) escribe `dist/casos/<slug>/` y `dist/casos/<slug>/<pieza>/`. Una página con marcador TODO sale `noindex` y no entra al sitemap. No reintroducir `/servicios/diagnostico-accesibilidad-wcag/` ni `/servicios/consultoria-ux-pymes/`.

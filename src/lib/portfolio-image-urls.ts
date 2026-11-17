@@ -92,9 +92,6 @@ export const portfolioImages = {
     pitchBioPersona: img("cases/mobiliario-edu/pitch-ventas/03-bio-persona-con-tiempo.png"),
     pitchFlujoEntrada: img("cases/mobiliario-edu/pitch-ventas/04-flujo-pitch-de-entrada.png"),
     pitchExploracion: img("cases/mobiliario-edu/pitch-ventas/05-exploracion-de-dolores.png"),
-    /** Extra UI evidence (S1 wall) from Asesorías */
-    fichaProducto: img("cases/mobiliario-edu-extra/01-ficha-producto.png"),
-    ctaBrochure: img("cases/mobiliario-edu-extra/02-cta-brochure.png"),
   },
   /** Monitas.cl e-comm UX — práctica Viento Norte (Asesorías) */
   monitas: {
