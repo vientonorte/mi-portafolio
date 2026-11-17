@@ -37,8 +37,9 @@ export const NOSOTROS_PRINCIPIOS = [
 ] as const;
 
 /**
- * Casos: con nombre SOLO Maraña, Pareti y Teatro Di Popolo; EDU21 solo como
- * «pyme de mobiliario educacional». Ningún otro nombre de cliente (brief PO 2026-10-22).
+ * Casos: con nombre SOLO Maraña, Pareti y Teatro Di Popolo.
+ * Mobiliario educacional: etiqueta «pyme de mobiliario educacional».
+ * Ningún otro nombre de cliente (brief PO 2026-10-22).
  * Los enlaces apuntan a casos que ya existen en el sitio o en el portafolio.
  */
 export function nosotrosCasos() {

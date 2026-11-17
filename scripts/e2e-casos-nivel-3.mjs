@@ -40,6 +40,8 @@ try {
   if (slides < 3 || slides > 5) fail(`láminas ${slides}`);
   const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
   if (canonical !== "https://vientonorte.io/casos/mobiliario-edu/pitch-ventas/") fail(`canonical ${canonical}`);
+  const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+  if (!/noindex/i.test(robots || "")) fail(`pieza indexable: ${robots}`);
   if ((await page.locator("body").innerText()).match(/edu[ _-]?21/i)) fail("el nombre del cliente aparece en la pieza");
 
   const trigger = page.locator("[data-slide] button").first();
@@ -53,8 +55,14 @@ try {
   if (before === after) fail("la flecha derecha no cambió la lámina");
   await page.keyboard.press("Escape");
   if (await dialog.isVisible().catch(() => false)) fail("Escape no cerró el lightbox");
-  const focused = await page.evaluate(() => document.activeElement?.getAttribute("data-slide-open") !== null && document.activeElement?.tagName === "BUTTON");
-  if (!focused) fail("el foco no volvió al disparador");
+  try {
+    await page.waitForFunction(() => {
+      const el = document.activeElement;
+      return el?.tagName === "BUTTON" && el.hasAttribute("data-slide-open");
+    });
+  } catch {
+    fail("el foco no volvió al disparador");
+  }
 
   await page.locator('a', { hasText: "Volver al caso" }).first().click();
   await page.waitForURL(/\/casos\/mobiliario-edu\/$/);

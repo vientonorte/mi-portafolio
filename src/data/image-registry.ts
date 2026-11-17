@@ -164,14 +164,6 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "pyme de mobiliario educacional · heurística sitio web (E1)"
   ),
   entry(
-    "mobiliarioEdu.competitiveBenchmark",
-    "pyme de mobiliario educacional",
-    "Benchmark competencias",
-    "cases/mobiliario-edu/02-competitive-benchmark.png",
-    portfolioImages.mobiliarioEdu.competitiveBenchmark,
-    "pyme de mobiliario educacional · benchmark de competencias (E1)"
-  ),
-  entry(
     "mobiliarioEdu.serviceStrategy",
     "pyme de mobiliario educacional",
     "Estrategia de servicios",
@@ -217,7 +209,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Flujo de la simulación",
     "cases/mobiliario-edu/pitch-ventas/02-flujo-simulacion.png",
     portfolioImages.mobiliarioEdu.pitchFlujoSimulacion,
-    "Lámina «Flujo / II. Simulación» con el objetivo de la actividad y las fechas de ensayo. [TODO Rö: pasos internos del diagrama raster]"
+    "Lámina «Flujo / II. Simulación» con el objetivo de la actividad y las fechas de ensayo."
   ),
   entry(
     "mobiliarioEdu.pitchBioPersona",
@@ -225,7 +217,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Bio de la persona con tiempo",
     "cases/mobiliario-edu/pitch-ventas/03-bio-persona-con-tiempo.png",
     portfolioImages.mobiliarioEdu.pitchBioPersona,
-    "Lámina «Bio persona / II. Simulación» con las instrucciones del perfil «persona con tiempo». [TODO Rö: bio interna en raster]"
+    "Lámina «Bio persona / II. Simulación» con las instrucciones del perfil «persona con tiempo»."
   ),
   entry(
     "mobiliarioEdu.pitchFlujoEntrada",
@@ -233,7 +225,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Flujo del pitch de entrada",
     "cases/mobiliario-edu/pitch-ventas/04-flujo-pitch-de-entrada.png",
     portfolioImages.mobiliarioEdu.pitchFlujoEntrada,
-    "Lámina «Flujo pitch de entrada» con las instrucciones de cordialidad, empatía y escucha activa. [TODO Rö: pasos internos del diagrama raster]"
+    "Lámina «Flujo pitch de entrada» con las instrucciones de cordialidad, empatía y escucha activa."
   ),
   entry(
     "mobiliarioEdu.pitchExploracion",

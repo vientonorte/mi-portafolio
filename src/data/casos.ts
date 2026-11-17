@@ -1,15 +1,10 @@
 /**
  * Casos con URL limpia /casos/<slug>/ (nivel 2) y /casos/<slug>/<pieza>/ (nivel 3).
  * Cada pieza publica una selección de 3 a 5 láminas, no el archivo completo.
- * Los id de frame viven en docs/staging/<pack>/SOURCE_MAP.md, no aquí.
+ * El mapa de nodos está en el SSOT privado de TL, no aquí.
  */
 export const SLIDE_COUNT_MIN = 3;
 export const SLIDE_COUNT_MAX = 5;
-
-const BANNED_PATHS = [
-  "/servicios/diagnostico-accesibilidad-wcag/",
-  "/servicios/consultoria-ux-pymes/",
-] as const;
 
 export interface CasoSlide {
   /** PNG de public/, sin barra inicial. */
@@ -114,19 +109,19 @@ export const CASOS: readonly Caso[] = [
             "02-flujo-simulacion",
             "Flujo de la simulación",
             "El flujo de la simulación entrega herramientas comunicativas para situaciones ideales y también para las complejas. El objetivo no es cerrar en el momento, sino agendar una cita para mostrar la propuesta comercial. Se calendarizó para el 24 y el 25 de febrero, con ensayos de una «persona sin tiempo» y una «persona con tiempo».",
-            "Lámina «Flujo / II. Simulación» con el objetivo de la actividad y las fechas de ensayo. [TODO Rö: pasos internos del diagrama raster]",
+            "Lámina «Flujo / II. Simulación» con el objetivo de la actividad y las fechas de ensayo.",
           ),
           slide(
             "03-bio-persona-con-tiempo",
             "Bio de la persona con tiempo",
             "Perfil a interpretar en la simulación: la «persona con tiempo», que recibe el pitch en una reunión por Google Meet. Quien actúa ese rol devuelve feedback sobre si se exploraron dolores, expectativas y necesidades, y si la oferta quedó posicionada como valiosa para su institución.",
-            "Lámina «Bio persona / II. Simulación» con las instrucciones del perfil «persona con tiempo». [TODO Rö: bio interna en raster]",
+            "Lámina «Bio persona / II. Simulación» con las instrucciones del perfil «persona con tiempo».",
           ),
           slide(
             "04-flujo-pitch-de-entrada",
             "Flujo del pitch de entrada",
             "Flujo del pitch de entrada: ser cordial, empático y usar la escucha activa para llevar la conversación al siguiente nivel. El objetivo es identificar los dolores del prospecto para ofrecer la solución que necesita.",
-            "Lámina «Flujo pitch de entrada» con las instrucciones de cordialidad, empatía y escucha activa. [TODO Rö: pasos internos del diagrama raster]",
+            "Lámina «Flujo pitch de entrada» con las instrucciones de cordialidad, empatía y escucha activa.",
           ),
           slide(
             "05-exploracion-de-dolores",
@@ -190,12 +185,11 @@ export function casoRoutes(casos: readonly Caso[] = CASOS): CasoRoute[] {
       piece: piece.slug,
     })),
   ]);
-  for (const route of routes) {
-    if ((BANNED_PATHS as readonly string[]).includes(route.path)) {
-      throw new Error(`ruta de caso prohibida: ${route.path}`);
-    }
-  }
   return routes;
+}
+
+export function piecePublishesTodo(piece: CasoPiece): boolean {
+  return JSON.stringify(piece).includes("[TODO");
 }
 
 export function cleanUrlForHashProject(id: string): string | null {

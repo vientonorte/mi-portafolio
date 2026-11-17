@@ -38,8 +38,10 @@ describe("casos nivel 3 · datos", () => {
     const blob = JSON.stringify(CASOS);
     expect(blob).not.toMatch(/edu[ _-]?21/i);
     const source = readFileSync("src/data/casos.ts", "utf8");
-    expect(source).not.toMatch(/1:22757|f6LRq93s1CzxvslAHOj5bN/);
-    expect(readFileSync("docs/staging/mobiliario-edu-pack/SOURCE_MAP.md", "utf8")).toContain("1:22757");
+    expect(source).not.toMatch(/\b\d+:\d+\b/);
+    const map = readFileSync("docs/staging/mobiliario-edu-pack/SOURCE_MAP.md", "utf8");
+    expect(map).toContain("Mapa de nodos en SSOT privado de TL");
+    expect(map).not.toMatch(/\b\d+:\d+\b/);
     expect(piece.slides.map((slide) => slide.src)).toEqual([
       "images/cases/mobiliario-edu/pitch-ventas/01-portada-guion-acting.png",
       "images/cases/mobiliario-edu/pitch-ventas/02-flujo-simulacion.png",

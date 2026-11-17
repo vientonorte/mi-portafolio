@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Expand, Monitor } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
@@ -33,6 +33,8 @@ interface MockupGalleryProps {
    * Pasar un número menor activa "Ver n capturas más". Lightbox se mantiene.
    */
   maxVisible?: number;
+  /** 2 columnas desde 1024px. Default: 3. */
+  columns?: 2 | 3;
 }
 
 function normalizeMockups(mockups: string[] | MockupItem[]): MockupItem[] {
@@ -131,29 +133,20 @@ export function MockupGallery({
   sectionId = "mockups",
   embedded = false,
   maxVisible,
+  columns = 3,
 }: MockupGalleryProps) {
   const t = useTranslation(language);
   const reduceMotion = useReducedMotion();
   const items = useMemo(() => normalizeMockups(mockups), [mockups]);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
-  const returnFocusRef = useRef<HTMLElement | null>(null);
   const [expanded, setExpanded] = useState(false);
 
   const openLightbox = useCallback((index: number, trigger: HTMLElement) => {
     triggerRef.current = trigger;
     setLightboxIndex(index);
   }, []);
-  const closeLightbox = useCallback(() => {
-    returnFocusRef.current = triggerRef.current;
-    setLightboxIndex(null);
-  }, []);
-
-  useEffect(() => {
-    if (lightboxIndex !== null || !returnFocusRef.current) return;
-    returnFocusRef.current.focus();
-    returnFocusRef.current = null;
-  }, [lightboxIndex]);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   if (items.length === 0) return null;
 
@@ -183,7 +176,9 @@ export function MockupGallery({
           "grid gap-4",
           visibleItems.length === 1
             ? "grid-cols-1 max-w-3xl mx-auto w-full"
-            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+            : columns === 2
+              ? "grid-cols-1 lg:grid-cols-2"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         )}
         role="group"
         aria-label={t.mockups.galleryAria}
@@ -245,9 +240,16 @@ export function MockupGallery({
           trigger?.focus();
         }
       }}
+      prevLabel={t.mockups.previous}
+      nextLabel={t.mockups.next}
       onCloseAutoFocus={(event) => {
         event.preventDefault();
-        triggerRef.current?.focus();
+        const index = lightboxIndex ?? 0;
+        // El foco vuelve cuando el diálogo ya soltó el resto de la página.
+        setTimeout(() => {
+          const buttons = document.querySelectorAll<HTMLButtonElement>("[data-slide-open]");
+          (buttons[index] ?? triggerRef.current)?.focus();
+        }, 0);
       }}
       src={shown.src}
       alt={shown.alt ?? ""}

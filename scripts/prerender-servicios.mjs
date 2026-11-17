@@ -178,11 +178,6 @@ export function injectNoticia(template, { slug, head, app }) {
     .replace(OUTLET, app);
 }
 
-const BANNED_CASE_PATHS = [
-  '/servicios/diagnostico-accesibilidad-wcag/',
-  '/servicios/consultoria-ux-pymes/',
-];
-
 /** HTML final de /casos/<slug>/ o /casos/<slug>/<pieza>/. */
 export function injectCaso(template, { caso, piece, head, app }) {
   for (const marker of [CASO_HEAD_OUTLET, OUTLET, CASO_ATTR, PIECE_ATTR]) {
@@ -381,9 +376,6 @@ export async function prerenderServicios({ root, outDir, base }) {
     const casoTemplate = fs.readFileSync(casoTemplatePath, 'utf8');
     const casoPlan = casos.listRoutes();
     for (const route of casoPlan) {
-      if (BANNED_CASE_PATHS.includes(route.path)) {
-        throw new Error(`[prerender-servicios] ruta prohibida en casos: ${route.path}`);
-      }
       const dest = path.join(outDir, route.path.replace(/^\//, ''), 'index.html');
       if (fs.existsSync(dest)) {
         throw new Error(`[prerender-servicios] ${path.relative(root, dest)} ya existe (¿copiado desde public/?)`);

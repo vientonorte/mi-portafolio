@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { CasoPiece } from "@/casos/CasoView";
-import { todoMarkers } from "@/data/casos";
+import { renderCasoHead } from "@/casos/caso-head";
 
 describe("casos nivel 3 · página", () => {
   it("muestra la ficha, 5 láminas y los [TODO Rö] visibles", () => {
@@ -13,8 +13,12 @@ describe("casos nivel 3 · página", () => {
     expect(headings).toEqual(expect.arrayContaining(["Ficha", "Contexto", "Proceso", "Selección", "Hallazgos"]));
     expect(document.querySelectorAll("[data-slide]")).toHaveLength(5);
     expect(screen.getAllByRole("link", { name: "Volver al caso" })[0]).toHaveAttribute("href", "/casos/mobiliario-edu/");
-    const markers = todoMarkers(document.body.textContent ?? "");
-    expect(markers.length).toBeGreaterThanOrEqual(4);
+    const todos = [...document.querySelectorAll('[data-todo="ro"]')];
+    expect(todos).toHaveLength(6);
+    expect(new Set(todos.map((node) => node.textContent))).toHaveLength(6);
+    expect(document.body.innerHTML).not.toMatch(/alt="[^"]*\[TODO/);
     expect(document.body.textContent).not.toMatch(/edu[ _-]?21/i);
+    expect(renderCasoHead("mobiliario-edu", "pitch-ventas")).toContain('content="noindex"');
+    expect(renderCasoHead("mobiliario-edu")).toContain("index, follow");
   });
 });

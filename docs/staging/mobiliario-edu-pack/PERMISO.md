@@ -21,12 +21,11 @@ Evidencia de la redacción (no va a `public/`): `docs/staging/mobiliario-edu-pac
 **Cliente/marca:** pyme de mobiliario educacional (edu-tech / diseño de servicios).  
 **Decisión Rö:** sí case + **sí puede salir la marca “pyme de mobiliario educacional”**.
 
-## Capturas (6) — ya en `public/images/cases/mobiliario-edu/`
+## Capturas — ya en `public/images/cases/mobiliario-edu/`
 
 | ID | Path público | Etapa |
 |----|--------------|-------|
 | 01-heuristic-web | `cases/mobiliario-edu/01-heuristic-web.png` | E1 · Heurística web |
-| 02-competitive-benchmark | `cases/mobiliario-edu/02-competitive-benchmark.png` | E1 · Benchmark |
 | 03-service-strategy | `cases/mobiliario-edu/03-service-strategy.png` | E2 · Estrategia de servicios |
 | 04-sales-pitch | `cases/mobiliario-edu/04-sales-pitch.png` | E3 · Pitch comercial |
 | 05-storyboard | `cases/mobiliario-edu/05-storyboard.png` | E3 · Storyboard video |

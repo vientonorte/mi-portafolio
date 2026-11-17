@@ -9,7 +9,6 @@ import {
   getPiece,
   piezaPath,
   publicAsset,
-  todoMarkers,
   webpSrcSet,
   withSiteBase,
   type CasoSlide,
@@ -20,26 +19,12 @@ const H2 = "text-2xl font-bold tracking-tight text-foreground sm:text-3xl";
 const TODO_CLASS =
   "mx-0.5 inline rounded-sm border border-dashed border-amber-800/80 bg-amber-100 px-1 py-0.5 font-semibold text-foreground dark:border-amber-200/80 dark:bg-amber-950/70";
 
-export function TodoText({ text }: { text: string }) {
-  const parts = text.split(/(\[TODO Rö(?::[^\]]+)?\])/g);
+function TodoMark({ text }: { text: string }) {
   return (
-    <>
-      {parts.map((part, index) =>
-        part.startsWith("[TODO Rö") ? (
-          <strong key={index} data-todo="ro" className={TODO_CLASS}>
-            {part}
-          </strong>
-        ) : (
-          <span key={index}>{part}</span>
-        ),
-      )}
-    </>
+    <strong data-todo="ro" className={TODO_CLASS}>
+      {text}
+    </strong>
   );
-}
-
-function visibleTodo(slide: CasoSlide): string | undefined {
-  const markers = todoMarkers(slide.alt).filter((marker) => !slide.caption.includes(marker));
-  return markers.length ? markers.join(" ") : undefined;
 }
 
 function slideItems(slides: readonly CasoSlide[]): MockupItem[] {
@@ -48,7 +33,6 @@ function slideItems(slides: readonly CasoSlide[]): MockupItem[] {
     alt: slide.alt,
     label: slide.caption,
     title: slide.title,
-    note: visibleTodo(slide),
     width: slide.width,
     height: slide.height,
     webpSrcSet: webpSrcSet(slide),
@@ -169,6 +153,9 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
       <article data-page="pieza" data-caso={caso.slug} data-piece={piece.slug} className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
         <Crumbs casoTitle={caso.title} casoHref={casoHref} pieceTitle={piece.title} />
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{piece.title}</h1>
+        <p className="mt-3">
+          <TodoMark text="[TODO Rö: «Pitch de ventas y simulación» vs «Pitch y herramientas comerciales»]" />
+        </p>
         <PieceNav casoHref={casoHref} nextHref={nextHref} />
 
         <section className={SECTION} aria-labelledby="ficha-heading">
@@ -205,19 +192,33 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
           </h2>
           <ol className="mt-4 list-decimal space-y-3 pl-5 text-base leading-relaxed">
             {piece.process.map((step) => (
-              <li key={step}>{step}</li>
+              <li key={step}>
+                {step}
+                {step.includes("24 y el 25 de febrero") ? (
+                  <span className="mt-2 flex flex-col items-start gap-2">
+                    <TodoMark text="[TODO Rö: ¿febrero de 2023?]" />
+                    <TodoMark text="[TODO Rö: ¿se mantiene Google Meet?]" />
+                  </span>
+                ) : null}
+              </li>
             ))}
           </ol>
         </section>
 
-        <section className={SECTION} aria-labelledby="seleccion-heading">
+        <section
+          className={`${SECTION} lg:relative lg:left-1/2 lg:w-[min(64rem,calc(100vw-2rem))] lg:-translate-x-1/2`}
+          aria-labelledby="seleccion-heading"
+        >
           <h2 id="seleccion-heading" className={H2}>
             Selección
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {piece.slides.length} láminas de una selección. No es el archivo completo.
           </p>
-          <MockupGallery mockups={slideItems(piece.slides)} language="es" embedded />
+          <p className="mt-3">
+            <TodoMark text="[TODO Rö: pasos de los 3 diagramas raster]" />
+          </p>
+          <MockupGallery mockups={slideItems(piece.slides)} language="es" embedded columns={2} />
         </section>
 
         <section className={SECTION} aria-labelledby="hallazgos-heading">
@@ -227,7 +228,13 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
           <ul className="mt-4 list-disc space-y-2 pl-5 text-base leading-relaxed">
             {piece.findings.map((finding) => (
               <li key={finding}>
-                <TodoText text={finding} />
+                {finding.startsWith("[TODO") ? <TodoMark text={finding} /> : finding}
+                {finding.includes("el kit reúne") ? (
+                  <>
+                    {" "}
+                    <TodoMark text="[TODO Rö: ¿el kit comercial incluye más piezas?]" />
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>

@@ -83,7 +83,6 @@ export const portfolioImages = {
   /** Case pyme de mobiliario educacional — permiso GO 2026-07-21 · marca visible */
   mobiliarioEdu: {
     heuristicWeb: img("cases/mobiliario-edu/01-heuristic-web.png"),
-    competitiveBenchmark: img("cases/mobiliario-edu/02-competitive-benchmark.png"),
     serviceStrategy: img("cases/mobiliario-edu/03-service-strategy.png"),
     salesPitch: img("cases/mobiliario-edu/04-sales-pitch.png"),
     storyboard: img("cases/mobiliario-edu/05-storyboard.png"),

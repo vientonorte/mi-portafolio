@@ -200,10 +200,12 @@ jobs:
         run: npm run qa:no-placeholders
       - name: /sobre-mi/ — toda imagen referenciada existe en dist
         run: npm run qa:sobre-mi-images
-      - name: Anonimización — dist sin /edu[ _-]?21/i (HTML/JS/JSON/XML, nombres, PDFs)
+      - name: Anonimización — dist sin tokens denegados
         run: |
           command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
-          npm run qa:no-edu21
+          npm run qa:no-leaks
+      - name: Páginas con TODO fuera del índice y del sitemap
+        run: npm run qa:no-indexable-todo
       - name: Trayectoria — dist sin afirmaciones retiradas (SURA −40 %, 5+ países, 17 participantes, NPS 72, etnógrafo certificado)
         run: npm run qa:no-removed-claims
       - name: Bundle size check
@@ -246,9 +248,6 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit-v2
-          restore-keys: |
-            ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-
-            ${{ runner.os }}-playwright-
       - name: Instalar navegadores Playwright
         if: steps.pw-cache.outputs.cache-hit != 'true'
         timeout-minutes: 10
@@ -278,9 +277,9 @@ jobs:
             exit 1
           fi
 
-          # WebKit de Playwright 1.64 pide libicudata.so.74. El caché de navegadores
-          # a veces llega sin esa lib del sistema.
-          if ! ldconfig -p 2>/dev/null | grep -q 'libicudata.so.74'; then
+          # WebKit de Playwright 1.64 en Ubuntu 24.04 pide libicudata.so.74.
+          if [ -r /etc/os-release ] && grep -q 'VERSION_ID="24.04"' /etc/os-release \
+            && ! ldconfig -p 2>/dev/null | grep -q 'libicudata.so.74'; then
             sudo apt-get update -qq
             sudo apt-get install -y -qq libicu74
           fi

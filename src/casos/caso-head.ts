@@ -1,8 +1,9 @@
 /**
  * <head> por caso y por pieza. Lo inyecta scripts/prerender-servicios.mjs.
- * robots "index, follow": el build QA (/qa/) lo pasa a noindex en deploy-qa.yml.
+ * Una pieza con marcador TODO sale noindex y queda fuera del sitemap.
+ * El build QA (/qa/) además fuerza noindex en deploy-qa.yml.
  */
-import { casoPath, getCaso, getPiece, piezaPath, type Caso, type CasoPiece } from "../data/casos";
+import { casoPath, getCaso, getPiece, piecePublishesTodo, piezaPath, type Caso, type CasoPiece } from "../data/casos";
 
 const ORIGIN = "https://vientonorte.io";
 
@@ -40,6 +41,9 @@ function pageMeta(casoSlug: string, pieceSlug: string): { title: string; descrip
 export function renderCasoHead(casoSlug: string, pieceSlug = ""): string {
   const meta = pageMeta(casoSlug, pieceSlug);
   const url = `${ORIGIN}${meta.path}`;
+  const robots = pieceSlug && piecePublishesTodo(getPiece(casoSlug, pieceSlug).piece)
+    ? "noindex"
+    : "index, follow";
   const ld = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
@@ -53,7 +57,7 @@ export function renderCasoHead(casoSlug: string, pieceSlug = ""): string {
   return [
     `<title>${esc(meta.title)}</title>`,
     `<meta name="description" content="${esc(meta.description)}" />`,
-    `<meta name="robots" content="index, follow" />`,
+    `<meta name="robots" content="${robots}" />`,
     `<link rel="canonical" href="${esc(url)}" />`,
     `<meta property="og:type" content="article" />`,
     `<meta property="og:site_name" content="Viento Norte" />`,

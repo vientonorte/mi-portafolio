@@ -20,6 +20,8 @@ export interface MediaLightboxProps {
   height?: number;
   onPrev?: () => void;
   onNext?: () => void;
+  prevLabel?: string;
+  nextLabel?: string;
   onCloseAutoFocus?: (event: Event) => void;
 }
 
@@ -36,6 +38,8 @@ export function MediaLightbox({
   height,
   onPrev,
   onNext,
+  prevLabel = "",
+  nextLabel = "",
   onCloseAutoFocus,
 }: MediaLightboxProps) {
   const counter =
@@ -85,16 +89,18 @@ export function MediaLightbox({
               className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm font-semibold disabled:opacity-40"
               onClick={onPrev}
               disabled={!onPrev}
+              aria-label={prevLabel}
             >
-              Anterior
+              {prevLabel}
             </button>
             <button
               type="button"
               className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm font-semibold disabled:opacity-40"
               onClick={onNext}
               disabled={!onNext}
+              aria-label={nextLabel}
             >
-              Siguiente
+              {nextLabel}
             </button>
           </div>
         )}
