@@ -245,7 +245,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit-v2
           restore-keys: |
             ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-
             ${{ runner.os }}-playwright-
@@ -276,6 +276,13 @@ jobs:
           if [ "$READY" -ne 1 ]; then
             echo "Preview server did not become reachable." >&2
             exit 1
+          fi
+
+          # WebKit de Playwright 1.64 pide libicudata.so.74. El caché de navegadores
+          # a veces llega sin esa lib del sistema.
+          if ! ldconfig -p 2>/dev/null | grep -q 'libicudata.so.74'; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq libicu74
           fi
 
           node scripts/qa-routes.mjs http://127.0.0.1:4173

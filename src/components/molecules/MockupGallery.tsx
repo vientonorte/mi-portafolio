@@ -185,6 +185,7 @@ export function MockupGallery({
             ? "grid-cols-1 max-w-3xl mx-auto w-full"
             : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         )}
+        role="group"
         aria-label={t.mockups.galleryAria}
       >
         {visibleItems.map((item, index) => {
@@ -271,7 +272,7 @@ export function MockupGallery({
 
   if (embedded) {
     return (
-      <div aria-label={t.mockups.galleryAria}>
+      <div>
         {grid}
         {lightbox}
       </div>
