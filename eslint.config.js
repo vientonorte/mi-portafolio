@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 /** ESLint 10: no mezclar `extends` + `plugins` en el mismo objeto (ConfigError Unexpected key "plugins"). */
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'V2'] },
+  { ignores: ['dist', 'dist-ro', 'coverage', 'V2'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
