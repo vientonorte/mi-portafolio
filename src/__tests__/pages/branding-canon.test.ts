@@ -209,10 +209,13 @@ describe("/servicios/ casos de VN (spec PO 1-oct 10:31)", () => {
     expect(html).not.toMatch(/marca consciente|algorithmics|sortify/i);
   });
 
-  it("los links de la grilla son solo /servicios/#ancla", () => {
+  it("los links de la grilla son anclas de servicio o la ficha /casos/", () => {
     const hrefs = [...casos.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
-    expect(hrefs.length).toBe(SERVICIOS_CASE_ANCHORS.length);
-    for (const h of hrefs) expect(h, h).toMatch(CANON_HREF);
+    const serviceLinks = hrefs.filter((h) => !h.includes("/casos/"));
+    expect(serviceLinks.length).toBe(SERVICIOS_CASE_ANCHORS.length);
+    for (const h of serviceLinks) expect(h, h).toMatch(CANON_HREF);
+    const caseLinks = hrefs.filter((h) => h.includes("/casos/"));
+    expect(caseLinks).toEqual(["/casos/mobiliario-edu/"]);
     for (const re of FORBIDDEN) expect(casos.outerHTML, `${re}`).not.toMatch(re);
   });
 

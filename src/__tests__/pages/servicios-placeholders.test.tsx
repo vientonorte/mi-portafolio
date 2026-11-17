@@ -186,6 +186,7 @@ describe("/servicios/ v2 — prerender base '/qa/' (QA)", () => {
           h.startsWith("/qa/images/") ||
           /^#[A-Za-z][\w-]*$/.test(h) ||
           /^\/qa\/servicios\/#[A-Za-z][\w-]*$/.test(h) ||
+          /^\/qa\/casos\/[a-z0-9-]+\/$/.test(h) ||
           h === "mailto:contacto@vientonorte.io"
         )
     );

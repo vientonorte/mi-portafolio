@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MockupGallery } from "@/components/molecules/MockupGallery";
 import { LanguageProvider } from "@/lib/LanguageContext";
 
@@ -31,5 +32,18 @@ describe("MockupGallery", () => {
     expect(await screen.findByText("Captura A")).toBeInTheDocument();
     expect(screen.queryByText("Captura B")).toBeNull();
     expect(screen.getByRole("button", { name: /capturas más/i })).toBeInTheDocument();
+  });
+
+  it("el lightbox avanza con la flecha derecha, vuelve con Escape y devuelve el foco", async () => {
+    const user = userEvent.setup();
+    renderGallery({});
+    const open = screen.getAllByRole("button", { name: "Ampliar imagen" })[0];
+    await user.click(open);
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog).toHaveTextContent("Captura A");
+    await user.keyboard("{ArrowRight}");
+    expect(dialog).toHaveTextContent("Captura B");
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });

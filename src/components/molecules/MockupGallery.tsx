@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Expand, Monitor } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
 import { MediaLightbox } from "./MediaLightbox";
@@ -12,6 +12,12 @@ export interface MockupItem {
   src: string;
   alt?: string;
   label?: string;
+  title?: string;
+  /** Marcador visible, por ejemplo un [TODO Rö]. */
+  note?: string;
+  width?: number;
+  height?: number;
+  webpSrcSet?: string;
 }
 
 interface MockupGalleryProps {
@@ -44,46 +50,74 @@ function MockupTile({
   onOpen,
   className,
   featured = false,
+  priority = false,
 }: {
   item: MockupItem;
   viewOfLabel: string;
   expandLabel: string;
-  onOpen: () => void;
+  onOpen: (trigger: HTMLElement) => void;
   className?: string;
   featured?: boolean;
+  priority?: boolean;
 }) {
   const label = item.label ?? viewOfLabel;
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <Card
+      data-slide
       className={cn(
         "group relative overflow-hidden border border-[color:var(--logo-surface-border)] transition-all duration-300 shadow-none",
         "hover:border-primary/30 hover:shadow-md focus-within:ring-2 focus-within:ring-primary",
         className
       )}
     >
-      <ResponsiveImage
-        src={item.src}
-        alt={item.alt ?? label}
-        fit="contain"
-        aspectRatio={featured ? "16 / 9" : "16 / 10"}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 720px"
-        className="cursor-zoom-in bg-muted/30"
-        onClick={onOpen}
-      />
+      <div className="relative">
+        <ResponsiveImage
+          src={item.src}
+          alt={item.alt ?? label}
+          fit="contain"
+          aspectRatio={featured ? "16 / 9" : "16 / 10"}
+          sizes="(max-width: 768px) 100vw, 720px"
+          width={item.width}
+          height={item.height}
+          webpSrcSet={item.webpSrcSet}
+          priority={priority}
+          className="bg-muted/30"
+        />
+        <button
+          type="button"
+          ref={buttonRef}
+          onClick={() => {
+            if (buttonRef.current) onOpen(buttonRef.current);
+          }}
+          data-slide-open
+          className="absolute inset-0 cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          aria-label={expandLabel}
+        >
+          <span className="sr-only">{viewOfLabel}</span>
+          <span className="absolute right-3 top-3 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-background/90 p-2.5 shadow-md">
+            <Expand className="h-4 w-4 text-primary" aria-hidden />
+          </span>
+        </button>
+      </div>
 
-      <button
-        type="button"
-        onClick={onOpen}
-        className="absolute right-3 top-3 min-h-[44px] min-w-[44px] rounded-full bg-background/90 p-2.5 opacity-90 shadow-md backdrop-blur-sm transition-opacity hover:opacity-100 focus:opacity-100 md:opacity-0 md:group-hover:opacity-100"
-        aria-label={expandLabel}
-      >
-        <Expand className="h-4 w-4 text-primary" aria-hidden />
-      </button>
-
-      <div className="flex items-center gap-2 border-t border-border/40 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
-        <Monitor className="h-4 w-4 shrink-0" aria-hidden />
-        <span className="truncate">{label}</span>
+      <div className="border-t border-border/40 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
+        {item.title ? <p className="font-semibold text-foreground">{item.title}</p> : null}
+        <p className="mt-1 flex items-start gap-2">
+          <Monitor className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+          <span>{label}</span>
+        </p>
+        {item.note ? (
+          <p className="mt-2">
+            <strong
+              data-todo="ro"
+              className="inline rounded-sm border border-dashed border-amber-800/80 bg-amber-100 px-1 py-0.5 font-semibold text-foreground dark:border-amber-200/80 dark:bg-amber-950/70"
+            >
+              {item.note}
+            </strong>
+          </p>
+        ) : null}
       </div>
     </Card>
   );
@@ -99,12 +133,27 @@ export function MockupGallery({
   maxVisible,
 }: MockupGalleryProps) {
   const t = useTranslation(language);
+  const reduceMotion = useReducedMotion();
   const items = useMemo(() => normalizeMockups(mockups), [mockups]);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const openLightbox = useCallback((index: number, trigger: HTMLElement) => {
+    triggerRef.current = trigger;
+    setLightboxIndex(index);
+  }, []);
+  const closeLightbox = useCallback(() => {
+    returnFocusRef.current = triggerRef.current;
+    setLightboxIndex(null);
+  }, []);
+
+  useEffect(() => {
+    if (lightboxIndex !== null || !returnFocusRef.current) return;
+    returnFocusRef.current.focus();
+    returnFocusRef.current = null;
+  }, [lightboxIndex]);
 
   if (items.length === 0) return null;
 
@@ -149,14 +198,18 @@ export function MockupGallery({
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.2) }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.4,
+                delay: reduceMotion ? 0 : Math.min(index * 0.05, 0.2),
+              }}
             >
               <MockupTile
                 item={item}
                 viewOfLabel={viewOf(realIndex + 1, items.length)}
                 expandLabel={t.mockups.expand}
-                onOpen={() => openLightbox(realIndex)}
+                onOpen={(trigger) => openLightbox(realIndex, trigger)}
                 featured={visibleItems.length === 1}
+                priority={realIndex === 0}
                 className="h-full"
               />
             </motion.div>
@@ -180,18 +233,41 @@ export function MockupGallery({
     </div>
   );
 
-  const lightbox =
-    active && lightboxIndex !== null ? (
-      <MediaLightbox
-        open={lightboxIndex !== null}
-        onOpenChange={(open) => !open && closeLightbox()}
-        src={active.src}
-        alt={active.alt ?? ""}
-        caption={active.label}
-        index={lightboxIndex}
-        total={items.length}
-      />
-    ) : null;
+  const shown = active ?? items[0];
+  const lightbox = (
+    <MediaLightbox
+      open={lightboxIndex !== null}
+      onOpenChange={(open) => {
+        if (!open) {
+          const trigger = triggerRef.current;
+          closeLightbox();
+          trigger?.focus();
+        }
+      }}
+      onCloseAutoFocus={(event) => {
+        event.preventDefault();
+        triggerRef.current?.focus();
+      }}
+      src={shown.src}
+      alt={shown.alt ?? ""}
+      caption={shown.label}
+      index={lightboxIndex ?? 0}
+      total={items.length}
+      width={shown.width}
+      height={shown.height}
+      webpSrcSet={shown.webpSrcSet}
+      onPrev={
+        lightboxIndex !== null && lightboxIndex > 0
+          ? () => setLightboxIndex(lightboxIndex - 1)
+          : undefined
+      }
+      onNext={
+        lightboxIndex !== null && lightboxIndex < items.length - 1
+          ? () => setLightboxIndex(lightboxIndex + 1)
+          : undefined
+      }
+    />
+  );
 
   if (embedded) {
     return (
@@ -213,7 +289,7 @@ export function MockupGallery({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: reduceMotion ? 0 : 0.6 }}
           className="mb-10 text-center md:mb-12"
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">

@@ -195,6 +195,9 @@
               // Plantilla de ediciones: scripts/prerender-servicios.mjs genera dist/noticias/<slug>/index.html
               // por edición de src/data/news-editions.json y borra dist/noticia/.
               noticia: path.resolve(__dirname, 'noticia/index.html'),
+              // Plantilla de casos: scripts/prerender-servicios.mjs genera
+              // dist/casos/<slug>/ y dist/casos/<slug>/<pieza>/ y borra dist/casos/index.html.
+              casos: path.resolve(__dirname, 'casos/index.html'),
             },
         output: isSsrChild ? undefined : {
           manualChunks(id) {

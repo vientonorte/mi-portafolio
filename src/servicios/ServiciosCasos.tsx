@@ -65,6 +65,7 @@ export function ServiciosCasos({ ctaHref = (anchor: string) => `#${anchor}` }: {
                     addressBar={item.addressBar}
                     fit={item.mockupFit}
                     startingPoint={item.startingPoint}
+                    casoHref={item.casoHref}
                   />
                 ))}
               </div>

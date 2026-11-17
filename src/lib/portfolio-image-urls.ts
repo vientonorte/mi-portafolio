@@ -88,6 +88,11 @@ export const portfolioImages = {
     salesPitch: img("cases/mobiliario-edu/04-sales-pitch.png"),
     storyboard: img("cases/mobiliario-edu/05-storyboard.png"),
     performanceSeo: img("cases/mobiliario-edu/06-performance-seo.png"),
+    pitchPortada: img("cases/mobiliario-edu/pitch-ventas/01-portada-guion-acting.png"),
+    pitchFlujoSimulacion: img("cases/mobiliario-edu/pitch-ventas/02-flujo-simulacion.png"),
+    pitchBioPersona: img("cases/mobiliario-edu/pitch-ventas/03-bio-persona-con-tiempo.png"),
+    pitchFlujoEntrada: img("cases/mobiliario-edu/pitch-ventas/04-flujo-pitch-de-entrada.png"),
+    pitchExploracion: img("cases/mobiliario-edu/pitch-ventas/05-exploracion-de-dolores.png"),
     /** Extra UI evidence (S1 wall) from Asesorías */
     fichaProducto: img("cases/mobiliario-edu-extra/01-ficha-producto.png"),
     ctaBrochure: img("cases/mobiliario-edu-extra/02-cta-brochure.png"),

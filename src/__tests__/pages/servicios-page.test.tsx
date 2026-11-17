@@ -30,6 +30,7 @@ const isAllowedHref = (href: string) =>
   href.startsWith("/qa/images/") ||
   /^#[A-Za-z][\w-]*$/.test(href) ||
   /^\/servicios\/#[A-Za-z][\w-]*$/.test(href) ||
+  /^\/(?:qa\/)?casos\/[a-z0-9-]+\/$/.test(href) ||
   href === "mailto:contacto@vientonorte.io";
 
 describe("/servicios/ prerender (react-dom/server)", () => {

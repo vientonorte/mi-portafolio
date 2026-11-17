@@ -14,6 +14,13 @@ export interface MediaLightboxProps {
   caption?: string;
   index?: number;
   total?: number;
+  /** WebP srcset del mismo recorte. El src sigue siendo el PNG. */
+  webpSrcSet?: string;
+  width?: number;
+  height?: number;
+  onPrev?: () => void;
+  onNext?: () => void;
+  onCloseAutoFocus?: (event: Event) => void;
 }
 
 export function MediaLightbox({
@@ -24,6 +31,12 @@ export function MediaLightbox({
   caption,
   index,
   total,
+  webpSrcSet,
+  width,
+  height,
+  onPrev,
+  onNext,
+  onCloseAutoFocus,
 }: MediaLightboxProps) {
   const counter =
     index !== undefined && total !== undefined
@@ -32,7 +45,20 @@ export function MediaLightbox({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[min(96vw,1200px)] border-none bg-background/95 p-3 sm:p-4 backdrop-blur-md">
+      <DialogContent
+        className="max-w-[min(96vw,1200px)] border-none bg-background/95 p-3 motion-reduce:animate-none sm:p-4 backdrop-blur-md"
+        onCloseAutoFocus={onCloseAutoFocus}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight" && onNext) {
+            event.preventDefault();
+            onNext();
+          }
+          if (event.key === "ArrowLeft" && onPrev) {
+            event.preventDefault();
+            onPrev();
+          }
+        }}
+      >
         <DialogTitle className="sr-only">{alt}</DialogTitle>
         <DialogDescription className="sr-only">
           {caption ?? alt}
@@ -45,10 +71,33 @@ export function MediaLightbox({
             fit="contain"
             sizes="96vw"
             priority
+            width={width}
+            height={height}
+            webpSrcSet={webpSrcSet}
             className="max-h-[78vh] min-h-[200px] w-full"
             imgClassName="max-h-[78vh]"
           />
         </div>
+        {(onPrev || onNext) && (
+          <div className="flex justify-between gap-3">
+            <button
+              type="button"
+              className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm font-semibold disabled:opacity-40"
+              onClick={onPrev}
+              disabled={!onPrev}
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm font-semibold disabled:opacity-40"
+              onClick={onNext}
+              disabled={!onNext}
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
 
         {(caption || counter) && (
           <div className="flex items-center justify-between gap-3 px-1 pt-1 text-sm text-muted-foreground">

@@ -3,7 +3,7 @@
 // Falla (case-insensitive) por /edu[ _-]?21/ en: nombres de archivo, contenido
 // HTML/JS/JSON/XML (+ css/svg/txt/webmanifest) y texto de PDFs (pdftotext).
 // Uso: node scripts/check-dist-no-edu21.mjs [dist]
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, extname } from "node:path";
 import { execFileSync } from "node:child_process";
 
@@ -11,7 +11,7 @@ const root = process.argv[2] || "dist";
 const RE = /edu[ _-]?21/i;
 const TEXT = new Set([".html", ".htm", ".js", ".mjs", ".cjs", ".json", ".xml", ".css", ".svg", ".txt", ".webmanifest", ".map"]);
 const hits = [];
-let files = 0, pdfs = 0;
+let files = 0, pdfs = 0, casoHtml = 0;
 
 function hasPdftotext() {
   try { execFileSync("pdftotext", ["-v"], { stdio: "ignore" }); return true; } catch { return false; }
@@ -26,6 +26,7 @@ function walk(dir) {
     if (statSync(p).isDirectory()) { walk(p); continue; }
     files++;
     const ext = extname(name).toLowerCase();
+    if (ext === ".html" && rel.split(/[\\/]/).includes("casos")) casoHtml++;
     if (TEXT.has(ext)) {
       const txt = readFileSync(p, "utf8");
       const m = txt.match(RE);
@@ -40,6 +41,9 @@ function walk(dir) {
 }
 
 walk(root);
+if (existsSync(join(root, "casos")) && casoHtml === 0) {
+  hits.push("dist/casos/ existe pero ninguna página HTML de casos fue revisada");
+}
 if (hits.length) {
   console.error(`❌ /edu[ _-]?21/i encontrado en ${root}/ (${hits.length}):`);
   for (const h of hits) console.error(`  - ${h}`);
