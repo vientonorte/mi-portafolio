@@ -1,4 +1,5 @@
 import { UNSAFE_createMemoryHistory, type To } from "react-router";
+import { apexHashRedirectUrl } from "./apex-hash-redirect";
 
 /** La ficha HTTP se queda en su path. El resto de la SPA sigue en el hash del apex. */
 export function fichaHttpStays(fichaPath: string, to: To): boolean {
@@ -23,19 +24,29 @@ function pathOf(to: To): string | null {
   return to.pathname;
 }
 
-function spaHref(to: To): string {
+function spaHref(to: To, hostname = typeof window === "undefined" ? "" : window.location.hostname): string {
   const base = import.meta.env.BASE_URL || "/";
   const root = base.endsWith("/") ? base : `${base}/`;
+  let href: string;
   if (typeof to === "string") {
     if (to === "/" || to === "") return root;
     const path = to.startsWith("/") ? to : `/${to}`;
-    return `${root}#${path}`;
+    href = `${root}#${path}`;
+  } else {
+    const path = to.pathname || "/";
+    const search = to.search || "";
+    const hash = to.hash || "";
+    if ((path.replace(/\/+$/, "") || "/") === "/") return `${root}${search}${hash}`;
+    href = `${root}#${path}${search}${hash}`;
   }
-  const path = to.pathname || "/";
-  const search = to.search || "";
-  const hash = to.hash || "";
-  if ((path.replace(/\/+$/, "") || "/") === "/") return `${root}${search}${hash}`;
-  return `${root}#${path}${search}${hash}`;
+  const hashIdx = href.indexOf("#");
+  const spaHash = hashIdx >= 0 ? href.slice(hashIdx) : "";
+  return apexHashRedirectUrl(spaHash, hostname) ?? href;
+}
+
+/** Visible para tests: clics a /empresa y /proyecto desde ro salen al apex. */
+export function spaHrefFor(to: To, hostname: string): string {
+  return spaHref(to, hostname);
 }
 
 /** History de una ficha HTTP. El primer paint es esa ruta, sin reescribir la barra a /#/… */
