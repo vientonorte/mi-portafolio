@@ -378,9 +378,13 @@ async function main() {
   const context = await browser.newContext({ serviceWorkers: 'block' });
   const page = await context.newPage();
 
+  // Si #/proyecto/<id> ya es una ficha /casos/, el enlace Figma sigue en el hub de empresa.
+  const CASO_PROJECT_FIGMA_HUB = {
+    'transvip-app-premium': '/empresa/transvip',
+  };
   for (const project of projects) {
     const r = await checkPageNeedles(page, {
-      path: project.path,
+      path: CASO_PROJECT_FIGMA_HUB[project.id] ?? project.path,
       needles: [urlNeedle(project.url)],
       label: `Proyecto · ${project.id}`,
     });
