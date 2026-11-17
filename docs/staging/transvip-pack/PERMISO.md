@@ -2,8 +2,10 @@
 
 ## Nivel 3 · app de reserva y System Design (2026-11-17)
 
-**Estado:** pendiente OK Rö  
-**Decisión Rö (alcance de esta rama):** 2026-11-17, 18:03 America/Santiago. Preparar el pack y el PR en borrador. La publicación en el plan va después de SURA RIA y SURA Tutoría CO; este caso no se mergea ni se indexa hasta ese OK.  
+**Estado:** otorgado  
+**Permiso de Rö (Decider):** 2026-11-17 18:56 CL, en el chat de M5, textual: «tienen mi autorización». Autoriza mostrar Transvip en el portafolio.  
+**Decisión Rö (alcance de esta rama):** 2026-11-17, 18:03 America/Santiago. Preparar el pack y el PR en borrador.  
+**Restricciones vigentes:** el caso queda `noindex` y fuera del sitemap hasta el OK de publicación. Se publica solo después de SURA RIA y SURA Tutoría CO.  
 **Etiqueta pública:** **Transvip** (Rö decidió que este caso va con nombre).  
 **Alcance:** dos piezas, selección de láminas, no el archivo completo.
 
@@ -14,7 +16,7 @@
 
 Evidencia de la redacción (no va a `public/`): `docs/staging/transvip-pack/evidencia/`.
 
-- [ ] Contacto autorizado: **pendiente OK Rö** para publicar
+- [x] Contacto autorizado: **otorgado** por Rö (Decider), 2026-11-17 18:56 CL, chat M5, textual: «tienen mi autorización». Sigue `noindex` y fuera del sitemap hasta el OK de publicación; se publica solo después de SURA RIA y SURA Tutoría CO.
 - [x] Alcance: 3 + 4 láminas con pie, no el archivo completo
 - [x] Etiqueta **Transvip**
 - [x] Cifras retiradas (−40 % tiempo de reserva, +25 % conversión, NPS 82) no se reintroducen; lo que falta queda marcado `[TODO Rö]`
