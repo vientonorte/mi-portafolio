@@ -32,6 +32,7 @@ desktop.ini
 *.png
 !public/images/**
 !public/ar/**/*.png
+!docs/staging/mobiliario-edu-pack/evidencia/*.png
 !public/icon-192x192.png
 !public/icon-512x512.png
 *.jpg

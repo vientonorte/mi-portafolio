@@ -164,20 +164,12 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "pyme de mobiliario educacional · heurística sitio web (E1)"
   ),
   entry(
-    "mobiliarioEdu.competitiveBenchmark",
-    "pyme de mobiliario educacional",
-    "Benchmark competencias",
-    "cases/mobiliario-edu/02-competitive-benchmark.png",
-    portfolioImages.mobiliarioEdu.competitiveBenchmark,
-    "pyme de mobiliario educacional · benchmark de competencias (E1)"
-  ),
-  entry(
     "mobiliarioEdu.serviceStrategy",
     "pyme de mobiliario educacional",
     "Estrategia de servicios",
     "cases/mobiliario-edu/03-service-strategy.png",
     portfolioImages.mobiliarioEdu.serviceStrategy,
-    "pyme de mobiliario educacional · diseño de estrategia de servicios (E2)"
+    "Mapa de estrategia de servicio (detalle difuminado por confidencialidad)."
   ),
   entry(
     "mobiliarioEdu.salesPitch",
@@ -202,6 +194,46 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "cases/mobiliario-edu/06-performance-seo.png",
     portfolioImages.mobiliarioEdu.performanceSeo,
     "pyme de mobiliario educacional · speed / performance report"
+  ),
+  entry(
+    "mobiliarioEdu.pitchPortada",
+    "pyme de mobiliario educacional",
+    "Portada del guion de acting",
+    "cases/mobiliario-edu/pitch-ventas/01-portada-guion-acting.png",
+    portfolioImages.mobiliarioEdu.pitchPortada,
+    "Portada tipográfica de un guion de simulación, con el título «Guión Acting - Simulación» y la leyenda «Pitch Ventas - USO INTERNO», año 2023."
+  ),
+  entry(
+    "mobiliarioEdu.pitchFlujoSimulacion",
+    "pyme de mobiliario educacional",
+    "Flujo de la simulación",
+    "cases/mobiliario-edu/pitch-ventas/02-flujo-simulacion.png",
+    portfolioImages.mobiliarioEdu.pitchFlujoSimulacion,
+    "Lámina «Flujo / II. Simulación» con el objetivo de la actividad y las fechas de ensayo."
+  ),
+  entry(
+    "mobiliarioEdu.pitchBioPersona",
+    "pyme de mobiliario educacional",
+    "Bio de la persona con tiempo",
+    "cases/mobiliario-edu/pitch-ventas/03-bio-persona-con-tiempo.png",
+    portfolioImages.mobiliarioEdu.pitchBioPersona,
+    "Lámina «Bio persona / II. Simulación» con las instrucciones del perfil «persona con tiempo»."
+  ),
+  entry(
+    "mobiliarioEdu.pitchFlujoEntrada",
+    "pyme de mobiliario educacional",
+    "Flujo del pitch de entrada",
+    "cases/mobiliario-edu/pitch-ventas/04-flujo-pitch-de-entrada.png",
+    portfolioImages.mobiliarioEdu.pitchFlujoEntrada,
+    "Lámina «Flujo pitch de entrada» con las instrucciones de cordialidad, empatía y escucha activa."
+  ),
+  entry(
+    "mobiliarioEdu.pitchExploracion",
+    "pyme de mobiliario educacional",
+    "Exploración de dolores",
+    "cases/mobiliario-edu/pitch-ventas/05-exploracion-de-dolores.png",
+    portfolioImages.mobiliarioEdu.pitchExploracion,
+    "Lámina «11 preguntas arquetípicas / Exploración de dolores» con la lista de preguntas para el establecimiento educacional."
   ),
 ];
 

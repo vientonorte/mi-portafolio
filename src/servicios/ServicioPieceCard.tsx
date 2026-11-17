@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { DeviceMockup } from "../components/molecules/DeviceMockup";
 import { assetUrl } from "../components/marketing/marketing-env";
+import { withSiteBase } from "../data/casos";
 import { cn } from "../lib/utils";
 import type { MarketingImage } from "../components/marketing";
 
@@ -34,6 +35,7 @@ export function ServicioPieceCard({
   fit = "cover",
   pixelScale,
   startingPoint,
+  casoHref,
 }: {
   dataAttr: "data-vn-case" | "data-concept";
   id: string;
@@ -47,6 +49,7 @@ export function ServicioPieceCard({
   fit?: "cover" | "contain";
   pixelScale?: number;
   startingPoint?: string;
+  casoHref?: string;
 }) {
   return (
     <article
@@ -79,6 +82,17 @@ export function ServicioPieceCard({
           {name}
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{summary}</p>
+        {casoHref ? (
+          <p className="mt-3">
+            <a
+              href={withSiteBase(casoHref)}
+              data-caso-link={id}
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4 hover:text-primary"
+            >
+              Ver el caso
+            </a>
+          </p>
+        ) : null}
         {/* Nivel 2: detalle en <details>/<summary> nativo (teclado y estado expandido sin JS). */}
         {findings.length > 0 || startingPoint ? (
           <details data-case-detail className="group mt-3">

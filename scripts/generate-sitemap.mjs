@@ -95,6 +95,8 @@ export function sourcesFor(route) {
   if (route === "/sobre-mi/") return ["sobre-mi/index.html", "src/sobre-mi", "src/pages/SobreMi.tsx"];
   if (route === "/contacto/") return ["contacto/index.html", "src/contacto", "src/components/organisms/Contact.tsx"];
   if (route === "/privacidad/") return ["privacidad/index.html", "src/privacidad"];
+  if (/^\/casos\/[a-z0-9]+(?:-[a-z0-9]+)*\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(route))
+    return ["casos/index.html", "src/casos", "src/data/casos.ts", "scripts/prerender-servicios.mjs"];
   const rubro = route.match(/^\/servicios\/([^/]+)\/$/)?.[1];
   if (rubro && RUBROS.includes(rubro))
     return ["rubros/index.html", "src/rubros", "src/data/rubros.json", `public/images/rubros/${rubro}`];
@@ -117,6 +119,7 @@ function priority(route) {
   if (route === "/") return "1.0";
   if (route === "/servicios/") return "0.9";
   if (route.startsWith("/servicios/")) return "0.8";
+  if (route.startsWith("/casos/")) return "0.7";
   if (route === "/noticias/") return "0.6";
   return "0.5";
 }

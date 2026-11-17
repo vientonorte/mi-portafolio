@@ -190,6 +190,8 @@ export const mockups = {
       capturesDescription: 'Complementary high-fidelity visual evidence.',
       swipeHint: 'Tap to zoom',
       expand: 'Expand image',
+      previous: 'Previous',
+      next: 'Next',
       galleryAria: 'Featured project capture',
       viewOf: 'View {current} of {total}',
       moreCaptures: 'View {n} more captures',

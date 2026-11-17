@@ -200,10 +200,19 @@ jobs:
         run: npm run qa:no-placeholders
       - name: /sobre-mi/ — toda imagen referenciada existe en dist
         run: npm run qa:sobre-mi-images
-      - name: Anonimización — dist sin /edu[ _-]?21/i (HTML/JS/JSON/XML, nombres, PDFs)
+      - name: Anonimización — dist sin tokens denegados
         run: |
           command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
-          npm run qa:no-edu21
+          npm run qa:no-leaks
+      - name: Anonimización — OCR de imágenes en dist
+        run: |
+          if [ -r /etc/os-release ] && grep -q '^ID=ubuntu' /etc/os-release; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa ffmpeg
+          fi
+          npm run qa:no-leaks-ocr
+      - name: Páginas con TODO fuera del índice y del sitemap
+        run: npm run qa:no-indexable-todo
       - name: Trayectoria — dist sin afirmaciones retiradas (SURA −40 %, 5+ países, 17 participantes, NPS 72, etnógrafo certificado)
         run: npm run qa:no-removed-claims
       - name: Bundle size check
@@ -245,10 +254,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit
-          restore-keys: |
-            ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-
-            ${{ runner.os }}-playwright-
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit-v2
       - name: Instalar navegadores Playwright
         if: steps.pw-cache.outputs.cache-hit != 'true'
         timeout-minutes: 10
@@ -278,12 +284,20 @@ jobs:
             exit 1
           fi
 
+          # WebKit de Playwright 1.64 en Ubuntu 24.04 pide libicudata.so.74.
+          if [ -r /etc/os-release ] && grep -q 'VERSION_ID="24.04"' /etc/os-release \
+            && ! ldconfig -p 2>/dev/null | grep -q 'libicudata.so.74'; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq libicu74
+          fi
+
           node scripts/qa-routes.mjs http://127.0.0.1:4173
           node scripts/qa-prototypes.mjs http://127.0.0.1:4173
           node scripts/qa-hash-ui.mjs http://127.0.0.1:4173
           node scripts/qa-sobre-mi-mobile.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile
           node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173 qa-sobre-mi-mobile/rail
           node scripts/e2e-noticias-slug.mjs http://127.0.0.1:4173
+          node scripts/e2e-casos-nivel-3.mjs http://127.0.0.1:4173
 
       - name: Capturas /sobre-mi/ móvil
         if: always()
@@ -316,7 +330,7 @@ jobs:
       - run: npm run sync:images
       - run: npm run build
       - name: Instalar pa11y
-        run: npm install -g pa11y
+        run: npm install -g pa11y pa11y-runner-axe
       - name: Servir y escanear
         run: |
           npx serve dist -p 4444 &
@@ -344,4 +358,16 @@ jobs:
             --ignore "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.BgImage" \
             --ignore "WCAG2AA.Principle2.Guideline2_4.2_4_1.G1,G123,G124.NoSuchID" \
             --threshold 3 \
+            --config .pa11yrc.json
+
+          # axe en el piloto de casos (nivel 2 y nivel 3). Umbral 0.
+          pa11y http://127.0.0.1:4444/casos/mobiliario-edu/ \
+            --runner axe \
+            --reporter cli \
+            --threshold 0 \
+            --config .pa11yrc.json
+          pa11y http://127.0.0.1:4444/casos/mobiliario-edu/pitch-ventas/ \
+            --runner axe \
+            --reporter cli \
+            --threshold 0 \
             --config .pa11yrc.json

@@ -1,15 +1,31 @@
 # Pack pyme de mobiliario educacional · checklist de permiso
 
+## Nivel 3 · pitch de ventas (2026-11-17)
+
+**Estado:** selección de 5 láminas para `/casos/mobiliario-edu/pitch-ventas/`.  
+**Decisión Rö:** 2026-11-17. El caso sale anónimo. La etiqueta pública es **Pyme de mobiliario educacional**.  
+**Alcance:** solo los 5 frames de `SOURCE_MAP.md`. No se publica el archivo completo.  
+**Exclusiones:** benchmarks de competidores, informe SEO, cotizaciones.
+
+Evidencia de la redacción (no va a `public/`): `docs/staging/mobiliario-edu-pack/evidencia/`.
+
+- [x] Contacto autorizado: **Rö**, 2026-11-17, pieza de nivel 3 anónima
+- [x] Alcance: 5 láminas con pie, no el archivo
+- [x] Etiqueta **Pyme de mobiliario educacional**
+- [x] Sin cifras de resultado inventadas; lo que falta queda marcado `[TODO Rö]` en la página
+- [x] PNG y WebP 1600×900, sin metadatos, en `public/images/cases/mobiliario-edu/pitch-ventas/`
+
+## Pack anterior (2026-07-21)
+
 **Estado:** ✅ **GO · promovido a public + arsenal** (2026-07-21)  
 **Cliente/marca:** pyme de mobiliario educacional (edu-tech / diseño de servicios).  
 **Decisión Rö:** sí case + **sí puede salir la marca “pyme de mobiliario educacional”**.
 
-## Capturas (6) — ya en `public/images/cases/mobiliario-edu/`
+## Capturas — ya en `public/images/cases/mobiliario-edu/`
 
 | ID | Path público | Etapa |
 |----|--------------|-------|
 | 01-heuristic-web | `cases/mobiliario-edu/01-heuristic-web.png` | E1 · Heurística web |
-| 02-competitive-benchmark | `cases/mobiliario-edu/02-competitive-benchmark.png` | E1 · Benchmark |
 | 03-service-strategy | `cases/mobiliario-edu/03-service-strategy.png` | E2 · Estrategia de servicios |
 | 04-sales-pitch | `cases/mobiliario-edu/04-sales-pitch.png` | E3 · Pitch comercial |
 | 05-storyboard | `cases/mobiliario-edu/05-storyboard.png` | E3 · Storyboard video |
@@ -39,6 +55,7 @@ Staging thumbs se mantienen como espejo en `docs/staging/mobiliario-edu-pack/thu
 
 ## No incluir
 
-- Cotizaciones / presupuestos  
-- Datos personales de terceros en guiones  
-- `.mov` pesados sin recorte  
+- Benchmarks de competidores, informe SEO, cotizaciones
+- Datos personales de terceros en guiones
+- `.mov` pesados sin recorte
+- El archivo completo: solo la selección de 3 a 5 láminas de cada pieza  

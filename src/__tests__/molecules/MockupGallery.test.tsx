@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MockupGallery } from "@/components/molecules/MockupGallery";
 import { LanguageProvider } from "@/lib/LanguageContext";
 
@@ -31,5 +32,38 @@ describe("MockupGallery", () => {
     expect(await screen.findByText("Captura A")).toBeInTheDocument();
     expect(screen.queryByText("Captura B")).toBeNull();
     expect(screen.getByRole("button", { name: /capturas más/i })).toBeInTheDocument();
+  });
+
+  it("el lightbox avanza con la flecha derecha, vuelve con Escape y devuelve el foco", async () => {
+    const user = userEvent.setup();
+    renderGallery({});
+    const open = screen.getAllByRole("button", { name: "Ampliar imagen" })[0];
+    await user.click(open);
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog).toHaveTextContent("Captura A");
+    await user.keyboard("{ArrowRight}");
+    expect(dialog).toHaveTextContent("Captura B");
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).toBeNull();
+    await waitFor(() => {
+      expect(screen.getAllByRole("button", { name: "Ampliar imagen" })[0]).toHaveFocus();
+    });
+  });
+
+  it("en inglés el lightbox dice Previous y Next", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("language", "en");
+    try {
+      render(
+        <LanguageProvider>
+          <MockupGallery mockups={items} language="en" embedded />
+        </LanguageProvider>
+      );
+      await user.click(screen.getAllByRole("button", { name: "Expand image" })[0]);
+      expect(await screen.findByRole("button", { name: "Previous" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    } finally {
+      localStorage.removeItem("language");
+    }
   });
 });

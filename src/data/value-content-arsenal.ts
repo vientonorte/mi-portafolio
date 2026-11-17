@@ -677,7 +677,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
     id: "mobiliario-edu-sales-pitch",
     kind: "case",
     imagePath: img((i) => i.mobiliarioEdu.salesPitch),
-    href: `${ROUTES.consultingFunnel}#valor`,
+    href: "/casos/mobiliario-edu/pitch-ventas/",
     bundleId: "marco",
     copy: {
       es: {

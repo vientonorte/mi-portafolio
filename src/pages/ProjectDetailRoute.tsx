@@ -1,6 +1,8 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import ProjectDetail from "./ProjectDetail";
+import { CleanUrlRedirect } from "./CleanUrlRedirect";
 import { NotFoundPage } from "../components/layout/NotFoundPage";
+import { cleanUrlForHashProject } from "../data/casos";
 import { getProjectById } from "../data/project-registry";
 import { useLanguage } from "../lib/LanguageContext";
 import { useTranslation } from "../lib/i18n";
@@ -15,6 +17,9 @@ export default function ProjectDetailRoute() {
   if (projectId === "framework") {
     return <Navigate to="/framework" replace />;
   }
+
+  const clean = cleanUrlForHashProject(projectId || "");
+  if (clean) return <CleanUrlRedirect path={clean} />;
 
   const result = getProjectById(projectId || "");
 

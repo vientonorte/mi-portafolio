@@ -26,6 +26,9 @@ export const OUTLET = '<!--ssr-outlet-->';
 export const HEAD_OUTLET = '<!--rubro-head-->';
 export const SLUG_ATTR = 'data-slug=""';
 export const NOTICIA_HEAD_OUTLET = '<!--noticia-head-->';
+export const CASO_HEAD_OUTLET = '<!--caso-head-->';
+export const CASO_ATTR = 'data-caso=""';
+export const PIECE_ATTR = 'data-piece=""';
 
 const canonicalLinkRe = () => /<link\b[^>]*\brel\s*=\s*["']canonical["'][^>]*>/gi;
 
@@ -175,6 +178,18 @@ export function injectNoticia(template, { slug, head, app }) {
     .replace(OUTLET, app);
 }
 
+/** HTML final de /casos/<slug>/ o /casos/<slug>/<pieza>/. */
+export function injectCaso(template, { caso, piece, head, app }) {
+  for (const marker of [CASO_HEAD_OUTLET, OUTLET, CASO_ATTR, PIECE_ATTR]) {
+    if (!template.includes(marker)) throw new Error(`[prerender-servicios] plantilla de casos sin ${marker}`);
+  }
+  return template
+    .replace(CASO_HEAD_OUTLET, head)
+    .replace(CASO_ATTR, `data-caso="${caso}"`)
+    .replace(PIECE_ATTR, `data-piece="${piece}"`)
+    .replace(OUTLET, stripDocumentHeadFromFragment(app));
+}
+
 /** HTML final de un rubro a partir de la plantilla construida por Vite. */
 export function injectRubro(template, { slug, head, app }) {
   for (const marker of [HEAD_OUTLET, OUTLET, SLUG_ATTR]) {
@@ -229,6 +244,7 @@ export async function prerenderServicios({ root, outDir, base }) {
             sobreMi: path.join(root, 'src/sobre-mi/entry-server.tsx'),
             contacto: path.join(root, 'src/contacto/entry-server.tsx'),
             privacidad: path.join(root, 'src/privacidad/entry-server.tsx'),
+            casos: path.join(root, 'src/casos/entry-server.tsx'),
           },
           output: { entryFileNames: '[name].mjs' },
         },
@@ -352,6 +368,31 @@ export async function prerenderServicios({ root, outDir, base }) {
     }
     fs.rmSync(path.join(outDir, 'rubros'), { recursive: true, force: true });
     assertRubroLinksResolve(outDir, slugs);
+
+    // /casos/<slug>/ y /casos/<slug>/<pieza>/ (plantilla dist/casos/index.html, no se publica).
+    const casoTemplatePath = path.join(outDir, 'casos', 'index.html');
+    if (!fs.existsSync(casoTemplatePath)) throw new Error(`[prerender-servicios] falta ${casoTemplatePath}`);
+    const casos = await load('casos');
+    const casoTemplate = fs.readFileSync(casoTemplatePath, 'utf8');
+    const casoPlan = casos.listRoutes();
+    for (const route of casoPlan) {
+      const dest = path.join(outDir, route.path.replace(/^\//, ''), 'index.html');
+      if (fs.existsSync(dest)) {
+        throw new Error(`[prerender-servicios] ${path.relative(root, dest)} ya existe (¿copiado desde public/?)`);
+      }
+      const app = await casos.render(route.caso, route.piece);
+      const out = injectCaso(casoTemplate, {
+        caso: route.caso,
+        piece: route.piece,
+        head: casos.renderHead(route.caso, route.piece),
+        app,
+      });
+      assertSingleDocumentHead(out, route.path);
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.writeFileSync(dest, out, 'utf8');
+      console.log(`[prerender-servicios] ${path.relative(root, dest)} (${app.length} bytes, base ${base})`);
+    }
+    fs.rmSync(casoTemplatePath, { force: true });
   } finally {
     fs.rmSync(ssrOutDir, { recursive: true, force: true });
   }

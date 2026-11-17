@@ -15,6 +15,11 @@ export interface ResponsiveImageProps {
   sizes?: string;
   priority?: boolean;
   onClick?: () => void;
+  /** Dimensiones intrínsecas. Si faltan, se derivan de aspectRatio. */
+  width?: number;
+  height?: number;
+  /** srcset webp (p. ej. "a-800.webp 800w, a.webp 1600w"). */
+  webpSrcSet?: string;
 }
 
 const fitClasses: Record<ImageFit, string> = {
@@ -37,6 +42,9 @@ export function ResponsiveImage({
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
   priority = false,
   onClick,
+  width,
+  height,
+  webpSrcSet,
 }: ResponsiveImageProps) {
   const [didError, setDidError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,8 +66,8 @@ export function ResponsiveImage({
   }, [src]);
 
   const ratio = aspectRatio?.split("/").map((part) => Number(part.trim()));
-  const widthAttr = ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[0] : 1;
-  const heightAttr = ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[1] : 1;
+  const widthAttr = width && width > 0 ? width : ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[0] : 1;
+  const heightAttr = height && height > 0 ? height : ratio && ratio.length === 2 && ratio.every((n) => n > 0) ? ratio[1] : 1;
 
   const wrapperStyle = aspectRatio ? { aspectRatio } : undefined;
 
@@ -113,28 +121,31 @@ export function ResponsiveImage({
       tabIndex={onClick ? 0 : undefined}
     >
       {isLoading && <Skeleton className="pointer-events-none absolute inset-0 z-0 h-full w-full" />}
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        width={widthAttr}
-        height={heightAttr}
-        sizes={sizes}
-        decoding="async"
-        loading={priority ? "eager" : "lazy"}
-        onError={() => {
-          setDidError(true);
-          setIsLoading(false);
-        }}
-        onLoad={() => setIsLoading(false)}
-        // Inline: gana a cualquier height:auto suelto y le da caja al lazy-load.
-        style={{ width: "100%", height: "100%" }}
-        className={cn(
-          "relative z-[1] h-full w-full",
-          fitClasses[fit],
-          imgClassName
-        )}
-      />
+      <picture>
+        {webpSrcSet ? <source type="image/webp" srcSet={webpSrcSet} sizes={sizes} /> : null}
+        <img
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          width={widthAttr}
+          height={heightAttr}
+          sizes={sizes}
+          decoding="async"
+          loading={priority ? "eager" : "lazy"}
+          onError={() => {
+            setDidError(true);
+            setIsLoading(false);
+          }}
+          onLoad={() => setIsLoading(false)}
+          // Inline: gana a cualquier height:auto suelto y le da caja al lazy-load.
+          style={{ width: "100%", height: "100%" }}
+          className={cn(
+            "relative z-[1] h-full w-full",
+            fitClasses[fit],
+            imgClassName
+          )}
+        />
+      </picture>
     </div>
   );
 }

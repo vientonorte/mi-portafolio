@@ -328,6 +328,8 @@ export const mockups = {
       capturesDescription: 'Evidencia visual complementaria en alta fidelidad.',
       swipeHint: 'Toca para ampliar',
       expand: 'Ampliar imagen',
+      previous: 'Anterior',
+      next: 'Siguiente',
       galleryAria: 'Captura destacada del proyecto',
       viewOf: 'Vista {current} de {total}',
       moreCaptures: 'Ver {n} capturas más',

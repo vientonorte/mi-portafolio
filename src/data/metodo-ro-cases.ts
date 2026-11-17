@@ -57,13 +57,6 @@ export const METODO_RO_CASES: MetodoRoCase[] = [
     phase: { es: "Explorar", en: "Explore" },
   },
   {
-    id: "mobiliario-edu-benchmark",
-    src: portfolioImages.mobiliarioEdu.competitiveBenchmark,
-    caseName: { es: "Pyme de mobiliario educacional", en: "Educational furniture SME" },
-    artifact: { es: "Benchmark competitivo", en: "Competitive benchmark" },
-    phase: { es: "Entender", en: "Understand" },
-  },
-  {
     id: "cowork-funnel",
     src: portfolioImages.methodCoworking.funnelConversion,
     caseName: { es: "Coworking", en: "Coworking" },

@@ -299,6 +299,8 @@ export interface VnCase {
   /** Barra del mockup. Mismo marco que Conceptos. */
   addressBar: string;
   mockupFit?: "cover" | "contain";
+  /** URL limpia del caso (/casos/<slug>/), sin base de Vite. */
+  casoHref?: string;
 }
 
 export interface VnCaseGroup {
@@ -482,6 +484,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
       {
         id: "mobiliario-edu",
         name: "Pyme de mobiliario educacional",
+        casoHref: "/casos/mobiliario-edu/",
         tags: { rubro: "Edtech", servicio: "Diseño" },
         addressBar: "mobiliario-edu · estrategia",
         mockupFit: "contain",
@@ -498,7 +501,7 @@ export const SERVICIOS_VN_CASE_GROUPS: readonly VnCaseGroup[] = [
         startingPoint: "Informe SEO del sitio (junio de 2022): carga de 15,4 s y SEO «Deficiente».",
         image: {
           png: "images/cases/mobiliario-edu/03-service-strategy.png",
-          alt: "Tablero de estrategia de servicios de una pyme de mobiliario educacional: audiencias, problemas, mensaje, canales y metas.",
+          alt: "Mapa de estrategia de servicio (detalle difuminado por confidencialidad).",
           width: 1200,
           height: 672,
         },

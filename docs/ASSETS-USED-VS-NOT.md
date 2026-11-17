@@ -77,7 +77,7 @@ Todos los paths bajo `sura/`, `transvip/`, `karri/`, `framework/`, `brands/`, `b
 | `docs/staging/mobiliario-edu-pack/` | espejo + `PERMISO.md` cerrado |
 | Cotizaciones Asesorías | **no** copiadas |
 
-**No en arsenal (sí en public/registry):** `02-competitive-benchmark`, `06-performance-seo` (reserva).
+**No en arsenal:** el benchmark de competidores se retiró de `public/` (dato personal en la captura). `06-performance-seo` sigue en registry como reserva.
 
 ---
 

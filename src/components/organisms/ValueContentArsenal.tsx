@@ -77,6 +77,11 @@ export function ValueContentArsenal({
       window.open(href, "_blank", "noopener,noreferrer");
       return;
     }
+    if (href.includes("/casos/")) {
+      const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+      window.location.assign(`${base}${href.startsWith("/") ? href : `/${href}`}`);
+      return;
+    }
     if (href.includes("#")) {
       const [path, hash] = href.split("#");
       navigate(path || ROUTES.consulting, { state: { scrollTo: hash } });
