@@ -1,6 +1,7 @@
-// Afirmaciones retiradas de la trayectoria (SSOT TRAYECTORIA-INVESTIGACION-RO.md, 2026-10-17).
+// Afirmaciones retiradas de la trayectoria (SSOT TRAYECTORIA-INVESTIGACION-RO.md, 2026-10-17;
+// Transvip −40 % / +25 % / NPS 82 retiradas el 2026-11-17).
 // Compartido por el gate de dist (check-dist-no-removed-claims.mjs) y el test de src.
-// Cada regla devuelve los hallazgos de un texto. Transvip conserva su −40 % (tiempo de reserva).
+// Cada regla devuelve los hallazgos de un texto.
 
 const WINDOW = 120;
 
@@ -22,14 +23,19 @@ export const DIRECT_RULES = [
   { id: "onboarding-40", re: /onboarding\s*[−–-]\s?40\s?%/gi },
   { id: "40-friccion", re: /\b40\s?%\s*(de\s+|en\s+|less\s+|menos\s+)*(fricci[oó]n|friction|abandono|drop-off)/gi },
   { id: "reduccion-40-discovery", re: /40\s?%\s*(en\s+)?(tiempo de discovery|discovery time|fricci[oó]n en onboarding)/gi },
+  { id: "nps-82", re: /NPS\s*(de\s*|of\s*|:\s*)?82\b/gi },
+  { id: "nps-82-split", re: /["']NPS["'][^{}]{0,80}["']82["']/g },
+  { id: "transvip-25", re: /[+]?\s?25\s?%\s*(de\s+|en\s+|in\s+)?(conversi[oó]n|conversion)/gi },
+  { id: "transvip-40-reserva", re: /(?<![\d.,])[−–-]?\s?40\s?%\s*(de\s+|en\s+|in\s+)?(tiempo de reserva|booking time)/gi },
+  { id: "reserva-40", re: /(tiempo de reserva|booking time)[^.\n]{0,40}[−–-]?\s?40\s?%/gi },
 ];
 
 // Cualquier «40 %» (con o sin signo, reformulado) cerca de SURA / onboarding / fricción.
 const MINUS40 = /(?<![\d.,])[−–-]?\s?40\s?%/g;
 const SURA = /SURA|onboarding|fricci[oó]n|friction|abandono|drop-off|discovery/i;
-const TRANSVIP_OK = /reserva|booking|transvip|pasajeros|passenger|shoppers/i;
+const SHOPPERS_OK = /shoppers/i;
 
-/** 40 % junto a SURA/onboarding/fricción (sin contexto Transvip reservas / Karri shoppers) = SURA −40 %. */
+/** 40 % junto a SURA/onboarding/fricción (sin contexto Karri shoppers) = SURA −40 %. */
 export function findRemovedClaims(text) {
   const hits = [];
   for (const { id, re } of DIRECT_RULES) {
@@ -41,7 +47,7 @@ export function findRemovedClaims(text) {
   let m;
   while ((m = MINUS40.exec(text))) {
     const win = text.slice(Math.max(0, m.index - WINDOW), m.index + WINDOW);
-    if (SURA.test(win) && !TRANSVIP_OK.test(win)) hits.push({ id: "sura-40", at: m.index, snippet: snip(text, m.index) });
+    if (SURA.test(win) && !SHOPPERS_OK.test(win)) hits.push({ id: "sura-40", at: m.index, snippet: snip(text, m.index) });
   }
   return hits;
 }

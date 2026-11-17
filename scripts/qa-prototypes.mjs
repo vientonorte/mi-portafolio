@@ -378,6 +378,24 @@ async function main() {
   const context = await browser.newContext({ serviceWorkers: 'block' });
   const page = await context.newPage();
 
+  // El archivo Figma completo no es público: se valida el enlace a las láminas
+  // en la ficha HTTP (/casos/), no el hash de la SPA.
+  {
+    const path = '/casos/transvip/';
+    const needle = '/casos/transvip/system-design/';
+    await page.goto(`${BASE}${path}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.waitForSelector('#main', { timeout: 30000 });
+    const haystack = (await collectHrefAndIframeSrc(page)).join('\n');
+    const ok = haystack.includes(needle);
+    const r = {
+      label: 'Proyecto · transvip-system-design',
+      ok,
+      errors: ok ? [] : [`falta en DOM: ${needle}`],
+    };
+    results.push(r);
+    logResult(r);
+  }
+
   for (const project of projects) {
     const r = await checkPageNeedles(page, {
       path: project.path,

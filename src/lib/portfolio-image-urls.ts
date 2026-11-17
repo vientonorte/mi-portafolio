@@ -35,6 +35,16 @@ export const portfolioImages = {
     figmaPrototype: img("transvip/figma-prototype.png"),
     productVision: img("transvip/product-vision.png"),
   },
+  /** Caso Transvip nivel 3 — pack 2026-11-17, pendiente OK Rö */
+  transvipCaso: {
+    reservaDesktop: img("cases/transvip/app-reserva/01-reserva-desktop.png"),
+    reservaMobile: img("cases/transvip/app-reserva/02-reserva-mobile.png"),
+    reservaProto: img("cases/transvip/app-reserva/03-prototipo-reserva.png"),
+    sdProposito: img("cases/transvip/system-design/01-proposito.png"),
+    sdManual: img("cases/transvip/system-design/02-manual-uso.png"),
+    sdComponentes: img("cases/transvip/system-design/03-componentes.png"),
+    sdColaborativo: img("cases/transvip/system-design/04-trabajo-colaborativo.png"),
+  },
   karri: {
     logo: img("karri/logo.png", true),
     boosmapBenchmark: img("karri/boosmap-benchmark.png"),

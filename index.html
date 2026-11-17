@@ -49,7 +49,10 @@
         // #/proyecto/<id> con ficha HTTP → /casos/…/ (el resto de proyectos sigue en el hash).
         var casoHash = {
           "mobiliario-edu": "casos/mobiliario-edu/",
-          "mobiliario-edu-pitch-ventas": "casos/mobiliario-edu/pitch-ventas/"
+          "mobiliario-edu-pitch-ventas": "casos/mobiliario-edu/pitch-ventas/",
+          "transvip": "casos/transvip/",
+          "transvip-app-premium": "casos/transvip/app-reserva/",
+          "transvip-system-design": "casos/transvip/system-design/"
         };
         var casoMatch = hn.match(/^#\/proyecto\/([a-z0-9-]+)(\/|\?|$)/);
         if (casoMatch && casoHash[casoMatch[1]]) {

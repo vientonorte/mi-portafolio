@@ -96,6 +96,15 @@ require_public "$DST/cases/mobiliario-edu/pitch-ventas/03-bio-persona-con-tiempo
 require_public "$DST/cases/mobiliario-edu/pitch-ventas/04-flujo-pitch-de-entrada.png"
 require_public "$DST/cases/mobiliario-edu/pitch-ventas/05-exploracion-de-dolores.png"
 
+echo "Transvip nivel 3 (pendiente OK Rö)"
+require_public "$DST/cases/transvip/app-reserva/01-reserva-desktop.png"
+require_public "$DST/cases/transvip/app-reserva/02-reserva-mobile.png"
+require_public "$DST/cases/transvip/app-reserva/03-prototipo-reserva.png"
+require_public "$DST/cases/transvip/system-design/01-proposito.png"
+require_public "$DST/cases/transvip/system-design/02-manual-uso.png"
+require_public "$DST/cases/transvip/system-design/03-componentes.png"
+require_public "$DST/cases/transvip/system-design/04-trabajo-colaborativo.png"
+
 echo "Framework"
 require_public "$DST/framework/ux-value-chain.png"
 

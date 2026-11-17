@@ -19,7 +19,7 @@ function collect(dir: string, out: string[] = []): string[] {
 }
 
 describe("afirmaciones retiradas de la trayectoria (SSOT 2026-10-17)", () => {
-  it("el detector marca cada afirmación retirada y respeta el −40 % de Transvip", () => {
+  it("el detector marca cada afirmación retirada, incluida Transvip −40 % / +25 % / NPS 82", () => {
     const ids = (t: string) => findRemovedClaims(t).map((h: { id: string }) => h.id);
     expect(ids("SURA Investments: −40% fricción en onboarding")).not.toHaveLength(0);
     expect(ids("alcance 5+ países")).toContain("5-paises");
@@ -27,7 +27,7 @@ describe("afirmaciones retiradas de la trayectoria (SSOT 2026-10-17)", () => {
     expect(ids("NPS 72")).toContain("nps-72");
     expect(ids('{label:"NPS",value:"72"}')).toContain("nps-72-split");
     expect(ids("etnógrafo certificado")).toContain("etnografo-certificado");
-    expect(ids("Transvip: −40% tiempo de reserva, +25% conversión, NPS 82")).toHaveLength(0);
+    expect(ids("Transvip: −40% tiempo de reserva, +25% conversión, NPS 82")).toEqual(expect.arrayContaining(["transvip-40-reserva", "transvip-25", "nps-82"]));
     // Variantes reformuladas (pre-QA M5): 40 % sin signo, valor partido en el bundle, «alcance 5+ países».
     expect(ids("Reducción de 40% en tiempo de discovery de nuevas iniciativas")).not.toHaveLength(0);
     expect(ids('{label:`Onboarding`,value:`-40%`}')).not.toHaveLength(0);

@@ -235,6 +235,62 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     portfolioImages.mobiliarioEdu.pitchExploracion,
     "Lámina «11 preguntas arquetípicas / Exploración de dolores» con la lista de preguntas para el establecimiento educacional."
   ),
+  entry(
+    "transvipCaso.reservaDesktop",
+    "Transvip",
+    "Reserva en desktop",
+    "cases/transvip/app-reserva/01-reserva-desktop.png",
+    portfolioImages.transvipCaso.reservaDesktop,
+    "Laptop con la pantalla de reserva Transvip: pasos del servicio, opciones de vehículo (exclusivo, compartido y auto) y campos de fecha con el placeholder dd/mm/aaaa."
+  ),
+  entry(
+    "transvipCaso.reservaMobile",
+    "Transvip",
+    "Reserva en mobile",
+    "cases/transvip/app-reserva/02-reserva-mobile.png",
+    portfolioImages.transvipCaso.reservaMobile,
+    "Teléfono con la pantalla Transvip «Elige tu Transvip»: van compartida, auto y van exclusiva, botones Volver y Continuar, y un icono genérico de perfil en la cabecera."
+  ),
+  entry(
+    "transvipCaso.reservaProto",
+    "Transvip",
+    "Prototipo de la reserva",
+    "cases/transvip/app-reserva/03-prototipo-reserva.png",
+    portfolioImages.transvipCaso.reservaProto,
+    "iPhone con el prototipo del flujo de reserva Transvip recortado al dispositivo: selección de vehículo, Atrás, Siguiente y Continuar, sin interfaz de Figma alrededor."
+  ),
+  entry(
+    "transvipCaso.sdProposito",
+    "Transvip",
+    "Propósito del sistema",
+    "cases/transvip/system-design/01-proposito.png",
+    portfolioImages.transvipCaso.sdProposito,
+    "Lámina «Propósito» del System Design Transvip, con logos, objetivos, por qué, beneficios y usuarios del equipo interno de Tecnología y Producto."
+  ),
+  entry(
+    "transvipCaso.sdManual",
+    "Transvip",
+    "Manual de uso",
+    "cases/transvip/system-design/02-manual-uso.png",
+    portfolioImages.transvipCaso.sdManual,
+    "Portada y manual de uso del System Design App Cliente (agosto 2023), con el índice de páginas interiores y las consideraciones de trabajo."
+  ),
+  entry(
+    "transvipCaso.sdComponentes",
+    "Transvip",
+    "Sobre los componentes",
+    "cases/transvip/system-design/03-componentes.png",
+    portfolioImages.transvipCaso.sdComponentes,
+    "Lámina «Sobre los componentes»: esquema Atomic Design (átomos, moléculas, organismos, templates) y la regla D.O.D. para documentar un componente nuevo."
+  ),
+  entry(
+    "transvipCaso.sdColaborativo",
+    "Transvip",
+    "Trabajo colaborativo",
+    "cases/transvip/system-design/04-trabajo-colaborativo.png",
+    portfolioImages.transvipCaso.sdColaborativo,
+    "Lámina «Sobre el trabajo colaborativo»: acuerdo con desarrollo y agencias, y una vista del panel de especificaciones del sistema."
+  ),
 ];
 
 export const IMAGE_REGISTRY_BY_ID = Object.fromEntries(

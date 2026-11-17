@@ -61,6 +61,11 @@ const SECTION_CHECKS = [
   { path: '/design-system', sectionId: 'figma-export', label: 'Design System #figma-export' },
 ];
 
+// #/proyecto/<id> de un caso nivel 3 sale a la URL limpia (sin #root de la SPA).
+const CASO_PROJECT_REDIRECTS = {
+  '/proyecto/transvip-app-premium': '/casos/transvip/app-reserva/',
+};
+
 const PORTFOLIO_IMAGES = [
   'images/sura/logo.svg',
   'images/sura/ria-onboarding.png',
@@ -139,6 +144,17 @@ async function checkRoute(page, { path, label }) {
       if (!h1.trim()) errors.push('/privacidad/ sin h1');
       if (!(await page.locator('link[rel="canonical"][href$="/privacidad/"]').count())) {
         errors.push('/privacidad/ sin canonical propio');
+      }
+      return { label, path, ok: errors.length === 0, errors, title: await page.title() };
+    }
+    const casoDest = CASO_PROJECT_REDIRECTS[path];
+    if (casoDest) {
+      const escaped = casoDest.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      await page.waitForURL(new RegExp(`${escaped}(\\?.*)?$`), { timeout: 20000 });
+      const h1 = (await page.locator('#caso-root h1').first().textContent({ timeout: 20000 })) || '';
+      if (!h1.trim()) errors.push(`${casoDest} sin h1`);
+      if (!(await page.locator(`link[rel="canonical"][href$="${casoDest}"]`).count())) {
+        errors.push(`${casoDest} sin canonical propio`);
       }
       return { label, path, ok: errors.length === 0, errors, title: await page.title() };
     }

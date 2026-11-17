@@ -154,9 +154,11 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
         <div className="mx-auto max-w-3xl px-4">
         <Crumbs casoTitle={caso.title} casoHref={casoHref} pieceTitle={piece.title} />
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{piece.title}</h1>
-        <p className="mt-3">
-          <TodoMark text="[TODO Rö: «Pitch de ventas y simulación» vs «Pitch y herramientas comerciales»]" />
-        </p>
+        {casoSlug === "mobiliario-edu" && pieceSlug === "pitch-ventas" ? (
+          <p className="mt-3">
+            <TodoMark text="[TODO Rö: «Pitch de ventas y simulación» vs «Pitch y herramientas comerciales»]" />
+          </p>
+        ) : null}
         <PieceNav casoHref={casoHref} nextHref={nextHref} label="Pieza, al inicio" />
 
         <section className={SECTION} aria-labelledby="ficha-heading">
@@ -215,9 +217,11 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
             <p className="mt-2 text-sm text-foreground">
               {piece.slides.length} láminas de una selección. No es el archivo completo.
             </p>
-            <p className="mt-3">
-              <TodoMark text="[TODO Rö: pasos de los 3 diagramas raster]" />
-            </p>
+            {casoSlug === "mobiliario-edu" && pieceSlug === "pitch-ventas" ? (
+              <p className="mt-3">
+                <TodoMark text="[TODO Rö: pasos de los 3 diagramas raster]" />
+              </p>
+            ) : null}
           </div>
           <MockupGallery mockups={slideItems(piece.slides)} language="es" embedded columns={2} />
         </section>

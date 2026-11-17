@@ -20,7 +20,6 @@ describe("figma-assets-ssot", () => {
       "https://www.figma.com/proto/MOhbYMwUtCSZ8IuJxG41ho/RIA",
     ]);
     expect(figmaLinksForCase("transvip-app-premium").map((l) => l.url)).toEqual([
-      "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip",
       "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu",
     ]);
     expect(figmaLinksForCase("havas-claro").map((l) => l.url)).toEqual([
@@ -90,7 +89,11 @@ describe("figma-assets-ssot", () => {
 
     const nodato = FIGMA_ASSETS.filter((a) => a.url === null);
     expect(nodato.length).toBeGreaterThan(0);
-    expect(nodato.every((a) => a.category === "unlinked")).toBe(true);
+    expect(
+      nodato.every(
+        (a) => a.category === "unlinked" || /no público|not public|láminas/.test(a.notes),
+      ),
+    ).toBe(true);
   });
 
   it("mantiene ids legacy del strip unmounted", () => {
