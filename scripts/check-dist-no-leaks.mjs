@@ -23,9 +23,14 @@ export function sha256(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+/** NFD y sin marcas diacríticas, para que el OCR y el texto coincidan con la lista. */
+export function foldAccents(text) {
+  return text.normalize("NFD").replace(/\p{M}/gu, "");
+}
+
 /** Palabras [a-z0-9]+ y la unión de cada par vecino (espacio y guion ya no están). */
 export function tokensOf(text) {
-  const words = text.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+  const words = foldAccents(text).toLowerCase().match(/[a-z0-9]+/g) ?? [];
   const out = new Set(words);
   for (let i = 0; i < words.length - 1; i += 1) out.add(words[i] + words[i + 1]);
   return out;

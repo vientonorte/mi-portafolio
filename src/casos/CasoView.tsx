@@ -129,9 +129,9 @@ export function CasoIndex({ slug }: { slug: string }) {
   );
 }
 
-function PieceNav({ casoHref, nextHref }: { casoHref: string; nextHref?: string }) {
+function PieceNav({ casoHref, nextHref, label }: { casoHref: string; nextHref?: string; label: string }) {
   return (
-    <nav aria-label="Pieza" className="mt-8 flex flex-wrap gap-4">
+    <nav aria-label={label} className="mt-8 flex flex-wrap gap-4">
       <a href={casoHref} className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4 hover:text-primary">
         Volver al caso
       </a>
@@ -150,13 +150,14 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
   const nextHref = next ? withSiteBase(piezaPath(caso.slug, next.slug)) : undefined;
   return (
     <Shell>
-      <article data-page="pieza" data-caso={caso.slug} data-piece={piece.slug} className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+      <article data-page="pieza" data-caso={caso.slug} data-piece={piece.slug} className="mx-auto w-[min(64rem,calc(100vw-2rem))] py-12 md:py-16">
+        <div className="mx-auto max-w-3xl px-4">
         <Crumbs casoTitle={caso.title} casoHref={casoHref} pieceTitle={piece.title} />
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{piece.title}</h1>
         <p className="mt-3">
           <TodoMark text="[TODO Rö: «Pitch de ventas y simulación» vs «Pitch y herramientas comerciales»]" />
         </p>
-        <PieceNav casoHref={casoHref} nextHref={nextHref} />
+        <PieceNav casoHref={casoHref} nextHref={nextHref} label="Pieza, al inicio" />
 
         <section className={SECTION} aria-labelledby="ficha-heading">
           <h2 id="ficha-heading" className={H2}>
@@ -204,23 +205,24 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
             ))}
           </ol>
         </section>
+        </div>
 
-        <section
-          className={`${SECTION} lg:relative lg:left-1/2 lg:w-[min(64rem,calc(100vw-2rem))] lg:-translate-x-1/2`}
-          aria-labelledby="seleccion-heading"
-        >
-          <h2 id="seleccion-heading" className={H2}>
-            Selección
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {piece.slides.length} láminas de una selección. No es el archivo completo.
-          </p>
-          <p className="mt-3">
-            <TodoMark text="[TODO Rö: pasos de los 3 diagramas raster]" />
-          </p>
+        <section className={SECTION} aria-labelledby="seleccion-heading">
+          <div className="mx-auto max-w-3xl px-4">
+            <h2 id="seleccion-heading" className={H2}>
+              Selección
+            </h2>
+            <p className="mt-2 text-sm text-foreground">
+              {piece.slides.length} láminas de una selección. No es el archivo completo.
+            </p>
+            <p className="mt-3">
+              <TodoMark text="[TODO Rö: pasos de los 3 diagramas raster]" />
+            </p>
+          </div>
           <MockupGallery mockups={slideItems(piece.slides)} language="es" embedded columns={2} />
         </section>
 
+        <div className="mx-auto max-w-3xl px-4">
         <section className={SECTION} aria-labelledby="hallazgos-heading">
           <h2 id="hallazgos-heading" className={H2}>
             Hallazgos
@@ -240,7 +242,8 @@ export function CasoPiece({ casoSlug, pieceSlug }: { casoSlug: string; pieceSlug
           </ul>
         </section>
 
-        <PieceNav casoHref={casoHref} nextHref={nextHref} />
+        <PieceNav casoHref={casoHref} nextHref={nextHref} label="Pieza, al final" />
+        </div>
       </article>
     </Shell>
   );

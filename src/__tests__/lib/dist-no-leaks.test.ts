@@ -9,6 +9,11 @@ describe("dist sin tokens denegados", () => {
     expect(findDeniedTokens("texto limpio", deny)).toEqual([]);
   });
 
+  it("iguala acentos al token sin marcas", () => {
+    const deny = new Set([sha256("nacion")]);
+    expect(findDeniedTokens("Nación", deny)).toEqual([sha256("nacion")]);
+  });
+
   it("une palabras vecinas aunque las separe un espacio o un guion", () => {
     const joined = "alfa" + "beta";
     const deny = new Set([sha256(joined)]);

@@ -204,6 +204,13 @@ jobs:
         run: |
           command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils)
           npm run qa:no-leaks
+      - name: Anonimización — OCR de imágenes en dist
+        run: |
+          if [ -r /etc/os-release ] && grep -q '^ID=ubuntu' /etc/os-release; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-spa ffmpeg
+          fi
+          npm run qa:no-leaks-ocr
       - name: Páginas con TODO fuera del índice y del sitemap
         run: npm run qa:no-indexable-todo
       - name: Trayectoria — dist sin afirmaciones retiradas (SURA −40 %, 5+ países, 17 participantes, NPS 72, etnógrafo certificado)

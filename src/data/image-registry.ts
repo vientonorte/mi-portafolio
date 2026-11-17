@@ -169,7 +169,7 @@ export const IMAGE_REGISTRY: ImageRegistryEntry[] = [
     "Estrategia de servicios",
     "cases/mobiliario-edu/03-service-strategy.png",
     portfolioImages.mobiliarioEdu.serviceStrategy,
-    "pyme de mobiliario educacional · diseño de estrategia de servicios (E2)"
+    "Mapa de estrategia de servicio (detalle difuminado por confidencialidad)."
   ),
   entry(
     "mobiliarioEdu.salesPitch",

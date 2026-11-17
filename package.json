@@ -112,6 +112,7 @@
     "qa:no-placeholders": "bash scripts/check-dist-no-placeholders.sh",
     "qa:sobre-mi-images": "node scripts/check-dist-sobre-mi-images.mjs",
     "qa:no-leaks": "node scripts/check-dist-no-leaks.mjs dist",
+    "qa:no-leaks-ocr": "node scripts/check-dist-no-leaks-ocr.mjs dist",
     "qa:no-indexable-todo": "node scripts/check-dist-no-indexable-todo.mjs dist",
     "qa:no-removed-claims": "node scripts/check-dist-no-removed-claims.mjs dist",
     "qa:sobre-mi-rail": "node scripts/qa-sobre-mi-rail.mjs http://127.0.0.1:4173",
