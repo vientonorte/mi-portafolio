@@ -20,7 +20,6 @@ describe("figma-assets-ssot", () => {
       "https://www.figma.com/proto/MOhbYMwUtCSZ8IuJxG41ho/RIA",
     ]);
     expect(figmaLinksForCase("transvip-app-premium").map((l) => l.url)).toEqual([
-      "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip",
       "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu",
     ]);
     expect(figmaLinksForCase("havas-claro").map((l) => l.url)).toEqual([
@@ -90,7 +89,17 @@ describe("figma-assets-ssot", () => {
 
     const nodato = FIGMA_ASSETS.filter((a) => a.url === null);
     expect(nodato.length).toBeGreaterThan(0);
-    expect(nodato.every((a) => a.category === "unlinked")).toBe(true);
+    expect(
+      nodato.every((a) => a.category === "unlinked" || /no público/.test(a.notes)),
+    ).toBe(true);
+  });
+
+  it("no publica el archivo Figma del cliente Transvip (key AEMOE8)", () => {
+    const key = "AEMOE8" + "Hv5iv1nfyR7jlMgO";
+    const urls = FIGMA_ASSETS.map((a) => a.url ?? "").join("\n");
+    expect(urls).not.toContain(key);
+    expect(JSON.stringify(FIGMA_ASSETS)).not.toContain(key);
+    expect(FIGMA_ASSETS.find((a) => a.id === "transvip-system-design-app")?.url).toBeNull();
   });
 
   it("mantiene ids legacy del strip unmounted", () => {

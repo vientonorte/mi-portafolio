@@ -179,9 +179,9 @@ export const FIGMA_ASSETS: readonly FigmaAsset[] = [
     name: { es: "System Design APP", en: "System Design APP" },
     category: "transvip",
     kind: "design",
-    url: "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip",
+    url: null,
     foCaseId: "transvip-app-premium",
-    notes: "FO /proyecto/transvip-app-premium; also TRANSVIP_APP_FIGMA_URL; FO image /images/vn-assets/transvip-system-design.png",
+    notes: "archivo del cliente no público: sin link; FO image /images/vn-assets/transvip-system-design.png",
     localImage: "/images/vn-assets/transvip-system-design.png",
   },
   {
