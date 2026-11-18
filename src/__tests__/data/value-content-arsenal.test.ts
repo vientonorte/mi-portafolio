@@ -19,7 +19,6 @@ const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   autosuggest: "sura.webPrototype",
   "transvip-app-premium": "transvip.appDesktop",
   "transvip-mobile": "transvip.appMobile",
-  "transvip-design-system": "transvip.figmaPrototype",
   "valuesite-avem-landing": "sura.onboardingFlags",
   "karri-calculadora": "karri.boosmapBenchmark",
   "karri-notificaciones": "karri.deliveryBrand",

@@ -4,10 +4,6 @@ import { ROUTES } from "../lib/routes";
 import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
-/** Figma · System Design App Cliente Transvip (handoff navegable). */
-export const TRANSVIP_APP_FIGMA_URL =
-  "https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip";
-
 /** Figma · prototipo interactivo App Cliente Transvip. */
 export const TRANSVIP_APP_PROTO_URL =
   "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu?node-id=0-1";
@@ -283,28 +279,6 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
         title: "Premium booking · mobile-first",
         outcome: "Navigable Figma proto — booking flows −40% time and +25% conversion.",
         metric: "Live proto",
-      },
-    },
-  },
-  {
-    id: "transvip-design-system",
-    kind: "prototype",
-    imagePath: img((i) => i.transvip.figmaPrototype),
-    href: TRANSVIP_APP_FIGMA_URL,
-    external: true,
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Design System",
-        title: "System Design · App Cliente Transvip",
-        outcome: "Figma navegable — componentes, patrones y handoff listo para desarrollo.",
-        metric: "Figma live",
-      },
-      en: {
-        kindLabel: "Design System",
-        title: "System Design · Transvip Client App",
-        outcome: "Navigable Figma — components, patterns, and dev-ready handoff.",
-        metric: "Live Figma",
       },
     },
   },
@@ -853,7 +827,6 @@ export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "ria-us": RIA_US_PROTO_URL,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
   "transvip-mobile": TRANSVIP_APP_PROTO_URL,
-  "transvip-design-system": TRANSVIP_APP_FIGMA_URL,
   "valuesite-avem-landing": VALUESITE_AVEM_PROTO_URL,
   "figjam-audit-board":
     "https://www.figma.com/board/lEGDG3EDlNI3OOUCucTyyx/PORTAFOLIO?node-id=2-41",
