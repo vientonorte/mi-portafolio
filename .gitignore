@@ -124,3 +124,5 @@ backend/data/_export-driver.bundled.cjs
 /tmp/ollama*.log
 /tmp/ollama*.pid
 .vn-ssr-servicios/
+.vn-ssr-ro/
+dist-ro/
