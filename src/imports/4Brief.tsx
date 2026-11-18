@@ -17,7 +17,7 @@ function Footer() {
   return (
     <div className="absolute font-['Roboto:Regular',sans-serif] font-normal h-[48px] leading-[0] left-[calc(7.14%+42.86px)] text-[18px] top-[calc(88.89%+28px)] w-[1560.1px]" data-name="Footer">
       <div className="absolute bottom-0 flex flex-col justify-end left-0 right-[84.74%] text-[#ff6900] top-[54.17%]" style={{ fontVariationSettings: "'wdth' 100" }}>
-        <p className="leading-[normal]">rodrigo.gaete@transvip.cl</p>
+        <p className="leading-[normal]">usuario@ejemplo.cl</p>
       </div>
       <div className="absolute bottom-0 flex flex-col justify-end left-[76.19%] right-0 text-right text-white top-0" style={{ fontVariationSettings: "'wdth' 100" }}>
         <p className="leading-[normal]">Agosto 2023</p>
