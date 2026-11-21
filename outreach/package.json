@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --import ./support/register.js --test",
+    "gmail:refresh-token": "node scripts/gmail-refresh-token.mjs",
     "dry-run": "wrangler deploy --dry-run",
     "deploy": "npm ci && npx --no-install wrangler deploy --keep-vars",
     "cf-typegen": "wrangler types"

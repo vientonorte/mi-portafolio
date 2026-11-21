@@ -1,139 +1,79 @@
 # vn-outreach
 
-Worker de Cloudflare **aparte** de `worker/` (el de contacto). Manda correos de prospección de Viento Norte, uno a uno, por la API REST de Resend (`POST https://api.resend.com/emails`).
+Worker de Cloudflare aparte de `worker/` (el de contacto). Manda correos de prospección de Viento Norte, uno a uno, por la API de Gmail.
 
-- From: `Viento Norte <contacto@vientonorte.io>`
-- Reply-To: `contacto@vientonorte.io`
-- Plantilla `prospeccion-v1`: HTML y texto, sin precios
+- Scope único: `https://www.googleapis.com/auth/gmail.send`
+- La cuenta que envía es una Gmail dedicada de Viento Norte. `SENDER_EMAIL` y `SENDER_NAME` son vars. No van en el repo y no se hardcodean
+- Reply-To y `List-Unsubscribe` salen de `SENDER_EMAIL`, la cuenta dedicada donde el bot lee las BAJA
+- Plantilla `prospeccion-v1`: HTML y texto, con el aviso de privacidad en el pie y sin precios
 - `workers_dev = false` y `preview_urls = false`: no hay URL `*.workers.dev` ni preview
 - La ruta `outreach.vientonorte.io` (`custom_domain`) ya está en `wrangler.jsonc`. El DNS de ese hostname lo crea el primer deploy, y ese deploy no se corre sin el OK de Rö
 
-Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano, con el comando de más abajo. No hay que correr `npx --no-install wrangler secret put` ni cambiar DNS desde el repo.
+El worker no lee la casilla. Un access token se pide con `grant_type=refresh_token` a `https://oauth2.googleapis.com/token` y se guarda en memoria del isolate hasta que vence. El envío es `POST https://gmail.googleapis.com/gmail/v1/users/me/messages/send` con el MIME en `raw` (base64url).
 
-## Plan gratis de Resend y uso aceptable
-
-Fuentes, leídas para este worker: [límites de envío](https://resend.com/docs/knowledge-base/resend-sending-limits), [precios](https://resend.com/pricing) y [acceptable use](https://resend.com/legal/acceptable-use).
-
-Plan Free ($0):
-
-- 3.000 correos al mes y **100 al día**. El día es el calendario UTC (00:00–24:00 UTC), no una ventana móvil de 24 horas.
-- Cuentan los enviados y los recibidos (inbound). Varios destinatarios en To, Cc o Bcc cuentan cada uno.
-- Hasta 3 dominios verificados y 3 inboxes. Retención de datos de 30 días. Sin pago por exceso: al llegar al cupo, Resend deja de enviar hasta el ciclo siguiente.
-- El tope de este worker es 10 envíos aceptados por día `America/Santiago`. Cabe dentro de los 100/día UTC, pero no los reemplaza: un día de Santiago puede cruzar dos días UTC.
-
-Uso aceptable, tal como lo publica Resend:
-
-- Prohíbe mensajes no solicitados de cualquier tipo, **incluida la prospección en frío**, listas compradas y contactos scrapeados.
-- El correo tiene que ir a quien dio opt-in explícito.
-- Tasa de quejas bajo 0,08 % y tasa de rebotes bajo 4 %. Si se pasan, la cuenta se puede cerrar sin aviso.
-- En envío masivo piden dirección y nombre de la empresa, decir por qué se escribe, un opt-out fácil y honrar la baja en 7 días.
-
-La línea de baja, la lista de supresión y el corte al primer rebote duro no convierten la prospección en frío en un uso permitido. Antes de crear la cuenta o de pasar `OUTREACH_MODE` a `live`, hay que decidir si este envío entra en esa política. Ni los tests ni el CI llaman a Resend.
+Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano. El orden está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).
 
 ## Qué responde el worker
 
 | Ruta | Auth | Efecto |
 |---|---|---|
 | `POST /send` | JWT de Access | Renderiza y manda un correo, o lo rechaza |
-| `POST /suppress` | JWT de Access | Agrega una o varias direcciones a la lista de baja |
-| `POST /resume` | JWT de Access | Levanta el corte global después de un rebote duro o una queja |
-| `POST /webhook/resend` | Firma Svix | Rebote permanente o queja: suprime y corta. Si el secreto no está, 403 |
+| `POST /suppress` | JWT de Access | Agrega una dirección a la lista de baja. `reason` es `bounce` o `baja` |
+| `POST /halt` | JWT de Access | `{ "on": true }` corta todo `/send`. `{ "on": false }` lo levanta |
+| `POST /resume` | JWT de Access | Apaga el corte en el Durable Object |
 
-No hay CORS. `OPTIONS` responde 405. El worker no acepta el service token como credencial: solo el JWT que Access inyecta en `Cf-Access-Jwt-Assertion`.
+No hay CORS. `OPTIONS` responde 405. El worker no acepta el service token como credencial: Access lo valida y el worker verifica el JWT de `Cf-Access-Jwt-Assertion`.
 
-Si `TEAM_DOMAIN` o `POLICY_AUD` faltan o no son válidos, `/send`, `/suppress` y `/resume` responden 403 y no llaman a Resend. `TEAM_DOMAIN` tiene que ser `https://<equipo>.cloudflareaccess.com`. `POLICY_AUD` es el AUD de la aplicación de Access.
+`POST /suppress` lo llama el bot de PR B, con el service token de Access. Ese bot tiene un conector a la cuenta Gmail dedicada y es el que ve los DSN y las respuestas BAJA. El worker no abre la casilla. La llamada es idempotente: la misma dirección y la misma razón se pueden repetir.
 
-Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`, incluido vacío). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. Si `TEST_ALLOWLIST` falta o está vacía, `/send` responde 403 y no llama a Resend. El modo test cuenta el tope en KV aunque el Durable Object esté ligado. El JWT de Access tiene que ser de aplicación: `type` exactamente `app`.
+Si `TEAM_DOMAIN` o `POLICY_AUD` faltan o no son válidos, `/send`, `/suppress` y `/resume` responden 403 y no llaman a Gmail. `TEAM_DOMAIN` tiene que ser `https://<equipo>.cloudflareaccess.com`. `POLICY_AUD` es el AUD de la aplicación de Access. El JWT tiene que ser de aplicación: `type` exactamente `app`.
 
-`isLiveMode` es live solo si `OUTREACH_MODE` es exactamente `live` y el binding `OUTREACH_COUNTER` está presente. Si la var es `live` y el binding no está, `POST /send` responde 503 `live_gate` y no llama a Resend: no cae al allowlist ni manda el correo.
+## Modo test y modo live
 
-Tope: 10 envíos en el día de `America/Santiago`. La clave es `cap:YYYY-MM-DD`, calculada una vez al reservar. La devolución usa esa misma clave y no recalcula el día: un fallo que cruza la medianoche de Santiago devuelve el cupo del día que se reservó. Solo se devuelve el cupo cuando Resend responde con un status que no es 2xx. Un error de red, un timeout o un abort no se devuelve: el correo puede haber salido. Si la devolución (KV o Durable Object) lanza, el worker hace `console.log` de `{ event: "outreach_cap_rollback", result: "failed" }` con el almacén y la clave del día, sin destinatario ni JWT, y el caller recibe el error original. Con el contador en 10, el siguiente responde 429.
+Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no sea exactamente `live`). En test el destinatario tiene que estar en `TEST_ALLOWLIST` y el asunto sale con el prefijo `[PRUEBA] `. Si `TEST_ALLOWLIST` falta o está vacía, `/send` responde 403 y no llama a Gmail. El modo test no mira la ventana horaria y cuenta el tope en KV, aunque el Durable Object esté ligado.
 
-En test la reserva sigue siendo read-modify-write de KV y no es atómica: dos `/send` a la vez pueden leer el mismo número. En live la reserva y la devolución las hace el Durable Object `OutreachCounter` (una sola instancia, porque el tope es global). El objeto no calcula el día: opera sobre la clave que le pasa el worker.
+La dirección de prueba es `gaete-gaona-44xjac@mail.grokbot.com`. **PENDIENTE OK Rö.** Solo correos `[PRUEBA]` con datos ficticios. Nunca un prospecto real y nunca un secreto. La leen el bot de TL y Rö, y la retiene la plataforma.
 
-Lista de baja: `/send` no escribe a una dirección suprimida (409). Un rebote permanente (`email.bounced` con `bounce.type = Permanent`) o una queja (`email.complained`) suprime esas direcciones y deja un corte global: todo `/send` responde 409 `halted` hasta `POST /resume`. El resume no saca a nadie de la lista de baja. Un rebote transitorio solo queda en el log.
+`isLiveMode` es live solo si `OUTREACH_MODE` es exactamente `live` y el binding `OUTREACH_COUNTER` está presente. Si la var es `live` y el binding no está, `POST /send` responde 503 `live_gate` y no llama a Gmail.
 
-Cada intento de envío deja en KV `log:<id>` con `id`, `to` (tal como llegó, ya validado), `template`, `timestamp`, `resend_id`, `result` y `error`. El registro vence a los 90 días. No se guarda nombre, empresa ni hallazgo. El `console.log` tampoco lleva destinatario ni JWT.
+En live, `/send` solo entra de lunes a viernes, de 17:15 a 17:35 inclusive, hora de `America/Santiago`. El día y la hora salen de `Intl` con esa zona, así que el horario de verano entra solo. Fuera de la ventana la respuesta es 403 `outside_window`, sin reservar cupo y sin llamar a Gmail. El modo test no usa esta ventana.
 
-Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace o un invocation log puede guardar headers, incluido el JWT de Access y los de Svix. No se almacenan.
+## Cupo, secreto y resultado
+
+Sin `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`, `SENDER_EMAIL` o `SENDER_NAME` válidos, `/send` responde 503 `unconfigured` antes de reservar. Un CR o LF en el nombre del From también es `unconfigured`. Un CR o LF en `To` o en el asunto es 400.
+
+Tope de live: la var `DAILY_CAP`. Si falta, el tope es 10. Si no es un entero entre 1 y 10, live responde 503 `cap` y no reserva. Un tope mayor que 10 pide un PR que cambie `DAILY_CAP_MAX`. El modo test no lee la var: su tope es 10. La clave es `cap:YYYY-MM-DD`, calculada una vez al reservar. La devolución usa esa misma clave y no recalcula el día.
+
+Solo se devuelve el cupo cuando Gmail responde un status que no es 2xx, o cuando falla el canje del refresh token (esa llamada es anterior a `messages/send`, así que el correo no salió). Un error de red, un timeout o un abort de `messages/send` no se devuelve: el correo puede haber salido. Si la devolución lanza, el worker hace `console.log` de `{ event: "outreach_cap_rollback", result: "failed" }` con el almacén y la clave del día, sin destinatario ni JWT, y el caller recibe el error original. Con el contador en el tope, el siguiente responde 429.
+
+En test la reserva sigue siendo read-modify-write de KV y no es atómica. En live la reserva y la devolución las hace el Durable Object `OutreachCounter`. El objeto no calcula el día: opera sobre la clave y el tope que le pasa el worker.
+
+## Registro y baja
+
+Cada intento que ya pasó la validación deja en KV `log:<id>` con `id`, `to`, `template`, `timestamp`, `gmail_id`, `result`, `error`, `fuente` y `base`. El registro vence a los 90 días. No se guarda nombre, empresa ni hallazgo. `to` es el único lugar donde queda la dirección. `fuente` y `base` no se copian al log de consola.
+
+`fuente` es la fuente pública del contacto: una URL o un texto de hasta 200 caracteres. `base` es `interes_legitimo` o `fuente_publica`. Si falta cualquiera de las dos, `/send` responde 400 y no llama a Gmail.
+
+Lista de baja: `/send` no escribe a una dirección suprimida (409). `POST /suppress` escribe en esa lista y no corta el envío global. El corte global vive en el Durable Object `OutreachCounter`. `POST /halt` lo escribe ahí. `reserve()` no cuenta un envío mientras el corte está prendido, y `/send` responde 409 `halted`. `POST /resume` con `{"confirm":true}`, y `{ "on": false }`, lo levantan. Sin el binding del objeto, `/halt` responde 503. `state:halt` en KV no se desplegó; el corte no tiene copia ahí.
+
+Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace puede guardar el JWT de Access y el header `Authorization` de la llamada a Gmail.
 
 ## Setup para Rö
 
-El orden y lo que está hecho o en pausa está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md). La cuenta, el DNS del dominio, el tracking y los secretos del proveedor están en pausa (`PAUSADO: proveedor en evaluación`). KV y Access ya están.
+El orden está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md). Resumen, sin valores:
 
-### 1. Cuenta y clave de Resend
-
-Crear la cuenta en [resend.com](https://resend.com) en el plan Free y una API key. La clave no se commitea y no va en un `.env`.
-
-### 2. Dominio `vientonorte.io` en Resend
-
-En el dashboard: Domains → Add Domain → `vientonorte.io`. El From de este worker es `contacto@vientonorte.io`, así que el dominio verificado tiene que ser la raíz, no solo un subdominio. Resend recomienda un subdominio para separar reputación; este worker no lo usa porque el From pedido es el de la raíz.
-
-Los registros DNS salen de la pestaña **Records** de ese dominio. Hay que copiar tipo, nombre y valor tal cual. No se inventan.
-
-Según la doc de Resend ([agregar un dominio](https://resend.com/docs/add-a-domain), [no chocar con los MX](https://resend.com/docs/knowledge-base/how-do-i-avoid-conflicting-with-my-mx-records)):
-
-- El dashboard muestra DKIM y SPF como TXT y MX, o como CNAME. Para dominios creados después de agosto de 2026 Resend puede entregar CNAME en vez del par MX+TXT. Manda lo que diga la pestaña Records.
-- El MX o CNAME de envío va en el host de return-path que muestre Resend (en las guías suele ser `send`), no en el MX del ápice.
-- No tocar los MX del ápice de `vientonorte.io`. El correo que llega a `contacto@` tiene que seguir yendo adonde va hoy.
-- No tocar el TXT `_dmarc` que ya existe. Si Resend ofrece un DMARC opcional, se deja el registro actual.
-- Si el registro es un CNAME, en Cloudflare va en DNS only (nube gris). El proxy naranja impide la verificación. Un CNAME no puede convivir con otros registros en el mismo nombre: si `send.vientonorte.io` ya tiene algo, hay que elegir otro return-path en Resend o no pisarlo.
-- La verificación suele cerrar en unos 15 minutos y a veces tarda hasta 72 horas. El estado lo dice el dashboard.
-
-### 3. KV
-
-El namespace ya está creado y el id está en `wrangler.jsonc`. No volver a correr `kv namespace create` ni cambiar ese id. El detalle, y lo que sigue pausado, está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).
-
-### 4. Durable Object
-
-`wrangler.jsonc` declara el binding `OUTREACH_COUNTER` y la migración `v1` (`new_sqlite_classes`: `OutreachCounter`, SQLite). El namespace se crea en el próximo deploy manual. Los tests y el dry-run de CI no lo crean ni despliegan el worker.
-
-Sin ese binding en runtime, `OUTREACH_MODE=live` responde 503 `live_gate` y no llama a Resend. Con el binding, live usa el objeto para el tope y el dedupe del webhook. El modo test sigue en KV para el tope.
-
-### 5. Access y hostname
-
-Hecho: la aplicación self-hosted de `outreach.vientonorte.io`, el service token y el Bypass del path exacto `POST /webhook/resend`. `TEAM_DOMAIN`, `POLICY_AUD` y la ruta ya están en `wrangler.jsonc`. El Client ID y el Client Secret los tiene TL, fuera del repo. No son secretos del worker. Con `workers_dev` y `preview_urls` en false no hay URL `*.workers.dev`. El primer deploy crea el DNS del custom domain y espera el OK de Rö.
-
-```jsonc
-"routes": [
-  { "pattern": "outreach.vientonorte.io", "custom_domain": true }
-]
-```
-
-Así quedó armado en Zero Trust:
-
-1. Access controls → Service credentials → Service tokens. Client ID y Client Secret fuera del repo, en manos de TL.
-2. Access controls → Applications → aplicación self-hosted para ese hostname.
-3. Política con acción Service Auth que incluya ese service token.
-4. `TEAM_DOMAIN` es el issuer, con `https://`. `POLICY_AUD` es el AUD de la aplicación. Los dos están en `vars`.
-5. El proveedor no puede presentar el service token. El Bypass de Access es el path exacto `/webhook/resend`: sin comodín, sin barra final y solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto se rechaza. La firma sigue valiendo 300 s. La marca de deduplicación dura 600 s (el doble, nunca menos), así que un replay que todavía entra en esa tolerancia no encuentra la marca vencida. Con `OUTREACH_COUNTER` ligado, la marca es un claim atómico en el Durable Object. Sin ese binding el camino es KV y no es atómico: dos entregas a la vez pueden pasar las dos. `wrangler.jsonc` liga el objeto. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
-
-### 6. Secretos
-
-Solo en el worker, nunca en git. No crear un `.env` con valores. `.dev.vars` y `.env*` están ignorados.
-
-`RESEND_API_KEY` y `RESEND_WEBHOOK_SECRET` están en pausa mientras se elige el proveedor. No cargarlos todavía. Ver [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).
-
-```bash
-cd outreach
-npx --no-install wrangler secret put TEST_ALLOWLIST
-```
-
-`TEST_ALLOWLIST` es la única dirección que puede recibir correo mientras `OUTREACH_MODE` no sea `live`. La tipea Rö. No va en git. También se puede cargar como var del dashboard; el código lee `env.TEST_ALLOWLIST` en los dos casos. Vacía o ausente, el modo test responde 403.
-
-`RESEND_API_KEY` será la API key del proveedor. `RESEND_WEBHOOK_SECRET` será el signing secret del webhook (`whsec_...`). Sin ese secreto, `POST /webhook/resend` responde 403.
-
-El webhook, cuando el hostname y el Bypass ya existen, apunta a `https://<hostname>/webhook/resend` y escucha `email.bounced` y `email.complained`. La firma se calcula sobre el body crudo.
-
-### 7. Deploy
-
-Solo humano, después del OK de Rö: el primer deploy crea el DNS de `outreach.vientonorte.io`. Comando:
+1. Cuenta Gmail dedicada de Viento Norte. Vars `SENDER_EMAIL` y `SENDER_NAME`.
+2. Cliente OAuth en GCP, consentimiento **En producción**, un solo scope `gmail.send`.
+3. Refresh token con `npm run gmail:refresh-token` (local, loopback). No corre en CI.
+4. `wrangler secret put` de `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET` y `GMAIL_REFRESH_TOKEN`.
+5. Var o secreto `TEST_ALLOWLIST` con la bandeja de prueba. PENDIENTE OK Rö.
+6. Deploy, con OK de Rö: el primero crea el DNS de `outreach.vientonorte.io`.
+7. Borrar la app de Bypass `cf76fb24`, con OK de Rö.
+8. Un `[PRUEBA]` a la bandeja de prueba. Live solo después de esa evidencia, de PR B en PASS y del OK textual de Rö.
 
 ```bash
 cd outreach && npm ci && npx --no-install wrangler deploy --keep-vars
 ```
-
-`--keep-vars` no borra vars ni secretos que ya estén en el dashboard. `OUTREACH_MODE` queda en `test` mientras nadie lo cambie a `live`.
 
 Wrangler está pinneado en `4.86.0`. El dry-run local (no despliega) es:
 
@@ -141,11 +81,24 @@ Wrangler está pinneado en `4.86.0`. El dry-run local (no despliega) es:
 cd outreach && npx --no-install wrangler deploy --dry-run
 ```
 
+El refresh token, en la máquina de Rö:
+
+```bash
+cd outreach
+npm ci
+read -rs GMAIL_CLIENT_ID
+export GMAIL_CLIENT_ID
+read -rs GMAIL_CLIENT_SECRET
+export GMAIL_CLIENT_SECRET
+npm run gmail:refresh-token
+```
+
 ## Prueba de humo (un solo `[PRUEBA]`)
 
-1. Confirmar que `OUTREACH_MODE` es `test` y que `TEST_ALLOWLIST` (secreto o var del dashboard, no el archivo de config) tiene una sola dirección: la que debe recibir la prueba.
-2. Mandar un solo `POST /send` a esa dirección. El asunto tiene que salir con el prefijo `[PRUEBA] `.
-3. Cualquier otro destinatario responde 403 y Resend no se llama.
+1. Confirmar que `OUTREACH_MODE` es `test` y que `TEST_ALLOWLIST` tiene una sola dirección: `gaete-gaona-44xjac@mail.grokbot.com`, cuando Rö lo confirme.
+2. Mandar un solo `POST /send` a esa dirección, con datos ficticios. El asunto tiene que salir con el prefijo `[PRUEBA] `.
+3. Cualquier otro destinatario responde 403 y Gmail no se llama.
+4. En el mensaje recibido: `spf=pass`, `dkim=pass`, `dmarc=pass` (`gmail.com`), el HTML se ve, y está la línea para responder «BAJA».
 
 ```bash
 curl -sS -X POST "https://outreach.vientonorte.io/send" \
@@ -153,10 +106,12 @@ curl -sS -X POST "https://outreach.vientonorte.io/send" \
   -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
   -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
   -d '{
-    "to": "<la dirección de TEST_ALLOWLIST>",
+    "to": "gaete-gaona-44xjac@mail.grokbot.com",
     "subject": "Prueba de plantilla",
+    "fuente": "https://ejemplo.cl/equipo",
+    "base": "fuente_publica",
     "fields": {
-      "empresa": "Viento Norte",
+      "empresa": "Estudio Ficticio",
       "hallazgo": "Prueba de contraste del botón de contacto.",
       "servicio_ancla": "revision-gratis",
       "rubro": "estudio"
@@ -164,7 +119,7 @@ curl -sS -X POST "https://outreach.vientonorte.io/send" \
   }'
 ```
 
-Respuesta esperada: 200, con `template` `prospeccion-v1`. En la bandeja de la dirección del allowlist, el asunto empieza por `[PRUEBA] `. El cuerpo trae la línea para responder «BAJA» a `contacto@vientonorte.io`. No pasar a `live` en esta prueba.
+Respuesta esperada: 200, con `template` `prospeccion-v1` y `gmail_id`. El cuerpo trae el aviso de privacidad `https://vientonorte.io/privacidad/` y la línea para responder «BAJA» a `SENDER_EMAIL`. Desde la bandeja de prueba, esa respuesta la toma el bot de PR B y la escribe con `POST /suppress`. No pasar a `live` en esta prueba.
 
 ## Cuerpo de `POST /send`
 
@@ -172,6 +127,8 @@ Respuesta esperada: 200, con `template` `prospeccion-v1`. En la bandeja de la di
 {
   "to": "una-sola-direccion@ejemplo.cl",
   "subject": "Asunto",
+  "fuente": "https://ejemplo.cl/pagina-publica",
+  "base": "fuente_publica",
   "fields": {
     "empresa": "obligatorio",
     "hallazgo": "obligatorio, sin precio",
@@ -184,11 +141,13 @@ Respuesta esperada: 200, con `template` `prospeccion-v1`. En la bandeja de la di
 }
 ```
 
-El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El preheader es el hallazgo: si pasa de 110 caracteres, se corta en el último espacio en o antes de 110, se recorta el final y se le agrega `…`. El link es `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=<rubro>#<ancla>`. No acepta un precio (`$` y un dígito) ni «web gratis». «Revisión gratis» y «revisión gratuita» sí están en la copia del ancla `revision-gratis`.
+`base` también puede ser `interes_legitimo`. `fuente` es la fuente pública del contacto, URL o texto, hasta 200 caracteres.
 
-El JSON hacia Resend lleva `headers["List-Unsubscribe"]` = `<mailto:contacto@vientonorte.io?subject=baja>`. No lleva `List-Unsubscribe-Post`: el one-click de RFC 8058 exige una URI HTTPS y este worker no tiene endpoint de baja. El HTML no carga imágenes remotas.
+El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El preheader es el hallazgo, medido en code points: si pasa de 110, se corta en el último espacio en o antes de 109 y se le agrega `…`, sin partir un par subrogado. El link es `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=<rubro>#<ancla>`. No acepta un precio (`$` y un dígito) ni «web gratis». «Revisión gratis» y «revisión gratuita» sí están en la copia del ancla `revision-gratis`.
 
-`POST /suppress` acepta `{ "email": "a@b.cl", "reason": "baja" }` o `{ "emails": ["a@b.cl"] }`. `reason` puede ser `baja`, `bounce`, `complaint` o `manual`.
+El MIME lleva `Reply-To` y `List-Unsubscribe` con `mailto:` de `SENDER_EMAIL`. El `From` sale de `SENDER_NAME` y `SENDER_EMAIL`. El `Subject` y el nombre van codificados en UTF-8 (RFC 2047), partido por code points, con cada línea de hasta 78 caracteres. No lleva `List-Unsubscribe-Post`: el one-click de RFC 8058 exige una URI HTTPS y este worker no tiene endpoint de baja. El HTML no carga imágenes remotas. El pie, en HTML y en texto, enlaza `https://vientonorte.io/privacidad/`.
+
+`POST /suppress` acepta `{ "email": "a@b.cl", "reason": "baja" }`. `reason` es `bounce` o `baja`. Otra razón, un email inválido o una lista `emails` responden 400 y no escriben.
 
 ## Tests
 
@@ -196,4 +155,4 @@ El JSON hacia Resend lleva `headers["List-Unsubscribe"]` = `<mailto:contacto@vie
 cd outreach && npm ci && npm test
 ```
 
-Cubren auth fail-closed, el live gate (503 sin el Durable Object, envío con un mock del objeto, y un humo en workerd donde `OUTREACH_COUNTER` es un objeto), tope 10 → 429, rollback del cupo con la clave reservada en un 4xx o 5xx de Resend aunque cambie el día de Santiago, cupo retenido si la llamada hace timeout, abort o falla de red, log sin crash si la devolución lanza, supresión, modo test (destinatario y prefijo `[PRUEBA] `), la forma del payload (`from`, `reply_to`, `html`, `text`, `List-Unsubscribe`), el preheader y el header sin `<img>`, replay de `svix-id` dentro de la ventana, TTL de dedupe mayor que la tolerancia de la firma, y que un rechazo no llame a Resend.
+Cubren auth fail-closed, el live gate, el tope (10 en test, `DAILY_CAP` en live), la ventana de Santiago con horario de invierno y de verano, rollback del cupo en un 4xx o 5xx aunque cambie el día, cupo retenido si `messages/send` hace timeout o falla la red, devolución si falla el canje del token, caché del access token, supresión idempotente, modo test, el MIME (`From`, `Reply-To`, `List-Unsubscribe`, asunto RFC 2047), `fuente` y `base` en el registro, el preheader con un emoji en el corte, el aviso de privacidad y que un rechazo no llame a Gmail.
