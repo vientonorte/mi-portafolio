@@ -111,14 +111,25 @@ async function handleSend(request, env, fetchImpl) {
     if (error instanceof Error && (error.message === "cap-corrupt" || error.message === "cap-key")) {
       return json({ error: "cap" }, 503);
     }
-    throw error;
+    console.log(JSON.stringify({ event: "outreach_cap_reserve", result: "failed" }));
+    return json({ error: "cap" }, 500);
   }
 
   const releaseReservation = async () => {
     if (!reservation) return;
     const pending = reservation;
     reservation = null;
-    await rollbackCap(env, pending.key, pending.store);
+    try {
+      await rollbackCap(env, pending.key, pending.store);
+    } catch {
+      // The day key is cap:YYYY-MM-DD. No recipient and no JWT.
+      console.log(JSON.stringify({
+        event: "outreach_cap_rollback",
+        result: "failed",
+        store: pending.store,
+        key: pending.key,
+      }));
+    }
   };
 
   const id = crypto.randomUUID();
@@ -129,6 +140,9 @@ async function handleSend(request, env, fetchImpl) {
     subject: message.subject,
     html: message.html,
     text: message.text,
+    headers: {
+      "List-Unsubscribe": `<mailto:${REPLY_TO}?subject=baja>`,
+    },
   };
 
   let response;
@@ -143,8 +157,15 @@ async function handleSend(request, env, fetchImpl) {
       body: JSON.stringify(resendBody),
     });
   } catch {
-    await releaseReservation();
+    // Unknown outcome: a timeout, abort, or network error may still have sent.
     await logAttempt(env, to, "resend_error", null, "network", id);
+    console.log(JSON.stringify({
+      event: "outreach_send",
+      id,
+      template: TEMPLATE_ID,
+      result: "resend_error",
+      reason: "network",
+    }));
     return json({ error: "resend_error" }, 502);
   }
 

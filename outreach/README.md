@@ -6,6 +6,7 @@ Worker de Cloudflare **aparte** de `worker/` (el de contacto). Manda correos de 
 - Reply-To: `contacto@vientonorte.io`
 - Plantilla `prospeccion-v1`: HTML y texto, sin precios
 - `workers_dev = false` y `preview_urls = false`: no hay URL `*.workers.dev` ni preview
+- La ruta `outreach.vientonorte.io` (`custom_domain`) ya está en `wrangler.jsonc`. El DNS de ese hostname lo crea el primer deploy, y ese deploy no se corre sin el OK de Rö
 
 Este directorio no despliega nada por sí solo. El deploy lo hace Rö, a mano, con el comando de más abajo. No hay que correr `npx --no-install wrangler secret put` ni cambiar DNS desde el repo.
 
@@ -46,7 +47,7 @@ Modo test es el default (`OUTREACH_MODE=test`, y también cualquier valor que no
 
 `isLiveMode` es live solo si `OUTREACH_MODE` es exactamente `live` y el binding `OUTREACH_COUNTER` está presente. Si la var es `live` y el binding no está, `POST /send` responde 503 `live_gate` y no llama a Resend: no cae al allowlist ni manda el correo.
 
-Tope: 10 envíos en el día de `America/Santiago`. La clave es `cap:YYYY-MM-DD`, calculada una vez al reservar. Si Resend no acepta el envío, la devolución usa esa misma clave: no se recalcula el día. Un fallo que cruza la medianoche de Santiago devuelve el cupo del día que se reservó. Con el contador en 10, el siguiente responde 429.
+Tope: 10 envíos en el día de `America/Santiago`. La clave es `cap:YYYY-MM-DD`, calculada una vez al reservar. La devolución usa esa misma clave y no recalcula el día: un fallo que cruza la medianoche de Santiago devuelve el cupo del día que se reservó. Solo se devuelve el cupo cuando Resend responde con un status que no es 2xx. Un error de red, un timeout o un abort no se devuelve: el correo puede haber salido. Si la devolución (KV o Durable Object) lanza, el worker hace `console.log` de `{ event: "outreach_cap_rollback", result: "failed" }` con el almacén y la clave del día, sin destinatario ni JWT, y el caller recibe el error original. Con el contador en 10, el siguiente responde 429.
 
 En test la reserva sigue siendo read-modify-write de KV y no es atómica: dos `/send` a la vez pueden leer el mismo número. En live la reserva y la devolución las hace el Durable Object `OutreachCounter` (una sola instancia, porque el tope es global). El objeto no calcula el día: opera sobre la clave que le pasa el worker.
 
@@ -57,6 +58,8 @@ Cada intento de envío deja en KV `log:<id>` con `id`, `to` (tal como llegó, ya
 Los traces están apagados (`observability.traces.enabled: false`) y los invocation logs también. Un trace o un invocation log puede guardar headers, incluido el JWT de Access y los de Svix. No se almacenan.
 
 ## Setup para Rö
+
+El orden y lo que está hecho o en pausa está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md). La cuenta, el DNS del dominio, el tracking y los secretos del proveedor están en pausa (`PAUSADO: proveedor en evaluación`). KV y Access ya están.
 
 ### 1. Cuenta y clave de Resend
 
@@ -79,15 +82,7 @@ Según la doc de Resend ([agregar un dominio](https://resend.com/docs/add-a-doma
 
 ### 3. KV
 
-El `id` commiteado es un placeholder. Hay que crear el namespace y pegar el id real en `wrangler.jsonc` antes de desplegar. Si no, el binding no apunta a nada.
-
-```bash
-cd outreach
-npm ci
-npx wrangler kv namespace create OUTREACH_KV
-```
-
-Copiar el id a `kv_namespaces[0].id`.
+El namespace ya está creado y el id está en `wrangler.jsonc`. No volver a correr `kv namespace create` ni cambiar ese id. El detalle, y lo que sigue pausado, está en [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).
 
 ### 4. Durable Object
 
@@ -97,7 +92,7 @@ Sin ese binding en runtime, `OUTREACH_MODE=live` responde 503 `live_gate` y no l
 
 ### 5. Access y hostname
 
-Hoy el worker no tiene ruta. Con `workers_dev` y `preview_urls` en false, un deploy no abre una URL pública. La ruta se agrega cuando la aplicación de Access ya existe. Hostname sugerido, a confirmar por Rö: `outreach.vientonorte.io`.
+Hecho: la aplicación self-hosted de `outreach.vientonorte.io`, el service token y el Bypass del path exacto `POST /webhook/resend`. `TEAM_DOMAIN`, `POLICY_AUD` y la ruta ya están en `wrangler.jsonc`. El Client ID y el Client Secret los tiene TL, fuera del repo. No son secretos del worker. Con `workers_dev` y `preview_urls` en false no hay URL `*.workers.dev`. El primer deploy crea el DNS del custom domain y espera el OK de Rö.
 
 ```jsonc
 "routes": [
@@ -105,43 +100,34 @@ Hoy el worker no tiene ruta. Con `workers_dev` y `preview_urls` en false, un dep
 ]
 ```
 
-En Zero Trust:
+Así quedó armado en Zero Trust:
 
-1. Access controls → Service credentials → Service tokens → crear uno. Guardar Client ID y Client Secret fuera del repo. No son secretos del worker.
+1. Access controls → Service credentials → Service tokens. Client ID y Client Secret fuera del repo, en manos de TL.
 2. Access controls → Applications → aplicación self-hosted para ese hostname.
 3. Política con acción Service Auth que incluya ese service token.
-4. Copiar el Application Audience (AUD) tag.
-5. Poner las dos vars en `wrangler.jsonc` (no son secretos). `TEAM_DOMAIN` es el issuer, con `https://`:
-
-```jsonc
-"TEAM_DOMAIN": "https://<equipo>.cloudflareaccess.com",
-"POLICY_AUD": "<aud de la aplicación>"
-```
-
-6. Resend no puede presentar el service token. El Bypass de Access tiene que ser el path exacto `/webhook/resend`: sin comodín, sin barra final y, si el panel deja elegir el método, solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto se rechaza. La firma sigue valiendo 300 s. La marca de deduplicación dura 600 s (el doble, nunca menos), así que un replay que todavía entra en esa tolerancia no encuentra la marca vencida. Con `OUTREACH_COUNTER` ligado, la marca es un claim atómico en el Durable Object. Sin ese binding el camino es KV y no es atómico: dos entregas a la vez pueden pasar las dos. `wrangler.jsonc` liga el objeto. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
-
-Hasta que `TEAM_DOMAIN` y `POLICY_AUD` sean válidos, el worker responde 403 sin llamar a Resend.
+4. `TEAM_DOMAIN` es el issuer, con `https://`. `POLICY_AUD` es el AUD de la aplicación. Los dos están en `vars`.
+5. El proveedor no puede presentar el service token. El Bypass de Access es el path exacto `/webhook/resend`: sin comodín, sin barra final y solo POST. `/webhook/resend/` y `/webhook/resend/x` no son el webhook; el worker responde 404. Un `svix-id` ya visto se rechaza. La firma sigue valiendo 300 s. La marca de deduplicación dura 600 s (el doble, nunca menos), así que un replay que todavía entra en esa tolerancia no encuentra la marca vencida. Con `OUTREACH_COUNTER` ligado, la marca es un claim atómico en el Durable Object. Sin ese binding el camino es KV y no es atómico: dos entregas a la vez pueden pasar las dos. `wrangler.jsonc` liga el objeto. Sin `RESEND_WEBHOOK_SECRET`, o con una firma inválida, la ruta responde 403.
 
 ### 6. Secretos
 
 Solo en el worker, nunca en git. No crear un `.env` con valores. `.dev.vars` y `.env*` están ignorados.
 
+`RESEND_API_KEY` y `RESEND_WEBHOOK_SECRET` están en pausa mientras se elige el proveedor. No cargarlos todavía. Ver [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).
+
 ```bash
 cd outreach
-npx --no-install wrangler secret put RESEND_API_KEY
-npx --no-install wrangler secret put RESEND_WEBHOOK_SECRET
 npx --no-install wrangler secret put TEST_ALLOWLIST
 ```
 
-`TEST_ALLOWLIST` es la única dirección que puede recibir correo mientras `OUTREACH_MODE` no sea `live`. No va en git. También se puede cargar como var del dashboard; el código lee `env.TEST_ALLOWLIST` en los dos casos. Vacía o ausente, el modo test responde 403.
+`TEST_ALLOWLIST` es la única dirección que puede recibir correo mientras `OUTREACH_MODE` no sea `live`. La tipea Rö. No va en git. También se puede cargar como var del dashboard; el código lee `env.TEST_ALLOWLIST` en los dos casos. Vacía o ausente, el modo test responde 403.
 
-`RESEND_API_KEY` es la API key de Resend. `RESEND_WEBHOOK_SECRET` es el signing secret del webhook (`whsec_...`), en el detalle del webhook en Resend. Sin ese secreto, `POST /webhook/resend` responde 403.
+`RESEND_API_KEY` será la API key del proveedor. `RESEND_WEBHOOK_SECRET` será el signing secret del webhook (`whsec_...`). Sin ese secreto, `POST /webhook/resend` responde 403.
 
 El webhook, cuando el hostname y el Bypass ya existen, apunta a `https://<hostname>/webhook/resend` y escucha `email.bounced` y `email.complained`. La firma se calcula sobre el body crudo.
 
 ### 7. Deploy
 
-Solo humano, después de los pasos de arriba. Comando:
+Solo humano, después del OK de Rö: el primer deploy crea el DNS de `outreach.vientonorte.io`. Comando:
 
 ```bash
 cd outreach && npm ci && npx --no-install wrangler deploy --keep-vars
@@ -198,7 +184,9 @@ Respuesta esperada: 200, con `template` `prospeccion-v1`. En la bandeja de la di
 }
 ```
 
-El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El link es `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=<rubro>#<ancla>`. No acepta un precio (`$` y un dígito) ni «web gratis». «Revisión gratis» y «revisión gratuita» sí están en la copia del ancla `revision-gratis`.
+El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El preheader es el hallazgo: si pasa de 110 caracteres, se corta en el último espacio en o antes de 110, se recorta el final y se le agrega `…`. El link es `https://vientonorte.io/servicios/?utm_source=email&utm_medium=prospeccion&utm_campaign=<rubro>#<ancla>`. No acepta un precio (`$` y un dígito) ni «web gratis». «Revisión gratis» y «revisión gratuita» sí están en la copia del ancla `revision-gratis`.
+
+El JSON hacia Resend lleva `headers["List-Unsubscribe"]` = `<mailto:contacto@vientonorte.io?subject=baja>`. No lleva `List-Unsubscribe-Post`: el one-click de RFC 8058 exige una URI HTTPS y este worker no tiene endpoint de baja. El HTML no carga imágenes remotas.
 
 `POST /suppress` acepta `{ "email": "a@b.cl", "reason": "baja" }` o `{ "emails": ["a@b.cl"] }`. `reason` puede ser `baja`, `bounce`, `complaint` o `manual`.
 
@@ -208,4 +196,4 @@ El worker calcula `link`, `kicker`, `oferta`, `preheader` y `rubro_slug`. El lin
 cd outreach && npm ci && npm test
 ```
 
-Cubren auth fail-closed, el live gate (503 sin el Durable Object, envío con un mock del objeto), tope 10 → 429, rollback del cupo con la clave reservada aunque cambie el día de Santiago, supresión, modo test (destinatario y prefijo `[PRUEBA] `), la forma del payload de Resend (`from`, `reply_to`, `html`, `text`), replay de `svix-id` dentro de la ventana, TTL de dedupe mayor que la tolerancia de la firma, y que un rechazo no llame a Resend.
+Cubren auth fail-closed, el live gate (503 sin el Durable Object, envío con un mock del objeto, y un humo en workerd donde `OUTREACH_COUNTER` es un objeto), tope 10 → 429, rollback del cupo con la clave reservada en un 4xx o 5xx de Resend aunque cambie el día de Santiago, cupo retenido si la llamada hace timeout, abort o falla de red, log sin crash si la devolución lanza, supresión, modo test (destinatario y prefijo `[PRUEBA] `), la forma del payload (`from`, `reply_to`, `html`, `text`, `List-Unsubscribe`), el preheader y el header sin `<img>`, replay de `svix-id` dentro de la ventana, TTL de dedupe mayor que la tolerancia de la firma, y que un rechazo no llame a Resend.
