@@ -285,6 +285,16 @@ export const privacyPage = {
       appTitle: 'El juego',
       appBody: 'Esta página es del sitio. El juego tiene la suya.',
       appCta: 'R.A.D.A.R. El Polijuego',
+      campoTitle: 'Campo app (etnografía)',
+      campoLead: 'Cuaderno de campo en campo.vientonorte.io. Postura: sin analítica automática.',
+      campoItems: [
+        'Los datos se cifran en el dispositivo (AES-GCM, clave derivada de tu frase con PBKDF2). No hay modo sin cifrar ni copia en servidor.',
+        'Solo códigos de participante (P1, P2…). No registra nombres, RUT ni contactos de personas entrevistadas.',
+        'Sin analítica, cookies de seguimiento ni terceros: la app solo carga archivos de su propio dominio.',
+        'noindex: no aparece en buscadores.',
+        'Borrar los datos del navegador o del dispositivo los elimina; la exportación queda bajo tu control.',
+      ],
+      campoCta: 'Abrir Campo',
       controllerTitle: 'Responsable',
       controllerBody: 'Rodrigo Gaete Gaona · Viento Norte — Chile.',
     };
