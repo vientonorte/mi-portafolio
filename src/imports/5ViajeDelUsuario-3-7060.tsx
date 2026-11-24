@@ -36,8 +36,8 @@ export default function Component5ViajeDelUsuario() {
       <div className="absolute font-['Proxima_Nova:Regular',sans-serif] h-[603px] leading-[40px] left-[calc(7.14%+42.86px)] not-italic text-[#333333] text-[24px] top-[calc(33.33%+1px)] w-[500px]">
         <p className="mb-0">
           <span className="font-['Proxima_Nova:Bold',sans-serif] not-italic">{`En la sesión 2 `}</span>como equipo
-          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[40px]">{` construimos el viaje del usuario`}</span>
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[40px]">{` construimos el viaje del usuario`}</span>
           </span>
           , lo que nos permite visualizar todos los puntos de contacto, desde la conciencia de la existencia de la app hasta el proceso de fidelización.
         </p>

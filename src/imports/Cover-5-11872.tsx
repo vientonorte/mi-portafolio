@@ -213,56 +213,56 @@ function Content() {
           )
         </p>
         <p className="leading-[24px] mb-0">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               Diagrama de flujos y perfiles de usaurio
             </span>
-          </a>
+          </span>
           <span>{` (UX) `}</span>
         </p>
         <p className="leading-[24px] mb-0">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               Prototipo Iniciar sesión
             </span>
-          </a>
+          </span>
           <span>{` (UI + Interacciones)`}</span>
         </p>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Prototipo Recuperar contraseña
-        </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        </span>
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Prototipo Crear cuenta
-        </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        </span>
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Prototipo OB - Asesor
-        </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        </span>
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Prototipo OB - Middle Office
-        </a>
+        </span>
         <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://Dashboard">
           Prototipo dashboard
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Wireflow para el Desarrollo
-        </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        </span>
+        <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block leading-[24px] mb-0">
           Especificaciones UI
-        </a>
+        </span>
         <p className="leading-[24px]">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               Plantillas Correos
             </span>
-          </a>
+          </span>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               FAQ
             </span>
-          </a>
+          </span>
         </p>
       </div>
     </div>

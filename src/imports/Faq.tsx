@@ -3,9 +3,9 @@ import img01 from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
 function Others() {
   return (
     <div className="content-stretch flex gap-[8px] items-center relative shrink-0" data-name="Others">
-      <a className="[white-space-collapse:collapse] flex flex-col font-['Sura_Sans:Negrita',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#161618] text-[14px] text-nowrap tracking-[0.25px] uppercase">
-        <p className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid leading-[1.5] underline whitespace-pre">vOLVER AL INICIO</p>
-      </a>
+      <span className="[white-space-collapse:collapse] flex flex-col font-['Sura_Sans:Negrita',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#161618] text-[14px] text-nowrap tracking-[0.25px] uppercase">
+        <p className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[1.5] whitespace-pre">vOLVER AL INICIO</p>
+      </span>
     </div>
   );
 }
@@ -51,15 +51,15 @@ function Frame() {
             </span>
           </a>
           <span>{`, utilizando el nuevo sistema de diseño  de SURA Investments, en estos `}</span>links<span>{` encontrarás la documentación necesaria para el correcto desarrollo de los `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               estilos
             </span>
-          </a>
+          </span>
           <span>{` y `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">{`componentes base `}</span>
-          </a>
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">{`componentes base `}</span>
+          </span>
           del sistema de diseño
         </p>
         <ul className="mb-0">
@@ -82,11 +82,11 @@ function Frame() {
         </ul>
         <p className="leading-[24px]">
           <span>{`Son una explicación gráfica de como construir los componentes utilizados `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               aquí
             </span>
-          </a>
+          </span>
           <span>{` y que en términos de CSS su construcción parte del proyecto Módulo FX , cuyo líder técnico es Eduardo Villalobos.`}</span>
         </p>
       </div>

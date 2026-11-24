@@ -213,45 +213,45 @@ function Content() {
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-underline-position:from-font]">
+            <span className="[text-underline-position:from-font] leading-[24px]">
               Brief del proyecto
             </span>
-          </a>
+          </span>
         </p>
-        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        <span className="[text-underline-position:from-font] block leading-[24px] mb-0">
           Flujos de usuarios
-        </a>
-        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
+        </span>
+        <span className="[text-underline-position:from-font] block leading-[24px] mb-0">
           Prototipo desktop
-        </a>
+        </span>
         <p className="leading-[24px] mb-0">
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-underline-position:from-font]">
+            <span className="[text-underline-position:from-font] leading-[24px]">
               Prototipo mobile
             </span>
-          </a>
+          </span>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">{`Componentes UI `}</span>
-          </a>
+          <span className="[text-underline-position:from-font]">
+            <span className="[text-underline-position:from-font] leading-[24px]">{`Componentes UI `}</span>
+          </span>
         </p>
         <p className="leading-[24px]">
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-underline-position:from-font]">
+            <span className="[text-underline-position:from-font] leading-[24px]">
               Especificaciones UI para el desarrollo
             </span>
-          </a>
+          </span>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
+          <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font]">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] leading-[24px]">
               FAQ
             </span>
-          </a>
+          </span>
         </p>
       </div>
     </div>
