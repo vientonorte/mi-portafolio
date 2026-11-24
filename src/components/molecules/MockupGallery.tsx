@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Expand, Monitor } from "lucide-react";
 import { ResponsiveImage } from "../atoms/ResponsiveImage";
@@ -140,7 +140,16 @@ export function MockupGallery({
   const items = useMemo(() => normalizeMockups(mockups), [mockups]);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (focusTimerRef.current !== null) {
+        clearTimeout(focusTimerRef.current);
+      }
+    };
+  }, []);
 
   const openLightbox = useCallback((index: number, trigger: HTMLElement) => {
     triggerRef.current = trigger;
@@ -246,7 +255,12 @@ export function MockupGallery({
         event.preventDefault();
         const index = lightboxIndex ?? 0;
         // El foco vuelve cuando el diálogo ya soltó el resto de la página.
-        setTimeout(() => {
+        if (focusTimerRef.current !== null) {
+          clearTimeout(focusTimerRef.current);
+        }
+        focusTimerRef.current = setTimeout(() => {
+          focusTimerRef.current = null;
+          if (typeof document === "undefined") return;
           const buttons = document.querySelectorAll<HTMLButtonElement>("[data-slide-open]");
           (buttons[index] ?? triggerRef.current)?.focus();
         }, 0);
