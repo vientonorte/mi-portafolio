@@ -10,7 +10,6 @@ import { getPortfolioImages } from "@/lib/image-overrides";
 const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "x-cms-demo": "consultoria.xCmsDashboard",
   "gees-propuesta": "consultoria.geesDashboard",
-  "ria-us": "sura.riaOnboarding",
   "ria-celula-evolutiva": "sura.celulaEvolutivaFlow",
   "poc-ia-dei": "sura.iaAutomationDashboard",
   "sura-inversiones-dashboard": "sura.riaOnboarding",
@@ -18,8 +17,6 @@ const EXPECTED_IMAGE_KEYS: Record<string, string> = {
   "sura-ux-enterprise": "sura.uxProcess",
   autosuggest: "sura.webPrototype",
   "transvip-app-premium": "transvip.appDesktop",
-  "transvip-mobile": "transvip.appMobile",
-  "valuesite-avem-landing": "sura.onboardingFlags",
   "karri-calculadora": "karri.boosmapBenchmark",
   "karri-notificaciones": "karri.deliveryBrand",
   "karri-design-sprint": "karri.okrsBoard",

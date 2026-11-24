@@ -35,6 +35,7 @@ describe("service-path-demos", () => {
     expect(getServicePathDemo("diagnostic")?.iframeUrl).toBeUndefined();
     expect(getServicePathDemo("process")?.durationSec).toBe(4 * 60);
     expect(getServicePathDemo("app")?.durationSec).toBe(5 * 60);
+    expect(getServicePathDemo("app")?.iframeUrl).toBeUndefined();
   });
 
   it("resolves pack and campaign aliases", () => {

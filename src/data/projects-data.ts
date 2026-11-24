@@ -3,10 +3,8 @@ import {
   karriDesignSprintStub,
   karriNotificacionesStub,
 } from "./karri-project-stubs";
-import { FIGMA_SLIDES_SURA_COLOMBIA } from "./figma-embeds";
 import type { FigmaEmbedConfig } from "./figma-embeds";
 import type { UpcomingFigmaLink } from "./upcoming-cases";
-import { RIA_US_PROTO_URL } from "./value-content-arsenal";
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import {
   khuroItem,
@@ -225,7 +223,6 @@ export const suraHub: CompanyHub = {
       descriptionEN: "Led user experience implementation for regional and local technology initiatives in the financial sector.",
       image: uxProcessDiagram,
       tags: ["Fintech", "Enterprise", "Design Thinking", "Regional"],
-      figmaEmbed: FIGMA_SLIDES_SURA_COLOMBIA,
 
       processes: [
         {
@@ -391,7 +388,6 @@ export const suraHub: CompanyHub = {
       companyLogo: suraRiaOnboarding,
       role: "Lead UX/UI Designer",
       period: "2024 - 2025",
-      externalLink: RIA_US_PROTO_URL,
       projectName: "Diseño UX UI RIA SURA US",
       description: "Diseño completo de experiencia e interfaz para la plataforma RIA (Registered Investment Advisor) de SURA en Estados Unidos. Proyecto end-to-end desde arquitectura de información hasta especificaciones UI, incluyendo flujos de autenticación, onboarding de asesores y middle office, dashboard de inversiones y sistema completo de comunicaciones.",
       descriptionEN: "End-to-end UX/UI design for SURA's RIA (Registered Investment Advisor) platform in the United States: information architecture, authentication, advisor onboarding, investment dashboard, and communications.",

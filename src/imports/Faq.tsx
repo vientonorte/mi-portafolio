@@ -3,7 +3,7 @@ import img01 from "figma:asset/93f752ccf2bf3e160e29c0654ed37065e66cd03a.png";
 function Others() {
   return (
     <div className="content-stretch flex gap-[8px] items-center relative shrink-0" data-name="Others">
-      <a className="[white-space-collapse:collapse] flex flex-col font-['Sura_Sans:Negrita',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#161618] text-[14px] text-nowrap tracking-[0.25px] uppercase" href="https://www.figma.com/design/2sqtmuruoylv9y2cQXZ1Ag?node-id=311-11143">
+      <a className="[white-space-collapse:collapse] flex flex-col font-['Sura_Sans:Negrita',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#161618] text-[14px] text-nowrap tracking-[0.25px] uppercase">
         <p className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid leading-[1.5] underline whitespace-pre">vOLVER AL INICIO</p>
       </a>
     </div>
@@ -51,13 +51,13 @@ function Frame() {
             </span>
           </a>
           <span>{`, utilizando el nuevo sistema de diseño  de SURA Investments, en estos `}</span>links<span>{` encontrarás la documentación necesaria para el correcto desarrollo de los `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
             <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               estilos
             </span>
           </a>
           <span>{` y `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/1Aks0tH7nEkPsxpsvGDHs8/%F0%9F%93%90-%5BSURA-Investments%5D-Libreri%CC%81a-componentes?node-id=0-1&t=S3RuPyGfooKMi55q-1">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
             <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">{`componentes base `}</span>
           </a>
           del sistema de diseño
@@ -82,7 +82,7 @@ function Frame() {
         </ul>
         <p className="leading-[24px]">
           <span>{`Son una explicación gráfica de como construir los componentes utilizados `}</span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/2sqtmuruoylv9y2cQXZ1Ag?node-id=15328-60638">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
             <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               aquí
             </span>

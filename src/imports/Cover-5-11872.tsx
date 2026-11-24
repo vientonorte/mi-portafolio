@@ -213,53 +213,53 @@ function Content() {
           )
         </p>
         <p className="leading-[24px] mb-0">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1010-21348">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1010-21348">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               Diagrama de flujos y perfiles de usaurio
             </span>
           </a>
           <span>{` (UX) `}</span>
         </p>
         <p className="leading-[24px] mb-0">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=844-10721">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=844-10721">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               Prototipo Iniciar sesión
             </span>
           </a>
           <span>{` (UI + Interacciones)`}</span>
         </p>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1010-20907">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Prototipo Recuperar contraseña
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1010-16322">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Prototipo Crear cuenta
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=295-10729">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Prototipo OB - Asesor
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=2950-86933">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Prototipo OB - Middle Office
         </a>
         <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://Dashboard">
           Prototipo dashboard
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1325-16240">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Wireflow para el Desarrollo
         </a>
-        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=2026-549849">
+        <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Especificaciones UI
         </a>
         <p className="leading-[24px]">
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=3443-10977">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=3443-10977">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               Plantillas Correos
             </span>
           </a>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1325-18553">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/58XKEXmMY2x4xpLLCieAog?node-id=1325-18553">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               FAQ
             </span>
           </a>

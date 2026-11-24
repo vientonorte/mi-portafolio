@@ -20,11 +20,6 @@ const ACTIVE_FIGMA_EMBEDS = [
     needles: ['WQ3yWzgIrOSZXTuExwRzS9', 'embed.figma.com/board'],
     label: 'UX Testing · FigJam crítica',
   },
-  {
-    path: '/proyecto/sura-ux-enterprise',
-    needles: ['xxKiHNAOPDpxmfuqyE7N72', 'embed.figma.com/slides'],
-    label: 'SURA Enterprise · Figma Slides Colombia',
-  },
 ];
 
 function hashUrl(path) {

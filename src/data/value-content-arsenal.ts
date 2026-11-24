@@ -4,18 +4,6 @@ import { ROUTES } from "../lib/routes";
 import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 
-/** Figma · prototipo interactivo App Cliente Transvip. */
-export const TRANSVIP_APP_PROTO_URL =
-  "https://www.figma.com/proto/sRPhPaZNBewEhLVwu07TFu?node-id=0-1";
-
-/** Figma · AVEM landing (Valuesite / AquiVoy Express). */
-export const VALUESITE_AVEM_PROTO_URL =
-  "https://www.figma.com/proto/xqCj0eIocn9cG6pbPKu6Vy/AVEM-Prototipo-Landing-Page?node-id=5-104&starting-point-node-id=5%3A104&page-id=0%3A1";
-
-/** Figma · prototipo interactivo RIA SURA US. */
-export const RIA_US_PROTO_URL =
-  "https://www.figma.com/proto/MOhbYMwUtCSZ8IuJxG41ho/RIA?node-id=311-11144&starting-point-node-id=311%3A11144&page-id=311%3A11143&scaling=min-zoom&content-scaling=fixed";
-
 export type ValueProofKind = "prototype" | "poc" | "audit" | "case";
 
 export interface ValueProofItem {
@@ -85,28 +73,6 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
         outcome:
           "Executive proposal — digital quoting, real-time KPIs, and strategic decisions.",
         metric: "Dashboard",
-      },
-    },
-  },
-  {
-    id: "ria-us",
-    kind: "prototype",
-    imagePath: img((i) => i.sura.riaOnboarding),
-    href: RIA_US_PROTO_URL,
-    external: true,
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Prototipo interactivo",
-        title: "RIA SURA Investments US",
-        outcome: "Proto Figma navegable — onboarding multi-perfil, auth regulatorio y dashboard US.",
-        metric: "Proto live",
-      },
-      en: {
-        kindLabel: "Interactive prototype",
-        title: "RIA SURA Investments US",
-        outcome: "Navigable Figma proto — multi-profile onboarding, regulatory auth, and US dashboard.",
-        metric: "Live proto",
       },
     },
   },
@@ -257,50 +223,6 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
         title: "Transvip passenger app",
         outcome: "Design system + active discovery on premium booking.",
         metric: "NPS 82",
-      },
-    },
-  },
-  {
-    id: "transvip-mobile",
-    kind: "prototype",
-    imagePath: img((i) => i.transvip.appMobile),
-    href: TRANSVIP_APP_PROTO_URL,
-    external: true,
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Prototipo interactivo",
-        title: "Reserva premium · mobile-first",
-        outcome: "Proto navegable en Figma — flujos de reserva −40% tiempo y +25% conversión.",
-        metric: "Proto live",
-      },
-      en: {
-        kindLabel: "Interactive prototype",
-        title: "Premium booking · mobile-first",
-        outcome: "Navigable Figma proto — booking flows −40% time and +25% conversion.",
-        metric: "Live proto",
-      },
-    },
-  },
-  {
-    id: "valuesite-avem-landing",
-    kind: "prototype",
-    imagePath: img((i) => i.sura.onboardingFlags),
-    href: VALUESITE_AVEM_PROTO_URL,
-    external: true,
-    bundleId: "marco",
-    copy: {
-      es: {
-        kindLabel: "Prototipo interactivo",
-        title: "AVEM · Landing Page",
-        outcome: "Proto Figma navegable — Valuesite, AquiVoy Express y KIT UI bajo design system.",
-        metric: "Proto live",
-      },
-      en: {
-        kindLabel: "Interactive prototype",
-        title: "AVEM · Landing Page",
-        outcome: "Navigable Figma proto — Valuesite, AquiVoy Express, and KIT UI design system.",
-        metric: "Live proto",
       },
     },
   },
@@ -824,10 +746,7 @@ export const VALUE_PROOF_ITEMS: ValueProofItem[] = [
 
 export const VALUE_PROOF_EXTERNAL_URLS: Record<string, string> = {
   "x-cms-demo": CONSULTORIA_DEMO_X_CMS.figmaSitesUrl,
-  "ria-us": RIA_US_PROTO_URL,
   "poc-ia-dei": "https://badge-sweet-21070688.figma.site",
-  "transvip-mobile": TRANSVIP_APP_PROTO_URL,
-  "valuesite-avem-landing": VALUESITE_AVEM_PROTO_URL,
   "figjam-audit-board":
     "https://www.figma.com/board/lEGDG3EDlNI3OOUCucTyyx/PORTAFOLIO?node-id=2-41",
 };

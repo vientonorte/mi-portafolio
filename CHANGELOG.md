@@ -591,7 +591,7 @@ Decide: UI / DoD = `/#/consultoria`. Orgánico = `/servicios/*`. `/s/consultoria
 
 ### Documented (pendiente implementación)
 - FigJam [crítica de diseño](https://www.figma.com/board/WQ3yWzgIrOSZXTuExwRzS9/) → fase UX Testing.
-- Figma Slides [tutoría asesor Colombia](https://www.figma.com/slides/xxKiHNAOPDpxmfuqyE7N72/) → `sura-ux-enterprise`.
+- Figma Slides tutoría asesor Colombia — [archivo del cliente, no público] → `sura-ux-enterprise`.
 
 ---
 

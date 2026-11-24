@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   FIGJAM_UX_TESTING_CRITICA,
-  FIGMA_SLIDES_SURA_COLOMBIA,
   toFigmaEmbedUrl,
 } from "@/data/figma-embeds";
 
@@ -12,8 +11,8 @@ describe("figma-embeds", () => {
     expect(embed).toContain("embed-host=mi-portafolio");
   });
 
-  it("expone copy ES/EN en ambos embeds productivos", () => {
-    for (const config of [FIGJAM_UX_TESTING_CRITICA, FIGMA_SLIDES_SURA_COLOMBIA]) {
+  it("expone copy ES/EN en el embed productivo", () => {
+    for (const config of [FIGJAM_UX_TESTING_CRITICA]) {
       expect(config.copy.es.title.length).toBeGreaterThan(0);
       expect(config.copy.en.title.length).toBeGreaterThan(0);
       expect(toFigmaEmbedUrl(config.shareUrl)).toMatch(/^https:\/\/embed\.figma\.com\//);

@@ -213,42 +213,42 @@ function Content() {
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=9766-45">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=9766-45">
+          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
               Brief del proyecto
             </span>
           </a>
         </p>
-        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/make/ivwCPAxlR4iGDtxB9kFt0H/Flujo-de-Diagrama-Usuario?node-id=0-1&t=HL6N0MTdH2QsqPfp-1">
+        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Flujos de usuarios
         </a>
-        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=1010-2716">
+        <a className="[text-underline-position:from-font] block cursor-pointer decoration-solid leading-[24px] mb-0 underline">
           Prototipo desktop
         </a>
         <p className="leading-[24px] mb-0">
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=9532-7434">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=9532-7434">
+          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
               Prototipo mobile
             </span>
           </a>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=13333-50481">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=13333-50481">{`Componentes UI `}</span>
+          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">{`Componentes UI `}</span>
           </a>
         </p>
         <p className="leading-[24px]">
-          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=1325-16242">
-            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=1325-16242">
+          <a className="[text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-underline-position:from-font] decoration-solid leading-[24px]">
               Especificaciones UI para el desarrollo
             </span>
           </a>
           <span>
             <br aria-hidden="true" />
           </span>
-          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=1325-18553">
-            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]" href="https://www.figma.com/design/SIXkvFSJQb4vgKgQiGtbDx?node-id=1325-18553">
+          <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-solid underline">
+            <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-solid leading-[24px]">
               FAQ
             </span>
           </a>

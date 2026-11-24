@@ -5,7 +5,6 @@
 import type { HeroRoleId } from "./consultoria-hero-roles";
 import type { ConsultingPackageId } from "./vientonorte-consulting";
 import { CONSULTORIA_DEMO_X_CMS } from "./consultoria-demos";
-import { TRANSVIP_APP_PROTO_URL } from "./value-content-arsenal";
 import type { Language } from "../lib/i18n";
 import { portfolioImages } from "../lib/portfolio-image-urls";
 import { DEMO_X_CMS_DURATION_SEC } from "../lib/demo-x-cms-campaign";
@@ -111,7 +110,6 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
     appGoal: true,
     durationSec: 5 * 60,
     warnSec: 60,
-    iframeUrl: TRANSVIP_APP_PROTO_URL,
     poster: portfolioImages.transvip.appMobile,
     posterWebp: portfolioImages.transvip.appMobileWebp,
     caption: {
@@ -127,8 +125,8 @@ export const SERVICE_PATH_DEMOS: readonly ServicePathDemo[] = [
       en: "From idea to the app.\nNot just screens.",
     },
     body: {
-      es: "Demo de 5 minutos del prototipo App Cliente Transvip. Si el proto no carga en el recuadro, ábrelo en pestaña — el reloj sigue en Viento Norte.",
-      en: "5-minute Transvip client-app prototype. If the proto will not load in the frame, open the tab — the clock still runs on Viento Norte.",
+      es: "Demo de 5 minutos de la app de pasajeros Transvip. El reloj sigue en Viento Norte.",
+      en: "5-minute demo of the Transvip passenger app. The clock still runs on Viento Norte.",
     },
   },
 ];

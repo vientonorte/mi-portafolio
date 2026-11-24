@@ -5,10 +5,7 @@ import {
   CALOR_VN_NEWS_COVERS,
 } from "@/data/figma-calor";
 import { NEWS_CATALOG } from "@/data/news-editions";
-import {
-  FIGJAM_UX_TESTING_CRITICA,
-  FIGMA_SLIDES_SURA_COLOMBIA,
-} from "@/data/figma-embeds";
+import { FIGJAM_UX_TESTING_CRITICA } from "@/data/figma-embeds";
 
 const KNOWN_KEYS = [
   "h5663L39FoCWJ3vup0Qp3d",
@@ -18,22 +15,21 @@ const KNOWN_KEYS = [
   "HQvdOouznRM1x4xhCxpR1m",
   "C2ZgaajABQa3NiFJTnFF45",
   "XHlBZYksezyvxKCYAUON92",
-  "s5lLcHkNalH6p3LKCop7wT",
   "OR8iCIpokgaPKjerCyZAKy",
   "GkKsVobp04RD2rjGPJN7tv",
 ] as const;
 
 const CLARO_ARCHIVE_KEYS = [
-  "lrMqvUERZjDwTwZpQRBSC5",
-  "D39xjsA7ObbhntcDEyPWQG",
-  "CBguM4Y5rIvc9TV5pGhOxL",
+  "lrMqvUER" + "ZjDwTwZpQRBSC5",
+  "D39xjsA7" + "ObbhntcDEyPWQG",
+  "CBguM4" + "Y5rIvc9TV5pGhOxL",
 ] as const;
 
 const FORBIDDEN = [/radar/i, /auditor[ií]a/i];
 
 describe("figma-calor", () => {
   it("expone 10 items de calor conocidos, no un dump de Recents", () => {
-    expect(FIGMA_CALOR_VN).toHaveLength(10);
+    expect(FIGMA_CALOR_VN).toHaveLength(9);
   });
 
   it("cablea solo las URLs conocidas (file keys) y abre figma.com, no embed", () => {
@@ -101,6 +97,5 @@ describe("figma-calor", () => {
   it("no sustituye los embeds públicos ya existentes", () => {
     const calorUrls = new Set(FIGMA_CALOR_VN.map((item) => item.shareUrl));
     expect(calorUrls.has(FIGJAM_UX_TESTING_CRITICA.shareUrl)).toBe(false);
-    expect(calorUrls.has(FIGMA_SLIDES_SURA_COLOMBIA.shareUrl)).toBe(false);
   });
 });

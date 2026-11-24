@@ -51,29 +51,3 @@ export const FIGJAM_UX_TESTING_CRITICA: FigmaEmbedConfig = {
     },
   },
 };
-
-export const FIGMA_SLIDES_SURA_COLOMBIA: FigmaEmbedConfig = {
-  id: "figma-slides-sura-colombia",
-  kind: "slides",
-  shareUrl:
-    "https://www.figma.com/slides/xxKiHNAOPDpxmfuqyE7N72/PPT-TUTORIA-SURA-ASESOR-COLOMBIA",
-  embedHeight: 420,
-  copy: {
-    es: {
-      title: "Tutoría · Asesor SURA Colombia",
-      subtitle: "Enablement regional — presentación en Figma Slides",
-      embedTitle: "Figma Slides — tutoría asesor SURA Colombia",
-      embedDescription:
-        "Material de capacitación regional para asesores. Si el embed requiere login, usa el enlace para abrir en Figma.",
-      openLabel: "Abrir presentación en Figma",
-    },
-    en: {
-      title: "Tutorial · SURA Colombia Advisor",
-      subtitle: "Regional enablement — Figma Slides deck",
-      embedTitle: "Figma Slides — SURA Colombia advisor tutorial",
-      embedDescription:
-        "Regional training material for advisors. If the embed requires login, open the link in Figma.",
-      openLabel: "Open deck in Figma",
-    },
-  },
-};
