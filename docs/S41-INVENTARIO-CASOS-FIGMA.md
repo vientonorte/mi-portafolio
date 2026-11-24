@@ -39,7 +39,7 @@
 ### 2a. Portal Comercial Claro
 
 - **Archivo:** Portal Comercial Claro
-- **URL:** https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro?node-id=0-1 (página «Desktop», `0:1`)
+- **URL:** [archivo del cliente, no público] (página «Desktop», `0:1`)
 - **Frames clave:**
 
 | Frame | node-id | Tamaño | Tipo |
@@ -51,7 +51,7 @@
 
   Hay otros ~30 grupos de frames en la página (todos desktop, según la captura general), cuyo listado completo quedó truncado: frame exacto pendiente.
 - **¿Encargo o concepto?:** **por confirmar**. La portada se rotula «Canales Digitales AMX · Rediseño Portal Comercial» y lleva el logo Claro, pero el archivo no dice si fue un encargo, una propuesta o un ejercicio.
-- **Asset para la tarjeta browser-frame (16:10):** `7:473` (01 Home), recortando la parte de arriba a 1700×1062 (hero, accesos rápidos y planes). URL: https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro?node-id=7-473. La portada `7:0` es un mockup de laptop en 1,42:1, menos útil dentro de un browser-frame.
+- **Asset para la tarjeta browser-frame (16:10):** `7:473` (01 Home), recortando la parte de arriba a 1700×1062 (hero, accesos rápidos y planes). URL: [archivo del cliente, no público] La portada `7:0` es un mockup de laptop en 1,42:1, menos útil dentro de un browser-frame.
 - **Notas de marca:**
   - Marca real del cliente en todos los frames: logo Claro, Claro video y Claro Tienda.
   - Aparecen productos de terceros con su marca (smartphones de marcas comerciales).
@@ -61,7 +61,7 @@
 ### 2b. Tienda Claro 2021
 
 - **Archivo:** Tienda Claro 2021
-- **URL:** https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021?node-id=0-1 (página «Page 1», `0:1`)
+- **URL:** [archivo del cliente, no público] (página «Page 1», `0:1`)
 - **Frames clave:**
 
 | Frame | node-id | Tamaño | Tipo |
@@ -72,7 +72,7 @@
 | Antes/después | — | — | No hay |
 
 - **¿Encargo o concepto?:** **por confirmar**. El archivo no lo dice.
-- **Asset para la tarjeta (16:10):** `1:621`, recortando la parte de arriba a 1700×1062 (header, filtros y primera fila de cards). URL: https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021?node-id=1-621
+- **Asset para la tarjeta (16:10):** `1:621`, recortando la parte de arriba a 1700×1062 (header, filtros y primera fila de cards). URL: [archivo del cliente, no público]
 - **Notas de marca:**
   - Logo Claro en el header.
   - Fichas de producto con modelos y marcas de terceros.
@@ -92,7 +92,7 @@
 ### 4a. System Design APP Cliente – Transvip
 
 - **Archivo:** System Design APP Cliente – Transvip
-- **URL:** https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip
+- **URL:** [archivo del cliente, no público]
 - **Páginas:**
   - El MCP solo listó dos: «PRINCIPIOS Y FUNDAMENTOS» `1:4` y «MATERIAL UI» `1:2`.
   - Igual se pudieron abrir «PRUEBAS CONCEPTOS» `1:5` y «COMPONENTES» `0:1`.
@@ -111,7 +111,7 @@
 | Antes/después | — | — | No hay frames rotulados así (ver 4b, «Diseños previos») |
 
 - **¿Encargo o concepto?:** **trabajo real in-house**, según el archivo. La tarjeta «Propósito» dice «Usuarios: El equipo interno de Tecnología y Producto». La instancia del logo se llama «Logo Real Transvip». **Ojo:** el trabajo es de cuando Rö estaba empleado en Transvip. **No es un cliente de VN.**
-- **Asset para la tarjeta (16:10):** `323:48165`, casi 16:10 (1,63:1); basta un recorte mínimo. URL: https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip?node-id=323-48165
+- **Asset para la tarjeta (16:10):** `323:48165`, casi 16:10 (1,63:1); basta un recorte mínimo. URL: [archivo del cliente, no público]
 - **Notas de marca:**
   - Logo Transvip grande (versiones naranja y negra).
   - En los componentes hay direcciones y horarios de ejemplo (calle, aeropuerto): son datos de muestra, pero conviene no ponerlos en primer plano.
@@ -119,7 +119,7 @@
 ### 4b. Informes Transvip – Product Design (archivo del prototipo)
 
 - **Archivo:** Informes Transvip – Product Design. La URL `/proto/` del repo apunta a este archivo.
-- **URL:** https://www.figma.com/design/sRPhPaZNBewEhLVwu07TFu?node-id=0-1 (página única `0:1`, con línea de tiempo 2022–2023)
+- **URL:** [archivo del cliente, no público] (página única `0:1`, con línea de tiempo 2022–2023)
 - **Frames clave (todos de 1920×1080):**
 
 | Frame | node-id | Tipo |
@@ -132,7 +132,7 @@
 | Sección DISCOVERY PRODUCTO | `35:49867` | Sección contenedora |
 
 - **¿Encargo o concepto?:** **trabajo real in-house**. Los textos hablan de «sprints de desarrollo para la nueva app cliente transvip», con tickets ACT-xxx.
-- **Asset para la tarjeta:** ninguno sirve tal cual. `35:49896` y `35:49886` (16:9) se pueden usar recortados a 16:10 si se quiere contar el «antes». URL: https://www.figma.com/design/sRPhPaZNBewEhLVwu07TFu?node-id=35-49886
+- **Asset para la tarjeta:** ninguno sirve tal cual. `35:49896` y `35:49886` (16:9) se pueden usar recortados a 16:10 si se quiere contar el «antes». URL: [archivo del cliente, no público]
 - **Notas de marca y PII:**
   - ⚠ La **portada `35:49905` muestra el nombre y un correo corporativo**: no usarla.
   - Los pies de varias láminas llevan nombre y cargo.
@@ -173,7 +173,7 @@
 
 ### 6b. Página «PRUEBAS CONCEPTOS» del archivo Transvip
 
-- Es la página `1:5`, ya descrita en 4a: https://www.figma.com/design/AEMOE8Hv5iv1nfyR7jlMgO/System-Design-APP-Cliente---Transvip?node-id=1-5
+- Es la página `1:5`, ya descrita en 4a: [archivo del cliente, no público]
 
 ### 6c. Descartado
 

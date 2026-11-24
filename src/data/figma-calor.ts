@@ -149,6 +149,9 @@ export const CALOR_VN_MAP_MODULE_MAKE = toCalorItem(
 );
 
 /** @deprecated Unmounted strip catalog. URLs: figma-assets-ssot.ts */
-export const FIGMA_CALOR_VN: readonly FigmaCalorItem[] = FIGMA_CALOR_LEGACY_IDS.map(
-  (id) => toCalorItem(assetById(id))
+export const FIGMA_CALOR_VN: readonly FigmaCalorItem[] = FIGMA_CALOR_LEGACY_IDS.flatMap(
+  (id) => {
+    const asset = assetById(id);
+    return asset.url ? [toCalorItem(asset)] : [];
+  }
 );

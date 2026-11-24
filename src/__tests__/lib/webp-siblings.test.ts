@@ -32,12 +32,7 @@ describe("webp siblings", () => {
 });
 
 describe("prototipos navegables", () => {
-  it("solo URLs https de Figma reales del repo, incluye Claro", () => {
-    expect(NAVIGABLE_PROTOTYPES.map((p) => p.id)).toEqual(["sura-ria", "claro-tienda", "claro-portal", "valuesite-avem"]);
-    for (const p of NAVIGABLE_PROTOTYPES) {
-      expect(p.url).toMatch(/^https:\/\/(www\.figma\.com\/(proto|design)\/|[a-z-]+-\d+\.figma\.site)/);
-      expect(p.url).not.toMatch(/vnmkt/i);
-    }
-    expect(NAVIGABLE_PROTOTYPES.some((p) => p.client.startsWith("Claro"))).toBe(true);
+  it("no publica prototipos Figma de clientes", () => {
+    expect(NAVIGABLE_PROTOTYPES).toEqual([]);
   });
 });

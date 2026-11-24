@@ -13,13 +13,7 @@ describe("upcoming-cases", () => {
       "/images/vn-assets/claro-portal-mobile.jpg",
     ]);
 
-    const claroLinks = figmaLinksForCase("havas-claro");
-    expect(claroLinks).toHaveLength(2);
-    expect(claroLinks.map((link) => link.url)).toEqual([
-      "https://www.figma.com/design/lrMqvUERZjDwTwZpQRBSC5/Tienda-Claro-2021",
-      "https://www.figma.com/design/D39xjsA7ObbhntcDEyPWQG/Portal-Comercial-Claro",
-    ]);
-    expect(claroLinks.some((link) => link.url.includes("CBguM4Y5rIvc9TV5pGhOxL"))).toBe(false);
+    expect(figmaLinksForCase("havas-claro")).toEqual([]);
     expect(figmaLinksForCase("ibm-portal")).toEqual([]);
     expect(figmaLinksForCase("walmart-chile")).toEqual([]);
     expect(byId["ibm-portal"]?.images).toBeUndefined();

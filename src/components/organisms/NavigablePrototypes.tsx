@@ -13,6 +13,7 @@ const KIND_LABEL = {
 export function NavigablePrototypes() {
   const { language } = useLanguage();
   const es = language === "es";
+  if (NAVIGABLE_PROTOTYPES.length === 0) return null;
   return (
     <PageSection
       id="prototipos"
