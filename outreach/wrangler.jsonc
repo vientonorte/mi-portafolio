@@ -4,9 +4,16 @@
   "main": "src/index.js",
   "compatibility_date": "2026-11-10",
   "account_id": "6e96c77c41a11e043c84a7802c6108b8",
-  // Sin hostname público hasta que Rö cree la app de Access y pegue la ruta.
+  // Sin workers.dev ni preview. La ruta custom domain está activa en el config;
+  // el primer deploy crea el DNS de outreach.vientonorte.io y no se corre sin el OK de Rö.
   "workers_dev": false,
   "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "outreach.vientonorte.io",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true,
     "logs": {
@@ -24,8 +31,8 @@
   "kv_namespaces": [
     {
       "binding": "OUTREACH_KV",
-      // Reemplazar con el id de `npx wrangler kv namespace create OUTREACH_KV` antes del deploy.
-      "id": "00000000000000000000000000000000"
+      // Namespace ya creado. No regenerar este id.
+      "id": "b9c225a287124b36a953ad8747664c30"
     }
   ],
   // Tope atómico en live y dedupe del webhook. Sin este binding, OUTREACH_MODE=live
@@ -45,7 +52,10 @@
     }
   ],
   "vars": {
-    "OUTREACH_MODE": "test"
+    "OUTREACH_MODE": "test",
+    // App de Access ya creada. No son secretos. El service token lo tiene TL, fuera del repo.
+    "TEAM_DOMAIN": "https://old-sunset-2770.cloudflareaccess.com",
+    "POLICY_AUD": "95e52bc6310bdd2b20a2ccc65d4985aab817f21584649e35c7091d72a07ad61a"
     // TEST_ALLOWLIST no va en el repo. Var o secreto del dashboard.
     // Si falta o está vacía, /send en modo test responde 403.
   }
