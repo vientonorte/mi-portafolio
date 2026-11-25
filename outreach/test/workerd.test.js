@@ -34,10 +34,10 @@ describe("workerd smoke", () => {
       assert.equal(body.live, true);
       assert.equal(body.gate.status, 503);
       assert.equal(body.gate.error, "live_gate");
-      assert.equal(body.gate.resend, 0);
+      assert.equal(body.gate.gmail, 0);
       assert.equal(body.open.status, 200);
       assert.equal(body.open.error, null);
-      assert.equal(body.open.resend, 1);
+      assert.equal(body.open.gmail, 1);
     } finally {
       await mf.dispose();
     }

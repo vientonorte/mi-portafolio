@@ -1,10 +1,9 @@
 import { DurableObject } from "cloudflare:workers";
-import { DAILY_CAP, WEBHOOK_DEDUPE_TTL_SEC } from "./constants.js";
+import { DAILY_CAP_MAX } from "./constants.js";
 import { CAP_KEY_PATTERN } from "./store.js";
 
-// One object for the whole worker: the daily cap is global (10 sends), and
-// webhook ids are global. The day key is an argument. These methods never
-// recompute America/Santiago time.
+// One object for the whole worker: the daily cap is global. The day key and
+// the cap are arguments. These methods never recompute America/Santiago time.
 export class OutreachCounter extends DurableObject {
   constructor(ctx, env) {
     super(ctx, env);
@@ -16,19 +15,34 @@ export class OutreachCounter extends DurableObject {
         )`,
       );
       this.ctx.storage.sql.exec(
-        `CREATE TABLE IF NOT EXISTS webhook_claims (
-          id TEXT PRIMARY KEY,
-          expires_at INTEGER NOT NULL
+        `CREATE TABLE IF NOT EXISTS flags (
+          name TEXT PRIMARY KEY,
+          value TEXT NOT NULL
         )`,
       );
     });
   }
 
+  readHalt() {
+    const rows = this.ctx.storage.sql.exec("SELECT value FROM flags WHERE name = ?", "halt").toArray();
+    return { halted: rows.length > 0 && rows[0].value === "1" };
+  }
+
+  setHalt(on) {
+    if (typeof on !== "boolean") throw new Error("halt");
+    this.ctx.storage.sql.exec(
+      "INSERT INTO flags (name, value) VALUES ('halt', ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value",
+      on ? "1" : "0",
+    );
+    return { ok: true, halted: on };
+  }
+
   reserve(key, cap) {
     assertDayKey(key);
-    if (cap !== DAILY_CAP) throw new Error("cap");
+    if (!Number.isInteger(cap) || cap < 1 || cap > DAILY_CAP_MAX) throw new Error("cap");
     const current = readCount(this.ctx.storage.sql, key);
-    if (current >= DAILY_CAP) return { ok: false, key, count: current };
+    if (this.readHalt().halted) return { ok: false, halted: true, key, count: current };
+    if (current >= cap) return { ok: false, key, count: current };
     const count = current + 1;
     this.ctx.storage.sql.exec(
       "INSERT INTO caps (day_key, sent) VALUES (?, ?) ON CONFLICT(day_key) DO UPDATE SET sent = excluded.sent",
@@ -48,25 +62,6 @@ export class OutreachCounter extends DurableObject {
       count,
     );
     return { ok: true, key, count };
-  }
-
-  claimWebhook(id, ttlSec, now) {
-    if (typeof id !== "string" || id.length < 1 || id.length > 256 || /\s/.test(id)) {
-      throw new Error("webhook-id");
-    }
-    if (ttlSec !== WEBHOOK_DEDUPE_TTL_SEC) throw new Error("webhook-ttl");
-    if (typeof now !== "number" || !Number.isFinite(now)) throw new Error("webhook-now");
-    this.ctx.storage.sql.exec("DELETE FROM webhook_claims WHERE expires_at <= ?", now);
-    const existing = this.ctx.storage.sql
-      .exec("SELECT expires_at FROM webhook_claims WHERE id = ?", id)
-      .toArray();
-    if (existing.length > 0) return { ok: false };
-    this.ctx.storage.sql.exec(
-      "INSERT INTO webhook_claims (id, expires_at) VALUES (?, ?)",
-      id,
-      now + ttlSec * 1000,
-    );
-    return { ok: true };
   }
 }
 
